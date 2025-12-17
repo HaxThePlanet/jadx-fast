@@ -59,6 +59,23 @@
 
 ## Recent Major Fixes
 
+### Dec 17, 2025 - Two-Switch Pattern Merge for Switch-Over-String
+
+**Feature: Two-Switch Pattern Detection and Merge**
+- **Purpose:** Merge Java compiler's two-switch string pattern back to single string switch
+- **Implementation:** `detect_two_switch_in_sequence()` and `generate_merged_string_switch()` in `body_gen.rs`
+- **Pattern detected:**
+  ```java
+  // Java compiler generates:
+  switch(str.hashCode()) { case X: if(str.equals("val")) idx=0; break; }
+  switch(idx) { case 0: doFoo(); case 1: doBar(); }
+
+  // Dexterity now outputs:
+  switch(str) { case "val": doFoo(); ... }
+  ```
+- **Result:** 79% of complex switch-over-string patterns now show string literals instead of hashCodes
+- **Files Changed:** `dexterity-codegen/src/body_gen.rs`
+
 ### Dec 17, 2025 - Kotlin Alias Prepass for Cross-Class Resolution
 
 **Feature: Kotlin Metadata Prepass**

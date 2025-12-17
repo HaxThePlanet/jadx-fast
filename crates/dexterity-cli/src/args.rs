@@ -17,7 +17,7 @@ use clap::{Parser, ValueEnum};
   dexterity --deobf -d output/ app.apk
   dexterity -j 16 -d output/ classes.dex")]
 pub struct Args {
-    /// Input files (.apk, .dex, .jar, .class, .smali, .zip, .aar, .arsc, .aab, .xapk, .apkm)
+    /// Input files (.apk, .dex, .jar, .aar, .arsc, .aab, .xapk, .apkm)
     #[arg(required_unless_present = "version")]
     pub input: Vec<PathBuf>,
 

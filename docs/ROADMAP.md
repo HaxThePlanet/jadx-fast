@@ -52,6 +52,7 @@
 | Warning comments | CodeGen.java retry | P3 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** |
 | For-each loops | LoopRegionVisitor.java | P2 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** - array pattern + iterator pattern |
 | ReplaceNewArray | ReplaceNewArray.java (218 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** - NEW_ARRAY + APUT sequence fusion |
+| Two-Switch Pattern | SwitchOverStringVisitor.java | P2 | [JADX_REGION_CONTROL_FLOW.md](JADX_REGION_CONTROL_FLOW.md) | **DONE** - hashCode+index switch merge |
 
 ---
 

@@ -49,7 +49,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 - **3-88x faster** than Java JADX depending on APK size
 - **Up to 46x less memory** usage compared to Java JADX
 - **Zero decompilation errors** - Dexterity had 0 errors vs JADX's 13
-- **Common input formats** - APK, DEX, JAR, AAR, ZIP
+- **Common input formats** - APK, DEX, JAR, AAR, AAB, XAPK, APKM
 - **Complete deobfuscation** - ProGuard mappings, JOBF persistence
 - **Kotlin support** - metadata parsing, name restoration
 - **Multi-core parallel** - tested up to 112 threads (29x speedup)
@@ -305,7 +305,7 @@ Dexterity  │  112  │  3.88s │  9,607
 
 | Flag | Description |
 |------|-------------|
-| `<input>` | Input file(s): APK, DEX, JAR, AAR, ZIP |
+| `<input>` | Input file(s): APK, DEX, JAR, AAR, AAB, XAPK, APKM |
 | `-d, --output-dir` | Output directory |
 | `--output-dir-src` | Output directory for sources only |
 | `--output-dir-res` | Output directory for resources only |
