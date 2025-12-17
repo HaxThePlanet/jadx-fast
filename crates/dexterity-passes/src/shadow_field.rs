@@ -195,13 +195,18 @@ pub fn is_instance_field_access(insn_type: &InsnType) -> bool {
 /// # Arguments
 /// * `class` - The class whose methods to process
 /// * `class_fixes` - Pre-computed field fix information for all classes
+/// * `field_lookup` - Function to get field name from field_idx
 ///
 /// # Returns
 /// Map from (method_idx, insn_idx) -> (fix_type, cast_target) for instructions needing fixes
-pub fn apply_shadow_field_fixes(
+pub fn apply_shadow_field_fixes<F>(
     class: &ClassData,
     class_fixes: &HashMap<String, FieldFixInfo>,
-) -> HashMap<(usize, usize), (FieldFixType, Option<String>)> {
+    field_lookup: F,
+) -> HashMap<(usize, usize), (FieldFixType, Option<String>)>
+where
+    F: Fn(u32) -> Option<String>,
+{
     let mut result = HashMap::new();
 
     for (method_idx, method) in class.methods.iter().enumerate() {
@@ -224,16 +229,16 @@ pub fn apply_shadow_field_fixes(
         for (insn_idx, insn) in insns.iter().enumerate() {
             // Check for instance field access
             match &insn.insn_type {
-                InsnType::InstanceGet { field_ref, .. } | InsnType::InstancePut { field_ref, .. } => {
-                    // Get field name and receiver type
-                    let field_name = &field_ref.name;
+                InsnType::InstanceGet { field_idx, .. } | InsnType::InstancePut { field_idx, .. } => {
+                    // Get field name from field_idx lookup
+                    if let Some(field_name) = field_lookup(*field_idx) {
+                        // For instance field access, receiver is usually `this` (class type)
+                        // In more complex cases, we'd need type information from the register
+                        let receiver_type = ArgType::Object(class.class_type.clone());
 
-                    // For instance field access, receiver is usually `this` (class type)
-                    // In more complex cases, we'd need type information from the register
-                    let receiver_type = ArgType::Object(class.class_type.clone());
-
-                    if let Some(fix) = get_field_fix(field_name, &receiver_type, class_fixes) {
-                        result.insert((method_idx, insn_idx), fix);
+                        if let Some(fix) = get_field_fix(&field_name, &receiver_type, class_fixes) {
+                            result.insert((method_idx, insn_idx), fix);
+                        }
                     }
                 }
                 _ => {}

@@ -16,6 +16,17 @@ const ACC_PUBLIC: u32 = 0x0001;
 const ACC_PRIVATE: u32 = 0x0002;
 const ACC_PROTECTED: u32 = 0x0004;
 
+/// Check if a type contains type variables (e.g., T, E extends Foo)
+fn contains_type_variable(arg_type: &ArgType) -> bool {
+    match arg_type {
+        ArgType::TypeVariable(_) => true,
+        ArgType::Generic { params, .. } => params.iter().any(contains_type_variable),
+        ArgType::Array(inner) => contains_type_variable(inner),
+        ArgType::Wildcard { inner, .. } => inner.as_ref().map_or(false, |i| contains_type_variable(i)),
+        _ => false,
+    }
+}
+
 /// Information about overridden methods
 #[derive(Debug, Clone)]
 pub struct MethodOverrideAttr {
@@ -383,7 +394,7 @@ pub fn fix_method_return_type(
     }
 
     // Check if base method has type variables that we can resolve
-    if !base_method.return_type.contains_type_variable() {
+    if !contains_type_variable(&base_method.return_type) {
         return false;
     }
 
@@ -392,7 +403,7 @@ pub fn fix_method_return_type(
         if let ArgType::Generic { params, .. } = super_type {
             // If super type has generic params, we might be able to resolve
             if let Some(resolved) = try_resolve_type_var(&base_method.return_type, params) {
-                if resolved != method.return_type && !resolved.contains_type_variable() {
+                if resolved != method.return_type && !contains_type_variable(&resolved) {
                     method.return_type = resolved;
                     return true;
                 }
@@ -428,7 +439,7 @@ pub fn fix_method_arg_types(
             continue;
         }
 
-        if !base_arg.contains_type_variable() {
+        if !contains_type_variable(base_arg) {
             continue;
         }
 
@@ -436,7 +447,7 @@ pub fn fix_method_arg_types(
         for super_type in &super_data.super_types {
             if let ArgType::Generic { params, .. } = super_type {
                 if let Some(resolved) = try_resolve_type_var(base_arg, params) {
-                    if resolved != *child_arg && !resolved.contains_type_variable() {
+                    if resolved != *child_arg && !contains_type_variable(&resolved) {
                         new_arg_types[i] = resolved;
                         changed = true;
                         break;
@@ -528,8 +539,9 @@ pub fn should_add_override(method: &MethodData, override_info: Option<&MethodOve
     }
 
     // Skip constructors, static, private
+    let is_private = (method.access_flags & ACC_PRIVATE) != 0;
     if method.is_constructor() || method.is_class_init() ||
-       method.is_static() || method.is_private() {
+       method.is_static() || is_private {
         return false;
     }
 

@@ -345,7 +345,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Collision handling with numeric suffixes
 - [x] Reserved names for inner classes - **DONE** (infrastructure in var_naming.rs, inner_class_names parameter)
 
-### Optimization Passes ([JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md))
+### Optimization Passes ([JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md)) - **100% COMPLETE**
 - [x] ConstInlineVisitor equivalent
 - [x] SimplifyVisitor audit - **DONE**: double negation (--x, ~~x, !!x), CMP unwrapping, StringBuilder chain (codegen level), cast chain optimization, CHECK_CAST duplicate elimination
 - [x] TernaryMod (If-region to ternary) - **IMPLEMENTED** (analysis pass in ternary_mod.rs, detection at codegen in body_gen.rs)
@@ -353,6 +353,10 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] PrepareForCodeGen final cleanup - **IMPLEMENTED** (prepare_for_codegen.rs, redundant move removal, associative chain marking)
 - [x] IfCondition.simplify() - **DONE** (De Morgan's laws, double negation elimination, NOT distribution for ternary, in regions.rs Condition::simplify())
 - [x] ReplaceNewArray - **DONE** (mod_visitor.rs: NEW_ARRAY + APUT sequence fusion, fills gaps with zeros like JADX)
+- [x] GenericTypesVisitor - **DONE** (generic_types.rs: attach generic type info to constructors like `new ArrayList<String>()`)
+- [x] ShadowFieldVisitor - **DONE** (shadow_field.rs: fix shadowed field access with super/cast)
+- [x] MethodInvokeVisitor - **DONE** (method_invoke.rs: overload resolution with explicit casts)
+- [x] OverrideMethodVisitor - **DONE** (override_method.rs: @Override annotation and type erasure fixes)
 
 ### Code Generation ([JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md))
 - [x] Import management (BTreeSet for sorting)

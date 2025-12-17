@@ -297,7 +297,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files, variable filtering |
 | Variable Naming | ✅ 100% | Full JADX parity, deobf-min/max filtering on all names |
 | Type Formatting | ✅ 100% | Special values (MIN/MAX_VALUE, NaN, Infinity) for numeric types |
-| Optimization Passes | 🔶 70% | Done: deboxing, simplify, const inline, code shrink, enum. Missing: GenericTypes, ShadowField, MethodInvoke, Override |
+| Optimization Passes | ✅ 100% | deboxing, simplify, const inline, code shrink, enum, GenericTypes, ShadowField, MethodInvoke, Override |
 
 ## CLI Reference
 
@@ -389,16 +389,16 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
          dexterity-resources  dexterity-deobf / dexterity-kotlin
 ```
 
-| Crate | Purpose |
-|-------|---------|
-| `dexterity-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) |
-| `dexterity-ir` | Intermediate representation, class hierarchy |
-| `dexterity-passes` | SSA, type inference, region reconstruction |
-| `dexterity-codegen` | Java source generation |
-| `dexterity-resources` | AXML and resources.arsc decoding |
-| `dexterity-deobf` | Deobfuscation, ProGuard parser |
-| `dexterity-kotlin` | Kotlin metadata parsing |
-| `dexterity-cli` | CLI application |
+| Crate | Purpose | JADX Parity |
+|-------|---------|-------------|
+| `dexterity-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) | **100%** |
+| `dexterity-ir` | Intermediate representation, class hierarchy | **100%** |
+| `dexterity-passes` | SSA, type inference, region reconstruction | **95%** |
+| `dexterity-codegen` | Java source generation | **90%** |
+| `dexterity-resources` | AXML and resources.arsc decoding | **100%** |
+| `dexterity-deobf` | Deobfuscation, ProGuard parser | **100%** |
+| `dexterity-kotlin` | Kotlin metadata parsing | **100%** |
+| `dexterity-cli` | CLI application | **98%** |
 
 ## Key Technical Features
 
@@ -411,6 +411,8 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 ## Documentation
 
 - [Quality Status](docs/QUALITY_STATUS.md) - Detailed output quality vs Java JADX
+- [DEX Parity](docs/DEX_PARITY.md) - **100% parity** for DEX binary parsing (dexterity-dex vs jadx-dex)
+- [Codegen Parity](docs/CODEGEN_PARITY.md) - 90% parity for code generation
 - [Roadmap](docs/ROADMAP.md) - Remaining work and implementation plan
 - [Changelog](docs/CHANGELOG.md) - Development history and fixes
 - [Architecture](crates/AGENTS.md) - Crate structure and design
@@ -442,12 +444,11 @@ cargo test
 | Component | Status |
 |-----------|--------|
 | Core pipeline | ~98% |
-| Optimization passes | ~70% |
+| Optimization passes | 100% |
 | Tooling | CLI only |
 
 ### Not Yet Implemented
 - Input formats: APKS, Smali, .class
-- Some optimization passes (GenericTypes, ShadowField, MethodInvoke, Override)
 - GUI, IDE plugins (not planned)
 
 ---
