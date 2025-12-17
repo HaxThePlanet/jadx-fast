@@ -2,7 +2,7 @@
 
 **Current State:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Quality Achieved:** 77.1% (medium) / 70.0% (large) per Dec 16 QA | 1,120/1,120 tests passing
-**Issues:** All 19 P1-P2 resolved | P0-CRITICAL fixed | **5 remaining issues** from badboy APK comparison (3 P1, 2 P2) - P1 annotation defaults fixed
+**Issues:** All 20 P0-P2 resolved | **3 remaining issues** from badboy APK comparison (1 P0, 1 P2, 1 P3)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -56,7 +56,7 @@
 
 ## Current Priorities (Dec 17 - badboy APK Comparison)
 
-7 issues identified from comprehensive JADX comparison on badboy APK (1 fixed, 6 remaining):
+7 issues identified from comprehensive JADX comparison on badboy APK (4 fixed, 3 remaining):
 
 ### P0-CRITICAL: Static Initializer Variable Resolution - **DONE (Dec 17, 2025)**
 
@@ -354,8 +354,8 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 | Type inference | 0 Unknown failures | 0 | **ACHIEVED** |
 | Defect score | 90.3% (medium), 69.7% (large) | 95%+ | IN PROGRESS |
 | Speed advantage | 3-88x | Maintain | ACHIEVED |
-| Test pass rate | 685/685 integration, 91/91 unit | 100% | **ACHIEVED** |
-| P1-P2 issues | 18/18 resolved | All | **ACHIEVED** |
+| Test pass rate | 685/685 integration, 435/435 unit | 100% | **ACHIEVED** |
+| P0-P2 issues | 20/20 resolved | All | **ACHIEVED** |
 
 ---
 
