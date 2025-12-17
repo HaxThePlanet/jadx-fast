@@ -551,18 +551,21 @@ For full JADX parity, see [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERE
 
 ## Design Decisions
 
-### Framework Class Filtering (Intentional)
+### Framework Class Filtering (Default Behavior)
 
-Dexterity intentionally excludes framework/library classes:
-- `android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`
+By default, Dexterity skips framework/library classes:
+- `android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`, `java.*`, `javax.*`
 
-**Why:**
+**Why (default behavior):**
 1. Zero analytical value for reverse engineering
 2. 90% output size reduction
 3. 4-13x speedup maintained
 4. Focus on actual app code
 
-**If you need framework classes:** Use JADX instead.
+**To include framework classes:** Use the `--include-framework` flag:
+```bash
+./target/release/dexterity --include-framework -d output/ app.apk
+```
 
 ---
 
@@ -574,6 +577,9 @@ cd crates && cargo build --release -p dexterity-cli
 
 # Basic decompilation (resource R.* resolution enabled by default)
 ./target/release/dexterity -d output/ app.apk
+
+# Include framework classes (android.*, kotlin.*, etc.)
+./target/release/dexterity --include-framework -d output/ app.apk
 
 # Disable resource ID replacement (show raw hex IDs)
 ./target/release/dexterity --no-replace-consts -d output/ app.apk

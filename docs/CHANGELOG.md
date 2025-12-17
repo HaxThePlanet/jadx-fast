@@ -308,8 +308,8 @@ Comprehensive JADX comparison on badboy APK identified 4 new issues:
 - Note: **POSITIVE TRADEOFF** - Dexterity succeeds where JADX fails on complex Compose lambdas
 
 **Design Decision Clarifications:**
-- Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**
-- File count difference (44 vs 6,283) is expected and correct
+- Framework classes skipped by default for faster output. Use `--include-framework` to include them
+- File count difference (44 vs 6,283) is expected with default filtering
 - BADBOY-P3-001 represents completeness over conciseness tradeoff
 
 ---

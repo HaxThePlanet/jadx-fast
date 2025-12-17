@@ -23,7 +23,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **~78,000 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
 
-**Status (Dec 17, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **77-87% quality** on complex APKs, and is **3-88x faster** than JADX. **All 25 P0-P2 issues resolved** (24 fixed + 1 P3 positive tradeoff). Complete decompilation of all classes including framework classes (android.*, androidx.*, kotlin.*, kotlinx.*).
+**Status (Dec 17, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **77-87% quality** on complex APKs, and is **3-88x faster** than JADX. **All 25 P0-P2 issues resolved** (24 fixed + 1 P3 positive tradeoff). Framework classes skipped by default for faster output (use `--include-framework` to include them).
 
 ## Speed vs Quality Trade-off
 
@@ -158,7 +158,7 @@ public class MainActivity extends Activity {
 | medium.apk | ~10,000 | 10,073 | ~90 MB | 93 MB |
 | large.apk | ~12,800 | 12,822 | ~165 MB | 167 MB |
 
-*Note: Dexterity now decompiles all classes including framework classes, achieving near-identical file counts to JADX.*
+*Note: By default, Dexterity skips framework classes for faster output. Use `--include-framework` to include them.*
 
 #### Recommendation
 
@@ -281,7 +281,7 @@ Dexterity  │  112  │  3.88s │  9,607
                      3.1x faster
 ```
 
-**Complete Decompilation:** As of Dec 17, 2025, Dexterity decompiles ALL classes including framework classes (`android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`), achieving near-identical file counts to JADX while maintaining 3-88x faster performance.
+**Framework Filtering:** By default, Dexterity skips framework classes (`android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`) for faster output and smaller size. Use `--include-framework` to include them for near-identical file counts to JADX.
 
 ## Feature Status
 
@@ -311,6 +311,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | `--output-dir-res` | Output directory for resources only |
 | `-r, --no-res` | Skip resources decompilation |
 | `-s, --no-src` | Skip sources decompilation |
+| `--include-framework` | Include framework classes (android.*, androidx.*, kotlin.*, kotlinx.*). By default, framework classes are skipped for faster output and smaller size |
 | `--single-class` | Decompile single class by name |
 
 ### Deobfuscation
@@ -456,16 +457,22 @@ cargo test
 
 ## Design Decisions
 
-### Complete Decompilation (Dec 17, 2025)
+### Framework Class Filtering (Default Behavior)
 
-As of Dec 17, 2025, Dexterity performs **complete decompilation** of all classes including framework classes (`android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`), matching JADX output completeness.
+By default, Dexterity **skips framework classes** for faster output and smaller size:
+- `android.*`, `androidx.*` - Android framework
+- `kotlin.*`, `kotlinx.*` - Kotlin stdlib
+- `java.*`, `javax.*` - Java stdlib
 
-**What's Included:**
+**What's Included by Default:**
 - All app classes (`com.yourapp.*`)
-- All framework classes (`android.*`, `androidx.*`)
-- All Kotlin stdlib classes (`kotlin.*`, `kotlinx.*`)
 - Third-party libraries (`okhttp3`, `okio`, `grpc`, etc.)
 - Resources, manifests, XML
+
+**To include framework classes**, use the `--include-framework` flag:
+```bash
+./target/release/dexterity --include-framework -d output/ app.apk
+```
 
 ### Completeness Over Conciseness
 

@@ -181,21 +181,25 @@ int padding3ABfNKs;    // VALID: hyphen removed, next char preserved
 
 ## Design Decisions
 
-### Framework Class Filtering (Intentional)
+### Framework Class Filtering (Default Behavior)
 
-Dexterity **intentionally** filters framework/library classes:
+By default, Dexterity skips framework/library classes:
 - `android.*` - Android framework
 - `androidx.*` - AndroidX libraries
 - `kotlin.*` - Kotlin stdlib
 - `kotlinx.*` - Kotlin extensions
+- `java.*`, `javax.*` - Java stdlib
 
-**Rationale:**
+**Rationale (for default behavior):**
 1. **Zero analytical value** - Framework code is public, documented, not interesting for reverse engineering
 2. **90% size reduction** - badboy APK: 44 files vs 6,283 (99.3% reduction)
 3. **Speed maintained** - 3-88x faster than JADX
 4. **Focus on app code** - What users actually want to analyze
 
-**File count difference is NOT a bug.** If framework classes are needed, use JADX.
+**To include framework classes:** Use `--include-framework`:
+```bash
+./target/release/dexterity --include-framework -d output/ app.apk
+```
 
 ### Completeness Over Conciseness
 
@@ -352,7 +356,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] TernaryMod (If-region to ternary) - **IMPLEMENTED** (analysis pass in ternary_mod.rs, detection at codegen in body_gen.rs)
 - [x] DeboxingVisitor - **IMPLEMENTED** (at codegen level in body_gen.rs:2992-3006, BoxingType in expr_gen.rs)
 - [x] PrepareForCodeGen final cleanup - **IMPLEMENTED** (prepare_for_codegen.rs, redundant move removal, associative chain marking)
-- [x] IfCondition.simplify() - **DONE** (De Morgan's laws, double negation elimination, NOT distribution for ternary, in regions.rs Condition::simplify())
+- [x] IfCondition.simplify() - **DONE** (De Morgan's laws, double negation elimination, NOT distribution for ternary, in dexterity-ir/src/regions.rs:196-279 Condition::simplify())
 - [x] ReplaceNewArray - **DONE** (mod_visitor.rs: NEW_ARRAY + APUT sequence fusion, fills gaps with zeros like JADX)
 - [x] GenericTypesVisitor - **DONE** (generic_types.rs: attach generic type info to constructors like `new ArrayList<String>()`)
 - [x] ShadowFieldVisitor - **DONE** (shadow_field.rs: fix shadowed field access with super/cast)

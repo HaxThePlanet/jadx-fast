@@ -358,8 +358,15 @@ pub struct ClassData {
     pub annotations: Vec<Annotation>,
 
     pub state: ProcessState,
+    pub load_stage: LoadStage,            // NEW: Dependency-aware processing stage
     pub all_instructions: Vec<InsnNode>,  // Shared instruction pool
     pub kotlin_metadata: Option<KotlinMetadata>,
+
+    // NEW: Inner class and dependency tracking (JADX parity)
+    pub inner_classes: Vec<String>,       // Inner class type names
+    pub parent_class: Option<String>,     // Outer class for inner classes
+    pub dependencies: Vec<String>,        // Load-time dependencies
+    pub codegen_deps: Vec<String>,        // Code generation dependencies
 }
 
 pub struct TypeParameter {
@@ -431,6 +438,12 @@ pub enum ProcessState {
     ProcessStarted,
     ProcessComplete,
     GeneratedAndUnloaded,
+}
+
+// NEW: Dependency-aware loading stage (mirrors JADX's LoadStage)
+pub enum LoadStage {
+    None,           // Initial state
+    CodegenStage,   // Ready for code generation
 }
 ```
 

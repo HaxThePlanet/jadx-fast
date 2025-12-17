@@ -3,7 +3,7 @@
 **PRODUCTION READY - 98%+ JADX CLI parity (Dec 17, 2025)**
 **Status:** All 25 P0-P2 issues resolved. **1 remaining issue** (P3 verbosity - positive tradeoff, not a bug).
 **Tests:** 685/685 integration + 435/435 unit (1,120 total). **Quality: 95.5%+ overall, 96.5% defect score** (Dec 17 QA re-run).
-**Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
+**Note:** Framework classes are skipped by default for faster output. Use `--include-framework` to include them.
 
 ---
 
@@ -1050,7 +1050,7 @@ cargo build --release -p dexterity-qa
 - Overall: 80.6%
 - Code Quality: 98.2%
 - Variable Quality: 0.98
-- Status: GOOD (framework filtering by design)
+- Status: GOOD (framework classes skipped by default, use `--include-framework` to include)
 
 ---
 
@@ -1211,7 +1211,7 @@ When you fix an issue, document it here:
 - HIGH-001 through HIGH-004: All resolved
 - MEDIUM-001 and MEDIUM-002: All resolved
 
-**Status: PRODUCTION READY** - **95.5%+ quality, 96.5% defect score** (Dec 17 QA re-run). All 685 integration tests pass, 435/435 unit tests pass (1,120 total). All P0-P2 issues resolved (25 total, 24 fixed + 1 P3 positive tradeoff). Framework filtering is intentional by design.
+**Status: PRODUCTION READY** - **95.5%+ quality, 96.5% defect score** (Dec 17 QA re-run). All 685 integration tests pass, 435/435 unit tests pass (1,120 total). All P0-P2 issues resolved (25 total, 24 fixed + 1 P3 positive tradeoff). Framework classes skipped by default (use `--include-framework` to include).
 
 ---
 
