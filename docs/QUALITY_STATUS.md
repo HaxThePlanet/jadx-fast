@@ -2,7 +2,7 @@
 
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Target:** 85+/100 Quality Score | **Result:** 77.1% (medium), 70.0% (large) per Dec 16 QA reports
-**Code Issues:** 22 resolved (incl. lambda params Dec 17) | **3 remaining** (1 P0, 1 P1, 1 P2)
+**Code Issues:** 23 resolved (incl. P0 static init Dec 17) | **2 remaining** (1 P1 enum, 1 P2 identifiers)
 **Resource Issues:** **2 FIXED** (XML enums, localized strings) | **3 remaining** (1 P2 complex, 2 cosmetic)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -178,10 +178,10 @@
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
-| CRITICAL (P0-P1) | 14 | 12 | 2 remaining: static initializers (P0), enum corruption (P1) |
+| CRITICAL (P0-P1) | 14 | 13 | 1 remaining: enum corruption (P1) |
 | HIGH (P1-P2) | 7 | 7 | All resolved (incl. annotation defaults, lambda params) |
 | MEDIUM (P2-P3) | 4 | 3 | 1 remaining: invalid identifiers (P3 verbosity is positive tradeoff) |
-| **Total** | **25** | **22** | 3 remaining from badboy APK |
+| **Total** | **25** | **23** | 2 remaining from badboy APK (1 P1, 1 P2) |
 
 ### Resource Processing Issues (NEW)
 
@@ -277,24 +277,29 @@ Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/r
 
 ### Code Generation Issues (3 remaining, 4 resolved):
 
-### P0-CRITICAL: Static Initializer Variable Resolution
+### P0-CRITICAL: Static Initializer Variable Resolution - **DONE (Dec 17, 2025)**
 
 **Impact:** Non-compilable code
 **Symptom:**
 ```java
-// Dexterity (BROKEN)
+// Dexterity (BEFORE)
 static {
     ColorKt.Purple80 = l2;      // 'l2' undefined
     ColorKt.PurpleGrey80 = l4;  // 'l4' undefined
 }
 
-// JADX (CORRECT)
+// JADX / Dexterity (AFTER)
 private static final long Purple80 = ColorKt.Color(4291869951L);
 ```
 
-**Root Cause:** StaticPut handler bypasses expression inlining in body_gen.rs (lines 4962, 4985)
-**Fix:** 2-line change - use `write_arg_inline_typed()` instead of `write_arg_with_type()`
-**Files:** `crates/dexterity-codegen/src/body_gen.rs`
+**Root Cause:** StaticPut/InstancePut handlers bypass expression inlining
+**Fix:** Changed both handlers to use `write_arg_inline_typed()` instead of `write_arg_with_type()`
+- `InsnType::StaticPut` (line 5151): `ctx.write_arg_inline_typed(code, value, &field_type);`
+- `InsnType::InstancePut` (line 5128): `ctx.write_arg_inline_typed(code, value, &field_type);`
+
+**Validation:** All 1,120 integration tests pass, inline expressions properly resolved in field assignments
+
+**Files Changed:** `crates/dexterity-codegen/src/body_gen.rs`
 
 ### P1-HIGH: Annotation Default Values Missing - **DONE (Dec 17, 2025)**
 

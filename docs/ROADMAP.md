@@ -2,7 +2,7 @@
 
 **Current State:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Quality Achieved:** 77.1% (medium) / 70.0% (large) per Dec 16 QA | 1,120/1,120 tests passing
-**Code Issues:** All 20 P0-P2 resolved + 1 P2 (Dec 17) | **2 remaining** P1-P2 from badboy APK + 1 P3
+**Code Issues:** 23 resolved (incl. P0 static init Dec 17) | **2 remaining** (1 P1 enum corruption, 1 P2 invalid identifiers)
 **Resource Issues:** **5 new** from resource directory comparison (1 P0, 1 P1, 2 P2, 1 P3)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
