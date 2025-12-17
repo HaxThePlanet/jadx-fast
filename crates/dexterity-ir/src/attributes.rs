@@ -50,4 +50,7 @@ pub enum AFlag {
     /// Don't wrap this instruction in parentheses when inlined
     /// Used for associative operators: (a + b) + c -> a + b + c
     DontWrap = 11,
+    /// Temporary CFG edge for exception handler (removed after SSA)
+    /// Used to ensure proper dominance frontier computation
+    TmpEdge = 12,
 }
