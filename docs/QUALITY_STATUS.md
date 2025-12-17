@@ -2,7 +2,7 @@
 
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Target:** 85+/100 Quality Score | **Result:** 77.1% (medium), 70.0% (large) per Dec 16 QA reports
-**Code Issues:** All 20 P0-P2 resolved + 1 P2 (Dec 17) | **2 remaining** P1-P2 from badboy APK + 1 P3
+**Code Issues:** 22 resolved (incl. lambda params Dec 17) | **3 remaining** (1 P0, 1 P1, 1 P2)
 **Resource Issues:** **2 FIXED** (XML enums, localized strings) | **3 remaining** (1 P2 complex, 2 cosmetic)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -178,10 +178,10 @@
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
-| CRITICAL (P0-P1) | 13 | 12 | 1 remaining: static initializers |
-| HIGH (P1-P2) | 6 | 6 | All resolved (incl. annotation defaults) |
+| CRITICAL (P0-P1) | 14 | 12 | 2 remaining: static initializers (P0), enum corruption (P1) |
+| HIGH (P1-P2) | 7 | 7 | All resolved (incl. annotation defaults, lambda params) |
 | MEDIUM (P2-P3) | 4 | 3 | 1 remaining: invalid identifiers (P3 verbosity is positive tradeoff) |
-| **Total** | **23** | **21** | 2 remaining P1-P2 from badboy APK + 1 P3 |
+| **Total** | **25** | **22** | 3 remaining from badboy APK |
 
 ### Resource Processing Issues (NEW)
 
@@ -349,25 +349,29 @@ public enum Capitalization {
 **Root Cause:** Enum constant names not being extracted from DEX field metadata; falling back to first constant name
 **Files:** `crates/dexterity-dex/src/class.rs`, `crates/dexterity-codegen/src/class_gen.rs`
 
-### P1-HIGH (NEW): Lambda/R8 Bridge Method Parameter Corruption - **IN PROGRESS (Dec 17, 2025)**
+### P1-HIGH (NEW): Lambda/R8 Bridge Method Parameter Corruption - **DONE (Dec 17, 2025)**
 
 **Impact:** Non-compilable code (references to undefined variables)
 **Symptom:**
 ```java
-// Dexterity (BROKEN) - MainActivityKt.java
-public static Unit $r8$lambda$3680DyU35T7tCS-6DjGpj9WQz4M(
-    Context context, Function1 function11, MutableState mutableState2) {
-    return MainActivityKt.Greeting$lambda$19$lambda$18$lambda$13$lambda$12(
-        context, function12, mutableState3);  // function12, mutableState3 UNDEFINED!
+// Dexterity (BEFORE)
+public static Unit $r8$lambda$...(Context context, Function1 function11, MutableState mutableState2) {
+    return MainActivityKt.Greeting$lambda$...(context, function12, mutableState3);  // UNDEFINED!
+}
+
+// Dexterity (AFTER)
+public static Unit $r8$lambda$...(Context context, Function1 function12, MutableState mutableState3) {
+    return MainActivityKt.Greeting$lambda$...(context, function12, mutableState3);  // ✓ MATCHES
 }
 ```
 
-**Pattern:** Every R8-generated lambda bridge method passes wrong parameter names:
-- `function11` declared → `function12` used
-- `mutableState2` declared → `mutableState3` used
+**Root Cause:** Off-by-one error between method signature and body parameter naming.
+- `method_gen.rs` used `index` for suffix (1 → "1")
+- `body_gen.rs` used `index + 1` for suffix (1 → "2")
 
-**Root Cause:** Off-by-one error or register numbering mismatch in parameter resolution
-**Files:** `crates/dexterity-codegen/src/body_gen.rs`
+**Fix:** Updated `method_gen.rs::generate_param_name()` to use `index + 1` like `body_gen.rs`, ensuring JADX-compatible naming consistency.
+
+**Files Changed:** `crates/dexterity-codegen/src/method_gen.rs`
 
 ### P2-MEDIUM: Missing Import Statements - **DONE (Dec 17, 2025)**
 
