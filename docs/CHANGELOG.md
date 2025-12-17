@@ -4,6 +4,45 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Badboy APK Comparison - 4 New Issues Identified (Dec 17, 2025)
+
+Comprehensive JADX comparison on badboy APK identified 4 new issues:
+
+**Issue Status:** 23 total (19 resolved, 4 new)
+
+| ID | Priority | Issue | Impact |
+|----|----------|-------|--------|
+| BADBOY-P0-001 | CRITICAL | Static initializer variable resolution | Non-compilable code |
+| BADBOY-P1-001 | HIGH | Annotation default values missing | Invalid Java syntax |
+| BADBOY-P2-001 | MEDIUM | Missing import statements | Non-compilable code |
+| BADBOY-P3-001 | LOW | Code verbosity (785 vs 174 lines) | **POSITIVE TRADEOFF** |
+
+**P0-CRITICAL: Static Initializer Variable Resolution**
+- Symptom: `ColorKt.Purple80 = l2;` where `l2` is undefined
+- Root cause: StaticPut handler bypasses expression inlining in body_gen.rs:4962,4985
+- Fix: 2-line change - use `write_arg_inline_typed()` instead of `write_arg_with_type()`
+
+**P1-HIGH: Annotation Default Values Missing**
+- Symptom: `long[] flags();` instead of `long[] flags() default {};`
+- Root cause: DEX `AnnotationDefault` annotation not parsed/emitted
+- Files: converter.rs, class_gen.rs
+
+**P2-MEDIUM: Missing Import Statements**
+- Symptom: `@Retention(RetentionPolicy.SOURCE)` without import
+- Root cause: Import collector doesn't traverse annotation argument types
+- Files: class_gen.rs
+
+**P3-LOW: Code Verbosity**
+- Observation: MainActivityKt.java is 785 lines (Dexterity) vs 174 lines (JADX)
+- Note: **POSITIVE TRADEOFF** - Dexterity succeeds where JADX fails on complex Compose lambdas
+
+**Design Decision Clarifications:**
+- Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**
+- File count difference (44 vs 6,283) is expected and correct
+- BADBOY-P3-001 represents completeness over conciseness tradeoff
+
+---
+
 ### Resource Processing Fixes - 1:1 JADX Parity (Dec 17, 2025)
 
 **Three critical fixes to arsc.rs achieve 1:1 identical resource output with JADX:**

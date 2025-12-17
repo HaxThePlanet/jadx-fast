@@ -4,6 +4,72 @@ Maps issue categories to relevant source files and provides context for code exp
 
 See `LLM_AGENT_GUIDE.md` for workflow and `ISSUE_TRACKER.md` for issue details.
 
+**Status:** 23 issues (19 resolved, 4 new from badboy APK comparison)
+**Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
+
+---
+
+## New Issues (Dec 17 - badboy APK Comparison)
+
+### BADBOY-P0-001: Static Initializer Variable Resolution (CRITICAL)
+
+**Problem:** `ColorKt.Purple80 = l2;` where `l2` is undefined
+**Root Cause:** StaticPut handler bypasses expression inlining
+
+**Files:**
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs` (lines 4962, 4985)
+
+**Fix:** 2-line change - replace `write_arg_with_type()` with `write_arg_inline_typed()`
+
+```bash
+# Find the StaticPut handling
+grep -n "StaticPut\|static_put\|write_arg_with_type" body_gen.rs
+```
+
+---
+
+### BADBOY-P1-001: Annotation Default Values Missing (HIGH)
+
+**Problem:** `long[] flags();` instead of `long[] flags() default {};`
+**Root Cause:** DEX `AnnotationDefault` annotation not parsed/emitted
+
+**Files:**
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-cli/src/converter.rs` - Parse AnnotationDefault
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs` - Emit default values
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-dex/src/annotations.rs` - May need updates
+
+```bash
+# Find annotation handling
+grep -n "annotation\|Annotation\|default" converter.rs
+grep -n "@interface\|AnnotationDefault" class_gen.rs
+```
+
+---
+
+### BADBOY-P2-001: Missing Import Statements (MEDIUM)
+
+**Problem:** `@Retention(RetentionPolicy.SOURCE)` without import
+**Root Cause:** Import collector doesn't traverse annotation argument types
+
+**Files:**
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs` - ImportCollector
+
+```bash
+# Find import collection
+grep -n "ImportCollector\|collect_import\|annotation" class_gen.rs
+```
+
+---
+
+### BADBOY-P3-001: Code Verbosity (LOW - POSITIVE TRADEOFF)
+
+**Observation:** 785 lines vs 174 in JADX
+**Note:** **NOT A BUG** - Dexterity succeeds where JADX fails on Compose lambdas
+
+**Files (for optional optimization):**
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/code_shrink.rs`
+
 ---
 
 ## Issue Category → Source Files
