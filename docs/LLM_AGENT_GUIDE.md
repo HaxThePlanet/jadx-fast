@@ -107,6 +107,7 @@ This documentation system consists of:
 | `ISSUE_TRACKER.md` | Structured list of issues to fix | Selecting work |
 | `CODE_NAVIGATION.md` | Maps issues to source files | Finding code to change |
 | `ALGORITHM_REFERENCES.md` | High-level algorithm explanations | Understanding approaches |
+| `JADX_CODEGEN_REFERENCE.md` | JADX Java codegen implementation details | Reference implementation |
 | `TESTING_GUIDE.md` | How to test and validate changes | Ensuring quality |
 | `PROGRESS.md` | Tracks completed work and metrics | Monitoring progress |
 | `ROADMAP.md` | Long-term project roadmap | Understanding goals |

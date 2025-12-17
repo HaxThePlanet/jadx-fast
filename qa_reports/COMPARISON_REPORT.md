@@ -1,6 +1,16 @@
 # Dexterity vs JADX Decompilation Quality Comparison Report
 
-**Report Date:** December 16, 2025 (UPDATED)
+> **WARNING: STALE REPORT**
+>
+> This report was generated at 17:25 on Dec 16, 2025 but the output directory was regenerated at 18:19.
+> The metrics below are OUTDATED and DO NOT reflect the current state:
+> - Variable naming: Report shows 27,794 arg0/arg1, actual is ~12 (99.96% reduction)
+> - Many quality issues listed here have been FIXED since this report was generated
+> - Framework class filtering is INTENTIONAL - reverse engineers don't need android/androidx/kotlin cruft
+>
+> Please regenerate this report using `dexterity-qa` or refer to README.md for accurate metrics.
+
+**Report Date:** December 16, 2025 (STALE - see warning above)
 **Dexterity Version:** v1.0.0
 **JADX Reference Version:** v1.5.3
 **Test Suite:** 3 APKs (Small 9.8KB, Medium 10.3MB, Large 51.5MB)

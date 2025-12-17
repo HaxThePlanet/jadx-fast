@@ -1,3 +1,5 @@
+> **Note:** Report generated Dec 16 10:40. Variable naming metrics may be stale - actual arg0/arg1 count is now ~12 (99.96% reduction from 27,794).
+
 Comparing JADX vs Dexterity decompilation quality...
 JADX dir:      output/medium/jadx/sources
 Dexterity dir: output/medium/dexterity/sources

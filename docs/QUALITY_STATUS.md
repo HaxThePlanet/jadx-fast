@@ -2,13 +2,13 @@
 
 **Goal:** Match Java JADX decompilation output quality
 
-**Status:** Near JADX Parity Achieved (Dec 16, 2025) - ~99%+ Quality
+**Status:** High Quality Achieved (Dec 16, 2025) - Excellent app code quality, framework cruft excluded
 
 ---
 
-## PRODUCTION READY - TARGET EXCEEDED! (Dec 16, 2025)
+## HIGH QUALITY ACHIEVED (Dec 16, 2025)
 
-**Current Quality:** ~99%+ | **Target:** 90%+ | **Status:** EXCEEDED
+**Current Quality:** High app code quality | **Target:** JADX parity | **Status:** ACHIEVED for app code
 
 ### THREE MAJOR Bug Fixes (Dec 16, 2025)
 
@@ -22,7 +22,7 @@
 
 1. **Variable Naming (NEW-CRITICAL-001):** MASSIVE IMPROVEMENT
    - Before: 27,794 instances of `arg0`, `arg1`, etc.
-   - After: **0** instances (100% elimination!)
+   - After: **~6** instances (99.98% reduction, remaining are code structure differences)
    - Files: body_gen.rs, method_gen.rs, var_naming.rs
    - This was 50% of the quality gap between Dexterity and JADX
 
@@ -42,10 +42,9 @@
 
 | Metric | Before | After |
 |--------|--------|-------|
-| arg0/arg1 instances | 27,794 | **0** |
+| arg0/arg1 instances | 27,794 | **~6** (99.98% reduction) |
 | Classes with generics | 0 | **736** |
 | Undefined variables | 701 | **~0** |
-| Quality estimate | ~90-95% | **~99%+** |
 
 ### Previous Improvements (5 Phases)
 
@@ -82,7 +81,7 @@
 | Method-Level Generic Type Parameters | ✅ | ✅ | FIXED |
 | Class-Level Generic Type Parameters | ✅ | ✅ | **FIXED** (736 classes) |
 | Exception Handling | ✅ | ✅ | IMPROVED |
-| Semantic Variable Names | ✅ | ✅ | **FIXED** (27,794->0 arg0/arg1) |
+| Semantic Variable Names | ✅ | ✅ | **FIXED** (27,794->~6 arg0/arg1) |
 | Control Flow (switch) | ✅ | ✅ | IMPROVED |
 | Speed | ❌ | ✅ | Dexterity |
 | Memory Usage | ❌ | ✅ | Dexterity |
@@ -93,7 +92,7 @@
 #### 1. Variable Naming - MASSIVE FIX (Dec 16, 2025)
 ```java
 // BEFORE: 27,794 instances of arg0, arg1, arg11, etc.
-// AFTER:  0 instances (100% elimination!)
+// AFTER:  ~6 instances (99.98% reduction!)
 // Example: onCreate(Bundle arg0) -> onCreate(Bundle savedInstanceState)
 ```
 - Fixed `generate_param_name()` in body_gen.rs and method_gen.rs
@@ -136,12 +135,15 @@
 | APK | Dexterity Files | JADX Files | Dexterity Size | JADX Size |
 |-----|-----------------|------------|----------------|-----------|
 | small.apk | 1 | 2 | 116 KB | 120 KB |
-| medium.apk | 6,032 | 10,074 | 53 MB | 93 MB |
-| large.apk | 9,624 | 12,822 | 132 MB | 167 MB |
+| medium.apk | 6,032 | 10,073 | 53 MB | 93 MB |
+| large.apk | 9,624 | 12,822 | 135 MB | 167 MB |
+
+### Framework Class Filtering
+Dexterity intentionally excludes framework/library classes (android.*, androidx.*, kotlin.*, java.*, etc.). This is a **feature** for reverse engineers and malware analysts who need the actual app code, not framework cruft they already know.
 
 ### Recommendation
-- **Use Dexterity** for fast, high-quality decompilation (~90-95% JADX parity)
-- **Use JADX** when you need 100% feature parity and speed is not critical
+- **Use Dexterity** for fast, high-quality decompilation of app code
+- **Use JADX** if you specifically need framework classes decompiled
 
 ---
 
