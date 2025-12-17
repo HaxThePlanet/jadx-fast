@@ -759,7 +759,8 @@ impl ArscParser {
             let key = cursor.read_u32::<LittleEndian>()?;
 
             // Check if complex entry
-            let is_complex = (flags & FLAG_COMPLEX) != 0;
+            // Note: JADX checks both FLAG_COMPLEX flag AND size==16 (compact complex entries)
+            let is_complex = (flags & FLAG_COMPLEX) != 0 || size_or_flags == 16;
 
             if !is_complex {
                 // Simple value: size (2) + res0 (1) + dataType (1) + data (4)
@@ -850,8 +851,8 @@ impl ArscParser {
                 if let Some(name) = self.res_names.get(&value.data) {
                     Some(format!("?{}", name))
                 } else if let Some(name) = ANDROID_RES_MAP.get(&value.data) {
-                    // Android framework attribute
-                    Some(format!("?{}", name))
+                    // Android framework attribute - add "android:" prefix
+                    Some(format!("?android:{}", name))
                 } else if let Some(name) = ANDROID_ATTR_MAP.get(&value.data) {
                     // Android framework attribute from attr map
                     Some(format!("?android:attr/{}", name))
@@ -1067,8 +1068,14 @@ impl ArscParser {
                     xml.push_str(parent_name);
                     xml.push('"');
                 } else if (parent_id >> 24) == 0x01 {
-                    // Android framework style
-                    xml.push_str(&format!(" parent=\"@android:style/0x{:08x}\"", parent_id));
+                    // Android framework style - try to resolve from ANDROID_RES_MAP
+                    if let Some(android_name) = ANDROID_RES_MAP.get(&parent_id) {
+                        xml.push_str(" parent=\"@android:");
+                        xml.push_str(android_name);
+                        xml.push('"');
+                    } else {
+                        xml.push_str(&format!(" parent=\"@android:style/0x{:08x}\"", parent_id));
+                    }
                 } else {
                     xml.push_str(&format!(" parent=\"@0x{:08x}\"", parent_id));
                 }

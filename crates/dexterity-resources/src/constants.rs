@@ -90,6 +90,75 @@ pub const FLAG_COMPACT: u16 = 0x0008;
 pub const ANDROID_NS_URL: &str = "http://schemas.android.com/apk/res/android";
 pub const ANDROID_NS_PREFIX: &str = "android";
 
+// ResTable_map attribute constants (for style/attr definitions)
+// These are internal resource IDs in the format 0x01000000 | entry
+/// Creates an internal resource ID from an entry number
+pub const fn make_res_internal(entry: u32) -> u32 {
+    0x01000000 | (entry & 0xFFFF)
+}
+
+/// Check if a resource ID is an internal resource ID
+pub fn is_res_internal_id(resid: u32) -> bool {
+    (resid & 0xFFFF0000) != 0 && (resid & 0xFF0000) == 0
+}
+
+// Attribute type marker (for defining attribute types)
+pub const ATTR_TYPE: u32 = make_res_internal(0);
+// Minimum value for integral attributes
+pub const ATTR_MIN: u32 = make_res_internal(1);
+// Maximum value for integral attributes
+pub const ATTR_MAX: u32 = make_res_internal(2);
+// Localization importance marker
+pub const ATTR_L10N: u32 = make_res_internal(3);
+
+// Plural quantity markers (for plurals resources)
+pub const ATTR_OTHER: u32 = make_res_internal(4);
+pub const ATTR_ZERO: u32 = make_res_internal(5);
+pub const ATTR_ONE: u32 = make_res_internal(6);
+pub const ATTR_TWO: u32 = make_res_internal(7);
+pub const ATTR_FEW: u32 = make_res_internal(8);
+pub const ATTR_MANY: u32 = make_res_internal(9);
+
+/// Get the plural quantity name from an attribute ID
+pub fn get_plural_quantity(attr: u32) -> Option<&'static str> {
+    match attr {
+        ATTR_OTHER => Some("other"),
+        ATTR_ZERO => Some("zero"),
+        ATTR_ONE => Some("one"),
+        ATTR_TWO => Some("two"),
+        ATTR_FEW => Some("few"),
+        ATTR_MANY => Some("many"),
+        _ => None,
+    }
+}
+
+// Bit mask of allowed types for ATTR_TYPE
+pub const ATTR_TYPE_ANY: u32 = 0x0000FFFF;
+// Attribute holds a reference to another resource
+pub const ATTR_TYPE_REFERENCE: u32 = 1;
+// Attribute holds a generic string
+pub const ATTR_TYPE_STRING: u32 = 1 << 1;
+// Attribute holds an integer value
+pub const ATTR_TYPE_INTEGER: u32 = 1 << 2;
+// Attribute holds a boolean integer
+pub const ATTR_TYPE_BOOLEAN: u32 = 1 << 3;
+// Attribute holds a color value
+pub const ATTR_TYPE_COLOR: u32 = 1 << 4;
+// Attribute holds a floating point value
+pub const ATTR_TYPE_FLOAT: u32 = 1 << 5;
+// Attribute holds a dimension value, such as "20px"
+pub const ATTR_TYPE_DIMENSION: u32 = 1 << 6;
+// Attribute holds a fraction value, such as "20%"
+pub const ATTR_TYPE_FRACTION: u32 = 1 << 7;
+// Attribute holds an enumeration (enum values supplied as additional map entries)
+pub const ATTR_TYPE_ENUM: u32 = 1 << 16;
+// Attribute holds a bitmask of flags (flag values supplied as additional map entries)
+pub const ATTR_TYPE_FLAGS: u32 = 1 << 17;
+
+// Localization modes for ATTR_L10N
+pub const ATTR_L10N_NOT_REQUIRED: u32 = 0;
+pub const ATTR_L10N_SUGGESTED: u32 = 1;
+
 /// Dimension unit suffixes
 pub const DIMENSION_UNITS: [&str; 6] = ["px", "dp", "sp", "pt", "in", "mm"];
 
