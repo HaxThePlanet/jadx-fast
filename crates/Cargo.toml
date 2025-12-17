@@ -84,8 +84,8 @@ dexterity-llm-postproc = { path = "dexterity-llm-postproc" }
 
 # Fast release builds (default: cargo build --release)
 [profile.release]
-lto = true             # Fat LTO - maximum optimization (slower build, faster run)
-codegen-units = 1      # Single unit for best optimization across crate boundaries
+lto = "thin"           # Thin LTO - good optimization with faster builds
+codegen-units = 56     # Parallel codegen for fast iteration
 # panic = "abort"      # DISABLED to allow catch_unwind for SKIP limits
 debug = true
 
