@@ -5,9 +5,9 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 **Status (Dec 17, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
 
-**23 total issues (20 resolved, 3 remaining from badboy APK comparison)**
+**25 total issues (22 resolved, 3 remaining from badboy APK comparison)**
 
-20 of 20 P1-P2 issues fully resolved:
+22 of 22 P1-P2 issues fully resolved:
 - Overall Quality: 77.1% (medium) / 70.0% (large) per Dec 16 QA
 - Defect Score: 90.3% / 69.7%
 - Variable Naming: 99.96% reduction (27,794 → 11)
@@ -21,8 +21,12 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 **3 remaining issues from badboy APK comparison (Dec 17):**
 - P0-CRITICAL: Static initializer variable resolution (l2, l4 undefined)
-- P2-MEDIUM: Missing import statements (RetentionPolicy, ElementType)
+- P2-MEDIUM: Invalid Java identifier names (hyphens in Kotlin synthetic names) - **FIXED Dec 17**
 - P3-LOW: Code verbosity (785 vs 174 lines) - **POSITIVE TRADEOFF** (not a bug)
+
+**2 additional issues FIXED (Dec 17):**
+- P1-CRITICAL: Enum constant name corruption (register reuse causing duplicates) - **FIXED**
+- P2-MEDIUM: Invalid Java identifier names (hyphens not sanitized) - **FIXED**
 
 ---
 
@@ -159,6 +163,94 @@ This is a **POSITIVE TRADEOFF**. JADX fails with "Method not decompiled" on comp
 - `crates/dexterity-passes/src/code_shrink.rs`
 
 **Note:** This is NOT a bug. Dexterity prioritizes completeness over conciseness. The verbose output is correct and compilable.
+
+---
+
+### Issue ID: ENUM-P1-001
+
+**Status:** RESOLVED (Dec 17, 2025)
+**Priority:** P1 (CRITICAL)
+**Category:** Enum Constant Name Corruption
+**Impact:** Non-compilable code - duplicate enum constants
+**Assigned To:** Completed
+
+**The Problem (FIXED):**
+```java
+// Dexterity (BEFORE) - Nls.java
+public static enum Capitalization {
+    NotSpecified,
+    NotSpecified,  // DUPLICATE - invalid Java
+    NotSpecified,  // DUPLICATE
+    NotSpecified;  // DUPLICATE
+}
+
+// Dexterity (AFTER) / JADX (CORRECT)
+public enum Capitalization {
+    NotSpecified,
+    Title,
+    Sentence
+}
+```
+
+**Root Cause (Found and Fixed):**
+Register reuse in DEX bytecode caused HashMap to overwrite enum constant entries. Three distinct bugs:
+1. **SPUT Field Matching Bug**: Matched StaticPut by field NAME only instead of DEX field_idx
+2. **Register Reuse Bug**: Forward search found first constant instead of nearest preceding one
+3. **HashMap Overwrite Bug**: Register-keyed HashMap lost all but last constructor when register was reused
+
+**Solution:**
+- Changed `HashMap<u16, PendingConstruct>` to `Vec<(u16, usize, PendingConstruct)>` with backward search
+- Added `extract_string_arg_before_idx()` and `extract_int_arg_before_idx()` for backward search
+- Match SPUT by DEX field_idx instead of field name
+
+**Files Changed:**
+- `crates/dexterity-passes/src/enum_visitor.rs`
+
+**Acceptance Criteria:**
+- [x] Enum constants have correct unique names
+- [x] Register reuse handled correctly with backward search
+- [x] All 685 integration tests pass
+
+---
+
+### Issue ID: IDENT-P2-001
+
+**Status:** RESOLVED (Dec 17, 2025)
+**Priority:** P2 (MEDIUM)
+**Category:** Invalid Java Identifier Names
+**Impact:** Non-compilable code - hyphens in variable/method names
+**Assigned To:** Completed
+
+**The Problem (FIXED):**
+```java
+// Dexterity (BEFORE) - MainActivityKt.java
+int constructor-impl;  // INVALID: hyphens not allowed in Java identifiers
+Updater.set-impl(...);  // INVALID method name
+int padding-3ABfNKs;    // INVALID: Kotlin synthetic name with hyphen
+
+// Dexterity (AFTER)
+int constructorImpl;    // VALID: hyphen converted to camelCase
+Updater.setImpl(...);   // VALID method name
+int padding3ABfNKs;     // VALID: hyphen removed, next char preserved
+```
+
+**Root Cause (Found and Fixed):**
+Kotlin synthetic names containing hyphens (e.g., `constructor-impl`, `padding-3ABfNKs`) flowed through the variable naming pipeline without sanitization.
+
+**Solution:**
+Added `sanitize_identifier()` function in `var_naming.rs` that:
+- Converts hyphens to camelCase (capitalize next character)
+- Handles leading hyphens by skipping them
+- Preserves valid identifier characters
+- Updated `get_debug_name()`, `sanitize_field_name()`, and `extract_name_from_method()` to use sanitizer
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs`
+
+**Acceptance Criteria:**
+- [x] Variable names with hyphens converted to valid Java identifiers
+- [x] Kotlin synthetic names sanitized (constructor-impl -> constructorImpl)
+- [x] All 685 integration tests pass
 
 ---
 
@@ -1306,21 +1398,37 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 
 | Priority | Total | Resolved | New | Notes |
 |----------|-------|----------|-----|-------|
-| CRITICAL (P0-P1) | 13 | 12 | 1 | BADBOY-P0-001 (static initializer) |
-| HIGH (P1-P2) | 6 | 6 | 0 | BADBOY-P1-001 (annotation defaults) - **FIXED** |
-| MEDIUM (P2-P3) | 4 | 2 | 2 | BADBOY-P2-001, BADBOY-P3-001 |
+| CRITICAL (P0-P1) | 14 | 13 | 1 | BADBOY-P0-001 (static initializer) remaining |
+| HIGH (P1-P2) | 7 | 7 | 0 | All resolved (incl. ENUM-P1-001) |
+| MEDIUM (P2-P3) | 4 | 3 | 1 | BADBOY-P3-001 is positive tradeoff |
 
-**Total: 23 issues (20 resolved, 3 remaining from badboy APK comparison)**
+**Total: 25 issues (22 resolved, 3 remaining from badboy APK comparison)**
 
-**New Issues (Dec 17 - badboy APK):**
-- BADBOY-P0-001: Static initializer variable resolution (2-line fix in body_gen.rs)
+**New Issues FIXED (Dec 17):**
+- ENUM-P1-001: Enum constant name corruption - **FIXED** (enum_visitor.rs - HashMap to Vec with backward search)
+- IDENT-P2-001: Invalid Java identifier names - **FIXED** (var_naming.rs - sanitize_identifier() function)
 - BADBOY-P1-001: Annotation default values missing - **FIXED** (info.rs + converter.rs + method_gen.rs)
-- BADBOY-P2-001: Missing import statements (class_gen.rs)
+- BADBOY-P2-001: Missing import statements - **FIXED** (class_gen.rs)
+
+**Remaining Issues (Dec 17):**
+- BADBOY-P0-001: Static initializer variable resolution (body_gen.rs)
 - BADBOY-P3-001: Code verbosity (**POSITIVE TRADEOFF** - not a bug)
 
 **Latest Fixes (Dec 17, 2025):**
 
-1. **CRITICAL-004 (Local Variable Null Comparisons) RESOLVED**
+1. **ENUM-P1-001 (Enum Constant Name Corruption) RESOLVED**
+   - Root cause: Register reuse in DEX bytecode caused HashMap to overwrite enum constant entries
+   - Fix: Changed `HashMap<u16, PendingConstruct>` to `Vec<(u16, usize, PendingConstruct)>` with backward search
+   - Result: Enum `Capitalization` now correctly shows `NotSpecified`, `Title`, `Sentence` instead of duplicates
+   - File: `crates/dexterity-passes/src/enum_visitor.rs`
+
+2. **IDENT-P2-001 (Invalid Java Identifier Names) RESOLVED**
+   - Root cause: Kotlin synthetic names containing hyphens flowed through without sanitization
+   - Fix: Added `sanitize_identifier()` function that converts hyphens to camelCase
+   - Result: `padding-3ABfNKs` -> `padding3ABfNKs`, `constructor-impl` -> `constructorImpl`
+   - File: `crates/dexterity-passes/src/var_naming.rs`
+
+3. **CRITICAL-004 (Local Variable Null Comparisons) RESOLVED**
    - Extended `name_suggests_object_type()` to recognize more patterns
    - Added: storage, directory, file, display, device, sensor, camera patterns
    - Local variables like `externalStorageDirectory2` now correctly compared to `null`
@@ -1359,15 +1467,27 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 
 | Category | Resolved | Remaining | Total |
 |----------|----------|-----------|-------|
-| CRITICAL (P0-P1) | 12 | 1 | 13 |
-| HIGH (P1-P2) | 6 | 0 | 6 |
-| MEDIUM (P2-P3) | 2 | 2 | 4 |
-| **Total** | **20** | **3** | **23** |
+| CRITICAL (P0-P1) | 13 | 1 | 14 |
+| HIGH (P1-P2) | 7 | 0 | 7 |
+| MEDIUM (P2-P3) | 3 | 1 | 4 |
+| **Total** | **22** | **3** | **25** |
 
-**Note:** BADBOY-P1-001 (annotation defaults) now RESOLVED. BADBOY-P3-001 is a **POSITIVE TRADEOFF** (Dexterity succeeds where JADX fails).
+**Note:** ENUM-P1-001 (enum corruption) and IDENT-P2-001 (invalid identifiers) now RESOLVED. BADBOY-P3-001 is a **POSITIVE TRADEOFF** (Dexterity succeeds where JADX fails).
 
 ## Recent Changes
 
+- **Dec 17, 2025**: TWO ADDITIONAL BUG FIXES - Enum and Identifier Issues Resolved!
+  - **ENUM-P1-001 (Enum Constant Name Corruption) RESOLVED**: Register reuse in DEX bytecode caused HashMap to overwrite enum constants
+    - Changed `HashMap<u16, PendingConstruct>` to `Vec<(u16, usize, PendingConstruct)>` with backward search
+    - Added `extract_string_arg_before_idx()` and `extract_int_arg_before_idx()` functions
+    - Fixed SPUT field matching to use DEX field_idx instead of field name
+    - Enum `Capitalization` now correctly shows `NotSpecified`, `Title`, `Sentence` instead of duplicates
+    - File: `crates/dexterity-passes/src/enum_visitor.rs`
+  - **IDENT-P2-001 (Invalid Java Identifier Names) RESOLVED**: Kotlin synthetic names with hyphens not sanitized
+    - Added `sanitize_identifier()` function that converts hyphens to camelCase
+    - Updated `get_debug_name()`, `sanitize_field_name()`, and `extract_name_from_method()` to use sanitizer
+    - `padding-3ABfNKs` -> `padding3ABfNKs`, `constructor-impl` -> `constructorImpl`
+    - File: `crates/dexterity-passes/src/var_naming.rs`
 - **Dec 16, 2025**: THREE MAJOR BUG FIXES - ~99%+ Quality Achieved!
   - **NEW-CRITICAL-007 (Undefined Variables in Switch/Synchronized Regions) RESOLVED**: 81 -> ~0 undefined variables
     - Added prelude emission for Switch regions (lines 2532-2558 in body_gen.rs)

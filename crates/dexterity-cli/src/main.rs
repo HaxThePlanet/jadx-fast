@@ -371,7 +371,9 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             xml_resource_names.push(name);
         } else if !args.skip_resources && should_extract_raw_file(&name) {
             // Extract raw files IMMEDIATELY to avoid memory accumulation
-            let out_path = out_res.join(&name);
+            // Normalize config qualifiers (remove redundant -v4 for density, etc.)
+            let normalized_name = normalize_config_qualifier(&name);
+            let out_path = out_res.join(&normalized_name);
             if let Some(parent) = out_path.parent() {
                 std::fs::create_dir_all(parent)?;
             }

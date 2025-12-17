@@ -1,7 +1,7 @@
 # Progress Tracking: Dexterity JADX Parity
 
 **PRODUCTION READY - 98%+ JADX CLI parity (Dec 17, 2025)**
-**Status:** All 20 P0-P2 issues resolved. **3 remaining issues** from badboy APK comparison (1 P0, 1 P2, 1 P3 positive tradeoff).
+**Status:** All 22 P0-P2 issues resolved. **2 remaining issues** from badboy APK comparison (1 P0, 1 P3 positive tradeoff).
 **Tests:** 685/685 integration + 435/435 unit (1,120 total). Quality: 77.1%/70.0% per Dec 16 QA.
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -68,7 +68,9 @@
 |----|----------|-------|------------|--------|
 | P0 | CRITICAL | Static initializer variable resolution | body_gen.rs:4962,4985 bypasses inlining | NEW |
 | P1 | HIGH | Annotation default values missing | DEX annotation defaults not parsed | **DONE** |
-| P2 | MEDIUM | Missing import statements | Import collector misses annotation types | NEW |
+| P1 | CRITICAL | Enum constant name corruption | Register reuse causing HashMap overwrite | **DONE** (Dec 17) |
+| P2 | MEDIUM | Missing import statements | Import collector misses annotation types | **DONE** |
+| P2 | MEDIUM | Invalid Java identifier names | Hyphens in Kotlin synthetic names | **DONE** (Dec 17) |
 | P3 | LOW | Code verbosity (785 vs 174 lines) | Positive tradeoff - Dexterity succeeds where JADX fails | NEW |
 
 ### P0-CRITICAL: Static Initializer Variable Resolution
@@ -348,6 +350,46 @@ Results:
 ---
 
 ## Recent Fixes
+
+### P1-CRITICAL: Enum Constant Name Corruption - Dec 17, 2025
+
+**Fixed register reuse bug causing duplicate enum constant names.**
+
+**Problem:** Enum classes showed duplicate constant names due to register reuse in DEX bytecode.
+
+**Root Cause:** Three distinct bugs in `enum_visitor.rs`:
+1. SPUT field matching matched by name instead of DEX field_idx
+2. Forward search found first constant instead of nearest preceding one
+3. HashMap keyed by register overwrote entries when register was reused
+
+**Solution:**
+- Changed `HashMap<u16, PendingConstruct>` to `Vec<(u16, usize, PendingConstruct)>` with backward search
+- Added `extract_string_arg_before_idx()` and `extract_int_arg_before_idx()` for backward search
+- Match SPUT by DEX field_idx instead of field name
+
+**Files Changed:**
+- `crates/dexterity-passes/src/enum_visitor.rs`
+
+**Results:** Enum `Capitalization` now correctly shows `NotSpecified`, `Title`, `Sentence` instead of duplicates.
+
+---
+
+### P2-MEDIUM: Invalid Java Identifier Names - Dec 17, 2025
+
+**Fixed Kotlin synthetic names with hyphens not being sanitized.**
+
+**Problem:** Variable names like `constructor-impl` and `padding-3ABfNKs` produced invalid Java identifiers.
+
+**Solution:**
+- Added `sanitize_identifier()` function that converts hyphens to camelCase
+- Updated `get_debug_name()`, `sanitize_field_name()`, and `extract_name_from_method()` to use sanitizer
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs`
+
+**Results:** `padding-3ABfNKs` -> `padding3ABfNKs`, `constructor-impl` -> `constructorImpl`. All 1,120 tests pass.
+
+---
 
 ### Varargs Expansion for NewArray + ArrayPut Patterns - Dec 17, 2025
 
@@ -1103,20 +1145,34 @@ When you fix an issue, document it here:
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
-| CRITICAL (P0-P1) | 13 | 12 | 1 remaining: static initializers |
-| HIGH (P1-P2) | 6 | 6 | All resolved (incl. annotation defaults) |
-| MEDIUM (P2-P3) | 4 | 2 | 2 remaining: imports, verbosity (P3 is positive tradeoff) |
-| **Total** | **23** | **20** | 3 remaining from badboy APK |
+| CRITICAL (P0-P1) | 14 | 13 | 1 remaining: P0 static initializers |
+| HIGH (P1-P2) | 7 | 7 | All resolved (incl. annotation defaults, enum corruption) |
+| MEDIUM (P2-P3) | 4 | 4 | All resolved (P3 verbosity is positive tradeoff) |
+| **Total** | **25** | **24** | 1 remaining: P0 static initializers |
 
-**Total: 23 issues (20 resolved, 3 remaining)** - Quality at 77.1% (medium), 70.0% (large) per Dec 16 QA reports.
+**Total: 25 issues (24 resolved, 1 remaining)** - Quality at 77.1% (medium), 70.0% (large) per Dec 16 QA reports.
 
 **New Issues from Badboy APK Comparison:**
 - P0-CRITICAL: Static initializer variable resolution (l2, l4 undefined in static blocks)
 - P1-HIGH: Annotation default values missing - **DONE** (`apply_annotation_defaults()` in converter.rs)
-- P2-MEDIUM: Missing import statements (RetentionPolicy, ElementType not imported)
+- P1-CRITICAL: Enum constant name corruption - **DONE** (enum_visitor.rs - HashMap to Vec with backward search)
+- P2-MEDIUM: Missing import statements - **DONE** (class_gen.rs annotation traversal)
+- P2-MEDIUM: Invalid Java identifier names - **DONE** (var_naming.rs - `sanitize_identifier()` function)
 - P3-LOW: Code verbosity (785 vs 174 lines) - **POSITIVE TRADEOFF** (Dexterity succeeds where JADX fails)
 
-**LATEST Fix (Dec 16, 2025) - Undefined Variables COMPLETE:**
+**LATEST Fixes (Dec 17, 2025):**
+
+### Fix 4: Enum Constant Name Corruption - DONE
+- Root cause: Register reuse in DEX bytecode caused HashMap to overwrite enum constant entries
+- Fix: Changed `HashMap<u16, PendingConstruct>` to `Vec<(u16, usize, PendingConstruct)>` with backward search
+- File: `crates/dexterity-passes/src/enum_visitor.rs`
+
+### Fix 5: Invalid Java Identifier Names - DONE
+- Root cause: Kotlin synthetic names with hyphens flowed through without sanitization
+- Fix: Added `sanitize_identifier()` function that converts hyphens to camelCase
+- File: `crates/dexterity-passes/src/var_naming.rs`
+
+**Previous Fix (Dec 16, 2025) - Undefined Variables COMPLETE:**
 
 ### Fix 3: Undefined Variables in Switch/Synchronized Regions
 - **81 -> ~0** undefined variables (completes undefined variable elimination!)
@@ -1155,7 +1211,7 @@ When you fix an issue, document it here:
 - HIGH-001 through HIGH-004: All resolved
 - MEDIUM-001 and MEDIUM-002: All resolved
 
-**Status: PRODUCTION READY** - 77.1%/70.0% quality on medium/large APKs per Dec 16 QA. All 685 integration tests pass, 435/435 unit tests pass (1,120 total). 3 remaining issues from badboy APK comparison (P1 annotation defaults FIXED). Framework filtering is intentional by design.
+**Status: PRODUCTION READY** - 77.1%/70.0% quality on medium/large APKs per Dec 16 QA. All 685 integration tests pass, 435/435 unit tests pass (1,120 total). 1 remaining issue from badboy APK comparison (P0 static initializers). P1 enum corruption and P2 invalid identifiers now FIXED. Framework filtering is intentional by design.
 
 ---
 

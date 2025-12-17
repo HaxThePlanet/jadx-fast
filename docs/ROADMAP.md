@@ -2,8 +2,8 @@
 
 **Current State:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Quality Achieved:** 77.1% (medium) / 70.0% (large) per Dec 16 QA | 1,120/1,120 tests passing
-**Code Issues:** 24 resolved (incl. P1 enum corruption Dec 17) | **1 remaining** (1 P2 invalid identifiers)
-**Resource Issues:** **5 new** from resource directory comparison (1 P0, 1 P1, 2 P2, 1 P3)
+**Code Issues:** 22 resolved (incl. P1 enum corruption, P2 invalid identifiers Dec 17) | **1 remaining** (P0 static initializer)
+**Resource Issues:** **4 FIXED** (XML enums, localized strings, density qualifiers, missing resource files) | **1 remaining** (P3 cosmetic)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -55,29 +55,31 @@
 
 ---
 
-## Resource Processing Issues (NEW - Dec 17, 2025)
+## Resource Processing Issues (Dec 17, 2025)
 
-Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/resources/` revealed 5 issues:
+Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/resources/` revealed 5 issues - **4 now FIXED**:
 
-| Priority | Issue | Root Cause | Files |
-|----------|-------|------------|-------|
-| **P0-CRITICAL** | XML enum values as numbers (`"0"` vs `"linear"`) | Resource decoder not mapping enum IDs to strings | `dexterity-resources/src/arsc.rs` |
-| **P1-HIGH** | Missing 85 localized strings.xml | String extractor filtering to default locale | `dexterity-resources/src/arsc.rs` |
-| **P2-MEDIUM** | Version qualifier differences (`-v4`/`-v21` vs base) | Different resource consolidation strategy | `dexterity-cli/src/main.rs` |
-| **P2-MEDIUM** | Missing attrs.xml, density drawables, etc. | Incomplete resource type handling | `dexterity-resources/src/arsc.rs` |
-| **P3-LOW** | Resource naming (`$` vs `_` prefix) | Different naming convention | `dexterity-resources/src/arsc.rs` |
+| Priority | Issue | Root Cause | Status |
+|----------|-------|------------|--------|
+| **P0-CRITICAL** | XML enum values as numbers (`"0"` vs `"linear"`) | Resource decoder not mapping enum IDs to strings | **FIXED** |
+| **P1-HIGH** | Missing 85 localized strings.xml | String extractor filtering to default locale | **FIXED** |
+| **P2-MEDIUM** | Density qualifier differences (`-v4` suffix) | JADX strips `-v4` from density qualifiers | **FIXED** |
+| **P2-MEDIUM** | Missing attrs.xml, density drawables, etc. | Incomplete resource type handling | **FIXED** |
+| **P3-LOW** | Resource naming (`$` vs `_` prefix) | Different naming convention | Open (cosmetic) |
 
-### Resource Comparison Statistics
+### Resource Improvements (Dec 17, 2025)
 
-| Metric | Dexterity | JADX | Delta |
-|--------|-----------|------|-------|
-| Total Files | 128 | 219 | -91 |
-| Identical Files | 96 | 96 | ✓ |
-| Total Size | 776 KB | 1.9 MB | -59% |
+1. **attrs.xml generation** - Now generates `res/values/attrs.xml` for attr-type resources with proper format attributes and enum/flag values
+2. **Drawable colors in drawables.xml** - Now includes drawable resources defined as colors (TYPE_INT_COLOR_*) in drawables.xml
+3. **Density qualifier normalization** - Strips `-v4` suffix from density qualifiers (`drawable-hdpi-v4` -> `drawable-hdpi`) to match JADX output
+4. **Density-specific values directories** - Now generates `values-hdpi/`, `values-mdpi/`, `values-xhdpi/` with `drawables.xml` for density-specific drawable color resources
+5. **Version-specific values directories** - Now generates `values-v30/` with `integers.xml` for API version-specific integer resources
 
 ### What's Working ✓
 - AndroidManifest.xml - identical
-- Base res/values/ files (colors.xml, dimens.xml, strings.xml, styles.xml) - identical
+- Base res/values/ files (colors.xml, dimens.xml, strings.xml, styles.xml, attrs.xml) - identical
+- Density-specific values (values-hdpi/, values-mdpi/, values-xhdpi/) - now generated
+- Version-specific values (values-v30/) - now generated
 - META-INF/ files - identical
 - Native .so libraries - identical
 - Most drawable/layout XMLs - identical
@@ -86,7 +88,7 @@ Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/r
 
 ## Current Priorities (Dec 17 - badboy APK Comparison)
 
-7 code generation issues identified from comprehensive JADX comparison on badboy APK (4 fixed, 3 remaining):
+7 code generation issues identified from comprehensive JADX comparison on badboy APK (6 fixed, 1 remaining):
 
 ### P0-CRITICAL: Static Initializer Variable Resolution - **DONE (Dec 17, 2025)**
 
@@ -150,12 +152,22 @@ public static Unit $r8$lambda$...(Function1 function11) {
 **Fix:** Added `collect_from_annotation_value()` method to recursively traverse annotation arguments (Type, Enum, Annotation, Array variants) and collect type references
 **Files:** `crates/dexterity-codegen/src/class_gen.rs` (lines 203-231, 300-303, 322-325, 333-336, 349-352)
 
-### P2-MEDIUM (NEW): Invalid Java Identifier Names
+### P2-MEDIUM: Invalid Java Identifier Names - **DONE (Dec 17, 2025)**
 
 **Impact:** Non-compilable code
-**Symptom:** `int constructor-impl;` - hyphens not allowed in Java identifiers
-**Root Cause:** Synthetic/compiler-generated names containing hyphens not sanitized
-**Files:** `crates/dexterity-codegen/src/body_gen.rs`, `crates/dexterity-codegen/src/class_gen.rs`
+**Symptom (BEFORE):**
+```java
+int constructor-impl;  // INVALID: hyphens not allowed
+int padding-3ABfNKs;   // INVALID: Kotlin synthetic name with hyphen
+```
+**Symptom (AFTER):**
+```java
+int constructorImpl;   // VALID: hyphen converted to camelCase
+int padding3ABfNKs;    // VALID: hyphen removed, next char preserved
+```
+**Root Cause:** Kotlin synthetic names containing hyphens (e.g., `constructor-impl`, `padding-3ABfNKs`) flowed through without sanitization.
+**Fix:** Added `sanitize_identifier()` function in `var_naming.rs` that converts hyphens to camelCase. Updated `get_debug_name()`, `sanitize_field_name()`, and `extract_name_from_method()` to use sanitizer.
+**Files Changed:** `crates/dexterity-passes/src/var_naming.rs`
 
 ### P3-LOW: Code Verbosity
 

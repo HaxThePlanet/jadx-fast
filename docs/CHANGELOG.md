@@ -4,6 +4,96 @@ Development history and notable fixes.
 
 ## December 2025
 
+### P1-CRITICAL: Enum Constant Name Corruption Fix (Dec 17, 2025)
+
+**Fixed register reuse bug causing duplicate enum constant names.**
+
+**Problem:** Enum classes with register reuse in DEX bytecode showed duplicate constant names:
+```java
+// Dexterity (BEFORE) - Nls.java
+public static enum Capitalization {
+    NotSpecified,
+    NotSpecified,  // DUPLICATE - invalid Java
+    NotSpecified,  // DUPLICATE
+    NotSpecified;  // DUPLICATE
+}
+
+// Dexterity (AFTER) / JADX (CORRECT)
+public enum Capitalization {
+    NotSpecified,
+    Title,
+    Sentence
+}
+```
+
+**Root Causes:** Three distinct bugs in `enum_visitor.rs`:
+
+1. **SPUT Field Matching Bug** (Pass 2, lines 238-264)
+   - **Before:** Matched StaticPut by field NAME only (`field.name == construct.name`)
+   - **Issue:** If first field is "NotSpecified", ALL constructor calls with that name would add the SAME field multiple times
+   - **Fix:** Match by DEX `field_idx` from StaticPut instruction to ensure each SPUT stores to correct field
+
+2. **Register Reuse Bug** (Pass 1, extract functions)
+   - **Before:** Searched ALL instructions for ANY CONST_STRING/CONST writing to register (forward search)
+   - **Issue:** With register reuse (v0 used for all 3 enum constructors), always found the FIRST constant, so all constructors got same name/ordinal
+   - **Fix:** Added `extract_string_arg_before_idx()` and `extract_int_arg_before_idx()` that search BACKWARDS from constructor call to find nearest preceding constant
+
+3. **HashMap Overwrite Bug** (Pass 1, storage)
+   - **Before:** Used `HashMap<u16, PendingConstruct>` keyed by register number
+   - **Issue:** When register is reused (all 3 constructors use v0), each `insert()` OVERWRITES the previous entry, keeping only the last constructor
+   - **Fix:** Changed to `Vec<(u16, usize, PendingConstruct)>` storing all constructs with instruction indices, then search for nearest construct before each SPUT
+
+**Files Changed:** `crates/dexterity-passes/src/enum_visitor.rs`
+**Validation:** All 1,120 integration tests pass, verified with badboy APK (Nls$Capitalization enum now correct)
+
+---
+
+### P2-MEDIUM: Invalid Java Identifier Names Fix (Dec 17, 2025)
+
+**Fixed Kotlin synthetic names containing hyphens not being sanitized.**
+
+**Problem:** Variable names like `constructor-impl` and `padding-3ABfNKs` were passed through without sanitization, causing invalid Java identifiers:
+```java
+// Dexterity (BEFORE) - MainActivityKt.java
+int constructor-impl;  // INVALID: hyphens not allowed in Java identifiers
+Updater.set-impl(...);  // INVALID method name
+int padding-3ABfNKs;    // INVALID: Kotlin synthetic name with hyphen
+
+// Dexterity (AFTER)
+int constructorImpl;    // VALID: hyphen converted to camelCase
+Updater.setImpl(...);   // VALID method name
+int padding3ABfNKs;     // VALID: hyphen removed, next char preserved
+```
+
+**Solution:** Added `sanitize_identifier()` function in `var_naming.rs` that:
+- Converts hyphens to camelCase (capitalize next character after hyphen)
+- Handles leading hyphens by skipping them
+- Preserves valid identifier characters
+- Prefixes digits with underscore when at start
+
+**Implementation Details:**
+1. `sanitize_identifier(name: &str) -> Option<String>` - Main sanitization function
+   - Returns `None` if name cannot be sanitized (empty or all invalid characters)
+   - Returns `Some(name)` if already valid
+   - Converts hyphens to camelCase: `foo-bar` -> `fooBar`
+   - Handles leading hyphens: `-foo` -> `Foo`
+   - Prefixes leading digits: `123abc` -> `_123abc`
+
+2. Updated callers to use sanitization:
+   - `get_debug_name()` - Sanitizes debug info variable names
+   - `sanitize_field_name()` - Sanitizes field-derived names
+   - `extract_name_from_method()` - Sanitizes method-derived names
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` - All implementation
+
+**Results:**
+- All 1,120 tests pass (685 integration + 435 unit)
+- Kotlin synthetic names now produce valid Java identifiers
+- Variable names like `padding-3ABfNKs` correctly become `padding3ABfNKs`
+
+---
+
 ### Varargs Expansion for NewArray + ArrayPut Patterns (Dec 17, 2025)
 
 **Implemented intelligent varargs expansion to convert NewArray + ArrayPut sequences into inline vararg parameters.**
