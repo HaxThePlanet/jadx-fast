@@ -656,15 +656,19 @@ pub fn build_ir_insn(
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
         },
-        0xfc => InsnType::Invoke {
-            kind: InvokeKind::Custom,
-            method_idx: index,
+        // invoke-custom - for lambdas and method references
+        0xfc => InsnType::InvokeCustom {
+            call_site_idx: index,
             args: build_invoke_args(regs, reg_count),
+            dest: None, // Set by MoveResult
+            lambda_info: None, // Populated during conversion
         },
-        0xfd => InsnType::Invoke {
-            kind: InvokeKind::Custom,
-            method_idx: index,
+        // invoke-custom/range
+        0xfd => InsnType::InvokeCustom {
+            call_site_idx: index,
             args: build_range_args(regs[0], reg_count),
+            dest: None,
+            lambda_info: None,
         },
 
         // const-method-handle and const-method-type

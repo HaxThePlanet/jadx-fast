@@ -320,6 +320,50 @@ impl<'a> StmtGen<'a> {
                 }
             }
 
+            InsnType::InvokeCustom { call_site_idx, args, dest, lambda_info } => {
+                // Lambda/method reference invocation
+                if let Some(info) = lambda_info {
+                    if info.use_method_ref {
+                        // Method reference syntax: ClassName::methodName
+                        let method_ref = format!("{}::{}", info.impl_class, info.impl_method_name);
+                        if let Some(d) = dest {
+                            if let Some(ty) = result_type {
+                                self.gen_var_decl(d, ty, &method_ref, code);
+                            } else {
+                                self.gen_assign(d, &method_ref, code);
+                            }
+                        } else {
+                            code.start_line().add(&method_ref).add(";").newline();
+                        }
+                    } else {
+                        // Lambda syntax - for now emit placeholder
+                        let args_str: Vec<String> = args.iter()
+                            .map(|a| self.expr.gen_arg(a))
+                            .collect();
+                        code.start_line()
+                            .add("/* lambda -> ")
+                            .add(&info.impl_method_name)
+                            .add("(")
+                            .add(&args_str.join(", "))
+                            .add(") */;")
+                            .newline();
+                    }
+                } else {
+                    // Fallback: emit comment for unresolved invoke-custom
+                    let args_str: Vec<String> = args.iter()
+                        .map(|a| self.expr.gen_arg(a))
+                        .collect();
+                    code.start_line()
+                        .add("/* invoke-custom #")
+                        .add(&call_site_idx.to_string())
+                        .add("(")
+                        .add(&args_str.join(", "))
+                        .add(") */;")
+                        .newline();
+                }
+                true
+            }
+
             InsnType::CheckCast { object: _, type_idx: _ } => {
                 // Check-cast is usually implicit after assignment
                 // Generate a comment for now

@@ -59,6 +59,42 @@ impl InsnNode {
     }
 }
 
+/// Method handle type for lambdas
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum LambdaHandleType {
+    /// Static method invocation
+    InvokeStatic,
+    /// Instance method invocation
+    InvokeInstance,
+    /// Constructor invocation (::new)
+    InvokeConstructor,
+    /// Direct method invocation
+    InvokeDirect,
+    /// Interface method invocation
+    InvokeInterface,
+}
+
+/// Lambda/method reference information
+///
+/// This contains the parsed call site information for generating lambda syntax.
+#[derive(Debug, Clone)]
+pub struct LambdaInfo {
+    /// The method handle type for the implementation
+    pub handle_type: LambdaHandleType,
+    /// Implementation method index
+    pub impl_method_idx: u32,
+    /// Implementation method class
+    pub impl_class: String,
+    /// Implementation method name
+    pub impl_method_name: String,
+    /// Functional interface method name (e.g., "apply", "run", "accept")
+    pub interface_method_name: String,
+    /// Whether to use method reference syntax (::) instead of lambda
+    pub use_method_ref: bool,
+    /// Whether to inline the lambda body (synthetic methods)
+    pub inline_body: bool,
+}
+
 /// IR instruction types
 #[derive(Debug, Clone)]
 pub enum InsnType {
@@ -215,6 +251,21 @@ pub enum InsnType {
         kind: InvokeKind,
         method_idx: u32,
         args: Vec<InsnArg>,
+    },
+
+    /// Lambda/method reference invocation (invoke-custom)
+    ///
+    /// This represents Java 8+ lambda expressions and method references.
+    /// The call_site contains bootstrap information for the lambda.
+    InvokeCustom {
+        /// Call site index in DEX file
+        call_site_idx: u32,
+        /// Arguments to the lambda
+        args: Vec<InsnArg>,
+        /// Destination register for lambda result
+        dest: Option<RegisterArg>,
+        /// Lambda metadata (populated during conversion)
+        lambda_info: Option<LambdaInfo>,
     },
 
     /// Unary operation: result = op(arg)

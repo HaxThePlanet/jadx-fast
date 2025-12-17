@@ -6,6 +6,7 @@ mod class_def;
 mod code_item;
 mod encoded_value;
 mod field_id;
+mod method_handle;
 mod method_id;
 mod proto_id;
 
@@ -17,6 +18,7 @@ pub use encoded_value::{
     VISIBILITY_BUILD, VISIBILITY_RUNTIME, VISIBILITY_SYSTEM,
 };
 pub use field_id::FieldId;
+pub use method_handle::{CallSite, MethodHandle, MethodHandleType};
 pub use method_id::MethodId;
 pub use proto_id::ProtoId;
 

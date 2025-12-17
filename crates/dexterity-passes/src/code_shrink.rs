@@ -245,6 +245,7 @@ fn can_reorder(insn: &InsnNode) -> bool {
 
         // Side effects - cannot reorder
         InsnType::Invoke { .. } |
+        InsnType::InvokeCustom { .. } |
         InsnType::InstancePut { .. } |
         InsnType::StaticPut { .. } |
         InsnType::ArrayPut { .. } |

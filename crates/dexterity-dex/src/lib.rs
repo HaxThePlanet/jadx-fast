@@ -14,7 +14,10 @@ pub mod utils;
 pub use error::{DexError, Result};
 pub use header::DexHeader;
 pub use reader::DexReader;
-pub use sections::{ClassDef, ClassData, CodeItem, EncodedMethod, EncodedField, EncodedValue, FieldId, MethodId, ProtoId, parse_encoded_array};
+pub use sections::{
+    CallSite, ClassData, ClassDef, CodeItem, EncodedField, EncodedMethod, EncodedValue,
+    FieldId, MethodHandle, MethodHandleType, MethodId, ProtoId, parse_encoded_array,
+};
 
 /// Magic bytes for DEX files: "dex\n"
 pub const DEX_MAGIC: [u8; 4] = [0x64, 0x65, 0x78, 0x0a];

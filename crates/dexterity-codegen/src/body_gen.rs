@@ -433,6 +433,11 @@ fn count_uses_in_insn(insn: &InsnType, counts: &mut HashMap<(u16, u32), usize>) 
                 count_arg(arg);
             }
         }
+        InsnType::InvokeCustom { args, .. } => {
+            for arg in args {
+                count_arg(arg);
+            }
+        }
         InsnType::Unary { arg, .. } => count_arg(arg),
         InsnType::Binary { left, right, .. } => {
             count_arg(left);
@@ -4360,6 +4365,39 @@ fn generate_insn<W: CodeWriter>(
             // Use write_invoke_with_inlining to properly inline constant arguments
             code.start_line();
             write_invoke_with_inlining(kind, *method_idx, args, ctx, code);
+            code.add(";").newline();
+            true
+        }
+
+        InsnType::InvokeCustom { call_site_idx, args, dest, lambda_info } => {
+            // Lambda/method reference - generate lambda syntax
+            code.start_line();
+
+            if let Some(info) = lambda_info {
+                // Generate lambda based on info
+                if info.use_method_ref {
+                    // Method reference syntax: Class::method or obj::method
+                    code.add(&info.impl_class).add("::").add(&info.impl_method_name);
+                } else {
+                    // Lambda syntax: (args) -> body or (args) -> { statements }
+                    code.add("/* TODO: lambda -> ").add(&info.impl_method_name).add(" */");
+                }
+            } else {
+                // Fallback - no lambda info available
+                code.add("/* invoke-custom #").add(&call_site_idx.to_string());
+                if !args.is_empty() {
+                    code.add("(");
+                    for (i, arg) in args.iter().enumerate() {
+                        if i > 0 {
+                            code.add(", ");
+                        }
+                        ctx.write_arg_inline(code, arg);
+                    }
+                    code.add(")");
+                }
+                code.add(" */");
+            }
+
             code.add(";").newline();
             true
         }

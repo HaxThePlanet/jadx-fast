@@ -10,7 +10,7 @@ use memmap2::Mmap;
 
 use crate::error::{DexError, Result};
 use crate::header::DexHeader;
-use crate::sections::{ClassDef, FieldId, MethodId, ProtoId};
+use crate::sections::{CallSite, ClassDef, FieldId, MethodHandle, MethodId, ProtoId};
 use crate::utils::{decode_mutf8, read_uleb128};
 
 /// A parsed DEX file
@@ -228,6 +228,29 @@ impl DexReader {
         }
 
         Ok(types)
+    }
+
+    /// Get a method handle by index (for invoke-custom/lambdas)
+    pub fn get_method_handle(&self, idx: u32) -> Result<MethodHandle> {
+        let method_handle_off = self.header.method_handle_off.ok_or_else(|| {
+            DexError::Parse {
+                offset: 0,
+                message: "DEX file has no method_handle section".to_string(),
+            }
+        })?;
+
+        let offset = method_handle_off as usize + (idx as usize * MethodHandle::SIZE);
+        MethodHandle::parse(self.data(), offset)
+    }
+
+    /// Get a call site by index (for invoke-custom/lambdas)
+    pub fn get_call_site(&self, idx: u32) -> Result<CallSite> {
+        CallSite::parse(self, idx)
+    }
+
+    /// Check if this DEX file has method handle/call site support
+    pub fn has_lambda_support(&self) -> bool {
+        self.header.call_site_off.is_some() && self.header.method_handle_off.is_some()
     }
 }
 

@@ -233,9 +233,13 @@ pub struct TypeInference {
     hierarchy: Option<ClassHierarchy>,
     /// Last invoke return type (for MoveResult pairing)
     last_invoke_return: Option<ArgType>,
+    /// Last invoke method idx (for TypeBoundInvokeAssign)
+    last_invoke_method_idx: Option<u32>,
     /// Last invoke instance type variable (for resolving TypeVariables in return types)
     /// This is args[0] for instance methods (invoke-virtual/invoke-interface)
     last_invoke_instance_var: Option<TypeVar>,
+    /// Last invoke instance register info (reg_num, ssa_version) for TypeBoundInvokeAssign
+    last_invoke_instance_reg: Option<(u16, u32)>,
     /// Phi nodes for post-solve LCA computation: (dest_var, source_vars)
     phi_nodes: Vec<(TypeVar, Vec<TypeVar>)>,
     /// Type refinements from instanceof checks (block_id -> (var, refined_type))
@@ -270,7 +274,9 @@ impl TypeInference {
             method_lookup: None,
             hierarchy: None,
             last_invoke_return: None,
+            last_invoke_method_idx: None,
             last_invoke_instance_var: None,
+            last_invoke_instance_reg: None,
             phi_nodes: Vec::new(),
             instanceof_refinements: FxHashMap::default(),
             cast_refinements: FxHashMap::default(),
@@ -547,14 +553,23 @@ impl TypeInference {
                 // Use the return type from the preceding Invoke instruction
                 let return_type = self.last_invoke_return.take();
                 let instance_var = self.last_invoke_instance_var.take();
+                let instance_reg = self.last_invoke_instance_reg.take();
+                let method_idx = self.last_invoke_method_idx.take();
 
                 if let Some(return_ty) = return_type {
                     // Check if return type contains TypeVariable and we have instance info
                     if Self::contains_type_variable(&return_ty) {
                         if let Some(inst_var) = instance_var {
-                            // Track this for post-solve resolution
+                            // Track this for post-solve resolution (legacy)
                             self.pending_type_var_resolutions.push((dest_var, inst_var, return_ty.clone()));
                         }
+                        // NEW: Add dynamic invoke bound for generic type resolution
+                        if let (Some(method_id), Some((reg_num, ssa_version))) = (method_idx, instance_reg) {
+                            self.add_invoke_bound(dest_var, method_id, return_ty.clone(), reg_num, ssa_version);
+                        }
+                    } else {
+                        // Non-generic return type - add as assign bound
+                        self.add_assign_bound(dest_var, return_ty.clone());
                     }
                     // Always add the constraint (will be refined post-solve if needed)
                     self.add_constraint(Constraint::Equals(dest_var, InferredType::Concrete(return_ty)));
@@ -778,6 +793,8 @@ impl TypeInference {
                 // Field type determines dest type - use AssignBound (assignment target)
                 if let Some(ref lookup) = self.field_lookup {
                     if let Some(field_ty) = lookup(*field_idx) {
+                        // NEW: Add assign bound using new TypeInfo system
+                        self.add_assign_bound(dest_var, field_ty.clone());
                         // AssignBound for field reads - the destination receives this type
                         if !matches!(field_ty, ArgType::Unknown) {
                             self.add_constraint(Constraint::AssignBound(
@@ -824,6 +841,8 @@ impl TypeInference {
                 let dest_var = self.get_or_create_var(dest);
                 if let Some(ref lookup) = self.field_lookup {
                     if let Some(field_ty) = lookup(*field_idx) {
+                        // NEW: Add assign bound using new TypeInfo system
+                        self.add_assign_bound(dest_var, field_ty.clone());
                         // AssignBound for static field reads
                         if !matches!(field_ty, ArgType::Unknown) {
                             self.add_constraint(Constraint::AssignBound(
@@ -863,6 +882,8 @@ impl TypeInference {
                 // Method signature determines arg types and return type
                 // Reset instance var tracking for this invoke
                 self.last_invoke_instance_var = None;
+                self.last_invoke_instance_reg = None;
+                self.last_invoke_method_idx = Some(*method_idx);
 
                 if let Some(ref lookup) = self.method_lookup {
                     if let Some((param_types, return_ty)) = lookup(*method_idx) {
@@ -874,6 +895,10 @@ impl TypeInference {
                             if let Some(instance_arg) = args.first() {
                                 if let Some(instance_var) = self.var_for_arg(instance_arg) {
                                     self.last_invoke_instance_var = Some(instance_var);
+                                    // Track register info for TypeBoundInvokeAssign
+                                    if let InsnArg::Register(reg) = instance_arg {
+                                        self.last_invoke_instance_reg = Some((reg.reg_num, reg.ssa_version));
+                                    }
                                 }
                             }
                         }
@@ -882,6 +907,8 @@ impl TypeInference {
                         let args_iter = if is_instance_method { &args[1..] } else { args.as_slice() };
                         for (arg, expected_ty) in args_iter.iter().zip(param_types.iter()) {
                             if let Some(arg_var) = self.var_for_arg(arg) {
+                                // NEW: Add use bound using new TypeInfo system
+                                self.add_use_bound(arg_var, expected_ty.clone());
                                 // Use UseBound for method arguments - they must be compatible
                                 // with the parameter type (variable is used as this type)
                                 if !matches!(expected_ty, ArgType::Unknown) {
@@ -1118,7 +1145,8 @@ impl TypeInference {
             | InsnType::PackedSwitch { .. }
             | InsnType::SparseSwitch { .. }
             | InsnType::Break { .. }
-            | InsnType::Continue { .. } => {}
+            | InsnType::Continue { .. }
+            | InsnType::InvokeCustom { .. } => {}
         }
     }
 
