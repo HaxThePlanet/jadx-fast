@@ -23,6 +23,8 @@ pub fn convert_class(
     dex: &DexReader,
     class_def: &ClassDef<'_>,
     process_debug_info: bool,
+    dex_idx: u32,
+    dex_name: Option<&str>,
 ) -> Result<ClassData> {
     let class_type = class_def.class_type()?;
 
@@ -38,15 +40,18 @@ pub fn convert_class(
         class_data.superclass = Some(strip_descriptor(&super_type).to_string());
     }
 
-    // Interfaces
+    // Interfaces - store as ArgType::Object (signature will add generics later)
     for iface in class_def.interfaces()? {
-        class_data.interfaces.push(strip_descriptor(&iface).to_string());
+        class_data.interfaces.push(ArgType::Object(strip_descriptor(&iface).to_string()));
     }
 
     // Source file
     if process_debug_info {
         class_data.source_file = class_def.source_file()?.map(|s| s.to_string());
     }
+
+    // DEX file name for "loaded from" comment
+    class_data.dex_name = dex_name.map(|s| s.to_string());
 
     // Get static field initial values (if any)
     let static_values = class_def.static_values().unwrap_or_default();
@@ -116,7 +121,7 @@ pub fn convert_class(
 
         // Direct methods (constructors, static methods, private methods)
         for method in data.direct_methods() {
-            if let Ok(mut method_data) = convert_method(dex, &method, process_debug_info) {
+            if let Ok(mut method_data) = convert_method(dex, &method, process_debug_info, dex_idx) {
                 // Method annotations
                 if let Ok(annots) = class_def.method_annotations(method.method_idx) {
                     for annot_item in annots {
@@ -133,7 +138,7 @@ pub fn convert_class(
 
         // Virtual methods
         for method in data.virtual_methods() {
-            if let Ok(mut method_data) = convert_method(dex, &method, process_debug_info) {
+            if let Ok(mut method_data) = convert_method(dex, &method, process_debug_info, dex_idx) {
                 // Method annotations
                 if let Ok(annots) = class_def.method_annotations(method.method_idx) {
                     for annot_item in annots {
@@ -258,9 +263,51 @@ fn parse_class_signature(sig: &str, class: &mut ClassData) {
         class.type_parameters = parse_type_parameters(&mut chars);
     }
 
-    // The rest of the signature contains superclass and interfaces with generic types
-    // For now, we're only extracting type parameters - the superclass/interface
-    // type arguments would require storing ArgType instead of String
+    // Parse superclass type (skip for now, already set from DEX)
+    if chars.peek().is_some() {
+        let _ = parse_type_from_signature(&mut chars);
+    }
+
+    // Parse interface types with generics (like JADX's SignatureProcessor.processInterfaces)
+    let mut parsed_interfaces = Vec::new();
+    while chars.peek().is_some() {
+        if let Some(iface_type) = parse_type_from_signature(&mut chars) {
+            parsed_interfaces.push(iface_type);
+        } else {
+            break;
+        }
+    }
+
+    // Merge parsed interfaces with original interfaces from DEX
+    // Like JADX: if signature has fewer interfaces, keep originals for the rest
+    if !parsed_interfaces.is_empty() {
+        let original_count = class.interfaces.len();
+        let parsed_count = parsed_interfaces.len();
+
+        // Replace interfaces with parsed versions (which have generic type args)
+        for (i, parsed_type) in parsed_interfaces.into_iter().enumerate() {
+            if i < original_count {
+                // Validate that base class name matches
+                if let ArgType::Object(parsed_name) = &parsed_type {
+                    if let ArgType::Object(original_name) = &class.interfaces[i] {
+                        if parsed_name == original_name ||
+                           parsed_name.split('<').next() == original_name.split('<').next() {
+                            // Replace with parsed version (has generic args)
+                            class.interfaces[i] = parsed_type;
+                        }
+                    }
+                } else {
+                    // For non-object types, just replace
+                    class.interfaces[i] = parsed_type;
+                }
+            }
+        }
+
+        // If signature has more interfaces than DEX (shouldn't happen), add them
+        if parsed_count > original_count {
+            // This is unusual - log or warn if needed in production
+        }
+    }
 }
 
 /// Apply signature annotation to method types if present
@@ -922,6 +969,7 @@ fn convert_method(
     dex: &DexReader,
     encoded: &EncodedMethod,
     process_debug_info: bool,
+    dex_idx: u32,
 ) -> Result<MethodData> {
     let method_id = dex.get_method(encoded.method_idx)?;
     let proto = method_id.proto()?;
@@ -947,7 +995,7 @@ fn convert_method(
             // Store bytecode reference for lazy loading (like Java JADX's ICodeReader)
             // This allows for true lazy loading later (instructions loaded on-demand)
             method.bytecode_ref = Some(dexterity_ir::BytecodeRef {
-                dex_idx: 0, // TODO: multi-DEX support
+                dex_idx,
                 method_idx: encoded.method_idx,
                 code_offset: encoded.code_off as u64,
                 insns_count: code_item.insns_size as u32,

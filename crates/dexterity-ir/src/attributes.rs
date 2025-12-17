@@ -47,4 +47,7 @@ pub enum AFlag {
     LoopStart = 8,
     LoopEnd = 9,
     FinallyInsns = 10,
+    /// Don't wrap this instruction in parentheses when inlined
+    /// Used for associative operators: (a + b) + c -> a + b + c
+    DontWrap = 11,
 }

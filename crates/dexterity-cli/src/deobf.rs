@@ -228,7 +228,7 @@ pub fn precompute_deobf_aliases(
             }
             if let Ok(ifaces) = class_def.interfaces() {
                 for iface in ifaces {
-                    cls_stub.interfaces.push(strip_descriptor(&iface).to_string());
+                    cls_stub.interfaces.push(dexterity_ir::ArgType::Object(strip_descriptor(&iface).to_string()));
                 }
             }
 

@@ -523,13 +523,16 @@ pub struct ClassData {
     pub access_flags: u32,
     /// Superclass type (None for java/lang/Object)
     pub superclass: Option<String>,
-    /// Implemented interfaces
-    pub interfaces: Vec<String>,
+    /// Implemented interfaces with full type information (including generics)
+    /// Parsed from DEX and enhanced by Signature annotation - like JADX's ClassNode.interfaces
+    pub interfaces: Vec<ArgType>,
     /// Generic type parameters (e.g., <T, E extends Number>)
     /// Parsed from dalvik.annotation.Signature - like JADX's ClassNode.generics
     pub type_parameters: Vec<TypeParameter>,
     /// Source file name
     pub source_file: Option<String>,
+    /// DEX file name this class was loaded from (e.g., "classes.dex", "classes2.dex")
+    pub dex_name: Option<String>,
     /// Processing state for lazy loading
     pub state: ProcessState,
     /// Methods
@@ -561,6 +564,7 @@ impl ClassData {
             interfaces: Vec::new(),
             type_parameters: Vec::new(),
             source_file: None,
+            dex_name: None,
             state: ProcessState::NotLoaded,
             methods: Vec::new(),
             static_fields: Vec::new(),

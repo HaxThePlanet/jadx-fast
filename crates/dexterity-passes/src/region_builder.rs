@@ -1131,7 +1131,12 @@ impl<'a> RegionBuilder<'a> {
                     let (if_region, _) = self.process_if(cond);
                     contents.push(RegionContent::Region(Box::new(if_region)));
                 } else {
-                    contents.push(RegionContent::Block(block_id));
+                    // One branch exits the loop - create if-break structure
+                    if let Some(break_region) = self.create_loop_break_region(cond, loop_info) {
+                        contents.push(RegionContent::Region(Box::new(break_region)));
+                    } else {
+                        contents.push(RegionContent::Block(block_id));
+                    }
                 }
             } else {
                 contents.push(RegionContent::Block(block_id));
@@ -1173,7 +1178,12 @@ impl<'a> RegionBuilder<'a> {
                         let (if_region, _) = self.process_if(cond);
                         contents.push(RegionContent::Region(Box::new(if_region)));
                     } else {
-                        contents.push(RegionContent::Block(block_id));
+                        // One branch exits the loop - create if-break structure
+                        if let Some(break_region) = self.create_loop_break_region(cond, loop_info) {
+                            contents.push(RegionContent::Region(Box::new(break_region)));
+                        } else {
+                            contents.push(RegionContent::Block(block_id));
+                        }
                     }
                 } else {
                     contents.push(RegionContent::Block(block_id));
@@ -1189,6 +1199,79 @@ impl<'a> RegionBuilder<'a> {
         self.loops.iter().find(|l| {
             l.header == block && l.header != parent.header && parent.blocks.contains(&l.header)
         })
+    }
+
+    /// Create if-break region for a conditional that exits the loop
+    ///
+    /// When one branch of an IF exits the loop, we create:
+    /// - if (cond) break; else { body } - when then branch exits
+    /// - if (!cond) break; else { body } - when else branch exits (negated condition)
+    fn create_loop_break_region(&self, cond: &IfInfo, loop_info: &LoopInfo) -> Option<Region> {
+        let then_exits = cond.then_blocks.iter().any(|b| !loop_info.blocks.contains(b));
+        let else_exits = cond.else_blocks.iter().any(|b| !loop_info.blocks.contains(b));
+
+        // Only handle simple cases where exactly one branch exits
+        if then_exits == else_exits {
+            // Both exit or neither exits - can't create simple if-break
+            return None;
+        }
+
+        // Check if the exit branch terminates with return/throw (not a break)
+        let exit_blocks = if then_exits { &cond.then_blocks } else { &cond.else_blocks };
+        if self.exits_via_return_or_throw(exit_blocks) {
+            // This is a return/throw, not a break - let codegen handle it
+            return None;
+        }
+
+        // Get break label for nested loops
+        let label = if loop_info.parent.is_some() {
+            Some(format!("loop_{}", loop_info.header))
+        } else {
+            None
+        };
+
+        if then_exits {
+            // Then branch exits the loop: if (cond) break; [else { body }]
+            let condition = self.extract_condition_with_negation(cond.condition_block, cond.negate_condition);
+            let else_region = if cond.else_blocks.is_empty() {
+                None
+            } else {
+                Some(Box::new(self.build_branch_region(&cond.else_blocks)))
+            };
+            Some(Region::If {
+                condition,
+                then_region: Box::new(Region::Break { label }),
+                else_region,
+            })
+        } else {
+            // Else branch exits the loop: if (!cond) break; [else { body }]
+            // Negate the condition so the break is in the then branch
+            let condition = self.extract_condition_with_negation(cond.condition_block, !cond.negate_condition);
+            let else_region = if cond.then_blocks.is_empty() {
+                None
+            } else {
+                Some(Box::new(self.build_branch_region(&cond.then_blocks)))
+            };
+            Some(Region::If {
+                condition,
+                then_region: Box::new(Region::Break { label }),
+                else_region,
+            })
+        }
+    }
+
+    /// Check if a set of blocks exits via return or throw (not a loop break)
+    fn exits_via_return_or_throw(&self, blocks: &[u32]) -> bool {
+        for &block_id in blocks {
+            if let Some(block) = self.cfg.get_block(block_id) {
+                if let Some(last) = block.instructions.last() {
+                    if matches!(last.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }) {
+                        return true;
+                    }
+                }
+            }
+        }
+        false
     }
 
     /// Process an if-else region (like Java's IfRegionMaker.process)

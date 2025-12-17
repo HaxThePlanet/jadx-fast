@@ -161,6 +161,9 @@ fn analyze_region(region: &Region, blocks: &[BasicBlock], result: &mut TernaryMo
         Region::Synchronized { body, .. } => {
             analyze_region(body, blocks, result);
         }
+        Region::Break { .. } | Region::Continue { .. } => {
+            // Break and continue are leaf nodes, nothing to analyze
+        }
     }
 }
 

@@ -84,9 +84,9 @@ Check [ROADMAP.md](ROADMAP.md) → "To Clone Next" section:
 | Type Inference | `crates/dexterity-passes/src/type_inference.rs` (2,010 LOC) |
 | Region Builder | `crates/dexterity-passes/src/region_builder.rs` (1,929 LOC) |
 | Variable Naming | `crates/dexterity-passes/src/var_naming.rs` (1,392 LOC) |
-| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (5,504 LOC) |
-| Expression Gen | `crates/dexterity-codegen/src/expr_gen.rs` (1,683 LOC) |
-| Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,736 LOC) |
+| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (4,163 LOC) |
+| Expression Gen | `crates/dexterity-codegen/src/expr_gen.rs` (1,362 LOC) |
+| Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,532 LOC) |
 
 ### Step 4: Implement
 
@@ -211,12 +211,12 @@ crates/
 │       ├── region_builder.rs  # Control flow (1,929 LOC)
 │       ├── var_naming.rs      # Variable naming (1,392 LOC)
 │       ├── ssa.rs             # SSA transformation (964 LOC)
-│       └── simplify.rs        # Simplification (840 LOC)
+│       └── simplify.rs        # Simplification (1,520 LOC)
 ├── dexterity-codegen/      # Java code generation
 │   └── src/
-│       ├── body_gen.rs     # Region traversal (5,504 LOC)
-│       ├── expr_gen.rs     # Expressions (1,683 LOC)
-│       └── class_gen.rs    # Class structure (1,736 LOC)
+│       ├── body_gen.rs     # Region traversal (4,163 LOC)
+│       ├── expr_gen.rs     # Expressions (1,362 LOC)
+│       └── class_gen.rs    # Class structure (1,532 LOC)
 └── dexterity-cli/          # CLI application
     └── src/
         ├── converter.rs    # DEX→IR conversion

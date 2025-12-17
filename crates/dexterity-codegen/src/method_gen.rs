@@ -83,7 +83,13 @@ fn should_add_override_heuristic(method: &MethodData, class: &ClassData) -> Opti
 
     // Check if class implements interfaces - use first interface as declaring class
     if let Some(first_interface) = class.interfaces.first() {
-        let declaring_class = first_interface.replace('/', ".");
+        // Extract class name from ArgType
+        let iface_str = match first_interface {
+            dexterity_ir::ArgType::Object(name) => name.as_str(),
+            dexterity_ir::ArgType::Generic { base, .. } => base.as_str(),
+            _ => return None,
+        };
+        let declaring_class = iface_str.replace('/', ".");
         return Some(declaring_class);
     }
 

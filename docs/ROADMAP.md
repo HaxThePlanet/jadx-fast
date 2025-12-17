@@ -104,14 +104,14 @@ Add JADX-style diagnostic comments:
 - [x] AssignBound vs UseBound separation
 - [x] Type comparison lattice (EQUAL, NARROW, WIDER, CONFLICT)
 - [x] Best type selection via max(bounds)
-- [ ] TypeSearch multi-variable solver (iteration limit: 1M) - partial
+- [ ] TypeSearch multi-variable solver (iteration limit: 1M) - **PENDING AGENT IN PROGRESS**
 
 ### Region Control Flow ([JADX_REGION_CONTROL_FLOW.md](JADX_REGION_CONTROL_FLOW.md))
 - [x] Region hierarchy (If, Loop, Switch, TryCatch, Synchronized)
 - [x] RegionMaker traverse algorithm
 - [x] Loop detection via back-edge dominance
 - [x] Break/continue insertion
-- [ ] Endless loop explicit breaks - **PENDING AGENT IN PROGRESS**
+- [x] Endless loop explicit breaks - **DONE** (Region::Break/Continue variants, if-break pattern in loop bodies)
 
 ### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md))
 - [x] Debug info application
@@ -123,7 +123,7 @@ Add JADX-style diagnostic comments:
 
 ### Optimization Passes ([JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md))
 - [x] ConstInlineVisitor equivalent
-- [~] SimplifyVisitor audit - **PARTIAL**: double negation (--x, ~~x, !!x), CMP unwrapping done; StringBuilder chain, cast optimization pending
+- [~] SimplifyVisitor audit - **PARTIAL**: double negation (--x, ~~x, !!x), CMP unwrapping done; StringBuilder chain **PENDING AGENT IN PROGRESS**, cast optimization pending
 - [x] TernaryMod (If-region to ternary) - **IMPLEMENTED** (analysis pass in ternary_mod.rs, detection at codegen in body_gen.rs)
 - [x] DeboxingVisitor - **IMPLEMENTED** (at codegen level in body_gen.rs:2992-3006, BoxingType in expr_gen.rs)
 - [x] PrepareForCodeGen final cleanup - **IMPLEMENTED** (prepare_for_codegen.rs, redundant move removal, associative chain marking)
@@ -138,7 +138,7 @@ Add JADX-style diagnostic comments:
 ### Exception Handling ([JADX_EXCEPTION_HANDLING.md](JADX_EXCEPTION_HANDLING.md))
 - [x] TryCatchBlockAttr structure
 - [x] Handler merging for multi-catch
-- [ ] Finally block extraction via InsnsSlice matching - partial
+- [ ] Finally block extraction via InsnsSlice matching - **PENDING AGENT IN PROGRESS**
 - [ ] MONITOR_ENTER/EXIT as implicit finally - partial
 
 ### Deobfuscation ([JADX_DEOBFUSCATION.md](JADX_DEOBFUSCATION.md))

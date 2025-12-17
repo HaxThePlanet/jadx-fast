@@ -406,8 +406,8 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         let file = std::fs::File::open(input)?;
         let mut archive = zip::ZipArchive::new(file)?;
 
-        for dex_name in &dex_file_names {
-            tracing::debug!("Processing DEX: {}", dex_name);
+        for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
+            tracing::debug!("Processing DEX {}: {}", dex_idx, dex_name);
 
             // Extract this DEX file
             let mut dex_data = Vec::new();
@@ -415,7 +415,7 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             entry.read_to_end(&mut dex_data)?;
 
             // Process it immediately
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name) {
                 Ok(count) => total_classes += count,
                 Err(e) => {
                     tracing::warn!("Failed to process {}: {}", dex_name, e);
@@ -669,7 +669,8 @@ fn process_dex(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     let data = std::fs::read(input)?;
     let progress = create_progress_bar(args);
     let global_field_pool = Arc::new(GlobalFieldPool::new());
-    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool))?;
+    let dex_name = input.file_name().and_then(|n| n.to_str()).unwrap_or("classes.dex");
+    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), 0, dex_name)?;
 
     if let Some(pb) = progress {
         pb.finish_with_message("done");
@@ -730,8 +731,8 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
         let file = std::fs::File::open(input)?;
         let mut archive = zip::ZipArchive::new(file)?;
 
-        for dex_name in &dex_file_names {
-            tracing::debug!("Processing DEX: {}", dex_name);
+        for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
+            tracing::debug!("Processing DEX {}: {}", dex_idx, dex_name);
 
             // Extract this DEX file
             let mut dex_data = Vec::new();
@@ -739,7 +740,7 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
             entry.read_to_end(&mut dex_data)?;
 
             // Process it immediately
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
@@ -871,8 +872,8 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         let file = std::fs::File::open(input)?;
         let mut archive = zip::ZipArchive::new(file)?;
 
-        for dex_name in &dex_file_names {
-            tracing::debug!("Processing DEX: {}", dex_name);
+        for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
+            tracing::debug!("Processing DEX {}: {}", dex_idx, dex_name);
 
             // Extract this DEX file
             let mut dex_data = Vec::new();
@@ -880,7 +881,7 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             entry.read_to_end(&mut dex_data)?;
 
             // Process it immediately
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
@@ -1002,12 +1003,14 @@ fn process_dex_bytes(
     args: &Args,
     progress: Option<&ProgressBar>,
     global_field_pool: Arc<GlobalFieldPool>,
+    dex_idx: u32,
+    dex_name: &str,
 ) -> Result<usize> {
     mem_checkpoint!("before DexReader");
 
     // Wrap DexReader in Arc for sharing with LazyDexInfo
     // (DexReader already holds the bytes internally, no need to duplicate)
-    let dex = std::sync::Arc::new(DexReader::from_slice(0, "input.dex".to_string(), data)?);
+    let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx, dex_name.to_string(), data)?);
 
     mem_checkpoint!("after DexReader");
 
@@ -1322,7 +1325,7 @@ fn process_dex_bytes(
             dex.get_class(idx)
                 .map_err(|e| format!("Failed to get class: {}", e))
                 .and_then(|class| {
-                    converter::convert_class(&dex, &class, debug_info)
+                    converter::convert_class(&dex, &class, debug_info, dex_idx, Some(dex_name))
                         .map(|mut class_data| {
                             // Process Kotlin metadata annotations (extracts names)
                             if process_kotlin {
@@ -1349,7 +1352,7 @@ fn process_dex_bytes(
                         dex.get_class(*inner_idx)
                             .ok()
                             .and_then(|inner_class| {
-                                converter::convert_class(&dex, &inner_class, debug_info)
+                                converter::convert_class(&dex, &inner_class, debug_info, dex_idx, Some(dex_name))
                                     .ok()
                                     .map(|mut inner_data| {
                                         // Process Kotlin metadata

@@ -2,7 +2,7 @@
 //!
 //! Ported from jadx-core/src/main/java/jadx/core/deobf/DeobfAliasProvider.java
 
-use dexterity_ir::{ClassData, FieldData, MethodData};
+use dexterity_ir::{ArgType, ClassData, FieldData, MethodData};
 use crate::name_mapper::NameMapper;
 use std::sync::atomic::{AtomicU32, Ordering};
 
@@ -106,7 +106,13 @@ impl DeobfAliasProvider {
 
         // Check interfaces
         for iface in &cls.interfaces {
-            let iface_name = iface.trim_start_matches('L').trim_end_matches(';');
+            // Extract class name from ArgType (could be Object or Generic)
+            let iface_str = match iface {
+                ArgType::Object(name) => name.as_str(),
+                ArgType::Generic { base, .. } => base.as_str(),
+                _ => continue,
+            };
+            let iface_name = iface_str.trim_start_matches('L').trim_end_matches(';');
 
             if iface_name == "java/lang/Runnable" {
                 return "Runnable".to_string();

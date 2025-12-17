@@ -43,6 +43,16 @@ pub enum Region {
         enter_block: u32,
         body: Box<Region>,
     },
+
+    /// Break statement (exit loop early)
+    Break {
+        label: Option<String>,
+    },
+
+    /// Continue statement (skip to next iteration)
+    Continue {
+        label: Option<String>,
+    },
 }
 
 /// Content of a region (either a block or nested region)

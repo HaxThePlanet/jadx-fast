@@ -17,7 +17,7 @@ Navigate to the right files based on the issue you're working on.
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~1,903 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~1,929 lines)
 - **Type:** Large - Use grep for specific functions
 - **Key Functions:**
   - `build_regions()` (entry point) - Orchestrates region building
@@ -111,7 +111,7 @@ grep -n "fn rename_variables" ssa.rs
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~1,992 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~2,010 lines)
 - **Type:** Very Large - Extensive grep usage required
 - **Key Functions:**
   - `infer_types_with_context_and_hierarchy()` - Main type inference entry
@@ -192,7 +192,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 
 #### Supporting Files
 
-**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,063 lines)
+**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,163 lines)
 - **Type:** Very Large
 - **Purpose:** Generates Java code from IR
 - **Key:** How type information is used in code generation
@@ -213,7 +213,7 @@ grep -n "default_value" body_gen.rs  # How defaults are chosen
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/var_naming.rs`** (~1,376 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/var_naming.rs`** (~1,392 lines)
 - **Type:** Medium - Can search for specific functions
 - **Key Functions:**
   - `assign_variable_names()` - Main naming entry
@@ -262,7 +262,7 @@ enum NameSource {
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/expr_gen.rs`** (~1,339 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/expr_gen.rs`** (~1,362 lines)
 - **Type:** Large
 - **Purpose:** Expression code generation
 - **Key:** Where variables are referenced in expressions
@@ -276,7 +276,7 @@ enum NameSource {
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs`** (~1,529 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs`** (~1,532 lines)
 - **Type:** Large
 - **Key Functions:**
   - `generate_class()` - Class/interface/enum generation
@@ -300,7 +300,7 @@ grep -n "static" class_gen.rs | grep "fn\|let"  # Look for static handling
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,063 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,163 lines)
 - **Type:** Very Large
 - **Purpose:** Method body generation
 - **Key Functions:**
@@ -362,7 +362,7 @@ grep -n "function_name(" file.rs
 |------|----------|----------|
 | <500 lines | Read entire file | `block_split.rs`, `class_hierarchy.rs` |
 | 500-1500 lines | Search for functions, read specific functions | `cfg.rs`, `ssa.rs`, `var_naming.rs`, `class_gen.rs`, `expr_gen.rs`, `conditionals.rs` |
-| 1500-4000 lines | Grep for functions, read relevant sections | `type_inference.rs`, `region_builder.rs`, `body_gen.rs` |
+| 1500-4500 lines | Grep for functions, read relevant sections | `type_inference.rs`, `region_builder.rs`, `body_gen.rs`, `simplify.rs` |
 
 ### File Dependency Chain
 

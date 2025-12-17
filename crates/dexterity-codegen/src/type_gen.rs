@@ -168,6 +168,16 @@ pub fn get_simple_name(internal: &str) -> &str {
     stripped.rsplit('/').next().unwrap_or(stripped)
 }
 
+/// Get the simple (unqualified) class name from an ArgType
+/// Returns the base type name for Object and Generic types
+pub fn get_simple_name_from_argtype(ty: &ArgType) -> String {
+    match ty {
+        ArgType::Object(name) => get_simple_name(name).to_string(),
+        ArgType::Generic { base, .. } => get_simple_name(base).to_string(),
+        _ => type_to_string(ty),
+    }
+}
+
 /// Get the innermost class name (for inner classes, returns just the inner part)
 /// e.g., "Lcom/example/Outer$Inner;" -> "Inner"
 /// e.g., "Lcom/example/Outer;" -> "Outer"

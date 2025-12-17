@@ -24,8 +24,8 @@ pub struct ClassNode {
     pub access_flags: u32,
     /// Superclass type (None for java/lang/Object)
     pub superclass: Option<String>,
-    /// Implemented interfaces
-    pub interfaces: Vec<String>,
+    /// Implemented interfaces with full type information (including generics)
+    pub interfaces: Vec<ArgType>,
     /// Source file name
     pub source_file: Option<String>,
     /// Fields in this class

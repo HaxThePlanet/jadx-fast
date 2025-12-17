@@ -276,7 +276,7 @@ impl ImportCollector {
 
         // Interfaces
         for iface in &class.interfaces {
-            self.add_internal_name(iface);
+            self.add_type(iface);
         }
 
         // Fields
@@ -683,10 +683,7 @@ fn add_inner_class_declaration<W: CodeWriter>(
         let ifaces: Vec<_> = class
             .interfaces
             .iter()
-            .map(|i| {
-                let ty = ArgType::Object(i.clone());
-                type_to_string_with_imports(&ty, imports)
-            })
+            .map(|ty| type_to_string_with_imports(ty, imports))
             .collect();
         code.add(&ifaces.join(", "));
     }
@@ -737,7 +734,12 @@ fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str) {
 fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, code: &mut W) {
     // Add "loaded from" comment for top-level classes
     if !is_inner_class(&class.class_type) {
-        code.start_line().add("/* loaded from: classes.dex */").newline();
+        let dex_name = class.dex_name.as_deref().unwrap_or("classes.dex");
+        code.start_line()
+            .add("/* loaded from: ")
+            .add(dex_name)
+            .add(" */")
+            .newline();
     }
 
     // Emit class-level annotations
@@ -807,10 +809,7 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
         let ifaces: Vec<_> = class
             .interfaces
             .iter()
-            .map(|i| {
-                let ty = ArgType::Object(i.clone());
-                type_to_string_with_imports(&ty, imports)
-            })
+            .map(|ty| type_to_string_with_imports(ty, imports))
             .collect();
         code.add(&ifaces.join(", "));
     }
@@ -1335,8 +1334,8 @@ mod tests {
     #[test]
     fn test_implements() {
         let mut class = make_class("com/example/MyClass", 0x0001);
-        class.interfaces.push("java/io/Serializable".to_string());
-        class.interfaces.push("java/lang/Cloneable".to_string());
+        class.interfaces.push(ArgType::Object("java/io/Serializable".to_string()));
+        class.interfaces.push(ArgType::Object("java/lang/Cloneable".to_string()));
         let config = ClassGenConfig::default();
         let code = generate_class(&class, &config);
 
@@ -1415,7 +1414,7 @@ mod tests {
     fn test_import_collector_from_class() {
         let mut class = make_class("com/example/MyClass", 0x0001);
         class.superclass = Some("android/app/Activity".to_string());
-        class.interfaces.push("java/io/Serializable".to_string());
+        class.interfaces.push(ArgType::Object("java/io/Serializable".to_string()));
         class.instance_fields.push(FieldData {
             name: "view".to_string(),
             alias: None,

@@ -156,13 +156,13 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 | Crate | Purpose | Lines |
 |-------|---------|-------|
 | dexterity-dex | DEX binary parsing | ~4,072 |
-| dexterity-ir | Intermediate representation | ~3,849 |
-| dexterity-passes | SSA, type inference, regions | ~12,312 |
-| dexterity-codegen | Java source generation | ~9,432 |
-| dexterity-resources | AXML and resources.arsc | ~4,026 |
-| dexterity-deobf | Deobfuscation | ~1,651 |
+| dexterity-ir | Intermediate representation | ~3,873 |
+| dexterity-passes | SSA, type inference, regions | ~15,631 |
+| dexterity-codegen | Java source generation | ~10,240 |
+| dexterity-resources | AXML and resources.arsc | ~4,032 |
+| dexterity-deobf | Deobfuscation | ~1,825 |
 | dexterity-kotlin | Kotlin metadata | ~597 |
-| dexterity-cli | CLI application | ~4,635 |
+| dexterity-cli | CLI application | ~5,150 |
 
 ---
 

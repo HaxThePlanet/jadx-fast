@@ -117,6 +117,16 @@ pub enum Constraint {
     UseBound(TypeVar, ArgType),
 }
 
+/// Constraint for TypeSearch multi-variable solver
+/// These represent dependencies between variables that must be satisfied
+#[derive(Debug, Clone)]
+enum TypeSearchConstraint {
+    /// MOVE constraint: types must be compatible (from can be assigned to to)
+    Move { from: TypeVar, to: TypeVar },
+    /// PHI constraint: all variables must have the same (or compatible) type
+    PhiSame { vars: Vec<TypeVar> },
+}
+
 /// Source of a type bound (for debugging and conflict resolution)
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BoundSource {
@@ -1124,6 +1134,10 @@ impl TypeInference {
 
         // Second pass: resolve bounds to concrete types
         self.resolve_bounds();
+
+        // Phase 2: TypeSearch multi-variable solver for remaining unresolved variables
+        // This implements JADX's fallback algorithm for complex type dependencies
+        self.run_type_search();
     }
 
     /// Apply an assignment bound to a variable
@@ -1248,6 +1262,413 @@ impl TypeInference {
             // Store the resolved type
             self.resolved.insert(var, resolved_ty);
         }
+    }
+
+    /// Run TypeSearch multi-variable solver for unresolved variables
+    ///
+    /// This is JADX's Phase 2 fallback when Phase 1 (fast propagation) leaves unresolved types.
+    /// Algorithm:
+    /// 1. Identify unresolved variables
+    /// 2. Generate candidate types for each (from bounds, superclasses, subclasses)
+    /// 3. Extract constraints (MOVE, PHI) between variables
+    /// 4. Resolve independent variables first (no dependencies)
+    /// 5. Exhaustive search for dependent variables (with iteration limit)
+    fn run_type_search(&mut self) {
+        const CANDIDATES_COUNT_LIMIT: usize = 10;
+        const SEARCH_ITERATION_LIMIT: usize = 1_000_000;
+
+        // Step 1: Find unresolved variables
+        let unresolved: Vec<TypeVar> = self.reg_to_var.values()
+            .copied()
+            .filter(|var| !self.resolved.contains_key(var))
+            .collect();
+
+        if unresolved.is_empty() {
+            return;
+        }
+
+        // Step 2: Generate candidates for each unresolved variable
+        let mut var_candidates: FxHashMap<TypeVar, Vec<ArgType>> = FxHashMap::default();
+
+        for &var in &unresolved {
+            let candidates = self.generate_candidates(var, CANDIDATES_COUNT_LIMIT);
+            if !candidates.is_empty() {
+                var_candidates.insert(var, candidates);
+            }
+        }
+
+        if var_candidates.is_empty() {
+            return;
+        }
+
+        // Step 3: Extract constraints between variables
+        let constraints = self.extract_type_search_constraints(&unresolved);
+
+        // Step 4: Build dependency graph and identify independent variables
+        let mut dependencies: FxHashMap<TypeVar, Vec<TypeVar>> = FxHashMap::default();
+        for constraint in &constraints {
+            match constraint {
+                TypeSearchConstraint::Move { from, to } => {
+                    dependencies.entry(*from).or_default().push(*to);
+                    dependencies.entry(*to).or_default().push(*from);
+                }
+                TypeSearchConstraint::PhiSame { vars } => {
+                    for &v1 in vars {
+                        for &v2 in vars {
+                            if v1 != v2 {
+                                dependencies.entry(v1).or_default().push(v2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Resolve independent variables (those with candidates but no dependencies on other unresolved)
+        let mut resolved_in_search: Vec<TypeVar> = Vec::new();
+        for (&var, candidates) in &var_candidates {
+            let has_deps = dependencies.get(&var)
+                .map(|deps| deps.iter().any(|d| var_candidates.contains_key(d)))
+                .unwrap_or(false);
+
+            if !has_deps && !candidates.is_empty() {
+                // Independent variable - pick best candidate (first one)
+                let best = candidates[0].clone();
+                self.resolved.insert(var, InferredType::Concrete(best));
+                resolved_in_search.push(var);
+            }
+        }
+
+        // Remove resolved from candidates
+        for var in &resolved_in_search {
+            var_candidates.remove(var);
+        }
+
+        if var_candidates.is_empty() {
+            return;
+        }
+
+        // Step 5: Exhaustive search for dependent variables
+        // Build groups of connected variables
+        let groups = self.build_connected_groups(&var_candidates, &dependencies);
+
+        for group in groups {
+            self.search_group(&group, &var_candidates, &constraints, SEARCH_ITERATION_LIMIT);
+        }
+    }
+
+    /// Generate candidate types for an unresolved variable
+    fn generate_candidates(&self, var: TypeVar, limit: usize) -> Vec<ArgType> {
+        let mut candidates: Vec<ArgType> = Vec::new();
+
+        // Collect from bounds
+        if let Some(bounds) = self.type_bounds.get(&var) {
+            if let Some(ref upper) = bounds.upper_bound {
+                candidates.push(upper.clone());
+            }
+            if let Some(ref lower) = bounds.lower_bound {
+                if !candidates.contains(lower) {
+                    candidates.push(lower.clone());
+                }
+            }
+        }
+
+        // Collect from related constraints
+        for constraint in &self.constraints {
+            match constraint {
+                Constraint::AssignBound(v, ty) if *v == var => {
+                    if !candidates.contains(ty) {
+                        candidates.push(ty.clone());
+                    }
+                }
+                Constraint::UseBound(v, ty) if *v == var => {
+                    if !candidates.contains(ty) {
+                        candidates.push(ty.clone());
+                    }
+                }
+                Constraint::Equals(v, InferredType::Concrete(ty)) if *v == var => {
+                    if !candidates.contains(ty) {
+                        candidates.push(ty.clone());
+                    }
+                }
+                Constraint::Same(v1, v2) if *v1 == var || *v2 == var => {
+                    let other = if *v1 == var { *v2 } else { *v1 };
+                    if let Some(InferredType::Concrete(ty)) = self.resolved.get(&other) {
+                        if !candidates.contains(ty) {
+                            candidates.push(ty.clone());
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        // Generate wider types (superclasses) if we have hierarchy
+        if let Some(ref hierarchy) = self.hierarchy {
+            let mut wider: Vec<ArgType> = Vec::new();
+            for candidate in &candidates {
+                if let ArgType::Object(name) = candidate {
+                    if name != "null" && name != "java/lang/Object" {
+                        // Get superclass
+                        if let Some(parent) = hierarchy.get_superclass(name) {
+                            let parent_ty = ArgType::Object(parent.to_string());
+                            if !candidates.contains(&parent_ty) && !wider.contains(&parent_ty) {
+                                wider.push(parent_ty);
+                            }
+                        }
+                    }
+                }
+            }
+            candidates.extend(wider);
+        }
+
+        // Add java/lang/Object as fallback for object types
+        if candidates.iter().any(|t| matches!(t, ArgType::Object(_))) {
+            let object_ty = ArgType::Object("java/lang/Object".to_string());
+            if !candidates.contains(&object_ty) {
+                candidates.push(object_ty);
+            }
+        }
+
+        // Limit candidates
+        candidates.truncate(limit);
+        candidates
+    }
+
+    /// Extract constraints for TypeSearch
+    fn extract_type_search_constraints(&self, unresolved: &[TypeVar]) -> Vec<TypeSearchConstraint> {
+        let unresolved_set: rustc_hash::FxHashSet<TypeVar> = unresolved.iter().copied().collect();
+        let mut constraints: Vec<TypeSearchConstraint> = Vec::new();
+
+        for constraint in &self.constraints {
+            match constraint {
+                // MOVE constraint: types must be compatible
+                Constraint::Same(v1, v2) => {
+                    if unresolved_set.contains(v1) || unresolved_set.contains(v2) {
+                        constraints.push(TypeSearchConstraint::Move { from: *v1, to: *v2 });
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        // PHI constraints: all phi sources must have same type
+        for (dest_var, source_vars) in &self.phi_nodes {
+            let mut phi_vars: Vec<TypeVar> = vec![*dest_var];
+            phi_vars.extend(source_vars);
+
+            // Only include if any are unresolved
+            if phi_vars.iter().any(|v| unresolved_set.contains(v)) {
+                constraints.push(TypeSearchConstraint::PhiSame { vars: phi_vars });
+            }
+        }
+
+        constraints
+    }
+
+    /// Build connected groups of variables via dependencies
+    fn build_connected_groups(
+        &self,
+        var_candidates: &FxHashMap<TypeVar, Vec<ArgType>>,
+        dependencies: &FxHashMap<TypeVar, Vec<TypeVar>>,
+    ) -> Vec<Vec<TypeVar>> {
+        let mut groups: Vec<Vec<TypeVar>> = Vec::new();
+        let mut visited: rustc_hash::FxHashSet<TypeVar> = rustc_hash::FxHashSet::default();
+
+        for &var in var_candidates.keys() {
+            if visited.contains(&var) {
+                continue;
+            }
+
+            // BFS to find connected component
+            let mut group: Vec<TypeVar> = Vec::new();
+            let mut queue: Vec<TypeVar> = vec![var];
+
+            while let Some(v) = queue.pop() {
+                if visited.contains(&v) {
+                    continue;
+                }
+                visited.insert(v);
+
+                if var_candidates.contains_key(&v) {
+                    group.push(v);
+
+                    if let Some(deps) = dependencies.get(&v) {
+                        for &dep in deps {
+                            if !visited.contains(&dep) && var_candidates.contains_key(&dep) {
+                                queue.push(dep);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if !group.is_empty() {
+                groups.push(group);
+            }
+        }
+
+        groups
+    }
+
+    /// Search for valid type assignment for a group of dependent variables
+    fn search_group(
+        &mut self,
+        group: &[TypeVar],
+        var_candidates: &FxHashMap<TypeVar, Vec<ArgType>>,
+        constraints: &[TypeSearchConstraint],
+        iteration_limit: usize,
+    ) {
+        if group.is_empty() {
+            return;
+        }
+
+        // For single variable, just pick first candidate
+        if group.len() == 1 {
+            let var = group[0];
+            if let Some(candidates) = var_candidates.get(&var) {
+                if !candidates.is_empty() {
+                    self.resolved.insert(var, InferredType::Concrete(candidates[0].clone()));
+                }
+            }
+            return;
+        }
+
+        // Build candidate arrays for the group
+        let mut group_candidates: Vec<(&TypeVar, &Vec<ArgType>)> = Vec::new();
+        for var in group {
+            if let Some(candidates) = var_candidates.get(var) {
+                group_candidates.push((var, candidates));
+            }
+        }
+
+        if group_candidates.is_empty() {
+            return;
+        }
+
+        // Extract relevant constraints for this group
+        let group_set: rustc_hash::FxHashSet<TypeVar> = group.iter().copied().collect();
+        let relevant_constraints: Vec<&TypeSearchConstraint> = constraints.iter()
+            .filter(|c| match c {
+                TypeSearchConstraint::Move { from, to } => {
+                    group_set.contains(from) || group_set.contains(to)
+                }
+                TypeSearchConstraint::PhiSame { vars } => {
+                    vars.iter().any(|v| group_set.contains(v))
+                }
+            })
+            .collect();
+
+        // Current candidate indices
+        let mut indices: Vec<usize> = vec![0; group_candidates.len()];
+
+        // Exhaustive search
+        for _ in 0..iteration_limit {
+            // Build current assignment
+            let mut assignment: FxHashMap<TypeVar, ArgType> = FxHashMap::default();
+            for (i, (var, candidates)) in group_candidates.iter().enumerate() {
+                if indices[i] < candidates.len() {
+                    assignment.insert(**var, candidates[indices[i]].clone());
+                }
+            }
+
+            // Check if assignment satisfies constraints
+            if self.check_type_search_constraints(&assignment, &relevant_constraints) {
+                // Success - apply assignment
+                for (var, ty) in assignment {
+                    self.resolved.insert(var, InferredType::Concrete(ty));
+                }
+                return;
+            }
+
+            // Advance to next combination (cartesian product iteration)
+            let mut carry = true;
+            for i in 0..indices.len() {
+                if carry {
+                    indices[i] += 1;
+                    if indices[i] >= group_candidates[i].1.len() {
+                        indices[i] = 0;
+                    } else {
+                        carry = false;
+                    }
+                }
+            }
+
+            // If we wrapped around completely, we've tried all combinations
+            if carry {
+                break;
+            }
+        }
+
+        // No valid assignment found - use first candidates as fallback
+        for (var, candidates) in &group_candidates {
+            if !candidates.is_empty() {
+                self.resolved.insert(**var, InferredType::Concrete(candidates[0].clone()));
+            }
+        }
+    }
+
+    /// Check if a type assignment satisfies all constraints
+    fn check_type_search_constraints(
+        &self,
+        assignment: &FxHashMap<TypeVar, ArgType>,
+        constraints: &[&TypeSearchConstraint],
+    ) -> bool {
+        for constraint in constraints {
+            match constraint {
+                TypeSearchConstraint::Move { from, to } => {
+                    // Get types, handling the borrow correctly
+                    let from_ty: Option<ArgType> = assignment.get(from).cloned()
+                        .or_else(|| self.resolved.get(from).and_then(|t| t.to_arg_type()));
+                    let to_ty: Option<ArgType> = assignment.get(to).cloned()
+                        .or_else(|| self.resolved.get(to).and_then(|t| t.to_arg_type()));
+
+                    if let (Some(ref from_ty), Some(ref to_ty)) = (from_ty, to_ty) {
+                        // For MOVE, types must be equal or from must be narrower than to
+                        let cmp = compare_types(from_ty, to_ty, self.hierarchy.as_ref());
+                        if !cmp.is_equal() && !cmp.is_narrow() && !cmp.is_wider() {
+                            // Check for null compatibility
+                            if let (ArgType::Object(n1), ArgType::Object(n2)) = (from_ty, to_ty) {
+                                if n1 != "null" && n2 != "null" {
+                                    return false;
+                                }
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                TypeSearchConstraint::PhiSame { vars } => {
+                    // All phi vars must have the same type (or compatible via LCA)
+                    let types: Vec<ArgType> = vars.iter()
+                        .filter_map(|v| {
+                            assignment.get(v).cloned()
+                                .or_else(|| self.resolved.get(v).and_then(|t| t.to_arg_type()))
+                        })
+                        .collect();
+
+                    if types.len() >= 2 {
+                        // Check pairwise compatibility
+                        let first = &types[0];
+                        for ty in &types[1..] {
+                            let cmp = compare_types(first, ty, self.hierarchy.as_ref());
+                            if !cmp.is_equal() && !cmp.is_narrow() && !cmp.is_wider() {
+                                // Check null compatibility
+                                if let (ArgType::Object(n1), ArgType::Object(n2)) = (first, ty) {
+                                    if n1 != "null" && n2 != "null" {
+                                        return false;
+                                    }
+                                } else {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        true
     }
 
     /// Compute LCA (Least Common Ancestor) for phi nodes after initial solve

@@ -98,6 +98,20 @@ pub struct BodyGenContext {
     pub phi_declarations: HashSet<(u16, u32)>,
     /// Instructions to skip in for-each loops (block_id -> set of instruction indices)
     pub skip_foreach_insns: HashMap<u32, HashSet<usize>>,
+    /// StringBuilder chain tracking for optimization
+    /// Maps register number to chain of arguments for string concatenation
+    /// When we see StringBuilder.<init> we start tracking, append() adds args,
+    /// toString() emits concatenation instead of method chain
+    pub stringbuilder_chains: HashMap<u16, StringBuilderChain>,
+}
+
+/// Tracks a StringBuilder chain for optimization to string concatenation
+#[derive(Debug, Clone)]
+pub struct StringBuilderChain {
+    /// Arguments to concatenate (in order)
+    pub args: Vec<String>,
+    /// Whether the chain is still valid (set to false if non-append method is called)
+    pub valid: bool,
 }
 
 impl Drop for BodyGenContext {
@@ -186,6 +200,7 @@ impl BodyGenContext {
             current_class_type: None,
             phi_declarations: HashSet::new(),
             skip_foreach_insns: HashMap::new(),
+            stringbuilder_chains: HashMap::new(),
         }
     }
 
@@ -1503,6 +1518,10 @@ fn body_has_meaningful_content(body: &Region, foreach_info: &ForEachInfo, ctx: &
             Region::Synchronized { body, .. } => {
                 count_meaningful_in_region(body, skip_block, skip_start, skip_count, ctx)
             }
+            Region::Break { .. } | Region::Continue { .. } => {
+                // Break/continue are single statements, no meaningful content to count
+                0
+            }
         }
     }
 
@@ -1561,6 +1580,10 @@ fn body_has_meaningful_structure(body: &Region, skip_block: u32, ctx: &BodyGenCo
                 try_count + catch_count + finally_count
             }
             Region::Synchronized { body, .. } => count_meaningful_blocks(body, skip_block, ctx),
+            Region::Break { .. } | Region::Continue { .. } => {
+                // Break/continue are single statements, no blocks to count
+                0
+            }
         }
     }
     count_meaningful_blocks(body, skip_block, ctx) > 0
@@ -2723,6 +2746,26 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             code.dec_indent();
             code.start_line().add("}").newline();
         }
+
+        Region::Break { label } => {
+            code.start_line();
+            if let Some(lbl) = label {
+                code.add("break ").add(lbl).add(";");
+            } else {
+                code.add("break;");
+            }
+            code.newline();
+        }
+
+        Region::Continue { label } => {
+            code.start_line();
+            if let Some(lbl) = label {
+                code.add("continue ").add(lbl).add(";");
+            } else {
+                code.add("continue;");
+            }
+            code.newline();
+        }
     }
 }
 
@@ -2912,6 +2955,10 @@ fn case_ends_with_exit(region: &Region, ctx: &BodyGenContext) -> bool {
             }
             handlers.iter().all(|h| case_ends_with_exit(&h.region, ctx))
         }
+        Region::Break { .. } | Region::Continue { .. } => {
+            // Break and continue are exit statements
+            true
+        }
         _ => false,
     }
 }
@@ -2931,15 +2978,15 @@ fn generate_anonymous_class_inline<W: CodeWriter>(
     // Determine parent type - prefer interface (for SAM), else superclass
     let parent_type = if !class.interfaces.is_empty() {
         // Use first interface
-        get_simple_name(&class.interfaces[0])
+        crate::type_gen::get_simple_name_from_argtype(&class.interfaces[0])
     } else if let Some(ref superclass) = class.superclass {
-        get_simple_name(superclass)
+        get_simple_name(superclass).to_string()
     } else {
-        "Object"
+        "Object".to_string()
     };
 
     // Start the anonymous class: new ParentType(args) {
-    code.add("new ").add(parent_type).add("(").add(constructor_args).add(") {");
+    code.add("new ").add(&parent_type).add("(").add(constructor_args).add(") {");
 
     // Check if we have any methods to generate (excluding constructors)
     let has_methods = class.methods.iter().any(|m| {
@@ -2986,6 +3033,15 @@ fn write_invoke_with_inlining<W: CodeWriter>(
     // Get method info for proper formatting
     if let Some(info) = ctx.expr_gen.get_method_value(method_idx) {
         let skip_count = if matches!(kind, InvokeKind::Static) { 0 } else { 1 };
+
+        // StringBuilder chain optimization: Convert StringBuilder chains to string concatenation
+        // Pattern: new StringBuilder(...).append(...).append(...).toString() -> "..." + "..." + ...
+        if is_stringbuilder_class(&info.class_name) {
+            if let Some(concat_expr) = try_convert_stringbuilder_chain(&info.method_name, args, ctx) {
+                code.add(&concat_expr);
+                return;
+            }
+        }
 
         match kind {
             InvokeKind::Static => {
@@ -3186,7 +3242,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
 
                                     // Extract declaration type
                                     let decl_type = if !anon_class.interfaces.is_empty() {
-                                        crate::type_gen::get_simple_name(&anon_class.interfaces[0]).to_string()
+                                        crate::type_gen::get_simple_name_from_argtype(&anon_class.interfaces[0])
                                     } else if let Some(ref superclass) = anon_class.superclass {
                                         crate::type_gen::get_simple_name(superclass).to_string()
                                     } else {
@@ -3800,6 +3856,226 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
     }
 }
 
+/// Check if class name is StringBuilder or StringBuffer
+fn is_stringbuilder_class(class_name: &str) -> bool {
+    class_name == "StringBuilder" || class_name == "StringBuffer"
+}
+
+/// Try to convert a StringBuilder chain to string concatenation
+/// Returns Some(concat_expr) if successful, None if not a valid chain
+///
+/// Handles patterns like:
+/// - `new StringBuilder("init").append(x).append(y).toString()` -> `"init" + x + y`
+/// - `new StringBuilder().append(x).toString()` -> `"" + x`
+///
+/// Does NOT convert chains with:
+/// - Methods other than append/toString (e.g., reverse, delete, insert)
+/// - Chains that don't end with toString()
+fn try_convert_stringbuilder_chain(
+    method_name: &str,
+    args: &[InsnArg],
+    ctx: &mut BodyGenContext,
+) -> Option<String> {
+    // Only process toString() calls
+    if method_name != "toString" {
+        return None;
+    }
+
+    // Get the receiver (first argument for instance methods)
+    let receiver = args.first()?;
+
+    // Check if receiver is a register with an inlined expression
+    if let InsnArg::Register(reg) = receiver {
+        if let Some(expr) = ctx.take_inline_expr(reg.reg_num, reg.ssa_version) {
+            // Try to parse as StringBuilder chain
+            if let Some(concat_args) = parse_stringbuilder_chain(&expr) {
+                // Need at least one argument, and at least one must be a string
+                if concat_args.is_empty() {
+                    return None;
+                }
+
+                // Pre-concatenate consecutive constant strings (like JADX does)
+                let optimized_args = concat_constant_strings(&concat_args);
+
+                // Build concatenation expression
+                if optimized_args.len() == 1 {
+                    // Single arg - just return it (might be a constant string result)
+                    return Some(optimized_args[0].clone());
+                }
+
+                // Multiple args - join with +
+                return Some(optimized_args.join(" + "));
+            }
+            // Not a valid chain - put the expression back and fall through
+            ctx.store_inline_expr(reg.reg_num, reg.ssa_version, expr);
+        }
+    }
+
+    None
+}
+
+/// Parse a StringBuilder chain expression to extract the concatenation arguments
+/// Returns None if the expression is not a valid StringBuilder chain
+///
+/// Valid patterns:
+/// - `new StringBuilder()` -> vec!["\"\""]
+/// - `new StringBuilder("text")` -> vec!["\"text\""]
+/// - `new StringBuilder().append(x)` -> vec!["\"\"", "x"]
+/// - `new StringBuilder("a").append(b).append(c)` -> vec!["\"a\"", "b", "c"]
+fn parse_stringbuilder_chain(expr: &str) -> Option<Vec<String>> {
+    let expr = expr.trim();
+
+    // Must start with "new StringBuilder" or "new StringBuffer"
+    if !expr.starts_with("new StringBuilder") && !expr.starts_with("new StringBuffer") {
+        return None;
+    }
+
+    let mut args = Vec::new();
+    let mut remaining = expr;
+
+    // Parse the constructor: new StringBuilder(...) or new StringBuilder()
+    let ctor_start = remaining.find('(')?;
+    remaining = &remaining[ctor_start + 1..];
+
+    // Find matching closing paren for constructor
+    let ctor_arg_end = find_matching_paren(remaining)?;
+    let ctor_arg = remaining[..ctor_arg_end].trim();
+    remaining = &remaining[ctor_arg_end + 1..];
+
+    // Add constructor argument if present
+    if ctor_arg.is_empty() {
+        args.push("\"\"".to_string());
+    } else {
+        args.push(ctor_arg.to_string());
+    }
+
+    // Parse append chain
+    loop {
+        remaining = remaining.trim();
+        if remaining.is_empty() {
+            break;
+        }
+
+        // Check for .append(
+        if !remaining.starts_with(".append(") {
+            // Not an append - could be .toString() at the end, or invalid method
+            if remaining.starts_with(".toString()") {
+                break;
+            }
+            // Invalid chain (has other methods like .reverse())
+            return None;
+        }
+
+        remaining = &remaining[8..]; // Skip ".append("
+
+        // Find the argument (handle nested parens)
+        let arg_end = find_matching_paren(remaining)?;
+        let arg = remaining[..arg_end].trim();
+        remaining = &remaining[arg_end + 1..];
+
+        if !arg.is_empty() {
+            args.push(arg.to_string());
+        }
+    }
+
+    // Verify at least one arg is a string type for valid concatenation
+    let has_string = args.iter().any(|a| a.starts_with('"') || a.starts_with("String.valueOf("));
+    if !has_string && args.len() <= 1 {
+        // Need at least one explicit string or multiple args for valid concat
+        // If only one non-string arg, we'd get something like `5` which isn't string concat
+        if args.len() == 1 && !args[0].starts_with('"') {
+            // Single non-string arg like `new StringBuilder().append(5).toString()`
+            // Should produce String.valueOf(5), but for simplicity we'll let it generate `"" + 5`
+            args.insert(0, "\"\"".to_string());
+        }
+    }
+
+    Some(args)
+}
+
+/// Find the position of the closing paren that matches the opening paren at position 0
+/// (The string should start right after the opening paren)
+fn find_matching_paren(s: &str) -> Option<usize> {
+    let mut depth = 1;
+    let mut in_string = false;
+    let mut escape = false;
+    let mut in_char = false;
+
+    for (i, c) in s.char_indices() {
+        if escape {
+            escape = false;
+            continue;
+        }
+
+        match c {
+            '\\' if in_string || in_char => {
+                escape = true;
+            }
+            '"' if !in_char => {
+                in_string = !in_string;
+            }
+            '\'' if !in_string => {
+                in_char = !in_char;
+            }
+            '(' if !in_string && !in_char => {
+                depth += 1;
+            }
+            ')' if !in_string && !in_char => {
+                depth -= 1;
+                if depth == 0 {
+                    return Some(i);
+                }
+            }
+            _ => {}
+        }
+    }
+    None
+}
+
+/// Concatenate consecutive constant string arguments
+/// e.g., ["\"a\"", "\"b\"", "x", "\"c\"", "\"d\""] -> ["\"ab\"", "x", "\"cd\""]
+fn concat_constant_strings(args: &[String]) -> Vec<String> {
+    if args.len() <= 1 {
+        return args.to_vec();
+    }
+
+    let mut result = Vec::with_capacity(args.len());
+    let mut pending_strings: Vec<&str> = Vec::new();
+
+    for arg in args {
+        if let Some(s) = extract_string_literal(arg) {
+            pending_strings.push(s);
+        } else {
+            // Flush any pending strings
+            if !pending_strings.is_empty() {
+                let combined = pending_strings.join("");
+                result.push(format!("\"{}\"", combined));
+                pending_strings.clear();
+            }
+            result.push(arg.clone());
+        }
+    }
+
+    // Flush remaining strings
+    if !pending_strings.is_empty() {
+        let combined = pending_strings.join("");
+        result.push(format!("\"{}\"", combined));
+    }
+
+    result
+}
+
+/// Extract the content of a string literal (without quotes)
+/// Returns None if not a string literal
+fn extract_string_literal(arg: &str) -> Option<&str> {
+    let arg = arg.trim();
+    if arg.starts_with('"') && arg.ends_with('"') && arg.len() >= 2 {
+        Some(&arg[1..arg.len() - 1])
+    } else {
+        None
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -3882,7 +4158,7 @@ mod tests {
 
         // Create a simple anonymous class that implements Runnable
         let mut anon_class = ClassData::new("Lcom/example/Test$1;".to_string(), 0x0001);
-        anon_class.interfaces.push("Ljava/lang/Runnable;".to_string());
+        anon_class.interfaces.push(ArgType::Object("java/lang/Runnable".to_string()));
 
         // Add a run() method
         let mut run_method = MethodData::new("run".to_string(), 0x0001, ArgType::Void);
