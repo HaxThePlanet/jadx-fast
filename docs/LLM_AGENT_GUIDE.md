@@ -1,7 +1,7 @@
 # LLM Agent Guide: Autonomous Development Toward JADX Parity
 
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
-**Issues:** 23 total (19 resolved, **4 new** from badboy APK comparison)
+**Issues:** 23 total (20 resolved, **3 remaining** from badboy APK comparison)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**
 
@@ -144,16 +144,21 @@ If you made significant improvements, update:
 - Exception handling
 - Deobfuscation
 
-### What's Remaining (NEW from badboy APK comparison)
+### What's Remaining (from badboy APK comparison)
 
 | Task | Priority | Files | Notes |
 |------|----------|-------|-------|
 | **Static initializer variables** | P0-CRITICAL | body_gen.rs:4962,4985 | 2-line fix: `write_arg_inline_typed()` |
-| **Annotation default values** | P1-HIGH | info.rs, converter.rs, method_gen.rs | **DONE** - Parse `AnnotationDefault` annotation |
 | **Missing annotation imports** | P2-MEDIUM | class_gen.rs | Traverse annotation argument types |
 | **Code verbosity** | P3-LOW | body_gen.rs, code_shrink.rs | **POSITIVE TRADEOFF** (not a bug) |
-| Optimization pass audit | P2 | dexterity-passes/ | JADX_OPTIMIZATION_PASSES.md |
-| Varargs expansion | P3 | codegen/ | JADX_CODEGEN_REFERENCE.md |
+
+### Recently Completed
+
+| Task | Priority | Files | Notes |
+|------|----------|-------|-------|
+| **Annotation default values** | P1-HIGH | info.rs, converter.rs, method_gen.rs | **DONE** - Parse `AnnotationDefault` annotation |
+| Optimization pass audit | P2 | dexterity-passes/ | **DONE** - JADX_OPTIMIZATION_PASSES.md |
+| Varargs expansion | P3 | codegen/ | **DONE** - NewArray + ArrayPut pattern tracking |
 
 ### Previously Completed
 

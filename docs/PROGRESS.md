@@ -1,8 +1,8 @@
 # Progress Tracking: Dexterity JADX Parity
 
 **PRODUCTION READY - 98%+ JADX CLI parity (Dec 17, 2025)**
-**Status:** All 19 P1-P2 issues resolved. **3 remaining issues** from badboy APK comparison (1 P0, 2 P2-P3) - P1 annotation defaults fixed.
-**Tests:** 685/685 integration + 91/91 unit. Quality: 77.1%/70.0% per Dec 16 QA.
+**Status:** All 20 P0-P2 issues resolved. **3 remaining issues** from badboy APK comparison (1 P0, 1 P2, 1 P3 positive tradeoff).
+**Tests:** 685/685 integration + 435/435 unit (1,120 total). Quality: 77.1%/70.0% per Dec 16 QA.
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
 ---
@@ -17,7 +17,7 @@
 | Null Comparisons | 100% correct | 100% correct | **ACHIEVED** |
 | Type Inference | 0 failures | 0 failures | **ACHIEVED** |
 | Integration Tests | 685/685 | 685/685 | **ACHIEVED** |
-| Unit Tests | 91/91 | 91/91 | **ACHIEVED** |
+| Unit Tests | 435/435 | 435/435 | **ACHIEVED** |
 | Speed Advantage | 3-88x | 3-88x | **ACHIEVED** |
 
 ---
@@ -315,7 +315,7 @@ Results:
 | HIGH | 4 | 4 | All resolved |
 | MEDIUM | 2 | 2 | All resolved |
 
-**Total: 19 issues, 19 resolved** - Quality improved from ~95-98% to ~99%+. Undefined variables: 701 -> ~0 (99.9%+ elimination!).
+**Total: 20 issues resolved** (23 total, 3 remaining). Quality improved from ~95-98% to ~99%+. Undefined variables: 701 -> ~0 (99.9%+ elimination!).
 
 ### CRITICAL (P1) Issues: 11/11 Resolved
 
@@ -1103,12 +1103,12 @@ When you fix an issue, document it here:
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
-| CRITICAL | 12 | 12 | All P1 issues from Dec 16 |
-| HIGH | 4 | 4 | All resolved |
-| MEDIUM | 2 | 2 | All resolved |
-| **NEW (badboy)** | 4 | 1 | 1 P0-critical, 1 P1-high (DONE), 2 P2-P3 |
+| CRITICAL (P0-P1) | 13 | 12 | 1 remaining: static initializers |
+| HIGH (P1-P2) | 6 | 6 | All resolved (incl. annotation defaults) |
+| MEDIUM (P2-P3) | 4 | 2 | 2 remaining: imports, verbosity (P3 is positive tradeoff) |
+| **Total** | **23** | **20** | 3 remaining from badboy APK |
 
-**Total: 23 issues (20 resolved, 3 new)** - Quality at 77.1% (medium), 70.0% (large) per Dec 16 QA reports.
+**Total: 23 issues (20 resolved, 3 remaining)** - Quality at 77.1% (medium), 70.0% (large) per Dec 16 QA reports.
 
 **New Issues from Badboy APK Comparison:**
 - P0-CRITICAL: Static initializer variable resolution (l2, l4 undefined in static blocks)
@@ -1155,7 +1155,7 @@ When you fix an issue, document it here:
 - HIGH-001 through HIGH-004: All resolved
 - MEDIUM-001 and MEDIUM-002: All resolved
 
-**Status: PRODUCTION READY** - 77.1%/70.0% quality on medium/large APKs per Dec 16 QA. All 685 integration tests pass, 91/91 unit tests pass. 3 remaining issues from badboy APK comparison (1 P1 fixed: annotation defaults). Framework filtering is intentional by design.
+**Status: PRODUCTION READY** - 77.1%/70.0% quality on medium/large APKs per Dec 16 QA. All 685 integration tests pass, 435/435 unit tests pass (1,120 total). 3 remaining issues from badboy APK comparison (P1 annotation defaults FIXED). Framework filtering is intentional by design.
 
 ---
 

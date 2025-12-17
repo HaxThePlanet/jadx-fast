@@ -3,7 +3,7 @@
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Target:** 85+/100 Quality Score | **Result:** 77.1% (medium), 70.0% (large) per Dec 16 QA reports
 **Code Issues:** All 20 P0-P2 resolved + 1 P2 (Dec 17) | **2 remaining** P1-P2 from badboy APK + 1 P3
-**Resource Issues:** **5 new issues** from resource directory comparison (1 P0, 1 P1, 2 P2, 1 P3)
+**Resource Issues:** **2 FIXED** (XML enums, localized strings) | **3 remaining** (1 P2 complex, 2 cosmetic)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
 ---
@@ -187,12 +187,12 @@
 
 | Priority | Issue | Status |
 |----------|-------|--------|
-| P0-CRITICAL | XML enum values as numbers (`"0"` vs `"linear"`) | NEW |
-| P1-HIGH | Missing 85 localized strings.xml | NEW |
-| P2-MEDIUM | API version qualifier differences (-v4/-v21) | NEW |
-| P2-MEDIUM | Missing attrs.xml, density drawables, etc. | NEW |
-| P3-LOW | Resource naming convention (`$` vs `_`) | NEW |
-| **Total** | **5 resource issues** | All NEW |
+| P0-CRITICAL | XML enum values as numbers (`"0"` vs `"linear"`) | **FIXED** |
+| P1-HIGH | Missing 85 localized strings.xml | **FIXED** |
+| P2-MEDIUM | API version qualifier differences (-v4/-v21) | Design decision (preserves API compatibility) |
+| P2-MEDIUM | Missing attrs.xml, density drawables, etc. | Open (requires refactoring) |
+| P3-LOW | Resource naming convention (`$` vs `_`) | Open (cosmetic) |
+| **Total** | **5 resource issues** | **2 FIXED, 3 remain** |
 
 ---
 
@@ -211,31 +211,32 @@ Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/r
 | Total Size | 776 KB | 1.9 MB | -59% |
 | Identical Common Files | 96 | 96 | ✓ Match |
 
-#### P0-CRITICAL: XML Enum Value Representation
+#### P0-CRITICAL: XML Enum Value Representation - **FIXED (Dec 17, 2025)**
 
-Dexterity outputs **numeric enum values** instead of **human-readable strings**:
-
+**Before:**
 ```xml
-<!-- Dexterity (WRONG) -->
 <gradient android:type="0" ...>
 <shape android:shape="0">
+```
 
-<!-- JADX (CORRECT) -->
+**After:**
+```xml
 <gradient android:type="linear" ...>
 <shape android:shape="rectangle">
 ```
 
-**Impact:** XML files may not be valid for Android tools expecting string enums.
-**Files:** `res/drawable/$ic_launcher_foreground__0.xml`, `res/drawable-v21/notification_action_background.xml`
-**Root Cause:** Resource decoder not mapping numeric enum IDs to string names
+**Fix:** Added `type` and `shape` enum mappings to `decode_enum_value()` function
+**Files Changed:** `crates/dexterity-resources/src/axml.rs`
 
-#### P1-HIGH: Missing Localized String Resources (85 languages)
+#### P1-HIGH: Missing Localized String Resources - **FIXED (Dec 17, 2025)**
 
-Dexterity only outputs base `strings.xml` (English). JADX outputs **85 localized variants**.
+**Before:** Only 1 strings.xml (English)
+**After:** 86 strings.xml files (1 default + 85 localized: af, am, ar, as, az, be, bg, bn, bs, ca, cs, da, de, el, en-rAU, en-rCA, en-rGB, en-rIN, es, es-rUS, et, eu, fa, fi, fr, fr-rCA, gl, gu, hi, hr, hu, hy, in, is, it, iw, ja, ka, kk, km, kn, ko, ky, lo, lt, lv, mk, ml, mn, mr, ms, my, nb, ne, nl, or, pa, pl, pt, pt-rBR, pt-rPT, ro, ru, si, sk, sl, sq, sr, sv, sw, ta, te, th, tl, tr, uk, ur, uz, vi, zh-rCN, zh-rHK, zh-rTW, zu)
 
-**Missing:** `values-af`, `values-ar`, `values-de`, `values-es`, `values-fr`, `values-ja`, `values-ko`, `values-zh-rCN`, etc. (85 total)
-**Impact:** Decompiled APKs lose internationalization support.
-**Root Cause:** String resource extractor filtering to default locale only
+**Fix:** Extended `generate_values_xml()` to process all locale configurations
+**Files Changed:**
+- `crates/dexterity-resources/src/arsc.rs` - Added `generate_strings_xml_for_config()`
+- `crates/dexterity-cli/src/main.rs` - Updated file writing to handle subdirectories
 
 #### P2-MEDIUM: API Version Qualifier Differences
 

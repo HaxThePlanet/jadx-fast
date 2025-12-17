@@ -880,13 +880,18 @@ impl ArscParser {
 
     /// Generate strings.xml content
     pub fn generate_strings_xml(&mut self) -> String {
+        self.generate_strings_xml_for_config("default")
+    }
+
+    /// Generate strings.xml content for a specific config
+    pub fn generate_strings_xml_for_config(&mut self, config: &str) -> String {
         let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
 
-        // Collect string entries (default config only)
+        // Collect string entries for the specified config
         let string_entries: Vec<_> = self
             .entries
             .iter()
-            .filter(|e| e.type_name == "string" && e.config == "default")
+            .filter(|e| e.type_name == "string" && e.config == config)
             .cloned()
             .collect();
 
@@ -1287,13 +1292,28 @@ impl ArscParser {
     pub fn generate_values_xml(&mut self) -> HashMap<String, String> {
         let mut files = HashMap::new();
 
-        // Generate strings.xml
-        let strings_xml = self.generate_strings_xml();
-        if strings_xml.contains("<string") {
-            files.insert("strings.xml".to_string(), strings_xml);
+        // Collect all unique configs for string resources
+        let mut string_configs: std::collections::HashSet<String> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "string")
+            .map(|e| e.config.clone())
+            .collect();
+
+        // Generate strings.xml for each config
+        for config in string_configs {
+            let strings_xml = self.generate_strings_xml_for_config(&config);
+            if strings_xml.contains("<string") {
+                let filename = if config == "default" {
+                    "strings.xml".to_string()
+                } else {
+                    format!("values-{}/strings.xml", config)
+                };
+                files.insert(filename, strings_xml);
+            }
         }
 
-        // Generate colors.xml
+        // Generate colors.xml (default config only for now)
         let colors_xml = self.generate_colors_xml();
         if colors_xml.contains("<color") {
             files.insert("colors.xml".to_string(), colors_xml);

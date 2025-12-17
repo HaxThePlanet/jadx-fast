@@ -583,11 +583,12 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
     };
 
     // Add numeric suffix for params after the first
-    // First param: i, second: string1, third: obj2, etc.
+    // JADX uses index+1 for suffixes: first param no suffix, second param suffix "2", etc.
+    // This ensures consistency between method signature and body generation
     if index == 0 {
         base
     } else {
-        format!("{}{}", base, index)
+        format!("{}{}", base, index + 1)
     }
 }
 

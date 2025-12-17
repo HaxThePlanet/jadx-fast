@@ -4,7 +4,7 @@ Maps issue categories to relevant source files and provides context for code exp
 
 See `LLM_AGENT_GUIDE.md` for workflow and `ISSUE_TRACKER.md` for issue details.
 
-**Status:** 23 issues (19 resolved, 4 new from badboy APK comparison)
+**Status:** 23 issues (20 resolved, 3 remaining from badboy APK comparison)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
 ---

@@ -13,7 +13,8 @@ Dexterity is 3-88x faster AND produces production-quality Java code:
 - Variable Naming: 99.96% reduction (27,794 → 11)
 - Type Inference: 0 Unknown failures
 - Integration Tests: 685/685 passing
-- **NEW:** 7 issues identified from badboy APK comparison (1 P0-fixed, 4 P1, 2 P2)
+- **Code Issues:** 7 identified from badboy APK comparison (1 P0-fixed, 4 P1, 2 P2)
+- **Resource Issues:** 5 NEW from resource directory comparison (1 P0, 1 P1, 2 P2, 1 P3)
 - **NOTE:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
 ### Performance Benchmark (112 Core System)
@@ -112,6 +113,57 @@ Dexterity is 3-88x faster AND produces production-quality Java code:
 ---
 
 ## Dec 17 Badboy APK Comparison
+
+### Resource Directory Comparison (NEW)
+
+Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/resources/`:
+
+| Metric | Dexterity | JADX | Delta |
+|--------|-----------|------|-------|
+| Total Files | 128 | 219 | -91 files |
+| Total Directories | 43 | 130 | -87 dirs |
+| Total Size | 776 KB | 1.9 MB | -59% |
+| Identical Common Files | 96 | 96 | ✓ Match |
+
+#### Resource Issues Found
+
+| Priority | Issue | Impact |
+|----------|-------|--------|
+| **P0-CRITICAL** | XML enum values as numbers (`"0"` vs `"linear"`) | Broken XML semantics |
+| **P1-HIGH** | Missing 85 localized strings.xml | No i18n support |
+| **P2-MEDIUM** | Version qualifier differences (`-v4`/`-v21`) | Resource resolution differs |
+| **P2-MEDIUM** | Missing attrs.xml, density drawables, etc. | Incomplete output |
+| **P3-LOW** | Resource naming (`$` vs `_` prefix) | Cosmetic |
+
+#### P0-CRITICAL: XML Enum Values
+
+```xml
+<!-- Dexterity (WRONG) -->
+<gradient android:type="0" ...>
+<shape android:shape="0">
+
+<!-- JADX (CORRECT) -->
+<gradient android:type="linear" ...>
+<shape android:shape="rectangle">
+```
+
+**Root Cause:** Resource decoder not mapping numeric enum IDs to string names in `dexterity-resources/src/arsc.rs`
+
+#### P1-HIGH: Missing Localized Strings
+
+Dexterity outputs only base `strings.xml`. JADX outputs **85 localized variants** covering: af, am, ar, as, az, be, bg, bn, bs, ca, cs, da, de, el, en-rAU, en-rCA, en-rGB, en-rIN, es, es-rUS, et, eu, fa, fi, fr, fr-rCA, gl, gu, hi, hr, hu, hy, in, is, it, iw, ja, ka, kk, km, kn, ko, ky, lo, lt, lv, mk, ml, mn, mr, ms, my, nb, ne, nl, or, pa, pl, pt, pt-rBR, pt-rPT, ro, ru, si, sk, sl, sq, sr, sv, sw, ta, te, th, tl, tr, uk, ur, uz, vi, zh-rCN, zh-rHK, zh-rTW, zu
+
+#### What's Identical ✓ (96 files)
+
+- `AndroidManifest.xml`
+- All Kotlin builtin files
+- All `META-INF/` files
+- All native `.so` libraries
+- Base `res/values/` files (colors.xml, dimens.xml, strings.xml, styles.xml, public.xml)
+- All `res/color/`, `res/xml/` files
+- Most drawable/layout XMLs
+
+---
 
 ### File Count Analysis
 
@@ -806,7 +858,7 @@ catch (JSONException e) {  // Specific exception type
 
 **Status: PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)**
 
-**Issue Status:**
+**Code Generation Issue Status:**
 
 | Priority | Total | Resolved | Remaining | Notes |
 |----------|-------|----------|-----------|-------|
@@ -814,7 +866,17 @@ catch (JSONException e) {  // Specific exception type
 | HIGH | 7 | 6 | 1 | P1-002 (lambda params) remaining, P1-003 (annotation defaults) **FIXED** |
 | MEDIUM | 5 | 2 | 3 | P2-001 (imports), P2-002 (identifiers), P3-001 (verbosity-positive) |
 
-**Total: 26 issues (21 resolved, 5 remaining from badboy APK comparison)**
+**Resource Processing Issue Status (NEW):**
+
+| Priority | Issue | Status |
+|----------|-------|--------|
+| P0-CRITICAL | XML enum values as numbers | NEW |
+| P1-HIGH | Missing 85 localized strings.xml | NEW |
+| P2-MEDIUM | Version qualifier differences | NEW |
+| P2-MEDIUM | Missing attrs.xml, density drawables | NEW |
+| P3-LOW | Resource naming convention | NEW |
+
+**Total: 31 issues (21 code resolved, 5 code remaining, 5 resource NEW)**
 
 **Quality Metrics (Dec 16 QA):**
 - Overall Quality: 77.1% (medium) / 70.0% (large)
@@ -840,5 +902,6 @@ catch (JSONException e) {  // Specific exception type
 *Report Updated: December 17, 2025*
 *Status: PRODUCTION READY*
 *Quality: 77.1%/70.0% per Dec 16 QA*
-*New Issues: 7 from badboy APK comparison (1 P0 fixed, 6 remaining)*
+*Code Issues: 7 from badboy APK comparison (1 P0 fixed, 6 remaining)*
+*Resource Issues: 5 NEW from resource directory comparison*
 *Integration Tests: 1,120/1,120 passing*

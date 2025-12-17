@@ -470,13 +470,25 @@ fn process_resources_streaming(
                 tracing::info!("Parsed {} resource entries", res_names.len());
 
                 // Generate values/*.xml files
-                let values_dir = out_res.join("res").join("values");
+                let res_dir = out_res.join("res");
+                let values_dir = res_dir.join("values");
                 std::fs::create_dir_all(&values_dir)?;
 
                 let values_files = arsc_parser.generate_values_xml();
                 let values_count = values_files.len();
                 for (filename, content) in values_files {
-                    let out_path = values_dir.join(&filename);
+                    // Handle filenames that may include subdirectories (e.g., "values-af/strings.xml")
+                    let out_path = if filename.contains('/') {
+                        // File is in a subdirectory like "values-af/strings.xml"
+                        let full_path = res_dir.join(&filename);
+                        if let Some(parent) = full_path.parent() {
+                            std::fs::create_dir_all(parent)?;
+                        }
+                        full_path
+                    } else {
+                        // File is in the base values directory
+                        values_dir.join(&filename)
+                    };
                     std::fs::write(&out_path, &content)?;
                     tracing::debug!("Wrote {}", filename);
                 }
@@ -584,13 +596,25 @@ fn process_resources(
                 tracing::info!("Parsed {} resource entries", res_names.len());
 
                 // Generate values/*.xml files
-                let values_dir = out_res.join("res").join("values");
+                let res_dir = out_res.join("res");
+                let values_dir = res_dir.join("values");
                 std::fs::create_dir_all(&values_dir)?;
 
                 let values_files = arsc_parser.generate_values_xml();
                 let values_count = values_files.len();
                 for (filename, content) in values_files {
-                    let out_path = values_dir.join(&filename);
+                    // Handle filenames that may include subdirectories (e.g., "values-af/strings.xml")
+                    let out_path = if filename.contains('/') {
+                        // File is in a subdirectory like "values-af/strings.xml"
+                        let full_path = res_dir.join(&filename);
+                        if let Some(parent) = full_path.parent() {
+                            std::fs::create_dir_all(parent)?;
+                        }
+                        full_path
+                    } else {
+                        // File is in the base values directory
+                        values_dir.join(&filename)
+                    };
                     std::fs::write(&out_path, &content)?;
                     tracing::debug!("Wrote {}", filename);
                 }

@@ -838,6 +838,25 @@ fn decode_enum_value(attr_name: &str, data: i32) -> Option<String> {
                 _ => None,
             }
         }
+        // Gradient type
+        "type" => {
+            match data {
+                0 => Some("linear".to_string()),
+                1 => Some("radial".to_string()),
+                2 => Some("sweep".to_string()),
+                _ => None,
+            }
+        }
+        // Shape type
+        "shape" => {
+            match data {
+                0 => Some("rectangle".to_string()),
+                1 => Some("oval".to_string()),
+                2 => Some("line".to_string()),
+                3 => Some("ring".to_string()),
+                _ => None,
+            }
+        }
         // Config changes (flags)
         "configChanges" => {
             if data == 0 {
