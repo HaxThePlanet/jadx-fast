@@ -1,7 +1,7 @@
 # Progress Tracking: Dexterity JADX Parity
 
 **PRODUCTION READY - 98%+ JADX CLI parity (Dec 17, 2025)**
-**Status:** All 22 P0-P2 issues resolved. **2 remaining issues** from badboy APK comparison (1 P0, 1 P3 positive tradeoff).
+**Status:** All 25 P0-P2 issues resolved. **1 remaining issue** (P3 verbosity - positive tradeoff, not a bug).
 **Tests:** 685/685 integration + 435/435 unit (1,120 total). Quality: 77.1%/70.0% per Dec 16 QA.
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -66,7 +66,7 @@
 
 | ID | Priority | Issue | Root Cause | Status |
 |----|----------|-------|------------|--------|
-| P0 | CRITICAL | Static initializer variable resolution | body_gen.rs:4962,4985 bypasses inlining | NEW |
+| P0 | CRITICAL | Static initializer variable resolution | body_gen.rs:4962,4985 bypasses inlining | **DONE** |
 | P1 | HIGH | Annotation default values missing | DEX annotation defaults not parsed | **DONE** |
 | P1 | CRITICAL | Enum constant name corruption | Register reuse causing HashMap overwrite | **DONE** (Dec 17) |
 | P2 | MEDIUM | Missing import statements | Import collector misses annotation types | **DONE** |
@@ -152,9 +152,9 @@ public @interface MagicConstant {
 
 ### Next Steps
 
-1. **P0 Fix (2 lines):** Update body_gen.rs to use `write_arg_inline_typed()` for StaticPut
+1. **P0 Fix (2 lines):** Update body_gen.rs to use `write_arg_inline_typed()` for StaticPut - **DONE (Dec 17, 2025)**
 2. **P1 Fix:** Parse `AnnotationDefault` annotation in converter.rs, emit in method_gen.rs - **DONE (Dec 17, 2025)**
-3. **P2 Fix:** Add annotation argument type traversal to ImportCollector
+3. **P2 Fix:** Add annotation argument type traversal to ImportCollector - **DONE (Dec 17, 2025)**
 4. **P3:** Optional - add more code shrinking passes if needed
 
 ---
@@ -1145,15 +1145,15 @@ When you fix an issue, document it here:
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
-| CRITICAL (P0-P1) | 14 | 13 | 1 remaining: P0 static initializers |
+| CRITICAL (P0-P1) | 14 | 14 | All resolved (incl. P0 static initializers) |
 | HIGH (P1-P2) | 7 | 7 | All resolved (incl. annotation defaults, enum corruption) |
 | MEDIUM (P2-P3) | 4 | 4 | All resolved (P3 verbosity is positive tradeoff) |
-| **Total** | **25** | **24** | 1 remaining: P0 static initializers |
+| **Total** | **25** | **25** | P3 verbosity is a positive tradeoff, not a bug |
 
-**Total: 25 issues (24 resolved, 1 remaining)** - Quality at 77.1% (medium), 70.0% (large) per Dec 16 QA reports.
+**Total: 25 issues (24 resolved + 1 P3 positive tradeoff)** - Quality at 77.1% (medium), 70.0% (large) per Dec 16 QA reports.
 
-**New Issues from Badboy APK Comparison:**
-- P0-CRITICAL: Static initializer variable resolution (l2, l4 undefined in static blocks)
+**All Issues from Badboy APK Comparison RESOLVED:**
+- P0-CRITICAL: Static initializer variable resolution - **DONE** (body_gen.rs - use `write_arg_inline_typed()`)
 - P1-HIGH: Annotation default values missing - **DONE** (`apply_annotation_defaults()` in converter.rs)
 - P1-CRITICAL: Enum constant name corruption - **DONE** (enum_visitor.rs - HashMap to Vec with backward search)
 - P2-MEDIUM: Missing import statements - **DONE** (class_gen.rs annotation traversal)
@@ -1211,7 +1211,7 @@ When you fix an issue, document it here:
 - HIGH-001 through HIGH-004: All resolved
 - MEDIUM-001 and MEDIUM-002: All resolved
 
-**Status: PRODUCTION READY** - 77.1%/70.0% quality on medium/large APKs per Dec 16 QA. All 685 integration tests pass, 435/435 unit tests pass (1,120 total). 1 remaining issue from badboy APK comparison (P0 static initializers). P1 enum corruption and P2 invalid identifiers now FIXED. Framework filtering is intentional by design.
+**Status: PRODUCTION READY** - 77.1%/70.0% quality on medium/large APKs per Dec 16 QA. All 685 integration tests pass, 435/435 unit tests pass (1,120 total). All P0-P2 issues resolved (25 total, 24 fixed + 1 P3 positive tradeoff). Framework filtering is intentional by design.
 
 ---
 

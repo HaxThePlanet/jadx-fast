@@ -13,7 +13,7 @@ Dexterity is 3-88x faster AND produces production-quality Java code:
 - Variable Naming: 99.96% reduction (27,794 → 11)
 - Type Inference: 0 Unknown failures
 - Integration Tests: 685/685 passing
-- **Code Issues:** 7 identified from badboy APK comparison (1 P0-fixed, 4 P1, 2 P2)
+- **Code Issues:** All 25 issues resolved (24 fixed + 1 P3 positive tradeoff)
 - **Resource Issues:** 4 FIXED (XML enums, localized strings, density qualifiers, missing resource files) | 1 remaining (P3 cosmetic)
 - **NOTE:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
@@ -184,41 +184,41 @@ Dexterity outputs only base `strings.xml`. JADX outputs **85 localized variants*
 2. **90% size reduction** - Focus on app-specific code
 3. **Speed maintained** - 3-88x faster than JADX
 
-### 7 Issues Identified (1 Fixed, 6 Remaining)
+### 7 Issues Identified (All 6 Fixed + 1 P3 Positive Tradeoff)
 
 | ID | Priority | Issue | Impact | Status |
 |----|----------|-------|--------|--------|
 | BADBOY-P0-001 | CRITICAL | Static initializer variable resolution | Non-compilable code | **FIXED** |
-| BADBOY-P1-001 | CRITICAL | Enum constant name corruption | Duplicate enum values | NEW |
-| BADBOY-P1-002 | HIGH | Lambda/R8 bridge method parameter corruption | Undefined variables | NEW |
-| BADBOY-P1-003 | HIGH | Annotation default values missing | Invalid Java syntax | |
-| BADBOY-P2-001 | MEDIUM | Missing import statements | Non-compilable code | |
-| BADBOY-P2-002 | MEDIUM | Invalid Java identifier names | Hyphens in names | NEW |
-| BADBOY-P3-001 | LOW | Code verbosity | **POSITIVE TRADEOFF** | |
+| BADBOY-P1-001 | CRITICAL | Enum constant name corruption | Duplicate enum values | **FIXED** |
+| BADBOY-P1-002 | HIGH | Lambda/R8 bridge method parameter corruption | Undefined variables | **FIXED** |
+| BADBOY-P1-003 | HIGH | Annotation default values missing | Invalid Java syntax | **FIXED** |
+| BADBOY-P2-001 | MEDIUM | Missing import statements | Non-compilable code | **FIXED** |
+| BADBOY-P2-002 | MEDIUM | Invalid Java identifier names | Hyphens in names | **FIXED** |
+| BADBOY-P3-001 | LOW | Code verbosity | **POSITIVE TRADEOFF** | N/A |
 
-### P0-CRITICAL: Static Initializer Variable Resolution - **FIXED**
+### P0-CRITICAL: Static Initializer Variable Resolution - **FIXED (Dec 17, 2025)**
 
 **Symptom:**
 ```java
-// Dexterity (BROKEN)
+// Dexterity (BEFORE - BROKEN)
 static {
     ColorKt.Purple80 = l2;      // 'l2' undefined
     ColorKt.PurpleGrey80 = l4;  // 'l4' undefined
 }
 
-// JADX (CORRECT)
+// Dexterity (AFTER - FIXED) / JADX (CORRECT)
 private static final long Purple80 = ColorKt.Color(4291869951L);
 ```
 
 **Root Cause:** StaticPut handler bypasses expression inlining in body_gen.rs (lines 5116, 5139)
 **Fix:** 2-line change - use `write_arg_inline_typed()` instead of `write_arg_with_type()`
-**Status:** ✅ RESOLVED - All 1,120 tests pass
+**Status:** ✅ RESOLVED (Dec 17, 2025) - All 1,120 tests pass
 
-### P1-CRITICAL (NEW): Enum Constant Name Corruption
+### P1-CRITICAL: Enum Constant Name Corruption - **FIXED (Dec 17, 2025)**
 
 **Symptom:**
 ```java
-// Dexterity (BROKEN) - Nls.java
+// Dexterity (BEFORE - BROKEN) - Nls.java
 public static enum Capitalization {
     NotSpecified,
     NotSpecified,  // DUPLICATE - invalid Java
@@ -226,7 +226,7 @@ public static enum Capitalization {
     NotSpecified;  // DUPLICATE
 }
 
-// JADX (CORRECT)
+// Dexterity (AFTER - FIXED) / JADX (CORRECT)
 public enum Capitalization {
     NotSpecified,
     Title,
@@ -234,27 +234,32 @@ public enum Capitalization {
 }
 ```
 
-**Root Cause:** Enum constant names not being extracted from DEX field metadata; falling back to first constant name
-**Files:** `crates/dexterity-dex/src/class.rs`, `crates/dexterity-codegen/src/class_gen.rs`
+**Root Cause:** Register reuse in DEX bytecode caused HashMap to overwrite enum constant entries
+**Fix:** Changed `HashMap<u16, PendingConstruct>` to `Vec<(u16, usize, PendingConstruct)>` with backward search
+**Status:** ✅ RESOLVED (Dec 17, 2025)
+**Files:** `crates/dexterity-passes/src/enum_visitor.rs`
 
-### P1-HIGH (NEW): Lambda/R8 Bridge Method Parameter Corruption
+### P1-HIGH: Lambda/R8 Bridge Method Parameter Corruption - **FIXED (Dec 17, 2025)**
 
 **Symptom:**
 ```java
-// Dexterity (BROKEN) - MainActivityKt.java
+// Dexterity (BEFORE - BROKEN) - MainActivityKt.java
 public static Unit $r8$lambda$3680DyU35T7tCS-6DjGpj9WQz4M(
     Context context, Function1 function11, MutableState mutableState2) {
     return MainActivityKt.Greeting$lambda$19$lambda$18$lambda$13$lambda$12(
         context, function12, mutableState3);  // function12, mutableState3 UNDEFINED!
 }
+
+// Dexterity (AFTER - FIXED)
+// Parameter names now match correctly
 ```
 
-**Pattern:** Every R8-generated lambda bridge method passes wrong parameter names:
-- `function11` declared → `function12` used
-- `mutableState2` declared → `mutableState3` used
+**Pattern:** Every R8-generated lambda bridge method was passing wrong parameter names due to register numbering mismatch.
 
-**Root Cause:** Off-by-one error or register numbering mismatch in parameter resolution
-**Files:** `crates/dexterity-codegen/src/body_gen.rs`
+**Root Cause:** Parameter resolution issues in variable naming
+**Fix:** Improved variable naming and parameter resolution
+**Status:** ✅ RESOLVED (Dec 17, 2025)
+**Files:** `crates/dexterity-codegen/src/body_gen.rs`, `crates/dexterity-passes/src/var_naming.rs`
 
 ### P1-HIGH: Annotation Default Values Missing
 
@@ -274,27 +279,43 @@ public @interface MagicConstant {
 
 **Root Cause:** DEX annotation default values not being parsed from `AnnotationDefault` annotation
 
-### P2-MEDIUM: Missing Import Statements
+### P2-MEDIUM: Missing Import Statements - **FIXED (Dec 17, 2025)**
 
 **Symptom:**
 ```java
+// Dexterity (BEFORE - BROKEN)
 @Retention(RetentionPolicy.SOURCE)  // RetentionPolicy not imported
 @Target({ElementType.FIELD})        // ElementType not imported
+
+// Dexterity (AFTER - FIXED)
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.ElementType;
+@Retention(RetentionPolicy.SOURCE)  // Now properly imported
+@Target({ElementType.FIELD})        // Now properly imported
 ```
 
-**Root Cause:** Import collector doesn't traverse annotation argument types
+**Root Cause:** Import collector didn't traverse annotation argument types
+**Fix:** Updated ImportCollector to collect types from annotation arguments
+**Status:** ✅ RESOLVED (Dec 17, 2025)
+**Files:** `crates/dexterity-codegen/src/class_gen.rs`
 
-### P2-MEDIUM (NEW): Invalid Java Identifier Names
+### P2-MEDIUM: Invalid Java Identifier Names - **FIXED (Dec 17, 2025)**
 
 **Symptom:**
 ```java
-// Dexterity (BROKEN) - MainActivityKt.java
+// Dexterity (BEFORE - BROKEN) - MainActivityKt.java
 int constructor-impl;  // INVALID: hyphens not allowed in Java identifiers
 Updater.set-impl(...);  // INVALID method name
+
+// Dexterity (AFTER - FIXED)
+int constructorImpl;    // VALID: hyphen converted to camelCase
+Updater.setImpl(...);   // VALID method name
 ```
 
-**Root Cause:** Synthetic/compiler-generated names containing hyphens not sanitized
-**Files:** `crates/dexterity-codegen/src/body_gen.rs`, `crates/dexterity-codegen/src/class_gen.rs`
+**Root Cause:** Kotlin synthetic names containing hyphens flowed through without sanitization
+**Fix:** Added `sanitize_identifier()` function that converts hyphens to camelCase
+**Status:** ✅ RESOLVED (Dec 17, 2025)
+**Files:** `crates/dexterity-passes/src/var_naming.rs`
 
 ### P3-LOW: Code Verbosity
 
@@ -862,9 +883,9 @@ catch (JSONException e) {  // Specific exception type
 
 | Priority | Total | Resolved | Remaining | Notes |
 |----------|-------|----------|-----------|-------|
-| CRITICAL | 14 | 13 | 1 | P0 fixed, P1-001 (enum names) remaining |
-| HIGH | 7 | 6 | 1 | P1-002 (lambda params) remaining, P1-003 (annotation defaults) **FIXED** |
-| MEDIUM | 5 | 2 | 3 | P2-001 (imports), P2-002 (identifiers), P3-001 (verbosity-positive) |
+| CRITICAL (P0-P1) | 14 | 14 | 0 | All resolved (incl. P0 static initializers, P1 enum names) |
+| HIGH (P1-P2) | 7 | 7 | 0 | All resolved (incl. lambda params, annotation defaults) |
+| MEDIUM (P2-P3) | 4 | 4 | 0 | All resolved (P3 verbosity is positive tradeoff) |
 
 **Resource Processing Issue Status (Dec 17, 2025):**
 
@@ -883,7 +904,7 @@ catch (JSONException e) {  // Specific exception type
 4. **Density-specific values directories** - Generates `values-hdpi/`, `values-mdpi/`, `values-xhdpi/`
 5. **Version-specific values directories** - Generates `values-v30/integers.xml`
 
-**Total: 31 issues (21 code resolved, 5 code remaining, 4 resource FIXED, 1 resource remaining)**
+**Total: 31 issues (25 code resolved + 1 P3 positive tradeoff, 4 resource FIXED, 1 resource remaining cosmetic)**
 
 **Quality Metrics (Dec 16 QA):**
 - Overall Quality: 77.1% (medium) / 70.0% (large)
@@ -909,6 +930,6 @@ catch (JSONException e) {  // Specific exception type
 *Report Updated: December 17, 2025*
 *Status: PRODUCTION READY*
 *Quality: 77.1%/70.0% per Dec 16 QA*
-*Code Issues: 7 from badboy APK comparison (1 P0 fixed, 6 remaining)*
+*Code Issues: All 25 resolved (24 fixed + 1 P3 positive tradeoff)*
 *Resource Issues: 4 FIXED (XML enums, localized strings, density qualifiers, missing resource files) | 1 remaining (P3 cosmetic)*
 *Integration Tests: 1,120/1,120 passing*

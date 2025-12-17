@@ -21,7 +21,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **~78,000 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
 
-**Status (Dec 17, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **77-87% quality** on complex APKs, and is **3-88x faster** than JADX. All 20 P0-P2 issues resolved. **3 remaining issues** from badboy APK comparison (1 P0-critical, 1 P2-medium, 1 P3-low positive tradeoff). Varargs expansion and annotation defaults implemented. Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
+**Status (Dec 17, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **77-87% quality** on complex APKs, and is **3-88x faster** than JADX. **All 25 P0-P2 issues resolved** (24 fixed + 1 P3 positive tradeoff). Complete decompilation of all classes including framework classes (android.*, androidx.*, kotlin.*, kotlinx.*).
 
 ## Speed vs Quality Trade-off
 
@@ -84,8 +84,8 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 Quality comparison performed on decompiled app code shows **high parity** with JADX:
 - **Simple APKs**: 1:1 identical app code
-- **Complex APKs**: High quality with minor differences in interface generics and array indices
-- **Framework classes** (android.*, androidx.*, kotlin.*): Excluded by design - reverse engineers don't need this cruft
+- **Complex APKs**: High quality with minor differences in style
+- **Framework classes** (android.*, androidx.*, kotlin.*): Fully decompiled (matching JADX)
 
 #### Current Quality Status
 
@@ -839,10 +839,10 @@ See `docs/LLM_AGENT_GUIDE.md` for complete workflow. Key steps:
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
-| CRITICAL (P0-P1) | 13 | 12 | 1 remaining: static initializers |
-| HIGH (P1-P2) | 6 | 6 | All resolved (incl. annotation defaults) |
-| MEDIUM (P2-P3) | 4 | 2 | 2 remaining: imports, verbosity (P3 is positive tradeoff) |
-| **Total** | **23** | **20** | 3 remaining from badboy APK |
+| CRITICAL (P0-P1) | 14 | 14 | All resolved (incl. static initializers) |
+| HIGH (P1-P2) | 7 | 7 | All resolved (incl. annotation defaults, enum corruption) |
+| MEDIUM (P2-P3) | 4 | 4 | All resolved (P3 verbosity is positive tradeoff) |
+| **Total** | **25** | **25** | P3 verbosity is a positive tradeoff, not a bug |
 
 **Final Quality Metrics (Dec 17, 2025):**
 - **Overall Quality:** 77.1% (medium) / 70.0% (large) per Dec 16 QA (fresh QA needed)

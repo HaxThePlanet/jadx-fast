@@ -5,7 +5,7 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 **Status (Dec 17, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
 
-**25 total issues (22 resolved, 3 remaining from badboy APK comparison)**
+**25 total issues (24 resolved, 1 remaining from badboy APK comparison)**
 
 22 of 22 P1-P2 issues fully resolved:
 - Overall Quality: 77.1% (medium) / 70.0% (large) per Dec 16 QA
@@ -19,8 +19,8 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 - Performance: 3-88x faster than JADX
 - Framework filtering: **INTENTIONAL** (android.*, androidx.*, kotlin.*, kotlinx.*)
 
-**3 remaining issues from badboy APK comparison (Dec 17):**
-- P0-CRITICAL: Static initializer variable resolution (l2, l4 undefined)
+**1 remaining issue from badboy APK comparison (Dec 17):**
+- P0-CRITICAL: Static initializer variable resolution (l2, l4 undefined) - **FIXED Dec 17**
 - P2-MEDIUM: Invalid Java identifier names (hyphens in Kotlin synthetic names) - **FIXED Dec 17**
 - P3-LOW: Code verbosity (785 vs 174 lines) - **POSITIVE TRADEOFF** (not a bug)
 
@@ -34,7 +34,7 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 ### Issue ID: BADBOY-P0-001
 
-**Status:** NEW
+**Status:** RESOLVED (Dec 17, 2025)
 **Priority:** P0 (CRITICAL)
 **Category:** Static Initializer Variable Resolution
 **Impact:** Non-compilable code - undefined variables in static blocks
@@ -63,9 +63,9 @@ StaticPut handler in body_gen.rs (lines 4962, 4985) uses `write_arg_with_type()`
 - `crates/dexterity-codegen/src/body_gen.rs` (lines 4962, 4985)
 
 **Acceptance Criteria:**
-- [ ] Static initializer expressions are inlined
-- [ ] No undefined variables in static blocks
-- [ ] All 685 integration tests pass
+- [x] Static initializer expressions are inlined
+- [x] No undefined variables in static blocks
+- [x] All 685 integration tests pass
 
 ---
 
@@ -114,7 +114,7 @@ DEX annotation default values are stored in `AnnotationDefault` annotation but w
 
 ### Issue ID: BADBOY-P2-001
 
-**Status:** NEW
+**Status:** RESOLVED (Dec 17, 2025)
 **Priority:** P2 (MEDIUM)
 **Category:** Missing Import Statements
 **Impact:** Non-compilable code - unimported types
@@ -136,9 +136,9 @@ Update ImportCollector to collect types from annotation arguments.
 - `crates/dexterity-codegen/src/class_gen.rs` - ImportCollector annotation traversal
 
 **Acceptance Criteria:**
-- [ ] Annotation argument types are imported
-- [ ] RetentionPolicy, ElementType imported when used
-- [ ] All 685 integration tests pass
+- [x] Annotation argument types are imported
+- [x] RetentionPolicy, ElementType imported when used
+- [x] All 685 integration tests pass
 
 ---
 
@@ -1398,11 +1398,11 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 
 | Priority | Total | Resolved | New | Notes |
 |----------|-------|----------|-----|-------|
-| CRITICAL (P0-P1) | 14 | 13 | 1 | BADBOY-P0-001 (static initializer) remaining |
+| CRITICAL (P0-P1) | 14 | 14 | 0 | All resolved (incl. BADBOY-P0-001 static initializer) |
 | HIGH (P1-P2) | 7 | 7 | 0 | All resolved (incl. ENUM-P1-001) |
-| MEDIUM (P2-P3) | 4 | 3 | 1 | BADBOY-P3-001 is positive tradeoff |
+| MEDIUM (P2-P3) | 4 | 4 | 0 | All resolved (BADBOY-P3-001 is positive tradeoff, not a bug) |
 
-**Total: 25 issues (22 resolved, 3 remaining from badboy APK comparison)**
+**Total: 25 issues (24 resolved, 1 remaining - P3 verbosity which is a positive tradeoff)**
 
 **New Issues FIXED (Dec 17):**
 - ENUM-P1-001: Enum constant name corruption - **FIXED** (enum_visitor.rs - HashMap to Vec with backward search)
@@ -1411,7 +1411,7 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 - BADBOY-P2-001: Missing import statements - **FIXED** (class_gen.rs)
 
 **Remaining Issues (Dec 17):**
-- BADBOY-P0-001: Static initializer variable resolution (body_gen.rs)
+- BADBOY-P0-001: Static initializer variable resolution (body_gen.rs) - **FIXED**
 - BADBOY-P3-001: Code verbosity (**POSITIVE TRADEOFF** - not a bug)
 
 **Latest Fixes (Dec 17, 2025):**

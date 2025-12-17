@@ -2,7 +2,7 @@
 
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Target:** 85+/100 Quality Score | **Result:** 77.1% (medium), 70.0% (large) per Dec 16 QA reports
-**Code Issues:** 22 resolved (incl. P1 enum corruption, P2 invalid identifiers Dec 17) | **1 remaining** (P0 static initializer)
+**Code Issues:** All 25 resolved (24 fixed + 1 P3 positive tradeoff)
 **Resource Issues:** **4 FIXED** (XML enums, localized strings, density qualifiers, missing resource files) | **1 remaining** (P3 cosmetic)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -27,7 +27,7 @@
 | Integration Tests | **685/685 passing** |
 | Unit Tests | **435/435 passing** |
 | Speed Advantage | 3-88x faster than JADX |
-| **Remaining Code Issues** | **2 remaining** (1 P0, 1 P3 positive tradeoff) from badboy APK comparison |
+| **Remaining Code Issues** | **1 remaining** (P3 verbosity - positive tradeoff, not a bug) |
 | **Remaining Resource Issues** | **1 remaining** (P3 cosmetic) - 4 FIXED (XML enums, localized strings, density qualifiers, missing resource files) |
 
 ---
@@ -196,10 +196,10 @@
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
-| CRITICAL (P0-P1) | 14 | 13 | 1 remaining: P0 static initializer |
+| CRITICAL (P0-P1) | 14 | 14 | All resolved (incl. P0 static initializer) |
 | HIGH (P1-P2) | 7 | 7 | All resolved (incl. annotation defaults, lambda params, enum corruption) |
 | MEDIUM (P2-P3) | 4 | 4 | All resolved (P3 verbosity is positive tradeoff) |
-| **Total** | **25** | **24** | 1 remaining: P0 static initializer (P3 verbosity is intentional) |
+| **Total** | **25** | **25** | P3 verbosity is intentional positive tradeoff |
 
 ### Resource Processing Issues
 
@@ -294,7 +294,7 @@ Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/r
 
 ---
 
-### Code Generation Issues (2 remaining, 5 resolved):
+### Code Generation Issues (ALL RESOLVED):
 
 ### P0-CRITICAL: Static Initializer Variable Resolution - **DONE (Dec 17, 2025)**
 
