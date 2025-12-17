@@ -11,7 +11,7 @@
 2. **Pick a task from roadmap**: [ROADMAP.md](ROADMAP.md)
 3. **Find the JADX algorithm**: See [JADX Reference Documentation](#jadx-reference-documentation) below
 4. **Reference JADX source**: `jadx-fast/jadx-core/src/main/java/jadx/core/`
-5. **Implement and test**: Run `cargo test` (689 integration tests)
+5. **Implement and test**: Run `cargo test` (685 integration tests)
 
 ---
 
@@ -125,7 +125,7 @@ If you made significant improvements, update:
 | Variable Naming | 99.98% (27,794 → 6 arg0/arg1) |
 | Class-Level Generics | 736 classes with `<T>` |
 | Undefined Variables | 99.9% eliminated |
-| Integration Tests | 689/689 passing |
+| Integration Tests | 685/685 passing |
 | Speed Advantage | 3-88x faster than JADX |
 
 ### What's Implemented (JADX Parity)
@@ -158,7 +158,7 @@ If you made significant improvements, update:
 - Test edge cases (empty, single item, large input)
 
 ### When Testing
-- All 689 integration tests must pass
+- All 685 integration tests must pass
 - Add tests for new functionality
 - Test with real APKs, not just simple examples
 

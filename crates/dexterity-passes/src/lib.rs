@@ -21,7 +21,9 @@ pub mod region_builder;
 pub mod simplify;
 pub mod ssa;
 pub mod ternary_mod;
+pub mod type_bound;
 pub mod type_inference;
+pub mod type_update;
 pub mod var_naming;
 pub mod visitor;
 
@@ -65,6 +67,15 @@ pub use enum_visitor::{
 };
 pub use prepare_for_codegen::{prepare_for_codegen, PrepareForCodeGenResult};
 pub use mod_visitor::{run_mod_visitor, ModVisitorResult};
+pub use type_bound::{
+    BoundEnum, TypeBound, TypeBoundConst, TypeBoundCheckCastAssign,
+    TypeBoundDynamic, TypeBoundFieldGetAssign, TypeBoundInvokeAssign,
+    TypeBoundInvokeUse, TypeInfo, TypeUpdateContext,
+};
+pub use type_update::{
+    InsnKind, TypeListener, TypeUpdateEngine, TypeUpdateEntry, TypeUpdateFlags,
+    TypeUpdateInfo, TypeUpdateResult,
+};
 
 /// Pass trait for decompilation passes
 pub trait Pass: Send + Sync {

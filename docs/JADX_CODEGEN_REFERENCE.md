@@ -1280,6 +1280,429 @@ These techniques produce code rivaling hand-written Java while handling complex 
 
 ---
 
+---
+
+## Part 4: JADX vs Dexterity Codegen Comparison
+
+This section provides a detailed architectural comparison between JADX's 10+ years of refined Java codegen and Dexterity's Rust implementation. Understanding these differences is critical for achieving full parity.
+
+### Architecture Overview
+
+#### JADX Core Classes (Java)
+
+| Class | Lines | Purpose |
+|-------|-------|---------|
+| `InsnGen` | ~1200 | Instruction → Java expression/statement |
+| `RegionGen extends InsnGen` | ~400 | Control flow regions (if, loop, switch, try) |
+| `ConditionGen` | ~200 | Boolean condition generation |
+| `ClassGen` | ~800 | Class structure, imports, inner classes |
+| `MethodGen` | ~500 | Method signature, body delegation |
+| `TypeGen` | ~300 | Type formatting, literals |
+| `AnnotationGen` | ~200 | Annotation handling |
+| `NameGen` | ~400 | Variable naming, conflict resolution |
+
+#### Dexterity Core Modules (Rust)
+
+| Module | Lines | Purpose |
+|--------|-------|---------|
+| `body_gen.rs` | ~5000 | Full pipeline + region traversal |
+| `expr_gen.rs` | ~1400 | Expression generation + memory management |
+| `stmt_gen.rs` | ~700 | Statement templates |
+| `class_gen.rs` | ~1500 | Class structure |
+| `method_gen.rs` | ~700 | Method signatures |
+| `type_gen.rs` | ~400 | Type formatting |
+
+---
+
+### Key Design Pattern Differences
+
+#### 1. Visitor Pattern vs Direct Pattern Matching
+
+**JADX (Visitor Pattern):**
+```java
+// IContainer interface - regions call generate() on themselves
+public interface IContainer {
+    void generate(RegionGen regionGen, ICodeWriter code);
+}
+
+// RegionGen.makeRegion()
+public void makeRegion(ICodeWriter code, IContainer cont) {
+    declareVars(code, cont);
+    cont.generate(this, code);  // Polymorphic dispatch
+}
+```
+
+**Dexterity (Direct Pattern Matching):**
+```rust
+fn generate_region(region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
+    match region {
+        Region::Sequence(contents) => { ... }
+        Region::If { condition, then_region, else_region } => { ... }
+        Region::Loop { kind, condition, body } => { ... }
+        Region::Switch { value, cases, default } => { ... }
+        Region::TryCatch { try_region, handlers, finally } => { ... }
+        // ...
+    }
+}
+```
+
+#### 2. Inline Expression Handling
+
+**JADX (InsnWrapArg wrapper class):**
+```java
+// Expressions are inlined by wrapping in InsnWrapArg
+public class InsnWrapArg extends InsnArg {
+    private final InsnNode wrapInsn;
+
+    // When generating an arg that is InsnWrapArg, recursively generate inner insn
+}
+
+// In InsnGen.addArg():
+if (arg.isInsnWrap()) {
+    InsnNode wrapInsn = ((InsnWrapArg) arg).getWrapInsn();
+    makeInsnBody(code, wrapInsn, flags);  // Recursive generation
+}
+```
+
+**Dexterity (HashMap storage):**
+```rust
+// Store expression strings for single-use variables
+pub struct BodyGenContext {
+    // Variables used exactly once store their expression for later inlining
+    inlined_exprs: HashMap<(u16, u32), String>,  // (reg, version) -> expr string
+    use_counts: HashMap<(u16, u32), usize>,      // Track how many times each var is used
+}
+
+// Check if should inline (used exactly once)
+pub fn should_inline(&self, reg: u16, version: u32) -> bool {
+    self.use_counts.get(&(reg, version)).copied().unwrap_or(0) == 1
+}
+```
+
+#### 3. Attribute System
+
+**JADX (Rich AFlag/AType system):**
+```java
+// Flags are attached to any node
+insn.contains(AFlag.DECLARE_VAR)     // Should emit type declaration
+insn.contains(AFlag.DONT_GENERATE)   // Skip this instruction
+insn.get(AType.LOOP_LABEL)           // Get loop label for break/continue
+insn.get(AType.FIELD_REPLACE)        // Field substitution info
+
+// Used throughout codegen for decisions
+if (insn.contains(AFlag.COMMENT_OUT)) {
+    code.add("// ");
+}
+```
+
+**Dexterity (Simpler AFlag enum):**
+```rust
+pub enum AFlag {
+    Synthetic,
+    Bridge,
+    Varargs,
+    DontGenerate,
+    // ... fewer flags, more logic in passes
+}
+```
+
+#### 4. Code Generation Flags
+
+**JADX (Flags enum for context):**
+```java
+protected enum Flags {
+    BODY_ONLY,        // Just the expression body
+    BODY_ONLY_NOWRAP, // Body without wrapping negative literals
+    INLINE            // No semicolon, can be wrapped
+}
+
+// Passed through generation chain
+makeInsn(insn, code, Flags.INLINE);  // For ternary branches, etc.
+```
+
+**Dexterity (Implicit context):**
+```rust
+// Context carried in BodyGenContext struct
+// No explicit flag passing - decisions made based on context
+```
+
+---
+
+### IfCondition System (JADX)
+
+JADX uses a tree-based condition representation that's more powerful than Dexterity's:
+
+```java
+public final class IfCondition extends AttrNode {
+    public enum Mode {
+        COMPARE,   // Simple comparison: a == b, x < 5
+        TERNARY,   // Nested ternary in condition: (a ? b : c)
+        NOT,       // Negation: !condition
+        AND,       // Conjunction: a && b && c
+        OR         // Disjunction: a || b || c
+    }
+
+    private final Mode mode;
+    private final List<IfCondition> args;  // Child conditions
+    private final Compare compare;          // For COMPARE mode
+}
+```
+
+**Key methods:**
+```java
+// Merge conditions
+IfCondition.merge(Mode.AND, condA, condB)  // condA && condB
+
+// Negate with De Morgan's laws
+IfCondition.invert(cond)  // !cond, applies !(a && b) = !a || !b
+
+// Simplification
+IfCondition.simplify()    // Double negation, boolean normalization
+```
+
+**Dexterity equivalent (simpler):**
+```rust
+pub enum Condition {
+    Simple { block: u32, negated: bool },
+    And(Vec<Condition>),
+    Or(Vec<Condition>),
+    Not(Box<Condition>),
+}
+```
+
+---
+
+### TernaryInsn (JADX)
+
+JADX has a dedicated IR type for ternary expressions:
+
+```java
+public final class TernaryInsn extends InsnNode {
+    private IfCondition condition;
+    // Args: [thenValue, elseValue]
+    // condition ? arg(0) : arg(1)
+
+    // Auto-invert if false/true pattern detected
+    public TernaryInsn(IfCondition condition, RegisterArg result,
+                       InsnArg th, InsnArg els) {
+        if (th.isFalse() && els.isTrue()) {
+            // Invert: (cond ? false : true) → (!cond)
+            this.condition = IfCondition.invert(condition);
+            addArg(els);  // Swap args
+            addArg(th);
+        } else {
+            this.condition = condition;
+            addArg(th);
+            addArg(els);
+        }
+    }
+}
+```
+
+**Dexterity approach:**
+- Detects ternary patterns in `body_gen.rs` during code generation
+- No dedicated IR type - analysis done at emit time
+
+---
+
+### Feature Parity Gap Analysis
+
+#### ❌ Missing in Dexterity (Critical for Full Parity)
+
+| Feature | JADX Location | Impact | Priority |
+|---------|--------------|--------|----------|
+| **Lambda expressions** | `InsnGen.makeInvokeLambda()` | Android 8+ apps use heavily | P1 |
+| **Method references** | `InsnGen.makeRefLambda()` | `Foo::method`, `Foo::new` | P1 |
+| **INVOKE_CUSTOM** | `InvokeCustomNode` | Required for lambdas | P1 |
+| **TernaryInsn IR type** | `TernaryInsn.java` | Cleaner ternary output | P2 |
+
+#### ⚠️ Missing (Important)
+
+| Feature | JADX Location | Impact |
+|---------|--------------|--------|
+| **Fallback mode** | `fallbackOnlyInsn()` | Raw bytecode on failure |
+| **Code comments** | `CodeGenUtils.addCodeComments()` | Warning annotations |
+| **Source line tracking** | `code.startLineWithNum()` | Debug mapping |
+| **Polymorphic invoke** | `insn.isPolymorphicCall()` | MethodHandle cases |
+| **Android R.* handling** | `handleAppResField()` | Resource IDs |
+
+---
+
+### JADX InsnGen Key Methods Missing in Dexterity
+
+```java
+// Lambda generation (CRITICAL - blocks ~40% of modern Android apps)
+private void makeInvokeLambda(ICodeWriter code, InvokeCustomNode customNode) {
+    if (customNode.isUseRef()) {
+        makeRefLambda(code, customNode);  // Foo::method
+        return;
+    }
+    if (fallback || !customNode.isInlineInsn()) {
+        makeSimpleLambda(code, customNode);  // (args) -> { body }
+        return;
+    }
+    makeInlinedLambdaMethod(code, customNode, callMth);  // Full inline
+}
+
+// Method reference: Foo::new, obj::method
+private void makeRefLambda(ICodeWriter code, InvokeCustomNode customNode) {
+    if (callInsn instanceof ConstructorInsn) {
+        useClass(code, callMth.getDeclClass());
+        code.add("::new");
+        return;
+    }
+    if (customNode.getHandleType() == MethodHandleType.INVOKE_STATIC) {
+        useClass(code, callMth.getDeclClass());
+    } else {
+        addArg(code, customNode.getArg(0));  // Instance receiver
+    }
+    code.add("::").add(callMth.getAlias());
+}
+
+// Anonymous class inlining
+private void inlineAnonymousConstructor(ICodeWriter code, ClassNode cls,
+                                        ConstructorInsn insn) {
+    cls.ensureProcessed();
+    // Recursion detection
+    if (this.mth.getParentClass() == cls) {
+        throw new CodegenException("Anonymous inner class recursion detected");
+    }
+    // Generate: new BaseType(args) { body }
+    code.add("new ");
+    useClass(code, parent);
+    generateMethodArguments(code, insn, 0, callMth);
+    code.add(' ');
+    ClassGen classGen = new ClassGen(cls, mgen.getClassGen().getParentGen());
+    classGen.addClassBody(code, true);  // Inline the class body
+}
+
+// Super call with custom class handling (for inlined synthetic calls)
+private void callSuper(ICodeWriter code, MethodInfo callMth) {
+    ClassInfo superCallCls = getClassForSuperCall(callMth);
+    if (superCallCls == null) {
+        code.add("super/*").add(callMth.getDeclClass().getFullName()).add("*/");
+        return;
+    }
+    if (!superCallCls.equals(curClass)) {
+        useClass(code, superCallCls);
+        code.add(".super");  // Custom class super call
+    } else {
+        code.add("super");
+    }
+}
+
+// Varargs expansion from filled array
+private boolean processVarArg(ICodeWriter code, BaseInvokeNode invokeInsn,
+                              InsnArg lastArg) {
+    if (!invokeInsn.contains(AFlag.VARARG_CALL)) return false;
+    if (!lastArg.getType().isArray() || !lastArg.isInsnWrap()) return false;
+
+    InsnNode insn = ((InsnWrapArg) lastArg).getWrapInsn();
+    if (insn.getType() != InsnType.FILLED_NEW_ARRAY) return false;
+
+    // Expand: foo(new String[]{"a", "b"}) → foo("a", "b")
+    for (int i = 0; i < insn.getArgsCount(); i++) {
+        addArg(code, insn.getArg(i), false);
+        if (i < count - 1) code.add(", ");
+    }
+    return true;
+}
+```
+
+---
+
+### Boolean Simplification (ConditionGen)
+
+JADX's ConditionGen has sophisticated boolean simplification:
+
+```java
+private void addCompare(ICodeWriter code, CondStack stack, Compare compare) {
+    IfOp op = compare.getOp();
+    InsnArg firstArg = compare.getA();
+    InsnArg secondArg = compare.getB();
+
+    // Boolean type optimization
+    if (firstArg.getType().equals(ArgType.BOOLEAN)
+            && secondArg.isLiteral()
+            && secondArg.getType().equals(ArgType.BOOLEAN)) {
+        LiteralArg lit = (LiteralArg) secondArg;
+        if (lit.getLiteral() == 0) {
+            op = op.invert();  // x == 0 → x != true
+        }
+        if (op == IfOp.EQ) {
+            // == true → just emit the expression
+            addArg(code, firstArg, false);
+            return;
+        } else if (op == IfOp.NE) {
+            // != true → !expression
+            code.add('!');
+            wrap(code, firstArg);
+            return;
+        }
+    }
+    // Fall through to normal comparison
+    addArg(code, firstArg, isArgWrapNeeded(firstArg));
+    code.add(' ').add(op.getSymbol()).add(' ');
+    addArg(code, secondArg, isArgWrapNeeded(secondArg));
+}
+```
+
+---
+
+### Recommended Parity Roadmap
+
+#### Phase 1: Lambda Support (Highest Impact)
+1. Add `InvokeCustom` instruction type to `dexterity-ir`
+2. Parse `invoke-custom` from DEX in `dexterity-dex`
+3. Implement lambda detection pass in `dexterity-passes`
+4. Add `makeInvokeLambda` equivalent in `body_gen.rs`
+5. Support method references (`::` syntax)
+
+**Files to modify:**
+- `crates/dexterity-ir/src/instructions.rs` - Add InvokeCustom
+- `crates/dexterity-dex/src/reader.rs` - Parse invoke-custom
+- `crates/dexterity-passes/src/lambda_detection.rs` - New pass
+- `crates/dexterity-codegen/src/body_gen.rs` - Lambda codegen
+
+#### Phase 2: Code Quality
+1. Add `TernaryInsn` IR type for cleaner ternary handling
+2. Implement fallback mode with raw bytecode
+3. Add code comment system (WARN, INFO levels)
+
+#### Phase 3: Edge Cases
+1. Polymorphic invoke handling
+2. Android resource field handling (`R.*`)
+3. JSR/RET for old Java bytecode
+
+---
+
+### InsnGen Instruction Switch Coverage
+
+**JADX InsnGen.makeInsnBody() handles:**
+```
+CONST_STR, CONST_CLASS, CONST, MOVE, CHECK_CAST, CAST, ARITH, NEG, NOT,
+RETURN, BREAK, CONTINUE, THROW, CMP_L, CMP_G, INSTANCE_OF, CONSTRUCTOR,
+INVOKE, NEW_ARRAY, ARRAY_LENGTH, FILLED_NEW_ARRAY, FILL_ARRAY, AGET,
+APUT, IGET, IPUT, SGET, SPUT, STR_CONCAT, MONITOR_ENTER, MONITOR_EXIT,
+TERNARY, ONE_ARG, IF, GOTO, MOVE_EXCEPTION, SWITCH, NEW_INSTANCE,
+PHI, MOVE_RESULT, FILL_ARRAY_DATA, SWITCH_DATA, MOVE_MULTI, JAVA_JSR, JAVA_RET
+```
+
+**Dexterity expr_gen.rs gen_insn() handles:**
+```
+Const, ConstString, ConstClass, Move, NewInstance, NewArray, FilledNewArray,
+ArrayLength, ArrayGet, InstanceOf, InstanceGet, StaticGet, Invoke, Unary,
+Binary, Cast, Compare, CheckCast
+```
+
+**Key differences:**
+- JADX has `CONSTRUCTOR` as separate type (Dexterity uses `Invoke`)
+- JADX has `TERNARY` built into IR (Dexterity detects at codegen)
+- JADX has `STR_CONCAT` (StringBuilder optimization result)
+- JADX separates `ARITH` from `Binary`
+
+---
+
 **Last Updated: 2025-12-16**
 **Related Documentation:**
 - `ALGORITHM_REFERENCES.md` - Algorithm explanations for Dexterity implementation

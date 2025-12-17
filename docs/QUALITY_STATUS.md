@@ -1,6 +1,6 @@
 # Dexterity Decompilation Quality Status
 
-**Status:** PRODUCTION READY (Dec 16, 2025)
+**Status:** PRODUCTION READY (Dec 17, 2025)
 **Target:** 85+/100 Quality Score | **Result:** 84.4-87.8% ACHIEVED
 
 ---
@@ -13,6 +13,7 @@
 | Type Inference | **0 Unknown type failures** |
 | Interface Generics | **DONE** - `Maybe<T> implements MaybeSource<T>` |
 | Variable Naming | **99.96% reduction** (27,794 → 11 arg0/arg1 instances) |
+| Null Comparisons | **100% correct** (26 → 0 `== 0` for objects) |
 | Class-Level Generics | 736 classes with proper `<T>` |
 | Undefined Variables | 99.9% eliminated (701 → ~0) |
 | Defect Score | **95.9% (medium)**, **96.8% (large)** |
@@ -47,6 +48,15 @@
 ---
 
 ## Recent Major Fixes
+
+### Dec 17, 2025 - Null Comparison Fix
+
+**Fix 6: Object-Named Variable Null Comparisons**
+- **Before:** `if (map == 0)` for object-typed variables
+- **After:** `if (map == null)`
+- **Root Cause:** DEX `if-eqz` is ambiguous; type inference returned Int/Boolean for objects
+- **Solution:** Extended ambiguous type check to include Int/Boolean; added Generic to object types
+- **Impact:** 26 → 0 incorrect null comparisons
 
 ### Dec 17, 2025 - Interface and Superclass Generics Fix
 
@@ -131,6 +141,18 @@ For detailed algorithm documentation used to achieve this quality:
 | Warning comments | DONE | body_gen.rs:933 (`/* JADX WARN: */`), class_gen.rs (`/* renamed from: */`) |
 | Multi-DEX support | DONE | converter.rs multi-dex handling |
 
+## Future Codegen Parity (P1 Features Not Yet Implemented)
+
+For full JADX parity, see [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-dexterity-codegen-comparison) and [ROADMAP.md](ROADMAP.md#codegen-feature-parity-new---dec-2025).
+
+| Feature | Impact | Status |
+|---------|--------|--------|
+| Lambda expressions (`(x) -> x + 1`) | Android 8+ apps | TODO |
+| Method references (`Foo::method`) | Common pattern | TODO |
+| INVOKE_CUSTOM parsing | Required for lambdas | TODO |
+| TernaryInsn IR type | Cleaner ternary output | TODO |
+| Fallback mode | Raw bytecode on failure | TODO |
+
 ---
 
 ## Design Decisions
@@ -178,14 +200,14 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 
 | Crate | Purpose | Lines |
 |-------|---------|-------|
-| dexterity-dex | DEX binary parsing | ~4,072 |
-| dexterity-ir | Intermediate representation | ~4,166 |
-| dexterity-passes | SSA, type inference, regions | ~17,357 |
-| dexterity-codegen | Java source generation | ~11,067 |
+| dexterity-dex | DEX binary parsing | ~695 |
+| dexterity-ir | Intermediate representation | ~4,171 |
+| dexterity-passes | SSA, type inference, regions | ~17,304 |
+| dexterity-codegen | Java source generation | ~11,071 |
 | dexterity-resources | AXML and resources.arsc | ~4,032 |
 | dexterity-deobf | Deobfuscation | ~1,825 |
 | dexterity-kotlin | Kotlin metadata | ~597 |
-| dexterity-cli | CLI application | ~5,158 |
+| dexterity-cli | CLI application | ~5,172 |
 
 ---
 

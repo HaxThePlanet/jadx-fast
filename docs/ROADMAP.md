@@ -1,7 +1,7 @@
 # Dexterity Implementation Roadmap
 
-**Current State:** PRODUCTION READY (Dec 16, 2025)
-**Quality Achieved:** 84.4% (medium) / 87.8% (large) | All 18 P1-P2 issues RESOLVED
+**Current State:** PRODUCTION READY (Dec 17, 2025)
+**Quality Achieved:** 84.4% (medium) / 87.8% (large) | All 19 P1-P2 issues RESOLVED
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 
 ---
@@ -42,6 +42,7 @@
 | Component | JADX Source | Priority | Reference Doc | Status |
 |-----------|-------------|----------|---------------|--------|
 | Interface Generics | ClassGen.java | P1 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** - Fixed signature parsing to handle ArgType::Generic |
+| Null Comparisons | InsnGen.java | P2 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** - Fixed type-aware condition generation for Int/Boolean/Generic |
 | SimplifyVisitor audit | SimplifyVisitor.java (638 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** - double negation, CMP unwrapping, cast chain, CHECK_CAST elimination |
 | TernaryMod pass | TernaryMod.java (352 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** |
 | Multi-DEX support | RootNode.java | P2 | jadx-core/dex/nodes/ | **DONE** |
@@ -84,7 +85,7 @@ Compare dexterity implementations against JADX originals:
 | simplify.rs (1,646) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
 | code_shrink.rs (1,038) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks |
 | conditionals.rs (740) | TernaryMod.java (352) | Port ternary conversion | **DONE** - return-ternary, single-branch ternary |
-| mod_visitor.rs (443) | ModVisitor.java (634) | Array init fusion | **DONE** - NEW_ARRAY+FILL_ARRAY fusion, dead MOVE removal |
+| mod_visitor.rs (831) | ModVisitor.java (634) | Array init fusion | **DONE** - NEW_ARRAY+FILL_ARRAY fusion, dead MOVE removal |
 
 **Reference:** [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md)
 
@@ -99,6 +100,53 @@ Add JADX-style diagnostic comments:
 - `/* renamed from: ... */` for deobfuscation
 
 **Reference:** [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) - CodeGen retry logic
+
+---
+
+## Codegen Feature Parity (NEW - Dec 2025)
+
+### Critical Missing Features (P1)
+
+| Feature | JADX Files | Impact | Status |
+|---------|-----------|--------|--------|
+| **Lambda expressions** | `InsnGen.makeInvokeLambda()` | Android 8+ apps use ~40% | TODO |
+| **Method references** | `InsnGen.makeRefLambda()` | `Foo::method`, `::new` syntax | TODO |
+| **INVOKE_CUSTOM parsing** | `InvokeCustomNode.java` | Required for lambdas | TODO |
+
+**Implementation Plan:**
+1. Add `InvokeCustom` to `dexterity-ir/src/instructions.rs`
+2. Parse `invoke-custom` in `dexterity-dex/src/reader.rs`
+3. Create `lambda_detection.rs` pass in `dexterity-passes`
+4. Add lambda codegen in `body_gen.rs`
+
+### Important Missing Features (P2)
+
+| Feature | JADX Files | Impact | Status |
+|---------|-----------|--------|--------|
+| **TernaryInsn IR type** | `TernaryInsn.java` | Cleaner ternary output | TODO |
+| **Fallback mode** | `fallbackOnlyInsn()` | Raw bytecode on failure | TODO |
+| **Code comments** | `CodeGenUtils.addCodeComments()` | WARN/INFO annotations | TODO |
+| **Source line tracking** | `code.startLineWithNum()` | Debug mapping | TODO |
+
+### Edge Cases (P3)
+
+| Feature | JADX Files | Impact | Status |
+|---------|-----------|--------|--------|
+| **Polymorphic invoke** | `isPolymorphicCall()` | MethodHandle cases | TODO |
+| **Android R.* handling** | `handleAppResField()` | Resource ID resolution | TODO |
+| **JSR/RET instructions** | `JAVA_JSR`, `JAVA_RET` | Old Java bytecode | TODO |
+| **Varargs expansion** | `processVarArg()` | `foo(arr...)` → `foo(a, b)` | TODO |
+
+### Architecture Differences (Reference)
+
+See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-dexterity-codegen-comparison) for detailed comparison.
+
+| Aspect | JADX | Dexterity |
+|--------|------|-----------|
+| Region traversal | Visitor pattern (`IContainer.generate()`) | Direct pattern matching |
+| Inline expressions | `InsnWrapArg` wrapper class | `inlined_exprs` HashMap |
+| Attribute system | Rich `AFlag`/`AType` | Simpler `AFlag` enum |
+| Condition tree | `IfCondition` with TERNARY mode | Flat `Condition` enum |
 
 ---
 
@@ -167,12 +215,12 @@ Add JADX-style diagnostic comments:
 ### Dexterity Core Files
 | File | LOC | Purpose |
 |------|-----|---------|
-| `crates/dexterity-passes/src/type_inference.rs` | 2,432 | Type inference |
+| `crates/dexterity-passes/src/type_inference.rs` | 2,559 | Type inference |
 | `crates/dexterity-codegen/src/body_gen.rs` | 4,985 | Region traversal |
 | `crates/dexterity-passes/src/region_builder.rs` | 2,066 | Control flow |
 | `crates/dexterity-passes/src/var_naming.rs` | 1,480 | Variable naming |
 | `crates/dexterity-codegen/src/expr_gen.rs` | 1,362 | Expression gen |
-| `crates/dexterity-codegen/src/class_gen.rs` | 1,537 | Class structure |
+| `crates/dexterity-codegen/src/class_gen.rs` | 1,539 | Class structure |
 
 ### JADX Source (jadx-fast)
 | File | Path | Lines |

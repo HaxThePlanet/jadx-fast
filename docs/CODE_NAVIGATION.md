@@ -111,7 +111,7 @@ grep -n "fn rename_variables" ssa.rs
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~2,432 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~2,559 lines)
 - **Type:** Very Large - Extensive grep usage required
 - **Key Functions:**
   - `infer_types_with_context_and_hierarchy()` - Main type inference entry
@@ -193,7 +193,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 #### Supporting Files
 
 **File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,985 lines)
-- **Type:** Very Large
+- **Type:** Very Large - Use grep for specific functions
 - **Purpose:** Generates Java code from IR
 - **Key:** How type information is used in code generation
 
@@ -276,7 +276,7 @@ enum NameSource {
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs`** (~1,532 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs`** (~1,539 lines)
 - **Type:** Large
 - **Key Functions:**
   - `generate_class()` - Class/interface/enum generation
@@ -300,7 +300,7 @@ grep -n "static" class_gen.rs | grep "fn\|let"  # Look for static handling
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,163 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,985 lines)
 - **Type:** Very Large
 - **Purpose:** Method body generation
 - **Key Functions:**
@@ -361,8 +361,8 @@ grep -n "function_name(" file.rs
 | Size | Strategy | Examples |
 |------|----------|----------|
 | <500 lines | Read entire file | `block_split.rs`, `class_hierarchy.rs` |
-| 500-1700 lines | Search for functions, read specific functions | `cfg.rs` (831), `ssa.rs` (964), `var_naming.rs` (1,480), `class_gen.rs` (1,537), `expr_gen.rs` (1,362), `conditionals.rs` (740), `simplify.rs` (1,646) |
-| 1700-5000 lines | Grep for functions, read relevant sections | `type_inference.rs` (2,432), `region_builder.rs` (2,066), `body_gen.rs` (4,985) |
+| 500-1700 lines | Search for functions, read specific functions | `cfg.rs` (831), `ssa.rs` (964), `var_naming.rs` (1,480), `class_gen.rs` (1,539), `expr_gen.rs` (1,362), `conditionals.rs` (740), `simplify.rs` (1,646) |
+| 1700-5000 lines | Grep for functions, read relevant sections | `type_inference.rs` (2,559), `region_builder.rs` (2,066), `body_gen.rs` (4,985) |
 
 ### File Dependency Chain
 
@@ -476,6 +476,71 @@ grep -n "^pub fn\|^fn" region_builder.rs | head -20
 
 ---
 
+## JADX Codegen Source Reference
+
+For implementing JADX parity features, here's the key JADX source file map:
+
+### JADX Codegen Files (`jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`)
+
+| File | Lines | Purpose | Key Methods |
+|------|-------|---------|-------------|
+| `CodeGen.java` | ~200 | Entry point | `generate()`, `wrapCodeGen()` |
+| `ClassGen.java` | ~900 | Class structure | `makeClass()`, `addImports()`, `useType()` |
+| `MethodGen.java` | ~500 | Method signatures | `addDefinition()`, `addParams()` |
+| `InsnGen.java` | ~1200 | Expression/statement | `makeInsnBody()`, `makeInvoke()`, `makeInvokeLambda()` |
+| `RegionGen.java` | ~400 | Control flow | `makeIf()`, `makeLoop()`, `makeSwitch()`, `makeTryCatch()` |
+| `ConditionGen.java` | ~200 | Boolean conditions | `addCompare()`, `addTernary()`, `addAndOr()` |
+| `TypeGen.java` | ~300 | Type formatting | `literalToString()`, `formatDouble()` |
+| `AnnotationGen.java` | ~200 | Annotations | `formatAnnotation()` |
+| `NameGen.java` | ~400 | Variable naming | `assignArg()`, `getUniqueVarName()` |
+
+### JADX IR Types (`jadx-fast/jadx-core/src/main/java/jadx/core/dex/`)
+
+| File | Purpose | Key Classes |
+|------|---------|-------------|
+| `instructions/InsnType.java` | Instruction enum | All 40+ instruction types |
+| `instructions/mods/TernaryInsn.java` | Ternary expression IR | `TernaryInsn` |
+| `instructions/InvokeCustomNode.java` | Lambda invoke | `InvokeCustomNode` |
+| `regions/conditions/IfCondition.java` | Condition tree | `IfCondition`, `Mode` enum |
+| `regions/conditions/Compare.java` | Comparison | `Compare`, `IfOp` |
+| `regions/loops/LoopRegion.java` | Loop structure | `LoopRegion`, `LoopType` |
+| `regions/loops/ForLoop.java` | For loop info | `ForLoop` |
+| `regions/loops/ForEachLoop.java` | For-each info | `ForEachLoop` |
+
+### Key Search Commands
+
+```bash
+# Find lambda handling in JADX
+grep -n "makeInvokeLambda\|makeRefLambda" jadx-fast/jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
+
+# Find ternary handling
+grep -n "TERNARY\|TernaryInsn" jadx-fast/jadx-core/src/main/java/jadx/core/codegen/*.java
+
+# Find condition simplification
+grep -n "simplify\|invert" jadx-fast/jadx-core/src/main/java/jadx/core/dex/regions/conditions/IfCondition.java
+
+# Find InsnWrapArg usage (inline expressions)
+grep -n "InsnWrapArg\|isInsnWrap" jadx-fast/jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
+
+# Find attribute system
+grep -n "AFlag\|AType\|contains\|get(" jadx-fast/jadx-core/src/main/java/jadx/core/codegen/RegionGen.java
+```
+
+### Dexterity ↔ JADX File Mapping
+
+| Dexterity | JADX | Notes |
+|-----------|------|-------|
+| `body_gen.rs` | `InsnGen.java` + `RegionGen.java` | Combined |
+| `expr_gen.rs` | `InsnGen.java` (expression part) | Expression gen only |
+| `stmt_gen.rs` | `RegionGen.java` | Statement templates |
+| `class_gen.rs` | `ClassGen.java` | Direct equivalent |
+| `method_gen.rs` | `MethodGen.java` | Direct equivalent |
+| `type_gen.rs` | `TypeGen.java` | Direct equivalent |
+| `regions.rs` | `IfCondition.java` + Regions | Condition + region types |
+
+---
+
 **Last Updated: 2025-12-16**
 **For algorithm context, see: `ALGORITHM_REFERENCES.md`**
+**For codegen parity, see: `JADX_CODEGEN_REFERENCE.md` Part 4**
 **For issues, see: `ISSUE_TRACKER.md`**

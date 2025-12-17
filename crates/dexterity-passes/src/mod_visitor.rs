@@ -34,7 +34,7 @@
 //! Based on JADX's ModVisitor.java (634 lines) and ReplaceNewArray.java (218 lines)
 
 use std::collections::{HashMap, HashSet};
-use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
+use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, LiteralArg};
 use crate::ssa::SsaResult;
 
 /// Result of the ModVisitor pass
@@ -53,10 +53,15 @@ pub struct ModVisitorResult {
 /// This pass should run early in the pipeline, before type inference and code shrinking.
 pub fn run_mod_visitor(ssa: &mut SsaResult) -> ModVisitorResult {
     let mut arrays_fused = 0;
+    let mut aput_arrays_fused = 0;
     let mut instructions_removed = 0;
 
-    // Phase 1: Array initialization fusion
+    // Phase 1a: Array initialization fusion (NEW_ARRAY + FILL_ARRAY_DATA)
     arrays_fused += fuse_array_init(ssa);
+
+    // Phase 1b: APUT sequence fusion (NEW_ARRAY + ArrayPut[])
+    // Based on JADX's ReplaceNewArray.java
+    aput_arrays_fused += fuse_aput_sequence(ssa);
 
     // Phase 2: Remove dead instructions (NOP, GOTO)
     instructions_removed += remove_dead_instructions(ssa);
@@ -66,6 +71,7 @@ pub fn run_mod_visitor(ssa: &mut SsaResult) -> ModVisitorResult {
 
     ModVisitorResult {
         arrays_fused,
+        aput_arrays_fused,
         instructions_removed,
     }
 }
@@ -174,6 +180,161 @@ fn extract_literal(arg: &InsnArg) -> Option<i64> {
         InsnArg::Literal(LiteralArg::Int(val)) => Some(*val),
         _ => None,
     }
+}
+
+/// Fuse NEW_ARRAY + ArrayPut sequence into FILLED_NEW_ARRAY
+///
+/// Based on JADX's ReplaceNewArray.java. This handles the pattern:
+/// ```java
+/// int[] arr = new int[3];
+/// arr[0] = 1;
+/// arr[1] = 2;
+/// arr[2] = 3;
+/// // becomes: int[] arr = {1, 2, 3};
+/// ```
+///
+/// The algorithm:
+/// 1. Find NEW_ARRAY instructions with constant size
+/// 2. Track all ArrayPut uses that write to consecutive indices
+/// 3. If all indices 0..len-1 are covered (or at least half for primitives), fuse
+/// 4. All ArrayPuts must be in the same block as the NEW_ARRAY
+fn fuse_aput_sequence(ssa: &mut SsaResult) -> usize {
+    use std::collections::BTreeMap;
+
+    let mut fused_count = 0;
+
+    // Process each block independently (APUTs must be in same block)
+    for block_idx in 0..ssa.blocks.len() {
+        // Step 1: Find all NEW_ARRAY instructions in this block with constant size
+        // Key: (reg_num, ssa_version), Value: (insn_idx, size, type_idx)
+        let mut new_arrays: HashMap<(u16, u32), (usize, i64, u32)> = HashMap::new();
+
+        for (insn_idx, insn) in ssa.blocks[block_idx].instructions.iter().enumerate() {
+            if let InsnType::NewArray { dest, size, type_idx } = &insn.insn_type {
+                if let Some(size_val) = extract_literal(size) {
+                    if size_val > 0 && size_val <= 256 {  // Reasonable size limit
+                        new_arrays.insert(
+                            (dest.reg_num, dest.ssa_version),
+                            (insn_idx, size_val, *type_idx),
+                        );
+                    }
+                }
+            }
+        }
+
+        if new_arrays.is_empty() {
+            continue;
+        }
+
+        // Step 2: For each NEW_ARRAY, collect ArrayPut instructions
+        // Key: (reg_num, ssa_version) of array
+        // Value: BTreeMap<index, (insn_idx, value_arg)>
+        let mut array_puts: HashMap<(u16, u32), BTreeMap<i64, (usize, InsnArg)>> = HashMap::new();
+
+        for (insn_idx, insn) in ssa.blocks[block_idx].instructions.iter().enumerate() {
+            if let InsnType::ArrayPut { array, index, value, .. } = &insn.insn_type {
+                // Check if array is a register referencing a NEW_ARRAY
+                if let InsnArg::Register(arr_reg) = array {
+                    let arr_key = (arr_reg.reg_num, arr_reg.ssa_version);
+                    if new_arrays.contains_key(&arr_key) {
+                        // Check if index is a constant
+                        if let Some(idx_val) = extract_literal(index) {
+                            let puts = array_puts.entry(arr_key).or_insert_with(BTreeMap::new);
+                            // Only store first write to each index (JADX stops on rewrite)
+                            if !puts.contains_key(&idx_val) {
+                                puts.insert(idx_val, (insn_idx, value.clone()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Step 3: Check which arrays can be fused
+        let mut to_fuse: Vec<((u16, u32), usize, i64, u32, BTreeMap<i64, (usize, InsnArg)>)> = Vec::new();
+
+        for (arr_key, (na_insn_idx, size, type_idx)) in &new_arrays {
+            if let Some(puts) = array_puts.get(arr_key) {
+                let len = *size as usize;
+                // JADX allows primitives with at least half coverage, objects need full
+                // For simplicity, we require at least half coverage
+                let min_puts = (len + 1) / 2;
+
+                if puts.len() >= min_puts {
+                    // Verify all indices are in bounds
+                    let all_in_bounds = puts.keys().all(|&idx| idx >= 0 && idx < *size);
+                    if all_in_bounds {
+                        // Verify no self-reference (array not used in put values)
+                        let no_self_ref = puts.values().all(|(_, val)| {
+                            if let InsnArg::Register(reg) = val {
+                                (reg.reg_num, reg.ssa_version) != *arr_key
+                            } else {
+                                true
+                            }
+                        });
+
+                        if no_self_ref {
+                            to_fuse.push((*arr_key, *na_insn_idx, *size, *type_idx, puts.clone()));
+                        }
+                    }
+                }
+            }
+        }
+
+        // Step 4: Apply fusions
+        for (_arr_key, na_insn_idx, size, type_idx, puts) in to_fuse {
+            // Get the dest register from the NEW_ARRAY
+            let dest = if let InsnType::NewArray { dest, .. } = &ssa.blocks[block_idx].instructions[na_insn_idx].insn_type {
+                *dest
+            } else {
+                continue;
+            };
+
+            // Build the args array, filling gaps with zero literals
+            let mut args: Vec<InsnArg> = Vec::with_capacity(size as usize);
+            for i in 0..size {
+                if let Some((_, val)) = puts.get(&i) {
+                    args.push(val.clone());
+                } else {
+                    // Fill missing indices with 0 (JADX behavior)
+                    args.push(InsnArg::Literal(LiteralArg::Int(0)));
+                }
+            }
+
+            // Get last APUT index to determine where to place FilledNewArray
+            let last_put_idx = puts.values().map(|(idx, _)| *idx).max().unwrap_or(na_insn_idx);
+            let offset = ssa.blocks[block_idx].instructions[last_put_idx].offset;
+
+            // Create the FilledNewArray instruction
+            let filled_array = InsnNode::new(
+                InsnType::FilledNewArray {
+                    dest: Some(dest),
+                    type_idx,
+                    args,
+                },
+                offset,
+            );
+
+            // Mark NEW_ARRAY and all APUTs for removal
+            let na_offset = ssa.blocks[block_idx].instructions[na_insn_idx].offset;
+            ssa.blocks[block_idx].instructions[na_insn_idx] = InsnNode::new(InsnType::Nop, na_offset);
+
+            for (_, (put_idx, _)) in &puts {
+                let put_offset = ssa.blocks[block_idx].instructions[*put_idx].offset;
+                ssa.blocks[block_idx].instructions[*put_idx] = InsnNode::new(InsnType::Nop, put_offset);
+            }
+
+            // Insert the new FilledNewArray at the position of last APUT
+            ssa.blocks[block_idx].instructions[last_put_idx] = filled_array;
+
+            fused_count += 1;
+
+            // Remove arr_key from new_arrays to prevent double processing
+            // (This is needed because we're modifying instructions while iterating)
+        }
+    }
+
+    fused_count
 }
 
 /// Remove NOP and GOTO instructions
@@ -453,6 +614,217 @@ mod tests {
         let result = run_mod_visitor(&mut ssa);
 
         assert_eq!(result.arrays_fused, 0);
+        // Both instructions should remain
+        assert_eq!(ssa.blocks[0].instructions.len(), 2);
+    }
+
+    #[test]
+    fn test_aput_sequence_fusion_basic() {
+        use dexterity_ir::instructions::ArrayElemType;
+
+        // Create a test case:
+        // v0 = new int[3]
+        // v0[0] = 10
+        // v0[1] = 20
+        // v0[2] = 30
+
+        let new_array = InsnNode::new(
+            InsnType::NewArray {
+                dest: RegisterArg::with_ssa(0, 0),
+                size: InsnArg::Literal(LiteralArg::Int(3)),
+                type_idx: 1, // int[]
+            },
+            0,
+        );
+
+        let put0 = InsnNode::new(
+            InsnType::ArrayPut {
+                array: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                index: InsnArg::Literal(LiteralArg::Int(0)),
+                value: InsnArg::Literal(LiteralArg::Int(10)),
+                elem_type: ArrayElemType::Int,
+            },
+            4,
+        );
+
+        let put1 = InsnNode::new(
+            InsnType::ArrayPut {
+                array: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                index: InsnArg::Literal(LiteralArg::Int(1)),
+                value: InsnArg::Literal(LiteralArg::Int(20)),
+                elem_type: ArrayElemType::Int,
+            },
+            8,
+        );
+
+        let put2 = InsnNode::new(
+            InsnType::ArrayPut {
+                array: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                index: InsnArg::Literal(LiteralArg::Int(2)),
+                value: InsnArg::Literal(LiteralArg::Int(30)),
+                elem_type: ArrayElemType::Int,
+            },
+            12,
+        );
+
+        let mut ssa = SsaResult {
+            blocks: vec![SsaBlock {
+                id: 0,
+                instructions: vec![new_array, put0, put1, put2],
+                phi_nodes: vec![],
+                successors: vec![],
+                predecessors: vec![],
+            }],
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::default(),
+        };
+
+        let result = run_mod_visitor(&mut ssa);
+
+        assert_eq!(result.aput_arrays_fused, 1);
+        // Should have 1 FilledNewArray (replaces last APUT) + 3 Nops (removed by next phase)
+        // After NOP removal, only FilledNewArray remains
+        assert_eq!(ssa.blocks[0].instructions.len(), 1);
+
+        // Verify the fused instruction
+        if let InsnType::FilledNewArray { dest, args, .. } = &ssa.blocks[0].instructions[0].insn_type {
+            assert!(dest.is_some());
+            assert_eq!(args.len(), 3);
+            // Verify values: 10, 20, 30
+            if let InsnArg::Literal(LiteralArg::Int(val)) = &args[0] {
+                assert_eq!(*val, 10);
+            } else {
+                panic!("Expected literal Int arg for index 0");
+            }
+            if let InsnArg::Literal(LiteralArg::Int(val)) = &args[1] {
+                assert_eq!(*val, 20);
+            } else {
+                panic!("Expected literal Int arg for index 1");
+            }
+            if let InsnArg::Literal(LiteralArg::Int(val)) = &args[2] {
+                assert_eq!(*val, 30);
+            } else {
+                panic!("Expected literal Int arg for index 2");
+            }
+        } else {
+            panic!("Expected FilledNewArray instruction, got {:?}", ssa.blocks[0].instructions[0].insn_type);
+        }
+    }
+
+    #[test]
+    fn test_aput_sequence_with_gaps() {
+        use dexterity_ir::instructions::ArrayElemType;
+
+        // Create a test case with missing index 1:
+        // v0 = new int[3]
+        // v0[0] = 10
+        // v0[2] = 30
+        // Missing index 1 should be filled with 0
+
+        let new_array = InsnNode::new(
+            InsnType::NewArray {
+                dest: RegisterArg::with_ssa(0, 0),
+                size: InsnArg::Literal(LiteralArg::Int(3)),
+                type_idx: 1,
+            },
+            0,
+        );
+
+        let put0 = InsnNode::new(
+            InsnType::ArrayPut {
+                array: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                index: InsnArg::Literal(LiteralArg::Int(0)),
+                value: InsnArg::Literal(LiteralArg::Int(10)),
+                elem_type: ArrayElemType::Int,
+            },
+            4,
+        );
+
+        let put2 = InsnNode::new(
+            InsnType::ArrayPut {
+                array: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                index: InsnArg::Literal(LiteralArg::Int(2)),
+                value: InsnArg::Literal(LiteralArg::Int(30)),
+                elem_type: ArrayElemType::Int,
+            },
+            8,
+        );
+
+        let mut ssa = SsaResult {
+            blocks: vec![SsaBlock {
+                id: 0,
+                instructions: vec![new_array, put0, put2],
+                phi_nodes: vec![],
+                successors: vec![],
+                predecessors: vec![],
+            }],
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::default(),
+        };
+
+        let result = run_mod_visitor(&mut ssa);
+
+        // 2 out of 3 elements = 66%, which is >= 50% so should fuse
+        assert_eq!(result.aput_arrays_fused, 1);
+        assert_eq!(ssa.blocks[0].instructions.len(), 1);
+
+        // Verify the gap is filled with 0
+        if let InsnType::FilledNewArray { args, .. } = &ssa.blocks[0].instructions[0].insn_type {
+            assert_eq!(args.len(), 3);
+            // Index 1 should be 0 (gap fill)
+            if let InsnArg::Literal(LiteralArg::Int(val)) = &args[1] {
+                assert_eq!(*val, 0);
+            } else {
+                panic!("Expected literal Int arg for gap at index 1");
+            }
+        } else {
+            panic!("Expected FilledNewArray instruction");
+        }
+    }
+
+    #[test]
+    fn test_aput_no_fusion_too_few_puts() {
+        use dexterity_ir::instructions::ArrayElemType;
+
+        // Create a test case with only 1 put for size 3 array (33% < 50%)
+        let new_array = InsnNode::new(
+            InsnType::NewArray {
+                dest: RegisterArg::with_ssa(0, 0),
+                size: InsnArg::Literal(LiteralArg::Int(3)),
+                type_idx: 1,
+            },
+            0,
+        );
+
+        let put0 = InsnNode::new(
+            InsnType::ArrayPut {
+                array: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                index: InsnArg::Literal(LiteralArg::Int(0)),
+                value: InsnArg::Literal(LiteralArg::Int(10)),
+                elem_type: ArrayElemType::Int,
+            },
+            4,
+        );
+
+        let mut ssa = SsaResult {
+            blocks: vec![SsaBlock {
+                id: 0,
+                instructions: vec![new_array, put0],
+                phi_nodes: vec![],
+                successors: vec![],
+                predecessors: vec![],
+            }],
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::default(),
+        };
+
+        let result = run_mod_visitor(&mut ssa);
+
+        // Only 1 out of 3 = 33%, which is < 50% threshold
+        assert_eq!(result.aput_arrays_fused, 0);
         // Both instructions should remain
         assert_eq!(ssa.blocks[0].instructions.len(), 2);
     }

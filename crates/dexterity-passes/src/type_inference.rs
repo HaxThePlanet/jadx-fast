@@ -42,6 +42,7 @@ use dexterity_ir::types::ArgType;
 use dexterity_ir::{ClassHierarchy, TypeCompare, compare_types};
 
 use crate::ssa::SsaResult;
+use crate::type_bound::{BoundEnum, TypeBoundConst, TypeBoundInvokeAssign, TypeInfo};
 
 /// Type variable identifier
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -218,8 +219,10 @@ pub struct TypeInference {
     constraints: Vec<Constraint>,
     /// Resolved types (TypeVar -> InferredType)
     resolved: FxHashMap<TypeVar, InferredType>,
-    /// Type bounds for each variable (new bounds-based system)
+    /// Type bounds for each variable (legacy bounds-based system)
     type_bounds: FxHashMap<TypeVar, TypeBounds>,
+    /// New TypeInfo per variable (JADX-style bounds tracking)
+    type_info: FxHashMap<TypeVar, TypeInfo>,
     /// Type lookup table for DEX indices (provided externally)
     type_lookup: Option<Box<dyn Fn(u32) -> Option<ArgType> + Send + Sync>>,
     /// Field type lookup (field_idx -> field type)
@@ -261,6 +264,7 @@ impl TypeInference {
             constraints: Vec::new(),
             resolved: FxHashMap::default(),
             type_bounds: FxHashMap::default(),
+            type_info: FxHashMap::default(),
             type_lookup: None,
             field_lookup: None,
             method_lookup: None,
@@ -335,6 +339,41 @@ impl TypeInference {
     /// Add a constraint
     fn add_constraint(&mut self, constraint: Constraint) {
         self.constraints.push(constraint);
+    }
+
+    /// Add a type bound using the new TypeInfo system
+    fn add_type_bound(&mut self, var: TypeVar, bound: BoundEnum, ty: ArgType) {
+        if matches!(ty, ArgType::Unknown) {
+            return;
+        }
+        let info = self.type_info.entry(var).or_insert_with(TypeInfo::new);
+        info.add_const_bound(bound, ty);
+    }
+
+    /// Add an assign bound (variable receives this type)
+    fn add_assign_bound(&mut self, var: TypeVar, ty: ArgType) {
+        self.add_type_bound(var, BoundEnum::Assign, ty);
+    }
+
+    /// Add a use bound (variable is used as this type)
+    fn add_use_bound(&mut self, var: TypeVar, ty: ArgType) {
+        self.add_type_bound(var, BoundEnum::Use, ty);
+    }
+
+    /// Add a dynamic invoke bound for generic return type resolution
+    fn add_invoke_bound(&mut self, var: TypeVar, method_idx: u32, return_type: ArgType, instance_reg: u16, instance_ssa: u32) {
+        if matches!(return_type, ArgType::Unknown) {
+            return;
+        }
+        let info = self.type_info.entry(var).or_insert_with(TypeInfo::new);
+        let bound = TypeBoundInvokeAssign::new(method_idx, return_type, instance_reg, instance_ssa);
+        info.add_bound(Box::new(bound));
+    }
+
+    /// Mark a variable's type as immutable (cannot be changed)
+    fn mark_immutable(&mut self, var: TypeVar, ty: ArgType) {
+        let info = self.type_info.entry(var).or_insert_with(TypeInfo::new);
+        info.mark_immutable(ty);
     }
 
     /// Get type variable for an instruction argument
@@ -566,6 +605,12 @@ impl TypeInference {
                 } else {
                     InferredType::Unknown
                 };
+                // New: Mark as immutable - NewInstance always produces exact type
+                if let InferredType::Concrete(ref arg_ty) = ty {
+                    if !matches!(arg_ty, ArgType::Unknown) {
+                        self.mark_immutable(dest_var, arg_ty.clone());
+                    }
+                }
                 self.add_constraint(Constraint::Equals(dest_var, ty));
             }
 
