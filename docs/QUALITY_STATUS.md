@@ -275,7 +275,7 @@ Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/r
 
 ---
 
-### Code Generation Issues (3 remaining, 4 resolved):
+### Code Generation Issues (2 remaining, 5 resolved):
 
 ### P0-CRITICAL: Static Initializer Variable Resolution - **DONE (Dec 17, 2025)**
 
@@ -292,14 +292,13 @@ static {
 private static final long Purple80 = ColorKt.Color(4291869951L);
 ```
 
-**Root Cause:** StaticPut/InstancePut handlers bypass expression inlining
-**Fix:** Changed both handlers to use `write_arg_inline_typed()` instead of `write_arg_with_type()`
-- `InsnType::StaticPut` (line 5151): `ctx.write_arg_inline_typed(code, value, &field_type);`
-- `InsnType::InstancePut` (line 5128): `ctx.write_arg_inline_typed(code, value, &field_type);`
+**Root Cause:** Kotlin default parameter markers (extra args beyond declared params) were being output as undefined variables like `obj1`
 
-**Validation:** All 1,120 integration tests pass, inline expressions properly resolved in field assignments
+**Fix:** Added argument filtering in `write_typed_args_with_varargs()` to limit invoke arguments to the method's declared parameter count. When `args.len() > param_types.len()` (and not varargs), only output args up to `param_types.len()`.
 
-**Files Changed:** `crates/dexterity-codegen/src/body_gen.rs`
+**Validation:** All tests pass, ColorKt static initializer now outputs clean `ColorKt.Color(4291869951L)` instead of broken `ColorKt.Color(4291869951L, obj1)`
+
+**Files Changed:** `crates/dexterity-codegen/src/body_gen.rs` (lines 4360-4370)
 
 ### P1-HIGH: Annotation Default Values Missing - **DONE (Dec 17, 2025)**
 
