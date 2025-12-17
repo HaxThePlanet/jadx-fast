@@ -139,6 +139,42 @@ fn extract_string_array(value: &AnnotationValue) -> Result<Vec<String>> {
     }
 }
 
+/// Parse class flags from raw protobuf flags
+fn parse_class_flags(raw_flags: i32) -> KotlinClassFlags {
+    KotlinClassFlags {
+        is_data: raw_flags & CLASS_FLAG_IS_DATA != 0,
+        is_sealed: ((raw_flags & CLASS_FLAG_MODALITY_MASK) >> 4) == 3, // SEALED = 3
+        is_inline: raw_flags & CLASS_FLAG_IS_INLINE != 0,
+        is_inner: raw_flags & CLASS_FLAG_IS_INNER != 0,
+        is_external: raw_flags & CLASS_FLAG_IS_EXTERNAL != 0,
+        is_expect: raw_flags & CLASS_FLAG_IS_EXPECT != 0,
+        is_fun_interface: raw_flags & CLASS_FLAG_IS_FUN != 0,
+    }
+}
+
+/// Parse function flags from raw protobuf flags
+fn parse_function_flags(raw_flags: i32) -> KotlinFunctionFlags {
+    KotlinFunctionFlags {
+        is_suspend: raw_flags & FUNC_FLAG_IS_SUSPEND != 0,
+        is_inline: raw_flags & FUNC_FLAG_IS_INLINE != 0,
+        is_operator: raw_flags & FUNC_FLAG_IS_OPERATOR != 0,
+        is_infix: raw_flags & FUNC_FLAG_IS_INFIX != 0,
+        is_tailrec: raw_flags & FUNC_FLAG_IS_TAILREC != 0,
+        is_external: raw_flags & FUNC_FLAG_IS_EXTERNAL != 0,
+    }
+}
+
+/// Parse property flags from raw protobuf flags
+fn parse_property_flags(raw_flags: i32) -> KotlinPropertyFlags {
+    KotlinPropertyFlags {
+        is_var: raw_flags & PROP_FLAG_IS_VAR != 0,
+        is_const: raw_flags & PROP_FLAG_IS_CONST != 0,
+        is_lateinit: raw_flags & PROP_FLAG_IS_LATEINIT != 0,
+        is_delegated: raw_flags & PROP_FLAG_IS_DELEGATED != 0,
+        has_backing_field: raw_flags & PROP_FLAG_HAS_CONSTANT != 0,
+    }
+}
+
 /// Parse d1 protobuf field to extract Kotlin metadata
 pub fn parse_d1_protobuf(annot: &KotlinMetadataAnnotation) -> Result<KotlinClassMetadata> {
     // d1 contains base64-encoded protobuf data
@@ -206,6 +242,8 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
         properties,
         companion_object,
         is_data_class,
+        flags: crate::types::KotlinClassFlags::default(),
+        sealed_subclasses: vec![],
     })
 }
 
@@ -231,6 +269,8 @@ fn parse_package_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Res
         properties: vec![],
         companion_object: None,
         is_data_class: false,
+        flags: crate::types::KotlinClassFlags::default(),
+        sealed_subclasses: vec![],
     })
 }
 
@@ -245,6 +285,8 @@ fn parse_synthetic_class_metadata(_bytes: &[u8], _annot: &KotlinMetadataAnnotati
         properties: vec![],
         companion_object: None,
         is_data_class: false,
+        flags: crate::types::KotlinClassFlags::default(),
+        sealed_subclasses: vec![],
     })
 }
 
@@ -261,7 +303,12 @@ fn parse_function(func: &proto::Function, strings: &[String], _idx: u32) -> Resu
             .get(param.name as usize)
             .ok_or_else(|| anyhow!("Invalid parameter name index"))?
             .clone();
-        parameters.push(KotlinParameter { name, index: idx });
+        parameters.push(KotlinParameter {
+            name,
+            index: idx,
+            is_crossinline: false,
+            is_noinline: false,
+        });
     }
 
     // Build JVM signature for matching with MethodData
@@ -272,6 +319,8 @@ fn parse_function(func: &proto::Function, strings: &[String], _idx: u32) -> Resu
         name,
         jvm_signature,
         parameters,
+        flags: crate::types::KotlinFunctionFlags::default(),
+        receiver_type: None,
     })
 }
 
@@ -289,6 +338,7 @@ fn parse_property(prop: &proto::Property, strings: &[String], _idx: u32) -> Resu
         jvm_field_signature,
         getter_signature: None,
         setter_signature: None,
+        flags: crate::types::KotlinPropertyFlags::default(),
     })
 }
 

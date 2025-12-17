@@ -382,20 +382,86 @@ pub enum InsnType {
 }
 
 /// Instruction argument
+///
+/// Matches JADX's instruction argument hierarchy with additional variants
+/// for wrapped instructions and named arguments.
 #[derive(Debug, Clone)]
 pub enum InsnArg {
     /// Register reference
     Register(RegisterArg),
     /// Literal constant
     Literal(LiteralArg),
-    /// Type reference
+    /// Type reference (type_idx)
     Type(u32),
-    /// Field reference
+    /// Field reference (field_idx)
     Field(u32),
-    /// Method reference
+    /// Method reference (method_idx)
     Method(u32),
-    /// String reference
+    /// String reference (string_idx)
     String(u32),
+
+    // === New JADX-compatible argument types ===
+
+    /// Wrapped instruction (for inlining expressions)
+    ///
+    /// Used during code optimization to inline simple expressions.
+    /// E.g., `x = a + b` can be inlined as argument: `foo(a + b)`
+    /// The wrapped instruction's result is used as this argument's value.
+    ///
+    /// Matches JADX's `InsnWrapArg`
+    Wrapped(Box<WrappedInsn>),
+
+    /// Named argument (for synthetic variables)
+    ///
+    /// Used for special named values like catch exception variables,
+    /// loop iterators in for-each, etc.
+    ///
+    /// Matches JADX's `NamedArg`
+    Named {
+        name: String,
+        arg_type: ArgType,
+    },
+
+    /// This reference (for instance methods)
+    ///
+    /// Explicit 'this' reference, used when 'this' needs special handling
+    This {
+        class_type: String,
+    },
+}
+
+/// Wrapped instruction for InsnArg::Wrapped
+///
+/// Contains an instruction that is inlined as an argument expression.
+#[derive(Debug, Clone)]
+pub struct WrappedInsn {
+    /// The instruction index in the shared pool (or inline instruction)
+    pub insn_idx: u32,
+    /// The result type of the wrapped instruction
+    pub result_type: ArgType,
+    /// Optional inline copy of the instruction (for when not using shared pool)
+    pub inline_insn: Option<Box<InsnNode>>,
+}
+
+impl WrappedInsn {
+    /// Create a new wrapped instruction reference
+    pub fn new(insn_idx: u32, result_type: ArgType) -> Self {
+        WrappedInsn {
+            insn_idx,
+            result_type,
+            inline_insn: None,
+        }
+    }
+
+    /// Create with an inline instruction copy
+    pub fn with_inline(insn: InsnNode) -> Self {
+        let result_type = insn.result_type.clone().unwrap_or(ArgType::Unknown);
+        WrappedInsn {
+            insn_idx: 0,
+            result_type,
+            inline_insn: Some(Box::new(insn)),
+        }
+    }
 }
 
 impl InsnArg {
@@ -407,6 +473,86 @@ impl InsnArg {
     /// Create a literal argument
     pub fn lit(value: i64) -> Self {
         InsnArg::Literal(LiteralArg::Int(value))
+    }
+
+    /// Create a named argument
+    pub fn named(name: impl Into<String>, arg_type: ArgType) -> Self {
+        InsnArg::Named {
+            name: name.into(),
+            arg_type,
+        }
+    }
+
+    /// Create a wrapped instruction argument
+    pub fn wrapped(insn_idx: u32, result_type: ArgType) -> Self {
+        InsnArg::Wrapped(Box::new(WrappedInsn::new(insn_idx, result_type)))
+    }
+
+    /// Create a this reference
+    pub fn this_ref(class_type: impl Into<String>) -> Self {
+        InsnArg::This {
+            class_type: class_type.into(),
+        }
+    }
+
+    /// Check if this is a wrapped instruction
+    pub fn is_wrapped(&self) -> bool {
+        matches!(self, InsnArg::Wrapped(_))
+    }
+
+    /// Check if this is a named argument
+    pub fn is_named(&self) -> bool {
+        matches!(self, InsnArg::Named { .. })
+    }
+
+    /// Check if this is a register argument
+    pub fn is_register(&self) -> bool {
+        matches!(self, InsnArg::Register(_))
+    }
+
+    /// Check if this is a literal argument
+    pub fn is_literal(&self) -> bool {
+        matches!(self, InsnArg::Literal(_))
+    }
+
+    /// Get as register if it is one
+    pub fn as_register(&self) -> Option<&RegisterArg> {
+        match self {
+            InsnArg::Register(r) => Some(r),
+            _ => None,
+        }
+    }
+
+    /// Get as mutable register if it is one
+    pub fn as_register_mut(&mut self) -> Option<&mut RegisterArg> {
+        match self {
+            InsnArg::Register(r) => Some(r),
+            _ => None,
+        }
+    }
+
+    /// Get as literal if it is one
+    pub fn as_literal(&self) -> Option<&LiteralArg> {
+        match self {
+            InsnArg::Literal(l) => Some(l),
+            _ => None,
+        }
+    }
+
+    /// Get as wrapped instruction if it is one
+    pub fn as_wrapped(&self) -> Option<&WrappedInsn> {
+        match self {
+            InsnArg::Wrapped(w) => Some(w),
+            _ => None,
+        }
+    }
+
+    /// Get the name if this is a named argument
+    pub fn get_name(&self) -> Option<&str> {
+        match self {
+            InsnArg::Named { name, .. } => Some(name),
+            _ => None,
+        }
     }
 }
 
