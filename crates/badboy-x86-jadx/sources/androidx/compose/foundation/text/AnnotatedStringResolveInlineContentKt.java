@@ -1,0 +1,234 @@
+package androidx.compose.foundation.text;
+
+import androidx.compose.runtime.ComposablesKt;
+import androidx.compose.runtime.Composer;
+import androidx.compose.runtime.ComposerKt;
+import androidx.compose.runtime.ScopeUpdateScope;
+import androidx.compose.runtime.Updater;
+import androidx.compose.ui.ComposedModifierKt;
+import androidx.compose.ui.Modifier;
+import androidx.compose.ui.node.ComposeUiNode;
+import androidx.compose.ui.node.ComposeUiNode.Companion;
+import androidx.compose.ui.text.AnnotatedString;
+import androidx.compose.ui.text.AnnotatedString.Range;
+import androidx.compose.ui.text.Placeholder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import kotlin.Metadata;
+import kotlin.Pair;
+import kotlin.Unit;
+import kotlin.collections.CollectionsKt;
+import kotlin.jvm.functions.Function3;
+import kotlin.jvm.internal.Intrinsics;
+
+/* loaded from: classes.dex */
+@Metadata(d1 = "\u0000J\n\u0000\n\u0002\u0018\u0002\n\u0002\u0010 \n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0010\u000e\n\u0002\u0010\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0010\u000b\n\u0002\u0008\u0002\n\u0002\u0010$\n\u0002\u0018\u0002\n\u0002\u0008\u0003\u001a>\u0010\u000b\u001a\u00020\u00082\u0006\u0010\u000c\u001a\u00020\r2'\u0010\u000e\u001a#\u0012\u001f\u0012\u001d\u0012\u0015\u0012\u0013\u0012\u0004\u0012\u00020\u0007\u0012\u0004\u0012\u00020\u00080\u0006¢\u0006\u0002\u0008\t0\u0003j\u0002`\n0\u0002H\u0001¢\u0006\u0002\u0010\u000f\u001a\u000c\u0010\u0010\u001a\u00020\u0011*\u00020\rH\u0000\u001a_\u0010\u0012\u001a?\u0012\u0014\u0012\u0012\u0012\u000e\u0012\u000c\u0012\u0004\u0012\u00020\u00040\u0003j\u0002`\u00050\u0002\u0012%\u0012#\u0012\u001f\u0012\u001d\u0012\u0015\u0012\u0013\u0012\u0004\u0012\u00020\u0007\u0012\u0004\u0012\u00020\u00080\u0006¢\u0006\u0002\u0008\t0\u0003j\u0002`\n0\u00020\u0001*\u00020\r2\u0014\u0010\u0013\u001a\u0010\u0012\u0004\u0012\u00020\u0007\u0012\u0004\u0012\u00020\u0015\u0018\u00010\u0014H\u0000\"K\u0010\u0000\u001a?\u0012\u0014\u0012\u0012\u0012\u000e\u0012\u000c\u0012\u0004\u0012\u00020\u00040\u0003j\u0002`\u00050\u0002\u0012%\u0012#\u0012\u001f\u0012\u001d\u0012\u0015\u0012\u0013\u0012\u0004\u0012\u00020\u0007\u0012\u0004\u0012\u00020\u00080\u0006¢\u0006\u0002\u0008\t0\u0003j\u0002`\n0\u00020\u0001X\u0082\u0004¢\u0006\u0002\n\u0000*:\u0008\u0000\u0010\u0016\"\u0019\u0012\u0015\u0012\u0013\u0012\u0004\u0012\u00020\u0007\u0012\u0004\u0012\u00020\u00080\u0006¢\u0006\u0002\u0008\t0\u00032\u0019\u0012\u0015\u0012\u0013\u0012\u0004\u0012\u00020\u0007\u0012\u0004\u0012\u00020\u00080\u0006¢\u0006\u0002\u0008\t0\u0003*\u0018\u0008\u0000\u0010\u0017\"\u0008\u0012\u0004\u0012\u00020\u00040\u00032\u0008\u0012\u0004\u0012\u00020\u00040\u0003¨\u0006\u0018", d2 = {"EmptyInlineContent", "Lkotlin/Pair;", "", "Landroidx/compose/ui/text/AnnotatedString$Range;", "Landroidx/compose/ui/text/Placeholder;", "Landroidx/compose/foundation/text/PlaceholderRange;", "Lkotlin/Function1;", "", "", "Landroidx/compose/runtime/Composable;", "Landroidx/compose/foundation/text/InlineContentRange;", "InlineChildren", "text", "Landroidx/compose/ui/text/AnnotatedString;", "inlineContents", "(Landroidx/compose/ui/text/AnnotatedString;Ljava/util/List;Landroidx/compose/runtime/Composer;I)V", "hasInlineContent", "", "resolveInlineContent", "inlineContent", "", "Landroidx/compose/foundation/text/InlineTextContent;", "InlineContentRange", "PlaceholderRange", "foundation_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
+public final class AnnotatedStringResolveInlineContentKt {
+
+    private static final Pair<List<AnnotatedString.Range<Placeholder>>, List<AnnotatedString.Range<Function3<String, Composer, Integer, Unit>>>> EmptyInlineContent;
+    static {
+        Pair pair = new Pair(CollectionsKt.emptyList(), CollectionsKt.emptyList());
+        AnnotatedStringResolveInlineContentKt.EmptyInlineContent = pair;
+    }
+
+    public static final void InlineChildren(AnnotatedString text, List<AnnotatedString.Range<Function3<String, Composer, Integer, Unit>>> inlineContents, Composer $composer, int $changed) {
+        Object obj;
+        kotlin.jvm.functions.Function0 factory$iv$iv;
+        int traceInProgress2;
+        Composer restartGroup;
+        int $dirty;
+        Object currentCompositionLocalMap;
+        Composer composer2;
+        int i9;
+        int i5;
+        int skipping;
+        boolean traceInProgress;
+        int str;
+        int size;
+        Object obj2;
+        int component3;
+        int i8;
+        Object component1;
+        int component2;
+        androidx.compose.foundation.text.AnnotatedStringResolveInlineContentKt.InlineChildren.1.2 iNSTANCE;
+        int i11;
+        int i2;
+        int i6;
+        int i14;
+        int currentCompositeKeyHash;
+        int i3;
+        int i12;
+        int i;
+        androidx.compose.ui.Modifier.Companion companion;
+        int i13;
+        int i4;
+        int i10;
+        int i15;
+        kotlin.jvm.functions.Function0 function0;
+        Composer composer;
+        int i7;
+        Composer $composer2;
+        Composer composer3;
+        androidx.compose.runtime.CompositionLocalMap map;
+        Object obj34;
+        final Object obj3 = text;
+        final Object obj4 = inlineContents;
+        final int i16 = $changed;
+        traceInProgress2 = -1794596951;
+        restartGroup = $composer.startRestartGroup(traceInProgress2);
+        ComposerKt.sourceInformation(restartGroup, "C(InlineChildren)P(1)*75@2735L356:AnnotatedStringResolveInlineContent.kt#423gt5");
+        if (i16 & 6 == 0) {
+            i9 = restartGroup.changed(obj3) ? 4 : 2;
+            $dirty |= i9;
+        }
+        if (i16 & 48 == 0) {
+            i5 = restartGroup.changedInstance(obj4) ? 32 : 16;
+            $dirty |= i5;
+        }
+        if ($dirty & 19 == 18) {
+            if (!restartGroup.getSkipping()) {
+                if (ComposerKt.isTraceInProgress()) {
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.foundation.text.InlineChildren (AnnotatedStringResolveInlineContent.kt:73)");
+                }
+                skipping = 0;
+                str = 0;
+                while (str < inlineContents.size()) {
+                    Object obj6 = obj2;
+                    i8 = 0;
+                    i2 = 0;
+                    ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
+                    androidx.compose.ui.Modifier.Companion companion2 = Modifier.Companion;
+                    int i21 = 0;
+                    currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, i21);
+                    currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
+                    companion = companion2;
+                    kotlin.jvm.functions.Function0 function02 = constructor;
+                    i = 0;
+                    ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
+                    if (!applier instanceof Applier) {
+                    }
+                    restartGroup.startReusableNode();
+                    if (restartGroup.getInserting()) {
+                    } else {
+                    }
+                    factory$iv$iv = function02;
+                    restartGroup.useNode();
+                    Composer constructor-impl = Updater.constructor-impl(restartGroup);
+                    int i24 = 0;
+                    function0 = factory$iv$iv;
+                    Updater.set-impl(constructor-impl, (MeasurePolicy)AnnotatedStringResolveInlineContentKt.InlineChildren.1.2.INSTANCE, ComposeUiNode.Companion.getSetMeasurePolicy());
+                    Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                    i15 = 0;
+                    composer = constructor-impl;
+                    i7 = 0;
+                    if (!composer.getInserting()) {
+                    } else {
+                    }
+                    $composer2 = restartGroup;
+                    map = currentCompositionLocalMap;
+                    composer.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                    constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, (Modifier)companion2), ComposeUiNode.Companion.getSetModifier());
+                    restartGroup = $composer2;
+                    int i22 = 0;
+                    i13 = i20;
+                    ComposerKt.sourceInformationMarkerStart(restartGroup, 256183196, "C76@2767L42:AnnotatedStringResolveInlineContent.kt#423gt5");
+                    (Function3)(AnnotatedString.Range)obj6.component1().invoke(obj3.subSequence(obj6.component2(), obj6.component3()).getText(), restartGroup, Integer.valueOf(i21));
+                    ComposerKt.sourceInformationMarkerEnd(restartGroup);
+                    $composer2.endNode();
+                    ComposerKt.sourceInformationMarkerEnd($composer2);
+                    ComposerKt.sourceInformationMarkerEnd($composer2);
+                    str = i10 + 1;
+                    obj = obj34;
+                    $dirty = i6;
+                    skipping = i12;
+                    $composer2 = restartGroup;
+                    map = currentCompositionLocalMap;
+                    if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                    } else {
+                    }
+                    composer2 = composer;
+                    restartGroup.createNode(function02);
+                    ComposablesKt.invalidApplier();
+                }
+                obj34 = obj;
+                composer3 = restartGroup;
+                i14 = $dirty;
+                i12 = skipping;
+                i10 = str;
+                if (ComposerKt.isTraceInProgress()) {
+                    ComposerKt.traceEventEnd();
+                }
+            } else {
+                restartGroup.skipToGroupEnd();
+                composer3 = restartGroup;
+                i14 = $dirty;
+            }
+        } else {
+        }
+        ScopeUpdateScope endRestartGroup = composer3.endRestartGroup();
+        if (endRestartGroup != null) {
+            restartGroup = new AnnotatedStringResolveInlineContentKt.InlineChildren.2(obj3, obj4, i16);
+            endRestartGroup.updateScope((Function2)restartGroup);
+        }
+    }
+
+    public static final boolean hasInlineContent(AnnotatedString $this$hasInlineContent) {
+        return $this$hasInlineContent.hasStringAnnotations("androidx.compose.foundation.text.inlineContent", 0, $this$hasInlineContent.getText().length());
+    }
+
+    public static final Pair<List<AnnotatedString.Range<Placeholder>>, List<AnnotatedString.Range<Function3<String, Composer, Integer, Unit>>>> resolveInlineContent(AnnotatedString $this$resolveInlineContent, Map<String, androidx.compose.foundation.text.InlineTextContent> inlineContent) {
+        AnnotatedString.Range range;
+        List stringAnnotations;
+        int i3;
+        boolean empty;
+        int index$iv;
+        Object obj3;
+        Object obj2;
+        int i2;
+        Object obj;
+        int i;
+        int start;
+        int end;
+        List inlineContentAnnotations;
+        range = inlineContent;
+        int i4 = 0;
+        if (range != null) {
+            if (range.isEmpty()) {
+                i3 = 1;
+            } else {
+                i3 = i4;
+            }
+        } else {
+        }
+        if (i3 != 0) {
+            return AnnotatedStringResolveInlineContentKt.EmptyInlineContent;
+        }
+        ArrayList arrayList = new ArrayList();
+        ArrayList arrayList2 = new ArrayList();
+        final List list = stringAnnotations;
+        final int i5 = 0;
+        index$iv = 0;
+        while (index$iv < list.size()) {
+            obj2 = obj3;
+            i2 = 0;
+            obj = range.get((AnnotatedString.Range)obj2.getItem());
+            if ((InlineTextContent)obj != null) {
+            } else {
+            }
+            inlineContentAnnotations = stringAnnotations;
+            index$iv++;
+            range = inlineContent;
+            stringAnnotations = inlineContentAnnotations;
+            i = 0;
+            inlineContentAnnotations = stringAnnotations;
+            AnnotatedString.Range range2 = new AnnotatedString.Range((InlineTextContent)obj.getPlaceholder(), obj2.getStart(), obj2.getEnd());
+            (List)arrayList.add(range2);
+            range = new AnnotatedString.Range(obj.getChildren(), obj2.getStart(), obj2.getEnd());
+            (List)arrayList2.add(range);
+        }
+        Pair pair = new Pair(arrayList, arrayList2);
+        return pair;
+    }
+}

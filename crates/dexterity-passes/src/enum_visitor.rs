@@ -221,6 +221,11 @@ where
         }
     }
 
+    eprintln!("[DEBUG] Enum {} Pass 1: Found {} pending constructs", class.class_type, pending_constructs.len());
+    for (reg, construct) in &pending_constructs {
+        eprintln!("[DEBUG]   Register {}: name='{}', ordinal={}", reg, construct.name, construct.ordinal);
+    }
+
     // Pass 2: Find SPUT instructions that store enum instances to static fields
     for (field_idx, field) in class.static_fields.iter().enumerate() {
         // Skip if not an enum field (should be same type as class)
@@ -235,18 +240,27 @@ where
 
         // Look for SPUT that stores to this field
         for insn in insns.iter() {
-            if let InsnType::StaticPut { value, .. } = &insn.insn_type {
-                // Check if storing to this field
-                if let InsnArg::Register(reg) = value {
-                    if let Some(construct) = pending_constructs.get(&reg.reg_num) {
-                        // Check if this field matches the construct name
-                        if field.name == construct.name {
+            if let InsnType::StaticPut { field_idx: sput_field_idx, value } = &insn.insn_type {
+                // Check if this SPUT is storing to the current field we're examining
+                // Match by DEX field index if available, otherwise skip
+                let matches_field = if let Some(dex_idx) = field.dex_field_idx {
+                    dex_idx == *sput_field_idx
+                } else {
+                    // Fallback: can't match without DEX field index
+                    false
+                };
+
+                if matches_field {
+                    if let InsnArg::Register(reg) = value {
+                        if let Some(construct) = pending_constructs.get(&reg.reg_num) {
                             fields.push(EnumFieldInfo {
                                 name: construct.name.clone(),
                                 ordinal: construct.ordinal,
                                 field_idx,
                                 extra_args: construct.extra_args.clone(),
                             });
+                            // Found the SPUT for this field, no need to continue searching
+                            break;
                         }
                     }
                 }
@@ -257,6 +271,8 @@ where
     // If we didn't find fields via SPUT, try alternative approach
     // using field names directly
     if fields.is_empty() {
+        eprintln!("[DEBUG] Enum analysis fallback for class {}: {} pending constructs",
+                  class.class_type, pending_constructs.len());
         for (field_idx, field) in class.static_fields.iter().enumerate() {
             if !type_matches_class(&field.field_type, &class.class_type) {
                 continue;
@@ -265,10 +281,13 @@ where
                 continue;
             }
 
+            eprintln!("[DEBUG]   Field #{}: name='{}', type={:?}", field_idx, field.name, field.field_type);
+
             // Check if there's a construct with matching name
             if let Some(construct) = pending_constructs.values()
                 .find(|c| c.name == field.name)
             {
+                eprintln!("[DEBUG]     -> Matched construct: name='{}', ordinal={}", construct.name, construct.ordinal);
                 fields.push(EnumFieldInfo {
                     name: construct.name.clone(),
                     ordinal: construct.ordinal,
@@ -278,6 +297,7 @@ where
             } else {
                 // Create field with unknown ordinal
                 let ordinal = fields.len() as i32;
+                eprintln!("[DEBUG]     -> No construct match, using field name='{}', ordinal={}", field.name, ordinal);
                 fields.push(EnumFieldInfo {
                     name: field.name.clone(),
                     ordinal,
@@ -285,6 +305,11 @@ where
                     extra_args: Vec::new(),
                 });
             }
+        }
+    } else {
+        eprintln!("[DEBUG] Enum analysis Pass 2 found {} fields for class {}", fields.len(), class.class_type);
+        for f in &fields {
+            eprintln!("[DEBUG]   Field: name='{}', ordinal={}, field_idx={}", f.name, f.ordinal, f.field_idx);
         }
     }
 

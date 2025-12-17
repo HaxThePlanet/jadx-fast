@@ -1,0 +1,32 @@
+package androidx.savedstate.serialization;
+
+import kotlin.Metadata;
+import kotlin.jvm.internal.Intrinsics;
+import kotlinx.serialization.descriptors.SerialDescriptor;
+import kotlinx.serialization.encoding.AbstractDecoder;
+import kotlinx.serialization.modules.SerializersModule;
+import kotlinx.serialization.modules.SerializersModuleBuildersKt;
+
+/* loaded from: classes5.dex */
+@Metadata(d1 = "\u0000 \n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0010\u0008\n\u0000\n\u0002\u0018\u0002\n\u0000\u0008Â\u0002\u0018\u00002\u00020\u0001B\t\u0008\u0002¢\u0006\u0004\u0008\u0002\u0010\u0003J\u0010\u0010\u0008\u001a\u00020\t2\u0006\u0010\n\u001a\u00020\u000bH\u0016R\u0014\u0010\u0004\u001a\u00020\u0005X\u0096\u0004¢\u0006\u0008\n\u0000\u001a\u0004\u0008\u0006\u0010\u0007¨\u0006\u000c", d2 = {"Landroidx/savedstate/serialization/EmptyArrayDecoder;", "Lkotlinx/serialization/encoding/AbstractDecoder;", "<init>", "()V", "serializersModule", "Lkotlinx/serialization/modules/SerializersModule;", "getSerializersModule", "()Lkotlinx/serialization/modules/SerializersModule;", "decodeElementIndex", "", "descriptor", "Lkotlinx/serialization/descriptors/SerialDescriptor;", "savedstate_release"}, k = 1, mv = {2, 0, 0}, xi = 48)
+final class EmptyArrayDecoder extends AbstractDecoder {
+
+    public static final androidx.savedstate.serialization.EmptyArrayDecoder INSTANCE;
+    private static final SerializersModule serializersModule;
+    static {
+        EmptyArrayDecoder emptyArrayDecoder = new EmptyArrayDecoder();
+        EmptyArrayDecoder.INSTANCE = emptyArrayDecoder;
+        EmptyArrayDecoder.serializersModule = SerializersModuleBuildersKt.EmptySerializersModule();
+    }
+
+    @Override // kotlinx.serialization.encoding.AbstractDecoder
+    public int decodeElementIndex(SerialDescriptor descriptor) {
+        Intrinsics.checkNotNullParameter(descriptor, "descriptor");
+        return -1;
+    }
+
+    @Override // kotlinx.serialization.encoding.AbstractDecoder
+    public SerializersModule getSerializersModule() {
+        return EmptyArrayDecoder.serializersModule;
+    }
+}

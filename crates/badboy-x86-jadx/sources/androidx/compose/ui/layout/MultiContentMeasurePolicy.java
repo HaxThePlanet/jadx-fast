@@ -1,0 +1,353 @@
+package androidx.compose.ui.layout;
+
+import androidx.compose.ui.unit.ConstraintsKt;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import kotlin.Metadata;
+
+/* loaded from: classes.dex */
+@Metadata(d1 = "\u00006\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\u0008\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010 \n\u0002\u0018\u0002\n\u0002\u0008\u0004\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0005\u0008ç\u0080\u0001\u0018\u00002\u00020\u0001J(\u0010\u0002\u001a\u00020\u0003*\u00020\u00042\u0012\u0010\u0005\u001a\u000e\u0012\n\u0012\u0008\u0012\u0004\u0012\u00020\u00070\u00060\u00062\u0006\u0010\u0008\u001a\u00020\u0003H\u0016J(\u0010\t\u001a\u00020\u0003*\u00020\u00042\u0012\u0010\u0005\u001a\u000e\u0012\n\u0012\u0008\u0012\u0004\u0012\u00020\u00070\u00060\u00062\u0006\u0010\n\u001a\u00020\u0003H\u0016J2\u0010\u000b\u001a\u00020\u000c*\u00020\r2\u0012\u0010\u0005\u001a\u000e\u0012\n\u0012\u0008\u0012\u0004\u0012\u00020\u000e0\u00060\u00062\u0006\u0010\u000f\u001a\u00020\u0010H&ø\u0001\u0000¢\u0006\u0004\u0008\u0011\u0010\u0012J(\u0010\u0013\u001a\u00020\u0003*\u00020\u00042\u0012\u0010\u0005\u001a\u000e\u0012\n\u0012\u0008\u0012\u0004\u0012\u00020\u00070\u00060\u00062\u0006\u0010\u0008\u001a\u00020\u0003H\u0016J(\u0010\u0014\u001a\u00020\u0003*\u00020\u00042\u0012\u0010\u0005\u001a\u000e\u0012\n\u0012\u0008\u0012\u0004\u0012\u00020\u00070\u00060\u00062\u0006\u0010\n\u001a\u00020\u0003H\u0016ø\u0001\u0001\u0082\u0002\r\n\u0005\u0008¡\u001e0\u0001\n\u0004\u0008!0\u0001¨\u0006\u0015À\u0006\u0001", d2 = {"Landroidx/compose/ui/layout/MultiContentMeasurePolicy;", "", "maxIntrinsicHeight", "", "Landroidx/compose/ui/layout/IntrinsicMeasureScope;", "measurables", "", "Landroidx/compose/ui/layout/IntrinsicMeasurable;", "width", "maxIntrinsicWidth", "height", "measure", "Landroidx/compose/ui/layout/MeasureResult;", "Landroidx/compose/ui/layout/MeasureScope;", "Landroidx/compose/ui/layout/Measurable;", "constraints", "Landroidx/compose/ui/unit/Constraints;", "measure-3p2s80s", "(Landroidx/compose/ui/layout/MeasureScope;Ljava/util/List;J)Landroidx/compose/ui/layout/MeasureResult;", "minIntrinsicHeight", "minIntrinsicWidth", "ui_release"}, k = 1, mv = {1, 8, 0}, xi = 48)
+public interface MultiContentMeasurePolicy {
+    public int maxIntrinsicHeight(androidx.compose.ui.layout.IntrinsicMeasureScope $this$maxIntrinsicHeight, List<? extends List<? extends androidx.compose.ui.layout.IntrinsicMeasurable>> measurables, int width) {
+        Object obj6;
+        Object obj3;
+        int i6;
+        int size;
+        ArrayList arrayList;
+        int target$iv;
+        Object obj7;
+        int i13;
+        int index$iv$iv;
+        Object obj5;
+        Object obj2;
+        int i11;
+        ArrayList list;
+        Object obj4;
+        int i2;
+        Object obj;
+        int i9;
+        ArrayList arrayList2;
+        Object obj9;
+        int i4;
+        int i14;
+        int i10;
+        ArrayList list2;
+        int i7;
+        int i12;
+        Object $this$fastForEach$iv$iv;
+        int i3;
+        int i8;
+        int i5;
+        Object obj10;
+        int i;
+        obj6 = measurables;
+        i6 = 0;
+        arrayList = new ArrayList(obj6.size());
+        i13 = 0;
+        index$iv$iv = 0;
+        while (index$iv$iv < obj6.size()) {
+            i11 = 0;
+            i2 = 0;
+            obj = obj4;
+            i9 = 0;
+            arrayList2 = new ArrayList(obj.size());
+            i4 = 0;
+            size = obj.size();
+            target$iv = i14;
+            while (target$iv < size) {
+                i12 = 0;
+                i8 = 0;
+                DefaultIntrinsicMeasurable index$iv$iv2 = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj3.get(target$iv), IntrinsicMinMax.Max, IntrinsicWidthHeight.Height);
+                (Collection)arrayList2.add(index$iv$iv2);
+                target$iv = i5 + 1;
+                obj3 = $this$fastForEach$iv$iv;
+                size = i3;
+                obj7 = obj10;
+                i13 = i;
+            }
+            $this$fastForEach$iv$iv = obj3;
+            i5 = target$iv;
+            obj10 = obj7;
+            i = i13;
+            (Collection)arrayList.add((List)arrayList2);
+            index$iv$iv++;
+            obj6 = obj9;
+            i6 = i10;
+            arrayList = list2;
+            i12 = 0;
+            i8 = 0;
+            index$iv$iv2 = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj3.get(target$iv), IntrinsicMinMax.Max, IntrinsicWidthHeight.Height);
+            (Collection)arrayList2.add(index$iv$iv2);
+            target$iv = i5 + 1;
+            obj3 = $this$fastForEach$iv$iv;
+            size = i3;
+            obj7 = obj10;
+            i13 = i;
+        }
+        Object $this$fastMap$iv = obj6;
+        int i22 = i6;
+        Object obj11 = obj7;
+        int i23 = i13;
+        int i19 = 0;
+        IntrinsicsMeasureScope intrinsicsMeasureScope = new IntrinsicsMeasureScope($this$maxIntrinsicHeight, $this$maxIntrinsicHeight.getLayoutDirection());
+        return this.measure-3p2s80s((MeasureScope)intrinsicsMeasureScope, (List)arrayList, ConstraintsKt.Constraints$default(0, width, 0, i19, 13, 0)).getHeight();
+    }
+
+    public int maxIntrinsicWidth(androidx.compose.ui.layout.IntrinsicMeasureScope $this$maxIntrinsicWidth, List<? extends List<? extends androidx.compose.ui.layout.IntrinsicMeasurable>> measurables, int height) {
+        Object obj6;
+        Object obj;
+        int i12;
+        int size;
+        ArrayList arrayList2;
+        int target$iv;
+        Object obj7;
+        int i9;
+        int index$iv$iv;
+        Object obj5;
+        Object obj2;
+        int i;
+        ArrayList list;
+        Object obj3;
+        int i3;
+        Object obj4;
+        int i10;
+        ArrayList arrayList;
+        Object obj9;
+        int i8;
+        int i6;
+        int i14;
+        ArrayList list2;
+        int i2;
+        int i7;
+        Object $this$fastForEach$iv$iv;
+        int i4;
+        int i11;
+        int i5;
+        Object obj10;
+        int i13;
+        obj6 = measurables;
+        i12 = 0;
+        arrayList2 = new ArrayList(obj6.size());
+        i9 = 0;
+        index$iv$iv = 0;
+        while (index$iv$iv < obj6.size()) {
+            i = 0;
+            i3 = 0;
+            obj4 = obj3;
+            i10 = 0;
+            arrayList = new ArrayList(obj4.size());
+            i8 = 0;
+            size = obj4.size();
+            target$iv = i6;
+            while (target$iv < size) {
+                i7 = 0;
+                i11 = 0;
+                DefaultIntrinsicMeasurable index$iv$iv2 = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj.get(target$iv), IntrinsicMinMax.Max, IntrinsicWidthHeight.Width);
+                (Collection)arrayList.add(index$iv$iv2);
+                target$iv = i5 + 1;
+                obj = $this$fastForEach$iv$iv;
+                size = i4;
+                obj7 = obj10;
+                i9 = i13;
+            }
+            $this$fastForEach$iv$iv = obj;
+            i5 = target$iv;
+            obj10 = obj7;
+            i13 = i9;
+            (Collection)arrayList2.add((List)arrayList);
+            index$iv$iv++;
+            obj6 = obj9;
+            i12 = i14;
+            arrayList2 = list2;
+            i7 = 0;
+            i11 = 0;
+            index$iv$iv2 = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj.get(target$iv), IntrinsicMinMax.Max, IntrinsicWidthHeight.Width);
+            (Collection)arrayList.add(index$iv$iv2);
+            target$iv = i5 + 1;
+            obj = $this$fastForEach$iv$iv;
+            size = i4;
+            obj7 = obj10;
+            i9 = i13;
+        }
+        Object $this$fastMap$iv = obj6;
+        int i22 = i12;
+        Object obj11 = obj7;
+        int i23 = i9;
+        int i17 = 0;
+        IntrinsicsMeasureScope intrinsicsMeasureScope = new IntrinsicsMeasureScope($this$maxIntrinsicWidth, $this$maxIntrinsicWidth.getLayoutDirection());
+        return this.measure-3p2s80s((MeasureScope)intrinsicsMeasureScope, (List)arrayList2, ConstraintsKt.Constraints$default(0, i17, 0, height, 7, 0)).getWidth();
+    }
+
+    public abstract androidx.compose.ui.layout.MeasureResult measure-3p2s80s(androidx.compose.ui.layout.MeasureScope measureScope, List<? extends List<? extends androidx.compose.ui.layout.Measurable>> list2, long l3);
+
+    public int minIntrinsicHeight(androidx.compose.ui.layout.IntrinsicMeasureScope $this$minIntrinsicHeight, List<? extends List<? extends androidx.compose.ui.layout.IntrinsicMeasurable>> measurables, int width) {
+        Object obj6;
+        Object obj3;
+        int i6;
+        int size;
+        ArrayList arrayList;
+        int target$iv;
+        Object obj7;
+        int i13;
+        int index$iv$iv;
+        Object obj5;
+        Object obj4;
+        int i8;
+        ArrayList list;
+        Object obj;
+        int i2;
+        Object obj2;
+        int i14;
+        ArrayList arrayList2;
+        Object obj9;
+        int i11;
+        int i;
+        int i5;
+        ArrayList list2;
+        int i4;
+        int i9;
+        Object $this$fastForEach$iv$iv;
+        int i3;
+        int i10;
+        int i12;
+        Object obj10;
+        int i7;
+        obj6 = measurables;
+        i6 = 0;
+        arrayList = new ArrayList(obj6.size());
+        i13 = 0;
+        index$iv$iv = 0;
+        while (index$iv$iv < obj6.size()) {
+            i8 = 0;
+            i2 = 0;
+            obj2 = obj;
+            i14 = 0;
+            arrayList2 = new ArrayList(obj2.size());
+            i11 = 0;
+            size = obj2.size();
+            target$iv = i;
+            while (target$iv < size) {
+                i9 = 0;
+                i10 = 0;
+                DefaultIntrinsicMeasurable index$iv$iv2 = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj3.get(target$iv), IntrinsicMinMax.Min, IntrinsicWidthHeight.Height);
+                (Collection)arrayList2.add(index$iv$iv2);
+                target$iv = i12 + 1;
+                obj3 = $this$fastForEach$iv$iv;
+                size = i3;
+                obj7 = obj10;
+                i13 = i7;
+            }
+            $this$fastForEach$iv$iv = obj3;
+            i12 = target$iv;
+            obj10 = obj7;
+            i7 = i13;
+            (Collection)arrayList.add((List)arrayList2);
+            index$iv$iv++;
+            obj6 = obj9;
+            i6 = i5;
+            arrayList = list2;
+            i9 = 0;
+            i10 = 0;
+            index$iv$iv2 = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj3.get(target$iv), IntrinsicMinMax.Min, IntrinsicWidthHeight.Height);
+            (Collection)arrayList2.add(index$iv$iv2);
+            target$iv = i12 + 1;
+            obj3 = $this$fastForEach$iv$iv;
+            size = i3;
+            obj7 = obj10;
+            i13 = i7;
+        }
+        Object $this$fastMap$iv = obj6;
+        int i22 = i6;
+        Object obj11 = obj7;
+        int i23 = i13;
+        int i19 = 0;
+        IntrinsicsMeasureScope intrinsicsMeasureScope = new IntrinsicsMeasureScope($this$minIntrinsicHeight, $this$minIntrinsicHeight.getLayoutDirection());
+        return this.measure-3p2s80s((MeasureScope)intrinsicsMeasureScope, (List)arrayList, ConstraintsKt.Constraints$default(0, width, 0, i19, 13, 0)).getHeight();
+    }
+
+    public int minIntrinsicWidth(androidx.compose.ui.layout.IntrinsicMeasureScope $this$minIntrinsicWidth, List<? extends List<? extends androidx.compose.ui.layout.IntrinsicMeasurable>> measurables, int height) {
+        Object obj6;
+        Object obj;
+        int i10;
+        int size;
+        ArrayList arrayList;
+        int target$iv;
+        Object obj7;
+        int i4;
+        int index$iv$iv;
+        Object obj5;
+        Object obj2;
+        int i13;
+        ArrayList list2;
+        Object obj3;
+        int i;
+        Object obj4;
+        int i14;
+        ArrayList arrayList2;
+        Object obj9;
+        int i7;
+        int i5;
+        int i2;
+        ArrayList list;
+        int i12;
+        int i6;
+        Object $this$fastForEach$iv$iv;
+        int i3;
+        int i9;
+        int i8;
+        Object obj10;
+        int i11;
+        obj6 = measurables;
+        i10 = 0;
+        arrayList = new ArrayList(obj6.size());
+        i4 = 0;
+        index$iv$iv = 0;
+        while (index$iv$iv < obj6.size()) {
+            i13 = 0;
+            i = 0;
+            obj4 = obj3;
+            i14 = 0;
+            arrayList2 = new ArrayList(obj4.size());
+            i7 = 0;
+            size = obj4.size();
+            target$iv = i5;
+            while (target$iv < size) {
+                i6 = 0;
+                i9 = 0;
+                DefaultIntrinsicMeasurable index$iv$iv2 = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj.get(target$iv), IntrinsicMinMax.Min, IntrinsicWidthHeight.Width);
+                (Collection)arrayList2.add(index$iv$iv2);
+                target$iv = i8 + 1;
+                obj = $this$fastForEach$iv$iv;
+                size = i3;
+                obj7 = obj10;
+                i4 = i11;
+            }
+            $this$fastForEach$iv$iv = obj;
+            i8 = target$iv;
+            obj10 = obj7;
+            i11 = i4;
+            (Collection)arrayList.add((List)arrayList2);
+            index$iv$iv++;
+            obj6 = obj9;
+            i10 = i2;
+            arrayList = list;
+            i6 = 0;
+            i9 = 0;
+            index$iv$iv2 = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj.get(target$iv), IntrinsicMinMax.Min, IntrinsicWidthHeight.Width);
+            (Collection)arrayList2.add(index$iv$iv2);
+            target$iv = i8 + 1;
+            obj = $this$fastForEach$iv$iv;
+            size = i3;
+            obj7 = obj10;
+            i4 = i11;
+        }
+        Object $this$fastMap$iv = obj6;
+        int i22 = i10;
+        Object obj11 = obj7;
+        int i23 = i4;
+        int i17 = 0;
+        IntrinsicsMeasureScope intrinsicsMeasureScope = new IntrinsicsMeasureScope($this$minIntrinsicWidth, $this$minIntrinsicWidth.getLayoutDirection());
+        return this.measure-3p2s80s((MeasureScope)intrinsicsMeasureScope, (List)arrayList, ConstraintsKt.Constraints$default(0, i17, 0, height, 7, 0)).getWidth();
+    }
+}

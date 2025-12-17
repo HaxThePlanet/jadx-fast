@@ -1136,9 +1136,11 @@ fn process_dex_bytes(
                         if !class_name.contains(single) {
                             continue;
                         }
-                    } else if should_skip_class(&class_name) {
-                        continue;
                     }
+                    // Framework class filtering disabled for full decompilation
+                    // } else if should_skip_class(&class_name) {
+                    //     continue;
+                    // }
 
                     // Track outer vs inner for logging
                     if class_name.contains('$') {

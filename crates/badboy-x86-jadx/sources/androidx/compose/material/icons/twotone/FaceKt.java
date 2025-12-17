@@ -1,0 +1,150 @@
+package androidx.compose.material.icons.twotone;
+
+import androidx.compose.material.icons.Icons.TwoTone;
+import androidx.compose.ui.graphics.Color;
+import androidx.compose.ui.graphics.Color.Companion;
+import androidx.compose.ui.graphics.SolidColor;
+import androidx.compose.ui.graphics.StrokeCap;
+import androidx.compose.ui.graphics.StrokeCap.Companion;
+import androidx.compose.ui.graphics.StrokeJoin;
+import androidx.compose.ui.graphics.StrokeJoin.Companion;
+import androidx.compose.ui.graphics.vector.ImageVector;
+import androidx.compose.ui.graphics.vector.ImageVector.Builder;
+import androidx.compose.ui.graphics.vector.PathBuilder;
+import androidx.compose.ui.graphics.vector.VectorKt;
+import androidx.compose.ui.unit.Dp;
+import kotlin.Metadata;
+import kotlin.jvm.internal.Intrinsics;
+
+/* loaded from: classes.dex */
+@Metadata(d1 = "\u0000\u0010\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0003\"\u0010\u0010\u0000\u001a\u0004\u0018\u00010\u0001X\u0082\u000e¢\u0006\u0002\n\u0000\"\u0015\u0010\u0002\u001a\u00020\u0001*\u00020\u00038F¢\u0006\u0006\u001a\u0004\u0008\u0004\u0010\u0005¨\u0006\u0006", d2 = {"_face", "Landroidx/compose/ui/graphics/vector/ImageVector;", "Face", "Landroidx/compose/material/icons/Icons$TwoTone;", "getFace", "(Landroidx/compose/material/icons/Icons$TwoTone;)Landroidx/compose/ui/graphics/vector/ImageVector;", "material-icons-core_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
+public final class FaceKt {
+
+    private static ImageVector _face;
+    static {
+    }
+
+    public static final ImageVector getFace(Icons.TwoTone $this$Face) {
+        if (FaceKt._face != null) {
+            ImageVector _face2 = FaceKt._face;
+            Intrinsics.checkNotNull(_face2);
+            return _face2;
+        }
+        int i15 = 0;
+        int i19 = 0;
+        ImageVector.Builder builder6 = new ImageVector.Builder("TwoTone.Face", Dp.constructor-impl(1103101952), Dp.constructor-impl(1103101952), 1103101952, 1103101952, 0, obj8, 0, 0, 96, 0);
+        int i14 = 0;
+        int i21 = 0;
+        SolidColor solidColor4 = new SolidColor(Color.Companion.getBlack-0d7_KjU(), obj8, 0);
+        final int i63 = 0;
+        final int i68 = 1065353216;
+        final int i69 = 1065353216;
+        int i28 = 0;
+        PathBuilder pathBuilder4 = new PathBuilder();
+        int i43 = 0;
+        PathBuilder builder15 = pathBuilder4;
+        int i222 = 0;
+        final int i224 = i;
+        final ImageVector.Builder builder21 = builder6;
+        builder15.moveTo(1099694080, 1090519040);
+        PathBuilder builder16 = builder15;
+        builder16.curveToRelative(1055622431, 0, 1063843267, -1119040307, 1068205343, -1107967345);
+        builder16.curveTo(1099662623, 1085401989, 1097754214, 1082130432, 1094713344, 1082130432);
+        builder16.curveToRelative(-1091861217, 0, -1083640381, 1028443341, -1079278305, 1039516303);
+        builder16.curveTo(1094776259, 1087247483, 1097439642, 1090519040, 1099694080, 1090519040);
+        PathBuilder builder = builder16;
+        builder.close();
+        builder.moveTo(1090602926, 1084290499);
+        builder16.curveTo(1087100682, 1086324736, 1084332442, 1089638236, 1083011236, 1092060447);
+        builder16.curveToRelative(1071309128, -1082633748, 1078061957, -1071434957, 1080704369, -1064430469);
+        builder16.close();
+        ImageVector.Builder.addPath-oIyEayM$default(builder6, pathBuilder4.getNodes(), VectorKt.getDefaultFillType(), "", (Brush)solidColor4, 1050253722, i63, 1050253722, i68, StrokeCap.Companion.getButt-KaPHkGw(), StrokeJoin.Companion.getBevel-LxFBmk8(), i69, 0, 0, 0, 14336, 0);
+        ImageVector.Builder builder2 = builder21;
+        SolidColor solidColor = new SolidColor(Color.Companion.getBlack-0d7_KjU(), 0, 0);
+        int i16 = 0;
+        int i22 = 0;
+        PathBuilder pathBuilder = new PathBuilder();
+        int i30 = 0;
+        PathBuilder builder8 = pathBuilder;
+        int i44 = 0;
+        ImageVector.Builder builder20 = builder2;
+        builder8.moveTo(1094713344, 1073741824);
+        PathBuilder builder17 = builder8;
+        builder17.curveTo(1087331369, 1073741824, 1073741824, 1087331369, 1073741824, 1094713344);
+        PathBuilder builder3 = builder17;
+        int i52 = 1092616192;
+        builder3.reflectiveCurveToRelative(1083137065, i52, i52, i52);
+        int i225 = i5;
+        int i6 = 1092616192;
+        builder3.reflectiveCurveToRelative(i6, -1064346583, i6, -1054867456);
+        int i37 = 1073741824;
+        builder3.reflectiveCurveTo(1099704566, i37, 1094713344, i37);
+        builder3.close();
+        builder3.moveTo(1094713344, 1082130432);
+        builder17.curveToRelative(1077516698, 0, 1085150331, 1070050836, 1088086344, 1081627116);
+        builder17.curveToRelative(-1092867850, 1032805417, -1084143698, 1039516303, -1079278305, 1039516303);
+        builder17.curveToRelative(-1069966950, 0, -1062333317, -1077432812, -1059397304, -1065856532);
+        builder17.curveToRelative(1054615798, -1114678231, 1063339950, -1107967345, 1068205343, -1107967345);
+        builder3.close();
+        builder3.moveTo(1090602926, 1084290499);
+        builder17.curveTo(1089365606, 1088254116, 1086597366, 1091043328, 1083011236, 1092060447);
+        builder17.curveTo(1084332442, 1089638236, 1087100682, 1086324736, 1090602926, 1084290499);
+        builder3.close();
+        builder3.moveTo(1094713344, 1101004800);
+        builder17.curveToRelative(-1064493384, 0, -1056964608, -1067072881, -1056964608, -1056964608);
+        builder17.curveToRelative(0, -1119040307, 1008981770, -1110651699, 1008981770, -1105618534);
+        builder17.curveToRelative(1076258406, -1082465976, 1083556495, -1069589463, 1085779476, -1062102630);
+        builder17.curveToRelative(1072315761, 1074832343, 1083430666, 1080872141, 1089994752, 1080872141);
+        builder17.curveToRelative(1061158912, 0, 1069295862, -1111993876, 1074454856, -1099578737);
+        builder17.curveToRelative(1045891645, 1060487823, 1051260355, 1069211976, 1051260355, 1074748457);
+        int i94 = 0;
+        builder17.curveToRelative(i94, 1082990264, -1067072881, 1090519040, -1056964608, 1090519040);
+        builder17.close();
+        ImageVector.Builder.addPath-oIyEayM$default(builder2, pathBuilder.getNodes(), VectorKt.getDefaultFillType(), "", (Brush)solidColor, 1065353216, i63, 1065353216, i68, StrokeCap.Companion.getButt-KaPHkGw(), StrokeJoin.Companion.getBevel-LxFBmk8(), i69, 0, i94, 0, 14336, 0);
+        ImageVector.Builder builder4 = builder21;
+        int i11 = 0;
+        SolidColor solidColor2 = new SolidColor(Color.Companion.getBlack-0d7_KjU(), pathBuilder, 0);
+        int i17 = 0;
+        int i23 = 0;
+        PathBuilder pathBuilder2 = new PathBuilder();
+        int i32 = 0;
+        PathBuilder builder9 = pathBuilder2;
+        int i45 = 0;
+        ImageVector.Builder builder22 = builder4;
+        builder9.moveTo(1091567616, 1095761920);
+        builder9.moveToRelative(-1080033280, 0);
+        int i223 = 0;
+        int i95 = 1067450368;
+        int i121 = 1067450368;
+        int i147 = 0;
+        int i173 = 1;
+        int i197 = 1;
+        PathBuilder builder18 = builder9;
+        builder18.arcToRelative(i95, i121, i147, i173, i197, 1075838976, i223);
+        builder18.arcToRelative(i95, i121, i147, i173, i197, -1071644672, i223);
+        ImageVector.Builder.addPath-oIyEayM$default(builder4, pathBuilder2.getNodes(), VectorKt.getDefaultFillType(), "", (Brush)solidColor2, 1065353216, i63, 1065353216, i68, StrokeCap.Companion.getButt-KaPHkGw(), StrokeJoin.Companion.getBevel-LxFBmk8(), i69, 0, 0, 0, 14336, 0);
+        ImageVector.Builder builder5 = builder21;
+        int i12 = 0;
+        SolidColor solidColor3 = new SolidColor(Color.Companion.getBlack-0d7_KjU(), pathBuilder2, 0);
+        int i18 = 0;
+        int i24 = 0;
+        PathBuilder pathBuilder3 = new PathBuilder();
+        int i34 = 0;
+        PathBuilder builder10 = pathBuilder3;
+        int i46 = 0;
+        ImageVector.Builder builder23 = builder5;
+        builder10.moveTo(1097859072, 1095761920);
+        builder10.moveToRelative(-1080033280, 0);
+        int i97 = 1067450368;
+        int i123 = 1067450368;
+        int i149 = 0;
+        int i175 = 1;
+        PathBuilder builder19 = builder10;
+        builder19.arcToRelative(i97, i123, i149, i175, i197, 1075838976, i223);
+        builder19.arcToRelative(i97, i123, i149, i175, i197, -1071644672, i223);
+        FaceKt._face = ImageVector.Builder.addPath-oIyEayM$default(builder5, pathBuilder3.getNodes(), VectorKt.getDefaultFillType(), "", (Brush)solidColor3, 1065353216, i63, 1065353216, i68, StrokeCap.Companion.getButt-KaPHkGw(), StrokeJoin.Companion.getBevel-LxFBmk8(), i69, 0, 0, 0, 14336, 0).build();
+        ImageVector _face3 = FaceKt._face;
+        Intrinsics.checkNotNull(_face3);
+        return _face3;
+    }
+}

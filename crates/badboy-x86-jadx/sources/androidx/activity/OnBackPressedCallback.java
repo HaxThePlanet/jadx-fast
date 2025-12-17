@@ -1,0 +1,78 @@
+package androidx.activity;
+
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
+import kotlin.Metadata;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
+import kotlin.jvm.internal.Intrinsics;
+
+/* loaded from: classes.dex */
+@Metadata(d1 = "\u00000\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\u000b\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0010\u0002\n\u0002\u0008\u000e\n\u0002\u0018\u0002\n\u0002\u0008\u0004\u0008&\u0018\u00002\u00020\u0001B\r\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0002\u0010\u0004J\u0010\u0010\u0013\u001a\u00020\n2\u0006\u0010\u0014\u001a\u00020\u0007H\u0001J\u0008\u0010\u0015\u001a\u00020\nH\u0017J\u0008\u0010\u0016\u001a\u00020\nH'J\u0010\u0010\u0017\u001a\u00020\n2\u0006\u0010\u0018\u001a\u00020\u0019H\u0017J\u0010\u0010\u001a\u001a\u00020\n2\u0006\u0010\u0018\u001a\u00020\u0019H\u0017J\u0008\u0010\u001b\u001a\u00020\nH\u0007J\u0010\u0010\u001c\u001a\u00020\n2\u0006\u0010\u0014\u001a\u00020\u0007H\u0001R\u0014\u0010\u0005\u001a\u0008\u0012\u0004\u0012\u00020\u00070\u0006X\u0082\u0004¢\u0006\u0002\n\u0000R\"\u0010\u0008\u001a\n\u0012\u0004\u0012\u00020\n\u0018\u00010\tX\u0080\u000e¢\u0006\u000e\n\u0000\u001a\u0004\u0008\u000b\u0010\u000c\"\u0004\u0008\r\u0010\u000eR&\u0010\u0010\u001a\u00020\u00032\u0006\u0010\u000f\u001a\u00020\u00038G@GX\u0086\u000e¢\u0006\u000e\n\u0000\u001a\u0004\u0008\u0010\u0010\u0011\"\u0004\u0008\u0012\u0010\u0004¨\u0006\u001d", d2 = {"Landroidx/activity/OnBackPressedCallback;", "", "enabled", "", "(Z)V", "cancellables", "Ljava/util/concurrent/CopyOnWriteArrayList;", "Landroidx/activity/Cancellable;", "enabledChangedCallback", "Lkotlin/Function0;", "", "getEnabledChangedCallback$activity_release", "()Lkotlin/jvm/functions/Function0;", "setEnabledChangedCallback$activity_release", "(Lkotlin/jvm/functions/Function0;)V", "value", "isEnabled", "()Z", "setEnabled", "addCancellable", "cancellable", "handleOnBackCancelled", "handleOnBackPressed", "handleOnBackProgressed", "backEvent", "Landroidx/activity/BackEventCompat;", "handleOnBackStarted", "remove", "removeCancellable", "activity_release"}, k = 1, mv = {1, 8, 0}, xi = 48)
+public abstract class OnBackPressedCallback {
+
+    private final CopyOnWriteArrayList<androidx.activity.Cancellable> cancellables;
+    private Function0<Unit> enabledChangedCallback;
+    private boolean isEnabled;
+    public OnBackPressedCallback(boolean enabled) {
+        super();
+        this.isEnabled = enabled;
+        CopyOnWriteArrayList copyOnWriteArrayList = new CopyOnWriteArrayList();
+        this.cancellables = copyOnWriteArrayList;
+    }
+
+    public final void addCancellable(androidx.activity.Cancellable cancellable) {
+        Intrinsics.checkNotNullParameter(cancellable, "cancellable");
+        this.cancellables.add(cancellable);
+    }
+
+    public final Function0<Unit> getEnabledChangedCallback$activity_release() {
+        return this.enabledChangedCallback;
+    }
+
+    public void handleOnBackCancelled() {
+    }
+
+    public abstract void handleOnBackPressed();
+
+    public void handleOnBackProgressed(androidx.activity.BackEventCompat backEvent) {
+        Intrinsics.checkNotNullParameter(backEvent, "backEvent");
+    }
+
+    public void handleOnBackStarted(androidx.activity.BackEventCompat backEvent) {
+        Intrinsics.checkNotNullParameter(backEvent, "backEvent");
+    }
+
+    public final boolean isEnabled() {
+        return this.isEnabled;
+    }
+
+    public final void remove() {
+        Object next;
+        Object obj;
+        int i;
+        final int i2 = 0;
+        final Iterator iterator = (Iterable)this.cancellables.iterator();
+        for (Object next : iterator) {
+            i = 0;
+            (Cancellable)next.cancel();
+        }
+    }
+
+    public final void removeCancellable(androidx.activity.Cancellable cancellable) {
+        Intrinsics.checkNotNullParameter(cancellable, "cancellable");
+        this.cancellables.remove(cancellable);
+    }
+
+    public final void setEnabled(boolean value) {
+        this.isEnabled = value;
+        final Function0 enabledChangedCallback = this.enabledChangedCallback;
+        if (enabledChangedCallback != null) {
+            enabledChangedCallback.invoke();
+        }
+    }
+
+    public final void setEnabledChangedCallback$activity_release(Function0<Unit> <set-?>) {
+        this.enabledChangedCallback = <set-?>;
+    }
+}

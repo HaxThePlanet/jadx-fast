@@ -1,0 +1,43 @@
+package androidx.compose.animation.core;
+
+import kotlin.Metadata;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.internal.FloatCompanionObject;
+
+/* loaded from: classes.dex */
+@Metadata(d1 = "\u0000J\n\u0000\n\u0002\u0010\t\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0018\u0002\n\u0002\u0010\u0007\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0018\u0002\n\u0002\u0008\u0005\u001a,\u0010\u0007\u001a\u000e\u0012\u0004\u0012\u00020\t\u0012\u0004\u0012\u00020\n0\u00082\u0006\u0010\u000b\u001a\u00020\u000c2\u0006\u0010\r\u001a\u00020\t2\u0008\u0008\u0002\u0010\u000e\u001a\u00020\t\u001aa\u0010\u000f\u001a\u000e\u0012\u0004\u0012\u0002H\u0011\u0012\u0004\u0012\u0002H\u00120\u0010\"\u0004\u0008\u0000\u0010\u0011\"\u0008\u0008\u0001\u0010\u0012*\u00020\u00132\u000c\u0010\u000b\u001a\u0008\u0012\u0004\u0012\u0002H\u00110\u00142\u0012\u0010\u0015\u001a\u000e\u0012\u0004\u0012\u0002H\u0011\u0012\u0004\u0012\u0002H\u00120\u00162\u0006\u0010\r\u001a\u0002H\u00112\u0006\u0010\u0017\u001a\u0002H\u00112\u0006\u0010\u000e\u001a\u0002H\u0011¢\u0006\u0002\u0010\u0018\u001aE\u0010\u0019\u001a\u000e\u0012\u0004\u0012\u0002H\u0012\u0012\u0004\u0012\u0002H\u00120\u0010\"\u0008\u0008\u0000\u0010\u0012*\u00020\u0013*\u0008\u0012\u0004\u0012\u0002H\u00120\u001a2\u0006\u0010\r\u001a\u0002H\u00122\u0006\u0010\u0017\u001a\u0002H\u00122\u0006\u0010\u000e\u001a\u0002H\u0012H\u0007¢\u0006\u0002\u0010\u001b\u001a3\u0010\u001c\u001a\u0002H\u0011\"\u0004\u0008\u0000\u0010\u0011\"\u0008\u0008\u0001\u0010\u0012*\u00020\u0013*\u000e\u0012\u0004\u0012\u0002H\u0011\u0012\u0004\u0012\u0002H\u00120\u00042\u0006\u0010\u001d\u001a\u00020\u0001¢\u0006\u0002\u0010\u001e\"\u000e\u0010\u0000\u001a\u00020\u0001X\u0080T¢\u0006\u0002\n\u0000\"\u000e\u0010\u0002\u001a\u00020\u0001X\u0080T¢\u0006\u0002\n\u0000\" \u0010\u0003\u001a\u00020\u0001*\n\u0012\u0002\u0008\u0003\u0012\u0002\u0008\u00030\u00048@X\u0080\u0004¢\u0006\u0006\u001a\u0004\u0008\u0005\u0010\u0006¨\u0006\u001f", d2 = {"MillisToNanos", "", "SecondsToMillis", "durationMillis", "Landroidx/compose/animation/core/Animation;", "getDurationMillis", "(Landroidx/compose/animation/core/Animation;)J", "DecayAnimation", "Landroidx/compose/animation/core/DecayAnimation;", "", "Landroidx/compose/animation/core/AnimationVector1D;", "animationSpec", "Landroidx/compose/animation/core/FloatDecayAnimationSpec;", "initialValue", "initialVelocity", "TargetBasedAnimation", "Landroidx/compose/animation/core/TargetBasedAnimation;", "T", "V", "Landroidx/compose/animation/core/AnimationVector;", "Landroidx/compose/animation/core/AnimationSpec;", "typeConverter", "Landroidx/compose/animation/core/TwoWayConverter;", "targetValue", "(Landroidx/compose/animation/core/AnimationSpec;Landroidx/compose/animation/core/TwoWayConverter;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Landroidx/compose/animation/core/TargetBasedAnimation;", "createAnimation", "Landroidx/compose/animation/core/VectorizedAnimationSpec;", "(Landroidx/compose/animation/core/VectorizedAnimationSpec;Landroidx/compose/animation/core/AnimationVector;Landroidx/compose/animation/core/AnimationVector;Landroidx/compose/animation/core/AnimationVector;)Landroidx/compose/animation/core/TargetBasedAnimation;", "getVelocityFromNanos", "playTimeNanos", "(Landroidx/compose/animation/core/Animation;J)Ljava/lang/Object;", "animation-core_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
+public final class AnimationKt {
+
+    public static final long MillisToNanos = 1000000L;
+    public static final long SecondsToMillis = 1000L;
+    public static final androidx.compose.animation.core.DecayAnimation<Float, androidx.compose.animation.core.AnimationVector1D> DecayAnimation(androidx.compose.animation.core.FloatDecayAnimationSpec animationSpec, float initialValue, float initialVelocity) {
+        DecayAnimation decayAnimation = new DecayAnimation(DecayAnimationSpecKt.generateDecayAnimationSpec(animationSpec), VectorConvertersKt.getVectorConverter(FloatCompanionObject.INSTANCE), Float.valueOf(initialValue), (AnimationVector)AnimationVectorsKt.AnimationVector(initialVelocity));
+        return decayAnimation;
+    }
+
+    public static androidx.compose.animation.core.DecayAnimation DecayAnimation$default(androidx.compose.animation.core.FloatDecayAnimationSpec floatDecayAnimationSpec, float f2, float f3, int i4, Object object5) {
+        int obj2;
+        if (i4 &= 4 != 0) {
+            obj2 = 0;
+        }
+        return AnimationKt.DecayAnimation(floatDecayAnimationSpec, f2, obj2);
+    }
+
+    public static final <T, V extends androidx.compose.animation.core.AnimationVector> androidx.compose.animation.core.TargetBasedAnimation<T, V> TargetBasedAnimation(androidx.compose.animation.core.AnimationSpec<T> animationSpec, androidx.compose.animation.core.TwoWayConverter<T, V> typeConverter, T initialValue, T targetValue, T initialVelocity) {
+        TargetBasedAnimation targetBasedAnimation = new TargetBasedAnimation(animationSpec, typeConverter, initialValue, targetValue, (AnimationVector)typeConverter.getConvertToVector().invoke(initialVelocity));
+        return targetBasedAnimation;
+    }
+
+    public static final <V extends androidx.compose.animation.core.AnimationVector> androidx.compose.animation.core.TargetBasedAnimation<V, V> createAnimation(androidx.compose.animation.core.VectorizedAnimationSpec<V> $this$createAnimation, V initialValue, V targetValue, V initialVelocity) {
+        TargetBasedAnimation targetBasedAnimation = new TargetBasedAnimation($this$createAnimation, VectorConvertersKt.TwoWayConverter((Function1)AnimationKt.createAnimation.1.INSTANCE, (Function1)AnimationKt.createAnimation.2.INSTANCE), initialValue, targetValue, initialVelocity);
+        return targetBasedAnimation;
+    }
+
+    public static final long getDurationMillis(androidx.compose.animation.core.Animation<?, ?> $this$durationMillis) {
+        return durationNanos /= i2;
+    }
+
+    public static final <T, V extends androidx.compose.animation.core.AnimationVector> T getVelocityFromNanos(androidx.compose.animation.core.Animation<T, V> $this$getVelocityFromNanos, long playTimeNanos) {
+        return $this$getVelocityFromNanos.getTypeConverter().getConvertFromVector().invoke($this$getVelocityFromNanos.getVelocityVectorFromNanos(playTimeNanos));
+    }
+}

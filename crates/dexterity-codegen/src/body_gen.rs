@@ -4357,18 +4357,30 @@ fn write_typed_args_with_varargs<W: CodeWriter>(
         return;
     }
 
+    // Limit arguments to method parameter count when we have type info
+    // This filters out Kotlin default parameter markers (extra args beyond declared params)
+    // Only apply when: param_types is non-empty AND not varargs AND args exceed params
+    let effective_arg_count = if !param_types.is_empty()
+        && !is_varargs.unwrap_or(false)
+        && arg_count > param_types.len()
+    {
+        param_types.len()
+    } else {
+        arg_count
+    };
+
     // Check if we should attempt varargs expansion:
     // 1. Method is known to be varargs, OR
     // 2. Method varargs status unknown but heuristic suggests expansion
     let should_try_varargs = is_varargs.unwrap_or(false)
         || (is_varargs.is_none() && should_heuristic_expand_varargs(param_types, &args_to_process, ctx));
 
-    for (i, a) in args_to_process.iter().enumerate() {
+    for (i, a) in args_to_process.iter().take(effective_arg_count).enumerate() {
         if i > 0 {
             code.add(", ");
         }
 
-        let is_last_arg = i == arg_count - 1;
+        let is_last_arg = i == effective_arg_count - 1;
 
         // Try varargs expansion only for the last argument
         if is_last_arg && should_try_varargs {
