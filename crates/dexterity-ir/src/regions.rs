@@ -379,3 +379,161 @@ impl CatchHandler {
         self.exception_types.first().map(|s| s.as_str())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::instructions::IfCondition;
+
+    #[test]
+    fn test_de_morgan_not_and() {
+        // NOT(AND(a,b)) → OR(NOT(a), NOT(b))
+        let a = Condition::simple(0, IfCondition::Eq);
+        let b = Condition::simple(1, IfCondition::Ne);
+        let cond = Condition::Not(Box::new(Condition::And(Box::new(a), Box::new(b))));
+
+        let simplified = cond.simplify();
+
+        // Result should be OR with both sides negated
+        match simplified {
+            Condition::Or(left, right) => {
+                assert!(left.is_negated());
+                assert!(right.is_negated());
+            }
+            _ => panic!("Expected OR after De Morgan's law, got {:?}", simplified),
+        }
+    }
+
+    #[test]
+    fn test_de_morgan_not_or() {
+        // NOT(OR(a,b)) → AND(NOT(a), NOT(b))
+        let a = Condition::simple(0, IfCondition::Eq);
+        let b = Condition::simple(1, IfCondition::Ne);
+        let cond = Condition::Not(Box::new(Condition::Or(Box::new(a), Box::new(b))));
+
+        let simplified = cond.simplify();
+
+        // Result should be AND with both sides negated
+        match simplified {
+            Condition::And(left, right) => {
+                assert!(left.is_negated());
+                assert!(right.is_negated());
+            }
+            _ => panic!("Expected AND after De Morgan's law, got {:?}", simplified),
+        }
+    }
+
+    #[test]
+    fn test_double_negation_elimination() {
+        // NOT(NOT(a)) → a
+        let inner = Condition::simple(0, IfCondition::Eq);
+        let cond = Condition::Not(Box::new(Condition::Not(Box::new(inner.clone()))));
+
+        let simplified = cond.simplify();
+
+        match simplified {
+            Condition::Simple { block, op, negated } => {
+                assert_eq!(block, 0);
+                assert_eq!(op, IfCondition::Eq);
+                assert!(!negated);
+            }
+            _ => panic!("Expected Simple after double negation, got {:?}", simplified),
+        }
+    }
+
+    #[test]
+    fn test_not_ternary_distribution() {
+        // NOT(a ? b : c) → a ? NOT(b) : NOT(c)
+        let cond_a = Condition::simple(0, IfCondition::Eq);
+        let cond_b = Condition::simple(1, IfCondition::Ne);
+        let cond_c = Condition::simple(2, IfCondition::Lt);
+
+        let ternary = Condition::Ternary {
+            condition: Box::new(cond_a),
+            if_true: Box::new(cond_b),
+            if_false: Box::new(cond_c),
+        };
+        let cond = Condition::Not(Box::new(ternary));
+
+        let simplified = cond.simplify();
+
+        match simplified {
+            Condition::Ternary { condition, if_true, if_false } => {
+                // condition should be unchanged
+                assert!(!condition.is_negated());
+                // if_true and if_false should be negated
+                assert!(if_true.is_negated());
+                assert!(if_false.is_negated());
+            }
+            _ => panic!("Expected Ternary with distributed NOT, got {:?}", simplified),
+        }
+    }
+
+    #[test]
+    fn test_simplify_simple_condition() {
+        // Simple condition should remain unchanged
+        let cond = Condition::simple(5, IfCondition::Ge);
+        let simplified = cond.simplify();
+
+        match simplified {
+            Condition::Simple { block, op, negated } => {
+                assert_eq!(block, 5);
+                assert_eq!(op, IfCondition::Ge);
+                assert!(!negated);
+            }
+            _ => panic!("Expected unchanged Simple, got {:?}", simplified),
+        }
+    }
+
+    #[test]
+    fn test_is_negated() {
+        let simple = Condition::simple(0, IfCondition::Eq);
+        assert!(!simple.is_negated());
+
+        let simple_neg = Condition::simple_negated(0, IfCondition::Eq);
+        assert!(simple_neg.is_negated());
+
+        let not = Condition::Not(Box::new(Condition::simple(0, IfCondition::Eq)));
+        assert!(not.is_negated());
+    }
+
+    #[test]
+    fn test_flatten_and() {
+        // (a AND b) AND c
+        let a = Condition::simple(0, IfCondition::Eq);
+        let b = Condition::simple(1, IfCondition::Ne);
+        let c = Condition::simple(2, IfCondition::Lt);
+
+        let and_inner = Condition::And(Box::new(a), Box::new(b));
+        let and_outer = Condition::And(Box::new(and_inner), Box::new(c));
+
+        let flattened = and_outer.flatten_and();
+        assert_eq!(flattened.len(), 3);
+    }
+
+    #[test]
+    fn test_flatten_or() {
+        // (a OR b) OR c
+        let a = Condition::simple(0, IfCondition::Eq);
+        let b = Condition::simple(1, IfCondition::Ne);
+        let c = Condition::simple(2, IfCondition::Lt);
+
+        let or_inner = Condition::Or(Box::new(a), Box::new(b));
+        let or_outer = Condition::Or(Box::new(or_inner), Box::new(c));
+
+        let flattened = or_outer.flatten_or();
+        assert_eq!(flattened.len(), 3);
+    }
+
+    #[test]
+    fn test_negate() {
+        // Negate simple condition
+        let simple = Condition::simple(0, IfCondition::Eq);
+        let negated = simple.negate();
+        assert!(negated.is_negated());
+
+        // Double negate should return to original
+        let double_negated = negated.negate();
+        assert!(!double_negated.is_negated());
+    }
+}
