@@ -18,6 +18,7 @@ pub mod method_inline;
 pub mod region_builder;
 pub mod simplify;
 pub mod ssa;
+pub mod ternary_mod;
 pub mod type_inference;
 pub mod var_naming;
 pub mod visitor;
@@ -52,6 +53,10 @@ pub use var_naming::{assign_var_names, assign_var_names_with_lookups, FieldNameI
 pub use simplify::{simplify_instructions, SimplifyResult};
 pub use const_inline::{inline_constants, ConstInlineResult};
 pub use code_shrink::{shrink_code, CodeShrinkResult, WrapTarget};
+pub use ternary_mod::{
+    analyze_ternary_opportunities, process_ternary_mod, TernaryKind, TernaryModResult,
+    TernaryPattern,
+};
 pub use enum_visitor::{
     analyze_enum_class, analyze_enum_class_with_strings, is_enum_synthetic_method, is_values_field,
     EnumArg, EnumClassInfo, EnumFieldInfo, EnumVisitorResult,

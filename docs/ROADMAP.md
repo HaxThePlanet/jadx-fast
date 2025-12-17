@@ -43,7 +43,7 @@
 | Interface Generics | ClassGen.java | P1 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **PENDING AGENT IN PROGRESS** |
 | SimplifyVisitor audit | SimplifyVisitor.java (638 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **PARTIAL - double negation, CMP unwrapping done** |
 | TernaryMod pass | TernaryMod.java (352 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** |
-| Multi-DEX support | RootNode.java | P2 | jadx-core/dex/nodes/ | **PENDING AGENT IN PROGRESS** |
+| Multi-DEX support | RootNode.java | P2 | jadx-core/dex/nodes/ | **DONE** |
 | Warning comments | CodeGen.java retry | P3 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **PENDING AGENT IN PROGRESS** |
 
 ---
