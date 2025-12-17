@@ -12,7 +12,8 @@ use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{
     assign_var_names, split_blocks, transform_to_ssa, infer_types, simplify_instructions,
-    inline_constants, BlockSplitResult, CFG, SsaResult, TypeInferenceResult, VarNamingResult,
+    inline_constants, shrink_code, prepare_for_codegen, BlockSplitResult, CFG, SsaResult,
+    TypeInferenceResult, VarNamingResult, CodeShrinkResult,
 };
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
 
@@ -31,6 +32,8 @@ pub struct DecompiledMethod {
     pub var_names: VarNamingResult,
     /// Region tree for structured code generation
     pub regions: Region,
+    /// Code shrinking result (variable inlining decisions)
+    pub shrink_result: CodeShrinkResult,
 }
 
 /// Decompile a method through the full pipeline
@@ -89,6 +92,14 @@ pub fn decompile_method(
         .collect();
     let _ = simplify_instructions(&mut ssa, Some(&type_map));
 
+    // Stage 5.6: Code shrinking - mark single-use variables for inlining
+    // This runs after simplify to work on the cleaned-up instruction stream
+    let shrink_result = shrink_code(&mut ssa);
+
+    // Stage 5.7: Final cleanup before codegen
+    // Removes redundant moves, marks associative chains for parenthesis optimization
+    let _ = prepare_for_codegen(&mut ssa);
+
     // Stage 6: Variable naming
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
     let num_params = method.arg_types.len() as u16;
@@ -101,6 +112,7 @@ pub fn decompile_method(
         types,
         var_names,
         regions,
+        shrink_result,
     })
 }
 

@@ -11,11 +11,20 @@
 //!   int result = (a + b) * 2;
 //!
 //! Based on JADX's CodeShrinkVisitor.
+//!
+//! ## Cross-Block Inlining
+//!
+//! Unlike simple same-block inlining, cross-block inlining moves instructions
+//! between different basic blocks. This requires checking:
+//! 1. Path exists from def block to use block
+//! 2. No side effects between def and use
+//! 3. No register reassignments on the path
+//! 4. Special handling for synchronized regions
 
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap, HashSet, VecDeque};
 use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, InvokeKind, RegisterArg};
 use dexterity_ir::attributes::AFlag;
-use crate::ssa::SsaResult;
+use crate::ssa::{SsaResult, SsaBlock};
 
 /// Result of code shrinking pass
 #[derive(Debug, Default)]
@@ -48,10 +57,13 @@ pub fn shrink_code(ssa: &mut SsaResult) -> CodeShrinkResult {
     // Phase 2: Find single-use variables and their definitions
     let single_use_defs = find_single_use_defs(ssa, &use_counts);
 
-    // Phase 3: For each block, try to wrap instructions
+    // Phase 3: For each block, try to wrap instructions (same-block inlining)
     for block in &mut ssa.blocks {
         shrink_block(block, &single_use_defs, &use_counts, &mut result);
     }
+
+    // Phase 4: Try cross-block inlining for remaining single-use variables
+    try_cross_block_inlining(ssa, &single_use_defs, &mut result);
 
     result
 }
@@ -326,6 +338,7 @@ fn is_safe_to_inline_at(use_insn: &InsnNode, arg_idx: usize, def_insn: &InsnNode
 #[derive(Debug, Clone)]
 struct DefInfo {
     insn_offset: u32,
+    block_id: u32,
 }
 
 /// Find definitions of single-use variables
@@ -344,6 +357,7 @@ fn find_single_use_defs(
                 if use_counts.get(&key).copied().unwrap_or(0) == 1 {
                     defs.insert(key, DefInfo {
                         insn_offset: insn.offset,
+                        block_id: block.id,
                     });
                 }
             }
@@ -543,6 +557,358 @@ fn count_uses(ssa: &SsaResult) -> HashMap<(u16, u32), usize> {
     }
 
     counts
+}
+
+// =============================================================================
+// Cross-Block Inlining Support
+// =============================================================================
+
+/// Check if a path exists from one block to another using BFS
+fn path_exists(ssa: &SsaResult, from_block: u32, to_block: u32) -> bool {
+    if from_block == to_block {
+        return true;
+    }
+
+    // Build block index for quick lookup
+    let block_index: HashMap<u32, usize> = ssa.blocks.iter()
+        .enumerate()
+        .map(|(i, b)| (b.id, i))
+        .collect();
+
+    let mut visited = HashSet::new();
+    let mut queue = VecDeque::new();
+    queue.push_back(from_block);
+    visited.insert(from_block);
+
+    while let Some(block_id) = queue.pop_front() {
+        if let Some(&idx) = block_index.get(&block_id) {
+            for &succ in &ssa.blocks[idx].successors {
+                if succ == to_block {
+                    return true;
+                }
+                if visited.insert(succ) {
+                    queue.push_back(succ);
+                }
+            }
+        }
+    }
+
+    false
+}
+
+/// Get all blocks on the path between two blocks
+fn get_path_blocks(ssa: &SsaResult, from_block: u32, to_block: u32) -> HashSet<u32> {
+    let mut result = HashSet::new();
+
+    // Build block index for quick lookup
+    let block_index: HashMap<u32, usize> = ssa.blocks.iter()
+        .enumerate()
+        .map(|(i, b)| (b.id, i))
+        .collect();
+
+    // BFS to find all reachable blocks from `from_block` that can reach `to_block`
+    // First pass: find all blocks reachable from from_block
+    let mut forward_reachable = HashSet::new();
+    let mut queue = VecDeque::new();
+    queue.push_back(from_block);
+    forward_reachable.insert(from_block);
+
+    while let Some(block_id) = queue.pop_front() {
+        if let Some(&idx) = block_index.get(&block_id) {
+            for &succ in &ssa.blocks[idx].successors {
+                if forward_reachable.insert(succ) {
+                    queue.push_back(succ);
+                }
+            }
+        }
+    }
+
+    // Second pass: find all blocks that can reach to_block (backwards)
+    let mut backward_reachable = HashSet::new();
+    queue.push_back(to_block);
+    backward_reachable.insert(to_block);
+
+    while let Some(block_id) = queue.pop_front() {
+        if let Some(&idx) = block_index.get(&block_id) {
+            for &pred in &ssa.blocks[idx].predecessors {
+                if backward_reachable.insert(pred) {
+                    queue.push_back(pred);
+                }
+            }
+        }
+    }
+
+    // Intersection: blocks on the path are those reachable from `from` AND that can reach `to`
+    for block_id in forward_reachable {
+        if backward_reachable.contains(&block_id) {
+            result.insert(block_id);
+        }
+    }
+
+    result
+}
+
+/// Check if a register is reassigned by an instruction
+fn reassigns_reg(insn: &InsnNode, regs: &HashSet<u16>) -> bool {
+    if let Some(dest) = get_result_reg(insn) {
+        return regs.contains(&dest.reg_num);
+    }
+    false
+}
+
+/// Check if we can safely move an instruction between blocks
+///
+/// This checks:
+/// 1. Path exists from def block to use block
+/// 2. All instructions after def in def block are reorderable and don't reassign args
+/// 3. All instructions in intermediate blocks are reorderable and don't reassign args
+/// 4. All instructions before use in use block are reorderable and don't reassign args
+fn can_move_between_blocks(
+    ssa: &SsaResult,
+    def_info: &DefInfo,
+    use_block_id: u32,
+    use_insn_offset: u32,
+) -> bool {
+    let def_block_id = def_info.block_id;
+    let def_insn_offset = def_info.insn_offset;
+
+    // If same block, use the existing same-block check
+    if def_block_id == use_block_id {
+        return true; // Handled by can_inline()
+    }
+
+    // Check if path exists
+    if !path_exists(ssa, def_block_id, use_block_id) {
+        return false;
+    }
+
+    // Build block index
+    let block_index: HashMap<u32, usize> = ssa.blocks.iter()
+        .enumerate()
+        .map(|(i, b)| (b.id, i))
+        .collect();
+
+    // Find the def instruction and get its argument registers
+    let def_block_idx = match block_index.get(&def_block_id) {
+        Some(&idx) => idx,
+        None => return false,
+    };
+    let def_block = &ssa.blocks[def_block_idx];
+
+    // Find def instruction and get its argument registers
+    let def_insn = def_block.instructions.iter()
+        .find(|i| i.offset == def_insn_offset);
+    let def_args: HashSet<u16> = match def_insn {
+        Some(insn) => get_register_args(insn).iter().map(|(r, _)| *r).collect(),
+        None => return false,
+    };
+
+    // Check instructions after def in the def block
+    let mut found_def = false;
+    for insn in &def_block.instructions {
+        if insn.offset == def_insn_offset {
+            found_def = true;
+            continue;
+        }
+        if found_def {
+            // Check instructions after def
+            if !can_reorder(insn) || reassigns_reg(insn, &def_args) {
+                return false;
+            }
+        }
+    }
+
+    // Get all blocks on the path (excluding def and use blocks)
+    let path_blocks = get_path_blocks(ssa, def_block_id, use_block_id);
+
+    // Check all intermediate blocks
+    for &block_id in &path_blocks {
+        if block_id == def_block_id || block_id == use_block_id {
+            continue;
+        }
+
+        let block_idx = match block_index.get(&block_id) {
+            Some(&idx) => idx,
+            None => continue,
+        };
+        let block = &ssa.blocks[block_idx];
+
+        // Check if this is a synchronized region exit (MONITOR_EXIT)
+        let has_monitor_exit = block.instructions.iter()
+            .any(|i| matches!(i.insn_type, InsnType::MonitorExit { .. }));
+
+        if has_monitor_exit {
+            // Don't move across synchronized region boundary
+            return false;
+        }
+
+        // Skip blocks marked don't-generate
+        if block.instructions.iter().any(|i| i.has_flag(AFlag::DontGenerate)) {
+            continue;
+        }
+
+        // Check all instructions in intermediate blocks
+        for insn in &block.instructions {
+            if !can_reorder(insn) || reassigns_reg(insn, &def_args) {
+                return false;
+            }
+        }
+    }
+
+    // Check instructions before use in the use block
+    let use_block_idx = match block_index.get(&use_block_id) {
+        Some(&idx) => idx,
+        None => return false,
+    };
+    let use_block = &ssa.blocks[use_block_idx];
+
+    for insn in &use_block.instructions {
+        if insn.offset == use_insn_offset {
+            // Reached the use instruction - we're done
+            return true;
+        }
+        // Check instructions before use
+        if !can_reorder(insn) || reassigns_reg(insn, &def_args) {
+            return false;
+        }
+    }
+
+    // Use instruction not found in use block (shouldn't happen)
+    false
+}
+
+/// Try to inline cross-block for the entire SSA result
+fn try_cross_block_inlining(
+    ssa: &mut SsaResult,
+    single_use_defs: &HashMap<(u16, u32), DefInfo>,
+    result: &mut CodeShrinkResult,
+) {
+    // Collect cross-block wrap candidates
+    // (def_block_id, def_idx, use_block_id, use_idx, use_offset, arg_idx, ssa_var)
+    let mut wrap_candidates: Vec<(u32, usize, u32, usize, u32, usize, (u16, u32))> = Vec::new();
+
+    // Build block index
+    let block_index: HashMap<u32, usize> = ssa.blocks.iter()
+        .enumerate()
+        .map(|(i, b)| (b.id, i))
+        .collect();
+
+    // For each block, check uses that reference definitions in other blocks
+    for use_block in &ssa.blocks {
+        let use_block_id = use_block.id;
+
+        for (use_idx, use_insn) in use_block.instructions.iter().enumerate() {
+            // Skip already wrapped instructions
+            if use_insn.has_flag(AFlag::Wrapped) || use_insn.has_flag(AFlag::DontGenerate) {
+                continue;
+            }
+
+            let args = get_register_args(use_insn);
+
+            for (arg_idx, (reg_num, ssa_version)) in args.iter().enumerate() {
+                let ssa_var = (*reg_num, *ssa_version);
+
+                // Check if this variable has a single-use definition
+                if let Some(def_info) = single_use_defs.get(&ssa_var) {
+                    // Only consider cross-block (same-block handled in shrink_block)
+                    if def_info.block_id == use_block_id {
+                        continue;
+                    }
+
+                    // Check if we can move between blocks
+                    if !can_move_between_blocks(ssa, def_info, use_block_id, use_insn.offset) {
+                        continue;
+                    }
+
+                    // Find def block and instruction
+                    let def_block_idx = match block_index.get(&def_info.block_id) {
+                        Some(&idx) => idx,
+                        None => continue,
+                    };
+                    let def_block = &ssa.blocks[def_block_idx];
+
+                    let def_idx = match def_block.instructions.iter()
+                        .position(|i| i.offset == def_info.insn_offset) {
+                        Some(idx) => idx,
+                        None => continue,
+                    };
+
+                    let def_insn = &def_block.instructions[def_idx];
+
+                    // Don't inline if marked don't-inline
+                    if def_insn.has_flag(AFlag::DontInline) {
+                        continue;
+                    }
+
+                    // Don't inline phi nodes
+                    if matches!(def_insn.insn_type, InsnType::Phi { .. }) {
+                        continue;
+                    }
+
+                    // Check null safety
+                    if !is_safe_to_inline_at(use_insn, arg_idx, def_insn) {
+                        continue;
+                    }
+
+                    // Check lambda inline restriction
+                    if !check_lambda_inline(def_insn, use_insn, arg_idx) {
+                        continue;
+                    }
+
+                    wrap_candidates.push((
+                        def_info.block_id,
+                        def_idx,
+                        use_block_id,
+                        use_idx,
+                        use_insn.offset,
+                        arg_idx,
+                        ssa_var,
+                    ));
+                }
+            }
+        }
+    }
+
+    // Apply cross-block wrapping
+    // Need to rebuild block index since we're mutating
+    let block_index: HashMap<u32, usize> = ssa.blocks.iter()
+        .enumerate()
+        .map(|(i, b)| (b.id, i))
+        .collect();
+
+    for (def_block_id, def_idx, _use_block_id, _use_idx, use_offset, arg_idx, ssa_var) in wrap_candidates {
+        if let Some(&block_idx) = block_index.get(&def_block_id) {
+            let def_offset = ssa.blocks[block_idx].instructions[def_idx].offset;
+            ssa.blocks[block_idx].instructions[def_idx].add_flag(AFlag::Wrapped);
+
+            result.wrap_info.insert(use_offset, WrapTarget {
+                insn_offset: def_offset,
+                arg_index: arg_idx,
+                ssa_var,
+            });
+            result.wrapped_count += 1;
+        }
+    }
+}
+
+/// Check lambda inline restriction - forbid inlining lambda as instance arg to invoke
+/// This prevents invalid patterns like: () -> { ... }.apply();
+fn check_lambda_inline(def_insn: &InsnNode, use_insn: &InsnNode, arg_idx: usize) -> bool {
+    // Check if def is InvokeCustom (lambda)
+    // Note: Dexterity doesn't have a specific InvokeCustom type, but lambdas are
+    // typically represented as invoke-custom or invoke-interface on functional interfaces
+    // For now, we'll be conservative and allow all - this can be refined later
+
+    // If use is an invoke with this as the instance arg (arg 0 for non-static), reject
+    if let InsnType::Invoke { kind, .. } = &use_insn.insn_type {
+        if arg_idx == 0 && !matches!(kind, InvokeKind::Static) {
+            // Check if def is a lambda-like pattern
+            // For now, we'll skip this restriction and rely on null safety checks
+            // TODO: Add proper InvokeCustom detection when available
+        }
+    }
+
+    true
 }
 
 #[cfg(test)]

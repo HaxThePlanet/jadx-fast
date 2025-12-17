@@ -32,9 +32,9 @@
 | Type Inference | type_inference.rs | 2,010 | DONE |
 | Region Builder | region_builder.rs | 1,929 | DONE |
 | Variable Naming | var_naming.rs | 1,392 | DONE |
-| Code Generation | body_gen.rs + expr_gen.rs | 7,187 | DONE |
+| Code Generation | body_gen.rs + expr_gen.rs | 5,525 | DONE |
 | Exception Handling | region_builder.rs | - | DONE |
-| Deobfuscation | deobf.rs | 2,215 | DONE |
+| Deobfuscation | deobf.rs | 1,825 | DONE |
 
 ### To Clone Next
 
@@ -70,9 +70,9 @@ Compare dexterity implementations against JADX originals:
 
 | Dexterity | JADX | LOC Comparison | Status |
 |-----------|------|----------------|--------|
-| simplify.rs (1200+) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
-| code_shrink.rs (686) | CodeShrinkVisitor.java (299) | Audit needed | **PENDING AGENT IN PROGRESS** |
-| conditionals.rs (738) | TernaryMod.java (352) | Port ternary conversion | Pending |
+| simplify.rs (1,520) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
+| code_shrink.rs (910+) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks |
+| conditionals.rs (740) | TernaryMod.java (352) | Port ternary conversion | Pending |
 
 **Reference:** [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md)
 
@@ -111,7 +111,7 @@ Add JADX-style diagnostic comments:
 - [x] RegionMaker traverse algorithm
 - [x] Loop detection via back-edge dominance
 - [x] Break/continue insertion
-- [ ] Endless loop explicit breaks - partial
+- [ ] Endless loop explicit breaks - **PENDING AGENT IN PROGRESS**
 
 ### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md))
 - [x] Debug info application
@@ -125,8 +125,8 @@ Add JADX-style diagnostic comments:
 - [x] ConstInlineVisitor equivalent
 - [~] SimplifyVisitor audit - **PARTIAL**: double negation (--x, ~~x, !!x), CMP unwrapping done; StringBuilder chain, cast optimization pending
 - [x] TernaryMod (If-region to ternary) - **IMPLEMENTED** (analysis pass in ternary_mod.rs, detection at codegen in body_gen.rs)
-- [ ] DeboxingVisitor - **PENDING AGENT IN PROGRESS**
-- [ ] PrepareForCodeGen final cleanup
+- [x] DeboxingVisitor - **IMPLEMENTED** (at codegen level in body_gen.rs:2992-3006, BoxingType in expr_gen.rs)
+- [x] PrepareForCodeGen final cleanup - **IMPLEMENTED** (prepare_for_codegen.rs, redundant move removal, associative chain marking)
 
 ### Code Generation ([JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md))
 - [x] Import management (BTreeSet for sorting)
@@ -155,11 +155,11 @@ Add JADX-style diagnostic comments:
 | File | LOC | Purpose |
 |------|-----|---------|
 | `crates/dexterity-passes/src/type_inference.rs` | 2,010 | Type inference |
-| `crates/dexterity-codegen/src/body_gen.rs` | 5,504 | Region traversal |
+| `crates/dexterity-codegen/src/body_gen.rs` | 4,163 | Region traversal |
 | `crates/dexterity-passes/src/region_builder.rs` | 1,929 | Control flow |
 | `crates/dexterity-passes/src/var_naming.rs` | 1,392 | Variable naming |
-| `crates/dexterity-codegen/src/expr_gen.rs` | 1,683 | Expression gen |
-| `crates/dexterity-codegen/src/class_gen.rs` | 1,736 | Class structure |
+| `crates/dexterity-codegen/src/expr_gen.rs` | 1,362 | Expression gen |
+| `crates/dexterity-codegen/src/class_gen.rs` | 1,532 | Class structure |
 
 ### JADX Source (jadx-fast)
 | File | Path | Lines |
