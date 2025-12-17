@@ -45,6 +45,7 @@
 | TernaryMod pass | TernaryMod.java (352 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** |
 | Multi-DEX support | RootNode.java | P2 | jadx-core/dex/nodes/ | **DONE** |
 | Warning comments | CodeGen.java retry | P3 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** |
+| For-each loops | LoopRegionVisitor.java | P2 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** - array pattern + iterator pattern |
 
 ---
 
@@ -72,7 +73,7 @@ Compare dexterity implementations against JADX originals:
 |-----------|------|----------------|--------|
 | simplify.rs (1,520) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
 | code_shrink.rs (910+) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks |
-| conditionals.rs (740) | TernaryMod.java (352) | Port ternary conversion | **PENDING AGENT IN PROGRESS** |
+| conditionals.rs (740) | TernaryMod.java (352) | Port ternary conversion | **DONE** - return-ternary, single-branch ternary |
 | mod_visitor.rs (310) | ModVisitor.java (634) | Array init fusion | **DONE** - NEW_ARRAY+FILL_ARRAY fusion, dead MOVE removal |
 
 **Reference:** [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md)
@@ -113,6 +114,7 @@ Add JADX-style diagnostic comments:
 - [x] Loop detection via back-edge dominance
 - [x] Break/continue insertion
 - [x] Endless loop explicit breaks - **DONE** (Region::Break/Continue variants, if-break pattern in loop bodies)
+- [x] For-each loop detection - **DONE** (Array pattern: `i < arr.length` with AGET → `for (T item : arr)`, Iterator pattern: hasNext/next)
 
 ### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md))
 - [x] Debug info application

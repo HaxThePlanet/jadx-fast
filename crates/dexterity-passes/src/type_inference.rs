@@ -234,6 +234,7 @@ pub struct TypeInference {
     phi_nodes: Vec<(TypeVar, Vec<TypeVar>)>,
     /// Type refinements from instanceof checks (block_id -> (var, refined_type))
     /// Used for flow-sensitive type narrowing
+    #[allow(dead_code)]
     instanceof_refinements: FxHashMap<u32, Vec<(TypeVar, ArgType)>>,
     /// Type refinements from cast operations (var -> refined_type)
     cast_refinements: FxHashMap<TypeVar, ArgType>,

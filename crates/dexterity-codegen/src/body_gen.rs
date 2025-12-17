@@ -103,6 +103,9 @@ pub struct BodyGenContext {
     /// When we see StringBuilder.<init> we start tracking, append() adds args,
     /// toString() emits concatenation instead of method chain
     pub stringbuilder_chains: HashMap<u16, StringBuilderChain>,
+    /// Whether this method is a constructor (<init>)
+    /// Used for single-branch ternary optimization
+    pub is_constructor: bool,
 }
 
 /// Tracks a StringBuilder chain for optimization to string concatenation
@@ -201,6 +204,7 @@ impl BodyGenContext {
             phi_declarations: HashSet::new(),
             skip_foreach_insns: HashMap::new(),
             stringbuilder_chains: HashMap::new(),
+            is_constructor: method.name == "<init>",
         }
     }
 
@@ -1377,7 +1381,7 @@ fn detect_iterator_pattern(condition: &Condition, ctx: &BodyGenContext) -> Optio
     None
 }
 
-/// ForEach loop detection result
+/// ForEach loop detection result (iterator pattern)
 struct ForEachInfo {
     /// The item variable name
     item_var: String,
@@ -1389,6 +1393,29 @@ struct ForEachInfo {
     skip_start: usize,
     /// Number of instructions to skip (next, MoveResult, optionally CheckCast)
     skip_count: usize,
+}
+
+/// Array for-each loop detection result
+/// Detects pattern: for (int i = 0; i < array.length; i++) { item = array[i]; }
+/// Converts to: for (Type item : array) { }
+struct ArrayForEachInfo {
+    /// The array expression string
+    array_expr: String,
+    /// The item variable name (extracted from AGET result)
+    item_var: String,
+    /// The item type (element type of array)
+    item_type: String,
+    /// Index register number (to track i++ and array[i])
+    #[allow(dead_code)]
+    index_reg: u16,
+    /// Block containing AGET instruction
+    aget_block: u32,
+    /// Index of AGET instruction in the block
+    aget_insn_idx: usize,
+    /// Block containing increment (i++) instruction
+    incr_block: u32,
+    /// Index of increment instruction in the block
+    incr_insn_idx: usize,
 }
 
 /// Detect if a region body starts with a next() call on the given iterator register
@@ -1599,6 +1626,164 @@ fn body_has_meaningful_structure(body: &Region, skip_block: u32, ctx: &BodyGenCo
         }
     }
     count_meaningful_blocks(body, skip_block, ctx) > 0
+}
+
+/// Detect array for-each loop pattern
+/// Pattern: for (int i = 0; i < array.length; i++) { item = array[i]; ... }
+/// Requirements (matching JADX LoopRegionVisitor.checkArrayForEach):
+/// 1. Index initialized to 0 (CONST instruction)
+/// 2. Condition: i < array.length (LT comparison with ArrayLength)
+/// 3. Increment: i++ (ADD by literal 1)
+/// 4. Body has AGET using same index and array
+fn detect_array_foreach_pattern(
+    condition: &Condition,
+    body: &Region,
+    ctx: &BodyGenContext,
+) -> Option<ArrayForEachInfo> {
+    // Extract condition block to find ArrayLength comparison
+    let (cond_block_id, _op, _negated) = match condition {
+        Condition::Simple { block, op: _, negated } => (*block, (), *negated),
+        _ => return None,
+    };
+
+    let cond_block = ctx.blocks.get(&cond_block_id)?;
+
+    // Find If instruction in condition block to get the comparison
+    let mut index_reg: Option<u16> = None;
+    let mut array_reg: Option<u16> = None;
+    let mut array_length_reg: Option<u16> = None;
+
+    // First pass: look for ArrayLength instruction to identify the array
+    for insn in &cond_block.instructions {
+        if let InsnType::ArrayLength { dest, array } = &insn.insn_type {
+            if let InsnArg::Register(arr_reg) = array {
+                array_reg = Some(arr_reg.reg_num);
+                array_length_reg = Some(dest.reg_num);
+            }
+        }
+    }
+
+    // Second pass: find the If instruction comparing index to array.length
+    for insn in &cond_block.instructions {
+        if let InsnType::If { condition: if_cond, left, right, .. } = &insn.insn_type {
+            // For array for-each: i < length (LT) or negated as i >= length (GE)
+            let is_lt_pattern = matches!(if_cond, IfCondition::Lt | IfCondition::Ge);
+            if !is_lt_pattern {
+                continue;
+            }
+
+            // Extract index register (should be on left of comparison with length)
+            if let InsnArg::Register(left_reg) = left {
+                if let Some(right_arg) = right {
+                    if let InsnArg::Register(right_reg) = right_arg {
+                        // Check if right side is array.length result
+                        if array_length_reg == Some(right_reg.reg_num) {
+                            index_reg = Some(left_reg.reg_num);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    let idx_reg = index_reg?;
+    let arr_reg = array_reg?;
+
+    // Now scan body for:
+    // 1. AGET instruction using index_reg and array_reg
+    // 2. Increment instruction: index_reg = index_reg + 1
+    let mut aget_info: Option<(u32, usize, String, String)> = None; // (block, idx, item_var, item_type)
+    let mut incr_info: Option<(u32, usize)> = None; // (block, idx)
+
+    fn scan_body_for_array_foreach(
+        region: &Region,
+        idx_reg: u16,
+        arr_reg: u16,
+        ctx: &BodyGenContext,
+        aget_info: &mut Option<(u32, usize, String, String)>,
+        incr_info: &mut Option<(u32, usize)>,
+    ) {
+        match region {
+            Region::Sequence(contents) => {
+                for content in contents {
+                    match content {
+                        RegionContent::Block(block_id) => {
+                            if let Some(block) = ctx.blocks.get(block_id) {
+                                for (insn_idx, insn) in block.instructions.iter().enumerate() {
+                                    // Look for AGET: item = array[index]
+                                    if let InsnType::ArrayGet { dest, array, index, elem_type } = &insn.insn_type {
+                                        if let (InsnArg::Register(arr), InsnArg::Register(idx)) = (array, index) {
+                                            if arr.reg_num == arr_reg && idx.reg_num == idx_reg {
+                                                let item_var = ctx.expr_gen.get_var_name(dest);
+                                                let item_type = match elem_type {
+                                                    dexterity_ir::instructions::ArrayElemType::Object => "Object".to_string(),
+                                                    dexterity_ir::instructions::ArrayElemType::Boolean => "boolean".to_string(),
+                                                    dexterity_ir::instructions::ArrayElemType::Byte => "byte".to_string(),
+                                                    dexterity_ir::instructions::ArrayElemType::Char => "char".to_string(),
+                                                    dexterity_ir::instructions::ArrayElemType::Short => "short".to_string(),
+                                                    dexterity_ir::instructions::ArrayElemType::Int => "int".to_string(),
+                                                    dexterity_ir::instructions::ArrayElemType::Wide => "long".to_string(),
+                                                };
+                                                *aget_info = Some((*block_id, insn_idx, item_var, item_type));
+                                            }
+                                        }
+                                    }
+
+                                    // Look for increment: i = i + 1
+                                    if let InsnType::Binary { dest, op, left, right } = &insn.insn_type {
+                                        if *op == BinaryOp::Add && dest.reg_num == idx_reg {
+                                            if let InsnArg::Register(left_reg) = left {
+                                                if left_reg.reg_num == idx_reg {
+                                                    if let InsnArg::Literal(LiteralArg::Int(val)) = right {
+                                                        if *val == 1 {
+                                                            *incr_info = Some((*block_id, insn_idx));
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        RegionContent::Region(nested) => {
+                            scan_body_for_array_foreach(nested, idx_reg, arr_reg, ctx, aget_info, incr_info);
+                        }
+                    }
+                }
+            }
+            Region::If { then_region, else_region, .. } => {
+                scan_body_for_array_foreach(then_region, idx_reg, arr_reg, ctx, aget_info, incr_info);
+                if let Some(else_reg) = else_region {
+                    scan_body_for_array_foreach(else_reg, idx_reg, arr_reg, ctx, aget_info, incr_info);
+                }
+            }
+            Region::Loop { body, .. } => {
+                scan_body_for_array_foreach(body, idx_reg, arr_reg, ctx, aget_info, incr_info);
+            }
+            _ => {}
+        }
+    }
+
+    scan_body_for_array_foreach(body, idx_reg, arr_reg, ctx, &mut aget_info, &mut incr_info);
+
+    // Both AGET and increment must be found
+    let (aget_block, aget_idx, item_var, item_type) = aget_info?;
+    let (incr_block, incr_idx) = incr_info?;
+
+    // Generate array expression
+    let array_expr = ctx.expr_gen.gen_arg(&InsnArg::Register(dexterity_ir::instructions::RegisterArg::new(arr_reg)));
+
+    Some(ArrayForEachInfo {
+        array_expr,
+        item_var,
+        item_type,
+        index_reg: idx_reg,
+        aget_block,
+        aget_insn_idx: aget_idx,
+        incr_block,
+        incr_insn_idx: incr_idx,
+    })
 }
 
 /// Generate else or else-if chain
@@ -2160,6 +2345,126 @@ fn detect_ternary_pattern(
     None
 }
 
+/// Information about a return-ternary pattern
+struct ReturnTernaryInfo {
+    /// Expression string for the "then" return value
+    then_value: String,
+    /// Expression string for the "else" return value
+    else_value: String,
+}
+
+/// Detect return-ternary pattern: both branches return a value
+/// Pattern: if (cond) { return a; } else { return b; } -> return cond ? a : b;
+/// From JADX TernaryMod.java lines 137-168
+fn detect_return_ternary_pattern(
+    then_region: &Region,
+    else_region: &Region,
+    ctx: &BodyGenContext,
+) -> Option<ReturnTernaryInfo> {
+    // Both branches must be simple sequences with single blocks
+    let then_block_id = get_single_block(then_region)?;
+    let else_block_id = get_single_block(else_region)?;
+
+    let then_block = ctx.blocks.get(&then_block_id)?;
+    let else_block = ctx.blocks.get(&else_block_id)?;
+
+    // Find return instructions in both blocks
+    let then_return = then_block.instructions.iter()
+        .find(|i| matches!(i.insn_type, InsnType::Return { value: Some(_) }));
+    let else_return = else_block.instructions.iter()
+        .find(|i| matches!(i.insn_type, InsnType::Return { value: Some(_) }));
+
+    // Both must have non-void returns
+    let (then_ret, else_ret) = match (then_return, else_return) {
+        (Some(t), Some(e)) => (t, e),
+        _ => return None,
+    };
+
+    // Extract return values
+    let then_value = match &then_ret.insn_type {
+        InsnType::Return { value: Some(v) } => ctx.expr_gen.gen_arg(v),
+        _ => return None,
+    };
+    let else_value = match &else_ret.insn_type {
+        InsnType::Return { value: Some(v) } => ctx.expr_gen.gen_arg(v),
+        _ => return None,
+    };
+
+    // JADX check: don't mix literal and non-literal (one arg is literal)
+    // This prevents asymmetric ternaries that look odd
+    let then_is_literal = matches!(&then_ret.insn_type,
+        InsnType::Return { value: Some(v) } if matches!(v, InsnArg::Literal(_)));
+    let else_is_literal = matches!(&else_ret.insn_type,
+        InsnType::Return { value: Some(v) } if matches!(v, InsnArg::Literal(_)));
+
+    if then_is_literal != else_is_literal {
+        return None;
+    }
+
+    Some(ReturnTernaryInfo {
+        then_value,
+        else_value,
+    })
+}
+
+/// Information about a single-branch ternary pattern
+struct SingleBranchTernaryInfo {
+    /// Destination register
+    dest_reg: u16,
+    /// SSA version of destination
+    dest_version: u32,
+    /// Expression string for the "then" value
+    then_value: String,
+    /// Variable name for the "else" value (same variable, earlier version)
+    else_var_name: String,
+}
+
+/// Detect single-branch ternary pattern: if (cond) { r = a; }
+/// Pattern: if (cond) { r = a; } -> r = cond ? a : r;
+/// From JADX TernaryMod.java lines 266-348 (processOneBranchTernary)
+/// Used in constructors to help move super() calls to top
+fn detect_single_branch_ternary_pattern(
+    then_region: &Region,
+    ctx: &BodyGenContext,
+    is_constructor: bool,
+) -> Option<SingleBranchTernaryInfo> {
+    // Then branch must be a simple sequence with single block
+    let then_block_id = get_single_block(then_region)?;
+    let then_block = ctx.blocks.get(&then_block_id)?;
+
+    // Get non-control-flow instructions
+    let insns: Vec<_> = then_block.instructions.iter()
+        .filter(|i| !is_control_flow(&i.insn_type))
+        .collect();
+
+    // Must have exactly one assignment instruction
+    if insns.len() != 1 {
+        return None;
+    }
+
+    let insn = insns[0];
+    let dest = get_insn_dest(&insn.insn_type)?;
+    let value = get_insn_value_expr(&insn.insn_type, ctx)?;
+
+    // Get the variable name for the else branch (same register, but we use current name)
+    // In Java, this becomes: r = cond ? a : r
+    let else_var_name = ctx.expr_gen.get_var_name(&dexterity_ir::instructions::RegisterArg::with_ssa(dest.0, dest.1));
+
+    // JADX constraint: Only apply this optimization in constructors (helps move super() to top)
+    // or when the variable is not used in the else branch to prevent: l = (l == 0) ? 1 : l
+    // For now, only enable for constructors to be conservative
+    if !is_constructor {
+        return None;
+    }
+
+    Some(SingleBranchTernaryInfo {
+        dest_reg: dest.0,
+        dest_version: dest.1,
+        then_value: value,
+        else_var_name,
+    })
+}
+
 /// Detect simple ternary pattern (both branches are single blocks with one assignment)
 fn detect_simple_ternary(
     then_region: &Region,
@@ -2411,6 +2716,83 @@ fn emit_ternary_assignment<W: CodeWriter>(
         .newline();
 }
 
+/// Emit a return-ternary: return cond ? then_val : else_val
+/// From JADX TernaryMod.java lines 137-168
+fn emit_return_ternary<W: CodeWriter>(
+    ternary: &ReturnTernaryInfo,
+    condition_str: &str,
+    code: &mut W,
+) {
+    // Try to simplify ternary-to-boolean patterns first
+    if let Some(simplified) = simplify_ternary_to_boolean(condition_str, &ternary.then_value, &ternary.else_value) {
+        // Simplified to just a boolean expression
+        code.start_line()
+            .add("return ")
+            .add(&simplified)
+            .add(";")
+            .newline();
+        return;
+    }
+
+    // Generate return with ternary expression
+    code.start_line()
+        .add("return ")
+        .add(condition_str)
+        .add(" ? ")
+        .add(&ternary.then_value)
+        .add(" : ")
+        .add(&ternary.else_value)
+        .add(";")
+        .newline();
+}
+
+/// Emit a single-branch ternary: dest = cond ? then_val : dest
+/// From JADX TernaryMod.java lines 266-348 (processOneBranchTernary)
+fn emit_single_branch_ternary<W: CodeWriter>(
+    ternary: &SingleBranchTernaryInfo,
+    condition_str: &str,
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) {
+    use dexterity_ir::instructions::RegisterArg;
+
+    let var_name = ctx.expr_gen.get_var_name(&RegisterArg::with_ssa(ternary.dest_reg, ternary.dest_version));
+    let reg = ternary.dest_reg;
+    let version = ternary.dest_version;
+
+    code.start_line();
+
+    // Check if we need to declare this variable
+    let needs_decl = !ctx.is_declared(reg, version)
+        && !ctx.is_parameter(reg, version)
+        && !ctx.is_name_declared(&var_name);
+
+    if needs_decl {
+        let decl_type = ctx.get_inferred_type_versioned(reg, version)
+            .or_else(|| ctx.get_inferred_type_versioned(reg, 0));
+
+        if let Some(arg_type) = decl_type {
+            let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
+            code.add(&type_str).add(" ");
+        } else {
+            code.add("Object ");
+        }
+        ctx.mark_declared(reg, version);
+        ctx.mark_name_declared(&var_name);
+    }
+
+    // Generate ternary: dest = cond ? then_val : dest
+    code.add(&var_name)
+        .add(" = ")
+        .add(condition_str)
+        .add(" ? ")
+        .add(&ternary.then_value)
+        .add(" : ")
+        .add(&ternary.else_var_name)
+        .add(";")
+        .newline();
+}
+
 /// Convert SSA blocks to BasicBlock map by taking ownership (no cloning)
 /// This is the memory-efficient version
 fn ssa_blocks_to_map_owned(ssa_result: dexterity_passes::ssa::SsaResult) -> BTreeMap<u32, BasicBlock> {
@@ -2454,11 +2836,31 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             // Check if this if/else can be converted to a ternary expression
             if let Some(else_reg) = else_region {
+                // Pattern 1: Assignment in both branches -> dest = cond ? a : b
                 if let Some(ternary) = detect_ternary_pattern(then_region, else_reg, ctx) {
-                    // Generate ternary expression: dest = cond ? then_val : else_val
                     let condition_str = generate_condition(condition, ctx);
                     emit_ternary_assignment(&ternary, &condition_str, ctx, code);
                     return;
+                }
+
+                // Pattern 2: Return in both branches -> return cond ? a : b
+                // Only for non-void return methods
+                if !matches!(ctx.return_type, ArgType::Void) {
+                    if let Some(return_ternary) = detect_return_ternary_pattern(then_region, else_reg, ctx) {
+                        let condition_str = generate_condition(condition, ctx);
+                        emit_return_ternary(&return_ternary, &condition_str, code);
+                        return;
+                    }
+                }
+            } else {
+                // Pattern 3: Single-branch assignment (constructor pattern) -> r = cond ? a : r
+                // Only for constructors to help move super() calls to top
+                if ctx.is_constructor {
+                    if let Some(single_ternary) = detect_single_branch_ternary_pattern(then_region, ctx, true) {
+                        let condition_str = generate_condition(condition, ctx);
+                        emit_single_branch_ternary(&single_ternary, &condition_str, ctx, code);
+                        return;
+                    }
                 }
             }
 
@@ -2496,7 +2898,50 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             match kind {
                 LoopKind::While | LoopKind::For => {
-                    // For-each detection: detect iterator patterns (hasNext/next) and generate
+                    // Array for-each detection: detect pattern for (int i = 0; i < array.length; i++) { item = array[i]; }
+                    // Try this before iterator detection as it's more specific
+                    if let Some(cond) = condition {
+                        if let Some(arr_foreach) = detect_array_foreach_pattern(cond, body, ctx) {
+                            // Generate array for-each: for (Type item : array) {
+                            code.start_line()
+                                .add("for (")
+                                .add(&arr_foreach.item_type)
+                                .add(" ")
+                                .add(&arr_foreach.item_var)
+                                .add(" : ")
+                                .add(&arr_foreach.array_expr)
+                                .add(") {")
+                                .newline();
+                            code.inc_indent();
+
+                            // Mark instructions to skip: AGET and increment (i++)
+                            let mut skip_set_aget: HashSet<usize> = HashSet::new();
+                            skip_set_aget.insert(arr_foreach.aget_insn_idx);
+                            ctx.skip_foreach_insns.insert(arr_foreach.aget_block, skip_set_aget);
+
+                            let mut skip_set_incr: HashSet<usize> = HashSet::new();
+                            skip_set_incr.insert(arr_foreach.incr_insn_idx);
+                            // If AGET and increment are in same block, merge skip sets
+                            if arr_foreach.aget_block == arr_foreach.incr_block {
+                                if let Some(existing) = ctx.skip_foreach_insns.get_mut(&arr_foreach.incr_block) {
+                                    existing.insert(arr_foreach.incr_insn_idx);
+                                }
+                            } else {
+                                ctx.skip_foreach_insns.insert(arr_foreach.incr_block, skip_set_incr);
+                            }
+
+                            generate_region(body, ctx, code);
+
+                            // Clean up skip sets
+                            ctx.skip_foreach_insns.remove(&arr_foreach.aget_block);
+                            ctx.skip_foreach_insns.remove(&arr_foreach.incr_block);
+
+                            gen_close_block(code);
+                            return;
+                        }
+                    }
+
+                    // Iterator for-each detection: detect iterator patterns (hasNext/next) and generate
                     // enhanced for-loop syntax. Region builder now ensures all body blocks are
                     // included, fixing the empty body issue.
                     if let Some(cond) = condition {

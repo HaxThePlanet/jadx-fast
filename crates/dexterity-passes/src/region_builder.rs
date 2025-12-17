@@ -468,7 +468,6 @@ fn is_monitor_only_handler(cfg: &CFG, handler_blocks: &BTreeSet<u32>) -> bool {
 
     // Collect all instructions from handler blocks
     let mut has_monitor_exit = false;
-    let mut has_move_exception = false;
     let mut has_throw = false;
     let mut other_insn_count = 0;
 
@@ -476,7 +475,7 @@ fn is_monitor_only_handler(cfg: &CFG, handler_blocks: &BTreeSet<u32>) -> bool {
         if let Some(block) = cfg.get_block(block_id) {
             for insn in &block.instructions {
                 match &insn.insn_type {
-                    InsnType::MoveException { .. } => has_move_exception = true,
+                    InsnType::MoveException { .. } => {} // MoveException is allowed but not required
                     InsnType::MonitorExit { .. } => has_monitor_exit = true,
                     InsnType::Throw { .. } => has_throw = true,
                     InsnType::Nop => {} // NOPs are ignored

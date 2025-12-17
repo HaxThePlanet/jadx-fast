@@ -166,6 +166,7 @@ fn find_values_field(class: &ClassData) -> Option<usize> {
 }
 
 /// Extract enum fields from the static initializer (without string lookup)
+#[allow(dead_code)]
 fn extract_enum_fields(class: &ClassData, clinit: &MethodData) -> Option<Vec<EnumFieldInfo>> {
     extract_enum_fields_with_strings(class, clinit, &None::<fn(u32) -> Option<String>>)
 }
@@ -305,6 +306,7 @@ struct PendingConstruct {
 }
 
 /// Extract a string argument from an instruction argument (without string lookup)
+#[allow(dead_code)]
 fn extract_string_arg(arg: &InsnArg, insns: &[InsnNode]) -> Option<String> {
     extract_string_arg_with_lookup(arg, insns, &None::<fn(u32) -> Option<String>>)
 }
@@ -361,6 +363,7 @@ fn extract_int_arg(arg: &InsnArg, insns: &[InsnNode]) -> Option<i64> {
 }
 
 /// Convert an instruction argument to an EnumArg (without string lookup)
+#[allow(dead_code)]
 fn convert_to_enum_arg(arg: &InsnArg, insns: &[InsnNode]) -> EnumArg {
     convert_to_enum_arg_with_lookup(arg, insns, &None::<fn(u32) -> Option<String>>)
 }

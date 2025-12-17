@@ -892,7 +892,7 @@ fn copy_code_vars(extract_info: &FinallyExtractInfo, cfg: &mut CFG) {
                 // This is done by ensuring they share the same variable name later
                 // For now, we just ensure the instruction is marked
                 if let Some(block) = cfg.get_block_mut(dup_block_id) {
-                    if let Some(insn) = block.instructions.get_mut(dup_insn_idx) {
+                    if let Some(_insn) = block.instructions.get_mut(dup_insn_idx) {
                         // The DONT_GENERATE flag is already set, which means
                         // this instruction won't generate code but its variable
                         // uses will be handled by the finally block

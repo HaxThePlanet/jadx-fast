@@ -24,7 +24,7 @@
 use std::collections::{HashMap, HashSet, VecDeque};
 use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, InvokeKind, RegisterArg};
 use dexterity_ir::attributes::AFlag;
-use crate::ssa::{SsaResult, SsaBlock};
+use crate::ssa::SsaResult;
 
 /// Result of code shrinking pass
 #[derive(Debug, Default)]
@@ -893,7 +893,7 @@ fn try_cross_block_inlining(
 
 /// Check lambda inline restriction - forbid inlining lambda as instance arg to invoke
 /// This prevents invalid patterns like: () -> { ... }.apply();
-fn check_lambda_inline(def_insn: &InsnNode, use_insn: &InsnNode, arg_idx: usize) -> bool {
+fn check_lambda_inline(_def_insn: &InsnNode, use_insn: &InsnNode, arg_idx: usize) -> bool {
     // Check if def is InvokeCustom (lambda)
     // Note: Dexterity doesn't have a specific InvokeCustom type, but lambdas are
     // typically represented as invoke-custom or invoke-interface on functional interfaces
