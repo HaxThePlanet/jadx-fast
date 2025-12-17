@@ -1123,21 +1123,9 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
 
     let mut cfg = CFG::from_blocks(block_result);
 
-    // JADX EXPLOSION PREVENTION: Check block count before region building
-    // Methods with too many blocks can cause exponential explosion in region analysis
-    // Note: JADX uses dynamic limits (5x block count for iterations), not a hard block limit
-    // Increased from 150 to 500 to handle more complex real-world methods
-    const MAX_BLOCKS_FOR_REGIONS: usize = 500;
-    let block_count = cfg.block_ids().count();
-    if block_count > MAX_BLOCKS_FOR_REGIONS {
-        eprintln!("  [SKIP: {} blocks > {} limit for regions]", block_count, MAX_BLOCKS_FOR_REGIONS);
-        code.start_line()
-            .add(&format!("/* JADX: method has {} blocks (limit {}), region analysis skipped */",
-                block_count, MAX_BLOCKS_FOR_REGIONS))
-            .newline();
-        add_default_return(&method.return_type, code);
-        return;
-    }
+    // Note: JADX uses dynamic iteration limits (5x block count), not hard block limits.
+    // The region_builder handles this with iteration_budget tracking.
+    // Panics are caught by catch_unwind at line ~915 and converted to stub methods.
 
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
@@ -1788,6 +1776,209 @@ fn detect_array_foreach_pattern(
     })
 }
 
+// =============================================================================
+// Switch-over-String Detection
+// =============================================================================
+
+/// Information about a detected switch-over-string pattern
+struct SwitchOverStringInfo {
+    /// The string expression being switched on
+    string_expr: String,
+    /// Map from case key (hashCode value) to string literal(s)
+    case_strings: std::collections::HashMap<i32, Vec<String>>,
+}
+
+/// Detect if a switch is actually a switch over a string
+/// Java compiler transforms: switch(str) { case "hello": ... }
+/// Into: switch(str.hashCode()) { case 99162322: if(str.equals("hello")) ... }
+fn detect_switch_over_string(
+    header_block: u32,
+    cases: &[dexterity_ir::regions::SwitchCase],
+    ctx: &BodyGenContext,
+) -> Option<SwitchOverStringInfo> {
+    let block = ctx.blocks.get(&header_block)?;
+
+    // Find the switch instruction and get the value register
+    let switch_reg = block.instructions.iter().find_map(|insn| {
+        match &insn.insn_type {
+            InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } => {
+                if let InsnArg::Register(reg_arg) = value {
+                    Some((reg_arg.reg_num, reg_arg.ssa_version))
+                } else {
+                    None
+                }
+            }
+            _ => None,
+        }
+    })?;
+
+    // Look for invoke-virtual hashCode() followed by MoveResult that produces switch_reg
+    let string_source = find_hashcode_source_in_block(block, switch_reg.0, switch_reg.1)?;
+
+    // Generate the string expression
+    let string_reg_arg = dexterity_ir::instructions::RegisterArg {
+        reg_num: string_source.0,
+        ssa_version: string_source.1,
+    };
+    let string_expr = ctx.expr_gen.get_var_name(&string_reg_arg);
+
+    // Collect string literals from equals() calls in each case
+    let mut case_strings = std::collections::HashMap::new();
+
+    for case in cases {
+        let strings = find_equals_strings_for_case(&case.region, string_source.0, ctx);
+        if !strings.is_empty() {
+            for &key in &case.keys {
+                case_strings.insert(key, strings.clone());
+            }
+        }
+    }
+
+    // Must have found at least one string to confirm pattern
+    if case_strings.is_empty() {
+        return None;
+    }
+
+    Some(SwitchOverStringInfo {
+        string_expr,
+        case_strings,
+    })
+}
+
+/// Find the string register that had hashCode() called on it
+fn find_hashcode_source_in_block(
+    block: &dexterity_passes::block_split::BasicBlock,
+    target_reg: u16,
+    target_version: u32,
+) -> Option<(u16, u32)> {
+    // Look for invoke-virtual followed by MoveResult that puts into target_reg
+    for (i, insn) in block.instructions.iter().enumerate() {
+        if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx: _, args } = &insn.insn_type {
+            // hashCode() takes just `this`
+            if args.len() == 1 {
+                // Check if next instruction is MoveResult to our target
+                if i + 1 < block.instructions.len() {
+                    if let InsnType::MoveResult { dest } = &block.instructions[i + 1].insn_type {
+                        if dest.reg_num == target_reg && dest.ssa_version == target_version {
+                            // This could be hashCode() - return the string register
+                            if let InsnArg::Register(reg_arg) = &args[0] {
+                                return Some((reg_arg.reg_num, reg_arg.ssa_version));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Find string literals from equals() calls in a case region
+fn find_equals_strings_for_case(
+    region: &Region,
+    string_reg: u16,
+    ctx: &BodyGenContext,
+) -> Vec<String> {
+    let mut strings = Vec::new();
+    collect_equals_strings_from_region(region, string_reg, ctx, &mut strings);
+    strings
+}
+
+/// Recursively collect string literals from equals() calls
+fn collect_equals_strings_from_region(
+    region: &Region,
+    string_reg: u16,
+    ctx: &BodyGenContext,
+    strings: &mut Vec<String>,
+) {
+    match region {
+        Region::Sequence(contents) => {
+            for content in contents {
+                match content {
+                    RegionContent::Block(block_id) => {
+                        if let Some(block) = ctx.blocks.get(block_id) {
+                            for insn in &block.instructions {
+                                if let Some(s) = extract_string_from_equals(insn, string_reg, ctx) {
+                                    strings.push(s);
+                                }
+                            }
+                        }
+                    }
+                    RegionContent::Region(nested) => {
+                        collect_equals_strings_from_region(nested, string_reg, ctx, strings);
+                    }
+                }
+            }
+        }
+        Region::If { condition, then_region, else_region } => {
+            // Check condition block for equals() call
+            if let Condition::Simple { block, .. } = condition {
+                if let Some(block) = ctx.blocks.get(block) {
+                    for insn in &block.instructions {
+                        if let Some(s) = extract_string_from_equals(insn, string_reg, ctx) {
+                            strings.push(s);
+                        }
+                    }
+                }
+            }
+            collect_equals_strings_from_region(then_region, string_reg, ctx, strings);
+            if let Some(else_reg) = else_region {
+                collect_equals_strings_from_region(else_reg, string_reg, ctx, strings);
+            }
+        }
+        _ => {}
+    }
+}
+
+/// Extract string literal from an equals() call
+fn extract_string_from_equals(
+    insn: &InsnNode,
+    string_reg: u16,
+    ctx: &BodyGenContext,
+) -> Option<String> {
+    if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx: _, args } = &insn.insn_type {
+        // equals() takes 2 args: this, other
+        if args.len() == 2 {
+            // Check if first arg is our string register (str.equals(literal))
+            if let InsnArg::Register(reg_arg) = &args[0] {
+                if reg_arg.reg_num == string_reg {
+                    return get_string_literal_from_arg(&args[1], ctx);
+                }
+            }
+            // Also check reverse: "literal".equals(str)
+            if let InsnArg::Register(reg_arg) = &args[1] {
+                if reg_arg.reg_num == string_reg {
+                    return get_string_literal_from_arg(&args[0], ctx);
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Get string literal from an instruction argument (handles const-string lookup)
+fn get_string_literal_from_arg(arg: &InsnArg, ctx: &BodyGenContext) -> Option<String> {
+    match arg {
+        InsnArg::String(string_idx) => {
+            ctx.expr_gen.get_string_value(*string_idx)
+        }
+        InsnArg::Register(reg_arg) => {
+            // Look up the defining instruction to find const-string
+            for block in ctx.blocks.values() {
+                for insn in &block.instructions {
+                    if let InsnType::ConstString { dest, string_idx } = &insn.insn_type {
+                        if dest.reg_num == reg_arg.reg_num && dest.ssa_version == reg_arg.ssa_version {
+                            return ctx.expr_gen.get_string_value(*string_idx);
+                        }
+                    }
+                }
+            }
+            None
+        }
+        _ => None,
+    }
+}
+
 /// Generate else or else-if chain
 /// If the else region is another If, generates `} else if (cond) {` instead of `} else { if (cond) {`
 fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
@@ -1952,9 +2143,8 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                             || matches!(left_type, Some(ArgType::Unknown))
                             || matches!(left_type, Some(ArgType::Int))
                             || matches!(left_type, Some(ArgType::Boolean));
-                        let name_is_object = name_suggests_object_type(&left_str);
-                        let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)))
-                            || (type_is_ambiguous && name_is_object);
+                        let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)) | Some(ArgType::Generic { .. }))
+                            || (type_is_ambiguous && name_suggests_object_type(&left_str));
                         let is_boolean = matches!(left_type, Some(ArgType::Boolean));
 
                         // Check if this is a comparison against 1 (true) for boolean types
@@ -3019,7 +3209,11 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
         }
 
         Region::Switch { header_block, cases, default } => {
+            // Try to detect switch-over-string pattern
+            let string_switch_info = detect_switch_over_string(*header_block, cases, ctx);
+
             // Emit non-switch instructions from header block (setup instructions)
+            // For switch-over-string, skip hashCode() and related setup instructions
             if let Some(block) = ctx.blocks.get(header_block) {
                 let instructions: Vec<_> = block.instructions.clone();
                 let num_insns = instructions.len();
@@ -3036,6 +3230,29 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                     if is_control_flow(&insn.insn_type) {
                         continue;
                     }
+                    // For switch-over-string, skip hashCode() invoke and its MoveResult
+                    if string_switch_info.is_some() {
+                        if matches!(insn.insn_type, InsnType::Invoke { kind: InvokeKind::Virtual, .. }) {
+                            // Check if this is a 1-arg invoke followed by MoveResult (hashCode pattern)
+                            if let InsnType::Invoke { args, .. } = &insn.insn_type {
+                                if args.len() == 1 && i + 1 < num_insns {
+                                    if matches!(instructions[i + 1].insn_type, InsnType::MoveResult { .. }) {
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        if matches!(insn.insn_type, InsnType::MoveResult { .. }) {
+                            // Skip MoveResult that follows hashCode
+                            if i > 0 {
+                                if let InsnType::Invoke { args, kind: InvokeKind::Virtual, .. } = &instructions[i - 1].insn_type {
+                                    if args.len() == 1 {
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     // Peek at next instruction for MoveResult handling
                     let next_is_move_result = if i + 1 < num_insns {
                         matches!(instructions[i + 1].insn_type, InsnType::MoveResult { .. })
@@ -3046,16 +3263,20 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                 }
             }
 
-            // Extract switch value from the header block's switch instruction
-            let switch_value = ctx.blocks.get(header_block)
-                .and_then(|block| block.instructions.iter().rev().find_map(|insn| {
-                    match &insn.insn_type {
-                        InsnType::PackedSwitch { value, .. } |
-                        InsnType::SparseSwitch { value, .. } => Some(ctx.expr_gen.gen_arg(value)),
-                        _ => None,
-                    }
-                }))
-                .unwrap_or_else(|| "/* value */".to_string());
+            // Determine switch value - use string var for switch-over-string
+            let switch_value = if let Some(ref info) = string_switch_info {
+                info.string_expr.clone()
+            } else {
+                ctx.blocks.get(header_block)
+                    .and_then(|block| block.instructions.iter().rev().find_map(|insn| {
+                        match &insn.insn_type {
+                            InsnType::PackedSwitch { value, .. } |
+                            InsnType::SparseSwitch { value, .. } => Some(ctx.expr_gen.gen_arg(value)),
+                            _ => None,
+                        }
+                    }))
+                    .unwrap_or_else(|| "/* value */".to_string())
+            };
 
             code.start_line()
                 .add("switch (")
@@ -3065,12 +3286,40 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             code.inc_indent();
 
             for (case_idx, case) in cases.iter().enumerate() {
-                for key in &case.keys {
-                    code.start_line()
-                        .add("case ")
-                        .add(&key.to_string())
-                        .add(":")
-                        .newline();
+                // For switch-over-string, emit string literal case labels
+                if let Some(ref info) = string_switch_info {
+                    let mut emitted_any = false;
+                    for key in &case.keys {
+                        if let Some(strings) = info.case_strings.get(key) {
+                            for s in strings {
+                                code.start_line()
+                                    .add("case ")
+                                    .add(&crate::type_gen::escape_string(s))
+                                    .add(":")
+                                    .newline();
+                                emitted_any = true;
+                            }
+                        }
+                    }
+                    // If no string found for this key, fall back to integer
+                    if !emitted_any {
+                        for key in &case.keys {
+                            code.start_line()
+                                .add("case ")
+                                .add(&key.to_string())
+                                .add(": /* hashCode */")
+                                .newline();
+                        }
+                    }
+                } else {
+                    // Normal integer switch
+                    for key in &case.keys {
+                        code.start_line()
+                            .add("case ")
+                            .add(&key.to_string())
+                            .add(":")
+                            .newline();
+                    }
                 }
                 code.inc_indent();
                 generate_region(&case.region, ctx, code);

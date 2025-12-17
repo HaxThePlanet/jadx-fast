@@ -387,9 +387,9 @@ Deobfuscation heuristics in `dexterity-deobf/src/conditions.rs` are too aggressi
 - Ternary operator detection: ✓ (working)
 
 **Missing Optimizations:**
-- For-each loop detection: ✗ (disabled, README.md line 568)
+- For-each loop detection: ✓ (enabled - both array and iterator patterns)
 - Code shrinking: Partial (82% of JADX)
-- Switch-over-string: ✗ (not implemented)
+- Switch-over-string: ✓ (implemented - detects hashCode() pattern, emits string case labels)
 
 ---
 
@@ -462,7 +462,7 @@ Deobfuscation heuristics in `dexterity-deobf/src/conditions.rs` are too aggressi
 
 | Issue | Documentation | Finding |
 |-------|---------------|---------|
-| For-each loops | "Disabled, needs LoopRegionVisitor" | CONFIRMED |
+| For-each loops | "Enabled" | WORKING (array + iterator patterns) |
 | Type inference | "40%→20% Unknown types (in progress)" | NOT TESTED |
 | Try-catch nesting | "Complex cases incomplete" | CONFIRMED (91% success) |
 
@@ -516,7 +516,7 @@ Deobfuscation heuristics in `dexterity-deobf/src/conditions.rs` are too aggressi
 - Expected impact: +5 Readability
 
 **8. JADX Parity Features (P3)**
-- Switch-over-string optimization
+- ~~Switch-over-string optimization~~ ✅ Done (Dec 16)
 - Enum reconstruction
 - Additional deobfuscation patterns
 - Expected impact: +10 overall score

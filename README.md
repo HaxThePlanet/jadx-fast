@@ -97,7 +97,7 @@ Quality comparison performed on decompiled app code shows **high parity** with J
 | **Type Inference** | ✅ FIXED | 0 Unknown type failures |
 | **Undefined Variables** | ✅ FIXED | 99.9% eliminated |
 | **Exception Handling** | ✅ FIXED | Complete try-catch support |
-| **Switch Statements** | ✅ FIXED | Full recovery |
+| **Switch Statements** | 🔶 PARTIAL | 44% recovery (145 vs 328 on medium.apk) |
 | **Defect Score** | ✅ 95.9-96.8% | Production quality |
 
 #### 1:1 Output Example - Small APK
@@ -142,7 +142,7 @@ public class MainActivity extends Activity {
 | Interface Generic Params | ✅ | ✅ | **Tie** |
 | Type Inference | ✅ | ✅ | **Tie** (0 failures) |
 | Exception Handling | ✅ | ✅ | **Tie** |
-| Control Flow (switch) | ✅ | ✅ | **Tie** |
+| Control Flow (switch) | ✅ | 🔶 | **JADX** (44% recovery) |
 | **Speed** | ❌ | ✅ | **Dexterity** (3-88x) |
 | **Memory Usage** | ❌ | ✅ | **Dexterity** |
 | **Error Count** | 13 errors | 0 errors | **Dexterity** |
@@ -783,7 +783,7 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | fallback | 2 | 2 | 0 | Done |
 | jbc | 1 | 1 | 0 | Done |
 | sample | - | 5 | 0 | Done |
-| **TOTAL** | **577** | **682** | **0** | Complete |
+| **TOTAL** | **577** | **685** | **0** | Complete |
 
 Rust tests are in `crates/dexterity-cli/tests/integration/` - 685 integration tests passing, 0 TODOs remaining.
 
@@ -818,8 +818,8 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | Break/continue insertion | `EdgeInsn::Break/Continue` | Break/Continue nodes | Done |
 | Loop labels (nested) | Yes | Yes | Done |
 | **For-loop recognition** | `detect_indexed_for_pattern` | `LoopRegionVisitor` | Done |
-| **For-each (arrays)** | `detect_array_foreach_pattern` | Iterator/array patterns | **Disabled** |
-| **For-each (iterables)** | `detect_iterator_pattern` | Iterator patterns | **Disabled** |
+| **For-each (arrays)** | `detect_array_foreach_pattern` | Iterator/array patterns | **Done** |
+| **For-each (iterables)** | `detect_iterator_pattern` | Iterator patterns | **Done** |
 | **Conditionals** |
 | If-else detection | Yes | Yes | Done |
 | Merge point (post-dom) | Yes | Yes | Done |
@@ -865,7 +865,7 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | ~~`EnumVisitor`~~ | ~~Enum class reconstruction~~ | 🔶 Partial (Dec 15) |
 | ~~`TernaryMod`~~ | ~~Ternary expression conversion~~ | ✅ Done |
 | ~~`ExtractFieldInit`~~ | ~~Field initializer extraction~~ | ✅ Done (Dec 13) |
-| `SwitchOverStringVisitor` | Switch-on-string handling | Not started |
+| ~~`SwitchOverStringVisitor`~~ | ~~Switch-on-string handling~~ | ✅ Done (Dec 16) |
 | `FixSwitchOverEnum` | Enum switch optimization | Not started |
 | `ProcessAnonymous` | Anonymous class processing | Partial (inline only) |
 | `MethodInvokeVisitor` | Method invocation resolution | Not started |
@@ -935,22 +935,22 @@ These APKs are used for:
 
 *Last updated: 2025-12-16*
 
-All 685 integration tests pass. All 82 codegen unit tests pass.
+All 685 integration tests pass. All 91 codegen unit tests pass.
 
 ### Test Summary
 
 | Test Suite | Tests | Passed | Failed | Status |
 |------------|-------|--------|--------|--------|
 | **Integration Tests** | 685 | 685 | 0 | All Passing |
-| dexterity-cli (unit) | 8 | 8 | 0 | All Passing |
-| dexterity-codegen | 82 | 82 | 0 | All Passing |
-| dexterity-deobf | 23 | 23 | 0 | All Passing |
+| dexterity-cli (unit) | 15 | 15 | 0 | All Passing |
+| dexterity-codegen | 91 | 91 | 0 | All Passing |
+| dexterity-deobf | 25 | 25 | 0 | All Passing |
 | dexterity-dex | 35 | 35 | 0 | All Passing |
-| dexterity-ir | 40 | 40 | 0 | All Passing |
+| dexterity-ir | 49 | 49 | 0 | All Passing |
 | dexterity-kotlin | 3 | 3 | 0 | All Passing |
-| dexterity-passes | 99 | 99 | 0 | All Passing |
+| dexterity-passes | 130 | 130 | 0 | All Passing |
 | dexterity-resources | 8 | 8 | 0 | All Passing |
-| dexterity-qa (disabled) | 4 | 0 | 4 | Temporarily disabled (compilation issue) |
+| dexterity-qa | 14 | 14 | 0 | All Passing |
 
 **Note:** All unit tests have been updated to reflect the improved type-based variable naming (e.g., `obj0`, `obj5` instead of `v0`, `v5`). The 685 integration tests (which test end-to-end functionality) all pass.
 
@@ -992,7 +992,7 @@ The 685 integration tests are organized by decompilation feature area, matching 
 ### Test Quality Metrics
 
 - **Zero TODO/skipped tests** - All 685 integration tests fully implemented
-- **99.5% pass rate** - 911 tests passing, 4 tests disabled (dexterity-qa compilation issue)
+- **100% pass rate** - 1,055 tests passing (685 integration + 370 unit tests)
 - **Comprehensive coverage** - Tests cover all major decompilation features
 - **JADX parity** - 685 integration tests vs 577 Java JADX tests (108 additional tests)
 
@@ -1049,9 +1049,9 @@ int anon;  // Valid Java identifier
 
 **Verification:**
 - All 685 integration tests pass
-- All 13 var_naming tests pass (2 new tests added)
+- All var_naming tests pass
 - Verified on badboy-x86.apk decompilation
-- All 82 codegen unit tests pass (updated to reflect improved type-based variable naming)
+- All 91 codegen unit tests pass (updated to reflect improved type-based variable naming)
 
 **Remaining Work for 95%+ Quality:**
 - Fix interface generic type parameters: +2-3%
