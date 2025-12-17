@@ -933,6 +933,181 @@ fn detect_increment_decrement(
     }
 }
 
+/// Detect field increment/compound assignment patterns for InstancePut/StaticPut
+/// Patterns detected:
+/// - `obj.field = obj.field + 1` -> `obj.field++`
+/// - `obj.field = obj.field - 1` -> `obj.field--`
+/// - `obj.field = obj.field + N` -> `obj.field += N`
+/// - `obj.field = obj.field - N` -> `obj.field -= N`
+/// - etc. for all compound assignment operators
+///
+/// Returns Some((field_expr, op_str)) if pattern detected, e.g., ("obj.field", "++")
+fn detect_field_increment(
+    field_idx: u32,
+    object: Option<&InsnArg>, // None for static fields
+    value: &InsnArg,
+    ctx: &BodyGenContext,
+) -> Option<String> {
+    use dexterity_ir::instructions::BinaryOp;
+
+    // Value must be a register
+    let value_reg = match value {
+        InsnArg::Register(r) => r,
+        _ => return None,
+    };
+
+    // Find the instruction that defines this register
+    let defining_insn = find_defining_instruction(value_reg, ctx)?;
+
+    // Must be a Binary operation
+    let (op, left, right) = match &defining_insn.insn_type {
+        InsnType::Binary { op, left, right, .. } => (op, left, right),
+        _ => return None,
+    };
+
+    // Check if left operand is a field get of the same field
+    let field_matches = match (object, left) {
+        // Instance field: check both object and field_idx match
+        (Some(put_obj), InsnArg::Register(get_reg)) => {
+            // The left register should be defined by an InstanceGet of the same field
+            if let Some(get_insn) = find_defining_instruction(get_reg, ctx) {
+                if let InsnType::InstanceGet { object: get_obj, field_idx: get_field_idx, .. } = &get_insn.insn_type {
+                    *get_field_idx == field_idx && args_match(put_obj, get_obj)
+                } else {
+                    false
+                }
+            } else {
+                false
+            }
+        }
+        // Static field: just check field_idx matches
+        (None, InsnArg::Register(get_reg)) => {
+            if let Some(get_insn) = find_defining_instruction(get_reg, ctx) {
+                if let InsnType::StaticGet { field_idx: get_field_idx, .. } = &get_insn.insn_type {
+                    *get_field_idx == field_idx
+                } else {
+                    false
+                }
+            } else {
+                false
+            }
+        }
+        _ => false,
+    };
+
+    if !field_matches {
+        return None;
+    }
+
+    // Build the field expression
+    let field_expr = if let Some(obj) = object {
+        let obj_str = ctx.expr_gen.gen_arg(obj);
+        let field_info = ctx.expr_gen.get_field_value(field_idx);
+        let field_name = field_info.as_ref()
+            .map(|f| f.field_name.clone())
+            .unwrap_or_else(|| format!("field#{}", field_idx));
+        format!("{}.{}", obj_str, field_name)
+    } else {
+        let field_info = ctx.expr_gen.get_field_value(field_idx);
+        field_info.as_ref()
+            .map(|f| format!("{}.{}", f.class_name, f.field_name))
+            .unwrap_or_else(|| format!("field#{}", field_idx))
+    };
+
+    // Generate the compound operation
+    let right_str = ctx.expr_gen.gen_arg(right);
+
+    // For Add and Sub with literal 1/-1, use ++ or --
+    if let InsnArg::Literal(LiteralArg::Int(val)) = right {
+        match op {
+            BinaryOp::Add => {
+                if *val == 1 {
+                    return Some(format!("{}++", field_expr));
+                } else if *val == -1 {
+                    return Some(format!("{}--", field_expr));
+                }
+            }
+            BinaryOp::Sub => {
+                if *val == 1 {
+                    return Some(format!("{}--", field_expr));
+                } else if *val == -1 {
+                    return Some(format!("{}++", field_expr));
+                }
+            }
+            _ => {}
+        }
+    }
+
+    // Map binary operator to compound assignment operator
+    let op_str = match op {
+        BinaryOp::Add => "+=",
+        BinaryOp::Sub => "-=",
+        BinaryOp::Mul => "*=",
+        BinaryOp::Div => "/=",
+        BinaryOp::Rem => "%=",
+        BinaryOp::And => "&=",
+        BinaryOp::Or => "|=",
+        BinaryOp::Xor => "^=",
+        BinaryOp::Shl => "<<=",
+        BinaryOp::Shr => ">>=",
+        BinaryOp::Ushr => ">>>=",
+        BinaryOp::Rsub => return None,
+    };
+
+    Some(format!("{} {} {}", field_expr, op_str, right_str))
+}
+
+/// Find the instruction that defines a register (by reg_num and ssa_version)
+fn find_defining_instruction(reg: &RegisterArg, ctx: &BodyGenContext) -> Option<InsnNode> {
+    for block in ctx.blocks.values() {
+        for insn in &block.instructions {
+            // Check if this instruction defines the register we're looking for
+            let defines_reg = match &insn.insn_type {
+                InsnType::Binary { dest, .. }
+                | InsnType::Unary { dest, .. }
+                | InsnType::InstanceGet { dest, .. }
+                | InsnType::StaticGet { dest, .. }
+                | InsnType::ArrayGet { dest, .. }
+                | InsnType::Const { dest, .. }
+                | InsnType::ConstString { dest, .. }
+                | InsnType::ConstClass { dest, .. }
+                | InsnType::NewInstance { dest, .. }
+                | InsnType::NewArray { dest, .. }
+                | InsnType::ArrayLength { dest, .. }
+                | InsnType::InstanceOf { dest, .. }
+                | InsnType::Move { dest, .. }
+                | InsnType::MoveResult { dest }
+                | InsnType::MoveException { dest } => {
+                    dest.reg_num == reg.reg_num && dest.ssa_version == reg.ssa_version
+                }
+                InsnType::FilledNewArray { dest: Some(d), .. } => {
+                    d.reg_num == reg.reg_num && d.ssa_version == reg.ssa_version
+                }
+                _ => false,
+            };
+
+            if defines_reg {
+                return Some(insn.clone());
+            }
+        }
+    }
+    None
+}
+
+/// Check if two InsnArg values refer to the same thing
+fn args_match(a: &InsnArg, b: &InsnArg) -> bool {
+    match (a, b) {
+        (InsnArg::Register(ra), InsnArg::Register(rb)) => {
+            // Same register (ignore SSA version - field access may be on different versions of same object)
+            ra.reg_num == rb.reg_num
+        }
+        (InsnArg::This { .. }, InsnArg::This { .. }) => true,
+        (InsnArg::Literal(LiteralArg::Int(a)), InsnArg::Literal(LiteralArg::Int(b))) => a == b,
+        (InsnArg::Literal(LiteralArg::Null), InsnArg::Literal(LiteralArg::Null)) => true,
+        _ => false,
+    }
+}
+
 /// Generate method body from instructions
 pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     let insns = match method.instructions() {
@@ -5052,8 +5227,10 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             code.add(");").newline();
                             return true;
                         } else {
-                            // Fallback: No pending new-instance means this is a super()/this() call in a constructor
-                            // The object being initialized is 'this', not a newly created object
+                            // Fallback: No pending new-instance for this register
+                            // This can happen in two cases:
+                            // 1. Constructor calling super() or this() - legitimate
+                            // 2. Static method or non-constructor - should NOT emit super()
                             if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
                                 if method_info.method_name == "<init>" {
                                     // Build argument list (skip receiver which is first arg)
@@ -5062,10 +5239,29 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                         .map(|a| ctx.gen_arg_inline(a))
                                         .collect();
 
-                                    // Emit super(args) - constructor calling parent constructor
-                                    code.start_line();
-                                    code.add("super(").add(&arg_strs.join(", ")).add(");");
-                                    code.newline();
+                                    // Only emit super()/this() if we're actually in a constructor
+                                    // For static methods and non-constructors, this would be invalid Java
+                                    if ctx.is_constructor {
+                                        // Check if calling same class (this()) or parent (super())
+                                        let is_same_class = ctx.current_class_type.as_ref()
+                                            .map(|current| current == &method_info.class_type)
+                                            .unwrap_or(false);
+
+                                        code.start_line();
+                                        if is_same_class {
+                                            code.add("this(").add(&arg_strs.join(", ")).add(");");
+                                        } else {
+                                            code.add("super(").add(&arg_strs.join(", ")).add(");");
+                                        }
+                                        code.newline();
+                                    } else {
+                                        // Not in constructor - emit as new ClassName(args)
+                                        // This handles cases where new-instance tracking failed
+                                        code.start_line();
+                                        code.add("new ").add(&method_info.class_name).add("(")
+                                            .add(&arg_strs.join(", ")).add(");");
+                                        code.newline();
+                                    }
 
                                     return true;
                                 }
@@ -5447,6 +5643,12 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::InstancePut { object, field_idx, value } => {
+            // Check for field increment pattern first: obj.field = obj.field + 1 -> obj.field++
+            if let Some(increment_expr) = detect_field_increment(*field_idx, Some(object), value, ctx) {
+                code.start_line().add(&increment_expr).add(";").newline();
+                return true;
+            }
+
             // OPTIMIZED: Direct write without String allocation
             // Get field info for both name and type (for proper boolean literal formatting)
             let field_info = ctx.expr_gen.get_field_value(*field_idx);
@@ -5472,6 +5674,12 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::StaticPut { field_idx, value } => {
+            // Check for static field increment pattern: Class.field = Class.field + 1 -> Class.field++
+            if let Some(increment_expr) = detect_field_increment(*field_idx, None, value, ctx) {
+                code.start_line().add(&increment_expr).add(";").newline();
+                return true;
+            }
+
             // OPTIMIZED: Direct write without String allocation
             // Get field info for both name and type (for proper boolean literal formatting)
             let field_info = ctx.expr_gen.get_field_value(*field_idx);
