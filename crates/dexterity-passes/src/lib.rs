@@ -13,13 +13,17 @@ pub mod enum_visitor;
 pub mod extract_field_init;
 pub mod finally_extract;
 pub mod fix_types;
+pub mod generic_types;
 pub mod kotlin_intrinsics;
 pub mod loop_analysis;
 pub mod loops;
 pub mod method_inline;
+pub mod method_invoke;
 pub mod mod_visitor;
+pub mod override_method;
 pub mod prepare_for_codegen;
 pub mod region_builder;
+pub mod shadow_field;
 pub mod simplify;
 pub mod ssa;
 pub mod ternary_mod;
@@ -84,6 +88,22 @@ pub use fix_types::{
 pub use deboxing::{
     debox_primitives, debox_primitives_with_lookup, is_unboxing_method, is_wrapper_class,
     primitive_for_wrapper, wrapper_for_primitive, Deboxing, DeboxingResult, MethodInfo as DeboxingMethodInfo,
+};
+pub use generic_types::{
+    attach_generic_types, class_has_generics, resolve_constructor_generics, GenericTypesResult,
+};
+pub use shadow_field::{
+    apply_shadow_field_fixes, get_field_fix, is_instance_field_access, search_shadowed_fields,
+    FieldFixInfo, FieldFixType, ShadowFieldResult,
+};
+pub use method_invoke::{
+    compare_types, detect_vararg_call, find_required_casts, get_compiler_var_type, process_invoke,
+    MethodDetails, MethodInvokeResult, TypeCompareResult,
+};
+pub use override_method::{
+    analyze_overrides, collect_super_types, find_overridden_methods, fix_method_arg_types,
+    fix_method_return_type, make_method_signature, should_add_override, MethodOverrideAttr,
+    OverriddenMethod, OverrideAnalysisResult, SuperTypesData,
 };
 
 /// Pass trait for decompilation passes
