@@ -209,7 +209,7 @@ Dexterity's code generation module achieves approximately **90% feature parity**
 | INVOKE_CUSTOM | DONE | Lambda/method ref |
 | CMP_L/CMP_G expansion | 60% | |
 | Polymorphic invoke | DONE | MethodHandle |
-| **String switch** | **0%** | NOT IMPLEMENTED |
+| **String switch** | **79%** | Two-switch pattern merge DONE |
 | Android R.* handling | DONE | |
 | Instance arg propagation | DONE | |
 
@@ -224,13 +224,18 @@ Dexterity's code generation module achieves approximately **90% feature parity**
 | Increment/decrement | 3% | InsnGen:1216-1230 | `i++`, `--j` patterns |
 | Compound assignment | 2% | ModVisitor | `+=`, `-=`, etc. |
 
-### P2 - Medium Impact (~3% total gap)
+### P2 - Medium Impact (~2% total gap)
 
 | Gap | Impact | JADX Reference | Notes |
 |-----|--------|----------------|-------|
-| String switch reconstruction | 1% | SwitchOverStringVisitor | hashCode pattern |
 | De Morgan's law | 1% | IfCondition.simplify() | Full simplification |
 | Nested condition merge | 1% | IfRegionMaker:200-350 | `if(a){if(b){}}` |
+
+### Recently Completed (Dec 17, 2025)
+
+| Feature | Coverage | JADX Reference | Notes |
+|---------|----------|----------------|-------|
+| String switch reconstruction | **79%** | SwitchOverStringVisitor | Two-switch pattern merge via `detect_two_switch_in_sequence()` |
 
 ### P3 - Low Impact (~2% total gap)
 

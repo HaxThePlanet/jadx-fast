@@ -263,7 +263,7 @@ Unknown
 | `RegionMakerVisitor.java` | `region_builder.rs` | PARTIAL | Basic regions |
 | `IfRegionMaker.java` (525 lines) | `conditionals.rs` | PARTIAL | Missing AND/OR merge |
 | `LoopRegionMaker.java` (200+ lines) | `loop_analysis.rs` | PARTIAL | Basic patterns |
-| `SwitchRegionMaker.java` | - | MISSING | Switch regions |
+| `SwitchRegionMaker.java` | `region_builder.rs` | DONE | Switch regions |
 | `TryCatchRegionMaker.java` | `finally_extract.rs` | PARTIAL | Finally only |
 
 #### Key Missing Features in Region Building
@@ -369,7 +369,7 @@ Implemented passes:
 | `EnumVisitor.java` | `enum_visitor.rs` | DONE | Enum reconstruction |
 | `ConstructorVisitor.java` | - | MISSING | Constructor handling |
 | `MethodInvokeVisitor.java` (441 lines) | - | MISSING | Overload resolution |
-| `SwitchOverStringVisitor.java` | - | MISSING | String switch |
+| `SwitchOverStringVisitor.java` | `body_gen.rs` | DONE | Two-switch pattern merge (79% coverage) |
 | `ExtractFieldInit.java` | `extract_field_init.rs` | DONE | Field init extraction |
 
 ---

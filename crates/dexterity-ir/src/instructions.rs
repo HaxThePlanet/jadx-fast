@@ -22,7 +22,8 @@ pub struct InsnNode {
     /// Original bytecode offset
     pub offset: u32,
     /// Attribute flags (for FINALLY_INSNS, DONT_GENERATE, etc.)
-    pub flags: u64,
+    /// Extended to u128 to support 69+ JADX-compatible flags
+    pub flags: u128,
 }
 
 impl InsnNode {
@@ -45,17 +46,27 @@ impl InsnNode {
 
     /// Check if a flag is set
     pub fn has_flag(&self, flag: AFlag) -> bool {
-        (self.flags & (1 << flag as u8)) != 0
+        (self.flags & (1u128 << flag as u8)) != 0
     }
 
     /// Set a flag
     pub fn add_flag(&mut self, flag: AFlag) {
-        self.flags |= 1 << flag as u8;
+        self.flags |= 1u128 << flag as u8;
     }
 
     /// Remove a flag
     pub fn remove_flag(&mut self, flag: AFlag) {
-        self.flags &= !(1 << flag as u8);
+        self.flags &= !(1u128 << flag as u8);
+    }
+
+    /// Clear all flags
+    pub fn clear_flags(&mut self) {
+        self.flags = 0;
+    }
+
+    /// Check if any flags are set
+    pub fn has_any_flags(&self) -> bool {
+        self.flags != 0
     }
 }
 
