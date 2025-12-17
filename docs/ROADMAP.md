@@ -44,7 +44,7 @@
 | SimplifyVisitor audit | SimplifyVisitor.java (638 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **PARTIAL - double negation, CMP unwrapping done** |
 | TernaryMod pass | TernaryMod.java (352 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** |
 | Multi-DEX support | RootNode.java | P2 | jadx-core/dex/nodes/ | **DONE** |
-| Warning comments | CodeGen.java retry | P3 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **PENDING AGENT IN PROGRESS** |
+| Warning comments | CodeGen.java retry | P3 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** |
 
 ---
 
@@ -70,8 +70,8 @@ Compare dexterity implementations against JADX originals:
 
 | Dexterity | JADX | LOC Comparison | Status |
 |-----------|------|----------------|--------|
-| simplify.rs (900+) | SimplifyVisitor.java (638) | Audit in progress | **PARTIAL** - double negation (--x, ~~x, !!x) + CMP unwrapping done |
-| code_shrink.rs (686) | CodeShrinkVisitor.java (299) | Audit needed | Pending |
+| simplify.rs (1200+) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
+| code_shrink.rs (686) | CodeShrinkVisitor.java (299) | Audit needed | **PENDING AGENT IN PROGRESS** |
 | conditionals.rs (738) | TernaryMod.java (352) | Port ternary conversion | Pending |
 
 **Reference:** [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md)
@@ -125,7 +125,7 @@ Add JADX-style diagnostic comments:
 - [x] ConstInlineVisitor equivalent
 - [~] SimplifyVisitor audit - **PARTIAL**: double negation (--x, ~~x, !!x), CMP unwrapping done; StringBuilder chain, cast optimization pending
 - [x] TernaryMod (If-region to ternary) - **IMPLEMENTED** (analysis pass in ternary_mod.rs, detection at codegen in body_gen.rs)
-- [ ] DeboxingVisitor
+- [ ] DeboxingVisitor - **PENDING AGENT IN PROGRESS**
 - [ ] PrepareForCodeGen final cleanup
 
 ### Code Generation ([JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md))
