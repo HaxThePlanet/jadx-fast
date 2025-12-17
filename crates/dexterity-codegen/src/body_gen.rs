@@ -1125,7 +1125,9 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
 
     // JADX EXPLOSION PREVENTION: Check block count before region building
     // Methods with too many blocks can cause exponential explosion in region analysis
-    const MAX_BLOCKS_FOR_REGIONS: usize = 150; // Increased from 50
+    // Note: JADX uses dynamic limits (5x block count for iterations), not a hard block limit
+    // Increased from 150 to 500 to handle more complex real-world methods
+    const MAX_BLOCKS_FOR_REGIONS: usize = 500;
     let block_count = cfg.block_ids().count();
     if block_count > MAX_BLOCKS_FOR_REGIONS {
         eprintln!("  [SKIP: {} blocks > {} limit for regions]", block_count, MAX_BLOCKS_FOR_REGIONS);
@@ -1941,11 +1943,18 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                         // Check type to decide comparison format
                         // Use explicit type if available, otherwise fall back to name-based heuristic
                         // Note: ArgType::Unknown means type inference couldn't determine the type,
-                        // so we should also use the name heuristic in that case
-                        let type_is_unknown_or_none = left_type.is_none()
-                            || matches!(left_type, Some(ArgType::Unknown));
+                        // so we should also use the name heuristic in that case.
+                        // Also treat ArgType::Int and ArgType::Boolean as ambiguous because DEX
+                        // bytecode uses if-eqz for null checks, boolean checks, AND integer zero
+                        // checks - they're indistinguishable at the bytecode level, so we need
+                        // the name heuristic to disambiguate.
+                        let type_is_ambiguous = left_type.is_none()
+                            || matches!(left_type, Some(ArgType::Unknown))
+                            || matches!(left_type, Some(ArgType::Int))
+                            || matches!(left_type, Some(ArgType::Boolean));
+                        let name_is_object = name_suggests_object_type(&left_str);
                         let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)))
-                            || (type_is_unknown_or_none && name_suggests_object_type(&left_str));
+                            || (type_is_ambiguous && name_is_object);
                         let is_boolean = matches!(left_type, Some(ArgType::Boolean));
 
                         // Check if this is a comparison against 1 (true) for boolean types
@@ -3938,9 +3947,54 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::NewArray { dest, .. } => {
-            // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+        InsnType::NewArray { dest, size, type_idx } => {
+            // Handle NewArray specially to properly inline size argument
+            let reg = dest.reg_num;
+            let version = dest.ssa_version;
+
+            // Get element type name
+            let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                .unwrap_or_else(|| format!("Type#{}", type_idx));
+            let elem_name = if type_name.ends_with("[]") {
+                type_name.trim_end_matches("[]").to_string()
+            } else {
+                type_name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';').to_string()
+            };
+
+            // Get size with inlining support
+            let size_str = ctx.gen_arg_inline(size);
+            let new_array_expr = format!("new {}[{}]", elem_name, size_str);
+
+            // Check if result should be inlined
+            if ctx.should_inline(reg, version) {
+                ctx.store_inline_expr(reg, version, new_array_expr);
+                return true;
+            }
+
+            // Emit the assignment
+            let var_name = ctx.expr_gen.get_var_name(dest);
+            code.start_line();
+
+            let needs_decl = !ctx.is_declared(reg, version)
+                && !ctx.is_parameter(reg, version)
+                && !ctx.is_name_declared(&var_name);
+
+            if needs_decl {
+                let decl_type = ctx.get_inferred_type_versioned(reg, version);
+                if ctx.is_final(reg, version) {
+                    code.add("final ");
+                }
+                if let Some(arg_type) = decl_type {
+                    let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
+                    code.add(&type_str).add(" ");
+                } else {
+                    code.add(&type_name).add(" ");
+                }
+                ctx.mark_declared(reg, version);
+                ctx.mark_name_declared(&var_name);
+            }
+
+            code.add(&var_name).add(" = ").add(&new_array_expr).add(";").newline();
             true
         }
 
@@ -3950,20 +4004,57 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::ArrayGet { dest, .. } => {
-            // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+        InsnType::ArrayGet { dest, array, index, .. } => {
+            // Handle ArrayGet specially to properly inline index argument
+            let reg = dest.reg_num;
+            let version = dest.ssa_version;
+
+            // Build expression with inlining support for array and index
+            let array_str = ctx.gen_arg_inline(array);
+            let index_str = ctx.gen_arg_inline(index);
+            let array_get_expr = format!("{}[{}]", array_str, index_str);
+
+            // Check if result should be inlined
+            if ctx.should_inline(reg, version) {
+                ctx.store_inline_expr(reg, version, array_get_expr);
+                return true;
+            }
+
+            // Emit the assignment
+            let var_name = ctx.expr_gen.get_var_name(dest);
+            code.start_line();
+
+            let needs_decl = !ctx.is_declared(reg, version)
+                && !ctx.is_parameter(reg, version)
+                && !ctx.is_name_declared(&var_name);
+
+            if needs_decl {
+                let decl_type = ctx.get_inferred_type_versioned(reg, version);
+                if ctx.is_final(reg, version) {
+                    code.add("final ");
+                }
+                if let Some(arg_type) = decl_type {
+                    let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
+                    code.add(&type_str).add(" ");
+                } else {
+                    code.add("Object ");
+                }
+                ctx.mark_declared(reg, version);
+                ctx.mark_name_declared(&var_name);
+            }
+
+            code.add(&var_name).add(" = ").add(&array_get_expr).add(";").newline();
             true
         }
 
         InsnType::ArrayPut { array, index, value, .. } => {
-            // OPTIMIZED: Direct write without String allocation
+            // Use write_arg_inline to properly inline constant indices and values
             code.start_line();
-            ctx.expr_gen.write_arg(code, array);
+            ctx.write_arg_inline(code, array);
             code.add("[");
-            ctx.expr_gen.write_arg(code, index);
+            ctx.write_arg_inline(code, index);
             code.add("] = ");
-            ctx.expr_gen.write_arg(code, value);
+            ctx.write_arg_inline(code, value);
             code.add(";").newline();
             true
         }
@@ -4016,10 +4107,10 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::Invoke { .. } => {
-            // OPTIMIZED: Direct write without String allocation
+        InsnType::Invoke { kind, method_idx, args } => {
+            // Use write_invoke_with_inlining to properly inline constant arguments
             code.start_line();
-            ctx.expr_gen.write_insn(code, &insn.insn_type);
+            write_invoke_with_inlining(kind, *method_idx, args, ctx, code);
             code.add(";").newline();
             true
         }
@@ -4112,7 +4203,7 @@ fn generate_insn<W: CodeWriter>(
 
                 // Check inlining (rare case - needs String)
                 if ctx.should_inline(reg, version) {
-                    let args_str: Vec<_> = args.iter().map(|a| ctx.expr_gen.gen_arg(a)).collect();
+                    let args_str: Vec<_> = args.iter().map(|a| ctx.gen_arg_inline(a)).collect();
                     let expr = format!("new {}[] {{ {} }}", elem_type, args_str.join(", "));
                     ctx.store_inline_expr(reg, version, expr);
                 } else {
@@ -4136,7 +4227,7 @@ fn generate_insn<W: CodeWriter>(
                     code.add(&var_name).add(" = new ").add(&elem_type).add("[] { ");
                     for (i, a) in args.iter().enumerate() {
                         if i > 0 { code.add(", "); }
-                        ctx.expr_gen.write_arg(code, a);
+                        ctx.write_arg_inline(code, a);
                     }
                     code.add(" };").newline();
                 }

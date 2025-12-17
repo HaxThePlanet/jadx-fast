@@ -211,6 +211,16 @@ fn find_replacements(
 /// Check if a constant can be safely inlined at the given position
 /// Null literals cannot be inlined as receivers or array bases
 fn can_inline_at(insn: &InsnNode, arg_idx: usize, literal: &LiteralArg) -> bool {
+    // Special case: NewArray size can safely inline any integer including zero
+    // Only Null is invalid for array size (would cause NPE)
+    if let InsnType::NewArray { .. } = &insn.insn_type {
+        if arg_idx == 0 {
+            // Zero is a valid array size: new int[0] is legal Java
+            // Null is never valid for array size
+            return !matches!(literal, LiteralArg::Null);
+        }
+    }
+
     // Null check - don't inline null where it would cause NPE
     if matches!(literal, LiteralArg::Null) || matches!(literal, LiteralArg::Int(0)) {
         // Check if this is a position that would NPE on null
