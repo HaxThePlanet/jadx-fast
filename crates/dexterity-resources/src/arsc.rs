@@ -840,9 +840,13 @@ impl ArscParser {
                     Some("@null".to_string())
                 } else if let Some(name) = self.res_names.get(&value.data) {
                     Some(format!("@{}", name))
-                } else if let Some(name) = ANDROID_RES_MAP.get(&value.data) {
-                    // Android framework resource
-                    Some(format!("@{}", name))
+                } else if (value.data >> 24) == 0x01 {
+                    // Android framework resource (package 0x01)
+                    if let Some(name) = ANDROID_RES_MAP.get(&value.data) {
+                        Some(format!("@android:{}", name))
+                    } else {
+                        Some(format!("@android:0x{:08x}", value.data))
+                    }
                 } else {
                     Some(format!("@0x{:08x}", value.data))
                 }
@@ -1061,7 +1065,7 @@ impl ArscParser {
             xml.push_str(&escape_xml_text(&entry.key_name));
             xml.push('"');
 
-            // Add parent if present
+            // Add parent attribute (JADX always includes parent, even if empty)
             if let Some(parent_id) = entry.parent {
                 if let Some(parent_name) = self.res_names.get(&parent_id) {
                     xml.push_str(" parent=\"@");
@@ -1079,6 +1083,9 @@ impl ArscParser {
                 } else {
                     xml.push_str(&format!(" parent=\"@0x{:08x}\"", parent_id));
                 }
+            } else {
+                // No parent - JADX outputs parent="" for styles without inheritance
+                xml.push_str(" parent=\"\"");
             }
 
             if let Some(ref items) = entry.bag_items {
