@@ -71,4 +71,5 @@ coverage/
 *~
 .#*
 output/
+decompile_output/
 jadx-fast
