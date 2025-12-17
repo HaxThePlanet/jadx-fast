@@ -105,8 +105,8 @@ For detailed algorithm documentation used to achieve this quality:
 | Gap | Status | JADX Reference |
 |-----|--------|----------------|
 | Interface generic params | PARTIAL | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) - ClassGen |
-| Warning comments | NOT IMPL | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) - CodeGen retry |
-| Multi-DEX support | PARTIAL | RootNode.java multi-dex handling |
+| Warning comments | DONE | body_gen.rs:933 (`/* JADX WARN: */`), class_gen.rs (`/* renamed from: */`) |
+| Multi-DEX support | DONE | converter.rs multi-dex handling |
 
 ---
 
