@@ -852,18 +852,20 @@ jadx-fast/jadx-core/src/main/java/jadx/core/dex/
 
 ```
 crates/dexterity-ir/src/
-├── lib.rs           # Module exports
-├── types.rs         # ArgType, TypeCompare
-├── instructions.rs  # InsnNode, InsnType, InsnArg
-├── nodes.rs         # ClassNode, MethodNode, BlockNode (arena IDs)
-├── info.rs          # ClassData, MethodData, FieldData
-├── regions.rs       # Region enum, Condition
+├── lib.rs             # Module exports
+├── types.rs           # ArgType, TypeCompare
+├── instructions.rs    # InsnNode, InsnType, InsnArg
+├── nodes.rs           # ClassNode, MethodNode, BlockNode (arena IDs)
+├── info.rs            # ClassData, MethodData, FieldData
+├── regions.rs         # Region enum, Condition
 ├── class_hierarchy.rs # ClassHierarchy, LCA
-├── attributes.rs    # AttributeStorage, AFlag
-├── arena.rs         # Arena allocation
+├── attributes.rs      # AttributeStorage, AFlag
+├── arena.rs           # Arena allocation
+├── builder.rs         # IR builder utilities
+├── ssa.rs             # SSA variable info
 └── kotlin_metadata.rs # Kotlin support
 ```
 
 ---
 
-**Last Updated:** December 2025
+**Last Updated:** December 17, 2025

@@ -4,6 +4,60 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Kotlin Codegen Quality Fixes (Dec 17, 2025)
+
+**Fixed critical bugs in Kotlin/Compose code generation for badboy APK.**
+
+#### 1. Invalid super() Calls in Static Methods (SUPER-P1-001)
+
+**Problem:** Dexterity was emitting `super()` calls inside static methods on Kotlin file facades:
+```java
+// BEFORE (invalid Java)
+public static final void Greeting(...) {
+    super(Color.Companion.getGreen-0d7_KjU(), obj69, l10, ...);
+}
+
+// AFTER (valid Java)
+public static final void Greeting(...) {
+    new TextStyle(Color.Companion.getGreen_0d7_KjU(), obj69, l10, ...);
+}
+```
+
+**Root Cause:** The fallback code in body_gen.rs assumed invoke-direct `<init>` without pending new-instance was always a super() call. This is wrong for static methods.
+
+**Fix:** Added `ctx.is_constructor` check before emitting super()/this(). Non-constructors now emit `new ClassName(args)`.
+
+**Files:** `crates/dexterity-codegen/src/body_gen.rs` (lines 5229-5269)
+
+#### 2. Invalid Method Names with Hyphens (METHOD-P2-001)
+
+**Problem:** Kotlin/R8 synthetic method names contain hyphens (invalid Java):
+```java
+// BEFORE (invalid Java)
+public static Unit $r8$lambda$6qY5_KIdQhB-XZ1R33CyP2BIfX4(...) { }
+Updater.set-impl(constructorImpl, ...);
+Color.Companion.getGreen-0d7_KjU();
+
+// AFTER (valid Java)
+public static Unit $r8$lambda$6qY5_KIdQhB_XZ1R33CyP2BIfX4(...) { }
+Updater.set_impl(constructorImpl, ...);
+Color.Companion.getGreen_0d7_KjU();
+```
+
+**Root Cause:** Method names from DEX were passed through without sanitization in declarations and invocations.
+
+**Fix:** Added `sanitize_method_name()` function that converts hyphens to underscores. Applied to:
+- Method declarations (`method_gen.rs`)
+- Method invocations - static, virtual, interface, direct, super (`body_gen.rs`)
+- Expression generation (`expr_gen.rs`)
+
+**Files:**
+- `crates/dexterity-codegen/src/method_gen.rs`
+- `crates/dexterity-codegen/src/body_gen.rs`
+- `crates/dexterity-codegen/src/expr_gen.rs`
+
+---
+
 ### Dexterity-IR JADX Parity Improvements (Dec 17, 2025)
 
 **Major IR infrastructure update: 72% -> 85% overall JADX IR parity**

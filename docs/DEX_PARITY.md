@@ -468,18 +468,26 @@ pub struct LocalVarEntry {
 crates/dexterity-dex/src/
 ├── header.rs           # DEX header parsing
 ├── reader.rs           # Main DexReader
+├── lib.rs              # Module exports
+├── consts.rs           # DEX constants
+├── error.rs            # Error types
 ├── sections/
+│   ├── mod.rs          # Module exports
 │   ├── class_def.rs    # Class definitions
 │   ├── code_item.rs    # Code + debug info
-│   ├── encoded_annotation.rs
-│   ├── encoded_value.rs
-│   ├── method_handle.rs
-│   └── call_site.rs
+│   ├── encoded_value.rs # Encoded values + annotations
+│   ├── method_handle.rs # Lambda support
+│   ├── field_id.rs     # Field ID parsing
+│   ├── method_id.rs    # Method ID parsing
+│   ├── proto_id.rs     # Proto ID parsing
+│   └── string_pool.rs  # String pool handling
 ├── insns/
+│   ├── mod.rs          # Module exports
 │   ├── opcode.rs       # All 224 opcodes
 │   ├── format.rs       # All 21 formats
 │   └── decoder.rs      # Instruction decoder
 └── utils/
+    ├── mod.rs          # Module exports
     ├── mutf8.rs        # MUTF-8 decoder
     └── leb128.rs       # LEB128 encoding
 ```

@@ -11,7 +11,7 @@
 | **IR Extraction** | 61% (significantly improved feature usage) |
 | **Production Impact** | Medium - class/method/field names work, function modifiers tracked |
 
-Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines) and now implements **11 practical extraction features** including field names, data class detection, companion objects, and function modifiers.
+Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130 lines total) and now implements **11 practical extraction features** including field names, data class detection, companion objects, and function modifiers.
 
 ---
 
@@ -67,7 +67,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines)
 
 ## Implementation Status by File
 
-### `crates/dexterity-kotlin/src/parser.rs` (400+ lines)
+### `crates/dexterity-kotlin/src/parser.rs` (407 lines)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
@@ -79,7 +79,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines)
 | Function flags | **NEW** | suspend, inline, operator, infix, tailrec |
 | Property flags | **NEW** | var, const, lateinit, delegated |
 
-### `crates/dexterity-kotlin/src/extractor.rs` (250+ lines)
+### `crates/dexterity-kotlin/src/extractor.rs` (293 lines)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
@@ -90,7 +90,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines)
 | JVM signature matching | **IMPROVED** | Name + obfuscation heuristics |
 | KotlinClassInfo population | **NEW** | isData, isSealed, isInline, companion |
 
-### `crates/dexterity-kotlin/src/types.rs` (100+ lines)
+### `crates/dexterity-kotlin/src/types.rs` (126 lines)
 
 | Type | Purpose | Status |
 |------|---------|--------|
@@ -111,7 +111,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines)
 | `companion_name` | Option<String> | **NEW** |
 | `sealed_subclasses` | Vec<String> | **NEW** |
 
-### `crates/dexterity-passes/src/kotlin_intrinsics.rs` (300+ lines)
+### `crates/dexterity-passes/src/kotlin_intrinsics.rs` (373 lines)
 
 | Component | Status | Notes |
 |-----------|--------|-------|

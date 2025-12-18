@@ -664,7 +664,7 @@ cargo build --release -p dexterity-qa
   --detailed
 ```
 
-See `qa_reports/` for pre-generated comparison reports:
+See `qa_reports/` in the project root for pre-generated comparison reports:
 - `qa_reports/small.md` - Small APK quality report
 - `qa_reports/medium.md` - Medium APK quality report
 - `qa_reports/large.md` - Large APK quality report
@@ -672,6 +672,6 @@ See `qa_reports/` for pre-generated comparison reports:
 
 ---
 
-**Last Updated: 2025-12-16**
+**Last Updated: 2025-12-17**
 **For workflow, see: `LLM_AGENT_GUIDE.md`**
 **For issues, see: `ISSUE_TRACKER.md`**

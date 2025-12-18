@@ -40,16 +40,16 @@ Dexterity's code generation module achieves approximately **93% feature parity**
 | AnnotationGen.java | ~200 | Annotations |
 | NameGen.java | ~400 | Variable naming |
 
-### Dexterity Codegen (Rust - 11 modules, ~13,102 lines)
+### Dexterity Codegen (Rust - 11 modules, ~13,466 lines)
 | Module | Lines | JADX Equivalent |
 |--------|-------|-----------------|
-| body_gen.rs | ~6,569 | RegionGen + InsnGen |
+| body_gen.rs | ~6,871 | RegionGen + InsnGen |
 | class_gen.rs | ~1,711 | ClassGen |
-| expr_gen.rs | ~1,454 | InsnGen |
+| expr_gen.rs | ~1,488 | InsnGen |
 | dex_info.rs | ~959 | N/A (DEX bridge) |
-| stmt_gen.rs | ~759 | InsnGen (statements) |
-| method_gen.rs | ~725 | MethodGen |
-| type_gen.rs | ~480 | TypeGen |
+| stmt_gen.rs | ~769 | InsnGen (statements) |
+| method_gen.rs | ~737 | MethodGen |
+| type_gen.rs | ~486 | TypeGen |
 | access_flags.rs | ~218 | (utilities) |
 | writer.rs | ~141 | CodeWriter |
 | fallback_gen.rs | ~44 | Fallback mode |

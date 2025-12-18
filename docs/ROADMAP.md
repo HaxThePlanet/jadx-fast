@@ -32,14 +32,14 @@
 
 | Component | Dexterity File | LOC | Status |
 |-----------|----------------|-----|--------|
-| SSA Transform | ssa.rs | 964 | DONE |
-| Type Inference | type_inference.rs | 2,644 | DONE |
-| Region Builder | region_builder.rs | 2,094 | DONE |
-| Variable Naming | var_naming.rs | 1,609 | DONE |
-| Code Generation | body_gen.rs + expr_gen.rs | 7,273 | DONE |
+| SSA Transform | ssa.rs | 971 | DONE |
+| Type Inference | type_inference.rs | 2,658 | DONE |
+| Region Builder | region_builder.rs | 2,118 | DONE |
+| Variable Naming | var_naming.rs | 1,736 | DONE |
+| Code Generation | body_gen.rs + expr_gen.rs | 8,359 | DONE |
 | Exception Handling | region_builder.rs | - | DONE |
-| Deobfuscation | deobf.rs | 1,825 | DONE |
-| Kotlin Metadata | dexterity-kotlin/*.rs | 991 | **61% parity** |
+| Deobfuscation | deobf.rs | 1,007 | DONE |
+| Kotlin Metadata | dexterity-kotlin/*.rs | 1,130 | **61% parity** |
 
 ### To Clone Next
 
@@ -390,13 +390,13 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 ### Dexterity Core Files
 | File | LOC | Purpose |
 |------|-----|---------|
-| `crates/dexterity-passes/src/type_inference.rs` | 2,644 | Type inference |
-| `crates/dexterity-codegen/src/body_gen.rs` | 5,827 | Region traversal |
-| `crates/dexterity-passes/src/region_builder.rs` | 2,094 | Control flow |
-| `crates/dexterity-passes/src/var_naming.rs` | 1,609 | Variable naming |
-| `crates/dexterity-codegen/src/expr_gen.rs` | 1,446 | Expression gen |
-| `crates/dexterity-codegen/src/class_gen.rs` | 1,548 | Class structure |
-| `crates/dexterity-codegen/src/fallback_gen.rs` | 45 | Fallback mode raw output |
+| `crates/dexterity-passes/src/type_inference.rs` | 2,658 | Type inference |
+| `crates/dexterity-codegen/src/body_gen.rs` | 6,871 | Region traversal |
+| `crates/dexterity-passes/src/region_builder.rs` | 2,118 | Control flow |
+| `crates/dexterity-passes/src/var_naming.rs` | 1,736 | Variable naming |
+| `crates/dexterity-codegen/src/expr_gen.rs` | 1,488 | Expression gen |
+| `crates/dexterity-codegen/src/class_gen.rs` | 1,711 | Class structure |
+| `crates/dexterity-codegen/src/fallback_gen.rs` | 44 | Fallback mode raw output |
 
 ### JADX Source (jadx-fast)
 | File | Path | Lines |
@@ -527,7 +527,7 @@ All 19 P1-P2 issues resolved:
 - `process_kotlin_intrinsics_with_context()` for full DEX context support
 - Pattern-based extraction from `checkNotNullParameter()` calls
 
-**Kotlin crate growth:** 597 → 991 lines | **Parity:** 28% → 61%
+**Kotlin crate growth:** 597 → 1,130 lines | **Parity:** 28% → 61%
 
 ---
 

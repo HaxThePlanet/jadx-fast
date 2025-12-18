@@ -256,6 +256,103 @@ Added `sanitize_identifier()` function in `var_naming.rs` that:
 
 ---
 
+### Issue ID: SUPER-P1-001
+
+**Status:** RESOLVED (Dec 17, 2025)
+**Priority:** P1 (CRITICAL)
+**Category:** Invalid super() Calls in Static Methods
+**Impact:** Non-compilable code - super() emitted outside constructors
+**Assigned To:** Completed
+
+**The Problem (FIXED):**
+```java
+// Dexterity (BEFORE) - MainActivityKt.java (Kotlin file facade)
+public static final void Greeting(...) {
+    // Inside a STATIC method on a file facade class:
+    super(Color.Companion.getGreen-0d7_KjU(), obj69, l10, ...);  // INVALID
+    super(Color.Companion.getRed-0d7_KjU(), i497, l11, ...);     // INVALID
+}
+
+// Dexterity (AFTER) - Correct Java
+public static final void Greeting(...) {
+    new TextStyle(Color.Companion.getGreen_0d7_KjU(), obj69, l10, ...);  // VALID
+    new TextStyle(Color.Companion.getRed_0d7_KjU(), i497, l11, ...);     // VALID
+}
+```
+
+**Root Cause (Found and Fixed):**
+The fallback code path in body_gen.rs (lines 5229-5246) assumed that any invoke-direct `<init>` without a pending new-instance was a super()/this() call in a constructor. This assumption is wrong for:
+1. Static methods (no `this` object exists)
+2. Kotlin file facades (top-level functions, not a class with constructor)
+
+The code unconditionally emitted `super()` without checking `ctx.is_constructor`.
+
+**Solution:**
+1. Added `ctx.is_constructor` check before emitting super()/this()
+2. If NOT in constructor, emit `new ClassName(args)` instead
+3. Added `is_same_class` check to distinguish super() vs this()
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs` (lines 5229-5269)
+
+**Acceptance Criteria:**
+- [x] No super() calls in static methods
+- [x] No super() calls on Kotlin file facades
+- [x] Constructor chaining correctly distinguishes super() vs this()
+- [x] All 685 integration tests pass
+
+---
+
+### Issue ID: METHOD-P2-001
+
+**Status:** RESOLVED (Dec 17, 2025)
+**Priority:** P2 (MEDIUM)
+**Category:** Invalid Method Names (Hyphens)
+**Impact:** Non-compilable code - hyphens in method declarations and calls
+**Assigned To:** Completed
+
+**The Problem (FIXED):**
+```java
+// Dexterity (BEFORE) - Method declarations and calls
+public static Unit $r8$lambda$6qY5_KIdQhB-XZ1R33CyP2BIfX4(...) { }  // INVALID
+Updater.set-impl(constructorImpl, columnMeasurePolicy, ...);         // INVALID
+Color.Companion.getGreen-0d7_KjU();                                  // INVALID
+
+// Dexterity (AFTER) - Valid Java identifiers
+public static Unit $r8$lambda$6qY5_KIdQhB_XZ1R33CyP2BIfX4(...) { }  // VALID
+Updater.set_impl(constructorImpl, columnMeasurePolicy, ...);         // VALID
+Color.Companion.getGreen_0d7_KjU();                                  // VALID
+```
+
+**Root Cause (Found and Fixed):**
+1. R8/D8 optimizer creates synthetic bridge methods with hyphens in names
+2. Kotlin internal methods use hyphens (e.g., `set-impl`, `getGreen-0d7_KjU`)
+3. Method names were passed through without sanitization in:
+   - Method declarations (`method_gen.rs`)
+   - Method invocations (`body_gen.rs`, `expr_gen.rs`)
+
+**Solution:**
+Added `sanitize_method_name()` function that converts hyphens to underscores:
+1. Method declarations: `method_gen.rs` - `generate_method()` and `generate_method_with_inner_classes()`
+2. Static method calls: `body_gen.rs` - InvokeKind::Static handling
+3. Instance method calls: `body_gen.rs` - InvokeKind::Virtual/Interface/Direct handling
+4. Super method calls: `body_gen.rs` - InvokeKind::Super handling
+5. Expression generation: `expr_gen.rs` - All invoke expression paths
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/method_gen.rs` - Added `sanitize_method_name()`, updated method signature generation
+- `crates/dexterity-codegen/src/body_gen.rs` - Added `sanitize_method_name()`, updated all invoke code paths
+- `crates/dexterity-codegen/src/expr_gen.rs` - Added `sanitize_method_name()`, updated invoke expression generation
+
+**Acceptance Criteria:**
+- [x] Method declarations have valid Java identifier names
+- [x] Method invocations have valid Java identifier names
+- [x] R8 synthetic methods converted (hyphen -> underscore)
+- [x] Kotlin internal methods converted (set-impl -> set_impl)
+- [x] All 685 integration tests pass
+
+---
+
 ## ISSUE STATUS (Dec 17, 2025)
 
 ### Issue ID: NEW-CRITICAL-003
