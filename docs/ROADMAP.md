@@ -39,13 +39,86 @@
 | **medium** | Flowable.java | 4,881 | 4,465 | 9% larger |
 | **large** | OkHttpClient.java | 1,344 | 1,189 | 13% larger |
 
-### Remaining Gaps (P3)
+### Readability Improvements (Dec 18, 2025)
 
-1. **Static field initialization** - Uses verbose `static {}` blocks instead of inline init
-2. **Variable naming** - Indexed names (`function2`, `i3`) vs cleaner JADX names
-3. ~~**Intermediate variables** - Creates temporaries before return instead of inlining~~ **FIXED (Dec 18, 2025)** - Constructor return inlining now implemented
-4. **Self-references** - Uses `Flowable.empty()` instead of `empty()`
-5. **Kotlin/Compose lambdas** - Uses stub references instead of inline bodies
+| Priority | Issue | Status | Implementation |
+|----------|-------|--------|-----------------|
+| **P1** | Static field initialization | 📋 PLANNED | Extend extract_field_init.rs for complex expressions |
+| **P2** | Return value inlining | ✅ DONE (Dec 18) | Constructor inlining in returns (e0b3331c9c) |
+| **P3** | Self-reference simplification | ✅ DONE (Dec 18) | Same-class method calls simplified (dedf2b607) |
+| **P4** | Variable naming cleanup | ⏳ INVESTIGATING | Possible collision avoidance issue |
+| **P5** | Kotlin/Compose lambdas | 🔴 NOT STARTED | Complex - requires lambda body inlining |
+
+### Completed Improvements (Dec 18, 2025)
+
+#### P2: Return Value Inlining ✅
+**Before:**
+```java
+FlowableAmb flowableAmb = new FlowableAmb(null, iterable);
+return RxJavaPlugins.onAssembly(flowableAmb);
+```
+
+**After:**
+```java
+return RxJavaPlugins.onAssembly(new FlowableAmb(null, iterable));
+```
+**Commits:** dedf2b607, 0b3331c9c | **Tests:** 685/685 passing
+
+#### P3: Self-Reference Simplification ✅
+**Before:**
+```java
+return Flowable.empty();
+return Flowable.bufferSize();
+```
+
+**After:**
+```java
+return empty();
+return bufferSize();
+```
+**Implementation:** Added current_class_type tracking in ExprGen | **Tests:** test_same_class_static_call_simplification passing
+
+### P1 Implementation Plan (READY TO START)
+
+**Target:** Inline static field initialization with complex expressions
+
+**Current State:** `extract_field_init.rs` handles constants only
+```java
+// Current: verbose
+static final int BUFFER_SIZE;
+static {
+    Flowable.BUFFER_SIZE = Math.max(1, Integer.getInteger("rx2.buffer-size", 128).intValue());
+}
+
+// Target: inline
+static final int BUFFER_SIZE = Math.max(1, Integer.getInteger("rx2.buffer-size", 128).intValue());
+```
+
+**Implementation Strategy:**
+1. **Phase 1** (1-2h): Extend value extraction to handle method calls
+   - Create `FieldValueOrExpr` enum
+   - Add `trace_to_expression()` for register backtracking
+   - Add `can_inline_expression()` safety check
+
+2. **Phase 2** (30m): Update IR
+   - Change `FieldData::initial_value` to `FieldInitializer` enum
+   - Update all consumers
+
+3. **Phase 3** (1h): Update codegen
+   - Handle `FieldInitializer::Expression` in `class_gen.rs`
+   - Render expressions inline
+
+4. **Phase 4** (1h): Test
+   - Add unit/integration tests
+   - Verify 685 tests pass
+
+**Impact:** ~5-10% size reduction, significantly improved readability for ~50% of classes
+
+**Risk:** Low - no control flow changes, only field rendering
+
+**See:** `/home/chad/.claude/plans/majestic-spinning-tide.md` for full implementation details
+
+---
 
 ### Summary
 

@@ -21,9 +21,9 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **🔄 Drop-in JADX Replacement** — Same CLI arguments, same output structure. Replace `jadx` with `dexterity` in your existing scripts and workflows.
 
-**~78,000 lines of Rust | 1,175 tests passing | 2-124x faster than JADX**
+**~89,000 lines of Rust | 1,175 tests passing | 2-124x faster than JADX**
 
-**Status (Dec 18, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **96%+ quality (A grade)** on complex APKs, and is **2-124x faster** than JADX. **All P0 Critical issues FIXED** (interface generics, undefined variables, missing imports) + **25 P0-P2 issues resolved**. Framework classes skipped by default for faster output (use `--include-framework` to include them).
+**Status (Dec 18, 2025):** PRODUCTION READY with **~85-90% JADX parity**. Dexterity achieves **1:1 identical output** on simple APKs, produces correct code on complex APKs with improved readability (P2 & P3 completed - constructor inlining + self-reference simplification), and is **1.9x-123x faster** than JADX. **All P0 Critical issues FIXED**. Framework classes skipped by default (use `--include-framework` to include them).
 
 ## Speed vs Quality Trade-off
 
@@ -86,18 +86,97 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Rust lines added** | 61,581 |
 | **Rust lines deleted** | 5,957 |
 | **Net Rust lines** | 55,624 |
-| **Final codebase** | ~78,000 lines |
+| **Final codebase** | ~89,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
 | **Tests** | 1,175 total (685 integration + 490 unit) |
 
-## Quality Comparison: JADX vs Dexterity (Dec 18, 2025)
+## Parity Analysis: JADX vs Dexterity (Dec 18, 2025)
 
-### Comprehensive Analysis Results
+### Comprehensive File-by-File Comparison
 
-Quality comparison performed on decompiled app code shows **high parity** with JADX:
-- **Simple APKs**: 1:1 identical app code
-- **Complex APKs**: High quality with minor differences in style
-- **Framework classes** (android.*, androidx.*, kotlin.*): Fully decompiled (matching JADX)
+Direct comparison of decompiled output across 5 APKs:
+
+| APK | Dexterity Files | JADX Files | Ratio | Dexterity Size | JADX Size |
+|-----|-----------------|------------|-------|----------------|-----------|
+| small.apk | 1 | 2 | 50% | 116 KB | 120 KB |
+| medium.apk | 6,032 | 10,073 | 60% | 61 MB | 93 MB |
+| large.apk | 9,624 | 12,822 | 75% | 142 MB | 167 MB |
+| badboy.apk | 84 | 6,323 | 1.3% | 2.6 MB | 69 MB |
+| badboy-x86.apk | 44 | 6,283 | 0.7% | 2.2 MB | 69 MB |
+
+*File count differences are intentional - Dexterity filters `android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*` framework classes by design.*
+
+### Code Quality Comparison
+
+| APK | Sample File | Dexterity Lines | JADX Lines | Diff Lines | Assessment |
+|-----|-------------|-----------------|------------|------------|------------|
+| **small** | MainActivity.java | 15 | 15 | **0** | **100% Identical** |
+| **medium** | Flowable.java | 4,881 | 4,465 | 5,872 | 9% larger |
+| **large** | OkHttpClient.java | 1,344 | 1,189 | 1,595 | 13% larger |
+| **badboy** | MainActivity.java | - | - | 182+ | Compose lambdas differ |
+
+### Key Differences Observed
+
+1. **Static Field Initialization** - Dexterity uses verbose static blocks:
+   ```java
+   // Dexterity (verbose)
+   static final int BUFFER_SIZE;
+   static { Flowable.BUFFER_SIZE = Math.max(1, ...); }
+
+   // JADX (idiomatic)
+   static final int BUFFER_SIZE = Math.max(1, ...);
+   ```
+
+2. **Variable Naming** - Dexterity uses indexed names (`function2`, `i3`), JADX uses cleaner names (`function`, `i`)
+
+3. **Intermediate Variables** - Dexterity creates temporaries before return, JADX inlines
+
+4. **Self-References** - Dexterity uses `Flowable.empty()`, JADX uses `empty()`
+
+5. **Kotlin/Compose** - JADX fully inlines lambda bodies, Dexterity uses stub references
+
+### Readability Improvements (Dec 18, 2025)
+
+Two major improvements completed:
+
+**P2: Return Value Inlining** ✅
+```java
+// Before: verbose temporary
+FlowableAmb flowableAmb = new FlowableAmb(null, iterable);
+return RxJavaPlugins.onAssembly(flowableAmb);
+
+// After: inline
+return RxJavaPlugins.onAssembly(new FlowableAmb(null, iterable));
+```
+
+**P3: Self-Reference Simplification** ✅
+```java
+// Before: class name prefix
+return Flowable.empty();
+return Flowable.bufferSize();
+
+// After: same-class simplification
+return empty();
+return bufferSize();
+```
+
+**Upcoming: P1 Static Field Inlining** (Ready to implement)
+- Target: Inline complex expressions in field initialization
+- Example: `Math.max(...)` method calls → field declaration instead of static block
+- Expected impact: ~5-10% output size reduction
+
+### Summary
+
+| Category | Rating | Notes |
+|----------|--------|-------|
+| **Performance** | **A+** | 1.9x-123x faster |
+| **Simple Java** | **A** | 100% identical on small APK |
+| **Complex Java** | **B+** | 9-13% larger (improving with P1-P5) |
+| **Kotlin/Compose** | **B** | Less complete lambda decompilation |
+
+**Overall Parity Estimate: ~85-90%** (Improving with readability enhancements)
+
+### Quality Metrics Achieved (Dec 18, 2025)
 
 #### Current Quality Status (All P0 Critical Issues FIXED - Dec 18, 2025)
 
