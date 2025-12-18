@@ -400,6 +400,7 @@ impl BodyGenContext {
             if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
                 // Check if this is a pure integer literal that needs type conversion
                 // e.g., "91" should become "'['" when target type is char
+                // e.g., "0" should become "null" when target type is Object
                 if let Ok(value) = expr.trim().parse::<i64>() {
                     match target_type {
                         ArgType::Char => {
@@ -410,6 +411,13 @@ impl BodyGenContext {
                         ArgType::Boolean => {
                             writer.add(if value == 0 { "false" } else { "true" });
                             return;
+                        }
+                        // Convert 0 to null for Object/Array types (JADX parity)
+                        ArgType::Object(_) | ArgType::Array(_) | ArgType::UnknownObject => {
+                            if value == 0 {
+                                writer.add("null");
+                                return;
+                            }
                         }
                         _ => {}
                     }
