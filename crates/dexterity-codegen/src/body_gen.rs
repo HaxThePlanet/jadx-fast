@@ -6172,7 +6172,7 @@ fn generate_insn<W: CodeWriter>(
             code.add(";").newline();
             true
         }
-        InsnType::Constructor { dest, type_idx, args, .. } => {
+        InsnType::Constructor { dest, type_idx, method_idx, args } => {
             // Constructor: dest = new Type(args)
             code.start_line();
             code.add(&ctx.expr_gen.get_var_name(dest));
@@ -6184,9 +6184,17 @@ fn generate_insn<W: CodeWriter>(
             code.add(&type_name);
 
             code.add("(");
+            // Get constructor parameter types for type-aware formatting (0 -> null for Objects)
+            let param_types = ctx.expr_gen.get_method_value(*method_idx)
+                .map(|info| info.param_types.clone())
+                .unwrap_or_default();
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 { code.add(", "); }
-                ctx.expr_gen.write_arg(code, arg);
+                if let Some(param_type) = param_types.get(i) {
+                    ctx.write_arg_inline_typed(code, arg, param_type);
+                } else {
+                    ctx.expr_gen.write_arg(code, arg);
+                }
             }
             code.add(");").newline();
             true
