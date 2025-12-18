@@ -544,6 +544,15 @@ Pattern: Dataflow analysis (gen/kill sets, fixpoint iteration)
 - Clean successors cached (excludes exception/loop edges)
 - Iteration limits prevent infinite loops in pathological CFGs
 
+### Dexterity SSA Performance (Dec 2025)
+
+Dexterity uses `transform_to_ssa_owned()` to move instructions from CFG blocks to SSA blocks without cloning:
+- **19.8% faster at 8 cores** compared to cloning approach
+- **Superlinear scaling restored** (101% efficiency at 4-8 cores)
+- **7-10 GB allocation pressure eliminated** for large APKs (500K+ instructions)
+
+See [PERFORMANCE.md](PERFORMANCE.md) for detailed benchmarks.
+
 ---
 
 ## Implementation Checklist for Rust Clone

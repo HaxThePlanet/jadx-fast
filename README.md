@@ -235,7 +235,7 @@ Benchmarks on 56-thread system:
 
 ### Core Scaling
 
-#### After SSA Optimization (Jan 2025)
+#### After SSA Optimization (Dec 2025)
 
 Benchmark on 11MB APK (HoYoverse) on RAM disk showing parallel scaling efficiency with instruction cloning eliminated:
 

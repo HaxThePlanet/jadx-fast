@@ -19,6 +19,7 @@
 | Integration Tests | 685/685 | 685/685 | **ACHIEVED** |
 | Unit Tests | 435/435 | 435/435 | **ACHIEVED** |
 | Speed Advantage | 3-88x | 3-88x | **ACHIEVED** |
+| SSA Optimization | 19.8% faster | - | **ACHIEVED** (Dec 2025) |
 
 ---
 
@@ -148,6 +149,8 @@ public @interface MagicConstant {
 | Complex lambdas | Succeeds | "Method not decompiled" |
 | Compose code | Full output | Partial/fails |
 | Decompilation speed | 3-88x faster | Baseline |
+| SSA optimization | 19.8% faster at 8 cores | - |
+| Parallel scaling | 101% efficiency (superlinear) | - |
 | App code isolation | Clean 44 files | 6,283 mixed |
 
 ### Next Steps

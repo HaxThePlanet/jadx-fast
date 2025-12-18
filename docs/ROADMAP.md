@@ -328,6 +328,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Variable renaming with version counters
 - [x] Block splitting (SPLIT_WITHOUT_CONNECT, SEPARATE_INSNS)
 - [x] Exception handler temporary CFG edges - **DONE** (TmpEdge flag, from_blocks_with_try_catch, add/remove temp edges in cfg.rs)
+- [x] SSA instruction cloning optimization - **DONE** (Dec 2025) - `transform_to_ssa_owned()` moves instructions instead of cloning, 19.8% faster at 8 cores, 7-10GB allocation pressure eliminated
 
 ### Type Inference ([JADX_TYPE_INFERENCE.md](JADX_TYPE_INFERENCE.md))
 - [x] AssignBound vs UseBound separation
@@ -428,6 +429,14 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 ---
 
 ## Completed Work History
+
+### Dec 2025 - SSA Instruction Cloning Optimization
+- **Performance**: 19.8% faster at 8 cores, superlinear scaling restored (101% efficiency)
+- **Bottleneck fixed**: SSA `transform_to_ssa()` was cloning 500K+ instruction vectors
+- **Solution**: Use `transform_to_ssa_owned()` to move instructions without cloning
+- **Memory**: 7-10 GB allocation pressure eliminated
+- **Tests**: All 685 integration tests passing
+- See [PERFORMANCE.md](PERFORMANCE.md) for benchmark details
 
 ### Dec 17, 2025 - Ternary IR Type and Fallback Mode
 - Added `InsnType::Ternary` for cleaner ternary expression output

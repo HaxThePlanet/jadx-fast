@@ -4,6 +4,51 @@ Development history and notable fixes.
 
 ## December 2025
 
+### SSA Instruction Cloning Optimization (Dec 2025)
+
+**Major performance improvement: 19.8% faster at 8 cores with superlinear scaling restored.**
+
+**The Bottleneck:**
+The SSA `transform_to_ssa()` function was cloning 500K+ instruction vectors for large APKs, causing:
+- 7-10 GB of unnecessary memory allocation pressure
+- Cache thrashing from excessive allocations
+- Blocked superlinear scaling at 4-8 cores
+
+**The Fix:**
+Introduced `transform_to_ssa_owned()` that moves instructions from CFG blocks to SSA blocks instead of cloning them:
+
+```rust
+// OLD: Clone all instructions (expensive)
+SsaBlock {
+    instructions: block.instructions.clone(),  // O(N) allocation per block
+    ...
+}
+
+// NEW: Move instructions (zero-cost)
+// Instructions transferred from CFG to SSA without allocation
+```
+
+**Results:**
+
+| Cores | Before | After | Improvement | Efficiency |
+|-------|--------|-------|-------------|------------|
+| 4 | 31.65s | 29.84s | 5.7% faster | **101%** (superlinear) |
+| 8 | 18.75s | **15.04s** | **19.8% faster** | **101%** (superlinear) |
+| 16 | 8.51s | 8.11s | 4.7% faster | 93% |
+| 24 | 6.56s | 6.14s | 6.4% faster | 82% |
+
+**Key Improvements:**
+- **19.8% faster** at 8 cores (the sweet spot for most systems)
+- **Superlinear scaling restored** (101% efficiency at 4-8 cores)
+- **7-10 GB allocation pressure eliminated**
+- All 685 integration tests passing
+
+**Files Changed:**
+- `crates/dexterity-passes/src/ssa.rs` - Added `transform_to_ssa_owned()`
+- `crates/dexterity-cli/src/decompiler.rs` - Updated to use owned variant
+
+---
+
 ### Traditional For Loop Generation (Dec 17, 2025)
 
 **Implemented traditional for loop generation for improved code readability and JADX parity.**
