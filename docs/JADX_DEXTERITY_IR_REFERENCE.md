@@ -20,7 +20,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 
 ## Parity Summary
 
-### Overall Parity Assessment (Updated 2025-12-17)
+### Overall Parity Assessment (Updated 2025-12-18)
 
 | Component | IR Parity | Codegen Parity | Status | Notes |
 |-----------|-----------|----------------|--------|-------|
@@ -52,9 +52,10 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 Most codegen issues have been **RESOLVED** to achieve 95.5%+ quality:
 
 ### 1. Null Literal Inference - RESOLVED
-**Status:** Fixed via type-aware condition generation (Dec 17, 2025)
-- 26 -> 0 incorrect null comparisons
-- Object-named variables now correctly use `== null` instead of `== 0`
+**Status:** Fixed via type-aware codegen (Dec 17-18, 2025)
+- Type-aware condition generation: `== 0` → `== null` for objects
+- Constructor/method arg conversion: `0` → `null` for Object parameters
+- Now correctly produces: `new DexClassLoader(path, dir, null, loader)`
 
 ### 2. Empty Else Blocks - MINOR (P3)
 **Status:** Minor cosmetic issue - does not affect correctness
