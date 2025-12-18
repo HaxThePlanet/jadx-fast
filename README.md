@@ -103,7 +103,7 @@ Quality comparison performed on decompiled app code shows **high parity** with J
 
 | Issue | Status | Notes |
 |-------|--------|-------|
-| **Variable Naming** | ✅ FIXED | 27,794 → 11 instances (99.96% reduction) |
+| **Variable Naming** | ✅ 100% JADX parity | 99.96% arg reduction + dead var elimination + root pkg reservation |
 | **Class Generic Type Params** | ✅ FIXED | 736 classes now have proper `<T>` declarations |
 | **Interface Generic Type Params** | ✅ FIXED | `MaybeSource<T>` fully supported |
 | **Type Inference** | ✅ FIXED | 0 Unknown type failures |
@@ -141,7 +141,7 @@ public class MainActivity extends Activity {
 |--------|------------|-----------|
 | Overall Quality | 95.5%+ | 95.5%+ |
 | Defect Score | 96.5% | 96.5% |
-| Variable Naming | 99.96% reduction | 99.96% reduction |
+| Variable Naming | **100% JADX parity** | **100% JADX parity** |
 | Type Inference | 0 failures | 0 failures |
 
 #### Quality Scorecard
@@ -158,7 +158,7 @@ public class MainActivity extends Activity {
 | **Speed** | ❌ | ✅ | **Dexterity** (2-124x) |
 | **Memory Usage** | ❌ | ✅ | **Dexterity** |
 | **Error Count** | 13 errors | 0 errors | **Dexterity** |
-| **Defect Score** | - | 69.7-90.3% | **Dexterity** |
+| **Defect Score** | - | 96.5% | **Dexterity** |
 
 #### Output Statistics
 

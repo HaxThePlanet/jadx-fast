@@ -1,7 +1,7 @@
 # LLM Agent Guide: Autonomous Development Toward JADX Parity
 
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
-**Issues:** 23 total (20 resolved, **3 remaining** from badboy APK comparison)
+**Issues:** 27 total (26 resolved, **1 remaining** from badboy APK comparison)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**
 
@@ -84,11 +84,11 @@ Check [ROADMAP.md](ROADMAP.md) → "To Clone Next" section:
 | Component | Dexterity File |
 |-----------|----------------|
 | Type Inference | `crates/dexterity-passes/src/type_inference.rs` (2,658 LOC) |
-| Region Builder | `crates/dexterity-passes/src/region_builder.rs` (2,118 LOC) |
-| Variable Naming | `crates/dexterity-passes/src/var_naming.rs` (1,736 LOC) |
-| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (6,871 LOC) |
+| Region Builder | `crates/dexterity-passes/src/region_builder.rs` (2,511 LOC) |
+| Variable Naming | `crates/dexterity-passes/src/var_naming.rs` (1,784 LOC) |
+| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (7,038 LOC) |
 | Expression Gen | `crates/dexterity-codegen/src/expr_gen.rs` (1,488 LOC) |
-| Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,711 LOC) |
+| Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,733 LOC) |
 
 ### Step 4: Implement
 
@@ -148,8 +148,6 @@ If you made significant improvements, update:
 
 | Task | Priority | Files | Notes |
 |------|----------|-------|-------|
-| **Static initializer variables** | P0-CRITICAL | body_gen.rs:4962,4985 | 2-line fix: `write_arg_inline_typed()` |
-| **Missing annotation imports** | P2-MEDIUM | class_gen.rs | Traverse annotation argument types |
 | **Code verbosity** | P3-LOW | body_gen.rs, code_shrink.rs | **POSITIVE TRADEOFF** (not a bug) |
 
 ### Recently Completed
@@ -231,16 +229,16 @@ crates/
 ├── dexterity-passes/       # Decompilation passes
 │   └── src/
 │       ├── type_inference.rs  # Type inference (2,658 LOC)
-│       ├── region_builder.rs  # Control flow (2,118 LOC)
-│       ├── var_naming.rs      # Variable naming (1,736 LOC)
-│       ├── ssa.rs             # SSA transformation (971 LOC)
+│       ├── region_builder.rs  # Control flow (2,511 LOC)
+│       ├── var_naming.rs      # Variable naming (1,784 LOC)
+│       ├── ssa.rs             # SSA transformation (1,284 LOC)
 │       └── simplify.rs        # Simplification (1,646 LOC)
 ├── dexterity-codegen/      # Java code generation
 │   └── src/
-│       ├── body_gen.rs     # Region traversal (6,871 LOC)
+│       ├── body_gen.rs     # Region traversal (7,038 LOC)
 │       ├── expr_gen.rs     # Expressions (1,488 LOC)
 │       ├── fallback_gen.rs # Fallback mode raw output
-│       └── class_gen.rs    # Class structure (1,711 LOC)
+│       └── class_gen.rs    # Class structure (1,733 LOC)
 └── dexterity-cli/          # CLI application
     └── src/
         ├── converter.rs    # DEX→IR conversion

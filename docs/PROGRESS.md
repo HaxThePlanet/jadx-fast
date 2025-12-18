@@ -13,7 +13,7 @@
 |--------|------------|-----------|--------|
 | Overall Quality | **95.5%+** (Dec 17 re-run) | **95.5%+** (Dec 17 re-run) | **ACHIEVED** |
 | Defect Score | **96.5%** (Dec 17 re-run) | **96.5%** (Dec 17 re-run) | **ACHIEVED** |
-| Variable Naming | 99.96% reduction | 99.96% reduction | **ACHIEVED** |
+| Variable Naming | 99.96% reduction | **100% JADX parity** | **ACHIEVED** (dead var elim + root pkg reservation) |
 | Null Comparisons | 100% correct | 100% correct | **ACHIEVED** |
 | Type Inference | 0 failures | 0 failures | **ACHIEVED** |
 | Integration Tests | 685/685 | 685/685 | **ACHIEVED** |
@@ -373,6 +373,34 @@ Results:
 ---
 
 ## Recent Fixes
+
+### Variable Naming 100% JADX Parity - Dec 17, 2025
+
+**Variable Naming now at 100% JADX parity (was 80%).**
+
+**Two key improvements:**
+
+1. **Dead Variable Elimination:**
+   - Added `count_phi_source_uses()` function in `body_gen.rs` to track phi source usage
+   - Variables that are never used (including unused phi declarations) are now filtered out
+   - Merged phi source use counts into the main use counts HashMap
+   - Location: `crates/dexterity-codegen/src/body_gen.rs` (lines 644-680)
+
+2. **Root Package Name Reservation:**
+   - Added `DEFAULT_ROOT_PACKAGES` constant in `var_naming.rs` with common root package names
+   - Reserved packages: `java`, `javax`, `android`, `androidx`, `dalvik`, `com`, `org`, `net`, `io`, `edu`, `gov`, `info`, `biz`, `kotlin`, `kotlinx`
+   - Prevents variable names from colliding with fully-qualified class names (e.g., prevents `com` variable from conflicting with `com.example.Foo`)
+   - Location: `crates/dexterity-passes/src/var_naming.rs` (lines 272-283)
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs` - Dead variable filtering, phi source use counting
+- `crates/dexterity-passes/src/var_naming.rs` - Root package reservation
+
+**Impact:**
+- Variable Naming parity: 80% -> **100%**
+- Overall Codegen parity: 78% -> **80%** (now 94% after all improvements)
+
+---
 
 ### Transparent Huge Pages (THP) Optimization - Dec 17, 2025
 

@@ -43,15 +43,28 @@ Test Java source → bytecode → decompilation → Java output.
 **Location:** `/mnt/nvme4tb/jadx-rust/crates/dexterity-cli/tests/integration/`
 
 **Test Categories:**
+- `android_tests.rs` - Android-specific features
+- `annotations_tests.rs` - Annotation handling
 - `arith_tests.rs` - Arithmetic operations
-- `trycatch_tests.rs` - Exception handling
-- `switches_tests.rs` - Switch statements
-- `loops_tests.rs` - Loop constructs
-- `types_tests.rs` - Type inference
+- `arrays_tests.rs` - Array operations
 - `conditions_tests.rs` - Conditional statements
+- `debuginfo_tests.rs` - Debug information
+- `deobf_tests.rs` - Deobfuscation
 - `enums_tests.rs` - Enum handling
 - `generics_tests.rs` - Generic types
+- `inline_tests.rs` - Inlining
 - `inner_tests.rs` - Inner classes
+- `invoke_tests.rs` - Method invocations
+- `java8_tests.rs` - Java 8 features (lambdas, etc.)
+- `loops_tests.rs` - Loop constructs
+- `names_tests.rs` - Variable naming
+- `others_tests.rs` - Miscellaneous tests
+- `rename_tests.rs` - Renaming tests
+- `switches_tests.rs` - Switch statements
+- `synchronize_tests.rs` - Synchronized blocks
+- `trycatch_tests.rs` - Exception handling
+- `types_tests.rs` - Type inference
+- `variables_tests.rs` - Variable handling
 
 **Golden Tests Location:** `crates/dexterity-cli/tests/golden_tests.rs` (363 lines)
 
@@ -441,13 +454,28 @@ For future CI/CD setup:
 **Expected passing:** 685 integration tests + unit tests across all crates
 
 **Test files:**
+- `crates/dexterity-cli/tests/integration/android_tests.rs` - Android-specific features
+- `crates/dexterity-cli/tests/integration/annotations_tests.rs` - Annotations
 - `crates/dexterity-cli/tests/integration/arith_tests.rs` - Arithmetic
-- `crates/dexterity-cli/tests/integration/trycatch_tests.rs` - Exception handling
-- `crates/dexterity-cli/tests/integration/switches_tests.rs` - Switches
-- `crates/dexterity-cli/tests/integration/loops_tests.rs` - Loops
-- `crates/dexterity-cli/tests/integration/types_tests.rs` - Type inference
+- `crates/dexterity-cli/tests/integration/arrays_tests.rs` - Arrays
 - `crates/dexterity-cli/tests/integration/conditions_tests.rs` - Conditionals
+- `crates/dexterity-cli/tests/integration/debuginfo_tests.rs` - Debug info
+- `crates/dexterity-cli/tests/integration/deobf_tests.rs` - Deobfuscation
+- `crates/dexterity-cli/tests/integration/enums_tests.rs` - Enums
 - `crates/dexterity-cli/tests/integration/generics_tests.rs` - Generics
+- `crates/dexterity-cli/tests/integration/inline_tests.rs` - Inlining
+- `crates/dexterity-cli/tests/integration/inner_tests.rs` - Inner classes
+- `crates/dexterity-cli/tests/integration/invoke_tests.rs` - Method invocations
+- `crates/dexterity-cli/tests/integration/java8_tests.rs` - Java 8 features
+- `crates/dexterity-cli/tests/integration/loops_tests.rs` - Loops
+- `crates/dexterity-cli/tests/integration/names_tests.rs` - Variable names
+- `crates/dexterity-cli/tests/integration/others_tests.rs` - Miscellaneous
+- `crates/dexterity-cli/tests/integration/rename_tests.rs` - Renaming
+- `crates/dexterity-cli/tests/integration/switches_tests.rs` - Switches
+- `crates/dexterity-cli/tests/integration/synchronize_tests.rs` - Synchronized blocks
+- `crates/dexterity-cli/tests/integration/trycatch_tests.rs` - Exception handling
+- `crates/dexterity-cli/tests/integration/types_tests.rs` - Type inference
+- `crates/dexterity-cli/tests/integration/variables_tests.rs` - Variable handling
 - `crates/dexterity-cli/tests/golden_tests.rs` - Golden reference
 
 ### Running Specific Test Categories
@@ -567,10 +595,11 @@ The `apks/` directory contains reference APKs for benchmarking and quality testi
 
 | APK | Size | Description |
 |-----|------|-------------|
-| `small.apk` | 9.9 KB | Minimal test APK - fast iteration, basic feature validation |
-| `medium.apk` | 10.3 MB | Mid-size app - comprehensive testing, ~13K classes |
+| `small.apk` | 9.7 KB | Minimal test APK - fast iteration, basic feature validation |
+| `medium.apk` | 10.4 MB | Mid-size app - comprehensive testing, ~13K classes |
 | `large.apk` | 51.6 MB | Large production app - stress testing, ~18K classes |
-| `badboy-x86.apk` | 24.7 MB | x86 architecture APK - architecture compatibility testing |
+| `badboy.apk` | 23.8 MB | Comprehensive test APK - full feature validation |
+| `badboy-x86.apk` | 23.6 MB | x86 architecture APK - architecture compatibility testing |
 
 ### Decompilation Output Structure
 

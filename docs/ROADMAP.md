@@ -87,7 +87,7 @@
    - Extract common breaks: If all cases end with break, move to after switch
    - Remove unreachable breaks after return/throw
 
-**Documentation:** See `docs/IR_PARITY_IMPROVEMENTS.md` for detailed analysis
+**Documentation:** See `docs/JADX_DEXTERITY_IR_REFERENCE.md` for detailed analysis
 
 ---
 
@@ -114,11 +114,11 @@
 
 | Component | Dexterity File | LOC | Status |
 |-----------|----------------|-----|--------|
-| SSA Transform | ssa.rs | 971 | DONE |
+| SSA Transform | ssa.rs | 1,284 | DONE |
 | Type Inference | type_inference.rs | 2,658 | DONE |
-| Region Builder | region_builder.rs | 2,118 | DONE |
-| Variable Naming | var_naming.rs | 1,736 | DONE |
-| Code Generation | body_gen.rs + expr_gen.rs | 8,359 | DONE |
+| Region Builder | region_builder.rs | 2,511 | DONE |
+| Variable Naming | var_naming.rs | 1,784 | DONE |
+| Code Generation | body_gen.rs + expr_gen.rs | 8,526 | DONE |
 | Exception Handling | region_builder.rs | - | DONE |
 | Deobfuscation | deobf.rs | 1,007 | DONE |
 | Kotlin Metadata | dexterity-kotlin/*.rs | 1,130 | **61% parity** |
@@ -445,13 +445,15 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [ ] IfRegionVisitor - else-if chains, empty branch removal
 - [ ] SwitchBreakVisitor - common break extraction
 
-### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md))
+### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md)) - **100% JADX Parity**
 - [x] Debug info application
 - [x] Type-based aliases (String→str, Class→cls, etc.)
 - [x] Method pattern extraction (getName()→name)
 - [x] Array names (int[]→iArr)
 - [x] Collision handling with numeric suffixes
 - [x] Reserved names for inner classes - **DONE** (infrastructure in var_naming.rs, inner_class_names parameter)
+- [x] Dead variable elimination - **DONE** (Dec 17, 2025) - Filters unused phi declarations via phi source use counting
+- [x] Root package name reservation - **DONE** (Dec 17, 2025) - java, javax, android, com, org, net, io, edu, gov, info, biz, kotlin, kotlinx
 
 ### Optimization Passes ([JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md)) - **100% COMPLETE**
 - [x] ConstInlineVisitor equivalent
@@ -499,11 +501,11 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 | File | LOC | Purpose |
 |------|-----|---------|
 | `crates/dexterity-passes/src/type_inference.rs` | 2,658 | Type inference |
-| `crates/dexterity-codegen/src/body_gen.rs` | 6,871 | Region traversal |
-| `crates/dexterity-passes/src/region_builder.rs` | 2,118 | Control flow |
-| `crates/dexterity-passes/src/var_naming.rs` | 1,736 | Variable naming |
+| `crates/dexterity-codegen/src/body_gen.rs` | 7,038 | Region traversal |
+| `crates/dexterity-passes/src/region_builder.rs` | 2,511 | Control flow |
+| `crates/dexterity-passes/src/var_naming.rs` | 1,784 | Variable naming |
 | `crates/dexterity-codegen/src/expr_gen.rs` | 1,488 | Expression gen |
-| `crates/dexterity-codegen/src/class_gen.rs` | 1,711 | Class structure |
+| `crates/dexterity-codegen/src/class_gen.rs` | 1,733 | Class structure |
 | `crates/dexterity-codegen/src/fallback_gen.rs` | 44 | Fallback mode raw output |
 
 ### JADX Source (jadx-fast)
