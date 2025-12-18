@@ -1419,6 +1419,7 @@ pub fn generate_body_with_inner_classes_and_lambdas<W: CodeWriter>(
     fallback: bool,
     res_names: &HashMap<u32, String>,
     replace_consts: bool,
+    add_debug_lines: bool,
     code: &mut W,
 ) {
     use std::panic::{catch_unwind, AssertUnwindSafe};
@@ -1449,6 +1450,7 @@ pub fn generate_body_with_inner_classes_and_lambdas<W: CodeWriter>(
             deobf_max_length,
             res_names,
             replace_consts,
+            add_debug_lines,
             code
         )
     }));
@@ -1473,6 +1475,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     deobf_max_length: usize,
     res_names: &HashMap<u32, String>,
     replace_consts: bool,
+    add_debug_lines: bool,
     code: &mut W,
 ) {
     CODEGEN_DEPTH.with(|depth| {
