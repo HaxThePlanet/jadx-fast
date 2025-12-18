@@ -2307,7 +2307,7 @@ fn detect_switch_over_string(
     })?;
 
     // Look for invoke-virtual hashCode() followed by MoveResult that produces switch_reg
-    let string_source = find_hashcode_source_in_block(block, switch_reg.0, switch_reg.1)?;
+    let string_source = find_hashcode_source_in_block(block, switch_reg.0, switch_reg.1, ctx)?;
 
     // Generate the string expression
     let string_reg_arg = dexterity_ir::instructions::RegisterArg {
@@ -2343,21 +2343,53 @@ fn detect_switch_over_string(
 }
 
 /// Find the string register that had hashCode() called on it
+/// Searches the given block first, then falls back to searching all blocks
 fn find_hashcode_source_in_block(
     block: &dexterity_passes::block_split::BasicBlock,
     target_reg: u16,
     target_version: u32,
+    ctx: &BodyGenContext,
 ) -> Option<(u16, u32)> {
-    // Look for invoke-virtual followed by MoveResult that puts into target_reg
+    // First try the given block
+    if let Some(result) = find_hashcode_in_single_block(block, target_reg, target_version, ctx) {
+        return Some(result);
+    }
+
+    // Fall back to searching all blocks (hashCode might be in a predecessor)
+    for other_block in ctx.blocks.values() {
+        if let Some(result) = find_hashcode_in_single_block(other_block, target_reg, target_version, ctx) {
+            return Some(result);
+        }
+    }
+
+    None
+}
+
+/// Search a single block for hashCode() producing the target register
+fn find_hashcode_in_single_block(
+    block: &dexterity_passes::block_split::BasicBlock,
+    target_reg: u16,
+    target_version: u32,
+    ctx: &BodyGenContext,
+) -> Option<(u16, u32)> {
+    // Look for invoke-virtual hashCode() followed by MoveResult that puts into target_reg
     for (i, insn) in block.instructions.iter().enumerate() {
-        if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx: _, args, .. } = &insn.insn_type {
+        if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx, args, .. } = &insn.insn_type {
             // hashCode() takes just `this`
             if args.len() == 1 {
+                // Verify method name is "hashCode"
+                if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
+                    if method_info.method_name != "hashCode" {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
                 // Check if next instruction is MoveResult to our target
                 if i + 1 < block.instructions.len() {
                     if let InsnType::MoveResult { dest } = &block.instructions[i + 1].insn_type {
                         if dest.reg_num == target_reg && dest.ssa_version == target_version {
-                            // This could be hashCode() - return the string register
+                            // Confirmed hashCode() - return the string register
                             if let InsnArg::Register(reg_arg) = &args[0] {
                                 return Some((reg_arg.reg_num, reg_arg.ssa_version));
                             }
@@ -2433,9 +2465,17 @@ fn extract_string_from_equals(
     string_reg: u16,
     ctx: &BodyGenContext,
 ) -> Option<String> {
-    if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx: _, args, .. } = &insn.insn_type {
+    if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx, args, .. } = &insn.insn_type {
         // equals() takes 2 args: this, other
         if args.len() == 2 {
+            // Verify method name is "equals"
+            if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
+                if method_info.method_name != "equals" {
+                    return None;
+                }
+            } else {
+                return None;
+            }
             // Check if first arg is our string register (str.equals(literal))
             if let InsnArg::Register(reg_arg) = &args[0] {
                 if reg_arg.reg_num == string_reg {
@@ -2512,7 +2552,7 @@ fn detect_two_switch_in_sequence(
                 })?;
 
                 // Look for hashCode() followed by MoveResult that produces switch_reg
-                let string_source = find_hashcode_source_in_block(block, switch_reg.0, switch_reg.1)?;
+                let string_source = find_hashcode_source_in_block(block, switch_reg.0, switch_reg.1, ctx)?;
 
                 // Generate the string expression
                 let string_reg_arg = dexterity_ir::instructions::RegisterArg {
@@ -6221,42 +6261,78 @@ fn generate_insn<W: CodeWriter>(
         }
         InsnType::Constructor { dest, type_idx, method_idx, args, generic_types } => {
             // Constructor: dest = new Type<T>(args)
-            code.start_line();
-            code.add(&ctx.expr_gen.get_var_name(dest));
-            code.add(" = new ");
+            let reg = dest.reg_num;
+            let version = dest.ssa_version;
 
             // Get type name from type_idx
             let type_name = ctx.expr_gen.get_type_value(*type_idx)
                 .unwrap_or_else(|| format!("UnknownType{}", type_idx));
-            code.add(&type_name);
 
-            // Emit generic type parameters if present (JADX GenericTypesVisitor parity)
-            if let Some(generics) = generic_types {
+            // Build generic type suffix if present (JADX GenericTypesVisitor parity)
+            let generic_suffix = if let Some(generics) = generic_types {
                 if !generics.is_empty() {
-                    code.add("<");
-                    for (i, generic_type) in generics.iter().enumerate() {
-                        if i > 0 { code.add(", "); }
-                        let type_str = type_to_string_with_imports(generic_type, ctx.imports.as_ref());
-                        code.add(&type_str);
-                    }
-                    code.add(">");
+                    let types: Vec<_> = generics.iter()
+                        .map(|gt| type_to_string_with_imports(gt, ctx.imports.as_ref()))
+                        .collect();
+                    format!("<{}>", types.join(", "))
+                } else {
+                    String::new()
                 }
-            }
+            } else {
+                String::new()
+            };
 
-            code.add("(");
             // Get constructor parameter types for type-aware formatting (0 -> null for Objects)
             let param_types = ctx.expr_gen.get_method_value(*method_idx)
                 .map(|info| info.param_types.clone())
                 .unwrap_or_default();
-            for (i, arg) in args.iter().enumerate() {
-                if i > 0 { code.add(", "); }
-                if let Some(param_type) = param_types.get(i) {
-                    ctx.write_arg_inline_typed(code, arg, param_type);
-                } else {
-                    ctx.expr_gen.write_arg(code, arg);
-                }
+
+            // Build args string with inlining support
+            let args_str: Vec<_> = args.iter().enumerate()
+                .map(|(i, arg)| {
+                    if let Some(param_type) = param_types.get(i) {
+                        ctx.gen_arg_inline_typed(arg, param_type)
+                    } else {
+                        ctx.gen_arg_inline(arg)
+                    }
+                })
+                .collect();
+
+            // Build the constructor expression
+            let ctor_expr = format!("new {}{}{}{}", type_name, generic_suffix, "(", args_str.join(", ") + ")");
+
+            // Check if result should be inlined (single-use variable)
+            if ctx.should_inline(reg, version) {
+                ctx.store_inline_expr(reg, version, ctor_expr);
+                return true;
             }
-            code.add(");").newline();
+
+            // Multi-use variable - emit assignment
+            let var_name = ctx.expr_gen.get_var_name(dest);
+            code.start_line();
+
+            // Check if we need to declare the variable
+            let needs_decl = !ctx.is_declared(reg, version)
+                && !ctx.is_parameter(reg, version)
+                && !ctx.is_name_declared(&var_name);
+
+            if needs_decl {
+                let decl_type = ctx.get_inferred_type_versioned(reg, version);
+                if ctx.is_final(reg, version) {
+                    code.add("final ");
+                }
+                if let Some(arg_type) = decl_type {
+                    let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
+                    code.add(&type_str).add(" ");
+                } else {
+                    // Use the constructed type as the declaration type
+                    code.add(&type_name).add(&generic_suffix).add(" ");
+                }
+                ctx.mark_declared(reg, version);
+                ctx.mark_name_declared(&var_name);
+            }
+
+            code.add(&var_name).add(" = ").add(&ctor_expr).add(";").newline();
             true
         }
         InsnType::JavaJsr { target } => {
