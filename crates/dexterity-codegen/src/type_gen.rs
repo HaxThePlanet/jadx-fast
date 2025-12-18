@@ -235,6 +235,19 @@ pub fn literal_to_string(value: i64, ty: &ArgType) -> String {
     }
 }
 
+/// Convert an instruction argument to a string with type awareness
+/// Returns None if the argument is not a literal (caller should use normal gen_arg)
+pub fn literal_to_string_with_arg(arg: &dexterity_ir::InsnArg, ty: &ArgType) -> Option<String> {
+    use dexterity_ir::instructions::{InsnArg, LiteralArg};
+    match arg {
+        InsnArg::Literal(LiteralArg::Int(v)) => Some(literal_to_string(*v, ty)),
+        InsnArg::Literal(LiteralArg::Float(v)) => Some(format!("{}f", v)),
+        InsnArg::Literal(LiteralArg::Double(v)) => Some(format!("{}d", v)),
+        InsnArg::Literal(LiteralArg::Null) => Some("null".to_string()),
+        _ => None, // Not a literal, use normal gen_arg
+    }
+}
+
 /// Format a short literal with special value handling
 fn format_short(value: i16) -> String {
     match value {

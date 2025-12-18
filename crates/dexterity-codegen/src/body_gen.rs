@@ -357,6 +357,38 @@ impl BodyGenContext {
         self.expr_gen.gen_arg(arg)
     }
 
+    /// Generate argument expression with type-aware formatting (0 -> null for Objects)
+    pub fn gen_arg_inline_typed(&mut self, arg: &InsnArg, target_type: &ArgType) -> String {
+        if let InsnArg::Register(reg) = arg {
+            // Check if we have an inlined expression for this register
+            if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
+                // Check if this is a pure integer literal that needs type conversion
+                if let Ok(value) = expr.trim().parse::<i64>() {
+                    match target_type {
+                        ArgType::Char => {
+                            let c = char::from_u32(value as u32).unwrap_or('\u{FFFD}');
+                            return crate::type_gen::escape_char_pub(c);
+                        }
+                        ArgType::Boolean => {
+                            return if value == 0 { "false" } else { "true" }.to_string();
+                        }
+                        // Convert 0 to null for Object/Array types (JADX parity)
+                        ArgType::Object(_) | ArgType::Array(_) | ArgType::UnknownObject => {
+                            if value == 0 {
+                                return "null".to_string();
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+                return expr;
+            }
+        }
+        // Fall back to type-aware generation
+        crate::type_gen::literal_to_string_with_arg(arg, target_type)
+            .unwrap_or_else(|| self.expr_gen.gen_arg(arg))
+    }
+
     /// Generate argument expression with inline peek (doesn't consume the inlined expr)
     /// This is useful for conditions where we need to reference the expression
     /// without consuming it (since the actual instruction will be processed later)
@@ -5390,9 +5422,15 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                 ctx.mark_name_declared(&var_name);
                             }
                             code.add(&var_name).add(" = new ").add(&type_name).add("(");
+                            // Use type-aware formatting (0 -> null for Object params)
+                            let param_types = &method_info.param_types;
                             for (i, a) in args.iter().skip(1).enumerate() {
                                 if i > 0 { code.add(", "); }
-                                ctx.write_arg_inline(code, a);
+                                if let Some(param_type) = param_types.get(i) {
+                                    ctx.write_arg_inline_typed(code, a, param_type);
+                                } else {
+                                    ctx.write_arg_inline(code, a);
+                                }
                             }
                             code.add(");").newline();
                             return true;
@@ -5404,9 +5442,18 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
                                 if method_info.method_name == "<init>" {
                                     // Build argument list (skip receiver which is first arg)
+                                    // Use type-aware formatting (0 -> null for Object params)
+                                    let param_types = &method_info.param_types;
                                     let arg_strs: Vec<_> = args.iter()
                                         .skip(1)
-                                        .map(|a| ctx.gen_arg_inline(a))
+                                        .enumerate()
+                                        .map(|(i, a)| {
+                                            if let Some(param_type) = param_types.get(i) {
+                                                ctx.gen_arg_inline_typed(a, param_type)
+                                            } else {
+                                                ctx.gen_arg_inline(a)
+                                            }
+                                        })
                                         .collect();
 
                                     // Only emit super()/this() if we're actually in a constructor
