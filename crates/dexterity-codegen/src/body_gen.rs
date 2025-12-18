@@ -6219,8 +6219,8 @@ fn generate_insn<W: CodeWriter>(
             code.add(";").newline();
             true
         }
-        InsnType::Constructor { dest, type_idx, method_idx, args } => {
-            // Constructor: dest = new Type(args)
+        InsnType::Constructor { dest, type_idx, method_idx, args, generic_types } => {
+            // Constructor: dest = new Type<T>(args)
             code.start_line();
             code.add(&ctx.expr_gen.get_var_name(dest));
             code.add(" = new ");
@@ -6229,6 +6229,19 @@ fn generate_insn<W: CodeWriter>(
             let type_name = ctx.expr_gen.get_type_value(*type_idx)
                 .unwrap_or_else(|| format!("UnknownType{}", type_idx));
             code.add(&type_name);
+
+            // Emit generic type parameters if present (JADX GenericTypesVisitor parity)
+            if let Some(generics) = generic_types {
+                if !generics.is_empty() {
+                    code.add("<");
+                    for (i, generic_type) in generics.iter().enumerate() {
+                        if i > 0 { code.add(", "); }
+                        let type_str = type_to_string_with_imports(generic_type, ctx.imports.as_ref());
+                        code.add(&type_str);
+                    }
+                    code.add(">");
+                }
+            }
 
             code.add("(");
             // Get constructor parameter types for type-aware formatting (0 -> null for Objects)

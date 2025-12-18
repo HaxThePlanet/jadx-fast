@@ -432,6 +432,9 @@ pub enum InsnType {
         type_idx: u32,
         method_idx: u32,
         args: Vec<InsnArg>,
+        /// Generic type parameters (e.g., <String> for ArrayList<String>)
+        /// Matches JADX's GenericInfoAttr
+        generic_types: Option<Vec<ArgType>>,
     },
 
     /// Java JSR (Jump SubRoutine) - legacy finally implementation

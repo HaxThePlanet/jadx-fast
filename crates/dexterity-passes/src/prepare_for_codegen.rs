@@ -16,8 +16,10 @@
 //! - Parenthesis optimization hints: mark associative op chains
 //! - Self-constructor removal: remove redundant self-init calls
 
+use std::collections::HashMap;
 use dexterity_ir::instructions::{InsnType, InsnArg, BinaryOp};
 use dexterity_ir::attributes::AFlag;
+use dexterity_ir::types::ArgType;
 use crate::ssa::{SsaResult, SsaBlock};
 
 /// Result of prepare for codegen pass
@@ -39,13 +41,20 @@ fn is_associative(op: &BinaryOp) -> bool {
 }
 
 /// Run the prepare for codegen pass
-pub fn prepare_for_codegen(ssa: &mut SsaResult) -> PrepareForCodeGenResult {
+///
+/// # Arguments
+/// * `ssa` - SSA result to modify
+/// * `inferred_types` - Optional map of (reg_num, ssa_version) -> ArgType for attaching generic types to constructors
+pub fn prepare_for_codegen(
+    ssa: &mut SsaResult,
+    inferred_types: Option<&HashMap<(u16, u32), ArgType>>,
+) -> PrepareForCodeGenResult {
     let mut result = PrepareForCodeGenResult::default();
 
     for block in &mut ssa.blocks {
         remove_redundant_moves(block, &mut result);
         mark_associative_chains(block, &mut result);
-        synthesize_constructors(block, &mut result);
+        synthesize_constructors(block, &mut result, inferred_types);
     }
 
     result
@@ -150,19 +159,31 @@ fn mark_associative_chains(block: &mut SsaBlock, result: &mut PrepareForCodeGenR
     }
 }
 
+/// Extract generic type parameters from an ArgType if present
+fn extract_generic_params(arg_type: &ArgType) -> Option<Vec<ArgType>> {
+    match arg_type {
+        ArgType::Generic { params, .. } if !params.is_empty() => Some(params.clone()),
+        _ => None,
+    }
+}
+
 /// Synthesize CONSTRUCTOR instructions by fusing NewInstance + <init> pairs
 ///
 /// Pattern detected:
-/// ```
+/// ```text
 /// v0 = new Type()           // NewInstance
 /// v0.<init>(args)           // Invoke Direct <init>
-/// →  v0 = new Type(args)    // Constructor (synthesized)
+/// ->  v0 = new Type(args)   // Constructor (synthesized)
 /// ```
 ///
 /// This matches JADX's behavior of combining object allocation with initialization.
-fn synthesize_constructors(block: &mut SsaBlock, result: &mut PrepareForCodeGenResult) {
+/// If inferred_types is provided, attaches generic type parameters (e.g., <String> for ArrayList<String>).
+fn synthesize_constructors(
+    block: &mut SsaBlock,
+    result: &mut PrepareForCodeGenResult,
+    inferred_types: Option<&HashMap<(u16, u32), ArgType>>,
+) {
     use dexterity_ir::instructions::{InsnNode, InvokeKind};
-    use std::collections::HashMap;
 
     // Build map of NewInstance instructions by (reg_num, ssa_version) -> (index, type_idx, offset)
     let mut new_instances: HashMap<(u16, u32), (usize, u32, u32)> = HashMap::new();
@@ -193,12 +214,18 @@ fn synthesize_constructors(block: &mut SsaBlock, result: &mut PrepareForCodeGenR
                         let dest = receiver.clone();
                         let ctor_args = args[1..].to_vec(); // Skip 'this' arg
 
+                        // Look up generic types from inferred types (JADX GenericTypesVisitor parity)
+                        let generic_types = inferred_types
+                            .and_then(|types| types.get(&(dest.reg_num, dest.ssa_version)))
+                            .and_then(extract_generic_params);
+
                         let ctor_insn = InsnNode::new(
                             InsnType::Constructor {
                                 dest,
                                 type_idx: *type_idx,
                                 method_idx: *method_idx,
                                 args: ctor_args,
+                                generic_types,
                             },
                             *new_offset, // Use NewInstance offset for better source mapping
                         );
@@ -264,7 +291,7 @@ mod tests {
 
         let mut ssa = make_ssa_result(vec![block]);
 
-        let result = prepare_for_codegen(&mut ssa);
+        let result = prepare_for_codegen(&mut ssa, None);
         assert_eq!(result.redundant_moves_removed, 1);
         assert!(ssa.blocks[0].instructions[0].has_flag(AFlag::DontGenerate));
     }
@@ -286,7 +313,7 @@ mod tests {
 
         let mut ssa = make_ssa_result(vec![block]);
 
-        let result = prepare_for_codegen(&mut ssa);
+        let result = prepare_for_codegen(&mut ssa, None);
         assert_eq!(result.redundant_moves_removed, 0);
         assert!(!ssa.blocks[0].instructions[0].has_flag(AFlag::DontGenerate));
     }
@@ -320,7 +347,7 @@ mod tests {
 
         let mut ssa = make_ssa_result(vec![block]);
 
-        let result = prepare_for_codegen(&mut ssa);
+        let result = prepare_for_codegen(&mut ssa, None);
         // The inner add (offset 0) should be marked as DontWrap
         assert_eq!(result.no_wrap_marked, 1);
         assert!(ssa.blocks[0].instructions[0].has_flag(AFlag::DontWrap));
@@ -355,7 +382,7 @@ mod tests {
 
         let mut ssa = make_ssa_result(vec![block]);
 
-        let result = prepare_for_codegen(&mut ssa);
+        let result = prepare_for_codegen(&mut ssa, None);
         // SUB is not associative, should not be marked
         assert_eq!(result.no_wrap_marked, 0);
         assert!(!ssa.blocks[0].instructions[0].has_flag(AFlag::DontWrap));

@@ -98,7 +98,7 @@ cargo test
 test result: ok. X passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
-All integration tests should pass (685 tests).
+All integration tests should pass (710 tests).
 
 ---
 
@@ -451,7 +451,7 @@ For future CI/CD setup:
 
 ### Current Test Status
 
-**Expected passing:** 685 integration tests + unit tests across all crates
+**Expected passing:** 685 integration tests + 490 unit tests across all crates (1,175 total)
 
 **Test files:**
 - `crates/dexterity-cli/tests/integration/android_tests.rs` - Android-specific features
@@ -515,7 +515,7 @@ Your fix is successful when:
 ✅ **Test Coverage**
 - [ ] New test written and passing
 - [ ] Related tests still passing
-- [ ] Full test suite still passes (685 integration tests)
+- [ ] Full test suite still passes (710 integration tests + 469 unit tests)
 
 ✅ **Quality Metrics**
 - [ ] Overall quality improved

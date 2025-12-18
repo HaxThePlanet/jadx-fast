@@ -84,6 +84,18 @@ pub fn object_to_java_name_with_imports_and_package(
     imports: Option<&std::collections::BTreeSet<String>>,
     current_package: Option<&str>,
 ) -> String {
+    object_to_java_name_with_class_context(internal, imports, current_package, None)
+}
+
+/// Convert an internal class name to Java source format, with full class context
+/// current_class: The class we're generating code for (e.g., "rx/Observable")
+/// This allows using simple names for inner types of the current class
+pub fn object_to_java_name_with_class_context(
+    internal: &str,
+    imports: Option<&std::collections::BTreeSet<String>>,
+    current_package: Option<&str>,
+    current_class: Option<&str>,
+) -> String {
     // Strip L prefix and ; suffix if present
     let stripped = internal
         .strip_prefix('L')
@@ -94,6 +106,24 @@ pub fn object_to_java_name_with_imports_and_package(
     // Handle common java.lang types with short names
     if let Some(simple) = get_java_lang_short_name(stripped) {
         return simple.to_string();
+    }
+
+    // Check if type is an inner type of the current class - if so, use simple name
+    // e.g., for current_class "rx/Observable", type "rx/Observable$OnSubscribe" -> "OnSubscribe"
+    if let Some(curr_class) = current_class {
+        let curr_stripped = curr_class
+            .strip_prefix('L')
+            .unwrap_or(curr_class)
+            .strip_suffix(';')
+            .unwrap_or(curr_class);
+
+        // Check if stripped starts with curr_stripped$
+        let prefix = format!("{}$", curr_stripped);
+        if stripped.starts_with(&prefix) {
+            // It's an inner class of the current class - return just the inner part
+            let inner_part = &stripped[prefix.len()..];
+            return replace_inner_class_separator(inner_part);
+        }
     }
 
     // Check if type is imported - if so, use simple name

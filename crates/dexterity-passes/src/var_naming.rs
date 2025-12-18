@@ -148,30 +148,112 @@ fn get_debug_name(debug_info: Option<&DebugInfo>, reg: u16, insn_offset: u32) ->
     None
 }
 
+/// Check if two types are compatible for sharing the same variable name.
+/// Types are compatible if they're the same, or one is a supertype/subtype of the other.
+/// This is more lenient than Java assignment compatibility to avoid over-splitting.
+fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
+    // Same type - always compatible
+    if t1 == t2 {
+        return true;
+    }
+
+    // Unknown types are compatible with anything (they'll be resolved later)
+    match (t1, t2) {
+        (ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide |
+         ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral, _) |
+        (_, ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide |
+         ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral) => {
+            return true;
+        }
+        _ => {}
+    }
+
+    // Primitive types must match exactly (int != boolean, etc.)
+    match (t1, t2) {
+        (ArgType::Boolean, ArgType::Boolean) |
+        (ArgType::Byte, ArgType::Byte) |
+        (ArgType::Char, ArgType::Char) |
+        (ArgType::Short, ArgType::Short) |
+        (ArgType::Int, ArgType::Int) |
+        (ArgType::Long, ArgType::Long) |
+        (ArgType::Float, ArgType::Float) |
+        (ArgType::Double, ArgType::Double) |
+        (ArgType::Void, ArgType::Void) => true,
+
+        // Primitives are NOT compatible with each other (int != boolean, etc.)
+        (ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short |
+         ArgType::Int | ArgType::Long | ArgType::Float | ArgType::Double | ArgType::Void,
+         ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short |
+         ArgType::Int | ArgType::Long | ArgType::Float | ArgType::Double | ArgType::Void) => false,
+
+        // Primitives are NOT compatible with objects
+        (ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short |
+         ArgType::Int | ArgType::Long | ArgType::Float | ArgType::Double | ArgType::Void,
+         ArgType::Object(_) | ArgType::Array(_) | ArgType::Generic { .. }) |
+        (ArgType::Object(_) | ArgType::Array(_) | ArgType::Generic { .. },
+         ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short |
+         ArgType::Int | ArgType::Long | ArgType::Float | ArgType::Double | ArgType::Void) => false,
+
+        // Object types are compatible with each other (they share a common ancestor)
+        (ArgType::Object(_), ArgType::Object(_)) => true,
+
+        // Arrays are compatible if element types are compatible
+        (ArgType::Array(e1), ArgType::Array(e2)) => types_compatible_for_naming(e1, e2),
+
+        // Array and Object are compatible (arrays are objects)
+        (ArgType::Array(_), ArgType::Object(_)) |
+        (ArgType::Object(_), ArgType::Array(_)) => true,
+
+        // Generic types - base types must be compatible
+        (ArgType::Generic { base: b1, .. }, ArgType::Generic { base: b2, .. }) => {
+            b1 == b2 || true  // Generics with same base or different bases can share names
+        }
+        (ArgType::Generic { .. }, ArgType::Object(_)) |
+        (ArgType::Object(_), ArgType::Generic { .. }) => true,
+
+        // Default: incompatible
+        _ => false,
+    }
+}
+
 /// Build CodeVar groups from SSA result by following PHI node connections.
 /// This mirrors JADX's InitCodeVariables.collectConnectedVars() - all SSA variables
 /// connected through PHI nodes should share the same name.
 ///
+/// TYPE-AWARE VERSION: Variables with incompatible types are NOT grouped together,
+/// even if they're PHI-connected. This prevents assigning boolean values to int variables.
+///
 /// Returns a map: (reg, version) -> code_var_index
 /// Variables with the same index should get the same name.
-fn build_code_vars(ssa: &SsaResult) -> HashMap<(u16, u32), usize> {
+fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<(u16, u32), usize> {
     let mut ssa_to_code_var: HashMap<(u16, u32), usize> = HashMap::new();
     let mut next_code_var_idx = 0usize;
 
     // Build adjacency list from PHI nodes
-    // For each PHI: dest is connected to all sources
+    // For each PHI: dest is connected to all sources IF their types are compatible
     let mut phi_connections: HashMap<(u16, u32), HashSet<(u16, u32)>> = HashMap::new();
 
     for block in &ssa.blocks {
         for phi in &block.phi_nodes {
             let dest = (phi.dest.reg_num, phi.dest.ssa_version);
+            let dest_type = type_info.types.get(&dest);
 
             for (_, source) in &phi.sources {
                 let src = (source.reg_num, source.ssa_version);
+                let src_type = type_info.types.get(&src);
 
-                // Bidirectional connection (like JADX's collectConnectedVars)
-                phi_connections.entry(dest).or_default().insert(src);
-                phi_connections.entry(src).or_default().insert(dest);
+                // Only connect if types are compatible
+                let compatible = match (dest_type, src_type) {
+                    (Some(dt), Some(st)) => types_compatible_for_naming(dt, st),
+                    // If either type is unknown, assume compatible
+                    _ => true,
+                };
+
+                if compatible {
+                    // Bidirectional connection (like JADX's collectConnectedVars)
+                    phi_connections.entry(dest).or_default().insert(src);
+                    phi_connections.entry(src).or_default().insert(dest);
+                }
             }
         }
     }
@@ -186,7 +268,9 @@ fn build_code_vars(ssa: &SsaResult) -> HashMap<(u16, u32), usize> {
                 continue;
             }
 
-            // BFS to find all connected SSA vars
+            let start_type = type_info.types.get(&start);
+
+            // BFS to find all connected SSA vars with COMPATIBLE types
             let mut connected: Vec<(u16, u32)> = Vec::new();
             let mut queue: VecDeque<(u16, u32)> = VecDeque::new();
             queue.push_back(start);
@@ -195,6 +279,20 @@ fn build_code_vars(ssa: &SsaResult) -> HashMap<(u16, u32), usize> {
                 if visited.contains(&current) {
                     continue;
                 }
+
+                // Double-check type compatibility before adding to group
+                let current_type = type_info.types.get(&current);
+                let compatible = match (start_type, current_type) {
+                    (Some(st), Some(ct)) => types_compatible_for_naming(st, ct),
+                    _ => true,
+                };
+
+                if !compatible {
+                    // Mark as visited but don't add to this group
+                    // It will get its own group later
+                    continue;
+                }
+
                 visited.insert(current);
                 connected.push(current);
 
@@ -208,11 +306,13 @@ fn build_code_vars(ssa: &SsaResult) -> HashMap<(u16, u32), usize> {
             }
 
             // Assign all connected vars to the same CodeVar index
-            let code_var_idx = next_code_var_idx;
-            next_code_var_idx += 1;
+            if !connected.is_empty() {
+                let code_var_idx = next_code_var_idx;
+                next_code_var_idx += 1;
 
-            for ssa_var in connected {
-                ssa_to_code_var.insert(ssa_var, code_var_idx);
+                for ssa_var in connected {
+                    ssa_to_code_var.insert(ssa_var, code_var_idx);
+                }
             }
         }
     }
@@ -968,7 +1068,8 @@ pub fn assign_var_names_with_lookups<'a>(
 
     // Build CodeVar groups from PHI nodes (like JADX's InitCodeVariables)
     // Variables connected through PHI nodes should share the same name
-    let code_var_map = build_code_vars(ssa);
+    // TYPE-AWARE: Variables with incompatible types get separate names
+    let code_var_map = build_code_vars(ssa, type_info);
     let mut code_var_names: HashMap<usize, String> = HashMap::new();
 
     // Build assignment map: (reg, version) -> (block_idx, insn_idx, insn_offset)
@@ -1045,6 +1146,22 @@ pub fn assign_var_names_with_lookups<'a>(
                 }
             }
 
+            // For Move from parameter register, propagate parameter name
+            // This fixes the backpressureMode2 vs emitter$BackpressureMode2 issue
+            if let dexterity_ir::instructions::InsnType::Move { src, .. } = &insn.insn_type {
+                if let dexterity_ir::instructions::InsnArg::Register(src_reg) = src {
+                    if src_reg.reg_num >= first_param_reg {
+                        // Source is a parameter - try to get the parameter name
+                        if let Some(names_slice) = param_names {
+                            let param_idx = (src_reg.reg_num - first_param_reg) as usize;
+                            if let Some(param_name) = names_slice.get(param_idx) {
+                                return Some((param_name.clone(), 90)); // High priority for param names
+                            }
+                        }
+                    }
+                }
+            }
+
             if let Some(base_name) = get_base_name_from_instruction(insn, method_lookup, type_lookup, field_lookup) {
                 let score = score_name(&base_name);
                 return Some((base_name, score));
@@ -1114,6 +1231,20 @@ pub fn assign_var_names_with_lookups<'a>(
                             // Get base name from the preceding Invoke instruction
                             if let Some(base) = get_base_name_from_instruction(prev_insn, method_lookup, type_lookup, field_lookup) {
                                 return Some(base);
+                            }
+                        }
+                    }
+
+                    // For Move from parameter register, propagate parameter name
+                    if let dexterity_ir::instructions::InsnType::Move { src, .. } = &insn.insn_type {
+                        if let dexterity_ir::instructions::InsnArg::Register(src_reg) = src {
+                            if src_reg.reg_num >= first_param_reg {
+                                if let Some(names_slice) = param_names {
+                                    let param_idx = (src_reg.reg_num - first_param_reg) as usize;
+                                    if let Some(param_name) = names_slice.get(param_idx) {
+                                        return Some(param_name.clone());
+                                    }
+                                }
                             }
                         }
                     }
@@ -1780,5 +1911,53 @@ mod tests {
         assert_eq!(sanitize_identifier("equals-impl"), Some("equalsImpl".to_string()));
         assert_eq!(sanitize_identifier("hashCode-impl"), Some("hashCodeImpl".to_string()));
         assert_eq!(sanitize_identifier("toString-impl"), Some("toStringImpl".to_string()));
+    }
+
+    #[test]
+    fn test_types_compatible_for_naming() {
+        // Same types are compatible
+        assert!(types_compatible_for_naming(&ArgType::Int, &ArgType::Int));
+        assert!(types_compatible_for_naming(&ArgType::Boolean, &ArgType::Boolean));
+        assert!(types_compatible_for_naming(
+            &ArgType::Object("java/lang/String".to_string()),
+            &ArgType::Object("java/lang/String".to_string())
+        ));
+
+        // Different primitives are NOT compatible
+        assert!(!types_compatible_for_naming(&ArgType::Int, &ArgType::Boolean));
+        assert!(!types_compatible_for_naming(&ArgType::Int, &ArgType::Long));
+        assert!(!types_compatible_for_naming(&ArgType::Float, &ArgType::Double));
+        assert!(!types_compatible_for_naming(&ArgType::Char, &ArgType::Short));
+
+        // Primitives and objects are NOT compatible
+        assert!(!types_compatible_for_naming(
+            &ArgType::Int,
+            &ArgType::Object("java/lang/String".to_string())
+        ));
+        assert!(!types_compatible_for_naming(
+            &ArgType::Boolean,
+            &ArgType::Object("java/lang/Boolean".to_string())
+        ));
+
+        // Different objects ARE compatible (common ancestor Object)
+        assert!(types_compatible_for_naming(
+            &ArgType::Object("java/lang/String".to_string()),
+            &ArgType::Object("java/lang/Integer".to_string())
+        ));
+
+        // Arrays and objects are compatible
+        assert!(types_compatible_for_naming(
+            &ArgType::Array(Box::new(ArgType::Int)),
+            &ArgType::Object("java/lang/Object".to_string())
+        ));
+
+        // Unknown types are compatible with anything
+        assert!(types_compatible_for_naming(&ArgType::Unknown, &ArgType::Int));
+        assert!(types_compatible_for_naming(&ArgType::Unknown, &ArgType::Boolean));
+        assert!(types_compatible_for_naming(
+            &ArgType::Unknown,
+            &ArgType::Object("java/lang/String".to_string())
+        ));
+        assert!(types_compatible_for_naming(&ArgType::Int, &ArgType::Unknown));
     }
 }

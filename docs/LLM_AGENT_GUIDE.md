@@ -13,7 +13,7 @@
 2. **Pick a task from roadmap**: [ROADMAP.md](ROADMAP.md)
 3. **Find the JADX algorithm**: See [JADX Reference Documentation](#jadx-reference-documentation) below
 4. **Reference JADX source**: `jadx-fast/jadx-core/src/main/java/jadx/core/`
-5. **Implement and test**: Run `cargo test` (685 integration tests)
+5. **Implement and test**: Run `cargo test` (710 integration tests)
 
 ---
 
@@ -86,7 +86,7 @@ Check [ROADMAP.md](ROADMAP.md) → "To Clone Next" section:
 | Type Inference | `crates/dexterity-passes/src/type_inference.rs` (2,658 LOC) |
 | Region Builder | `crates/dexterity-passes/src/region_builder.rs` (2,511 LOC) |
 | Variable Naming | `crates/dexterity-passes/src/var_naming.rs` (1,784 LOC) |
-| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (7,038 LOC) |
+| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (7,093 LOC) |
 | Expression Gen | `crates/dexterity-codegen/src/expr_gen.rs` (1,488 LOC) |
 | Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,733 LOC) |
 
@@ -127,11 +127,13 @@ If you made significant improvements, update:
 | JADX CLI Parity | 98%+ (all major flags supported) |
 | Variable Naming | 99.96% (27,794 → 11 arg0/arg1) |
 | Class-Level Generics | 736 classes with `<T>` |
-| Interface Generics | DONE - `Maybe<T> implements MaybeSource<T>` |
-| Undefined Variables | 99.9% eliminated |
+| Interface Generics | DONE - `interface OnSubscribe<T>` includes type parameter |
+| Undefined Variables | FIXED - Type-aware grouping + Move propagation |
 | Resource Field Resolution | DONE - R.* enabled by default |
 | Lambda Body Decompilation | DONE - Full body + inlining |
 | Integration Tests | 685/685 passing |
+| Unit Tests | 490/490 passing |
+| Total Tests | 1,175 passing |
 | Speed Advantage | 3-88x faster than JADX |
 
 ### What's Implemented (JADX Parity)
@@ -179,7 +181,7 @@ If you made significant improvements, update:
 - Test edge cases (empty, single item, large input)
 
 ### When Testing
-- All 685 integration tests must pass
+- All 710 integration tests must pass
 - Add tests for new functionality
 - Test with real APKs, not just simple examples
 
@@ -247,4 +249,4 @@ crates/
 
 ---
 
-**Last Updated:** Dec 17, 2025
+**Last Updated:** Dec 18, 2025

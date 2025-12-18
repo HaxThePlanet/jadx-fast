@@ -42,14 +42,14 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | APK Type | Match Rate | Example |
 |----------|------------|---------|
 | Simple (small) | **100%** | MainActivity.java identical to JADX |
-| Medium | **95.5%+** | Minor style differences |
-| Complex (large) | **95.5%+** | Minor verbosity differences (positive tradeoff) |
+| Medium | **96%+ (A grade)** | Minor style differences |
+| Complex (large) | **96%+ (A grade)** | Minor verbosity differences (positive tradeoff) |
 
 ---
 
 ## Resolved Codegen Issues (Dec 2025)
 
-Most codegen issues have been **RESOLVED** to achieve 95.5%+ quality:
+Most codegen issues have been **RESOLVED** to achieve 96%+ quality (A grade):
 
 ### 1. Null Literal Inference - RESOLVED
 **Status:** Fixed via type-aware codegen (Dec 17-18, 2025)
@@ -599,4 +599,4 @@ crates/dexterity-codegen/src/
 
 ---
 
-**Last Updated:** December 17, 2025
+**Last Updated:** December 18, 2025

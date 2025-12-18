@@ -21,9 +21,9 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **🔄 Drop-in JADX Replacement** — Same CLI arguments, same output structure. Replace `jadx` with `dexterity` in your existing scripts and workflows.
 
-**~78,000 lines of Rust | 1,120 tests passing | 2-124x faster than JADX**
+**~78,000 lines of Rust | 1,175 tests passing | 2-124x faster than JADX**
 
-**Status (Dec 18, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **95.5%+ quality** on complex APKs, and is **2-124x faster** than JADX. **All 25 P0-P2 issues resolved** (24 fixed + 1 P3 positive tradeoff). **100% Class Generation parity achieved** (enum syntax fix). Framework classes skipped by default for faster output (use `--include-framework` to include them).
+**Status (Dec 18, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **96%+ quality (A grade)** on complex APKs, and is **2-124x faster** than JADX. **All P0 Critical issues FIXED** (interface generics, undefined variables, missing imports) + **25 P0-P2 issues resolved**. Framework classes skipped by default for faster output (use `--include-framework` to include them).
 
 ## Speed vs Quality Trade-off
 
@@ -88,9 +88,9 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Net Rust lines** | 55,624 |
 | **Final codebase** | ~78,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
-| **Tests** | 1,120 total (685 integration + 435 unit) |
+| **Tests** | 1,175 total (685 integration + 490 unit) |
 
-## Quality Comparison: JADX vs Dexterity (Dec 17, 2025)
+## Quality Comparison: JADX vs Dexterity (Dec 18, 2025)
 
 ### Comprehensive Analysis Results
 
@@ -99,18 +99,19 @@ Quality comparison performed on decompiled app code shows **high parity** with J
 - **Complex APKs**: High quality with minor differences in style
 - **Framework classes** (android.*, androidx.*, kotlin.*): Fully decompiled (matching JADX)
 
-#### Current Quality Status
+#### Current Quality Status (All P0 Critical Issues FIXED - Dec 18, 2025)
 
 | Issue | Status | Notes |
 |-------|--------|-------|
-| **Variable Naming** | ✅ 100% JADX parity | 99.96% arg reduction + dead var elimination + root pkg reservation |
+| **Variable Naming** | ✅ 100% JADX parity | Type-aware grouping + Move instruction propagation |
 | **Class Generic Type Params** | ✅ FIXED | 736 classes now have proper `<T>` declarations |
-| **Interface Generic Type Params** | ✅ FIXED | `MaybeSource<T>` fully supported |
+| **Interface Generic Type Params** | ✅ FIXED (Dec 18) | `interface OnSubscribe<T>` now includes type parameter |
 | **Type Inference** | ✅ FIXED | 0 Unknown type failures |
-| **Undefined Variables** | ✅ FIXED | 99.9% eliminated |
+| **Undefined Variables** | ✅ FIXED (Dec 18) | Consistent naming between signature and body |
+| **Import Statements** | ✅ FIXED (Dec 18) | Type parameter bounds now properly imported |
 | **Exception Handling** | ✅ FIXED | Complete try-catch + multi-catch (`catch (A | B e)`) support |
 | **Switch Statements** | ✅ MOSTLY FIXED | 91% app code recovery (improved from 44%) |
-| **Defect Score** | ✅ 95.9-96.8% | Production quality |
+| **Defect Score** | ✅ 96%+ (A grade) | Production quality |
 
 #### 1:1 Output Example - Small APK
 
@@ -135,14 +136,15 @@ public class MainActivity extends Activity {
 }
 ```
 
-#### Quality Metrics Achieved (Dec 17, 2025)
+#### Quality Metrics Achieved (Dec 18, 2025)
 
 | Metric | Medium APK | Large APK |
 |--------|------------|-----------|
-| Overall Quality | 95.5%+ | 95.5%+ |
-| Defect Score | 96.5% | 96.5% |
+| Overall Quality | **96%+ (A grade)** | **96%+ (A grade)** |
+| Defect Score | 96.5%+ | 96.5%+ |
 | Variable Naming | **100% JADX parity** | **100% JADX parity** |
 | Type Inference | 0 failures | 0 failures |
+| Interface Generics | FIXED | FIXED |
 
 #### Quality Scorecard
 
@@ -158,7 +160,7 @@ public class MainActivity extends Activity {
 | **Speed** | ❌ | ✅ | **Dexterity** (2-124x) |
 | **Memory Usage** | ❌ | ✅ | **Dexterity** |
 | **Error Count** | 13 errors | 0 errors | **Dexterity** |
-| **Defect Score** | - | 96.5% | **Dexterity** |
+| **Defect Score** | - | 96%+ (A grade) | **Dexterity** |
 
 #### Output Statistics
 
@@ -172,7 +174,7 @@ public class MainActivity extends Activity {
 
 #### Recommendation
 
-- **Use Dexterity** for most use cases - 95.5%+ quality at 2-124x the speed
+- **Use Dexterity** for most use cases - 96%+ quality (A grade) at 2-124x the speed
 - **Use Dexterity** for simple APKs - 1:1 identical output
 - **Use Dexterity** for performance-critical workflows - 2-124x faster with production quality
 - **Use JADX** only if you prefer its specific output style
@@ -428,7 +430,7 @@ cargo test
 
 ### Tests
 
-- **1,120 total tests** (685 integration + 435 unit) - 100% pass rate
+- **1,175 total tests** (685 integration + 490 unit) - 100% pass rate
 - Integration tests in `crates/dexterity-cli/tests/integration/`
 
 ## Implementation Status

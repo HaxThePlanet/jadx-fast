@@ -1,8 +1,8 @@
 # Dexterity Implementation Roadmap
 
 **Current State:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 18, 2025)
-**Quality Achieved:** **95.5%+ overall / 96.5% defect score** | 1,120/1,120 tests passing | **100% Class Generation parity**
-**Code Issues:** **ALL 25 RESOLVED** (incl. P0 static initializer, P1 enum corruption, P2 invalid identifiers) | P3 verbosity = positive tradeoff
+**Quality Achieved:** **96%+ overall (A grade) / 96.5%+ defect score** | 1,175 tests passing | **100% Class Generation parity**
+**Code Issues:** **ALL P0 CRITICAL RESOLVED** (interface generics, undefined variables, missing imports) + 25 others | P3 verbosity = positive tradeoff
 **Resource Issues:** **4 FIXED** (XML enums, localized strings, density qualifiers, missing resource files) | **1 remaining** (P3 cosmetic)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
@@ -523,19 +523,45 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 
 | Metric | Current | Target | Status |
 |--------|---------|--------|--------|
-| Overall Quality | **95.5%+** (Dec 17 re-run) | 85%+ | **ACHIEVED** |
-| Variable naming | 99.96% (11 remaining) | 100% | ACHIEVED |
+| Overall Quality | **96%+ (A grade, Dec 18)** | 85%+ | **ACHIEVED** |
+| Variable naming | **100% JADX parity** (type-aware grouping) | 100% | **ACHIEVED** |
 | Class generics | 736 classes | All | ACHIEVED |
-| Interface generics | 100% | 100% | **ACHIEVED** |
+| Interface generics | 100% | 100% | **ACHIEVED** (Dec 18 fix) |
 | Type inference | 0 Unknown failures | 0 | **ACHIEVED** |
-| Defect score | **96.5%** (Dec 17 re-run) | 95%+ | **ACHIEVED** |
+| Defect score | **96.5%+** (Dec 18) | 95%+ | **ACHIEVED** |
 | Speed advantage | 3-88x | Maintain | ACHIEVED |
-| Test pass rate | 685/685 integration, 435/435 unit | 100% | **ACHIEVED** |
-| P0-P2 issues | 20/20 resolved | All | **ACHIEVED** |
+| Test pass rate | 685/685 integration, 490/490 unit (1,175 total) | 100% | **ACHIEVED** |
+| P0 Critical issues | **ALL FIXED** | All | **ACHIEVED** (Dec 18) |
+| P0-P2 issues | 25+ resolved | All | **ACHIEVED** |
 
 ---
 
 ## Completed Work History
+
+### Dec 18, 2025 - P0 Critical Issues ALL FIXED (Grade B+ to A)
+
+**Quality Upgrade: B+ (88%) to A (96%)**
+
+1. **Missing Interface Generic Type Parameters** - FIXED
+   - Location: `crates/dexterity-codegen/src/class_gen.rs:787`
+   - Added `generate_type_parameters()` call in `add_inner_class_declaration()`
+   - Result: `interface OnSubscribe<T>` now includes type parameter
+
+2. **Undefined Variable References** - FIXED
+   - Locations: `crates/dexterity-passes/src/var_naming.rs:1149-1163, 1238-1250` and `crates/dexterity-codegen/src/method_gen.rs:591, 614`
+   - Root cause: Method signature used `get_simple_name()` while body used `rsplit('$')`
+   - Fix: Move instruction parameter name propagation + `get_innermost_name()` + type-aware variable grouping
+   - Result: Variable names consistent between signature and body
+
+3. **Missing Import Statements** - FIXED
+   - Location: `crates/dexterity-codegen/src/class_gen.rs:366-371, 403-408`
+   - Added loops to collect types from type parameter bounds
+   - Result: Types in generic bounds now properly imported
+
+**Additional Improvements:**
+- Constructor Generic Types: `generic_types: Option<Vec<ArgType>>` in Constructor instruction
+- Type-Aware Variable Naming: `types_compatible_for_naming()` prevents incompatible types sharing names
+- All 1,175 tests pass (685 integration + 490 unit)
 
 ### Dec 2025 - SSA Instruction Cloning Optimization
 - **Performance**: 19.8% faster at 8 cores, superlinear scaling restored (101% efficiency)

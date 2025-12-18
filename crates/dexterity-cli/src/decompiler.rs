@@ -102,7 +102,8 @@ pub fn decompile_method(
 
     // Stage 5.7: Final cleanup before codegen
     // Removes redundant moves, marks associative chains for parenthesis optimization
-    let _ = prepare_for_codegen(&mut ssa);
+    // Pass inferred types to attach generic type parameters to constructors (JADX parity)
+    let _ = prepare_for_codegen(&mut ssa, Some(&type_map));
 
     // Stage 5.8: Loop pattern analysis (for/foreach detection)
     let loops = detect_loops(&cfg);

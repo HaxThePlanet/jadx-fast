@@ -363,6 +363,13 @@ impl ImportCollector {
             self.add_type(iface);
         }
 
+        // Class type parameter bounds (e.g., <T extends Comparable<E>, E extends Number>)
+        for type_param in &class.type_parameters {
+            for bound in &type_param.bounds {
+                self.add_type(bound);
+            }
+        }
+
         // Fields
         for field in &class.static_fields {
             self.add_type(&field.field_type);
@@ -392,6 +399,12 @@ impl ImportCollector {
             self.add_type(&method.return_type);
             for param in &method.arg_types {
                 self.add_type(param);
+            }
+            // Method type parameter bounds (e.g., <T extends Comparable<E>>)
+            for type_param in &method.type_parameters {
+                for bound in &type_param.bounds {
+                    self.add_type(bound);
+                }
             }
             // Method annotations
             for annotation in &method.annotations {
@@ -768,6 +781,10 @@ fn add_inner_class_declaration<W: CodeWriter>(
 
     // Class name (simple name for inner classes)
     code.add(&simple_name);
+
+    // Generic type parameters (e.g., <T, E extends Number>)
+    // Like JADX's ClassGen.addGenericTypeParameters() - needed for inner interfaces/classes
+    generate_type_parameters(&class.type_parameters, imports, code);
 
     // Extends
     if let Some(ref superclass) = class.superclass {

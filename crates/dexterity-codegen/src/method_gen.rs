@@ -65,7 +65,7 @@ pub fn generate_type_parameters<W: CodeWriter>(
             }
         }
     }
-    code.add("> ");
+    code.add(">");
 }
 
 /// Check if a method should have @Override annotation (heuristic fallback)
@@ -305,8 +305,10 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     }
 
     // Type parameters (e.g., <T, E extends Number>)
-    if !method.is_constructor() && !method.is_class_init() {
+    let has_type_params = !method.is_constructor() && !method.is_class_init() && !method.type_parameters.is_empty();
+    if has_type_params {
         generate_type_parameters(&method.type_parameters, imports, code);
+        code.add(" "); // Space before return type
     }
 
     // Return type and name
@@ -417,8 +419,10 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     }
 
     // Type parameters (e.g., <T, E extends Number>)
-    if !method.is_constructor() && !method.is_class_init() {
+    let has_type_params = !method.is_constructor() && !method.is_class_init() && !method.type_parameters.is_empty();
+    if has_type_params {
         generate_type_parameters(&method.type_parameters, imports, code);
+        code.add(" "); // Space before return type
     }
 
     // Return type and name
@@ -584,9 +588,11 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<
 /// Generate a parameter name based on type and index
 fn generate_param_name(index: usize, ty: &ArgType) -> String {
     // Try to generate a meaningful name from the type
+    // NOTE: Must match body_gen.rs generate_param_name for consistency between signature and body
     let base = match ty {
         ArgType::Object(name) => {
-            let simple = get_simple_name(name);
+            // Use innermost name (strip $ for inner classes) to match JADX
+            let simple = get_innermost_name(name);
             // Lowercase first letter
             let mut chars = simple.chars();
             match chars.next() {
@@ -608,7 +614,8 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
         ArgType::Short => "s".to_string(),
         // Handle generic types by extracting base class name
         ArgType::Generic { base, .. } => {
-            let simple = get_simple_name(base);
+            // Use innermost name (strip $ for inner classes) to match JADX
+            let simple = get_innermost_name(base);
             let mut chars = simple.chars();
             match chars.next() {
                 Some(c) => c.to_lowercase().chain(chars).collect(),
