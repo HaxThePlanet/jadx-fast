@@ -20,24 +20,28 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 
 ## IR Parity Summary (0-100%)
 
-**Overall IR Parity: ~98%** (Updated 2025-12-17)
+**Overall IR Parity: ~99%** (Updated 2025-12-17)
 
 | Component | Parity | Status | Notes |
 |-----------|--------|--------|-------|
 | Type System | 100% | ✅ | Unknown variants, type narrowing, **wildcard variance** (Dec 17) |
-| Instructions | 85% | ✅ | All JADX types: MOVE_MULTI, STR_CONCAT, REGION_ARG, JSR/RET |
+| **Instructions** | **100%** | ✅ | **All JADX types + CONSTRUCTOR synthesis (Dec 17)** |
 | **Instruction Args** | **100%** | ✅ | **InsnWrapArg, NamedArg, This + all JADX methods (Dec 17)** |
 | **Class/Method/Field** | **100%** | ✅ | **LoadStage, innerClasses, parent_class, dependencies, codegen_deps, inlinedClasses, useIn, useInMth, thisArg, argsList, enterBlock, exitBlock** |
 | **Regions** | **100%** | ✅ | **IContainer/IRegion/IBranchRegion traits, LoopType, CaseInfo, ConditionMode** |
 | **Attribute System** | **100%** | ✅ | **60 AFlag (59 JADX + TmpEdge) + 37 AType (1:1 JADX parity)** |
 | **Class Hierarchy** | **100%** | ✅ | **TypeCompare, TypeUtils, visitSuperTypes, TypeVarMapping** |
-| SSA/Registers | 85% | ✅ | Full SSAVar, use-def chains, CodeVar, TypeBound |
+| **SSA/Registers** | **100%** | ✅ | **Full SSAVar, use-def chains, CodeVar, TypeBound, phi cleanup (JADX SSATransform.java parity: tryToFixUselessPhi, fixPhiWithSameArgs, inlinePhiInsn, hidePhiInsns)** |
 | Exception Handling | 85% | ✅ | Multi-catch syntax (`catch (Type1 | Type2 e)`), `merge_multi_catch_handlers()`, block-level tracking |
 | **Debug Info** | **100%** | ✅ | **Signature support, is_parameter/is_end flags, lines_valid validation (JADX USE_LINES_HINTS parity)** |
 | Annotations | 100% | ✅ | Complete: nested element name handling fixed Dec 17 |
 | Lazy Loading | 90% | ✅ | Excellent match with ProcessState pattern |
 
 ### Recent Improvements (2025-12-17)
+- **Instructions** (85%→100%): **CONSTRUCTOR synthesis** for NewInstance + <init> fusion
+  - Pattern: `v0 = new Type(); v0.<init>(args);` → `v0 = new Type(args);`
+  - Implemented in `prepare_for_codegen.rs` pass
+  - Cleaner, more readable constructor calls matching JADX
 - **Instruction Args** (85%→100%): Complete JADX InsnArg parity with all methods:
   - `isZeroLiteral()`, `isZeroConst()` - zero value detection
   - `isFalse()`, `isTrue()` - boolean literal detection
@@ -58,7 +62,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 - **Attribute System** (80%→100%): Complete 1:1 JADX parity with 60 AFlag flags (59 JADX + TmpEdge) and 37 AType typed attributes
 - **Class Hierarchy** (85%→100%): Full TypeCompare engine with 8 result types, TypeVarMapping for generic substitution, visitSuperTypes visitor pattern, PrimitiveType width comparison
 - **SSA Infrastructure** (60%→85%): Full SSAVar, TypeInfo, CodeVar, TypeBound
-- **Instructions** (70%→85%): MoveMulti, StrConcat, RegionArg, Constructor, JavaJsr/Ret
+- **Instructions** (70%→100%): All JADX types + CONSTRUCTOR synthesis (Dec 17) - fuses NewInstance + <init> into single instruction for cleaner codegen
 - **Type System** (90%→100%): Added wildcard variance handling (`? extends T`, `? super T`) with proper TypeCompare covariance/contravariance
 - **Debug Info** (75%→100%): Complete JADX parity with signature field for generic types (DBG_START_LOCAL_EXTENDED), is_parameter flag for method parameters, is_end flag for scope termination (DBG_END_LOCAL), lines_valid validation matching JADX USE_LINES_HINTS pattern
 

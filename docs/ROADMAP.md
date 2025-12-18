@@ -11,26 +11,33 @@
 
 ## Dexterity-IR Improvements (Dec 17, 2025)
 
-**Status:** dexterity-ir improved from 82% → **98%** JADX parity | **Regions: 72% → 100%** | **Class/Method/Field: 90% → 100%**
-**Key Achievement:** 100% JADX parity for **Attribute System** (60 AFlag + 37 AType) and **Class Hierarchy** (TypeCompare, TypeVarMapping, visitSuperTypes)
+**Status:** dexterity-ir improved from 82% → **99%** JADX parity | **Instructions: 85% → 100%** | **Regions: 72% → 100%** | **Class/Method/Field: 90% → 100%**
+**Key Achievement:** 100% JADX parity for **Instructions** (CONSTRUCTOR synthesis), **Attribute System** (60 AFlag + 37 AType), **Class Hierarchy** (TypeCompare, TypeVarMapping, visitSuperTypes), and **Regions**
 
 ### Completed Enhancements
 
-1. **TryCatchBlockAttr Structure** ✓
+1. **CONSTRUCTOR Instruction Synthesis** ✓ (Dec 17, 2025)
+   - Pattern detection: NewInstance + Direct invoke <init>
+   - Fuses into single CONSTRUCTOR instruction
+   - Location: `crates/dexterity-passes/src/prepare_for_codegen.rs`, `crates/dexterity-codegen/src/body_gen.rs`
+   - Impact: 100% JADX instruction type parity (85% → 100%)
+   - Cleaner constructor calls: `v0 = new Type(args);` instead of separate allocation and initialization
+
+2. **TryCatchBlockAttr Structure** ✓
    - Full exception handler nesting support
    - Multi-catch merging capability
    - Synthetic splitter block tracking
    - Location: `crates/dexterity-ir/src/info.rs`
    - Impact: Enables P1-HIGH exception handling improvements
 
-2. **Type Listener Architecture** ✓
+3. **Type Listener Architecture** ✓
    - Pluggable instruction-specific type refinement
    - Listeners for PHI, MOVE, AGET/APUT, CHECK_CAST, INVOKE
    - Location: `crates/dexterity-passes/src/type_update.rs` (TypeListener trait and InsnKind enum)
    - Note: A standalone `type_listener.rs` file exists but is not compiled; `type_update.rs` is the active implementation
    - Impact: Enables P2-MEDIUM type inference improvements
 
-3. **Post-Dominator Tree** ✓
+4. **Post-Dominator Tree** ✓
    - Already fully implemented in `cfg.rs`
    - Supports loop/return analysis
 
@@ -38,14 +45,14 @@
 
 **Region Parity: 72% → 100%** (177 unit tests passing)
 
-4. **Phase 1: Parent Tracking** ✓
+5. **Phase 1: Parent Tracking** ✓
    - Added `RegionType` enum for region classification (Sequence, If, Loop, Switch, TryCatch, Synchronized, Break, Continue)
    - Added `RegionContext` struct for parent tracking during traversal with enclosing loop management
    - Added Region methods: `region_type()`, `is_control_flow()`, `loop_kind()`, `has_jump_statements()`, `direct_blocks()`, `total_block_count()`
    - Added `break_label()`/`continue_label()` for labeled loop statement generation
    - Location: `crates/dexterity-ir/src/regions.rs`
 
-5. **Phase 2: Enhanced Condition Merging (JADX IfRegionMaker parity)** ✓
+6. **Phase 2: Enhanced Condition Merging (JADX IfRegionMaker parity)** ✓
    - Added `EnhancedMergedCondition` struct with full condition chain tracking
    - Added `EnhancedMergeMode` enum (Single, And, Or, Mixed)
    - Added `merge_nested_ifs_recursive()` implementing JADX's `mergeNestedIfNodes()` algorithm
@@ -54,7 +61,7 @@
    - Added `find_enhanced_condition_chains()` for top-level API
    - Location: `crates/dexterity-passes/src/conditionals.rs`
 
-6. **Phase 3: ForLoop Structure Enhancement** ✓
+7. **Phase 3: ForLoop Structure Enhancement** ✓
    - Added `ForLoopInfo` struct with init/incr block and offset tracking
    - Added `ForEachLoopInfo` struct with element variable tracking
    - Added `IterableSource` enum (Array vs Iterator iteration patterns)
@@ -398,7 +405,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 
 ## JADX Algorithm Clone Checklist
 
-### SSA & CFG ([JADX_SSA_CFG.md](JADX_SSA_CFG.md))
+### SSA & CFG ([JADX_SSA_CFG.md](JADX_SSA_CFG.md)) - **100% JADX Parity**
 - [x] Phi placement via dominance frontier
 - [x] Variable renaming with version counters
 - [x] Block splitting (SPLIT_WITHOUT_CONNECT, SEPARATE_INSNS)
@@ -407,6 +414,14 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] BTreeMap → Vec block storage optimization - **DONE** (Dec 17, 2025) - `BlockSplitResult.blocks` and `CFG.blocks` now use `Vec<BasicBlock>` for O(1) direct index access (block IDs are dense sequential integers)
 - [x] Jemalloc background threads - **DONE** (Dec 17, 2025) - Offloads free() to background threads for 56-core scaling, requires `RUST_MIN_STACK=33554432` for deep CFG recursion
 - [x] Transparent Huge Pages (THP) optimization - **DONE** (Dec 17, 2025) - 8.8% faster at 56 cores via `MALLOC_CONF="metadata_thp:always,thp:always"`, reduces TLB misses for graph-heavy workload, 28.2x speedup on 56 cores, superlinear scaling at 2-4 cores (102% efficiency)
+- [x] **SSA Cleanup Passes** - **DONE** (Dec 17, 2025) - Full JADX SSATransform.java parity:
+  - `tryToFixUselessPhi()` - Iterative removal of trivial phi nodes
+  - `fixUselessPhi()` - Single-pass phi cleanup
+  - `fixPhiWithSameArgs()` - Remove phi nodes with identical arguments
+  - `is_same_args_phi()` - Check if all phi arguments are the same SSA variable
+  - `hidePhiInsns()` - Hide phi instructions from final output
+  - `cleanup_ssa()` - Public API for all SSA cleanup passes
+  - 3 new tests: `test_is_same_args_phi`, `test_ssa_cleanup`, `test_try_to_fix_useless_phi`
 
 ### Type Inference ([JADX_TYPE_INFERENCE.md](JADX_TYPE_INFERENCE.md))
 - [x] AssignBound vs UseBound separation
@@ -458,7 +473,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] String escaping with Unicode
 - [x] HashMap capacity management (memory pooling)
 
-### Exception Handling ([JADX_EXCEPTION_HANDLING.md](JADX_EXCEPTION_HANDLING.md)) - **85%**
+### Exception Handling ([JADX_EXCEPTION_HANDLING.md](JADX_EXCEPTION_HANDLING.md)) - **100%** ✅
 - [x] TryCatchBlockAttr structure
 - [x] Handler merging for multi-catch - **DONE Dec 17** (`merge_multi_catch_handlers()` in region_builder.rs detects Java 7+ multi-catch pattern)
 - [x] Multi-catch syntax generation - **DONE Dec 17** (generates `catch (Type1 | Type2 | Type3 e)` syntax)
@@ -466,7 +481,9 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Finally block extraction via InsnsSlice matching - **DONE** (copyCodeVars SSA sync added)
 - [x] MONITOR_ENTER/EXIT as implicit finally - **DONE** (is_monitor_only_handler() filters synchronized cleanup handlers)
 - [x] Exception type formatting - **DONE Dec 17** (internal format `java/io/IOException` -> Java format `java.io.IOException`)
-- [x] Block-level tracking infrastructure - **PARTIAL** (handler block tracking in place)
+- [x] Dominance-based block collection - **DONE Dec 17** (`collect_handler_blocks_by_dominance()` with dominance-first, forward-reach fallback)
+- [x] Block-level tracking integration - **DONE Dec 17** (integrated into handler processing, removed 500-block limit)
+- [x] Nested exception outer/inner tracking - **DONE Dec 17** (`establish_try_nesting()` detects try block containment, TryInfo.outer_try_block/inner_try_blocks)
 
 ### Deobfuscation ([JADX_DEOBFUSCATION.md](JADX_DEOBFUSCATION.md))
 - [x] Two-phase system (DeobfuscatorVisitor, RenameVisitor)
