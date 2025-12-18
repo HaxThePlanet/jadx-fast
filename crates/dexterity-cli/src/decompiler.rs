@@ -11,7 +11,7 @@
 use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{
-    assign_var_names, split_blocks, transform_to_ssa, infer_types, simplify_instructions,
+    assign_var_names, split_blocks, transform_to_ssa, transform_to_ssa_owned, infer_types, simplify_instructions,
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
 };
@@ -20,11 +20,9 @@ use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplic
 /// Result of decompiling a method
 #[derive(Debug)]
 pub struct DecompiledMethod {
-    /// Basic blocks after splitting
-    pub blocks: BlockSplitResult,
     /// Control flow graph
     pub cfg: CFG,
-    /// SSA form
+    /// SSA form (contains all instruction data)
     pub ssa: SsaResult,
     /// Inferred types
     pub types: TypeInferenceResult,
@@ -75,7 +73,7 @@ pub fn decompile_method(
 
     // Take blocks from CFG after dominance analysis (avoids clone)
     let blocks = cfg.take_blocks();
-    let mut ssa = transform_to_ssa(&blocks);
+    let mut ssa = transform_to_ssa_owned(blocks);
 
     // Stage 4.25: ModVisitor - array initialization fusion, dead code removal
     // Combines NEW_ARRAY + FILL_ARRAY_DATA into FILLED_NEW_ARRAY
@@ -116,7 +114,6 @@ pub fn decompile_method(
     let var_names = assign_var_names(&ssa, &types, first_param_reg, num_params);
 
     Some(DecompiledMethod {
-        blocks,
         cfg,
         ssa,
         types,
@@ -135,8 +132,7 @@ pub fn method_has_code(method: &MethodData) -> bool {
 /// Get a summary of decompilation results
 pub fn decompile_summary(result: &DecompiledMethod) -> String {
     format!(
-        "{} blocks, {} SSA blocks, {} types inferred ({} constraints), {} vars named",
-        result.blocks.block_count(),
+        "{} SSA blocks, {} types inferred ({} constraints), {} vars named",
         result.ssa.blocks.len(),
         result.types.num_resolved,
         result.types.num_constraints,
@@ -186,7 +182,7 @@ mod tests {
         let result = result.unwrap();
 
         // Should have at least one block
-        assert!(result.blocks.block_count() >= 1);
+        assert!(result.ssa.blocks.len() >= 1);
 
         // Should have inferred types
         assert!(result.types.num_resolved > 0);
@@ -255,6 +251,6 @@ mod tests {
 
         let result = result.unwrap();
         // Should have multiple blocks due to branching
-        assert!(result.blocks.block_count() >= 2);
+        assert!(result.ssa.blocks.len() >= 2);
     }
 }
