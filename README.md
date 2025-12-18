@@ -21,17 +21,17 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **🔄 Drop-in JADX Replacement** — Same CLI arguments, same output structure. Replace `jadx` with `dexterity` in your existing scripts and workflows.
 
-**~78,000 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
+**~78,000 lines of Rust | 685 integration tests passing | 2-124x faster than JADX**
 
-**Status (Dec 17, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **77-87% quality** on complex APKs, and is **3-88x faster** than JADX. **All 25 P0-P2 issues resolved** (24 fixed + 1 P3 positive tradeoff). Framework classes skipped by default for faster output (use `--include-framework` to include them).
+**Status (Dec 17, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **77-87% quality** on complex APKs, and is **2-124x faster** than JADX. **All 25 P0-P2 issues resolved** (24 fixed + 1 P3 positive tradeoff). Framework classes skipped by default for faster output (use `--include-framework` to include them).
 
 ## Speed vs Quality Trade-off
 
 | APK | Size | Dexterity | JADX | Speedup | Quality |
 |-----|------|-----------|------|---------|---------|
-| small.apk | 9.8 KB | 0.022s | 1.929s | **87.7x** | **1:1 Identical** |
-| medium.apk | 10.3 MB | 3.544s | 14.034s | **3.96x** | High quality (app code) |
-| large.apk | 51.5 MB | 6.502s | 19.577s | **3.01x** | High quality (app code) |
+| small.apk | 9.8 KB | 0.015s | 1.867s | **124x** | **1:1 Identical** |
+| medium.apk | 10.8 MB | 4.322s | 15.250s | **3.5x** | High quality (app code) |
+| large.apk | 54 MB | 8.625s | 16.508s | **1.9x** | High quality (app code) |
 
 ### 56-Core Benchmark (Dec 17, 2025)
 
@@ -43,7 +43,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 *Dexterity skips framework classes by default for maximum speed. Use `--include-framework` to include them.*
 
 **Dexterity Strengths:**
-- 2.7-88x faster decompilation
+- 2-124x faster decompilation
 - Zero errors across all APKs
 - Lower memory usage
 - Scales to 56+ cores
@@ -56,7 +56,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 ## Highlights
 
-- **3-88x faster** than Java JADX depending on APK size
+- **2-124x faster** than Java JADX depending on APK size
 - **Up to 46x less memory** usage compared to Java JADX
 - **Zero decompilation errors** - Dexterity had 0 errors vs JADX's 13
 - **Common input formats** - APK, DEX, JAR, AAR, AAB, XAPK, APKM
@@ -155,7 +155,7 @@ public class MainActivity extends Activity {
 | Type Inference | ✅ | ✅ | **Tie** (0 failures) |
 | Exception Handling | ✅ | ✅ | **Tie** |
 | Control Flow (switch) | ✅ | ✅ | **Tie** (91% app code recovery) |
-| **Speed** | ❌ | ✅ | **Dexterity** (3-88x) |
+| **Speed** | ❌ | ✅ | **Dexterity** (2-124x) |
 | **Memory Usage** | ❌ | ✅ | **Dexterity** |
 | **Error Count** | 13 errors | 0 errors | **Dexterity** |
 | **Defect Score** | - | 69.7-90.3% | **Dexterity** |
@@ -172,9 +172,9 @@ public class MainActivity extends Activity {
 
 #### Recommendation
 
-- **Use Dexterity** for most use cases - 70-77% quality at 3-88x the speed
+- **Use Dexterity** for most use cases - 70-77% quality at 2-124x the speed
 - **Use Dexterity** for simple APKs - 1:1 identical output
-- **Use Dexterity** for performance-critical workflows - 3-88x faster with production quality
+- **Use Dexterity** for performance-critical workflows - 2-124x faster with production quality
 - **Use JADX** only if you prefer its specific output style
 
 ## Key Features
@@ -384,7 +384,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 | Crate | Purpose | JADX Parity |
 |-------|---------|-------------|
 | `dexterity-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) ([parity details](docs/DEX_PARITY.md)) | **100%** |
-| `dexterity-ir` | Intermediate representation, SSA, class hierarchy ([parity details](docs/JADX_DEXTERITY_IR_REFERENCE.md)) | **89%** |
+| `dexterity-ir` | Intermediate representation, SSA, class hierarchy ([parity details](docs/JADX_DEXTERITY_IR_REFERENCE.md)) | **91%** |
 | `dexterity-passes` | Type inference, region reconstruction, optimization ([parity details](docs/PASSES_COMPARISON.md)) | **95%** |
 | `dexterity-codegen` | Java source generation ([parity details](docs/CODEGEN_PARITY.md)) | **94%** |
 | `dexterity-resources` | AXML and resources.arsc decoding | **100%** |

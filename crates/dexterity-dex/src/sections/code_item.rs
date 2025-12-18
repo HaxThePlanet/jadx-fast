@@ -376,8 +376,10 @@ impl<'a> CodeItem<'a> {
                             reg: reg as u16,
                             name: n,
                             type_desc: t,
+                            signature: None, // No signature from DBG_START_LOCAL
                             start_addr: addr,
                             end_addr: self.insns_size, // default to method end
+                            is_end: false,
                         });
                     }
                 }
@@ -389,21 +391,26 @@ impl<'a> CodeItem<'a> {
                     pos += len;
                     let (type_idx, len) = read_uleb128(&data[pos..])?;
                     pos += len;
-                    let (_sig_idx, len) = read_uleb128(&data[pos..])?; // signature (ignored)
+                    let (sig_idx, len) = read_uleb128(&data[pos..])?;
                     pos += len;
 
                     // End previous local at this register if exists
                     if let Some(mut prev) = active_locals.remove(&(reg as u16)) {
                         prev.end_addr = addr;
+                        prev.is_end = true;
                         local_vars.push(prev);
                     }
 
-                    // Get name and type strings
+                    // Get name, type, and signature strings
                     let name = if name_idx > 0 {
                         self.reader.get_string(name_idx - 1).ok().map(|s| (*s).to_string())
                     } else { None };
                     let type_desc = if type_idx > 0 {
                         self.reader.get_type(type_idx - 1).ok().map(|s| s.to_string())
+                    } else { None };
+                    // Signature from string pool (JADX ILocalVar.getSignature())
+                    let signature = if sig_idx > 0 {
+                        self.reader.get_string(sig_idx - 1).ok().map(|s| (*s).to_string())
                     } else { None };
 
                     if let (Some(n), Some(t)) = (name, type_desc) {
@@ -411,8 +418,10 @@ impl<'a> CodeItem<'a> {
                             reg: reg as u16,
                             name: n,
                             type_desc: t,
+                            signature,
                             start_addr: addr,
                             end_addr: self.insns_size,
+                            is_end: false,
                         });
                     }
                 }
@@ -423,6 +432,7 @@ impl<'a> CodeItem<'a> {
 
                     if let Some(mut var) = active_locals.remove(&(reg as u16)) {
                         var.end_addr = addr;
+                        var.is_end = true; // Mark as scope finalized
                         local_vars.push(var);
                     }
                 }
@@ -438,8 +448,10 @@ impl<'a> CodeItem<'a> {
                             reg: reg as u16,
                             name: last.name.clone(),
                             type_desc: last.type_desc.clone(),
+                            signature: last.signature.clone(),
                             start_addr: addr,
                             end_addr: self.insns_size,
+                            is_end: false,
                         });
                     }
                 }
@@ -490,19 +502,24 @@ pub struct FullDebugInfo {
     pub line_numbers: Vec<(u32, u32)>,
 }
 
-/// Local variable debug entry
+/// Local variable debug entry (JADX ILocalVar parity)
 #[derive(Debug, Clone)]
 pub struct LocalVarEntry {
     /// Register number
     pub reg: u16,
     /// Variable name
     pub name: String,
-    /// Type descriptor
+    /// Type descriptor (e.g., "Ljava/lang/String;")
     pub type_desc: String,
+    /// Generic type signature (e.g., "Ljava/util/List<Ljava/lang/String;>;")
+    /// Only present from DBG_START_LOCAL_EXTENDED
+    pub signature: Option<String>,
     /// Start address (code unit)
     pub start_addr: u32,
     /// End address (code unit)
     pub end_addr: u32,
+    /// Whether the variable scope has been finalized (DBG_END_LOCAL seen)
+    pub is_end: bool,
 }
 
 impl std::fmt::Debug for CodeItem<'_> {

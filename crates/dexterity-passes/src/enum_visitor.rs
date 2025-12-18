@@ -543,6 +543,7 @@ mod tests {
             initial_value: None,
             annotations: Vec::new(),
             dex_field_idx: None,
+            use_in: Vec::new(),
         });
         class.static_fields.push(FieldData {
             name: "GREEN".to_string(),
@@ -552,6 +553,7 @@ mod tests {
             initial_value: None,
             annotations: Vec::new(),
             dex_field_idx: None,
+            use_in: Vec::new(),
         });
         class.static_fields.push(FieldData {
             name: "BLUE".to_string(),
@@ -561,6 +563,7 @@ mod tests {
             initial_value: None,
             annotations: Vec::new(),
             dex_field_idx: None,
+            use_in: Vec::new(),
         });
 
         // Add $VALUES field
@@ -572,6 +575,7 @@ mod tests {
             initial_value: None,
             annotations: Vec::new(),
             dex_field_idx: None,
+            use_in: Vec::new(),
         });
 
         class

@@ -1076,16 +1076,20 @@ fn convert_method(
 
                     // Full debug info with local variables (for variable naming)
                     method.debug_info = Some(dexterity_ir::DebugInfo {
-                        line_numbers: full_debug.line_numbers,
+                        line_numbers: full_debug.line_numbers.clone(),
                         local_vars: full_debug.local_vars.into_iter()
                             .map(|v| dexterity_ir::LocalVar {
                                 name: v.name,
                                 type_desc: v.type_desc,
+                                signature: v.signature,  // From DBG_START_LOCAL_EXTENDED
                                 reg: v.reg,
                                 start_addr: v.start_addr,
                                 end_addr: v.end_addr,
+                                is_parameter: v.start_addr == u32::MAX,  // Parameters have -1 start
+                                is_end: v.is_end,  // From DBG_END_LOCAL
                             })
                             .collect(),
+                        lines_valid: check_lines_validity(&full_debug.line_numbers),
                     });
                 }
             }
@@ -1167,7 +1171,43 @@ fn parse_type_descriptor(desc: &str) -> ArgType {
     ArgType::from_descriptor(desc).unwrap_or(ArgType::Unknown)
 }
 
-/// Strip the L and ; from a class descriptor if present
+/// Verify debug line numbers quality (JADX DebugInfoAttachVisitor.verifyDebugLines parity)
+///
+/// Returns true if line numbers are reliable:
+/// - min_line > 3 (not adjusted/synthetic)
+/// - repeating_lines <= 3 (allows for indexed for-loops)
+///
+/// This mirrors JADX's USE_LINES_HINTS flag logic.
+fn check_lines_validity(line_numbers: &[(u32, u32)]) -> bool {
+    if line_numbers.is_empty() {
+        return false;
+    }
+
+    // Check minimum line number (adjusted lines start at 1-3)
+    let min_line = line_numbers.iter().map(|(_, line)| *line).min().unwrap_or(0);
+    if min_line <= 3 {
+        return false;
+    }
+
+    // Count consecutive repeating lines
+    let mut max_repeating = 1;
+    let mut current_repeating = 1;
+    let mut last_line = None;
+
+    for (_, line) in line_numbers {
+        if Some(*line) == last_line {
+            current_repeating += 1;
+            max_repeating = max_repeating.max(current_repeating);
+        } else {
+            current_repeating = 1;
+        }
+        last_line = Some(*line);
+    }
+
+    // Allow up to 3 repeating lines (for indexed for-loops like for(int i=0; i<N; i++))
+    max_repeating <= 3
+}
+
 fn strip_descriptor(desc: &str) -> &str {
     let s = desc.strip_prefix('L').unwrap_or(desc);
     s.strip_suffix(';').unwrap_or(s)

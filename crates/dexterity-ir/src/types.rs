@@ -580,11 +580,162 @@ pub fn compare_types(
             }
         }
 
-        // Wildcard comparisons (simplified for now)
-        (Wildcard { .. }, _) | (_, Wildcard { .. }) => TypeCompare::Unknown,
+        // Wildcard comparisons with proper variance handling (JADX parity)
+        (
+            Wildcard {
+                bound: bound1,
+                inner: inner1,
+            },
+            Wildcard {
+                bound: bound2,
+                inner: inner2,
+            },
+        ) => compare_wildcards(*bound1, inner1.as_deref(), *bound2, inner2.as_deref(), hierarchy),
+
+        // Wildcard vs concrete type
+        // compare_wildcard_to_type returns comparison for (wildcard, concrete)
+        (Wildcard { bound: b, inner }, other) => {
+            compare_wildcard_to_type(*b, inner.as_deref(), other, hierarchy)
+        }
+
+        (other, Wildcard { bound: b, inner }) => {
+            // Swap: we have (concrete, wildcard), but function returns (wildcard, concrete)
+            // So invert the result
+            compare_wildcard_to_type(*b, inner.as_deref(), other, hierarchy).invert()
+        }
 
         // Primitive vs object/array = conflict
         _ => TypeCompare::Conflict,
+    }
+}
+
+/// Compare two wildcards with proper variance handling
+///
+/// Wildcard comparison rules (JADX parity):
+/// - `?` vs `?` = Equal
+/// - `? extends A` vs `? extends B`: compare A and B
+/// - `? super A` vs `? super B`: compare A and B (inverted)
+/// - `? extends A` vs `? super B`: conflict (unless one contains the other)
+fn compare_wildcards(
+    bound1: WildcardBound,
+    inner1: Option<&ArgType>,
+    bound2: WildcardBound,
+    inner2: Option<&ArgType>,
+    hierarchy: Option<&crate::ClassHierarchy>,
+) -> TypeCompare {
+    use WildcardBound::*;
+
+    match (bound1, bound2) {
+        // Both unbounded
+        (Unbounded, Unbounded) => TypeCompare::Equal,
+
+        // Unbounded vs bounded - unbounded is wider
+        (Unbounded, Extends | Super) => TypeCompare::Wider,
+        (Extends | Super, Unbounded) => TypeCompare::Narrow,
+
+        // Both extends - compare upper bounds (covariant)
+        (Extends, Extends) => {
+            match (inner1, inner2) {
+                (Some(t1), Some(t2)) => compare_types(t1, t2, hierarchy),
+                (None, None) => TypeCompare::Equal,
+                (Some(_), None) => TypeCompare::Narrow, // has bound vs unbounded
+                (None, Some(_)) => TypeCompare::Wider,
+            }
+        }
+
+        // Both super - compare lower bounds (contravariant - inverted)
+        (Super, Super) => {
+            match (inner1, inner2) {
+                (Some(t1), Some(t2)) => compare_types(t1, t2, hierarchy).invert(),
+                (None, None) => TypeCompare::Equal,
+                (Some(_), None) => TypeCompare::Wider, // has bound vs unbounded (inverted)
+                (None, Some(_)) => TypeCompare::Narrow,
+            }
+        }
+
+        // extends vs super - generally conflict, but check for containment
+        (Extends, Super) | (Super, Extends) => {
+            match (inner1, inner2) {
+                (Some(t1), Some(t2)) => {
+                    // Check if one contains the other
+                    let cmp = compare_types(t1, t2, hierarchy);
+                    if cmp.is_equal() {
+                        // ? extends T vs ? super T - any T satisfies both only if T is exact
+                        TypeCompare::ConflictByGeneric
+                    } else {
+                        // Different bounds directions are generally incompatible
+                        TypeCompare::Conflict
+                    }
+                }
+                _ => TypeCompare::Conflict,
+            }
+        }
+    }
+}
+
+/// Compare a wildcard to a concrete type
+///
+/// Returns the comparison for (wildcard, concrete).
+/// - `? extends T` accepts anything that is a subtype of T (covariant)
+/// - `? super T` accepts anything that is a supertype of T (contravariant)
+/// - `?` accepts any reference type
+fn compare_wildcard_to_type(
+    bound: WildcardBound,
+    inner: Option<&ArgType>,
+    concrete: &ArgType,
+    hierarchy: Option<&crate::ClassHierarchy>,
+) -> TypeCompare {
+    use WildcardBound::*;
+
+    // Wildcards only work with reference types
+    if !concrete.is_object() && !matches!(concrete, ArgType::TypeVariable(_)) {
+        return TypeCompare::Conflict;
+    }
+
+    match bound {
+        // Unbounded wildcard accepts any reference type
+        // ? > concrete (wildcard is wider)
+        Unbounded => TypeCompare::Wider,
+
+        // ? extends T - wildcard accepts subtypes of T
+        Extends => {
+            match inner {
+                Some(bound_type) => {
+                    let cmp = compare_types(concrete, bound_type, hierarchy);
+                    if cmp.is_narrow_or_equal() {
+                        // concrete <= bound - wildcard can accept it
+                        TypeCompare::Wider
+                    } else if cmp.is_wider() {
+                        // concrete > bound - concrete doesn't fit in wildcard
+                        TypeCompare::Conflict
+                    } else {
+                        TypeCompare::Unknown
+                    }
+                }
+                // No inner type means extends Object
+                None => TypeCompare::Wider,
+            }
+        }
+
+        // ? super T - wildcard accepts supertypes of T
+        Super => {
+            match inner {
+                Some(bound_type) => {
+                    let cmp = compare_types(concrete, bound_type, hierarchy);
+                    if cmp.is_wider_or_equal() {
+                        // concrete >= bound - wildcard can accept it
+                        TypeCompare::Wider
+                    } else if cmp.is_narrow() {
+                        // concrete < bound - concrete doesn't fit in ? super T
+                        TypeCompare::Conflict
+                    } else {
+                        TypeCompare::Unknown
+                    }
+                }
+                // No inner type - any reference type accepted
+                None => TypeCompare::Wider,
+            }
+        }
     }
 }
 
@@ -923,5 +1074,162 @@ mod tests {
             compare_types(&int_arr_2d, &long_arr_2d, None),
             TypeCompare::Narrow
         );
+    }
+
+    // === Wildcard variance tests (JADX parity) ===
+
+    #[test]
+    fn test_wildcard_unbounded() {
+        let unbounded = ArgType::Wildcard {
+            bound: WildcardBound::Unbounded,
+            inner: None,
+        };
+        let string = ArgType::Object("java/lang/String".to_string());
+
+        // ? is wider than any concrete type
+        assert_eq!(compare_types(&unbounded, &string, None), TypeCompare::Wider);
+        assert_eq!(compare_types(&string, &unbounded, None), TypeCompare::Narrow);
+
+        // ? vs ? is equal
+        let unbounded2 = ArgType::Wildcard {
+            bound: WildcardBound::Unbounded,
+            inner: None,
+        };
+        assert_eq!(
+            compare_types(&unbounded, &unbounded2, None),
+            TypeCompare::Equal
+        );
+    }
+
+    #[test]
+    fn test_wildcard_extends() {
+        let hierarchy = crate::ClassHierarchy::new();
+
+        // ? extends Number
+        let extends_number = ArgType::Wildcard {
+            bound: WildcardBound::Extends,
+            inner: Some(Box::new(ArgType::Object("java/lang/Number".to_string()))),
+        };
+
+        let integer = ArgType::Object("java/lang/Integer".to_string());
+        let number = ArgType::Object("java/lang/Number".to_string());
+        let object = ArgType::Object("java/lang/Object".to_string());
+
+        // Integer < Number, so Integer fits ? extends Number
+        assert_eq!(
+            compare_types(&extends_number, &integer, Some(&hierarchy)),
+            TypeCompare::Wider
+        );
+        assert_eq!(
+            compare_types(&integer, &extends_number, Some(&hierarchy)),
+            TypeCompare::Narrow
+        );
+
+        // Number = Number, so Number fits ? extends Number
+        assert_eq!(
+            compare_types(&extends_number, &number, Some(&hierarchy)),
+            TypeCompare::Wider
+        );
+
+        // Object > Number, so Object does NOT fit ? extends Number
+        assert!(compare_types(&extends_number, &object, Some(&hierarchy)).is_conflict());
+    }
+
+    #[test]
+    fn test_wildcard_super() {
+        let hierarchy = crate::ClassHierarchy::new();
+
+        // ? super Integer
+        let super_integer = ArgType::Wildcard {
+            bound: WildcardBound::Super,
+            inner: Some(Box::new(ArgType::Object("java/lang/Integer".to_string()))),
+        };
+
+        let integer = ArgType::Object("java/lang/Integer".to_string());
+        let number = ArgType::Object("java/lang/Number".to_string());
+        let object = ArgType::Object("java/lang/Object".to_string());
+
+        // Integer = Integer, so Integer fits ? super Integer
+        assert_eq!(
+            compare_types(&super_integer, &integer, Some(&hierarchy)),
+            TypeCompare::Wider
+        );
+
+        // Number > Integer, so Number fits ? super Integer
+        assert_eq!(
+            compare_types(&super_integer, &number, Some(&hierarchy)),
+            TypeCompare::Wider
+        );
+
+        // Object > Integer, so Object fits ? super Integer
+        assert_eq!(
+            compare_types(&super_integer, &object, Some(&hierarchy)),
+            TypeCompare::Wider
+        );
+    }
+
+    #[test]
+    fn test_wildcard_vs_wildcard() {
+        // ? extends String vs ? extends Object
+        let extends_string = ArgType::Wildcard {
+            bound: WildcardBound::Extends,
+            inner: Some(Box::new(ArgType::Object("java/lang/String".to_string()))),
+        };
+        let extends_object = ArgType::Wildcard {
+            bound: WildcardBound::Extends,
+            inner: Some(Box::new(ArgType::Object("java/lang/Object".to_string()))),
+        };
+
+        // ? extends String is narrower than ? extends Object
+        assert_eq!(
+            compare_types(&extends_string, &extends_object, None),
+            TypeCompare::Narrow
+        );
+        assert_eq!(
+            compare_types(&extends_object, &extends_string, None),
+            TypeCompare::Wider
+        );
+
+        // ? extends T vs ? super T should conflict
+        let super_string = ArgType::Wildcard {
+            bound: WildcardBound::Super,
+            inner: Some(Box::new(ArgType::Object("java/lang/String".to_string()))),
+        };
+        assert!(compare_types(&extends_string, &super_string, None).is_conflict());
+    }
+
+    #[test]
+    fn test_wildcard_unbounded_vs_bounded() {
+        let unbounded = ArgType::Wildcard {
+            bound: WildcardBound::Unbounded,
+            inner: None,
+        };
+        let extends_number = ArgType::Wildcard {
+            bound: WildcardBound::Extends,
+            inner: Some(Box::new(ArgType::Object("java/lang/Number".to_string()))),
+        };
+
+        // Unbounded is wider than any bounded wildcard
+        assert_eq!(
+            compare_types(&unbounded, &extends_number, None),
+            TypeCompare::Wider
+        );
+        assert_eq!(
+            compare_types(&extends_number, &unbounded, None),
+            TypeCompare::Narrow
+        );
+    }
+
+    #[test]
+    fn test_wildcard_vs_primitive_conflict() {
+        let extends_number = ArgType::Wildcard {
+            bound: WildcardBound::Extends,
+            inner: Some(Box::new(ArgType::Object("java/lang/Number".to_string()))),
+        };
+        let int_type = ArgType::Int;
+
+        // Wildcards only work with reference types
+        assert!(compare_types(&extends_number, &int_type, None).is_conflict());
+        assert!(compare_types(&int_type, &extends_number, None).is_conflict());
     }
 }

@@ -413,6 +413,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Type comparison lattice (EQUAL, NARROW, WIDER, CONFLICT)
 - [x] Best type selection via max(bounds)
 - [x] TypeSearch multi-variable solver (iteration limit: 1M) - **DONE**
+- [x] **Wildcard variance handling** - **DONE (Dec 17)** - Proper covariance (`? extends T`) and contravariance (`? super T`) in TypeCompare with 6 new tests
 
 ### Region Control Flow ([JADX_REGION_CONTROL_FLOW.md](JADX_REGION_CONTROL_FLOW.md))
 - [x] Region hierarchy (If, Loop, Switch, TryCatch, Synchronized)

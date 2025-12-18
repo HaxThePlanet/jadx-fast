@@ -50,7 +50,8 @@ pub use method_inline::{
     analyze_method_for_inline, mark_methods_for_inline, should_skip_method,
 };
 pub use region_builder::{
-    build_regions, detect_all_loop_edges, detect_loop_edge_insns, refine_loops_with_patterns,
+    build_regions, build_regions_with_try_catch, detect_all_loop_edges, detect_loop_edge_insns,
+    mark_duplicated_finally, refine_loops_with_patterns,
     EdgeInsn, EdgeInsnKind, LoopEdgeInsns,
 };
 pub use ssa::{transform_to_ssa, transform_to_ssa_owned, DominatorTree, PhiNode, SsaBlock, SsaResult};

@@ -274,6 +274,22 @@ pub struct MethodData {
     /// Parsed from dalvik/annotation/AnnotationDefault class-level annotation
     /// Used to emit "default <value>" in method declarations
     pub annotation_default: Option<AnnotationValue>,
+
+    // === JADX Parity: Method Analysis Fields ===
+    /// 'this' argument register for instance methods (like JADX's MethodNode.thisArg)
+    /// Format: (register_number, ssa_version)
+    /// None for static methods
+    pub this_arg: Option<(u16, u32)>,
+    /// List of argument registers (like JADX's MethodNode.argsList)
+    /// Format: Vec<(register_number, ssa_version)>
+    pub args_list: Vec<(u16, u32)>,
+    /// Entry block ID (like JADX's MethodNode.enterBlock)
+    pub enter_block: Option<u32>,
+    /// Exit block ID (like JADX's MethodNode.exitBlock)
+    pub exit_block: Option<u32>,
+    /// Methods which use this method (like JADX's MethodNode.useIn)
+    /// Format: (class_type, method_name) tuples
+    pub use_in: Vec<(String, String)>,
 }
 
 impl MethodData {
@@ -299,6 +315,12 @@ impl MethodData {
             annotations: Vec::new(),
             inline_attr: None,
             annotation_default: None,
+            // JADX parity fields
+            this_arg: None,
+            args_list: Vec::new(),
+            enter_block: None,
+            exit_block: None,
+            use_in: Vec::new(),
         }
     }
 
@@ -332,6 +354,12 @@ impl MethodData {
             annotations: Vec::new(),
             inline_attr: None,
             annotation_default: None,
+            // JADX parity fields
+            this_arg: None,
+            args_list: Vec::new(),
+            enter_block: None,
+            exit_block: None,
+            use_in: Vec::new(),
         }
     }
 
@@ -489,6 +517,52 @@ impl MethodData {
     /// Get the first register used for parameters
     pub fn first_arg_reg(&self) -> u16 {
         self.regs_count.saturating_sub(self.ins_count)
+    }
+
+    // === JADX Parity: Method Analysis Methods ===
+
+    /// Set the 'this' argument register (like JADX's MethodNode.setThisArg)
+    /// Call this during SSA construction for instance methods
+    pub fn set_this_arg(&mut self, reg_num: u16, ssa_version: u32) {
+        self.this_arg = Some((reg_num, ssa_version));
+    }
+
+    /// Get the 'this' argument register
+    pub fn get_this_arg(&self) -> Option<(u16, u32)> {
+        self.this_arg
+    }
+
+    /// Add an argument register to the arguments list (like JADX's MethodNode.addArg)
+    pub fn add_arg(&mut self, reg_num: u16, ssa_version: u32) {
+        self.args_list.push((reg_num, ssa_version));
+    }
+
+    /// Set all argument registers at once
+    pub fn set_args_list(&mut self, args: Vec<(u16, u32)>) {
+        self.args_list = args;
+    }
+
+    /// Set the entry block ID (like JADX's MethodNode.setEnterBlock)
+    pub fn set_enter_block(&mut self, block_id: u32) {
+        self.enter_block = Some(block_id);
+    }
+
+    /// Set the exit block ID (like JADX's MethodNode.setExitBlock)
+    pub fn set_exit_block(&mut self, block_id: u32) {
+        self.exit_block = Some(block_id);
+    }
+
+    /// Add a method that uses this method (like JADX's MethodNode.addUseIn)
+    pub fn add_use_in(&mut self, class_type: String, method_name: String) {
+        let entry = (class_type, method_name);
+        if !self.use_in.contains(&entry) {
+            self.use_in.push(entry);
+        }
+    }
+
+    /// Check if this method is used by other methods
+    pub fn has_usages(&self) -> bool {
+        !self.use_in.is_empty()
     }
 }
 
@@ -651,21 +725,79 @@ pub struct DebugInfo {
     pub line_numbers: Vec<(u32, u32)>,
     /// Local variable entries
     pub local_vars: Vec<LocalVar>,
+    /// Whether line numbers are reliable (JADX USE_LINES_HINTS flag)
+    /// Set to true if:
+    /// - min_line > 3 (not adjusted)
+    /// - repeating_lines <= 3 (allows for-loop indexing)
+    pub lines_valid: bool,
 }
 
-/// Local variable debug info
+/// Local variable debug info (JADX ILocalVar parity)
 #[derive(Debug, Clone)]
 pub struct LocalVar {
     /// Variable name
     pub name: String,
-    /// Variable type descriptor
+    /// Variable type descriptor (e.g., "Ljava/lang/String;")
     pub type_desc: String,
+    /// Generic type signature (e.g., "Ljava/util/List<Ljava/lang/String;>;")
+    /// Used for generic type expansion
+    pub signature: Option<String>,
     /// Register number
     pub reg: u16,
-    /// Start address (code units)
+    /// Start address (code units). -1 (u32::MAX) indicates a method parameter
     pub start_addr: u32,
     /// End address (code units)
     pub end_addr: u32,
+    /// Whether this variable is a method parameter
+    pub is_parameter: bool,
+    /// Whether the variable scope has been finalized (DBG_END_LOCAL seen)
+    pub is_end: bool,
+}
+
+impl LocalVar {
+    /// Create a new LocalVar with default flags
+    pub fn new(name: String, type_desc: String, reg: u16, start_addr: u32, end_addr: u32) -> Self {
+        LocalVar {
+            name,
+            type_desc,
+            signature: None,
+            reg,
+            start_addr,
+            end_addr,
+            is_parameter: false,
+            is_end: false,
+        }
+    }
+
+    /// Create a LocalVar for a method parameter
+    pub fn parameter(name: String, type_desc: String, reg: u16) -> Self {
+        LocalVar {
+            name,
+            type_desc,
+            signature: None,
+            reg,
+            start_addr: u32::MAX, // -1 equivalent, marks as parameter
+            end_addr: u32::MAX,
+            is_parameter: true,
+            is_end: false,
+        }
+    }
+
+    /// Mark this variable as ended (scope finalized)
+    pub fn mark_end(&mut self, addr: u32) {
+        self.end_addr = addr;
+        self.is_end = true;
+    }
+
+    /// Check if this variable is active at the given address
+    pub fn is_active_at(&self, addr: u32) -> bool {
+        if self.is_parameter {
+            // Parameters are always active throughout the method
+            true
+        } else {
+            addr >= self.start_addr && addr <= self.end_addr
+        }
+    }
 }
 
 /// Kotlin-specific class markers parsed from @kotlin.Metadata annotation
@@ -744,6 +876,9 @@ pub struct ClassData {
     /// Parent class for inner classes (like JADX's ClassNode.parentClass)
     /// None for top-level classes, Some(parent_type) for inner classes
     pub parent_class: Option<String>,
+    /// Classes that have been inlined into this class (like JADX's ClassNode.inlinedClasses)
+    /// Used for anonymous inner class inlining
+    pub inlined_classes: Vec<String>,
 
     // === JADX Parity: Dependency Tracking ===
     /// Top-level classes used by this class (like JADX's ClassNode.dependencies)
@@ -752,6 +887,14 @@ pub struct ClassData {
     /// Classes needed at code generation stage (like JADX's ClassNode.codegenDeps)
     /// These must be fully loaded before this class can generate code.
     pub codegen_deps: Vec<String>,
+
+    // === JADX Parity: Usage Tracking ===
+    /// Classes which use this class (like JADX's ClassNode.useIn)
+    /// Used for cross-reference analysis and dependency management
+    pub use_in: Vec<String>,
+    /// Methods which use this class by instructions (like JADX's ClassNode.useInMth)
+    /// Format: (class_type, method_name) tuples
+    pub use_in_mth: Vec<(String, String)>,
 }
 
 impl ClassData {
@@ -780,8 +923,11 @@ impl ClassData {
             // JADX parity fields
             inner_classes: Vec::new(),
             parent_class: None,
+            inlined_classes: Vec::new(),
             dependencies: Vec::new(),
             codegen_deps: Vec::new(),
+            use_in: Vec::new(),
+            use_in_mth: Vec::new(),
         }
     }
 
@@ -997,6 +1143,47 @@ impl ClassData {
     pub fn is_codegen_ready(&self) -> bool {
         self.load_stage.is_codegen_ready()
     }
+
+    // === JADX Parity: Inlined Class Methods ===
+
+    /// Add a class that was inlined into this class (like JADX's ClassNode.addInlinedClass)
+    pub fn add_inlined_class(&mut self, class_type: String) {
+        if !self.inlined_classes.contains(&class_type) {
+            self.inlined_classes.push(class_type);
+        }
+    }
+
+    /// Check if a class has been inlined into this class
+    pub fn has_inlined_class(&self, class_type: &str) -> bool {
+        self.inlined_classes.iter().any(|c| c == class_type)
+    }
+
+    // === JADX Parity: Usage Tracking Methods ===
+
+    /// Add a class that uses this class (like JADX's ClassNode.addUseIn)
+    pub fn add_use_in(&mut self, class_type: String) {
+        if !self.use_in.contains(&class_type) && class_type != self.class_type {
+            self.use_in.push(class_type);
+        }
+    }
+
+    /// Add a method that uses this class (like JADX's ClassNode.addUseInMth)
+    pub fn add_use_in_mth(&mut self, class_type: String, method_name: String) {
+        let entry = (class_type, method_name);
+        if !self.use_in_mth.contains(&entry) {
+            self.use_in_mth.push(entry);
+        }
+    }
+
+    /// Check if this class is used by another class
+    pub fn is_used_by(&self, class_type: &str) -> bool {
+        self.use_in.iter().any(|c| c == class_type)
+    }
+
+    /// Check if this class is used by any other classes
+    pub fn has_usages(&self) -> bool {
+        !self.use_in.is_empty() || !self.use_in_mth.is_empty()
+    }
 }
 
 /// Field information
@@ -1016,6 +1203,9 @@ pub struct FieldData {
     pub annotations: Vec<Annotation>,
     /// DEX field index (for mapping instructions back to fields)
     pub dex_field_idx: Option<u32>,
+    /// Methods which use this field (like JADX's FieldNode.useIn)
+    /// Format: (class_type, method_name) tuples
+    pub use_in: Vec<(String, String)>,
 }
 
 impl FieldData {
@@ -1029,6 +1219,7 @@ impl FieldData {
             initial_value: None,
             annotations: Vec::new(),
             dex_field_idx: None,
+            use_in: Vec::new(),
         }
     }
 
@@ -1045,6 +1236,21 @@ impl FieldData {
     /// Check if final
     pub fn is_final(&self) -> bool {
         self.access_flags & 0x0010 != 0
+    }
+
+    // === JADX Parity: Usage Tracking Methods ===
+
+    /// Add a method that uses this field (like JADX's FieldNode.addUseIn)
+    pub fn add_use_in(&mut self, class_type: String, method_name: String) {
+        let entry = (class_type, method_name);
+        if !self.use_in.contains(&entry) {
+            self.use_in.push(entry);
+        }
+    }
+
+    /// Check if this field is used by any methods
+    pub fn has_usages(&self) -> bool {
+        !self.use_in.is_empty()
     }
 }
 

@@ -548,19 +548,24 @@ pub enum FieldReplacement {
     Field { class: String, name: String },
 }
 
-/// Local variable debug info
+/// Local variable debug info attribute (JADX LocalVarsDebugInfoAttr parity)
 #[derive(Debug, Clone)]
 pub struct LocalVarsDebugInfoAttr {
     pub vars: Vec<LocalVarDebugInfo>,
 }
 
+/// Individual local variable debug info (JADX ILocalVar parity)
 #[derive(Debug, Clone)]
 pub struct LocalVarDebugInfo {
     pub name: String,
     pub type_desc: String,
+    /// Generic type signature (e.g., "Ljava/util/List<Ljava/lang/String;>;")
+    pub signature: Option<String>,
     pub reg_num: u16,
     pub start_offset: u32,
     pub end_offset: u32,
+    /// Whether this is a method parameter
+    pub is_parameter: bool,
 }
 
 /// Method inline attribute
