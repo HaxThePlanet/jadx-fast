@@ -47,6 +47,8 @@ use crate::loops::{detect_loops, LoopInfo};
 /// Try block information
 #[derive(Debug, Clone)]
 pub struct TryInfo {
+    /// Unique ID for this try block (index in try list)
+    pub id: usize,
     /// Block where try starts
     pub start_block: u32,
     /// Blocks covered by this try
@@ -55,6 +57,10 @@ pub struct TryInfo {
     pub handlers: Vec<HandlerInfo>,
     /// Block after the try-catch (merge point)
     pub merge_block: Option<u32>,
+    /// Outer try block ID (for nested exception handling)
+    pub outer_try_block: Option<usize>,
+    /// Inner try block IDs (for nested exception handling)
+    pub inner_try_blocks: Vec<usize>,
 }
 
 /// Exception handler information
@@ -313,26 +319,10 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
         // These are synthetic handlers for synchronized blocks that should not generate code
         let handlers: Vec<HandlerInfo> = try_block.handlers.iter().filter_map(|h| {
             let handler_block = h.handler_addr;
-            let mut handler_blocks = BTreeSet::new();
 
-            // Find blocks reachable from handler (simple forward reach)
-            let mut worklist = vec![handler_block];
-            let mut visited = BTreeSet::new();
-            while let Some(b) = worklist.pop() {
-                if visited.contains(&b) || try_block_ids.contains(&b) {
-                    continue;
-                }
-                visited.insert(b);
-                handler_blocks.insert(b);
-
-                // Add successors (limited to avoid infinite loops)
-                // Increased limit from 100 to 500 for better exception handler detection
-                for &succ in cfg.successors(b) {
-                    if !visited.contains(&succ) && handler_blocks.len() < 500 {
-                        worklist.push(succ);
-                    }
-                }
-            }
+            // Use dominance-based block collection (JADX BlockExceptionHandler.java style)
+            // This replaces the old simple forward reachability with a hard 500-block limit
+            let handler_blocks = collect_handler_blocks_by_dominance(cfg, handler_block, &try_block_ids);
 
             // Filter out monitor-exit-only handlers (synchronized block cleanup)
             // These handlers only contain: MOVE_EXCEPTION, MONITOR_EXIT, THROW
@@ -367,14 +357,128 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
             .copied();
 
         tries.push(TryInfo {
+            id: tries.len(),
             start_block,
             try_blocks: try_block_ids,
             handlers,
             merge_block,
+            outer_try_block: None,
+            inner_try_blocks: Vec::new(),
         });
     }
 
+    // Establish nested exception relationships (JADX BlockExceptionHandler.checkTryCatchRelation style)
+    establish_try_nesting(&mut tries);
+
     tries
+}
+
+/// Establish outer/inner relationships between try blocks
+///
+/// Based on JADX BlockExceptionHandler.checkTryCatchRelation() algorithm.
+/// Detects when one try block is nested inside another's handler or try region.
+fn establish_try_nesting(tries: &mut [TryInfo]) {
+    let n = tries.len();
+    if n < 2 {
+        return;
+    }
+
+    // For each pair of try blocks, check if one contains the other
+    for i in 0..n {
+        for j in 0..n {
+            if i == j {
+                continue;
+            }
+
+            // Check if try[j] is nested inside try[i]
+            // This happens when try[j]'s start block is either:
+            // 1. Inside try[i]'s try blocks, or
+            // 2. Inside one of try[i]'s handler blocks
+            let j_start = tries[j].start_block;
+
+            let is_in_try_region = tries[i].try_blocks.contains(&j_start);
+            let is_in_handler = tries[i].handlers.iter()
+                .any(|h| h.handler_blocks.contains(&j_start));
+
+            if is_in_try_region || is_in_handler {
+                // try[j] is nested inside try[i]
+                // Only set if not already set (avoid overwriting with deeper nesting)
+                if tries[j].outer_try_block.is_none() {
+                    tries[j].outer_try_block = Some(i);
+                }
+            }
+        }
+    }
+
+    // Build inner_try_blocks lists from outer_try_block references
+    for i in 0..n {
+        if let Some(outer_id) = tries[i].outer_try_block {
+            // We can't mutate while iterating, so we collect and apply after
+            // This is a limitation - we'll do a second pass
+        }
+    }
+
+    // Second pass to populate inner_try_blocks
+    let outer_refs: Vec<(usize, usize)> = tries.iter()
+        .filter_map(|t| t.outer_try_block.map(|outer| (t.id, outer)))
+        .collect();
+
+    for (inner_id, outer_id) in outer_refs {
+        if outer_id < tries.len() {
+            tries[outer_id].inner_try_blocks.push(inner_id);
+        }
+    }
+}
+
+/// Collect all blocks belonging to an exception handler
+///
+/// Based on JADX BlockExceptionHandler.java collectHandlerBlocks() method.
+/// Uses a hybrid approach:
+/// 1. First tries dominance-based collection (proper analysis, no hard limit)
+/// 2. Falls back to forward reachability if dominance yields insufficient results
+///    (handles synthetic CFGs and edge cases where dominance isn't computed)
+fn collect_handler_blocks_by_dominance(
+    cfg: &CFG,
+    handler_block: u32,
+    try_blocks: &BTreeSet<u32>,
+) -> BTreeSet<u32> {
+    // Try dominance-based collection first
+    let mut dominated_blocks = BTreeSet::new();
+    for block_id in cfg.block_ids() {
+        if try_blocks.contains(&block_id) {
+            continue;
+        }
+        if cfg.dominates(handler_block, block_id) {
+            dominated_blocks.insert(block_id);
+        }
+    }
+
+    // If dominance found blocks beyond just the handler itself, use those results
+    if dominated_blocks.len() > 1 || (dominated_blocks.len() == 1 && !dominated_blocks.contains(&handler_block)) {
+        return dominated_blocks;
+    }
+
+    // Fall back to forward reachability (for synthetic CFGs or edge cases)
+    let mut handler_blocks = BTreeSet::new();
+    let mut worklist = vec![handler_block];
+    let mut visited = BTreeSet::new();
+
+    while let Some(b) = worklist.pop() {
+        if visited.contains(&b) || try_blocks.contains(&b) {
+            continue;
+        }
+        visited.insert(b);
+        handler_blocks.insert(b);
+
+        // Add successors (no hard limit needed with dominance fallback)
+        for &succ in cfg.successors(b) {
+            if !visited.contains(&succ) {
+                worklist.push(succ);
+            }
+        }
+    }
+
+    handler_blocks
 }
 
 /// Detect synchronized blocks by finding MONITOR_ENTER/MONITOR_EXIT pairs
