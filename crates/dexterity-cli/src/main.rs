@@ -49,6 +49,16 @@ use tikv_jemallocator::Jemalloc;
 #[global_allocator]
 static GLOBAL: Jemalloc = Jemalloc;
 
+/// Enable jemalloc background threads for 56-core optimization.
+/// This offloads free() operations to background threads so worker threads
+/// don't stall during memory deallocation - critical for high-core scaling.
+#[cfg(not(target_env = "msvc"))]
+fn enable_jemalloc_background_threads() {
+    if let Err(e) = tikv_jemalloc_ctl::background_thread::write(true) {
+        eprintln!("Warning: Failed to enable jemalloc background threads: {}", e);
+    }
+}
+
 // Memory tracking for debugging
 fn get_mem_mb() -> usize {
     std::fs::read_to_string("/proc/self/statm")
@@ -77,6 +87,11 @@ use std::sync::Arc;
 pub use args::*;
 
 fn main() -> Result<()> {
+    // Enable jemalloc background threads FIRST (before any allocations)
+    // This offloads free() to background threads - critical for 56-core scaling
+    #[cfg(not(target_env = "msvc"))]
+    enable_jemalloc_background_threads();
+
     let args = Args::parse();
 
     // Handle --version
@@ -127,8 +142,6 @@ fn main() -> Result<()> {
             tracing::warn!("Failed to configure rayon thread pool: {}", e);
 
             let actual_threads = rayon::current_num_threads();
-            let actual_stack = std::thread::current().stack_size().unwrap_or(0);
-
             if actual_threads != num_threads {
                 tracing::warn!("Rayon initialized by another library with {} thread(s), but dexterity requested {}", actual_threads, num_threads);
                 tracing::warn!("To override, set environment variable: RAYON_NUM_THREADS={} dexterity [args]", num_threads);
@@ -136,11 +149,7 @@ fn main() -> Result<()> {
                 tracing::info!("Using pre-initialized rayon configuration with {} thread(s)", actual_threads);
             }
 
-            if actual_stack < 32 * 1024 * 1024 {
-                let stack_mb = actual_stack / (1024 * 1024);
-                tracing::warn!("Current thread stack size is {}MB, but dexterity configured {} thread pool with 32MB", stack_mb, num_threads);
-                tracing::warn!("If you encounter stack overflow crashes, increase stack size with: RUST_MIN_STACK=33554432 dexterity [args]");
-            }
+            tracing::warn!("If you encounter stack overflow crashes, increase stack size with: RUST_MIN_STACK=33554432 dexterity [args]");
         }
     }
 

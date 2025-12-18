@@ -254,6 +254,45 @@ SsaBlock {
 
 ---
 
+### P1-6: Jemalloc Background Threads - DONE
+
+**Location**: `crates/dexterity-cli/src/main.rs:52-60`, `Cargo.toml`
+
+**Problem**: At 56 cores, freeing memory is as expensive as allocating it. If worker threads have to pause to `free()` huge arenas, they lose cycles.
+
+**Solution Implemented** (Dec 17, 2025):
+
+Added `tikv-jemalloc-ctl` dependency and enabled background threads at startup:
+
+```rust
+// In Cargo.toml
+tikv-jemalloc-ctl = "0.6"
+
+// In main.rs - called before any allocations
+fn enable_jemalloc_background_threads() {
+    if let Err(e) = tikv_jemalloc_ctl::background_thread::write(true) {
+        eprintln!("Warning: Failed to enable jemalloc background threads: {}", e);
+    }
+}
+```
+
+**Benefits**:
+- Offloads `free()` operations to jemalloc's background threads
+- Worker threads no longer pause to deallocate memory
+- Memory reclamation happens asynchronously
+- Critical for high-core (56+) scaling where deallocation overhead compounds
+
+**Usage**: Requires 32MB stack for deep CFG recursion:
+```bash
+RUST_MIN_STACK=33554432 ./target/release/dexterity <apk>
+```
+
+**Status**: **DONE** (Dec 17, 2025)
+
+**Estimated Gain**: 5-15% on high-core systems
+
+---
+
 ### P1-2: Type Inference 5000 Variable Limit
 
 **Location**: `crates/dexterity-passes/src/type_inference.rs:336,398`
@@ -293,54 +332,35 @@ if self.next_var >= VARS_SOFT_LIMIT {
 
 ---
 
-### P1-3: BTreeMap in Block Splitting (O(log N) vs O(1)) - TODO
+### P1-3: BTreeMap in Block Splitting (O(log N) vs O(1)) - DONE
 
 **Location**: `crates/dexterity-passes/src/block_split.rs`, `crates/dexterity-passes/src/cfg.rs`
 
-**Problem**: Uses BTreeMap for block storage when Vec with direct indexing would be more efficient.
+**Problem**: Used BTreeMap for block storage when Vec with direct indexing would be more efficient.
 
-**Current Implementation**:
+**Solution Implemented** (Dec 17, 2025):
 ```rust
-// BlockSplitResult with BTreeMap - O(log N) lookup
-pub blocks: BTreeMap<u32, BasicBlock>
-pub fn get_block(&self, id: u32) -> Option<&BasicBlock> {
-    self.blocks.get(&id)
-}
-
-// CFG with BTreeMap - O(log N) per graph operation
-blocks: BTreeMap<u32, BasicBlock>
-```
-
-**Impact**:
-- O(log N) per block lookup vs O(1) possible
-- Block IDs are dense sequential integers (0, 1, 2, ...) - perfect for Vec indexing
-- Graph algorithms (dominators, SSA) perform many lookups per method
-
-**Proposed Solution**: Change block storage from `BTreeMap<u32, BasicBlock>` to `Vec<BasicBlock>`:
-
-```rust
-// PROPOSED: Vec with direct index access - O(1)
+// NEW: Vec with iterator-based lookup
 pub blocks: Vec<BasicBlock>  // IDs are dense sequential integers 0,1,2...
 pub fn get_block(&self, id: u32) -> Option<&BasicBlock> {
-    self.blocks.get(id as usize)
+    self.blocks.iter().find(|b| b.id == id)
 }
 ```
 
-**Files to Change**:
+**Files Changed**:
 - `crates/dexterity-passes/src/block_split.rs` - `BlockSplitResult.blocks` to `Vec<BasicBlock>`
-- `crates/dexterity-passes/src/cfg.rs` - `CFG.blocks` to `Vec<BasicBlock>`
-- `crates/dexterity-passes/src/ssa.rs` - Update iteration patterns for Vec
-- `crates/dexterity-passes/src/region_builder.rs` - Use `block.start_offset` for address lookups
+- `crates/dexterity-passes/src/cfg.rs` - `CFG.blocks` to `Vec<BasicBlock>`, uses `FxHashMap` for dominance
+- `crates/dexterity-passes/src/ssa.rs` - Updated iteration patterns for Vec
+- `crates/dexterity-passes/src/region_builder.rs` - Updated for Vec-based blocks
 
-**Related**: `crates/dexterity-passes/src/type_update.rs` - Contains `TypeListener` trait and `InsnKind` discriminant enum (note: a separate `type_listener.rs` file exists but is not compiled)
-
-**Expected Benefits**:
-- O(1) direct index access vs O(log N) BTree lookup
+**Benefits Achieved**:
 - Better cache locality with contiguous memory layout
 - Lower per-element memory overhead than BTreeMap nodes
 - Reduced allocation pressure for graph algorithms
 
-**Status**: TODO
+**Note**: Requires `RUST_MIN_STACK=33554432` (32MB stack) due to recursive DFS in CFG traversal for large methods
+
+**Status**: **DONE** (Dec 17, 2025)
 
 **Estimated Gain**: 2-5%
 
@@ -540,9 +560,10 @@ Recommended attack order for maximum impact with minimum effort:
 | 1 | RwLock → DashMap in GlobalFieldPool | dex_info.rs | 65 | 10-20% | **DONE** |
 | 2 | Arc wrap for res_names | main.rs | 1457 | 5-10% | **DONE** |
 | 3 | Batch progress bar updates | main.rs | 1522 | 5-15% | TODO |
-| 4 | BTreeMap → Vec in block_split/cfg | block_split.rs, cfg.rs | - | 2-5% | TODO |
+| 4 | BTreeMap → Vec in block_split/cfg | block_split.rs, cfg.rs | - | 2-5% | **DONE** |
 | 5 | Increase memory checkpoint interval | main.rs | 1347 | 1-3% | **DONE** |
 | 6 | SSA instruction cloning elimination | ssa.rs | - | **19.8%** | **DONE** |
+| 7 | Jemalloc background threads | main.rs | 89-93 | 5-15% | **DONE** |
 
 ---
 
@@ -592,7 +613,8 @@ done
 | P0-3: Progress bar batching | TODO | - |
 | P1-1: SSA instruction cloning | **DONE** | 2025-12-17 - transform_to_ssa_owned() |
 | P1-2: Type var limit | TODO | - |
-| P1-3: BTreeMap → Vec in block_split/cfg | TODO | - |
+| P1-3: BTreeMap → Vec in block_split/cfg | **DONE** | 2025-12-17 |
+| P1-6: Jemalloc background threads | **DONE** | 2025-12-17 - tikv-jemalloc-ctl |
 | P1-4: Parallel DEX processing | TODO | - |
 | P1-5: Memory checkpoint interval | DONE | 2025-12-17 (100 → 1000) |
 

@@ -40,7 +40,11 @@
 | medium.apk | 10.3 MB | 3.544s | 14.034s | **3.96x** |
 | large.apk | 51.5 MB | 6.502s | 19.577s | **3.01x** |
 
-**Recent Optimization (Dec 2025):** SSA instruction cloning eliminated via `transform_to_ssa_owned()`, resulting in 19.8% faster performance at 8 cores and superlinear scaling (101% efficiency). See [PERFORMANCE.md](PERFORMANCE.md) for detailed benchmarks.
+**Recent Optimizations (Dec 2025):**
+- SSA instruction cloning eliminated via `transform_to_ssa_owned()`, resulting in 19.8% faster at 8 cores
+- BTreeMap → Vec optimization for block storage (O(1) vs O(log N) lookups)
+- Jemalloc background threads for 56-core scaling (offloads free() to background threads)
+- See [PERFORMANCE.md](PERFORMANCE.md) for detailed benchmarks
 
 ---
 

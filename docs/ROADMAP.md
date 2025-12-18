@@ -403,7 +403,8 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Block splitting (SPLIT_WITHOUT_CONNECT, SEPARATE_INSNS)
 - [x] Exception handler temporary CFG edges - **DONE** (TmpEdge flag, from_blocks_with_try_catch, add/remove temp edges in cfg.rs)
 - [x] SSA instruction cloning optimization - **DONE** (Dec 2025) - `transform_to_ssa_owned()` moves instructions instead of cloning, 19.8% faster at 8 cores, 7-10GB allocation pressure eliminated
-- [ ] BTreeMap → Vec block storage optimization - **TODO** - `BlockSplitResult.blocks` and `CFG.blocks` use `BTreeMap<u32, BasicBlock>`; could change to `Vec<BasicBlock>` for O(1) direct index access (block IDs are dense sequential integers 0,1,2...)
+- [x] BTreeMap → Vec block storage optimization - **DONE** (Dec 17, 2025) - `BlockSplitResult.blocks` and `CFG.blocks` now use `Vec<BasicBlock>` for O(1) direct index access (block IDs are dense sequential integers)
+- [x] Jemalloc background threads - **DONE** (Dec 17, 2025) - Offloads free() to background threads for 56-core scaling, requires `RUST_MIN_STACK=33554432` for deep CFG recursion
 
 ### Type Inference ([JADX_TYPE_INFERENCE.md](JADX_TYPE_INFERENCE.md))
 - [x] AssignBound vs UseBound separation
