@@ -268,6 +268,10 @@ pub struct MethodData {
     pub debug_info: Option<DebugInfo>,
     /// Annotations on this method
     pub annotations: Vec<Annotation>,
+    /// Parameter annotations (one Vec<Annotation> per parameter)
+    /// Index 0 = first parameter, etc. Empty vec = no annotations on that parameter.
+    /// Matches JADX's AnnotationMethodParamsAttr.
+    pub parameter_annotations: Vec<Vec<Annotation>>,
     /// Method inline attribute (for synthetic bridge methods)
     pub inline_attr: Option<MethodInlineAttr>,
     /// Annotation default value (for annotation interface methods)
@@ -313,6 +317,7 @@ impl MethodData {
             try_blocks: Vec::new(),
             debug_info: None,
             annotations: Vec::new(),
+            parameter_annotations: Vec::new(),
             inline_attr: None,
             annotation_default: None,
             // JADX parity fields
@@ -352,6 +357,7 @@ impl MethodData {
             try_blocks: Vec::new(),
             debug_info: None,
             annotations: Vec::new(),
+            parameter_annotations: Vec::new(),
             inline_attr: None,
             annotation_default: None,
             // JADX parity fields
@@ -563,6 +569,19 @@ impl MethodData {
     /// Check if this method is used by other methods
     pub fn has_usages(&self) -> bool {
         !self.use_in.is_empty()
+    }
+
+    /// Get the source line number for this method (like JADX's LineAttrNode.getSourceLine)
+    ///
+    /// Returns the first line number from debug info, or u32::MAX if not available.
+    /// This is used for sorting methods by their declaration order in the source.
+    /// Matches JADX's behavior in ClassGen.addInnerClsAndMethods() which sorts by source line.
+    pub fn source_line(&self) -> u32 {
+        self.debug_info
+            .as_ref()
+            .and_then(|di| di.line_numbers.first())
+            .map(|(_, line)| *line)
+            .unwrap_or(u32::MAX)
     }
 }
 

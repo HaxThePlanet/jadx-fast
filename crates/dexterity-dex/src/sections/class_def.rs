@@ -205,6 +205,78 @@ impl<'a> ClassDef<'a> {
         Ok(Vec::new())
     }
 
+    /// Get parameter annotations for a specific method index
+    ///
+    /// Returns a vector of annotation lists, one per parameter.
+    /// If a parameter has no annotations, its entry is an empty vector.
+    pub fn parameter_annotations(&self, method_idx: u32) -> Result<Vec<Vec<AnnotationItem>>> {
+        let annotations_off = self.annotations_off();
+        if annotations_off == 0 {
+            return Ok(Vec::new());
+        }
+
+        let data = self.reader.data();
+        let off = annotations_off as usize;
+
+        // annotations_directory_item structure:
+        // - class_annotations_off (u32)
+        // - fields_size (u32)
+        // - methods_size (u32)
+        // - parameters_size (u32)
+        // - field_annotations[fields_size] (field_idx + annotations_off pairs)
+        // - method_annotations[methods_size] (method_idx + annotations_off pairs)
+        // - parameter_annotations[parameters_size] (method_idx + annotations_off pairs)
+
+        let fields_size = read_u32(data, off + 4);
+        let methods_size = read_u32(data, off + 8);
+        let parameters_size = read_u32(data, off + 12);
+
+        if parameters_size == 0 {
+            return Ok(Vec::new());
+        }
+
+        // Skip to parameter_annotations array (after field_annotations and method_annotations)
+        let param_annot_start = off + 16 + (fields_size as usize * 8) + (methods_size as usize * 8);
+
+        // Search for matching method_idx
+        for i in 0..parameters_size {
+            let entry_off = param_annot_start + (i as usize * 8);
+            let entry_method_idx = read_u32(data, entry_off);
+            let annot_set_ref_list_off = read_u32(data, entry_off + 4);
+
+            if entry_method_idx == method_idx {
+                return self.read_annotation_set_ref_list(annot_set_ref_list_off as usize);
+            }
+        }
+
+        Ok(Vec::new())
+    }
+
+    /// Read an annotation_set_ref_list at the given offset
+    /// Returns a vector of annotation sets (one per parameter)
+    fn read_annotation_set_ref_list(&self, offset: usize) -> Result<Vec<Vec<AnnotationItem>>> {
+        let data = self.reader.data();
+
+        // annotation_set_ref_list:
+        // - size (u32) - number of parameters
+        // - list[size] (annotation_set_off (u32))
+        let size = read_u32(data, offset) as usize;
+        let mut result = Vec::with_capacity(size);
+
+        for i in 0..size {
+            let annot_set_off = read_u32(data, offset + 4 + (i * 4)) as usize;
+            if annot_set_off == 0 {
+                // No annotations for this parameter
+                result.push(Vec::new());
+            } else {
+                let annotations = self.read_annotation_set(annot_set_off)?;
+                result.push(annotations);
+            }
+        }
+
+        Ok(result)
+    }
+
     /// Read an annotation_set_item at the given offset
     fn read_annotation_set(&self, offset: usize) -> Result<Vec<AnnotationItem>> {
         let data = self.reader.data();

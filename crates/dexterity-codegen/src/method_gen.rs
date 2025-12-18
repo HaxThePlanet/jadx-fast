@@ -544,6 +544,16 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<
             code.add(", ");
         }
 
+        // Parameter annotations (emit before the type, like JADX)
+        if i < method.parameter_annotations.len() {
+            for annotation in &method.parameter_annotations[i] {
+                if should_emit_annotation(annotation) {
+                    generate_annotation(annotation, code);
+                    code.add(" ");
+                }
+            }
+        }
+
         let is_last = i == param_count - 1;
         let is_last_vararg = is_last && is_varargs;
 

@@ -630,9 +630,34 @@ fn collect_phi_destinations(ssa_result: &dexterity_passes::ssa::SsaResult) -> Ha
     phi_dests
 }
 
+/// Count variable uses from phi node sources in SSA result
+/// This must be called BEFORE ssa_blocks_to_map_owned consumes the SSA result
+/// because phi nodes are not included in BasicBlock instructions
+fn count_phi_source_uses(ssa_result: &dexterity_passes::ssa::SsaResult) -> HashMap<(u16, u32), usize> {
+    let mut counts: HashMap<(u16, u32), usize> = HashMap::new();
+    for block in &ssa_result.blocks {
+        for phi in &block.phi_nodes {
+            for (_, source) in &phi.sources {
+                *counts.entry((source.reg_num, source.ssa_version)).or_insert(0) += 1;
+            }
+        }
+    }
+    counts
+}
+
+/// Merge phi source use counts into the main use counts HashMap
+fn merge_use_counts(main: &mut HashMap<(u16, u32), usize>, other: HashMap<(u16, u32), usize>) {
+    for (key, count) in other {
+        *main.entry(key).or_insert(0) += count;
+    }
+}
+
 /// Emit declarations for phi variables at method start
 /// Like Java JADX's DeclareVariablesAttr, this ensures variables used before
 /// their first "real" assignment are declared
+///
+/// IMPORTANT: Only declares variables that are actually used (dead variable elimination)
+/// This prevents "unused variable" declarations like JADX avoids.
 fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) {
     if ctx.phi_declarations.is_empty() {
         return;
@@ -643,6 +668,13 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
     phi_vars.sort();
 
     for (reg, version) in phi_vars {
+        // DEAD VARIABLE ELIMINATION: Skip variables that are never used
+        // This matches JADX's behavior of not declaring unused variables
+        let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
+        if use_count == 0 {
+            continue;
+        }
+
         // Get variable name using a temp RegisterArg
         let temp_reg = RegisterArg { reg_num: reg, ssa_version: version };
         let var_name = ctx.expr_gen.get_var_name(&temp_reg);
@@ -1171,12 +1203,15 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     let mut ctx = BodyGenContext::from_method(method);
     let max_versions = ssa_result.max_versions.clone();
-    // Collect phi destinations before consuming SSA result
+    // Collect phi destinations AND phi source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result);
+    let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
 
+    // Count variable uses from both instructions and phi sources
     ctx.use_counts = count_variable_uses(&ctx.blocks);
+    merge_use_counts(&mut ctx.use_counts, phi_uses);
 
     ctx.set_final_vars_from_max_versions(&max_versions);
 
@@ -1352,13 +1387,16 @@ fn generate_body_impl<W: CodeWriter>(
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
     let max_versions = ssa_result.max_versions.clone();
-    // Collect phi destinations before consuming SSA result
+    // Collect phi destinations AND phi source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result);
+    let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
 
+    // Count variable uses from both instructions and phi sources
     ctx.use_counts = count_variable_uses(&ctx.blocks);
+    merge_use_counts(&mut ctx.use_counts, phi_uses);
 
     ctx.set_final_vars_from_max_versions(&max_versions);
 
@@ -1648,8 +1686,9 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     ctx.expr_gen.set_deobf_limits(deobf_min_length, deobf_max_length);
     ctx.expr_gen.set_resources(res_names.clone(), replace_consts);
     let max_versions = ssa_result.max_versions.clone();
-    // Collect phi destinations before consuming SSA result
+    // Collect phi destinations AND phi source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result);
+    let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
@@ -1659,7 +1698,9 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
         ctx.set_current_class_type(class_type.to_string());
     }
 
+    // Count variable uses from both instructions and phi sources
     ctx.use_counts = count_variable_uses(&ctx.blocks);
+    merge_use_counts(&mut ctx.use_counts, phi_uses);
 
     ctx.set_final_vars_from_max_versions(&max_versions);
 

@@ -1330,6 +1330,10 @@ fn add_methods_with_dex<W: CodeWriter>(
 }
 
 /// Add method declarations with inner classes for anonymous class inlining
+///
+/// Methods are sorted by their source line number to match JADX's output ordering.
+/// This ensures abstract methods, constructors, and other methods appear in the
+/// same order as the original source code (like JADX's ClassGen.addInnerClsAndMethods).
 fn add_methods_with_inner_classes<W: CodeWriter>(
     class: &ClassData,
     config: &ClassGenConfig,
@@ -1342,27 +1346,40 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
     use dexterity_ir::MethodInlineAttr;
 
     let is_enum = class.is_enum();
-    let mut first_method = true;
-    for method in &class.methods {
-        // Skip default constructors that just call super() - implicit in Java
-        if is_default_constructor(method) {
-            continue;
-        }
-        // Skip synthetic enum methods (values(), valueOf(), enum constructors)
-        if is_enum_synthetic_method(method, is_enum) {
-            continue;
-        }
-        // Skip synthetic methods that will be inlined (when inline_methods is enabled)
-        if config.inline_methods {
-            if let Some(ref attr) = method.inline_attr {
-                match attr {
-                    MethodInlineAttr::FieldGet { .. }
-                    | MethodInlineAttr::FieldSet { .. }
-                    | MethodInlineAttr::MethodCall { .. } => continue,
-                    MethodInlineAttr::NotNeeded => {}
+
+    // Collect methods that should be generated, filtering out skipped ones
+    let mut methods_to_generate: Vec<&dexterity_ir::MethodData> = class.methods.iter()
+        .filter(|method| {
+            // Skip default constructors that just call super() - implicit in Java
+            if is_default_constructor(method) {
+                return false;
+            }
+            // Skip synthetic enum methods (values(), valueOf(), enum constructors)
+            if is_enum_synthetic_method(method, is_enum) {
+                return false;
+            }
+            // Skip synthetic methods that will be inlined (when inline_methods is enabled)
+            if config.inline_methods {
+                if let Some(ref attr) = method.inline_attr {
+                    match attr {
+                        MethodInlineAttr::FieldGet { .. }
+                        | MethodInlineAttr::FieldSet { .. }
+                        | MethodInlineAttr::MethodCall { .. } => return false,
+                        MethodInlineAttr::NotNeeded => {}
+                    }
                 }
             }
-        }
+            true
+        })
+        .collect();
+
+    // Sort methods by source line number (like JADX's ClassGen.addInnerClsAndMethods)
+    // This ensures methods appear in the same order as the original source code,
+    // achieving JADX parity for method ordering including abstract method placement.
+    methods_to_generate.sort_by_key(|method| method.source_line());
+
+    let mut first_method = true;
+    for method in methods_to_generate {
         // Add blank line between methods, but not before the first method (unless there are fields)
         if !first_method {
             code.newline();

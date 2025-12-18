@@ -269,11 +269,27 @@ impl<'a> VarNaming<'a> {
         }
     }
 
+    /// Common root package names that should be reserved to prevent collision with
+    /// fully-qualified class names. This matches JADX's behavior.
+    const DEFAULT_ROOT_PACKAGES: &'static [&'static str] = &[
+        // Java core packages
+        "java", "javax",
+        // Android packages
+        "android", "androidx", "dalvik",
+        // Common domain packages
+        "com", "org", "net", "io", "edu", "gov", "info", "biz",
+        // Kotlin packages
+        "kotlin", "kotlinx",
+    ];
+
     /// Create a new variable naming context with lookups
     ///
     /// When `inner_class_names` is provided, those names are pre-reserved to prevent
     /// variable names from colliding with inner class short names. This matches JADX's
     /// NameGen.addNamesUsedInClass() behavior.
+    ///
+    /// Root package names are also reserved by default to prevent collisions with
+    /// fully-qualified class names (like `com.example.Foo`).
     pub fn with_lookups(
         first_param_reg: u16,
         method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
@@ -281,9 +297,16 @@ impl<'a> VarNaming<'a> {
         field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
         inner_class_names: Option<&'a [String]>,
     ) -> Self {
-        // Pre-reserve inner class short names to prevent variable-class collisions
-        // This matches JADX's behavior where variables can't shadow inner class names
+        // Pre-reserve names to prevent collisions (JADX's addNamesUsedInClass behavior)
         let mut used_names = HashSet::new();
+
+        // 1. Reserve root package names to avoid collision with fully-qualified class names
+        // e.g., prevent `com` variable from conflicting with `com.example.Foo`
+        for &pkg in Self::DEFAULT_ROOT_PACKAGES {
+            used_names.insert(pkg.to_string());
+        }
+
+        // 2. Reserve inner class short names
         if let Some(names) = inner_class_names {
             for name in names {
                 // Reserve both the exact name and lowercase version
@@ -1677,7 +1700,7 @@ mod tests {
 
     #[test]
     fn test_inner_class_reserved_names_empty() {
-        // Test with no inner class names - should not reserve anything extra
+        // Test with no inner class names - should still reserve root package names
         let naming = VarNaming::with_lookups(
             10,
             None,
@@ -1686,8 +1709,33 @@ mod tests {
             None,
         );
 
-        // used_names should be empty initially
-        assert!(naming.used_names.is_empty());
+        // Root package names should be reserved by default (JADX parity)
+        assert!(naming.used_names.contains("java"), "java should be reserved");
+        assert!(naming.used_names.contains("android"), "android should be reserved");
+        assert!(naming.used_names.contains("com"), "com should be reserved");
+        assert!(naming.used_names.contains("org"), "org should be reserved");
+        assert!(naming.used_names.contains("kotlin"), "kotlin should be reserved");
+    }
+
+    #[test]
+    fn test_root_package_names_reserved() {
+        // Test that root package names get numeric suffixes
+        let mut naming = VarNaming::with_lookups(
+            10,
+            None,
+            None,
+            None,
+            None,
+        );
+
+        // Try to name a variable "com" - should get "com2" since "com" is reserved
+        let name = naming.make_unique("com");
+        assert_eq!(name, "com2", "Should be com2 since com is reserved for package names");
+
+        // Similarly for other root packages
+        let mut naming2 = VarNaming::with_lookups(10, None, None, None, None);
+        let java_name = naming2.make_unique("java");
+        assert_eq!(java_name, "java2", "Should be java2 since java is reserved");
     }
 
     #[test]

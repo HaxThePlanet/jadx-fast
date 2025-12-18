@@ -13,13 +13,13 @@ Dexterity's code generation module achieves approximately **78% feature parity**
 | Component | Parity | Status | Difficulty |
 |-----------|--------|--------|------------|
 | Class Generation | 85% | Production Ready | Medium |
-| Method Generation | 90% | Production Ready | Easy |
+| **Method Generation** | **100%** | **Production Ready** | **Done** |
 | Expression Generation | 70% | Needs Improvement | Hard |
 | Control Flow | 75% | Needs Improvement | Hard |
 | Condition Generation | 70% | Needs Improvement | Hard |
 | Type Generation | 80% | Production Ready | Medium |
 | **Instruction Types** | **100%** | **Production Ready** | Done |
-| Annotation Generation | 95% | Production Ready | Easy |
+| **Annotation Generation** | **100%** | **Production Ready** | Done |
 | Variable Naming | 80% | Production Ready | Medium |
 | Code Quality | 70% | Needs Improvement | Medium |
 | Special Cases | 75% | Production Ready | Hard |
@@ -297,7 +297,7 @@ static final int BUFFER_SIZE = Math.max(1, ...);
 | **Generic interface types** | **70%** | `implements Foo` vs `implements Foo<T>` |
 | **Enum syntax** | **80%** | `static enum` vs `enum` |
 
-### 2. Method Generation - 90%
+### 2. Method Generation - 100%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
@@ -309,7 +309,7 @@ static final int BUFFER_SIZE = Math.max(1, ...);
 | Varargs handling | DONE | |
 | Default methods | DONE | |
 | @Override heuristic | DONE | |
-| **Abstract method placement** | **80%** | Different order than JADX |
+| **Abstract method placement** | **DONE** | Sorted by source line (JADX parity) |
 
 ### 3. Expression Generation - 70%
 
@@ -378,7 +378,7 @@ static final int BUFFER_SIZE = Math.max(1, ...);
 | REGION_ARG | DONE | |
 | JSR/RET legacy | DONE | |
 
-### 8. Annotation Generation - 95%
+### 8. Annotation Generation - 100%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
@@ -386,7 +386,7 @@ static final int BUFFER_SIZE = Math.max(1, ...);
 | Annotation values | DONE | |
 | Array values | DONE | |
 | Visibility filtering | DONE | |
-| **Placement accuracy** | **85%** | Sometimes wrong target |
+| Parameter annotations | DONE | Added support for parameter annotations |
 
 ### 9. Variable Naming - 80%
 

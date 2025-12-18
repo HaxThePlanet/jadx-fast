@@ -131,6 +131,18 @@ pub fn convert_class(
                         }
                     }
                 }
+                // Parameter annotations
+                if let Ok(param_annots) = class_def.parameter_annotations(method.method_idx) {
+                    for param_annot_list in param_annots {
+                        let mut param_annotations = Vec::new();
+                        for annot_item in param_annot_list {
+                            if let Some(annotation) = convert_annotation_item(dex, &annot_item) {
+                                param_annotations.push(annotation);
+                            }
+                        }
+                        method_data.parameter_annotations.push(param_annotations);
+                    }
+                }
                 // Apply signature annotation to get generic type info
                 apply_signature_to_method(&mut method_data);
                 class_data.methods.push(method_data);
@@ -146,6 +158,18 @@ pub fn convert_class(
                         if let Some(annotation) = convert_annotation_item(dex, &annot_item) {
                             method_data.annotations.push(annotation);
                         }
+                    }
+                }
+                // Parameter annotations
+                if let Ok(param_annots) = class_def.parameter_annotations(method.method_idx) {
+                    for param_annot_list in param_annots {
+                        let mut param_annotations = Vec::new();
+                        for annot_item in param_annot_list {
+                            if let Some(annotation) = convert_annotation_item(dex, &annot_item) {
+                                param_annotations.push(annotation);
+                            }
+                        }
+                        method_data.parameter_annotations.push(param_annotations);
                     }
                 }
                 // Apply signature annotation to get generic type info
