@@ -20,6 +20,8 @@ pub enum Region {
         kind: LoopKind,
         condition: Option<Condition>,
         body: Box<Region>,
+        /// Detailed loop information for ForLoop/ForEach distinction (JADX parity)
+        details: Option<Box<LoopDetails>>,
     },
 
     /// Switch region

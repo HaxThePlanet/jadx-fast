@@ -28,7 +28,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Instructions | 85% | ✅ | All JADX types: MOVE_MULTI, STR_CONCAT, REGION_ARG, JSR/RET |
 | Instruction Args | 85% | ✅ | InsnWrapArg, NamedArg, This reference |
 | Class/Method/Field | 90% | ✅ | LoadStage, innerClasses, parent_class, dependencies, codegen_deps |
-| Regions | 72% | 🔶 | ForEachLoop/ForLoop distinction, IContainer hierarchy |
+| Regions | 82% | ✅ | ForEachLoop/ForLoop distinction integrated; IContainer hierarchy partial |
 | **Attribute System** | **100%** | ✅ | **60 AFlag (59 JADX + TmpEdge) + 37 AType (1:1 JADX parity)** |
 | **Class Hierarchy** | **100%** | ✅ | **TypeCompare, TypeUtils, visitSuperTypes, TypeVarMapping** |
 | SSA/Registers | 85% | ✅ | Full SSAVar, use-def chains, CodeVar, TypeBound |
@@ -38,6 +38,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Lazy Loading | 90% | ✅ | Excellent match with ProcessState pattern |
 
 ### Recent Improvements (2025-12-17)
+- **Regions** (72%→82%): ForLoop/ForEach distinction fully integrated - `Region::Loop` now carries `details: Option<Box<LoopDetails>>` with `ForLoopInfo` and `ForEachLoopInfo`; added `refine_loops_with_patterns()` to propagate pattern analysis into region tree
 - **Annotations** (78%→100%): Fixed nested annotation element name handling - single "value" element omits name, multiple elements include names, supports recursive nested annotations
 - **Attribute System** (80%→100%): Complete 1:1 JADX parity with 60 AFlag flags (59 JADX + TmpEdge) and 37 AType typed attributes
 - **Class Hierarchy** (85%→100%): Full TypeCompare engine with 8 result types, TypeVarMapping for generic substitution, visitSuperTypes visitor pattern, PrimitiveType width comparison
@@ -525,6 +526,7 @@ pub enum Region {
         kind: LoopKind,
         condition: Option<Condition>,
         body: Box<Region>,
+        details: Option<Box<LoopDetails>>,  // NEW: JADX ForLoop/ForEach parity
     },
 
     Switch {
@@ -559,6 +561,35 @@ pub enum LoopKind {
     For,
     ForEach,
     Endless,
+}
+
+/// Loop details for ForLoop/ForEach distinction (JADX parity)
+pub struct LoopDetails {
+    pub kind: LoopKind,
+    pub for_info: Option<ForLoopInfo>,
+    pub foreach_info: Option<ForEachLoopInfo>,
+}
+
+/// For-loop details (init, increment, loop variable)
+pub struct ForLoopInfo {
+    pub init_block: Option<u32>,
+    pub init_offset: Option<u32>,
+    pub incr_block: Option<u32>,
+    pub incr_offset: Option<u32>,
+    pub loop_var: Option<String>,
+    pub loop_var_reg: Option<(u16, u32)>,  // (reg_num, ssa_version)
+}
+
+/// For-each loop details (element variable, iterable source)
+pub struct ForEachLoopInfo {
+    pub elem_var: Option<String>,
+    pub elem_var_reg: Option<(u16, u32)>,
+    pub iterable: IterableSource,
+}
+
+pub enum IterableSource {
+    Array { array_reg: (u16, u32), index_reg: Option<(u16, u32)> },
+    Iterator { iterator_reg: (u16, u32) },
 }
 ```
 

@@ -15,7 +15,7 @@ use dexterity_passes::{
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
 };
-use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
+use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally, refine_loops_with_patterns};
 
 /// Result of decompiling a method
 #[derive(Debug)]
@@ -69,7 +69,7 @@ pub fn decompile_method(
 
     // Stage 3: Region reconstruction (preliminary - will be refined after SSA)
     // Build initial regions from CFG structure
-    let regions = dexterity_passes::region_builder::build_regions_with_try_catch(&cfg, &method.try_blocks);
+    let mut regions = dexterity_passes::region_builder::build_regions_with_try_catch(&cfg, &method.try_blocks);
 
     // Take blocks from CFG after dominance analysis (avoids clone)
     let blocks = cfg.take_blocks();
@@ -107,6 +107,10 @@ pub fn decompile_method(
     // Stage 5.8: Loop pattern analysis (for/foreach detection)
     let loops = detect_loops(&cfg);
     let loop_patterns = analyze_loop_patterns(&ssa, &loops);
+
+    // Stage 5.9: Refine loop regions with pattern details (JADX parity)
+    // Updates Loop regions with ForLoop/ForEach information for proper codegen
+    refine_loops_with_patterns(&mut regions, &loop_patterns);
 
     // Stage 6: Variable naming
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);

@@ -178,11 +178,25 @@ fn annotation_value_to_string(value: &AnnotationValue) -> String {
             format!("{}.{}", get_simple_name(class_name), field_name)
         }
         AnnotationValue::Annotation(nested) => {
-            // Nested annotation (rare case)
+            // Nested annotation - recursively render elements
             let mut s = String::from("@");
             s.push_str(nested.simple_name());
             if !nested.elements.is_empty() {
-                s.push_str("(...)");
+                s.push('(');
+                for (i, elem) in nested.elements.iter().enumerate() {
+                    if i > 0 {
+                        s.push_str(", ");
+                    }
+                    // Single "value" element can omit the name
+                    if nested.elements.len() == 1 && elem.name == "value" {
+                        s.push_str(&annotation_value_to_string(&elem.value));
+                    } else {
+                        s.push_str(&elem.name);
+                        s.push_str(" = ");
+                        s.push_str(&annotation_value_to_string(&elem.value));
+                    }
+                }
+                s.push(')');
             }
             s
         }

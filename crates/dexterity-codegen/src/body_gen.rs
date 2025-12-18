@@ -4002,7 +4002,11 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             kind,
             condition,
             body,
+            details,
         } => {
+            // Use loop details if available (JADX parity: ForLoop/ForEach distinction)
+            let _loop_details = details;
+
             // Emit pre-condition setup instructions (e.g., array.length() for loop bounds)
             // These instructions define variables used in the condition but are not part
             // of the condition itself (like "i2 = jSONArray.length()" before "i < i2")
@@ -4148,11 +4152,55 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                     gen_close_block(code);
                 }
                 LoopKind::ForEach => {
-                    // LoopKind::ForEach is set by SSA-level pattern analysis (loop_analysis.rs)
-                    // For now, fall back to while loop - iterator detection at codegen handles most cases
-                    gen_while_header(&condition_str, code);
-                    generate_region(body, ctx, code);
-                    gen_close_block(code);
+                    // LoopKind::ForEach is set by SSA-level pattern analysis
+                    // Use details if available for direct for-each generation
+                    let mut generated_foreach = false;
+
+                    if let Some(loop_details) = details {
+                        if let Some(foreach_info) = &loop_details.foreach_info {
+                            if let dexterity_ir::regions::IterableSource::Array { array_reg, index_reg: Some(_idx_reg) } = &foreach_info.iterable {
+                                // Get element variable name and type from register
+                                if let Some(elem_reg) = &foreach_info.elem_var_reg {
+                                    let elem_var_reg = dexterity_ir::instructions::RegisterArg::with_ssa(elem_reg.0, elem_reg.1);
+                                    let elem_var_name = ctx.expr_gen.get_var_name(&elem_var_reg);
+
+                                    // Get array expression and element type
+                                    let arr_reg = dexterity_ir::instructions::RegisterArg::with_ssa(array_reg.0, array_reg.1);
+                                    let array_expr = ctx.expr_gen.get_var_name(&arr_reg);
+
+                                    // Try to get element type from array type
+                                    let elem_type = ctx.type_info.as_ref()
+                                        .and_then(|ti| ti.types.get(&(elem_reg.0, elem_reg.1)))
+                                        .map(|t| type_to_string_with_imports(t, ctx.imports.as_ref()))
+                                        .unwrap_or_else(|| "Object".to_string());
+
+                                    // Generate for-each: for (Type elem : array)
+                                    code.start_line()
+                                        .add("for (")
+                                        .add(&elem_type)
+                                        .add(" ")
+                                        .add(&elem_var_name)
+                                        .add(" : ")
+                                        .add(&array_expr)
+                                        .add(") {")
+                                        .newline();
+                                    code.inc_indent();
+
+                                    generate_region(body, ctx, code);
+
+                                    gen_close_block(code);
+                                    generated_foreach = true;
+                                }
+                            }
+                        }
+                    }
+
+                    // Fall back to while loop if foreach generation didn't work
+                    if !generated_foreach {
+                        gen_while_header(&condition_str, code);
+                        generate_region(body, ctx, code);
+                        gen_close_block(code);
+                    }
                 }
             }
         }

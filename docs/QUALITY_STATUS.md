@@ -63,7 +63,7 @@
 
 ## Dexterity-IR Improvements (Dec 17, 2025)
 
-**IR Parity:** 82% → **89%** (Regions: 72% → 80%+)
+**IR Parity:** 82% → **91%** (Regions: 72% → 82%)
 **Key Achievement:** 100% JADX parity for **Attribute System** (60 AFlag + 37 AType) and **Class Hierarchy** (TypeCompare, TypeVarMapping, visitSuperTypes)
 
 **Completed:**
@@ -94,6 +94,13 @@
 - Added `IteratorForEachPattern` detection (hasNext()/next() pattern)
 - Added `analyze_loop_patterns_enhanced()` returning full `LoopDetails`
 - Added `From` implementations for pattern-to-info conversion
+
+**Phase 4: ForLoop/ForEach Region Integration** (`crates/dexterity-passes/src/region_builder.rs`, `crates/dexterity-codegen/src/body_gen.rs`)
+- Extended `Region::Loop` with `details: Option<Box<LoopDetails>>` for JADX parity
+- Added `refine_loops_with_patterns()` to propagate pattern analysis into region tree
+- Updated decompiler pipeline to call `refine_loops_with_patterns()` after loop analysis
+- Enhanced `LoopKind::ForEach` codegen to use `LoopDetails` for direct for-each generation
+- Added tests for loop refinement and nested loop traversal
 
 See ROADMAP.md for details.
 

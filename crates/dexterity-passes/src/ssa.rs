@@ -908,8 +908,10 @@ mod tests {
         b3.predecessors = vec![1, 2];
         blocks.insert(3, b3);
 
+        // Convert BTreeMap to Vec for BlockSplitResult
+        let blocks_vec: Vec<BasicBlock> = blocks.into_values().collect();
         BlockSplitResult {
-            blocks,
+            blocks: blocks_vec,
             entry_block: 0,
             exit_blocks: vec![3],
         }
@@ -965,7 +967,7 @@ mod tests {
     #[test]
     fn test_empty_blocks() {
         let blocks = BlockSplitResult {
-            blocks: BTreeMap::new(),
+            blocks: Vec::new(),
             entry_block: 0,
             exit_blocks: Vec::new(),
         };
