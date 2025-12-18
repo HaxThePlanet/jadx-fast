@@ -10,19 +10,19 @@
 
 Dexterity's code generation module achieves approximately **78% feature parity** with JADX's mature codegen implementation. **Simple APKs produce identical output**, but complex APKs reveal significant type inference and control flow issues.
 
-| Component | Parity | Status |
-|-----------|--------|--------|
-| Class Generation | 85% | Production Ready |
-| Method Generation | 90% | Production Ready |
-| Expression Generation | 70% | Needs Improvement |
-| Control Flow | 75% | Needs Improvement |
-| Condition Generation | 70% | Needs Improvement |
-| Type Generation | 80% | Production Ready |
-| **Instruction Types** | **100%** | **Production Ready** |
-| Annotation Generation | 95% | Production Ready |
-| Variable Naming | 80% | Production Ready |
-| Code Quality | 70% | Needs Improvement |
-| Special Cases | 75% | Production Ready |
+| Component | Parity | Status | Difficulty |
+|-----------|--------|--------|------------|
+| Class Generation | 85% | Production Ready | Medium |
+| Method Generation | 90% | Production Ready | Easy |
+| Expression Generation | 70% | Needs Improvement | Hard |
+| Control Flow | 75% | Needs Improvement | Hard |
+| Condition Generation | 70% | Needs Improvement | Hard |
+| Type Generation | 80% | Production Ready | Medium |
+| **Instruction Types** | **100%** | **Production Ready** | Done |
+| Annotation Generation | 95% | Production Ready | Easy |
+| Variable Naming | 80% | Production Ready | Medium |
+| Code Quality | 70% | Needs Improvement | Medium |
+| Special Cases | 75% | Production Ready | Hard |
 
 ---
 
