@@ -235,30 +235,37 @@ Benchmarks on 56-thread system:
 
 ### Core Scaling
 
-Benchmark on 9MB APK (5,501 classes, 2 DEX files) showing parallel scaling efficiency:
+#### After SSA Optimization (Jan 2025)
+
+Benchmark on 11MB APK (HoYoverse) on RAM disk showing parallel scaling efficiency with instruction cloning eliminated:
 
 ```
 Cores │ Time    │ Speedup │ Efficiency
 ──────┼─────────┼─────────┼───────────
-    1 │ 36.99s  │   1.0x  │   100%
-    2 │ 18.30s  │   2.0x  │   101%
-    4 │  9.45s  │   3.9x  │    98%
-    8 │  5.09s  │   7.3x  │    91%  ◀─ sweet spot
-   12 │  3.63s  │  10.2x  │    85%
-   16 │  2.91s  │  12.7x  │    79%  ◀─ diminishing returns start
-   24 │  2.18s  │  17.0x  │    71%
-   32 │  1.83s  │  20.2x  │    63%
-   48 │  1.49s  │  24.8x  │    52%
-   64 │  1.37s  │  27.0x  │    42%
-  112 │  1.26s  │  29.4x  │    26%
+    1 │ 121.14s │   1.0x  │   100%
+    2 │  64.20s │   1.9x  │    94%
+    4 │  29.84s │   4.1x  │   101%  ◀─ superlinear
+    8 │  15.04s │   8.1x  │   101%  ◀─ sweet spot - 19.8% faster
+   12 │  10.63s │  11.4x  │    95%
+   16 │   8.11s │  14.9x  │    93%
+   24 │   6.14s │  19.7x  │    82%
+   32 │   5.51s │  22.0x  │    69%
+   48 │   4.66s │  26.0x  │    54%
+   56 │   4.59s │  26.4x  │    47%
 ```
 
+**Performance Improvement (vs pre-optimization):**
+- **8 cores: 19.8% faster** (15.04s vs 18.75s) - restored superlinear scaling
+- **16 cores: 4.7% faster** (8.11s vs 8.51s) - better cache efficiency
+- **24 cores: 6.4% faster** (6.14s vs 6.56s) - reduced allocator contention
+- **32 cores: 4.8% faster** (5.51s vs 5.79s) - improved scaling
+
 **Key findings:**
-- **Near-linear scaling up to 8 cores** (91% efficiency)
-- **Sweet spot: 8-16 cores** - best performance per watt
-- **Diminishing returns after 16 cores** - efficiency drops below 80%
-- **64→112 cores gives only 8% speedup** - thread coordination overhead dominates
-- **29.4x speedup on 112 cores** - excellent parallel performance
+- **Superlinear scaling at 4-8 cores** (101% efficiency) after SSA instruction cloning eliminated
+- **Linear scaling up to 16 cores** (93% efficiency)
+- **Sweet spot: 8 cores** - best balance of speed and efficiency
+- **Diminishing returns after 24 cores** - thread coordination overhead grows
+- **26.4x speedup on 56 cores** - excellent parallel performance
 
 **Framework Filtering:** By default, Dexterity skips framework classes (`android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`) for faster output and smaller size. Use `--include-framework` to include them.
 
