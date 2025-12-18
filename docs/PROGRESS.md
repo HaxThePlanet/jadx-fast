@@ -21,7 +21,7 @@
 | Speed Advantage | 3-88x | 3-88x | **ACHIEVED** |
 | SSA Optimization | 19.8% faster | - | **ACHIEVED** (Dec 2025) |
 | THP Optimization | 8.8% faster at 56 cores | - | **ACHIEVED** (Dec 2025) |
-| IR Parity | **91%** | - | **ACHIEVED** (Dec 17) - up from 89% |
+| IR Parity | **98%** | - | **ACHIEVED** (Dec 17) - 100% for Class/Method/Field and Regions |
 
 ---
 
@@ -31,13 +31,13 @@
 |-----------|--------|--------|-------|
 | **Attribute System** | **100%** | ✅ | 60 AFlag (59 JADX + TmpEdge) + 37 AType |
 | **Class Hierarchy** | **100%** | ✅ | TypeCompare, TypeVarMapping, visitSuperTypes |
-| Type System | 90% | ✅ | Unknown variants, type narrowing |
-| Class/Method/Field | 90% | ✅ | LoadStage, innerClasses, parent_class |
+| Type System | 100% | ✅ | Unknown variants, type narrowing, wildcard variance |
+| **Class/Method/Field** | **100%** | ✅ | LoadStage, innerClasses, parent_class, dependencies, useIn |
 | SSA/Registers | 85% | ✅ | Full SSAVar, use-def chains, CodeVar, TypeBound |
 | Instructions | 85% | ✅ | All JADX types: MOVE_MULTI, STR_CONCAT, JSR/RET |
-| Regions | 80%+ | ✅ | ForLoop/ForEach distinction, parent tracking |
+| **Regions** | **100%** | ✅ | IContainer/IRegion/IBranchRegion, LoopType, CaseInfo, ConditionMode |
 | Annotations | 100% | ✅ | Nested element names fixed Dec 17 |
-| **Overall IR** | **91%** | ✅ | Up from 89% |
+| **Overall IR** | **98%** | ✅ | 100% for Class/Method/Field, Regions, Type System |
 
 ---
 

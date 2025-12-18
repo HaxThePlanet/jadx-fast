@@ -384,7 +384,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 | Crate | Purpose | JADX Parity |
 |-------|---------|-------------|
 | `dexterity-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) ([parity details](docs/DEX_PARITY.md)) | **100%** |
-| `dexterity-ir` | Intermediate representation, SSA, class hierarchy ([parity details](docs/JADX_DEXTERITY_IR_REFERENCE.md)) | **91%** |
+| `dexterity-ir` | Intermediate representation, SSA, class hierarchy ([parity details](docs/JADX_DEXTERITY_IR_REFERENCE.md)) | **98%** |
 | `dexterity-passes` | Type inference, region reconstruction, optimization ([parity details](docs/PASSES_COMPARISON.md)) | **95%** |
 | `dexterity-codegen` | Java source generation ([parity details](docs/CODEGEN_PARITY.md)) | **94%** |
 | `dexterity-resources` | AXML and resources.arsc decoding | **100%** |
