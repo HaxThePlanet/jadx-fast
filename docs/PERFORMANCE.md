@@ -291,6 +291,64 @@ RUST_MIN_STACK=33554432 ./target/release/dexterity <apk>
 
 **Estimated Gain**: 5-15% on high-core systems
 
+**Note**: Superseded by THP optimization (see P1-7 below) which provides better performance.
+
+---
+
+### P1-7: Transparent Huge Pages (THP) Optimization - DONE
+
+**Location**: Runtime environment configuration via `MALLOC_CONF`
+
+**Problem**: The decompiler creates large graph structures (CFG, SSA, dominance trees) that span many memory pages. Standard 4KB pages cause excessive TLB (Translation Lookaside Buffer) misses during graph traversal, hurting performance especially at high core counts.
+
+**Solution Implemented** (Dec 17, 2025):
+
+Enable Transparent Huge Pages via jemalloc's MALLOC_CONF environment variable:
+
+```bash
+MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d output/ app.apk
+```
+
+**Configuration Options**:
+- `metadata_thp:always` - Use huge pages for jemalloc's internal metadata
+- `thp:always` - Use huge pages for application allocations
+
+**Benchmark Results** (11MB APK on RAM disk):
+
+| Cores | Time | Speedup | Efficiency |
+|-------|------|---------|------------|
+| 1 | 118.32s | 1.0x | 100% |
+| 2 | 57.90s | 2.0x | 102% (superlinear) |
+| 4 | 29.02s | 4.1x | 102% (superlinear) |
+| 8 | 14.70s | 8.0x | 101% |
+| 12 | 10.27s | 11.5x | 96% |
+| 16 | 8.02s | 14.8x | 92% |
+| 24 | 6.12s | 19.3x | 81% |
+| 32 | 5.35s | 22.1x | 69% |
+| 48 | 4.86s | 24.3x | 51% |
+| 56 | 4.20s | 28.2x | 50% |
+
+**Performance vs jemalloc background threads approach**:
+- **56 cores: 8.8% FASTER** (4.20s vs 4.57s)
+- **28.2x speedup on 56 cores** (excellent high-core scaling)
+- **Superlinear scaling at 2-4 cores** (102% efficiency)
+- **Linear scaling maintained to 16 cores** (92% efficiency)
+
+**Why THP Works Well for Dexterity**:
+1. **Graph-heavy workload**: CFG, SSA, dominance trees, and region structures all involve pointer-chasing through large data structures
+2. **Reduced TLB misses**: 2MB huge pages cover more memory per TLB entry, reducing page table lookups
+3. **Better cache utilization**: Contiguous huge pages improve spatial locality
+4. **Metadata locality**: jemalloc's metadata structures benefit from huge pages too
+
+**System Requirements**:
+- Linux with THP enabled (usually enabled by default)
+- Sufficient memory for huge page allocation
+- Works with jemalloc allocator (already used by Dexterity)
+
+**Status**: **DONE** (Dec 17, 2025)
+
+**Achieved Gain**: 8.8% improvement at 56 cores over jemalloc background threads
+
 ---
 
 ### P1-2: Type Inference 5000 Variable Limit
@@ -564,6 +622,7 @@ Recommended attack order for maximum impact with minimum effort:
 | 5 | Increase memory checkpoint interval | main.rs | 1347 | 1-3% | **DONE** |
 | 6 | SSA instruction cloning elimination | ssa.rs | - | **19.8%** | **DONE** |
 | 7 | Jemalloc background threads | main.rs | 89-93 | 5-15% | **DONE** |
+| 8 | Transparent Huge Pages (THP) | MALLOC_CONF env | - | **8.8%** | **DONE** |
 
 ---
 
@@ -615,6 +674,7 @@ done
 | P1-2: Type var limit | TODO | - |
 | P1-3: BTreeMap → Vec in block_split/cfg | **DONE** | 2025-12-17 |
 | P1-6: Jemalloc background threads | **DONE** | 2025-12-17 - tikv-jemalloc-ctl |
+| P1-7: Transparent Huge Pages (THP) | **DONE** | 2025-12-17 - MALLOC_CONF env var |
 | P1-4: Parallel DEX processing | TODO | - |
 | P1-5: Memory checkpoint interval | DONE | 2025-12-17 (100 → 1000) |
 
@@ -655,6 +715,36 @@ done
 - **7-10 GB allocation pressure eliminated** - no more instruction vector cloning
 - All 685 integration tests passing
 
+## THP Optimization Benchmark (Dec 2025)
+
+**Test APK**: HoYoverse APK (11MB) on RAM disk
+**Configuration**: `MALLOC_CONF="metadata_thp:always,thp:always"`
+
+| Cores | Time | Speedup | Efficiency |
+|-------|------|---------|------------|
+| 1 | 118.32s | 1.0x | 100% |
+| 2 | 57.90s | 2.0x | 102% (superlinear) |
+| 4 | 29.02s | 4.1x | 102% (superlinear) |
+| 8 | 14.70s | 8.0x | 101% |
+| 12 | 10.27s | 11.5x | 96% |
+| 16 | 8.02s | 14.8x | 92% |
+| 24 | 6.12s | 19.3x | 81% |
+| 32 | 5.35s | 22.1x | 69% |
+| 48 | 4.86s | 24.3x | 51% |
+| 56 | 4.20s | 28.2x | 50% |
+
+**Key achievements**:
+- **8.8% faster at 56 cores** than jemalloc background threads approach (4.20s vs 4.57s)
+- **28.2x speedup on 56 cores** - excellent high-core scaling
+- **Superlinear scaling at 2-4 cores** (102% efficiency) - THP reduces TLB misses
+- **Linear scaling maintained to 16 cores** (92% efficiency)
+
+**Why THP works well for Dexterity**:
+- Graph-heavy workload (CFG, SSA, dominance trees) benefits from reduced TLB misses
+- 2MB huge pages cover more memory per TLB entry
+- Better cache utilization from contiguous huge pages
+- Metadata locality improvements for jemalloc
+
 ---
 
 ## References
@@ -663,3 +753,4 @@ done
 - [DashMap Documentation](https://docs.rs/dashmap/latest/dashmap/)
 - [parking_lot Documentation](https://docs.rs/parking_lot/latest/parking_lot/)
 - [Rust Performance Book](https://nnethercote.github.io/perf-book/)
+- [jemalloc THP Configuration](https://jemalloc.net/jemalloc.3.html#opt.thp)

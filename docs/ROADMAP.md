@@ -405,6 +405,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] SSA instruction cloning optimization - **DONE** (Dec 2025) - `transform_to_ssa_owned()` moves instructions instead of cloning, 19.8% faster at 8 cores, 7-10GB allocation pressure eliminated
 - [x] BTreeMap → Vec block storage optimization - **DONE** (Dec 17, 2025) - `BlockSplitResult.blocks` and `CFG.blocks` now use `Vec<BasicBlock>` for O(1) direct index access (block IDs are dense sequential integers)
 - [x] Jemalloc background threads - **DONE** (Dec 17, 2025) - Offloads free() to background threads for 56-core scaling, requires `RUST_MIN_STACK=33554432` for deep CFG recursion
+- [x] Transparent Huge Pages (THP) optimization - **DONE** (Dec 17, 2025) - 8.8% faster at 56 cores via `MALLOC_CONF="metadata_thp:always,thp:always"`, reduces TLB misses for graph-heavy workload, 28.2x speedup on 56 cores, superlinear scaling at 2-4 cores (102% efficiency)
 
 ### Type Inference ([JADX_TYPE_INFERENCE.md](JADX_TYPE_INFERENCE.md))
 - [x] AssignBound vs UseBound separation

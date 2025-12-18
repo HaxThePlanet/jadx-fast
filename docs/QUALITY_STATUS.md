@@ -41,10 +41,23 @@
 | large.apk | 51.5 MB | 6.502s | 19.577s | **3.01x** |
 
 **Recent Optimizations (Dec 2025):**
+- Transparent Huge Pages (THP) via `MALLOC_CONF="metadata_thp:always,thp:always"` - 8.8% faster at 56 cores, 28.2x speedup
 - SSA instruction cloning eliminated via `transform_to_ssa_owned()`, resulting in 19.8% faster at 8 cores
 - BTreeMap → Vec optimization for block storage (O(1) vs O(log N) lookups)
 - Jemalloc background threads for 56-core scaling (offloads free() to background threads)
 - See [PERFORMANCE.md](PERFORMANCE.md) for detailed benchmarks
+
+**THP Core Scaling** (11MB APK on RAM disk with `MALLOC_CONF="metadata_thp:always,thp:always"`):
+
+| Cores | Time | Speedup | Efficiency |
+|-------|------|---------|------------|
+| 1 | 118.32s | 1.0x | 100% |
+| 2 | 57.90s | 2.0x | 102% (superlinear) |
+| 4 | 29.02s | 4.1x | 102% (superlinear) |
+| 8 | 14.70s | 8.0x | 101% |
+| 16 | 8.02s | 14.8x | 92% |
+| 32 | 5.35s | 22.1x | 69% |
+| 56 | 4.20s | 28.2x | 50% |
 
 ---
 

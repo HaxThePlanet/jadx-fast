@@ -20,7 +20,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 
 ## IR Parity Summary (0-100%)
 
-**Overall IR Parity: ~82%** (Updated 2025-12-17)
+**Overall IR Parity: ~86%** (Updated 2025-12-17)
 
 | Component | Parity | Status | Notes |
 |-----------|--------|--------|-------|
@@ -29,7 +29,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Instruction Args | 85% | ✅ | InsnWrapArg, NamedArg, This reference |
 | Class/Method/Field | 90% | ✅ | LoadStage, innerClasses, parent_class, dependencies, codegen_deps |
 | Regions | 72% | 🔶 | ForEachLoop/ForLoop distinction, IContainer hierarchy |
-| Attribute System | 80% | ✅ | 55+ JADX flags (was 13), organized by category |
+| **Attribute System** | **100%** | ✅ | **59 AFlag + 37 AType (1:1 JADX parity)** |
 | Class Hierarchy | 85% | ✅ | Minor: integrated type comparison |
 | SSA/Registers | 85% | ✅ | Full SSAVar, use-def chains, CodeVar, TypeBound |
 | Exception Handling | 70% | 🔶 | Block-level tracking, multi-catch type lists |
@@ -38,8 +38,8 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Lazy Loading | 90% | ✅ | Excellent match with ProcessState pattern |
 
 ### Recent Improvements (2025-12-17)
+- **Attribute System** (80%→100%): Complete 1:1 JADX parity with 59 AFlag flags and 37 AType typed attributes
 - **Class/Method/Field** (68%→90%): Added LoadStage enum, inner_classes, parent_class, dependencies, codegen_deps
-- **AFlag System** (55%→80%): Added 55+ JADX-compatible attribute flags
 - **SSA Infrastructure** (60%→85%): Full SSAVar, TypeInfo, CodeVar, TypeBound
 - **Instruction Args** (65%→85%): InsnWrapArg, NamedArg, This variants
 - **Instructions** (70%→85%): MoveMulti, StrConcat, RegionArg, Constructor, JavaJsr/Ret
@@ -656,34 +656,55 @@ node.contains(AFlag.SYNTHETIC);
 node.get(AType.LOOP);
 ```
 
-### Dexterity Attributes
+### Dexterity Attributes (100% JADX Parity)
 
 ```rust
 pub struct AttributeStorage {
-    flags: u64,
-    attrs: HashMap<TypeId, Box<dyn Any + Send + Sync>>,
+    flags: u64,  // 59 AFlag bits
+    attrs: HashMap<TypeId, Box<dyn Any + Send + Sync>>,  // 37 AType types
 }
 
+/// 59 flags matching JADX's AFlag enum exactly (1:1 order)
 #[repr(u8)]
 pub enum AFlag {
-    Synthetic = 0,
-    DontGenerate = 1,
-    DontInline = 2,
-    SkipFirstArg = 3,
-    ThisArg = 5,
-    LoopStart = 8,
-    LoopEnd = 9,
-    FinallyInsns = 10,
-    DontWrap = 11,
-    TmpEdge = 12,
+    MthEnterBlock = 0,   // MTH_ENTER_BLOCK
+    MthExitBlock = 1,    // MTH_EXIT_BLOCK
+    TryEnter = 2,        // TRY_ENTER
+    TryLeave = 3,        // TRY_LEAVE
+    LoopStart = 4,       // LOOP_START
+    LoopEnd = 5,         // LOOP_END
+    Synthetic = 6,       // SYNTHETIC
+    Return = 7,          // RETURN
+    // ... 51 more flags in exact JADX order
+    ComputePostDom = 58, // COMPUTE_POST_DOM
 }
 
-// Usage
+/// 37 typed attributes matching JADX's AType<T> system exactly
+pub enum AType {
+    CodeComments,        // AType<AttrList<CodeComment>>
+    RenameReason,        // AType<RenameReasonAttr>
+    JadxError,           // AType<AttrList<JadxError>>
+    EnumClass,           // AType<EnumClassAttr>
+    MethodInline,        // AType<MethodInlineAttr>
+    MethodOverride,      // AType<MethodOverrideAttr>
+    PhiList,             // AType<PhiListAttr>
+    Loop,                // AType<AttrList<LoopInfo>>
+    ExcHandler,          // AType<ExcHandlerAttr>
+    // ... 28 more typed attributes
+}
+
+// Usage (same semantics as JADX)
 storage.add_flag(AFlag::Synthetic);
 storage.has_flag(AFlag::Synthetic);
+storage.add_attr(LoopInfo::new(1, 0, 5, blocks));
+storage.get_attr::<LoopInfo>();
 ```
 
-**Key Difference:** JADX uses a rich typed attribute system (`AType<T>`) with generics. Dexterity uses a simpler bitfield for flags with a generic `HashMap` for complex attributes.
+**Parity Achievement:** Dexterity now has complete 1:1 parity with JADX's attribute system:
+- **59 AFlag flags** matching JADX's `AFlag` enum in identical order
+- **37 AType typed attributes** matching JADX's `AType<T>` system
+- **Full typed attribute structs** for LoopInfo, PhiListAttr, MethodInlineAttr, etc.
+- **JADX name conversion** via `from_jadx_name()` / `to_jadx_name()` methods
 
 ---
 

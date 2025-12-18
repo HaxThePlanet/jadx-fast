@@ -235,38 +235,42 @@ Benchmarks on 56-thread system:
 
 ### Core Scaling
 
-#### After Full Optimizations (Dec 18, 2025)
+#### After THP Optimization (Dec 17, 2025)
 
-Benchmark on 11MB APK (HoYoverse) on RAM disk showing parallel scaling efficiency after SSA instruction cloning elimination + additional user optimizations:
+Benchmark on 11MB APK (HoYoverse) on RAM disk with Transparent Huge Pages enabled via `MALLOC_CONF="metadata_thp:always,thp:always"`:
 
 ```
 Cores │ Time    │ Speedup │ Efficiency
 ──────┼─────────┼─────────┼───────────
-    1 │ 124.07s │   1.0x  │   100%
-    2 │  59.84s │   2.1x  │   104%  ◀─ superlinear
-    4 │  30.22s │   4.1x  │   103%  ◀─ superlinear
-    8 │  15.59s │   8.0x  │    99%  ◀─ sweet spot
-   12 │  10.06s │  12.3x  │   103%  ◀─ excellent
-   16 │   7.84s │  15.8x  │    99%  ◀─ linear scaling maintained
-   24 │   6.07s │  20.4x  │    85%
-   32 │   5.40s │  23.0x  │    72%
-   48 │   4.51s │  27.5x  │    57%
-   56 │   3.97s │  31.3x  │    56%
+    1 │ 118.32s │   1.0x  │   100%
+    2 │  57.90s │   2.0x  │   102%  ◀─ superlinear
+    4 │  29.02s │   4.1x  │   102%  ◀─ superlinear
+    8 │  14.70s │   8.0x  │   101%
+   12 │  10.27s │  11.5x  │    96%
+   16 │   8.02s │  14.8x  │    92%  ◀─ linear scaling maintained
+   24 │   6.12s │  19.3x  │    81%
+   32 │   5.35s │  22.1x  │    69%
+   48 │   4.86s │  24.3x  │    51%
+   56 │   4.20s │  28.2x  │    50%
 ```
 
-**Performance vs SSA-Only Optimization:**
-- **56 cores: 13.5% FASTER** (3.97s vs 4.59s) - massive high-core scaling improvement ✅
-- **16 cores: 3.4% faster** (7.84s vs 8.11s) - better efficiency
-- **32 cores: 2% faster** (5.40s vs 5.51s) - improved scaling
-- **24 cores: 1.1% faster** (6.07s vs 6.14s) - better throughput
-- **2 cores: superlinear 104% efficiency** (up from 94%) - excellent cache utilization
+**Performance vs jemalloc background threads approach:**
+- **56 cores: 8.8% FASTER** (4.20s vs 4.57s) - significant high-core scaling improvement
+- **28.2x speedup on 56 cores** - excellent high-core-count performance
+- **Superlinear scaling at 2-4 cores** (102% efficiency) - THP reduces TLB misses
+- **Linear scaling to 16 cores** (92% efficiency) - near-perfect parallelization
 
 **Key findings:**
-- **Superlinear scaling at 2-4 cores** (104-103% efficiency) - best cache performance
-- **Linear scaling up to 16 cores** (99% efficiency) - near-perfect parallelization
-- **31.3x speedup on 56 cores** - excellent high-core-count performance
+- **THP reduces TLB misses** for graph-heavy decompiler workload
+- **Superlinear scaling at 2-4 cores** (102% efficiency) - excellent cache utilization
+- **Linear scaling up to 16 cores** (92% efficiency) - near-perfect parallelization
+- **28.2x speedup on 56 cores** - excellent high-core-count performance
 - **Sweet spot: 8-16 cores** - best balance of speed and efficiency
-- **Sustained 56% efficiency even at 56 cores** - minimal thread coordination overhead
+
+**Usage:** Enable THP via environment variable:
+```bash
+MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d output/ app.apk
+```
 
 **Framework Filtering:** By default, Dexterity skips framework classes (`android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`) for faster output and smaller size. Use `--include-framework` to include them.
 

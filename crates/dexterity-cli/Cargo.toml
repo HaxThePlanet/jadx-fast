@@ -27,7 +27,6 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 zip.workspace = true
 tikv-jemallocator = "0.6"
-tikv-jemalloc-ctl = "0.6"
 rustc-hash.workspace = true
 tokio = { version = "1", features = ["full"] }
 walkdir = "2"

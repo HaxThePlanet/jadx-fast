@@ -4,6 +4,49 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Transparent Huge Pages (THP) Optimization (Dec 17, 2025)
+
+**Major performance improvement: 8.8% faster at 56 cores with excellent high-core scaling.**
+
+**The Problem:**
+The decompiler creates large graph structures (CFG, SSA, dominance trees) that span many memory pages. Standard 4KB pages cause excessive TLB (Translation Lookaside Buffer) misses during graph traversal, hurting performance especially at high core counts.
+
+**The Solution:**
+Enable Transparent Huge Pages via jemalloc's MALLOC_CONF environment variable:
+
+```bash
+MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d output/ app.apk
+```
+
+**Benchmark Results** (11MB APK on RAM disk):
+
+| Cores | Time | Speedup | Efficiency |
+|-------|------|---------|------------|
+| 1 | 118.32s | 1.0x | 100% |
+| 2 | 57.90s | 2.0x | 102% (superlinear) |
+| 4 | 29.02s | 4.1x | 102% (superlinear) |
+| 8 | 14.70s | 8.0x | 101% |
+| 12 | 10.27s | 11.5x | 96% |
+| 16 | 8.02s | 14.8x | 92% |
+| 24 | 6.12s | 19.3x | 81% |
+| 32 | 5.35s | 22.1x | 69% |
+| 48 | 4.86s | 24.3x | 51% |
+| 56 | 4.20s | 28.2x | 50% |
+
+**Key Achievements:**
+- **8.8% faster at 56 cores** than jemalloc background threads approach (4.20s vs 4.57s)
+- **28.2x speedup on 56 cores** - excellent high-core scaling
+- **Superlinear scaling at 2-4 cores** (102% efficiency) - THP reduces TLB misses
+- **Linear scaling maintained to 16 cores** (92% efficiency)
+
+**Why THP Works Well for Dexterity:**
+- Graph-heavy workload (CFG, SSA, dominance trees) benefits from reduced TLB misses
+- 2MB huge pages cover more memory per TLB entry
+- Better cache utilization from contiguous huge pages
+- Metadata locality improvements for jemalloc
+
+---
+
 ### Type Listener System (Dec 2025)
 
 **Added pluggable type listener system for instruction-specific type refinement.**

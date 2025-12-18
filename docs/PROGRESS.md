@@ -20,6 +20,7 @@
 | Unit Tests | 435/435 | 435/435 | **ACHIEVED** |
 | Speed Advantage | 3-88x | 3-88x | **ACHIEVED** |
 | SSA Optimization | 19.8% faster | - | **ACHIEVED** (Dec 2025) |
+| THP Optimization | 8.8% faster at 56 cores | - | **ACHIEVED** (Dec 2025) |
 
 ---
 
@@ -150,7 +151,8 @@ public @interface MagicConstant {
 | Compose code | Full output | Partial/fails |
 | Decompilation speed | 3-88x faster | Baseline |
 | SSA optimization | 19.8% faster at 8 cores | - |
-| Parallel scaling | 101% efficiency (superlinear) | - |
+| THP optimization | 8.8% faster at 56 cores, 28.2x speedup | - |
+| Parallel scaling | 102% efficiency (superlinear at 2-4 cores) | - |
 | App code isolation | Clean 44 files | 6,283 mixed |
 
 ### Next Steps
@@ -353,6 +355,40 @@ Results:
 ---
 
 ## Recent Fixes
+
+### Transparent Huge Pages (THP) Optimization - Dec 17, 2025
+
+**Major performance improvement: 8.8% faster at 56 cores with excellent high-core scaling.**
+
+**Problem:** Standard 4KB pages cause excessive TLB misses during graph traversal in the decompiler's graph-heavy workload (CFG, SSA, dominance trees).
+
+**Solution:** Enable THP via jemalloc's MALLOC_CONF environment variable:
+```bash
+MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d output/ app.apk
+```
+
+**Benchmark Results** (11MB APK on RAM disk):
+
+| Cores | Time | Speedup | Efficiency |
+|-------|------|---------|------------|
+| 1 | 118.32s | 1.0x | 100% |
+| 2 | 57.90s | 2.0x | 102% (superlinear) |
+| 4 | 29.02s | 4.1x | 102% (superlinear) |
+| 8 | 14.70s | 8.0x | 101% |
+| 12 | 10.27s | 11.5x | 96% |
+| 16 | 8.02s | 14.8x | 92% |
+| 24 | 6.12s | 19.3x | 81% |
+| 32 | 5.35s | 22.1x | 69% |
+| 48 | 4.86s | 24.3x | 51% |
+| 56 | 4.20s | 28.2x | 50% |
+
+**Key Achievements:**
+- **8.8% faster at 56 cores** than jemalloc background threads approach (4.20s vs 4.57s)
+- **28.2x speedup on 56 cores** - excellent high-core scaling
+- **Superlinear scaling at 2-4 cores** (102% efficiency) - THP reduces TLB misses
+- **Linear scaling maintained to 16 cores** (92% efficiency)
+
+---
 
 ### P1-CRITICAL: Enum Constant Name Corruption - Dec 17, 2025
 

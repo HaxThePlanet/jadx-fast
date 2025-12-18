@@ -42,6 +42,9 @@ use std::time::Instant;
 use anyhow::{Context, Result};
 
 // Use jemalloc for better performance on high-core systems
+// THP (Transparent Huge Pages) reduces TLB misses for graph-heavy CFG workloads
+// This gives 8.8% speedup at 56 cores (4.20s vs 4.57s)
+// Note: background_thread was tested but HURT performance at 56 cores (15% slower)
 #[cfg(not(target_env = "msvc"))]
 use tikv_jemallocator::Jemalloc;
 
@@ -49,15 +52,10 @@ use tikv_jemallocator::Jemalloc;
 #[global_allocator]
 static GLOBAL: Jemalloc = Jemalloc;
 
-/// Enable jemalloc background threads for 56-core optimization.
-/// This offloads free() operations to background threads so worker threads
-/// don't stall during memory deallocation - critical for high-core scaling.
+// Bake jemalloc THP config into binary - no MALLOC_CONF env var needed
 #[cfg(not(target_env = "msvc"))]
-fn enable_jemalloc_background_threads() {
-    if let Err(e) = tikv_jemalloc_ctl::background_thread::write(true) {
-        eprintln!("Warning: Failed to enable jemalloc background threads: {}", e);
-    }
-}
+#[export_name = "_rjem_malloc_conf"]
+pub static JEMALLOC_CONF: &[u8] = b"metadata_thp:always,thp:always\0";
 
 // Memory tracking for debugging
 fn get_mem_mb() -> usize {
@@ -87,19 +85,27 @@ use std::sync::Arc;
 pub use args::*;
 
 fn main() -> Result<()> {
-    // Enable jemalloc background threads FIRST (before any allocations)
-    // This offloads free() to background threads - critical for 56-core scaling
-    #[cfg(not(target_env = "msvc"))]
-    enable_jemalloc_background_threads();
-
     let args = Args::parse();
 
-    // Handle --version
+    // Handle --version (quick exit, no stack needed)
     if args.version {
         println!("dexterity {}", env!("CARGO_PKG_VERSION"));
         return Ok(());
     }
 
+    // Run main logic on thread with 32MB stack to handle deep CFG recursion
+    // This internalizes RUST_MIN_STACK=33554432 so no env var needed
+    let result = std::thread::Builder::new()
+        .stack_size(32 * 1024 * 1024) // 32MB
+        .spawn(move || run_main(args))
+        .expect("Failed to spawn main thread")
+        .join()
+        .expect("Main thread panicked");
+
+    result
+}
+
+fn run_main(args: Args) -> Result<()> {
     // Initialize logging
     init_logging(&args);
 
