@@ -6123,11 +6123,18 @@ fn generate_insn<W: CodeWriter>(
             code.add(";").newline();
             true
         }
-        InsnType::Constructor { dest, args, .. } => {
+        InsnType::Constructor { dest, type_idx, args, .. } => {
             // Constructor: dest = new Type(args)
             code.start_line();
             code.add(&ctx.expr_gen.get_var_name(dest));
-            code.add(" = new ...(");
+            code.add(" = new ");
+
+            // Get type name from type_idx
+            let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                .unwrap_or_else(|| format!("UnknownType{}", type_idx));
+            code.add(&type_name);
+
+            code.add("(");
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 { code.add(", "); }
                 ctx.expr_gen.write_arg(code, arg);

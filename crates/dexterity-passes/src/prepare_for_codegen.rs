@@ -27,6 +27,10 @@ pub struct PrepareForCodeGenResult {
     pub redundant_moves_removed: usize,
     /// Number of instructions marked for no-wrap (parenthesis optimization)
     pub no_wrap_marked: usize,
+    /// Number of CONSTRUCTOR instructions synthesized
+    pub constructors_synthesized: usize,
+    /// Number of STR_CONCAT instructions synthesized
+    pub str_concat_synthesized: usize,
 }
 
 /// Check if a binary operation is associative (can be chained without parentheses)
@@ -41,6 +45,7 @@ pub fn prepare_for_codegen(ssa: &mut SsaResult) -> PrepareForCodeGenResult {
     for block in &mut ssa.blocks {
         remove_redundant_moves(block, &mut result);
         mark_associative_chains(block, &mut result);
+        synthesize_constructors(block, &mut result);
     }
 
     result
@@ -142,6 +147,78 @@ fn mark_associative_chains(block: &mut SsaBlock, result: &mut PrepareForCodeGenR
             insn.add_flag(AFlag::DontWrap);
             result.no_wrap_marked += 1;
         }
+    }
+}
+
+/// Synthesize CONSTRUCTOR instructions by fusing NewInstance + <init> pairs
+///
+/// Pattern detected:
+/// ```
+/// v0 = new Type()           // NewInstance
+/// v0.<init>(args)           // Invoke Direct <init>
+/// →  v0 = new Type(args)    // Constructor (synthesized)
+/// ```
+///
+/// This matches JADX's behavior of combining object allocation with initialization.
+fn synthesize_constructors(block: &mut SsaBlock, result: &mut PrepareForCodeGenResult) {
+    use dexterity_ir::instructions::{InsnNode, InvokeKind};
+    use std::collections::HashMap;
+
+    // Build map of NewInstance instructions by (reg_num, ssa_version) -> (index, type_idx, offset)
+    let mut new_instances: HashMap<(u16, u32), (usize, u32, u32)> = HashMap::new();
+
+    for (idx, insn) in block.instructions.iter().enumerate() {
+        if let InsnType::NewInstance { dest, type_idx } = &insn.insn_type {
+            new_instances.insert(
+                (dest.reg_num, dest.ssa_version),
+                (idx, *type_idx, insn.offset),
+            );
+        }
+    }
+
+    // Find matching <init> calls and synthesize CONSTRUCTOR instructions
+    let mut constructors_to_create: Vec<(usize, usize, InsnNode)> = Vec::new();
+
+    for (idx, insn) in block.instructions.iter().enumerate() {
+        if let InsnType::Invoke { kind, method_idx, args, .. } = &insn.insn_type {
+            // Check if this is a Direct invoke (constructor call)
+            if matches!(kind, InvokeKind::Direct) && !args.is_empty() {
+                // Get the receiver register (first argument to <init>)
+                if let InsnArg::Register(receiver) = &args[0] {
+                    // Check if this receiver matches a NewInstance
+                    if let Some((new_idx, type_idx, new_offset)) =
+                        new_instances.get(&(receiver.reg_num, receiver.ssa_version))
+                    {
+                        // Create CONSTRUCTOR instruction
+                        let dest = receiver.clone();
+                        let ctor_args = args[1..].to_vec(); // Skip 'this' arg
+
+                        let ctor_insn = InsnNode::new(
+                            InsnType::Constructor {
+                                dest,
+                                type_idx: *type_idx,
+                                method_idx: *method_idx,
+                                args: ctor_args,
+                            },
+                            *new_offset, // Use NewInstance offset for better source mapping
+                        );
+
+                        constructors_to_create.push((*new_idx, idx, ctor_insn));
+                    }
+                }
+            }
+        }
+    }
+
+    // Apply the transformations (in reverse to maintain indices)
+    for (new_idx, init_idx, ctor_insn) in constructors_to_create.iter().rev() {
+        // Replace <init> call with CONSTRUCTOR
+        block.instructions[*init_idx] = ctor_insn.clone();
+
+        // Mark NewInstance as DONT_GENERATE
+        block.instructions[*new_idx].add_flag(AFlag::DontGenerate);
+
+        result.constructors_synthesized += 1;
     }
 }
 
