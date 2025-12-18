@@ -20,7 +20,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 
 ## IR Parity Summary (0-100%)
 
-**Overall IR Parity: ~86%** (Updated 2025-12-17)
+**Overall IR Parity: ~89%** (Updated 2025-12-17)
 
 | Component | Parity | Status | Notes |
 |-----------|--------|--------|-------|
@@ -29,8 +29,8 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Instruction Args | 85% | ✅ | InsnWrapArg, NamedArg, This reference |
 | Class/Method/Field | 90% | ✅ | LoadStage, innerClasses, parent_class, dependencies, codegen_deps |
 | Regions | 72% | 🔶 | ForEachLoop/ForLoop distinction, IContainer hierarchy |
-| **Attribute System** | **100%** | ✅ | **59 AFlag + 37 AType (1:1 JADX parity)** |
-| Class Hierarchy | 85% | ✅ | Minor: integrated type comparison |
+| **Attribute System** | **100%** | ✅ | **60 AFlag + 37 AType (1:1 JADX parity + TmpEdge)** |
+| **Class Hierarchy** | **100%** | ✅ | **TypeCompare, TypeUtils, visitSuperTypes, TypeVarMapping** |
 | SSA/Registers | 85% | ✅ | Full SSAVar, use-def chains, CodeVar, TypeBound |
 | Exception Handling | 70% | 🔶 | Block-level tracking, multi-catch type lists |
 | Debug Info | 75% | 🔶 | End-scope tracking, complex debug attributes |
@@ -38,7 +38,8 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Lazy Loading | 90% | ✅ | Excellent match with ProcessState pattern |
 
 ### Recent Improvements (2025-12-17)
-- **Attribute System** (80%→100%): Complete 1:1 JADX parity with 59 AFlag flags and 37 AType typed attributes
+- **Class Hierarchy** (85%→100%): Full TypeCompare engine, TypeUtils functionality, visitSuperTypes visitor, TypeVarMapping for generics
+- **Attribute System** (80%→100%): Complete 1:1 JADX parity with 60 AFlag flags and 37 AType typed attributes
 - **Class/Method/Field** (68%→90%): Added LoadStage enum, inner_classes, parent_class, dependencies, codegen_deps
 - **SSA Infrastructure** (60%→85%): Full SSAVar, TypeInfo, CodeVar, TypeBound
 - **Instruction Args** (65%→85%): InsnWrapArg, NamedArg, This variants
@@ -588,46 +589,93 @@ Both support compound conditions (&&, ||) and simplification via De Morgan's law
 
 ---
 
-## Class Hierarchy
+## Class Hierarchy (100% JADX Parity)
 
 ### JADX
 
-JADX uses `RootNode` as a central registry for all classes and provides hierarchy queries through `TypeUtils`:
+JADX uses `RootNode` as a central registry for all classes and provides hierarchy queries through `TypeUtils` and `TypeCompare`:
 
 ```java
 public class RootNode {
     private List<ClassNode> classes;
     private TypeUtils typeUtils;
+    private TypeCompare typeCompare;
 
     public ClassNode resolveClass(ClassInfo clsInfo);
 }
 
 public class TypeUtils {
     public void visitSuperTypes(ArgType type, BiConsumer<ArgType, ArgType> consumer);
-    public boolean isAssignable(ArgType from, ArgType to);
+    public Map<ArgType, ArgType> getTypeVariablesMapping(ArgType clsType);
+    public ArgType replaceTypeVariablesUsingMap(ArgType type, Map<ArgType, ArgType> map);
+}
+
+public class TypeCompare {
+    public TypeCompareEnum compareTypes(ArgType first, ArgType second);
+    public Comparator<ArgType> getComparator();
+}
+
+public enum TypeCompareEnum {
+    EQUAL, NARROW, NARROW_BY_GENERIC, WIDER, WIDER_BY_GENERIC,
+    CONFLICT, CONFLICT_BY_GENERIC, UNKNOWN
 }
 ```
 
-### Dexterity
+### Dexterity (100% JADX Parity)
 
-Dexterity uses an explicit `ClassHierarchy` graph:
+Dexterity now provides complete parity with JADX's type system:
 
 ```rust
+/// Type comparison result (matches JADX TypeCompareEnum exactly)
+pub enum TypeCompareEnum {
+    Equal, Narrow, NarrowByGeneric, Wider, WiderByGeneric,
+    Conflict, ConflictByGeneric, Unknown,
+}
+
+/// Full TypeCompare engine matching JADX's TypeCompare class
+pub struct TypeCompare<'a> {
+    hierarchy: &'a ClassHierarchy,
+}
+
+impl TypeCompare {
+    pub fn compare_types(&self, first: &ArgType, second: &ArgType) -> TypeCompareEnum;
+    // Handles: primitives, objects, arrays, generics, wildcards, unknown types
+}
+
+/// Type variable mapping for generic substitution (matches JADX TypeUtils)
+pub struct TypeVarMapping {
+    mappings: HashMap<String, ArgType>,
+}
+
+impl TypeVarMapping {
+    pub fn add(&mut self, type_var: String, actual_type: ArgType);
+    pub fn replace_type_vars(&self, ty: &ArgType) -> Option<ArgType>;
+}
+
+/// Class hierarchy with visitor pattern (matches JADX TypeUtils.visitSuperTypes)
 pub struct ClassHierarchy {
     superclass_map: HashMap<String, String>,
     interfaces_map: HashMap<String, Vec<String>>,
     all_classes: HashSet<String>,
+    type_params_map: HashMap<String, Vec<String>>,  // Generic parameters
 }
 
 impl ClassHierarchy {
-    pub fn add_class(&mut self, name: String, superclass: Option<String>, interfaces: Vec<String>);
     pub fn is_subtype_of(&self, subtype: &str, supertype: &str) -> bool;
+    pub fn is_assignable(&self, from: &ArgType, to: &ArgType) -> bool;
     pub fn least_common_ancestor(&self, type1: &str, type2: &str) -> String;
-    pub fn common_supertype(&self, types: &[&str]) -> String;  // For PHI nodes
+    pub fn visit_super_types<F>(&self, class: &str, visitor: F);  // JADX visitSuperTypes
+    pub fn get_type_var_mapping(&self, generic_type: &ArgType) -> TypeVarMapping;
+    pub fn type_compare(&self) -> TypeCompare;  // Factory method
 }
 ```
 
-**Key Difference:** Dexterity builds an explicit graph structure for hierarchy queries, while JADX traverses class nodes dynamically. Dexterity's approach is more efficient for repeated LCA queries during type inference.
+**Parity Achievement:** Dexterity now has complete 1:1 parity with JADX:
+- **TypeCompareEnum** - All 8 comparison results with `invert()` and predicates
+- **TypeCompare** - Full comparison logic for primitives, objects, generics, wildcards
+- **TypeVarMapping** - Generic type variable substitution (T → String)
+- **visitSuperTypes** - Visitor pattern for traversing type hierarchy
+- **PrimitiveType.width()** - Type widening comparison (byte < short < int < long)
 
 ---
 

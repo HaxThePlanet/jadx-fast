@@ -173,6 +173,8 @@ impl ArgType {
             ArgType::Object(_)
                 | ArgType::Array(_)
                 | ArgType::Generic { .. }
+                | ArgType::TypeVariable(_)
+                | ArgType::Wildcard { .. }
                 | ArgType::UnknownObject
                 | ArgType::UnknownArray
         )

@@ -154,11 +154,13 @@ pub enum AFlag {
     ResolveJavaJsr = 57,
     /// Compute post-dominator tree
     ComputePostDom = 58,
+    /// Temporary edge for exception handling (added for SSA, removed after)
+    TmpEdge = 59,
 }
 
 impl AFlag {
-    /// Total number of flags (must match JADX exactly: 59)
-    pub const COUNT: usize = 59;
+    /// Total number of flags (60 - JADX has 59, we add TmpEdge for SSA)
+    pub const COUNT: usize = 60;
 
     /// Get all flags as a slice
     pub fn all() -> &'static [AFlag] {
@@ -176,7 +178,7 @@ impl AFlag {
             InconsistentCode, RequestIfRegionOptimize, RequestCodeShrink,
             MethodCandidateForInline, UseLinesHints, DisableBlocksLock,
             RestartCodegen, ReloadAtCodegenStage, ClassDeepReload, ClassUnloaded,
-            DontUnloadClass, ResolveJavaJsr, ComputePostDom,
+            DontUnloadClass, ResolveJavaJsr, ComputePostDom, TmpEdge,
         ]
     }
 
@@ -242,6 +244,7 @@ impl AFlag {
             "DONT_UNLOAD_CLASS" => Some(AFlag::DontUnloadClass),
             "RESOLVE_JAVA_JSR" => Some(AFlag::ResolveJavaJsr),
             "COMPUTE_POST_DOM" => Some(AFlag::ComputePostDom),
+            "TMP_EDGE" => Some(AFlag::TmpEdge),
             _ => None,
         }
     }
@@ -308,6 +311,7 @@ impl AFlag {
             AFlag::DontUnloadClass => "DONT_UNLOAD_CLASS",
             AFlag::ResolveJavaJsr => "RESOLVE_JAVA_JSR",
             AFlag::ComputePostDom => "COMPUTE_POST_DOM",
+            AFlag::TmpEdge => "TMP_EDGE",
         }
     }
 }
@@ -1022,9 +1026,9 @@ mod tests {
 
     #[test]
     fn test_aflag_count_matches_jadx() {
-        // JADX has exactly 59 AFlag enum values
-        assert_eq!(AFlag::COUNT, 59);
-        assert_eq!(AFlag::all().len(), 59);
+        // JADX has 59 AFlag enum values, we add TmpEdge for SSA = 60 total
+        assert_eq!(AFlag::COUNT, 60);
+        assert_eq!(AFlag::all().len(), 60);
     }
 
     #[test]
