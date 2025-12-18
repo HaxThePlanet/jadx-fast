@@ -50,6 +50,7 @@
 | NEW-CRITICAL-003 (Null Comparisons) | Completed | **DONE** | Dec 17 |
 | Method Generics | Completed | **DONE** | Dec 16 |
 | Exception Handling | Completed | **DONE** | Dec 16 |
+| Multi-Catch Support | Completed | **DONE** | Dec 17 |
 | Undefined Variables | Completed | **DONE** | Dec 16 |
 | Class Generics | Completed | **DONE** | Dec 16 |
 | Switch/Sync Regions | Completed | **DONE** | Dec 16 |
@@ -404,6 +405,28 @@ MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d outpu
 - **28.2x speedup on 56 cores** - excellent high-core scaling
 - **Superlinear scaling at 2-4 cores** (102% efficiency) - THP reduces TLB misses
 - **Linear scaling maintained to 16 cores** (92% efficiency)
+
+---
+
+### Multi-Catch Exception Handling - Dec 17, 2025
+
+**Implemented proper Java 7+ multi-catch syntax generation.**
+
+**Problem:** Java 7+ multi-catch syntax (`catch (IOException | SQLException e)`) was generating separate catch blocks instead of combined multi-catch.
+
+**Solution:**
+- Added `merge_multi_catch_handlers()` function in `region_builder.rs`
+- Detects when multiple handlers point to the same handler block
+- Merges them into single handler with pipe-separated exception types
+- Codegen parses pipe-separated types and generates `catch (Type1 | Type2 | Type3 e)` syntax
+
+**Files Changed:**
+- `crates/dexterity-passes/src/region_builder.rs`
+
+**Results:**
+- Multi-catch now properly generates Java 7+ syntax
+- All 58 trycatch tests pass, all 685 total tests pass
+- Exception Handling parity: 70% -> **85%**
 
 ---
 

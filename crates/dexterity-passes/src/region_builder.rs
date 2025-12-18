@@ -36,7 +36,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use tracing::error;
 
 use dexterity_ir::instructions::InsnType;
-use dexterity_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent, SwitchCase};
+use dexterity_ir::regions::{CaseInfo, CaseKey, CatchHandler, Condition, LoopKind, LoopType, Region, RegionContent};
 
 use crate::block_split::BasicBlock;
 use crate::cfg::CFG;
@@ -879,8 +879,10 @@ impl<'a> RegionBuilder<'a> {
         self.stack.pop();
 
         let region = Region::Synchronized {
+            enter_insn_offset: 0, // TODO: Extract from instruction if needed
             enter_block: sync_info.enter_block,
             body: Box::new(body),
+            exit_insn_offsets: vec![], // TODO: Extract from exit blocks if needed
         };
 
         (region, exit_block)
@@ -1092,6 +1094,10 @@ impl<'a> RegionBuilder<'a> {
                         condition: Some(self.extract_condition(loop_info.header)),
                         body: Box::new(body),
                         details: None,
+                        loop_type: LoopType::None,
+                        condition_at_end: loop_info.kind == LoopKind::DoWhile,
+                        header_block: Some(loop_info.header),
+                        pre_condition_block: None,
                     })));
                     continue;
                 }
@@ -1154,6 +1160,10 @@ impl<'a> RegionBuilder<'a> {
             condition: Some(condition),
             body: Box::new(body),
             details: None,
+            loop_type: LoopType::None,
+            condition_at_end: loop_info.kind == LoopKind::DoWhile,
+            header_block: Some(loop_info.header),
+            pre_condition_block: None,
         };
 
         (region, loop_exit)
@@ -1295,6 +1305,10 @@ impl<'a> RegionBuilder<'a> {
                     condition: Some(nested_condition),
                     body: Box::new(nested_body),
                     details: None,
+                    loop_type: LoopType::None,
+                    condition_at_end: nested_loop.kind == LoopKind::DoWhile,
+                    header_block: Some(nested_loop.header),
+                    pre_condition_block: None,
                 })));
             } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
                 // Nested conditional - check if fully contained in loop
@@ -1344,6 +1358,10 @@ impl<'a> RegionBuilder<'a> {
                         condition: Some(nested_condition),
                         body: Box::new(nested_body),
                         details: None,
+                        loop_type: LoopType::None,
+                        condition_at_end: nested_loop.kind == LoopKind::DoWhile,
+                        header_block: Some(nested_loop.header),
+                        pre_condition_block: None,
                     })));
                 } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
                     if cond.then_blocks.iter().all(|b| loop_info.blocks.contains(b))
@@ -1540,9 +1558,8 @@ impl<'a> RegionBuilder<'a> {
         self.stack.push();
         self.stack.add_exit(merge_block);
 
-        // Build cases with proper keys
-        let mut cases: Vec<SwitchCase> = Vec::new();
-        let mut default_case = None;
+        // Build cases with proper keys (using CaseInfo matching JADX)
+        let mut cases: Vec<CaseInfo> = Vec::new();
 
         for (i, &target) in succs.iter().enumerate() {
             // Don't include merge block as a case
@@ -1591,7 +1608,8 @@ impl<'a> RegionBuilder<'a> {
             };
 
             if is_default {
-                default_case = Some(Box::new(case_region));
+                // Default case uses CaseKey::Default (matches JADX DEFAULT_CASE_KEY)
+                cases.push(CaseInfo::new(vec![CaseKey::Default], case_region));
             } else {
                 // Get key for this case
                 let key = switch_info
@@ -1600,10 +1618,7 @@ impl<'a> RegionBuilder<'a> {
                     .copied()
                     .unwrap_or(i as i32);
 
-                cases.push(SwitchCase {
-                    keys: vec![key],
-                    region: Box::new(case_region),
-                });
+                cases.push(CaseInfo::new(vec![CaseKey::Int(key)], case_region));
             }
         }
 
@@ -1612,7 +1627,6 @@ impl<'a> RegionBuilder<'a> {
         let region = Region::Switch {
             header_block: block,
             cases,
-            default: default_case,
         };
 
         (region, merge_block)
@@ -2045,12 +2059,9 @@ fn refine_loops_recursive(region: &mut Region, patterns: &LoopPatternResult) {
                 refine_loops_recursive(else_r, patterns);
             }
         }
-        Region::Switch { cases, default, .. } => {
+        Region::Switch { cases, .. } => {
             for case in cases {
-                refine_loops_recursive(&mut case.region, patterns);
-            }
-            if let Some(def) = default {
-                refine_loops_recursive(def, patterns);
+                refine_loops_recursive(&mut case.container, patterns);
             }
         }
         Region::TryCatch { try_region, handlers, finally, .. } => {
@@ -2316,6 +2327,10 @@ mod tests {
             condition: Some(Condition::Unknown),
             body: Box::new(Region::Sequence(vec![])),
             details: None,
+            loop_type: LoopType::None,
+            condition_at_end: false,
+            header_block: None,
+            pre_condition_block: None,
         };
 
         // Create loop patterns with a For loop pattern (header = 0, not matching our region)
@@ -2346,6 +2361,10 @@ mod tests {
             condition: Some(Condition::Unknown),
             body: Box::new(Region::Sequence(vec![])),
             details: None,
+            loop_type: LoopType::None,
+            condition_at_end: false,
+            header_block: None,
+            pre_condition_block: None,
         };
 
         let mut region = Region::Loop {
@@ -2353,6 +2372,10 @@ mod tests {
             condition: Some(Condition::Unknown),
             body: Box::new(Region::Sequence(vec![RegionContent::Region(Box::new(inner_loop))])),
             details: None,
+            loop_type: LoopType::None,
+            condition_at_end: false,
+            header_block: None,
+            pre_condition_block: None,
         };
 
         let patterns = LoopPatternResult::default();

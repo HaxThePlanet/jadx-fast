@@ -108,7 +108,7 @@ Quality comparison performed on decompiled app code shows **high parity** with J
 | **Interface Generic Type Params** | ✅ FIXED | `MaybeSource<T>` fully supported |
 | **Type Inference** | ✅ FIXED | 0 Unknown type failures |
 | **Undefined Variables** | ✅ FIXED | 99.9% eliminated |
-| **Exception Handling** | ✅ FIXED | Complete try-catch support |
+| **Exception Handling** | ✅ FIXED | Complete try-catch + multi-catch (`catch (A | B e)`) support |
 | **Switch Statements** | ✅ MOSTLY FIXED | 91% app code recovery (improved from 44%) |
 | **Defect Score** | ✅ 95.9-96.8% | Production quality |
 

@@ -43,6 +43,7 @@ pub use ssa::{
 };
 pub use types::{compare_types, ArgType, TypeCompare};
 pub use regions::{
-    CatchHandler, Condition, ForEachLoopInfo, ForLoopInfo, IterableSource, LoopDetails,
-    LoopKind, Region, RegionContent, RegionContext, RegionType, SwitchCase,
+    CaseInfo, CaseKey, CatchHandler, Condition, ConditionMode, ForEachLoopInfo, ForLoopInfo,
+    IBranchRegion, IConditionRegion, IContainer, IRegion, IterableSource, LoopDetails,
+    LoopKind, LoopType, Region, RegionContent, RegionContext, RegionId, RegionType,
 };

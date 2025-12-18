@@ -136,12 +136,9 @@ fn analyze_region(region: &Region, blocks: &[BasicBlock], result: &mut TernaryMo
         Region::Loop { body, .. } => {
             analyze_region(body, blocks, result);
         }
-        Region::Switch { cases, default, .. } => {
+        Region::Switch { cases, .. } => {
             for case in cases {
-                analyze_region(&case.region, blocks, result);
-            }
-            if let Some(def) = default {
-                analyze_region(def, blocks, result);
+                analyze_region(&case.container, blocks, result);
             }
         }
         Region::TryCatch {

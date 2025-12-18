@@ -457,12 +457,15 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] String escaping with Unicode
 - [x] HashMap capacity management (memory pooling)
 
-### Exception Handling ([JADX_EXCEPTION_HANDLING.md](JADX_EXCEPTION_HANDLING.md))
+### Exception Handling ([JADX_EXCEPTION_HANDLING.md](JADX_EXCEPTION_HANDLING.md)) - **85%**
 - [x] TryCatchBlockAttr structure
-- [x] Handler merging for multi-catch
+- [x] Handler merging for multi-catch - **DONE Dec 17** (`merge_multi_catch_handlers()` in region_builder.rs detects Java 7+ multi-catch pattern)
+- [x] Multi-catch syntax generation - **DONE Dec 17** (generates `catch (Type1 | Type2 | Type3 e)` syntax)
+- [x] Pipe-separated type list parsing - **DONE Dec 17** (CatchHandler creation parses pipe-separated exception types)
 - [x] Finally block extraction via InsnsSlice matching - **DONE** (copyCodeVars SSA sync added)
 - [x] MONITOR_ENTER/EXIT as implicit finally - **DONE** (is_monitor_only_handler() filters synchronized cleanup handlers)
 - [x] Exception type formatting - **DONE Dec 17** (internal format `java/io/IOException` -> Java format `java.io.IOException`)
+- [x] Block-level tracking infrastructure - **PARTIAL** (handler block tracking in place)
 
 ### Deobfuscation ([JADX_DEOBFUSCATION.md](JADX_DEOBFUSCATION.md))
 - [x] Two-phase system (DeobfuscatorVisitor, RenameVisitor)

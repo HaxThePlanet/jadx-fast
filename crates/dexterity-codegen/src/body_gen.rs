@@ -1922,14 +1922,10 @@ fn body_has_meaningful_content(body: &Region, foreach_info: &ForEachInfo, ctx: &
             Region::Loop { body, .. } => {
                 count_meaningful_in_region(body, skip_block, skip_start, skip_count, ctx)
             }
-            Region::Switch { cases, default, .. } => {
-                let case_count: usize = cases.iter()
-                    .map(|c| count_meaningful_in_region(&c.region, skip_block, skip_start, skip_count, ctx))
-                    .sum();
-                let default_count = default.as_ref()
-                    .map(|r| count_meaningful_in_region(r, skip_block, skip_start, skip_count, ctx))
-                    .unwrap_or(0);
-                case_count + default_count
+            Region::Switch { cases, .. } => {
+                cases.iter()
+                    .map(|c| count_meaningful_in_region(&c.container, skip_block, skip_start, skip_count, ctx))
+                    .sum()
             }
             Region::TryCatch { try_region, handlers, finally } => {
                 let try_count = count_meaningful_in_region(try_region, skip_block, skip_start, skip_count, ctx);
@@ -1986,14 +1982,10 @@ fn body_has_meaningful_structure(body: &Region, skip_block: u32, ctx: &BodyGenCo
                 then_count + else_count
             }
             Region::Loop { body, .. } => count_meaningful_blocks(body, skip_block, ctx),
-            Region::Switch { cases, default, .. } => {
-                let case_count: usize = cases.iter()
-                    .map(|c| count_meaningful_blocks(&c.region, skip_block, ctx))
-                    .sum();
-                let default_count = default.as_ref()
-                    .map(|r| count_meaningful_blocks(r, skip_block, ctx))
-                    .unwrap_or(0);
-                case_count + default_count
+            Region::Switch { cases, .. } => {
+                cases.iter()
+                    .map(|c| count_meaningful_blocks(&c.container, skip_block, ctx))
+                    .sum()
             }
             Region::TryCatch { try_region, handlers, finally } => {
                 let try_count = count_meaningful_blocks(try_region, skip_block, ctx);
@@ -2207,7 +2199,7 @@ struct TwoSwitchInfo {
 /// Into: switch(str.hashCode()) { case 99162322: if(str.equals("hello")) ... }
 fn detect_switch_over_string(
     header_block: u32,
-    cases: &[dexterity_ir::regions::SwitchCase],
+    cases: &[dexterity_ir::regions::CaseInfo],
     ctx: &BodyGenContext,
 ) -> Option<SwitchOverStringInfo> {
     let block = ctx.blocks.get(&header_block)?;
@@ -2237,13 +2229,16 @@ fn detect_switch_over_string(
     let string_expr = ctx.expr_gen.get_var_name(&string_reg_arg);
 
     // Collect string literals from equals() calls in each case
+    use dexterity_ir::regions::CaseKey;
     let mut case_strings = std::collections::HashMap::new();
 
     for case in cases {
-        let strings = find_equals_strings_for_case(&case.region, string_source.0, ctx);
+        let strings = find_equals_strings_for_case(&case.container, string_source.0, ctx);
         if !strings.is_empty() {
-            for &key in &case.keys {
-                case_strings.insert(key, strings.clone());
+            for key in &case.keys {
+                if let CaseKey::Int(int_key) = key {
+                    case_strings.insert(*int_key, strings.clone());
+                }
             }
         }
     }
@@ -2444,13 +2439,13 @@ fn detect_two_switch_in_sequence(
 
                 for case in cases {
                     // Find string literal from equals() call
-                    let strings = find_equals_strings_for_case(&case.region, string_source.0, ctx);
+                    let strings = find_equals_strings_for_case(&case.container, string_source.0, ctx);
                     if strings.is_empty() {
                         continue;
                     }
 
                     // Find index assignment: Const { dest, value: Int(N) }
-                    if let Some((reg, _, index_value)) = find_index_assignment_in_case(&case.region, ctx) {
+                    if let Some((reg, _, index_value)) = find_index_assignment_in_case(&case.container, ctx) {
                         if let Some(expected_reg) = common_index_reg {
                             if reg != expected_reg {
                                 // Different index registers - not a two-switch pattern
@@ -3854,7 +3849,9 @@ fn generate_merged_string_switch<W: CodeWriter>(
         }
     };
 
-    if let Region::Switch { header_block: _, cases, default } = switch_region {
+    if let Region::Switch { header_block: _, cases } = switch_region {
+        use dexterity_ir::regions::CaseKey;
+
         // Generate switch header with string expression
         code.start_line()
             .add("switch (")
@@ -3863,18 +3860,24 @@ fn generate_merged_string_switch<W: CodeWriter>(
             .newline();
         code.inc_indent();
 
-        for (case_idx, case) in cases.iter().enumerate() {
+        // Separate default case from regular cases
+        let default_case = cases.iter().find(|c| c.is_default());
+        let regular_cases: Vec<_> = cases.iter().filter(|c| !c.is_default()).collect();
+
+        for (case_idx, case) in regular_cases.iter().enumerate() {
             // Map index keys to string literals
             let mut emitted_any = false;
             for key in &case.keys {
-                if let Some(strings) = info.index_to_strings.get(key) {
-                    for s in strings {
-                        code.start_line()
-                            .add("case ")
-                            .add(&crate::type_gen::escape_string(s))
-                            .add(":")
-                            .newline();
-                        emitted_any = true;
+                if let CaseKey::Int(int_key) = key {
+                    if let Some(strings) = info.index_to_strings.get(int_key) {
+                        for s in strings {
+                            code.start_line()
+                                .add("case ")
+                                .add(&crate::type_gen::escape_string(s))
+                                .add(":")
+                                .newline();
+                            emitted_any = true;
+                        }
                     }
                 }
             }
@@ -3882,22 +3885,28 @@ fn generate_merged_string_switch<W: CodeWriter>(
             // If no string found for this index, emit a comment
             if !emitted_any {
                 for key in &case.keys {
+                    let key_str = match key {
+                        CaseKey::Int(i) => i.to_string(),
+                        CaseKey::String(s) => format!("\"{}\"", s),
+                        CaseKey::Enum { field_name, .. } => field_name.clone(),
+                        CaseKey::Default => "default".to_string(),
+                    };
                     code.start_line()
                         .add("case ")
-                        .add(&key.to_string())
+                        .add(&key_str)
                         .add(": /* index */")
                         .newline();
                 }
             }
 
             code.inc_indent();
-            generate_region(&case.region, ctx, code);
+            generate_region(&case.container, ctx, code);
 
             // Only add break if case doesn't end with return/throw/continue/break
-            let needs_break = !case_ends_with_exit(&case.region, ctx);
+            let needs_break = !case_ends_with_exit(&case.container, ctx);
             if needs_break {
-                let is_last_case = case_idx == cases.len() - 1;
-                if !is_last_case || default.is_none() {
+                let is_last_case = case_idx == regular_cases.len() - 1;
+                if !is_last_case || default_case.is_none() {
                     gen_break(code);
                 } else {
                     gen_break(code);
@@ -3906,10 +3915,10 @@ fn generate_merged_string_switch<W: CodeWriter>(
             code.dec_indent();
         }
 
-        if let Some(def) = default {
+        if let Some(def) = default_case {
             code.start_line().add("default:").newline();
             code.inc_indent();
-            generate_region(def, ctx, code);
+            generate_region(&def.container, ctx, code);
             code.dec_indent();
         }
 
@@ -4003,6 +4012,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             condition,
             body,
             details,
+            ..
         } => {
             // Use loop details if available (JADX parity: ForLoop/ForEach distinction)
             let _loop_details = details;
@@ -4205,9 +4215,15 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             }
         }
 
-        Region::Switch { header_block, cases, default } => {
+        Region::Switch { header_block, cases } => {
+            use dexterity_ir::regions::CaseKey;
+
             // Try to detect switch-over-string pattern
             let string_switch_info = detect_switch_over_string(*header_block, cases, ctx);
+
+            // Separate default case from regular cases
+            let default_case = cases.iter().find(|c| c.is_default());
+            let regular_cases: Vec<_> = cases.iter().filter(|c| !c.is_default()).collect();
 
             // Emit non-switch instructions from header block (setup instructions)
             // For switch-over-string, skip hashCode() and related setup instructions
@@ -4282,19 +4298,21 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                 .newline();
             code.inc_indent();
 
-            for (case_idx, case) in cases.iter().enumerate() {
+            for (case_idx, case) in regular_cases.iter().enumerate() {
                 // For switch-over-string, emit string literal case labels
                 if let Some(ref info) = string_switch_info {
                     let mut emitted_any = false;
                     for key in &case.keys {
-                        if let Some(strings) = info.case_strings.get(key) {
-                            for s in strings {
-                                code.start_line()
-                                    .add("case ")
-                                    .add(&crate::type_gen::escape_string(s))
-                                    .add(":")
-                                    .newline();
-                                emitted_any = true;
+                        if let CaseKey::Int(int_key) = key {
+                            if let Some(strings) = info.case_strings.get(int_key) {
+                                for s in strings {
+                                    code.start_line()
+                                        .add("case ")
+                                        .add(&crate::type_gen::escape_string(s))
+                                        .add(":")
+                                        .newline();
+                                    emitted_any = true;
+                                }
                             }
                         }
                     }
@@ -4319,14 +4337,14 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                     }
                 }
                 code.inc_indent();
-                generate_region(&case.region, ctx, code);
+                generate_region(&case.container, ctx, code);
 
                 // Only add break if case doesn't end with return/throw/continue/break
-                let needs_break = !case_ends_with_exit(&case.region, ctx);
+                let needs_break = !case_ends_with_exit(&case.container, ctx);
                 if needs_break {
                     // Check if this is the last case before default - if so, might be fallthrough
-                    let is_last_case = case_idx == cases.len() - 1;
-                    if !is_last_case || default.is_none() {
+                    let is_last_case = case_idx == regular_cases.len() - 1;
+                    if !is_last_case || default_case.is_none() {
                         gen_break(code);
                     } else {
                         // Last case before default - add break
@@ -4336,10 +4354,10 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                 code.dec_indent();
             }
 
-            if let Some(def) = default {
+            if let Some(def) = default_case {
                 code.start_line().add("default:").newline();
                 code.inc_indent();
-                generate_region(def, ctx, code);
+                generate_region(&def.container, ctx, code);
                 // Don't add break after default - it's the last case
                 code.dec_indent();
             }
@@ -4416,7 +4434,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             code.start_line().add("}").newline();
         }
 
-        Region::Synchronized { enter_block, body } => {
+        Region::Synchronized { enter_block, body, .. } => {
             // Emit non-monitor instructions from enter block (setup instructions)
             if let Some(block) = ctx.blocks.get(enter_block) {
                 let instructions: Vec<_> = block.instructions.clone();

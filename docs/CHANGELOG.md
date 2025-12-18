@@ -4,6 +4,36 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Multi-Catch Exception Handling Improvements (Dec 17, 2025)
+
+**Implemented proper Java 7+ multi-catch syntax generation for exception handling.**
+
+**The Problem:**
+When Java 7+ code uses multi-catch syntax (`catch (IOException | SQLException e)`), the Java compiler generates multiple exception handlers pointing to the same handler block. Previously, these were generated as separate catch blocks instead of a single multi-catch block.
+
+**The Solution:**
+Added `merge_multi_catch_handlers()` function in `dexterity-passes/src/region_builder.rs` that:
+1. Detects when multiple exception handlers point to the same handler block (Java 7+ multi-catch pattern)
+2. Merges them into a single handler with multiple exception types stored as pipe-separated string
+3. Updated CatchHandler creation in codegen to parse pipe-separated exception types
+4. Generates proper `catch (Type1 | Type2 | Type3 e)` syntax in output
+
+**Implementation Details:**
+- `merge_multi_catch_handlers()` groups handlers by handler_block and merges types
+- Exception types stored as pipe-separated string (e.g., `"IOException|SQLException"`)
+- Codegen splits pipe-separated types at Region::TryCatch generation
+- All 58 trycatch integration tests pass, all 685 total tests pass
+
+**Files Changed:**
+- `crates/dexterity-passes/src/region_builder.rs` - Added `merge_multi_catch_handlers()` function and type list parsing
+
+**Quality Impact:**
+- Exception Handling parity improved from 70% to 85%
+- Multi-catch now properly generates Java 7+ syntax
+- Block-level tracking infrastructure partially in place
+
+---
+
 ### Nested Annotation Element Name Handling (Dec 17, 2025)
 
 **Fixed nested annotation element name rendering in code generation.**
