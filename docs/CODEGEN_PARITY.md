@@ -2,27 +2,249 @@
 
 **Last Updated**: 2025-12-17
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
-**Overall Parity**: **95%**
+**Overall Parity**: **78%** (revised from 95%)
 
 ---
 
 ## Executive Summary
 
-Dexterity's code generation module achieves approximately **95% feature parity** with JADX's mature codegen implementation. Key strengths include **100% instruction type parity with CONSTRUCTOR synthesis**, full lambda/method reference support, comprehensive control flow handling, robust type generation, complete increment/compound assignment support (including field operations), and traditional for loop generation from pattern analysis. Main remaining gap is pre/post increment context detection (`++i` vs `i++`).
+Dexterity's code generation module achieves approximately **78% feature parity** with JADX's mature codegen implementation. **Simple APKs produce identical output**, but complex APKs reveal significant type inference and control flow issues.
 
 | Component | Parity | Status |
 |-----------|--------|--------|
-| Class Generation | 92% | Production Ready |
-| Method Generation | 95% | Production Ready |
-| Expression Generation | 93% | Production Ready |
-| Control Flow | 92% | Production Ready |
-| Condition Generation | 90% | Production Ready |
-| Type Generation | 95% | Production Ready |
+| Class Generation | 85% | Production Ready |
+| Method Generation | 90% | Production Ready |
+| Expression Generation | 70% | Needs Improvement |
+| Control Flow | 75% | Needs Improvement |
+| Condition Generation | 70% | Needs Improvement |
+| Type Generation | 80% | Production Ready |
 | **Instruction Types** | **100%** | **Production Ready** |
-| Annotation Generation | 100% | Production Ready |
-| Variable Naming | 85% | Production Ready |
-| Code Quality | 88% | Production Ready |
-| Special Cases | 80% | Production Ready |
+| Annotation Generation | 95% | Production Ready |
+| Variable Naming | 80% | Production Ready |
+| Code Quality | 70% | Needs Improvement |
+| Special Cases | 75% | Production Ready |
+
+---
+
+## Output Comparison Results
+
+### Test APKs
+
+| APK | Dexterity Files | JADX Files | Parity | Notes |
+|-----|-----------------|------------|--------|-------|
+| Small | 1 | 2 | **100%** | Identical output |
+| Medium | 6,032 | 11,364 | 53% | Framework filtering |
+| Large | 9,624 | 20,912 | 46% | Framework filtering |
+| Badboy | 84 | 7,794 | 1% | Framework filtering |
+
+**Note**: File count difference is **intentional** - Dexterity filters android, androidx, kotlin, kotlinx framework packages by design.
+
+### Small APK: 100% Identical
+```java
+// Dexterity output == JADX output
+package io.github.skylot.android.smallapp;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Log.i("SmallApp", "Hello");
+    }
+}
+```
+
+---
+
+## Critical Issues (P1)
+
+### 1. Type Inference: Null as Integer (~10% impact)
+
+**Problem**: `null` values represented as `0` or `int i = 0`
+
+```java
+// Dexterity (WRONG)
+final int i = 0;
+DexClassLoader loader = new DexClassLoader("", path, i, i);
+
+// JADX (CORRECT)
+DexClassLoader loader = new DexClassLoader("", path, null, null);
+```
+
+**Location**: `crates/dexterity-codegen/src/body_gen.rs`
+
+### 2. Type Inference: Wrong Variable Types (~8% impact)
+
+**Problem**: Variables declared with incompatible types, then reassigned
+
+```java
+// Dexterity (WRONG - won't compile)
+int obj1 = 1;
+obj1 = new SequentialDisposable();
+this.arbiter = obj1;
+
+// JADX (CORRECT)
+this.arbiter = new SequentialDisposable();
+```
+
+**Location**: `crates/dexterity-passes/src/ssa.rs`, `crates/dexterity-codegen/src/body_gen.rs`
+
+### 3. Boolean Comparison Issues (~5% impact)
+
+**Problem**: Object null checks using `== null` instead of boolean negation
+
+```java
+// Dexterity (WRONG)
+if (file.exists() == null) { ... }
+
+// JADX (CORRECT)
+if (!file.exists()) { ... }
+```
+
+### 4. Switch Statement Type Mismatch (~5% impact)
+
+**Problem**: Switch variable declared with wrong type
+
+```java
+// Dexterity (WRONG)
+boolean asString;
+switch (asString) {  // boolean can't be switched on strings
+    case "STRING": ...
+}
+
+// JADX (CORRECT)
+String asString = jsonElement.getAsString();
+asString.hashCode();  // String switch optimization
+switch (asString) {
+    case "STRING": ...
+}
+```
+
+---
+
+## High Priority Issues (P2)
+
+### 5. Unused Variable Declarations (~5% impact)
+
+**Problem**: Dead code declarations throughout methods
+
+```java
+// Dexterity (WRONG)
+public void getValue(...) {
+    boolean asString;     // never used
+    int i;                // never used
+    boolean jsonPrimitive; // never used
+    String str;           // never used
+    ...
+}
+
+// JADX (CORRECT)
+public void getValue(...) {
+    // No dead declarations
+    ...
+}
+```
+
+**Location**: `crates/dexterity-passes/src/ssa.rs`
+
+### 6. Missing Generic Type Parameters (~5% impact)
+
+**Problem**: Generic types lost during decompilation
+
+```java
+// Dexterity (WRONG)
+public class Adapter implements JsonSerializer, JsonDeserializer {
+    for (Map.Entry next : entries) { ... }
+}
+
+// JADX (CORRECT)
+public class Adapter implements JsonSerializer<T>, JsonDeserializer<T> {
+    for (Map.Entry<String, JsonElement> entry : entries) { ... }
+}
+```
+
+**Location**: `crates/dexterity-codegen/src/type_gen.rs`, `crates/dexterity-codegen/src/class_gen.rs`
+
+### 7. Empty Else Blocks (~3% impact)
+
+**Problem**: Empty else branches not eliminated
+
+```java
+// Dexterity (WRONG)
+if (condition1) {
+    return true;
+} else {
+}
+if (condition2) {
+    return true;
+} else {
+}
+
+// JADX (CORRECT)
+if (condition1) {
+    return true;
+}
+if (condition2) {
+    return true;
+}
+```
+
+**Location**: `crates/dexterity-passes/src/region_builder.rs`
+
+---
+
+## Medium Priority Issues (P3)
+
+### 8. Formatting: Extra Whitespace (~2% impact)
+
+```java
+// Dexterity (WRONG)
+public class Maybe<T>  implements MaybeSource<T>  // double space
+
+// JADX (CORRECT)
+public class Maybe<T> implements MaybeSource<T>
+```
+
+### 9. Fully Qualified Type Names (~2% impact)
+
+```java
+// Dexterity (WRONG)
+public static io.reactivex.Flowable<T> amb(...) {
+    return Flowable.empty();
+}
+
+// JADX (CORRECT)
+public static Flowable<T> amb(...) {
+    return empty();
+}
+```
+
+### 10. Enum Declaration Syntax (~1% impact)
+
+```java
+// Dexterity (WRONG)
+public static enum Position { ... }
+
+// JADX (CORRECT)
+public enum Position { ... }
+```
+
+### 11. Static Field Initialization (~1% impact)
+
+```java
+// Dexterity (WRONG)
+static final int BUFFER_SIZE;
+static {
+    Flowable.BUFFER_SIZE = Math.max(1, ...);
+}
+
+// JADX (CORRECT)
+static final int BUFFER_SIZE = Math.max(1, ...);
+```
 
 ---
 
@@ -59,263 +281,178 @@ Dexterity's code generation module achieves approximately **95% feature parity**
 
 ## Detailed Parity Tables
 
-### 1. Class Generation - 92%
+### 1. Class Generation - 85%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
 | Package declaration | DONE | |
-| Import management (sorted BTreeSet) | DONE | |
-| Class modifiers | DONE | public/private/final/abstract/interface |
+| Import management | DONE | Sorted BTreeSet |
+| Class modifiers | DONE | public/private/final/abstract |
 | Extends/Implements | DONE | |
-| Type parameters | DONE | `<T extends Number>` |
-| Field generation | DONE | With modifiers, initial values |
-| Annotation rendering | DONE | Class/method/field level |
-| Inner class detection (4 types) | DONE | Named, Anonymous, Local, Lambda |
+| Type parameters | 90% | Some generic bounds lost |
+| Field generation | DONE | |
+| Annotation rendering | DONE | |
+| Inner class detection | DONE | 4 types |
 | Anonymous class inlining | DONE | |
-| SAM interface detection | DONE | |
-| Import collision handling | 90% | Some edge cases |
-| Synthetic constructor filtering | DONE | |
+| **Generic interface types** | **70%** | `implements Foo` vs `implements Foo<T>` |
+| **Enum syntax** | **80%** | `static enum` vs `enum` |
 
-### 2. Method Generation - 95%
+### 2. Method Generation - 90%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
 | Method signatures | DONE | |
 | All access modifiers | DONE | |
-| Type parameters | DONE | Method-level generics |
-| Parameter names | DONE | Debug info + fallback |
+| Type parameters | DONE | |
+| Parameter names | DONE | |
 | Throws clause | DONE | |
-| Varargs handling | DONE | `Type...` syntax |
-| Default methods (Java 8) | DONE | |
+| Varargs handling | DONE | |
+| Default methods | DONE | |
 | @Override heuristic | DONE | |
-| Static blocks | DONE | `static {}` |
-| Enum constructor hiding | DONE | |
+| **Abstract method placement** | **80%** | Different order than JADX |
 
-### 3. Expression Generation - 88%
+### 3. Expression Generation - 70%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| Const values | DONE | int/long/float/double |
-| Special constants | 85% | Integer.MAX_VALUE, Float.NaN partial |
-| String literals | DONE | With escaping |
-| Class literals | DONE | `.class` syntax |
+| Const values | DONE | |
+| String literals | DONE | |
 | Object instantiation | DONE | |
-| Array operations | DONE | new, length, get, put |
-| Field access | DONE | instance/static |
-| Method invocation (5 kinds) | DONE | virtual/static/direct/super/interface |
-| Binary operators | DONE | +,-,*,/,%,&,\|,^,<<,>> |
-| Unary operators | DONE | -, ~, ! |
-| Comparisons | DONE | ==, !=, <, >, <=, >= |
+| Array operations | DONE | |
+| Field access | DONE | |
+| Method invocation | DONE | 5 kinds |
+| Binary operators | DONE | |
+| Comparisons | DONE | |
 | Type casting | DONE | |
-| InstanceOf | DONE | |
-| Ternary expressions | DONE | `a ? b : c` |
-| Lambda expressions | DONE | Full body decompilation |
-| Method references | DONE | `Foo::method`, `Foo::new` |
-| Boxing detection | DONE | `Integer.valueOf()` removal |
-| Negative literal wrapping | 80% | |
-| **Increment/decrement** | **95%** | `i++`, `--j`, `obj.field++`, `this.count++` all DONE; only missing pre/post context detection |
-| **Compound assignment** | **95%** | `+=`, `-=`, `*=`, etc. DONE for locals and fields (`obj.field += n`) |
+| Lambda expressions | DONE | |
+| Method references | DONE | |
+| **Null literal** | **50%** | Often as `0` or `int i = 0` |
+| **Type inference** | **60%** | Wrong types assigned |
+| **Dead code elimination** | **50%** | Unused vars declared |
 
-### 4. Control Flow - 90%
+### 4. Control Flow - 75%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
 | If/else | DONE | |
-| Else-if chaining | DONE | |
 | While loops | DONE | |
 | Do-while loops | DONE | |
-| For loops | DONE | Init/cond/update + pattern analysis |
-| For-each (array) | DONE | |
-| For-each (iterator) | DONE | hasNext()/next() |
-| Switch statements | DONE | With fallthrough |
-| Try-catch | DONE | |
+| For loops | DONE | |
+| For-each | DONE | Array + Iterator |
+| Switch statements | 80% | String switch type issues |
 | Try-catch-finally | DONE | |
-| Multi-catch | DONE | `catch (A | B e)` |
 | Synchronized blocks | DONE | |
-| Break/continue | DONE | |
-| Labeled break/continue | 70% | Some patterns |
-| Infinite loops | DONE | `while (true)` |
+| **Empty else elimination** | **40%** | Many empty else blocks |
+| **Condition simplification** | **60%** | Poor boolean handling |
 
-### 5. Condition Generation - 85%
-
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Simple comparisons | DONE | `a == b` |
-| AND conditions | DONE | `a && b` |
-| OR conditions | DONE | `a \|\| b` |
-| NOT conditions | DONE | `!cond` |
-| Boolean simplification | 75% | `x == true` -> `x` |
-| Object null checks | DONE | `x == null` |
-| Boolean negation | 80% | `!x` vs `x == false` |
-| Nested condition merge | 70% | `if(a){if(b){}}` patterns |
-| De Morgan's law | 85% | `!(a && b)` -> `!a \|\| !b` (implemented in `dexterity-ir/src/regions.rs:196-279`) |
-
-### 6. Type Generation - 95%
+### 5. Condition Generation - 70%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| All 9 primitives | DONE | void, boolean...double |
+| Simple comparisons | DONE | |
+| AND/OR conditions | DONE | |
+| NOT conditions | 80% | |
+| **Boolean simplification** | **60%** | `x == true` not simplified |
+| **Null checks** | **50%** | `== null` on booleans |
+| **De Morgan's law** | DONE | |
+
+### 6. Type Generation - 80%
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| All 9 primitives | DONE | |
 | Object types | DONE | |
-| Array types (multi-dim) | DONE | `int[][]` |
-| Generics | DONE | `List<String>` |
-| Wildcards | DONE | `? extends`, `? super` |
-| Type variables | DONE | `<T>` |
+| Array types | DONE | |
+| Generics | 85% | Some bounds lost |
+| Wildcards | DONE | |
 | java.lang short names | DONE | |
-| Inner class names (`$` -> `.`) | DONE | |
-| Unknown fallback to Object | DONE | |
+| **Null type** | **50%** | `null` as `0` |
+| **Generic inference** | **70%** | Raw types in loops |
 
 ### 7. Instruction Types - 100%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| All standard instructions | DONE | 40+ instruction types |
-| CONSTRUCTOR synthesis | DONE | NewInstance + <init> fusion (Dec 17) |
-| REGION_ARG | DONE | Pass-through for region reconstruction |
-| JSR/RET legacy bytecode | DONE | Comment emission |
-| MOVE_MULTI | PARTIAL | Type defined, low priority for DEX |
-| STR_CONCAT | PARTIAL | Type defined, optimization at codegen |
+| All standard instructions | DONE | 40+ types |
+| CONSTRUCTOR synthesis | DONE | NewInstance + <init> fusion |
+| REGION_ARG | DONE | |
+| JSR/RET legacy | DONE | |
 
-**CONSTRUCTOR Synthesis** (Dec 17, 2025):
-- Pattern detection: `v0 = new Type(); v0.<init>(args);`
-- Transforms to: `v0 = new Type(args);`
-- Implemented in `prepare_for_codegen.rs` pass
-- Cleaner, more readable constructor calls matching JADX
-
-**Achievement**: 100% JADX instruction type parity
-
-### 8. Annotation Generation - 100%
+### 8. Annotation Generation - 95%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| Basic annotations | DONE | @Override, @Deprecated |
-| Annotation values | DONE | `@Foo(value = 1)` |
-| Array values | DONE | `@Foo({1, 2, 3})` |
-| Single element shorthand | DONE | |
-| Skip build-time annotations | DONE | |
-| Skip dalvik internal | DONE | |
+| Basic annotations | DONE | |
+| Annotation values | DONE | |
+| Array values | DONE | |
 | Visibility filtering | DONE | |
-| Nested annotation element names | DONE | Single "value" omits name, multiple include names |
-| Recursive nested annotations | DONE | Full recursion support |
+| **Placement accuracy** | **85%** | Sometimes wrong target |
 
-### 9. Variable Naming - 85%
+### 9. Variable Naming - 80%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
 | Debug info names | DONE | |
-| Type-based naming | DONE | str, list, map, etc. |
-| Unique name generation | DONE | name, name2, name3 |
-| Reserved name checking | 75% | |
-| Root package collision | 0% | NOT IMPLEMENTED |
-| Fallback naming | DONE | v0, v1 convention |
+| Type-based naming | DONE | |
+| Unique name generation | DONE | |
+| **Dead variable removal** | **50%** | Unused declarations |
+| **Reserved name checking** | 75% | |
 
-### 10. Code Quality Features - 88%
+### 10. Code Quality - 70%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| HashMap capacity management | DONE | OOM prevention |
-| StringBuilder chain optimization | DONE | `.append()` -> `+` |
-| Variable inlining | DONE | Single-use vars |
-| Final var detection | DONE | |
+| Variable inlining | DONE | |
 | Expression inlining | DONE | |
-| Fallback mode | DONE | Raw bytecode on error |
-| Line number comments | DONE | Optional |
-| Resource ID replacement | DONE | R.* references |
-| Deobfuscation filtering | DONE | min/max name length |
-
-### 11. Special Cases - 75%
-
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Enum reconstruction | DONE | |
-| Enum synthetic hiding | DONE | values(), valueOf() |
-| INVOKE_CUSTOM | DONE | Lambda/method ref |
-| CMP_L/CMP_G expansion | 60% | |
-| Polymorphic invoke | DONE | MethodHandle |
-| **String switch** | **79%** | Two-switch pattern merge DONE |
-| Android R.* handling | DONE | |
-| Instance arg propagation | DONE | |
+| Fallback mode | DONE | |
+| **Dead code elimination** | **50%** | Many unused vars |
+| **Formatting** | **70%** | Extra spaces, fq names |
+| **Constant references** | **70%** | Literals vs field refs |
 
 ---
 
-## Gap Analysis
+## Roadmap to 90%
 
-### P1 - High Impact (~2% remaining gap)
+### Phase 1: Critical Fixes (Target: 85%)
 
-| Gap | Impact | JADX Reference | Notes |
-|-----|--------|----------------|-------|
-| Pre/post increment context | 2% | InsnGen:1216-1230 | `++i` vs `i++` detection |
+1. **Fix null literal emission** (HIGH PRIORITY)
+   - Location: `body_gen.rs` const emission
+   - Pattern: Emit `null` instead of `0` for object types
 
-**Note**: Local variable and field increment/decrement (`i++`, `obj.field++`) and compound assignments (`+=`, `-=`, etc.) are fully implemented in `dexterity-codegen/src/body_gen.rs:820-1108`. The only remaining gap is pre/post increment context detection (`++i` vs `i++`).
+2. **Fix type inference for reassigned variables**
+   - Location: `ssa.rs` phi node handling
+   - Pattern: Track actual type through assignments
 
-### P2 - Medium Impact (~1% total gap)
+3. **Fix boolean comparison emission**
+   - Location: `body_gen.rs` condition handling
+   - Pattern: `!x.method()` not `x.method() == null`
 
-| Gap | Impact | JADX Reference | Notes |
-|-----|--------|----------------|-------|
-| Nested condition merge | 1% | IfRegionMaker:200-350 | `if(a){if(b){}}` |
+### Phase 2: Quality Improvements (Target: 90%)
 
-**Note**: De Morgan's law simplification is DONE (`dexterity-ir/src/regions.rs:196-279`). Boolean literal simplification is DONE (`body_gen.rs:2757-2824`).
+4. **Eliminate dead variable declarations**
+   - Location: `ssa.rs` use-def analysis
 
-### Recently Completed (Dec 17, 2025)
+5. **Preserve generic type parameters**
+   - Location: `type_gen.rs`, `class_gen.rs`
 
-| Feature | Coverage | JADX Reference | Notes |
-|---------|----------|----------------|-------|
-| **CONSTRUCTOR synthesis** | **100%** | InsnGen | NewInstance + <init> fusion via `synthesize_constructors()` in prepare_for_codegen.rs |
-| Traditional for loop generation | **DONE** | LoopRegionVisitor | Pattern analysis for `for(int i=0; i<N; i++)` via `analyze_loop_patterns()` |
-| String switch reconstruction | **79%** | SwitchOverStringVisitor | Two-switch pattern merge via `detect_two_switch_in_sequence()` |
-| Field increment ops | **DONE** | InsnGen:1216-1230 | `obj.field++`, `this.count += n` via `detect_field_increment()` in body_gen.rs:955-1105 |
-| Field compound assignments | **DONE** | InsnGen | `obj.field += n`, `this.count -= 1` for all operators (+, -, *, /, %, &, \|, ^, <<, >>, >>>) |
-| Boolean simplification | **DONE** | ConditionGen | De Morgan's laws, comparison inversion (`!(a < b)` → `a >= b`), literal normalization (`x == true` → `x`) |
+6. **Remove empty else blocks**
+   - Location: `region_builder.rs`
 
-### P3 - Low Impact (~2% total gap)
+### Phase 3: Polish (Target: 95%)
 
-| Gap | Impact | JADX Reference | Notes |
-|-----|--------|----------------|-------|
-| Root package collision | 0.5% | NameGen:36-48 | Variable vs package |
-| CMP ternary expansion | 0.5% | InsnGen:391-401 | Floating point |
-| Reserved name edge cases | 0.5% | NameGen | Inner class names |
-| Special constants | 0.5% | StringUtils:452-518 | MIN_VALUE, NaN, etc. |
-
----
-
-## Roadmap to 100%
-
-### Phase 1: P1 Gaps (Target: 95%) - ✅ 93% ACHIEVED
-1. ✅ DONE: Local variable increment/decrement (`dexterity-codegen/src/body_gen.rs:820-934`)
-   - ✅ Pattern: `x = x + 1` -> `x++`
-   - ✅ Pattern: `x = x - 1` -> `x--`
-   - **90% complete** - only missing pre vs post increment context detection (`++i` vs `i++`)
-
-2. ✅ DONE: Local variable compound assignments (`dexterity-codegen/src/body_gen.rs:914-930`)
-   - ✅ Pattern: `x = x + n` -> `x += n`
-   - ✅ Works for: +, -, *, /, %, &, |, ^, <<, >>, >>>
-
-3. ✅ DONE: Field increment/compound (`dexterity-codegen/src/body_gen.rs:955-1105`)
-   - ✅ Pattern: `obj.field = obj.field + 1` -> `obj.field++`
-   - ✅ Pattern: `this.count = this.count + n` -> `this.count += n`
-   - ✅ Pattern: `Class.field = Class.field + n` -> `Class.field += n`
-   - ✅ All compound operators: +, -, *, /, %, &, |, ^, <<, >>, >>>
-   - Implemented via `detect_field_increment()` function
-
-### Phase 2: P2 Gaps (Target: 98%) - ✅ 97% ACHIEVED
-1. ~~String switch reconstruction pass~~ ✅ DONE (79% coverage)
-2. ✅ DONE: De Morgan simplification (`dexterity-ir/src/regions.rs:196-279`)
-3. ✅ DONE: Boolean literal simplification (`body_gen.rs:2757-2824`)
-4. ⏳ TODO: Nested condition merging
-
-### Phase 3: P3 Gaps (Target: 100%)
-1. Root package collision avoidance
-2. Full CMP ternary expansion
-3. Complete special constant recognition
+7. Fix formatting (extra whitespace)
+8. Use simple names instead of FQ names
+9. Fix enum declaration syntax
+10. Inline static field initializers
 
 ---
 
 ## Verification Checklist
 
-Run against test APKs and compare output:
-- [ ] Simple APK: Identical output expected
-- [ ] Medium APK: <5% differences expected
-- [ ] Large APK: <10% differences expected (mostly P1 gaps)
-- [ ] Lambda-heavy APK: Full lambda/method ref support verified
+- [x] Small APK: Identical output
+- [ ] Medium APK: <10% differences expected (currently ~25%)
+- [ ] Large APK: <15% differences expected (currently ~30%)
+- [ ] Lambda-heavy APK: Full support verified
 - [ ] Obfuscated APK: Memory stability verified
 
 ---
@@ -325,3 +462,5 @@ Run against test APKs and compare output:
 - `docs/JADX_CODEGEN_REFERENCE.md` - JADX codegen documentation
 - `docs/PASSES_COMPARISON.md` - Pass pipeline comparison
 - `crates/dexterity-codegen/` - Dexterity implementation
+- `output/dexterity/` - Latest Dexterity output
+- `output/jadx/` - Latest JADX output for comparison
