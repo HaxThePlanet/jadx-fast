@@ -2,13 +2,13 @@
 
 **Last Updated**: 2025-12-17
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
-**Overall Parity**: **78%** (revised from 95%)
+**Overall Parity**: **80%** (Variable Naming at 100%, Dead Variable Elimination implemented)
 
 ---
 
 ## Executive Summary
 
-Dexterity's code generation module achieves approximately **78% feature parity** with JADX's mature codegen implementation. **Simple APKs produce identical output**, but complex APKs reveal significant type inference and control flow issues.
+Dexterity's code generation module achieves approximately **80% feature parity** with JADX's mature codegen implementation. **Simple APKs produce identical output**, but complex APKs reveal significant type inference and control flow issues.
 
 | Component | Parity | Status | Difficulty |
 |-----------|--------|--------|------------|
