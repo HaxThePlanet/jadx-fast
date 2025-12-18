@@ -110,13 +110,16 @@ fn main() -> Result<()> {
     let num_threads = args.effective_threads();
 
     // First, try to configure via ThreadPoolBuilder (works if rayon isn't initialized yet)
+    // Set 32MB stack size for worker threads to prevent stack overflow on deep recursion
+    // (important for complex class hierarchies and nested method calls)
     let config_result = rayon::ThreadPoolBuilder::new()
         .num_threads(num_threads)
+        .stack_size(32 * 1024 * 1024) // 32MB
         .build_global();
 
     match config_result {
         Ok(_) => {
-            tracing::info!("Configured rayon with {} thread(s)", num_threads);
+            tracing::info!("Configured rayon with {} thread(s), 32MB stack per thread", num_threads);
         }
         Err(_) => {
             // If build_global() fails, rayon is already initialized
