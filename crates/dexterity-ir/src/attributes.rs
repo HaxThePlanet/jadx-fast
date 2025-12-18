@@ -7,7 +7,7 @@
 //! ## Architecture
 //!
 //! JADX uses two attribute mechanisms:
-//! 1. **AFlag** - Simple boolean flags stored as bits (59 flags)
+//! 1. **AFlag** - Simple boolean flags stored as bits (60 flags: 59 JADX + TmpEdge)
 //! 2. **AType<T>** - Typed attributes with associated data (37 types)
 //!
 //! This module mirrors both systems exactly.

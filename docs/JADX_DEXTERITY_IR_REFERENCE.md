@@ -20,7 +20,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 
 ## IR Parity Summary (0-100%)
 
-**Overall IR Parity: ~89%** (Updated 2025-12-17)
+**Overall IR Parity: ~91%** (Updated 2025-12-17)
 
 | Component | Parity | Status | Notes |
 |-----------|--------|--------|-------|
@@ -29,17 +29,18 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Instruction Args | 85% | ✅ | InsnWrapArg, NamedArg, This reference |
 | Class/Method/Field | 90% | ✅ | LoadStage, innerClasses, parent_class, dependencies, codegen_deps |
 | Regions | 72% | 🔶 | ForEachLoop/ForLoop distinction, IContainer hierarchy |
-| **Attribute System** | **100%** | ✅ | **60 AFlag + 37 AType (1:1 JADX parity + TmpEdge)** |
+| **Attribute System** | **100%** | ✅ | **60 AFlag (59 JADX + TmpEdge) + 37 AType (1:1 JADX parity)** |
 | **Class Hierarchy** | **100%** | ✅ | **TypeCompare, TypeUtils, visitSuperTypes, TypeVarMapping** |
 | SSA/Registers | 85% | ✅ | Full SSAVar, use-def chains, CodeVar, TypeBound |
 | Exception Handling | 70% | 🔶 | Block-level tracking, multi-catch type lists |
 | Debug Info | 75% | 🔶 | End-scope tracking, complex debug attributes |
-| Annotations | 78% | ✅ | Minor: nested element name handling |
+| Annotations | 100% | ✅ | Complete: nested element name handling fixed Dec 17 |
 | Lazy Loading | 90% | ✅ | Excellent match with ProcessState pattern |
 
 ### Recent Improvements (2025-12-17)
-- **Class Hierarchy** (85%→100%): Full TypeCompare engine, TypeUtils functionality, visitSuperTypes visitor, TypeVarMapping for generics
-- **Attribute System** (80%→100%): Complete 1:1 JADX parity with 60 AFlag flags and 37 AType typed attributes
+- **Annotations** (78%→100%): Fixed nested annotation element name handling - single "value" element omits name, multiple elements include names, supports recursive nested annotations
+- **Attribute System** (80%→100%): Complete 1:1 JADX parity with 60 AFlag flags (59 JADX + TmpEdge) and 37 AType typed attributes
+- **Class Hierarchy** (85%→100%): Full TypeCompare engine with 8 result types, TypeVarMapping for generic substitution, visitSuperTypes visitor pattern, PrimitiveType width comparison
 - **Class/Method/Field** (68%→90%): Added LoadStage enum, inner_classes, parent_class, dependencies, codegen_deps
 - **SSA Infrastructure** (60%→85%): Full SSAVar, TypeInfo, CodeVar, TypeBound
 - **Instruction Args** (65%→85%): InsnWrapArg, NamedArg, This variants
@@ -708,11 +709,11 @@ node.get(AType.LOOP);
 
 ```rust
 pub struct AttributeStorage {
-    flags: u64,  // 59 AFlag bits
+    flags: u64,  // 60 AFlag bits (59 JADX + TmpEdge)
     attrs: HashMap<TypeId, Box<dyn Any + Send + Sync>>,  // 37 AType types
 }
 
-/// 59 flags matching JADX's AFlag enum exactly (1:1 order)
+/// 60 flags matching JADX's AFlag enum exactly (1:1 order) + TmpEdge
 #[repr(u8)]
 pub enum AFlag {
     MthEnterBlock = 0,   // MTH_ENTER_BLOCK
@@ -725,6 +726,7 @@ pub enum AFlag {
     Return = 7,          // RETURN
     // ... 51 more flags in exact JADX order
     ComputePostDom = 58, // COMPUTE_POST_DOM
+    TmpEdge = 59,        // TMP_EDGE (for SSA edge handling)
 }
 
 /// 37 typed attributes matching JADX's AType<T> system exactly
@@ -749,7 +751,7 @@ storage.get_attr::<LoopInfo>();
 ```
 
 **Parity Achievement:** Dexterity now has complete 1:1 parity with JADX's attribute system:
-- **59 AFlag flags** matching JADX's `AFlag` enum in identical order
+- **60 AFlag flags** matching JADX's `AFlag` enum in identical order (59 JADX + TmpEdge)
 - **37 AType typed attributes** matching JADX's `AType<T>` system
 - **Full typed attribute structs** for LoopInfo, PhiListAttr, MethodInlineAttr, etc.
 - **JADX name conversion** via `from_jadx_name()` / `to_jadx_name()` methods

@@ -18,7 +18,7 @@ Dexterity's code generation module achieves approximately **94% feature parity**
 | Control Flow | 92% | Production Ready |
 | Condition Generation | 90% | Production Ready |
 | Type Generation | 95% | Production Ready |
-| Annotation Generation | 90% | Production Ready |
+| Annotation Generation | 100% | Production Ready |
 | Variable Naming | 85% | Production Ready |
 | Code Quality | 88% | Production Ready |
 | Special Cases | 80% | Production Ready |
@@ -163,7 +163,7 @@ Dexterity's code generation module achieves approximately **94% feature parity**
 | Inner class names (`$` -> `.`) | DONE | |
 | Unknown fallback to Object | DONE | |
 
-### 7. Annotation Generation - 90%
+### 7. Annotation Generation - 100%
 
 | Feature | Status | Notes |
 |---------|--------|-------|
@@ -173,7 +173,9 @@ Dexterity's code generation module achieves approximately **94% feature parity**
 | Single element shorthand | DONE | |
 | Skip build-time annotations | DONE | |
 | Skip dalvik internal | DONE | |
-| Visibility filtering | 85% | |
+| Visibility filtering | DONE | |
+| Nested annotation element names | DONE | Single "value" omits name, multiple include names |
+| Recursive nested annotations | DONE | Full recursion support |
 
 ### 8. Variable Naming - 85%
 

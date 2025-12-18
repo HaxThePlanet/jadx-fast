@@ -4,6 +4,29 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Nested Annotation Element Name Handling (Dec 17, 2025)
+
+**Fixed nested annotation element name rendering in code generation.**
+
+**The Problem:**
+Nested annotations were rendered with placeholder format `@AnnotationName(...)` instead of properly handling element names.
+
+**The Fix:**
+Updated `annotation_value_to_string()` in `method_gen.rs` to properly handle element names in nested annotations:
+- Single "value" element omits the name: `@Foo(@Bar(42))`
+- Multiple elements include names: `@Foo(@Bar(x = 1, y = 2))`
+- Supports recursive nested annotations
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/method_gen.rs` (lines 127-132, 191-196)
+
+**Additional Fix:**
+Added `AFlag::TmpEdge` to the enum in `dexterity-ir/src/attributes.rs` for SSA temporary edges during exception handler processing.
+
+**All 685 tests pass.**
+
+---
+
 ### Transparent Huge Pages (THP) Optimization (Dec 17, 2025)
 
 **Major performance improvement: 8.8% faster at 56 cores with excellent high-core scaling.**

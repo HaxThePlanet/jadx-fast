@@ -63,7 +63,8 @@
 
 ## Dexterity-IR Improvements (Dec 17, 2025)
 
-**IR Parity:** 82% → 85-90% (Regions: 72% → 80%+)
+**IR Parity:** 82% → **89%** (Regions: 72% → 80%+)
+**Key Achievement:** 100% JADX parity for **Attribute System** (60 AFlag + 37 AType) and **Class Hierarchy** (TypeCompare, TypeVarMapping, visitSuperTypes)
 
 **Completed:**
 1. TryCatchBlockAttr - Full exception handler nesting (`crates/dexterity-ir/src/info.rs`)
@@ -145,6 +146,19 @@ See ROADMAP.md for details.
 - **Example output:** "Kotlin metadata prepass: 9455 classes scanned, 8417 aliases registered"
 - **Benefit:** Enables Kotlin type names like `Lazy`, `Function0` instead of obfuscated `h`, `p`, `a`
 - **Files Changed:** `crates/dexterity-cli/src/deobf.rs`, `crates/dexterity-cli/src/main.rs`
+
+---
+
+### Dec 17, 2025 - Nested Annotation Element Name Handling
+
+**Fix 16: Nested Annotation Element Names**
+- **Before:** Nested annotations rendered as `@AnnotationName(...)` (placeholder format)
+- **After:** Properly renders elements - single "value" element omits name, multiple elements include names
+- **Root Cause:** `annotation_value_to_string()` in method_gen.rs didn't handle nested annotation elements
+- **Fix:** Updated nested annotation handling to match top-level annotation element name logic
+- **Files Changed:** `crates/dexterity-codegen/src/method_gen.rs` (lines 127-132, 191-196)
+
+**Additional:** Added `AFlag::TmpEdge` to `dexterity-ir/src/attributes.rs` for SSA temporary edges.
 
 ---
 

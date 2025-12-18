@@ -36,17 +36,17 @@ Memory-mapped DEX file parsing with zero-copy access.
 - `header.rs` - DEX header parsing (magic, checksum, offsets)
 - `consts.rs` - Dalvik opcode definitions (all 224 opcodes)
 
-### dexterity-ir (Intermediate Representation) - 85% JADX Parity
+### dexterity-ir (Intermediate Representation) - 89% JADX Parity
 
-Core IR types shared across all passes. Major update Dec 17, 2025 (72% -> 85% parity).
+Core IR types shared across all passes. Major update Dec 17, 2025 (82% -> 89% parity).
 
 **Key components:**
 - `instructions.rs` - ~46 instruction variants (incl. MoveMulti, StrConcat, Constructor, JavaJsr/Ret)
 - `types.rs` - Type system with Unknown variants (UnknownNarrow/Wide/Object/Array/Integral)
 - `nodes.rs` - `ClassNode`, `MethodNode`, `FieldNode`, `BlockNode` definitions
-- `class_hierarchy.rs` - Class hierarchy with LCA calculation for type inference (~382 lines)
+- `class_hierarchy.rs` - **100% JADX parity**: TypeCompare engine, TypeVarMapping, visitSuperTypes visitor, LCA calculation
 - `ssa.rs` - Full SSA infrastructure (SSAVar, TypeInfo, CodeVar, TypeBound, SSAContext)
-- `attributes.rs` - 69 JADX-compatible attribute flags (u128 bitfield)
+- `attributes.rs` - **100% JADX parity**: 60 AFlag flags (59 JADX + TmpEdge) + 37 AType typed attributes
 - `builder.rs` - IR builder from DEX bytecode
 - `regions.rs` - Control flow region types (if/loop/switch/try)
 - `kotlin_metadata.rs` - Kotlin metadata types and parsing
