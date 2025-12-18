@@ -48,7 +48,7 @@ use crate::expr_gen::{BoxingType, ExprGen};
 use crate::method_gen::generate_method_with_dex;
 use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_else_if,
-    gen_if_header, gen_while_header,
+    gen_if_header, gen_while_header, gen_for_header,
 };
 use crate::type_gen::{literal_to_string, object_to_java_name, type_to_string, type_to_string_with_imports};
 use crate::writer::CodeWriter;
@@ -125,6 +125,8 @@ pub struct BodyGenContext {
     /// Synthetic lambda methods available for inlining
     /// Maps method name (e.g., "lambda$main$0") to method data
     pub lambda_methods: HashMap<String, std::sync::Arc<dexterity_ir::MethodData>>,
+    /// Loop pattern analysis results (for/foreach detection)
+    pub loop_patterns: dexterity_passes::LoopPatternResult,
 }
 
 /// Tracks a StringBuilder chain for optimization to string concatenation
@@ -246,6 +248,7 @@ impl BodyGenContext {
             last_source_line: None,
             is_constructor: method.name == "<init>",
             lambda_methods: HashMap::new(),
+            loop_patterns: dexterity_passes::LoopPatternResult::default(),
         }
     }
 
@@ -276,6 +279,11 @@ impl BodyGenContext {
     /// Get a synthetic lambda method by name for inlining
     pub fn get_lambda_method(&self, name: &str) -> Option<&dexterity_ir::MethodData> {
         self.lambda_methods.get(name).map(|arc| arc.as_ref())
+    }
+
+    /// Set loop pattern analysis results (for/foreach detection)
+    pub fn set_loop_patterns(&mut self, patterns: dexterity_passes::LoopPatternResult) {
+        self.loop_patterns = patterns;
     }
 
     /// Check if a variable should be inlined (used exactly once and has an expression)
@@ -4010,6 +4018,34 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             match kind {
                 LoopKind::While | LoopKind::For => {
+                    // Try traditional for loop first (for indexed for-loops like for(int i=0; i<N; i++))
+                    let header_block_id = match condition {
+                        Some(Condition::Simple { block, .. }) => Some(block),
+                        _ => None,
+                    };
+
+                    if let Some(header_id) = header_block_id {
+                        if let Some(for_pattern) = ctx.loop_patterns.for_loops.iter().find(|p| p.header == *header_id) {
+                            // Generate traditional for loop: for (int i = 0; i < N; i++)
+                            let loop_reg = dexterity_ir::instructions::RegisterArg::with_ssa(for_pattern.loop_var.0, for_pattern.loop_var.1);
+                            let var_name = ctx.expr_gen.get_var_name(&loop_reg);
+
+                            // Initialize: "int i = 0"
+                            let init_str = format!("int {} = 0", var_name);
+
+                            // Condition: already have it
+                            let cond_str = condition_str.clone();
+
+                            // Update: "i++"
+                            let update_str = format!("{}++", var_name);
+
+                            gen_for_header(&init_str, &cond_str, &update_str, code);
+                            generate_region(body, ctx, code);
+                            gen_close_block(code);
+                            return;
+                        }
+                    }
+
                     // Array for-each detection: detect pattern for (int i = 0; i < array.length; i++) { item = array[i]; }
                     // Try this before iterator detection as it's more specific
                     if let Some(cond) = condition {

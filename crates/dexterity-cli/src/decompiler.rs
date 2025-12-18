@@ -13,7 +13,7 @@ use dexterity_ir::MethodData;
 use dexterity_passes::{
     assign_var_names, split_blocks, transform_to_ssa, infer_types, simplify_instructions,
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, BlockSplitResult, CFG, SsaResult,
-    TypeInferenceResult, VarNamingResult, CodeShrinkResult,
+    TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
 };
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
 
@@ -34,6 +34,8 @@ pub struct DecompiledMethod {
     pub regions: Region,
     /// Code shrinking result (variable inlining decisions)
     pub shrink_result: CodeShrinkResult,
+    /// Loop pattern analysis (for/foreach detection)
+    pub loop_patterns: LoopPatternResult,
 }
 
 /// Decompile a method through the full pipeline
@@ -104,6 +106,10 @@ pub fn decompile_method(
     // Removes redundant moves, marks associative chains for parenthesis optimization
     let _ = prepare_for_codegen(&mut ssa);
 
+    // Stage 5.8: Loop pattern analysis (for/foreach detection)
+    let loops = detect_loops(&cfg);
+    let loop_patterns = analyze_loop_patterns(&ssa, &loops);
+
     // Stage 6: Variable naming
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
     let num_params = method.arg_types.len() as u16;
@@ -117,6 +123,7 @@ pub fn decompile_method(
         var_names,
         regions,
         shrink_result,
+        loop_patterns,
     })
 }
 
