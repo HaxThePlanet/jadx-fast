@@ -750,9 +750,9 @@ fn add_inner_class_declaration<W: CodeWriter>(
     if access_flags::is_interface(flags) {
         flags &= !(access_flags::flags::ACC_ABSTRACT | access_flags::flags::ACC_STATIC);
     }
-    // Enums are implicitly final
+    // Enums are implicitly final and static (for inner enums)
     if access_flags::is_enum(flags) {
-        flags &= !(access_flags::flags::ACC_FINAL | access_flags::flags::ACC_ABSTRACT);
+        flags &= !(access_flags::flags::ACC_FINAL | access_flags::flags::ACC_ABSTRACT | access_flags::flags::ACC_STATIC);
     }
 
     // Modifiers
@@ -881,9 +881,9 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
     if access_flags::is_interface(flags) {
         flags &= !(access_flags::flags::ACC_ABSTRACT | access_flags::flags::ACC_STATIC);
     }
-    // Enums are implicitly final
+    // Enums are implicitly final and static (for inner enums)
     if access_flags::is_enum(flags) {
-        flags &= !(access_flags::flags::ACC_FINAL | access_flags::flags::ACC_ABSTRACT);
+        flags &= !(access_flags::flags::ACC_FINAL | access_flags::flags::ACC_ABSTRACT | access_flags::flags::ACC_STATIC);
     }
 
     // Modifiers

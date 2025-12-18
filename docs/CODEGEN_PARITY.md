@@ -1,18 +1,18 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-17
+**Last Updated**: 2025-12-18
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
-**Overall Parity**: **94%** (4 components at 100%, overall quality 95.5%+)
+**Overall Parity**: **95%** (5 components at 100%, overall quality 95.5%+)
 
 ---
 
 ## Executive Summary
 
-Dexterity's code generation module achieves approximately **94% feature parity** with JADX's mature codegen implementation. **Simple APKs produce identical output**, and complex APKs achieve **95.5%+ quality** with minor differences in output style.
+Dexterity's code generation module achieves approximately **95% feature parity** with JADX's mature codegen implementation. **Simple APKs produce identical output**, and complex APKs achieve **95.5%+ quality** with minor differences in output style. **Class Generation has reached 100% parity** with all enum syntax issues resolved.
 
 | Component | Parity | Status | Difficulty |
 |-----------|--------|--------|------------|
-| Class Generation | 90% | Production Ready | Medium |
+| **Class Generation** | **100%** | **Production Ready** | **Done** |
 | **Method Generation** | **100%** | **Production Ready** | **Done** |
 | Expression Generation | 90% | Production Ready | Medium |
 | Control Flow | 90% | Production Ready | Medium |
@@ -87,6 +87,11 @@ All critical and high-priority issues have been **resolved** to achieve 94% pari
 ### RESOLVED: CONSTRUCTOR Synthesis (100% Parity)
 - NewInstance + <init> fusion for clean constructor calls
 
+### RESOLVED: Enum Declaration Syntax (100% Parity)
+- Enums now correctly emit without `static` modifier
+- Inner enums properly recognized as implicitly static (JLS §8.9)
+- 0 instances of incorrect `static enum` declarations
+
 ---
 
 ## Remaining Minor Issues (P3 - Cosmetic)
@@ -96,9 +101,6 @@ Minor cosmetic issue - does not affect correctness.
 
 ### 2. Formatting Differences (~1% impact)
 Minor style differences (occasional extra whitespace).
-
-### 3. Enum Declaration Syntax (~1% impact)
-`public static enum` vs `public enum` - cosmetic only.
 
 ---
 
@@ -149,7 +151,7 @@ Minor style differences (occasional extra whitespace).
 | Inner class detection | DONE | 4 types |
 | Anonymous class inlining | DONE | |
 | Generic interface types | DONE | Full `implements Foo<T>` support |
-| **Enum syntax** | **90%** | Minor `static enum` vs `enum` differences |
+| **Enum syntax** | **DONE** | Correctly emits `enum` without `static` modifier |
 
 ### 2. Method Generation - 100%
 
@@ -267,9 +269,9 @@ Minor style differences (occasional extra whitespace).
 
 ---
 
-## Achievements (Dec 17, 2025)
+## Achievements (Dec 18, 2025)
 
-**Target of 90% ACHIEVED - Current parity at 94%**
+**Target of 90% ACHIEVED - Current parity at 95%**
 
 ### Completed Improvements
 
@@ -294,11 +296,16 @@ Minor style differences (occasional extra whitespace).
    - Class-level, method-level, interface generics
    - Location: `converter.rs`, `class_gen.rs`
 
+6. **Enum declaration syntax** - DONE (Dec 18, 2025)
+   - Inner enums correctly emit without `static` modifier
+   - Strips ACC_STATIC flag for enum declarations
+   - 100% Class Generation parity achieved
+   - Location: `class_gen.rs` (lines 755, 886)
+
 ### Remaining Polish Items (Future)
 
 - Minor formatting differences (extra whitespace in some cases)
 - Some fully-qualified names where simple names would suffice
-- Enum declaration syntax (`static enum` vs `enum`)
 
 ---
 

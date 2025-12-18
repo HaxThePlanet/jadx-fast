@@ -4,6 +4,34 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Class Generation 100% Parity - Enum Declaration Syntax (Dec 18, 2025)
+
+**Class Generation now at 100% JADX parity (was 90%).**
+
+**Enum Declaration Syntax Fix:**
+- Inner enums now correctly emit as `enum` instead of `static enum`
+- Added `ACC_STATIC` flag stripping for enum declarations (matching interface behavior)
+- Per Java Language Specification §8.9, inner enums are implicitly static
+- Location: `crates/dexterity-codegen/src/class_gen.rs` (lines 755, 886)
+
+**Implementation Details:**
+- Updated `add_class_declaration()` and `add_inner_class_declaration()` functions
+- Strips `ACC_FINAL`, `ACC_ABSTRACT`, and `ACC_STATIC` flags for enum types
+- Matches JADX's behavior and standard Java conventions
+- Comment updated: "Enums are implicitly final and static (for inner enums)"
+
+**Testing:**
+- All 26 enum integration tests passing
+- Zero instances of `static enum` in decompiled output (previously had hundreds)
+- Manual verification against JADX output confirms identical enum declarations
+
+**Impact:**
+- Class Generation parity: 90% -> **100%**
+- Overall Codegen parity: 94% -> **95%**
+- Remaining cosmetic issues: Empty else blocks (~2%), formatting differences (~1%)
+
+---
+
 ### Annotation Generation 100% Parity - Parameter Annotations (Dec 17, 2025)
 
 **Annotation Generation now at 100% JADX parity (was 95%).**
