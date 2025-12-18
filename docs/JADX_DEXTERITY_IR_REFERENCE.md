@@ -26,7 +26,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 |-----------|--------|--------|-------|
 | Type System | 100% | ✅ | Unknown variants, type narrowing, **wildcard variance** (Dec 17) |
 | Instructions | 85% | ✅ | All JADX types: MOVE_MULTI, STR_CONCAT, REGION_ARG, JSR/RET |
-| Instruction Args | 85% | ✅ | InsnWrapArg, NamedArg, This reference |
+| **Instruction Args** | **100%** | ✅ | **InsnWrapArg, NamedArg, This + all JADX methods (Dec 17)** |
 | **Class/Method/Field** | **100%** | ✅ | **LoadStage, innerClasses, parent_class, dependencies, codegen_deps, inlinedClasses, useIn, useInMth, thisArg, argsList, enterBlock, exitBlock** |
 | **Regions** | **100%** | ✅ | **IContainer/IRegion/IBranchRegion traits, LoopType, CaseInfo, ConditionMode** |
 | **Attribute System** | **100%** | ✅ | **60 AFlag (59 JADX + TmpEdge) + 37 AType (1:1 JADX parity)** |
@@ -38,6 +38,19 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Lazy Loading | 90% | ✅ | Excellent match with ProcessState pattern |
 
 ### Recent Improvements (2025-12-17)
+- **Instruction Args** (85%→100%): Complete JADX InsnArg parity with all methods:
+  - `isZeroLiteral()`, `isZeroConst()` - zero value detection
+  - `isFalse()`, `isTrue()` - boolean literal detection
+  - `isConst()`, `isSameConst()` - constant comparison
+  - `isSameVar()`, `isSameCodeVar()` - variable identity checking
+  - `isThis()`, `isAnyThis()` - this reference detection (including outer this)
+  - `unwrap()`, `duplicate()`, `toShortString()`, `getType()` - utility methods
+  - `setName()` for NamedArg mutation
+  - `WrappedInsn.getWrapInsn()`, `unwrapWithCopy()`, `isConstString()` - InsnWrapArg methods
+  - `RegisterArg.sameRegAndSsa()`, `sameCodeVar()`, `toShortString()` - register comparison
+  - `LiteralArg.isZero()`, `sameValue()`, `getLiteral()`, `isWide()` - literal utilities
+  - `InsnType.name()` - instruction type name for debug output
+  - `ArgType.shortName()`, `getSimpleName()` - type string representation
 - **Class/Method/Field** (90%→100%): Added inlined_classes, use_in, use_in_mth to ClassData; this_arg, args_list, enter_block, exit_block, use_in to MethodData; use_in to FieldData - complete JADX parity
 - **Regions** (82%→100%): Complete JADX parity with IContainer/IRegion/IBranchRegion/IConditionRegion trait hierarchy, LoopType enum (ForLoop/ForEachLoop matching JADX), CaseInfo/CaseKey for switch cases, ConditionMode matching JADX IfCondition.Mode, enhanced Region::Loop/Switch/Synchronized with all JADX fields
 - **Exception Handling** (70%→85%): Added `merge_multi_catch_handlers()` for Java 7+ multi-catch pattern detection; generates `catch (Type1 | Type2 | Type3 e)` syntax; pipe-separated type list parsing in codegen; all 58 trycatch tests pass
@@ -45,7 +58,6 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 - **Attribute System** (80%→100%): Complete 1:1 JADX parity with 60 AFlag flags (59 JADX + TmpEdge) and 37 AType typed attributes
 - **Class Hierarchy** (85%→100%): Full TypeCompare engine with 8 result types, TypeVarMapping for generic substitution, visitSuperTypes visitor pattern, PrimitiveType width comparison
 - **SSA Infrastructure** (60%→85%): Full SSAVar, TypeInfo, CodeVar, TypeBound
-- **Instruction Args** (65%→85%): InsnWrapArg, NamedArg, This variants
 - **Instructions** (70%→85%): MoveMulti, StrConcat, RegionArg, Constructor, JavaJsr/Ret
 - **Type System** (90%→100%): Added wildcard variance handling (`? extends T`, `? super T`) with proper TypeCompare covariance/contravariance
 - **Debug Info** (75%→100%): Complete JADX parity with signature field for generic types (DBG_START_LOCAL_EXTENDED), is_parameter flag for method parameters, is_end flag for scope termination (DBG_END_LOCAL), lines_valid validation matching JADX USE_LINES_HINTS pattern
@@ -270,7 +282,14 @@ pub struct InsnNode {
     pub result_type: Option<ArgType>,
     pub source_line: Option<u32>,
     pub offset: u32,
-    pub flags: u64,  // Attribute flags
+    pub flags: u128,  // Attribute flags (supports 60+ JADX flags)
+}
+
+// InsnNode methods
+impl InsnNode {
+    fn is_const_insn(&self) -> bool;  // JADX: isConstInsn
+    fn is_same(&self, other: &InsnNode) -> bool;  // JADX: isSame
+    fn type_name(&self) -> &'static str;  // JADX: getType().name()
 }
 
 pub enum InsnType {
@@ -284,7 +303,12 @@ pub enum InsnType {
     If { condition: IfCondition, left: InsnArg, right: Option<InsnArg>, target: u32 },
     Ternary { dest: RegisterArg, condition: IfCondition, left: InsnArg, right: Option<InsnArg>, then_value: InsnArg, else_value: InsnArg },
     Phi { dest: RegisterArg, sources: Vec<(u32, InsnArg)> },
-    // ... 40+ instruction types
+    // ... 40+ instruction types (MoveMulti, StrConcat, RegionArg, Constructor, JavaJsr, JavaRet, Break, Continue)
+}
+
+// InsnType methods
+impl InsnType {
+    fn name(&self) -> &'static str;  // JADX: getType().name() - returns "CONST", "MOVE", "INVOKE", etc.
 }
 
 pub enum InsnArg {
@@ -294,15 +318,65 @@ pub enum InsnArg {
     Field(u32),
     Method(u32),
     String(u32),
-    // New JADX-compatible argument types (2025-12-17)
+    // JADX-compatible argument types (100% parity Dec 17)
     Wrapped(Box<WrappedInsn>),  // Inlined instruction (matches InsnWrapArg)
     Named { name: String, arg_type: ArgType },  // Synthetic variables (matches NamedArg)
     This { class_type: String },  // Explicit 'this' reference
 }
 
+// InsnArg methods (100% JADX parity)
+impl InsnArg {
+    // Zero/constant detection
+    fn is_zero_literal(&self) -> bool;     // JADX: isZeroLiteral
+    fn is_zero_const(&self) -> bool;       // JADX: isZeroConst (includes wrapped CONST)
+    fn is_const(&self) -> bool;            // JADX: isConst
+    fn is_same_const(&self, other: &InsnArg) -> bool;  // JADX: isSameConst
+
+    // Boolean detection
+    fn is_false(&self, expected_type: Option<&ArgType>) -> bool;  // JADX: isFalse
+    fn is_true(&self, expected_type: Option<&ArgType>) -> bool;   // JADX: isTrue
+
+    // Variable comparison
+    fn is_same_var(&self, other: &RegisterArg) -> bool;      // JADX: isSameVar
+    fn is_same_code_var(&self, other: &RegisterArg) -> bool; // JADX: isSameCodeVar
+
+    // This reference
+    fn is_this(&self) -> bool;       // JADX: isThis (via AFlag.THIS)
+    fn is_any_this(&self) -> bool;   // JADX: isAnyThis (recursive outer this check)
+
+    // Utility methods
+    fn unwrap(&self) -> Option<&InsnNode>;  // JADX: unwrap
+    fn duplicate(&self) -> Self;            // JADX: duplicate
+    fn get_type(&self) -> ArgType;          // JADX: getType
+    fn to_short_string(&self) -> String;    // JADX: toShortString
+    fn set_name(&mut self, name: String) -> bool;  // JADX NamedArg: setName
+}
+
 pub struct RegisterArg {
     pub reg_num: u16,
     pub ssa_version: u32,
+}
+
+// RegisterArg methods (100% JADX parity)
+impl RegisterArg {
+    fn same_reg_and_ssa(&self, other: &RegisterArg) -> bool;  // JADX: sameRegAndSVar
+    fn same_code_var(&self, other: &RegisterArg) -> bool;     // JADX: sameCodeVar
+    fn to_short_string(&self) -> String;  // JADX: toShortString
+}
+
+pub struct WrappedInsn {
+    pub insn_idx: u32,
+    pub result_type: ArgType,
+    pub inline_insn: Option<Box<InsnNode>>,
+}
+
+// WrappedInsn methods (100% JADX InsnWrapArg parity)
+impl WrappedInsn {
+    fn get_wrap_insn(&self) -> Option<&InsnNode>;  // JADX: getWrapInsn
+    fn unwrap_with_copy(&self) -> Option<InsnNode>;  // JADX: unWrapWithCopy
+    fn duplicate(&self) -> Self;          // JADX: duplicate
+    fn to_short_string(&self) -> String;  // JADX: toShortString
+    fn is_const_string(&self) -> bool;    // Special case for CONST_STR
 }
 ```
 

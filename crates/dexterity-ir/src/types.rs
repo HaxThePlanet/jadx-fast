@@ -355,6 +355,61 @@ impl ArgType {
             | ArgType::UnknownIntegral => "?".to_string(),
         }
     }
+
+    // === JADX ArgType methods for 100% parity ===
+
+    /// Short name representation for display (JADX: toShortString-like)
+    ///
+    /// Returns a concise type name suitable for debug output and wrapped instruction display.
+    pub fn short_name(&self) -> String {
+        match self {
+            ArgType::Void => "V".to_string(),
+            ArgType::Boolean => "Z".to_string(),
+            ArgType::Byte => "B".to_string(),
+            ArgType::Char => "C".to_string(),
+            ArgType::Short => "S".to_string(),
+            ArgType::Int => "I".to_string(),
+            ArgType::Long => "J".to_string(),
+            ArgType::Float => "F".to_string(),
+            ArgType::Double => "D".to_string(),
+            ArgType::Object(name) => {
+                // Extract simple class name from full path
+                name.rsplit('/').next().unwrap_or(name).to_string()
+            }
+            ArgType::Array(elem) => format!("{}[]", elem.short_name()),
+            ArgType::Generic { base, params } => {
+                let base_name = base.rsplit('/').next().unwrap_or(base);
+                if params.is_empty() {
+                    base_name.to_string()
+                } else {
+                    let param_strs: Vec<_> = params.iter().map(|p| p.short_name()).collect();
+                    format!("{}<{}>", base_name, param_strs.join(","))
+                }
+            }
+            ArgType::TypeVariable(name) => name.clone(),
+            ArgType::Wildcard { bound, inner } => match (bound, inner) {
+                (WildcardBound::Unbounded, _) => "?".to_string(),
+                (WildcardBound::Extends, Some(t)) => format!("?e{}", t.short_name()),
+                (WildcardBound::Super, Some(t)) => format!("?s{}", t.short_name()),
+                _ => "?".to_string(),
+            },
+            ArgType::Unknown => "?".to_string(),
+            ArgType::UnknownNarrow => "?N".to_string(),
+            ArgType::UnknownWide => "?W".to_string(),
+            ArgType::UnknownObject => "?O".to_string(),
+            ArgType::UnknownArray => "?A".to_string(),
+            ArgType::UnknownIntegral => "?I".to_string(),
+        }
+    }
+
+    /// Get the simple name (just class name without package) (JADX: getObject for objects)
+    pub fn get_simple_name(&self) -> Option<String> {
+        match self {
+            ArgType::Object(name) => Some(name.rsplit('/').next().unwrap_or(name).to_string()),
+            ArgType::Generic { base, .. } => Some(base.rsplit('/').next().unwrap_or(base).to_string()),
+            _ => None,
+        }
+    }
 }
 
 /// Type comparison result (matching JADX's TypeCompareEnum)

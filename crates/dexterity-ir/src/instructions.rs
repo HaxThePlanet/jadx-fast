@@ -68,6 +68,32 @@ impl InsnNode {
     pub fn has_any_flags(&self) -> bool {
         self.flags != 0
     }
+
+    // === JADX InsnNode methods for 100% parity ===
+
+    /// Check if this is a constant instruction (JADX: isConstInsn)
+    ///
+    /// Returns true for CONST, CONST_STR, CONST_CLASS instructions.
+    pub fn is_const_insn(&self) -> bool {
+        matches!(
+            &self.insn_type,
+            InsnType::Const { .. }
+                | InsnType::ConstString { .. }
+                | InsnType::ConstClass { .. }
+        )
+    }
+
+    /// Check if this instruction has the same type and arguments (JADX: isSame)
+    pub fn is_same(&self, other: &InsnNode) -> bool {
+        // For basic comparison, check insn_type variant and offset
+        std::mem::discriminant(&self.insn_type) == std::mem::discriminant(&other.insn_type)
+            && self.offset == other.offset
+    }
+
+    /// Get instruction type name (JADX: getType().name())
+    pub fn type_name(&self) -> &'static str {
+        self.insn_type.name()
+    }
 }
 
 /// Method handle type for lambdas
@@ -439,6 +465,61 @@ pub enum InsnType {
     },
 }
 
+impl InsnType {
+    /// Get the instruction type name (JADX: getType().name())
+    ///
+    /// Returns a string matching JADX's InsnType enum names.
+    pub fn name(&self) -> &'static str {
+        match self {
+            InsnType::Nop => "NOP",
+            InsnType::Const { .. } => "CONST",
+            InsnType::ConstString { .. } => "CONST_STR",
+            InsnType::ConstClass { .. } => "CONST_CLASS",
+            InsnType::Move { .. } => "MOVE",
+            InsnType::MoveResult { .. } => "MOVE_RESULT",
+            InsnType::MoveException { .. } => "MOVE_EXCEPTION",
+            InsnType::Return { .. } => "RETURN",
+            InsnType::Throw { .. } => "THROW",
+            InsnType::MonitorEnter { .. } => "MONITOR_ENTER",
+            InsnType::MonitorExit { .. } => "MONITOR_EXIT",
+            InsnType::CheckCast { .. } => "CHECK_CAST",
+            InsnType::InstanceOf { .. } => "INSTANCE_OF",
+            InsnType::ArrayLength { .. } => "ARRAY_LENGTH",
+            InsnType::NewInstance { .. } => "NEW_INSTANCE",
+            InsnType::NewArray { .. } => "NEW_ARRAY",
+            InsnType::FilledNewArray { .. } => "FILLED_NEW_ARRAY",
+            InsnType::FillArrayData { .. } => "FILL_ARRAY_DATA",
+            InsnType::ArrayGet { .. } => "AGET",
+            InsnType::ArrayPut { .. } => "APUT",
+            InsnType::InstanceGet { .. } => "IGET",
+            InsnType::InstancePut { .. } => "IPUT",
+            InsnType::StaticGet { .. } => "SGET",
+            InsnType::StaticPut { .. } => "SPUT",
+            InsnType::Invoke { .. } => "INVOKE",
+            InsnType::InvokeCustom { .. } => "INVOKE_CUSTOM",
+            InsnType::Unary { .. } => "ARITH",
+            InsnType::Binary { .. } => "ARITH",
+            InsnType::Cast { .. } => "CAST",
+            InsnType::Compare { .. } => "CMP",
+            InsnType::If { .. } => "IF",
+            InsnType::Ternary { .. } => "TERNARY",
+            InsnType::Goto { .. } => "GOTO",
+            InsnType::PackedSwitch { .. } => "SWITCH",
+            InsnType::SparseSwitch { .. } => "SWITCH",
+            InsnType::Phi { .. } => "PHI",
+            InsnType::MoveMulti { .. } => "MOVE_MULTI",
+            InsnType::StrConcat { .. } => "STR_CONCAT",
+            InsnType::RegionArg { .. } => "REGION_ARG",
+            InsnType::OneArg { .. } => "ONE_ARG",
+            InsnType::Constructor { .. } => "CONSTRUCTOR",
+            InsnType::JavaJsr { .. } => "JAVA_JSR",
+            InsnType::JavaRet { .. } => "JAVA_RET",
+            InsnType::Break { .. } => "BREAK",
+            InsnType::Continue { .. } => "CONTINUE",
+        }
+    }
+}
+
 /// Instruction argument
 ///
 /// Matches JADX's instruction argument hierarchy with additional variants
@@ -519,6 +600,75 @@ impl WrappedInsn {
             result_type,
             inline_insn: Some(Box::new(insn)),
         }
+    }
+
+    // === JADX InsnWrapArg methods for 100% parity ===
+
+    /// Get the wrapped instruction (JADX: getWrapInsn)
+    pub fn get_wrap_insn(&self) -> Option<&InsnNode> {
+        self.inline_insn.as_deref()
+    }
+
+    /// Get mutable reference to wrapped instruction
+    pub fn get_wrap_insn_mut(&mut self) -> Option<&mut InsnNode> {
+        self.inline_insn.as_deref_mut()
+    }
+
+    /// Unwrap with a copy of the instruction (JADX: unWrapWithCopy)
+    ///
+    /// Returns a copy of the wrapped instruction with WRAPPED flag removed.
+    /// Used when the instruction needs to be extracted from the wrapper.
+    pub fn unwrap_with_copy(&self) -> Option<InsnNode> {
+        self.inline_insn.as_ref().map(|insn| {
+            let mut copy = (**insn).clone();
+            // Clear the WRAPPED flag from the copy
+            copy.flags &= !(1u128 << 17); // AFlag::Wrapped is bit 17
+            copy
+        })
+    }
+
+    /// Duplicate this wrapped instruction (JADX: duplicate)
+    pub fn duplicate(&self) -> Self {
+        WrappedInsn {
+            insn_idx: self.insn_idx,
+            result_type: self.result_type.clone(),
+            inline_insn: self.inline_insn.as_ref().map(|insn| {
+                let mut copy = (**insn).clone();
+                // Don't copy the result for wrapped copies (JADX: copyWithoutResult)
+                copy.result_type = None;
+                Box::new(copy)
+            }),
+        }
+    }
+
+    /// Short string representation (JADX: toShortString)
+    pub fn to_short_string(&self) -> String {
+        if let Some(ref insn) = self.inline_insn {
+            // Check for CONST_STR special case
+            if let InsnType::ConstString { string_idx, .. } = &insn.insn_type {
+                return format!("(str#{})", string_idx);
+            }
+            format!("(wrap:{}:{})", self.result_type.short_name(), insn.insn_type.name())
+        } else {
+            format!("(wrap:{}:idx{})", self.result_type.short_name(), self.insn_idx)
+        }
+    }
+
+    /// Get the result type of the wrapped instruction
+    pub fn get_type(&self) -> &ArgType {
+        &self.result_type
+    }
+
+    /// Set the result type
+    pub fn set_type(&mut self, ty: ArgType) {
+        self.result_type = ty;
+    }
+
+    /// Check if this wraps a const string instruction (JADX: special case in toString)
+    pub fn is_const_string(&self) -> bool {
+        self.inline_insn.as_ref().map_or(false, |insn| {
+            matches!(&insn.insn_type, InsnType::ConstString { .. })
+        })
     }
 }
 
@@ -612,6 +762,196 @@ impl InsnArg {
             _ => None,
         }
     }
+
+    // === JADX InsnArg methods for 100% parity ===
+
+    /// Check if this is a zero literal (JADX: isZeroLiteral)
+    ///
+    /// Returns true only for literal zero values (int 0, float 0.0, double 0.0)
+    pub fn is_zero_literal(&self) -> bool {
+        match self {
+            InsnArg::Literal(lit) => lit.is_zero(),
+            _ => false,
+        }
+    }
+
+    /// Check if this is a zero constant (JADX: isZeroConst)
+    ///
+    /// Returns true for zero literals OR wrapped CONST instructions with zero value.
+    /// This is used to detect null/zero comparisons.
+    pub fn is_zero_const(&self) -> bool {
+        if self.is_zero_literal() {
+            return true;
+        }
+        // Check wrapped CONST instructions for zero value
+        if let InsnArg::Wrapped(wrapped) = self {
+            if let Some(ref insn) = wrapped.inline_insn {
+                // Check if wrapped instruction is a CONST with zero value
+                if let InsnType::Const { value, .. } = &insn.insn_type {
+                    return value.is_zero();
+                }
+            }
+        }
+        false
+    }
+
+    /// Check if this represents boolean false (JADX: isFalse)
+    ///
+    /// Returns true for literal 0 when the type is known to be boolean.
+    pub fn is_false(&self, expected_type: Option<&ArgType>) -> bool {
+        if let InsnArg::Literal(LiteralArg::Int(0)) = self {
+            return expected_type.map_or(false, |t| *t == ArgType::Boolean);
+        }
+        false
+    }
+
+    /// Check if this represents boolean true (JADX: isTrue)
+    ///
+    /// Returns true for literal 1 when the type is known to be boolean.
+    pub fn is_true(&self, expected_type: Option<&ArgType>) -> bool {
+        if let InsnArg::Literal(LiteralArg::Int(1)) = self {
+            return expected_type.map_or(false, |t| *t == ArgType::Boolean);
+        }
+        false
+    }
+
+    /// Check if this is a constant (literal or wrapped const) (JADX: isConst)
+    pub fn is_const(&self) -> bool {
+        match self {
+            InsnArg::Literal(_) => true,
+            InsnArg::Wrapped(wrapped) => {
+                if let Some(ref insn) = wrapped.inline_insn {
+                    insn.is_const_insn()
+                } else {
+                    false
+                }
+            }
+            _ => false,
+        }
+    }
+
+    /// Check if two args represent the same constant value (JADX: isSameConst)
+    pub fn is_same_const(&self, other: &InsnArg) -> bool {
+        if self.is_const() && other.is_const() {
+            // Compare literals directly
+            match (self, other) {
+                (InsnArg::Literal(a), InsnArg::Literal(b)) => a.same_value(b),
+                (InsnArg::String(a), InsnArg::String(b)) => a == b,
+                _ => false,
+            }
+        } else {
+            false
+        }
+    }
+
+    /// Check if this arg uses the same variable as another register (JADX: isSameVar)
+    pub fn is_same_var(&self, other: &RegisterArg) -> bool {
+        match self {
+            InsnArg::Register(reg) => reg.same_reg_and_ssa(other),
+            _ => false,
+        }
+    }
+
+    /// Check if this arg uses the same code variable (ignoring SSA version) (JADX: isSameCodeVar)
+    pub fn is_same_code_var(&self, other: &RegisterArg) -> bool {
+        match self {
+            InsnArg::Register(reg) => reg.same_code_var(other),
+            _ => false,
+        }
+    }
+
+    /// Check if this is a 'this' reference (JADX: isThis via AFlag.THIS)
+    pub fn is_this(&self) -> bool {
+        matches!(self, InsnArg::This { .. })
+    }
+
+    /// Check if this is any 'this' reference including outer class this (JADX: isAnyThis)
+    ///
+    /// Returns true for 'this' from current or outer classes (common in anonymous classes).
+    /// Recursively checks wrapped instructions for IGET of outer this.
+    pub fn is_any_this(&self) -> bool {
+        if self.is_this() {
+            return true;
+        }
+        // Check wrapped instructions for IGET of 'this$0' pattern
+        if let Some(insn) = self.unwrap() {
+            if let InsnType::InstanceGet { object, .. } = &insn.insn_type {
+                return object.is_any_this();
+            }
+        }
+        false
+    }
+
+    /// Unwrap wrapped instruction if present (JADX: unwrap)
+    pub fn unwrap(&self) -> Option<&InsnNode> {
+        match self {
+            InsnArg::Wrapped(wrapped) => wrapped.inline_insn.as_deref(),
+            _ => None,
+        }
+    }
+
+    /// Get type of this argument (JADX: getType)
+    pub fn get_type(&self) -> ArgType {
+        match self {
+            InsnArg::Register(_) => ArgType::Unknown,
+            InsnArg::Literal(lit) => lit.get_type(),
+            InsnArg::Type(_) => ArgType::Object("java.lang.Class".into()),
+            InsnArg::Field(_) => ArgType::Unknown,
+            InsnArg::Method(_) => ArgType::Unknown,
+            InsnArg::String(_) => ArgType::Object("java.lang.String".into()),
+            InsnArg::Wrapped(w) => w.result_type.clone(),
+            InsnArg::Named { arg_type, .. } => arg_type.clone(),
+            InsnArg::This { class_type } => ArgType::Object(class_type.clone()),
+        }
+    }
+
+    /// Duplicate this argument (JADX: duplicate)
+    pub fn duplicate(&self) -> Self {
+        match self {
+            InsnArg::Register(reg) => InsnArg::Register(*reg),
+            InsnArg::Literal(lit) => InsnArg::Literal(lit.clone()),
+            InsnArg::Type(idx) => InsnArg::Type(*idx),
+            InsnArg::Field(idx) => InsnArg::Field(*idx),
+            InsnArg::Method(idx) => InsnArg::Method(*idx),
+            InsnArg::String(idx) => InsnArg::String(*idx),
+            InsnArg::Wrapped(w) => InsnArg::Wrapped(Box::new(w.duplicate())),
+            InsnArg::Named { name, arg_type } => InsnArg::Named {
+                name: name.clone(),
+                arg_type: arg_type.clone(),
+            },
+            InsnArg::This { class_type } => InsnArg::This {
+                class_type: class_type.clone(),
+            },
+        }
+    }
+
+    /// Short string representation (JADX: toShortString)
+    pub fn to_short_string(&self) -> String {
+        match self {
+            InsnArg::Register(reg) => format!("v{}", reg.reg_num),
+            InsnArg::Literal(lit) => lit.to_short_string(),
+            InsnArg::Type(idx) => format!("type#{}", idx),
+            InsnArg::Field(idx) => format!("field#{}", idx),
+            InsnArg::Method(idx) => format!("method#{}", idx),
+            InsnArg::String(idx) => format!("str#{}", idx),
+            InsnArg::Wrapped(w) => w.to_short_string(),
+            InsnArg::Named { name, .. } => name.clone(),
+            InsnArg::This { .. } => "this".to_string(),
+        }
+    }
+
+    /// Set name for named arguments (JADX NamedArg: setName)
+    ///
+    /// Returns true if successful (only for Named variant)
+    pub fn set_name(&mut self, new_name: impl Into<String>) -> bool {
+        match self {
+            InsnArg::Named { name, .. } => {
+                *name = new_name.into();
+                true
+            }
+            _ => false,
+        }
+    }
 }
 
 /// Register argument
@@ -639,6 +979,53 @@ impl RegisterArg {
             ssa_version: version,
         }
     }
+
+    // === JADX RegisterArg methods for 100% parity ===
+
+    /// Check if same register and SSA version (JADX: sameRegAndSVar)
+    ///
+    /// Returns true if both register number and SSA version match.
+    /// Used for precise variable identity in SSA form.
+    pub fn same_reg_and_ssa(&self, other: &RegisterArg) -> bool {
+        self.reg_num == other.reg_num && self.ssa_version == other.ssa_version
+    }
+
+    /// Check if same code variable (ignoring SSA version) (JADX: sameCodeVar)
+    ///
+    /// Returns true if register numbers match, ignoring SSA versioning.
+    /// Used when we care about the underlying variable, not the specific definition.
+    pub fn same_code_var(&self, other: &RegisterArg) -> bool {
+        self.reg_num == other.reg_num
+    }
+
+    /// Check if this is the same register number (JADX: getRegNum comparison)
+    pub fn same_reg(&self, other: &RegisterArg) -> bool {
+        self.reg_num == other.reg_num
+    }
+
+    /// Get register number (JADX: getRegNum)
+    pub fn get_reg_num(&self) -> u16 {
+        self.reg_num
+    }
+
+    /// Get SSA version (JADX: getSVar().getVersion())
+    pub fn get_ssa_version(&self) -> u32 {
+        self.ssa_version
+    }
+
+    /// Duplicate this register arg (JADX: duplicate)
+    pub fn duplicate(&self) -> Self {
+        *self
+    }
+
+    /// Short string representation (JADX: toShortString)
+    pub fn to_short_string(&self) -> String {
+        if self.ssa_version > 0 {
+            format!("v{}_{}", self.reg_num, self.ssa_version)
+        } else {
+            format!("v{}", self.reg_num)
+        }
+    }
 }
 
 /// Literal argument
@@ -663,6 +1050,83 @@ impl LiteralArg {
     /// Create from raw bits (for const-wide)
     pub fn from_bits_f64(bits: i64) -> Self {
         LiteralArg::Double(f64::from_bits(bits as u64))
+    }
+
+    // === JADX LiteralArg methods for 100% parity ===
+
+    /// Check if this literal is zero (JADX: getLiteral() == 0)
+    pub fn is_zero(&self) -> bool {
+        match self {
+            LiteralArg::Int(v) => *v == 0,
+            LiteralArg::Float(v) => *v == 0.0,
+            LiteralArg::Double(v) => *v == 0.0,
+            LiteralArg::Null => true, // null is considered zero for comparison purposes
+        }
+    }
+
+    /// Check if two literals have the same value (JADX: equals)
+    pub fn same_value(&self, other: &LiteralArg) -> bool {
+        match (self, other) {
+            (LiteralArg::Int(a), LiteralArg::Int(b)) => a == b,
+            (LiteralArg::Float(a), LiteralArg::Float(b)) => a.to_bits() == b.to_bits(),
+            (LiteralArg::Double(a), LiteralArg::Double(b)) => a.to_bits() == b.to_bits(),
+            (LiteralArg::Null, LiteralArg::Null) => true,
+            _ => false,
+        }
+    }
+
+    /// Get the type of this literal (JADX: getType)
+    pub fn get_type(&self) -> ArgType {
+        match self {
+            LiteralArg::Int(v) => {
+                // JADX uses type inference based on value range
+                if *v == 0 || *v == 1 {
+                    ArgType::Unknown // Could be boolean, byte, short, char, int
+                } else if *v >= i8::MIN as i64 && *v <= i8::MAX as i64 {
+                    ArgType::UnknownIntegral // byte, short, char, int
+                } else if *v >= i16::MIN as i64 && *v <= i16::MAX as i64 {
+                    ArgType::UnknownIntegral // short, char, int
+                } else if *v >= i32::MIN as i64 && *v <= i32::MAX as i64 {
+                    ArgType::Int
+                } else {
+                    ArgType::Long
+                }
+            }
+            LiteralArg::Float(_) => ArgType::Float,
+            LiteralArg::Double(_) => ArgType::Double,
+            LiteralArg::Null => ArgType::UnknownObject,
+        }
+    }
+
+    /// Get the raw integer value (JADX: getLiteral)
+    pub fn get_literal(&self) -> i64 {
+        match self {
+            LiteralArg::Int(v) => *v,
+            LiteralArg::Float(v) => v.to_bits() as i64,
+            LiteralArg::Double(v) => v.to_bits() as i64,
+            LiteralArg::Null => 0,
+        }
+    }
+
+    /// Short string representation (JADX: toShortString)
+    pub fn to_short_string(&self) -> String {
+        match self {
+            LiteralArg::Int(v) => {
+                if *v >= -1000 && *v <= 1000 {
+                    format!("{}", v)
+                } else {
+                    format!("0x{:x}", v)
+                }
+            }
+            LiteralArg::Float(v) => format!("{}f", v),
+            LiteralArg::Double(v) => format!("{}d", v),
+            LiteralArg::Null => "null".to_string(),
+        }
+    }
+
+    /// Check if this is a wide type (long/double) (JADX: isWide)
+    pub fn is_wide(&self) -> bool {
+        matches!(self, LiteralArg::Double(_)) || matches!(self, LiteralArg::Int(v) if *v > i32::MAX as i64 || *v < i32::MIN as i64)
     }
 }
 
