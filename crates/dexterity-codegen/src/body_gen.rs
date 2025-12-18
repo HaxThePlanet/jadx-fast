@@ -119,6 +119,8 @@ pub struct BodyGenContext {
     pub pending_vararg_arrays: HashMap<(u16, u32), PendingVarargArray>,
     /// Last source line number seen (for tracking line changes)
     pub last_source_line: Option<u32>,
+    /// Whether to emit debug line comments (// .line N)
+    pub add_debug_lines: bool,
     /// Whether this method is a constructor (<init>)
     /// Used for single-branch ternary optimization
     pub is_constructor: bool,
@@ -246,6 +248,7 @@ impl BodyGenContext {
             stringbuilder_chains: HashMap::new(),
             pending_vararg_arrays: HashMap::new(),
             last_source_line: None,
+            add_debug_lines: false,
             is_constructor: method.name == "<init>",
             lambda_methods: HashMap::new(),
             loop_patterns: dexterity_passes::LoopPatternResult::default(),
@@ -1393,11 +1396,12 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     fallback: bool,
     res_names: &HashMap<u32, String>,
     replace_consts: bool,
+    add_debug_lines: bool,
     code: &mut W,
 ) {
     generate_body_with_inner_classes_and_lambdas(
         method, dex_info, imports, inner_classes, None, hierarchy,
-        current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, code
+        current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code
     );
 }
 
@@ -5219,11 +5223,13 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
     ctx: &mut BodyGenContext,
     code: &mut W,
 ) -> bool {
-    // Emit source line comment if changed
-    if let Some(line) = insn.source_line {
-        if ctx.last_source_line != Some(line) {
-            code.start_line().add("// .line ").add(&line.to_string()).newline();
-            ctx.last_source_line = Some(line);
+    // Emit source line comment if changed (only when add_debug_lines is enabled)
+    if ctx.add_debug_lines {
+        if let Some(line) = insn.source_line {
+            if ctx.last_source_line != Some(line) {
+                code.start_line().add("// .line ").add(&line.to_string()).newline();
+                ctx.last_source_line = Some(line);
+            }
         }
     }
 
