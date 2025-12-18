@@ -33,7 +33,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | **Class Hierarchy** | **100%** | ✅ | **TypeCompare, TypeUtils, visitSuperTypes, TypeVarMapping** |
 | SSA/Registers | 85% | ✅ | Full SSAVar, use-def chains, CodeVar, TypeBound |
 | Exception Handling | 85% | ✅ | Multi-catch syntax (`catch (Type1 | Type2 e)`), `merge_multi_catch_handlers()`, block-level tracking |
-| Debug Info | 75% | 🔶 | End-scope tracking, complex debug attributes |
+| **Debug Info** | **100%** | ✅ | **Signature support, is_parameter/is_end flags, lines_valid validation (JADX USE_LINES_HINTS parity)** |
 | Annotations | 100% | ✅ | Complete: nested element name handling fixed Dec 17 |
 | Lazy Loading | 90% | ✅ | Excellent match with ProcessState pattern |
 
@@ -48,6 +48,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 - **Instruction Args** (65%→85%): InsnWrapArg, NamedArg, This variants
 - **Instructions** (70%→85%): MoveMulti, StrConcat, RegionArg, Constructor, JavaJsr/Ret
 - **Type System** (90%→100%): Added wildcard variance handling (`? extends T`, `? super T`) with proper TypeCompare covariance/contravariance
+- **Debug Info** (75%→100%): Complete JADX parity with signature field for generic types (DBG_START_LOCAL_EXTENDED), is_parameter flag for method parameters, is_end flag for scope termination (DBG_END_LOCAL), lines_valid validation matching JADX USE_LINES_HINTS pattern
 
 ### Key Advantages
 - **Memory Efficiency** - Shared instruction pool reduces memory 3-4x
