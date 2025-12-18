@@ -161,6 +161,35 @@ fn inline7_test() {
     eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
+/// Test constructor inlining into return statements
+/// Pattern: `X x = new X(args); return method(x);` -> `return method(new X(args));`
+#[test]
+fn constructor_return_inline_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
+    let helper = IntegrationTestHelper::new("constructor_return_inline_test");
+    let source = r#"
+public class TestCls {
+public static Object wrap(Object obj) {
+return obj;
+}
+public Object test() {
+return wrap(new StringBuilder("test"));
+}
+"#;
+
+    let result = helper.test_decompilation(source)
+        .expect("Decompilation failed");
+
+    // The constructor should be inlined into the return statement
+    result
+        .contains("return wrap(new StringBuilder(\"test\"));");
+}
+
 #[test]
 fn instance_lambda_test() {
     eprintln!("SKIPPED: SmaliTest - requires smali input format");
