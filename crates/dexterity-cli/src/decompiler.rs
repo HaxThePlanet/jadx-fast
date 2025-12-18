@@ -67,10 +67,10 @@ pub fn decompile_method(
     // Mark duplicated finally code before region building (JADX compatibility)
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
-    // Stage 3: Region reconstruction (must be done before taking blocks from CFG)
-    let regions = build_regions_with_try_catch(&cfg, &method.try_blocks);
+    // Stage 3: Region reconstruction (preliminary - will be refined after SSA)
+    // Build initial regions from CFG structure
+    let regions = dexterity_passes::region_builder::build_regions_with_try_catch(&cfg, &method.try_blocks);
 
-    // Stage 4: SSA transformation
     // Take blocks from CFG after dominance analysis (avoids clone)
     let blocks = cfg.take_blocks();
     let mut ssa = transform_to_ssa(&blocks);
