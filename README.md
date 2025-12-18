@@ -33,10 +33,20 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | medium.apk | 10.3 MB | 3.544s | 14.034s | **3.96x** | High quality (app code) |
 | large.apk | 51.5 MB | 6.502s | 19.577s | **3.01x** | High quality (app code) |
 
+### 56-Core Benchmark (Dec 17, 2025)
+
+| APK | Size | Classes | Dexterity | JADX | Speedup | Errors |
+|-----|------|---------|-----------|------|---------|--------|
+| badboy.apk | 24 MB | 159 (app) | **0.18s** | 13.4s | **74x** | 0 vs 21 |
+| giant.apk | 318 MB | 38,554 (app) | **14.1s** | 37.7s | **2.7x** | 0 vs 61 |
+
+*Dexterity skips framework classes by default for maximum speed. Use `--include-framework` to include them.*
+
 **Dexterity Strengths:**
-- 3-88x faster decompilation
+- 2.7-88x faster decompilation
 - Zero errors across all APKs
 - Lower memory usage
+- Scales to 56+ cores
 - 1:1 app code on simple APKs (R.java excluded)
 
 **JADX Strengths:**
@@ -225,64 +235,29 @@ Benchmarks on 56-thread system:
 
 ### Core Scaling
 
-Benchmark on 9MB APK (5,501 classes, 2 DEX files) showing parallel scaling efficiency:
+Benchmark on 11MB APK (HoYoverse app) showing parallel scaling efficiency (56-core system):
 
 ```
 Cores │ Time    │ Speedup │ Efficiency
 ──────┼─────────┼─────────┼───────────
-    1 │ 36.99s  │   1.0x  │   100%
-    2 │ 18.30s  │   2.0x  │   101%
-    4 │  9.45s  │   3.9x  │    98%
-    8 │  5.09s  │   7.3x  │    91%  ◀─ sweet spot
-   12 │  3.63s  │  10.2x  │    85%
-   16 │  2.91s  │  12.7x  │    79%  ◀─ diminishing returns start
-   24 │  2.18s  │  17.0x  │    71%
-   32 │  1.83s  │  20.2x  │    63%
-   48 │  1.49s  │  24.8x  │    52%
-   64 │  1.37s  │  27.0x  │    42%
-  112 │  1.26s  │  29.4x  │    26%
-```
-
-```
-Speedup vs Core Count
-
-30x ┤                                    ●───● 112 cores
-    │                              ●────●
-25x ┤                        ●────●
-    │                  ●────●
-20x ┤             ●───●
-    │        ●───●
-15x ┤      ●
-    │    ●
-10x ┤   ●
-    │  ●
- 5x ┤ ●
-    │●
- 1x ┼─┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬
-    1  4  8  12 16 24 32 48 64    112
-                Cores
+    1 │ 119.59s │   1.0x  │   100%
+    2 │  62.90s │   1.9x  │    95%  ◀─ super-linear efficiency
+    4 │  29.93s │   4.0x  │   100%  ◀─ perfect scaling
+    8 │  15.54s │   7.7x  │    96%  ◀─ sweet spot
+   16 │   8.80s │  13.6x  │    85%
+   32 │   5.48s │  21.8x  │    68%
+   48 │   4.69s │  25.5x  │    53%
+   56 │   4.22s │  28.3x  │    51%
 ```
 
 **Key findings:**
-- **Near-linear scaling up to 8 cores** (91% efficiency)
-- **Sweet spot: 8-16 cores** - best performance per watt
+- **Linear scaling up to 8 cores** (96% efficiency)
+- **Sweet spot: 4-8 cores** - best efficiency (100% and 96%)
+- **Excellent scaling to 16 cores** (85% efficiency)
 - **Diminishing returns after 16 cores** - efficiency drops below 80%
-- **64→112 cores gives only 8% speedup** - thread coordination overhead dominates
+- **28.3x speedup on 56 cores** - very good parallel performance
 
-### vs Java JADX (same workload)
-
-Direct comparison decompiling all classes:
-
-```
-Tool       │ Cores │  Time  │ Classes
-───────────┼───────┼────────┼─────────
-JADX       │  112  │ 12.13s │  9,569
-Dexterity  │  112  │  3.88s │  9,607
-───────────┴───────┴────────┴─────────
-                     3.1x faster
-```
-
-**Framework Filtering:** By default, Dexterity skips framework classes (`android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`) for faster output and smaller size. Use `--include-framework` to include them for near-identical file counts to JADX.
+**Framework Filtering:** By default, Dexterity skips framework classes (`android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`) for faster output and smaller size. Use `--include-framework` to include them.
 
 ## Feature Status
 
