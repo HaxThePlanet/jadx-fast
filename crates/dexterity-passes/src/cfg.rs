@@ -3,27 +3,29 @@
 //! This module provides a CFG representation with dominance and post-dominance
 //! computation using the Cooper-Harvey-Kennedy algorithm.
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeSet;
+
+use rustc_hash::FxHashMap;
 
 use crate::block_split::{BasicBlock, BlockSplitResult};
 
 /// Control Flow Graph with dominance information
 #[derive(Debug)]
 pub struct CFG {
-    /// Basic blocks indexed by ID
-    blocks: BTreeMap<u32, BasicBlock>,
+    /// Basic blocks stored in Vec (indexed by position, lookup by id)
+    blocks: Vec<BasicBlock>,
     /// Entry block ID
     entry: u32,
     /// Exit block IDs
     exits: Vec<u32>,
-    /// Immediate dominators: block -> idom
-    idom: BTreeMap<u32, u32>,
+    /// Immediate dominators: block -> idom (FxHashMap for O(1) lookup)
+    idom: FxHashMap<u32, u32>,
     /// Immediate post-dominators: block -> ipdom
-    ipdom: BTreeMap<u32, u32>,
+    ipdom: FxHashMap<u32, u32>,
     /// Dominator tree: parent -> children
-    dom_tree: BTreeMap<u32, Vec<u32>>,
+    dom_tree: FxHashMap<u32, Vec<u32>>,
     /// Post-dominator tree: parent -> children
-    pdom_tree: BTreeMap<u32, Vec<u32>>,
+    pdom_tree: FxHashMap<u32, Vec<u32>>,
     /// Reverse postorder of blocks
     rpo: Vec<u32>,
 }
@@ -35,10 +37,10 @@ impl CFG {
             blocks: result.blocks,
             entry: result.entry_block,
             exits: result.exit_blocks,
-            idom: BTreeMap::new(),
-            ipdom: BTreeMap::new(),
-            dom_tree: BTreeMap::new(),
-            pdom_tree: BTreeMap::new(),
+            idom: FxHashMap::default(),
+            ipdom: FxHashMap::default(),
+            dom_tree: FxHashMap::default(),
+            pdom_tree: FxHashMap::default(),
             rpo: Vec::new(),
         };
 
@@ -67,10 +69,10 @@ impl CFG {
             blocks: result.blocks,
             entry: result.entry_block,
             exits: result.exit_blocks,
-            idom: BTreeMap::new(),
-            ipdom: BTreeMap::new(),
-            dom_tree: BTreeMap::new(),
-            pdom_tree: BTreeMap::new(),
+            idom: FxHashMap::default(),
+            ipdom: FxHashMap::default(),
+            dom_tree: FxHashMap::default(),
+            pdom_tree: FxHashMap::default(),
             rpo: Vec::new(),
         };
 
@@ -95,36 +97,32 @@ impl CFG {
 
         for try_block in try_blocks {
             // Find blocks in the try range
-            let try_block_ids: Vec<u32> = self.blocks.keys()
-                .filter(|&&id| {
-                    if let Some(block) = self.blocks.get(&id) {
-                        block.start_offset >= try_block.start_addr
-                            && block.start_offset < try_block.end_addr
-                    } else {
-                        false
-                    }
+            let try_block_ids: Vec<u32> = self.blocks.iter()
+                .filter(|block| {
+                    block.start_offset >= try_block.start_addr
+                        && block.start_offset < try_block.end_addr
                 })
-                .copied()
+                .map(|b| b.id)
                 .collect();
 
             for handler in &try_block.handlers {
                 // Find the handler block
                 let handler_block_id = self.blocks.iter()
-                    .find(|(_, b)| b.start_offset == handler.handler_addr)
-                    .map(|(&id, _)| id);
+                    .find(|b| b.start_offset == handler.handler_addr)
+                    .map(|b| b.id);
 
                 if let Some(handler_id) = handler_block_id {
                     // Add temporary edge from first try block to handler
                     // (JADX uses predecessor of try block if single predecessor)
                     if let Some(&first_try_block) = try_block_ids.first() {
                         // Check if edge already exists
-                        if let Some(src_block) = self.blocks.get(&first_try_block) {
+                        if let Some(src_block) = self.blocks.iter().find(|b| b.id == first_try_block) {
                             if !src_block.successors.contains(&handler_id) {
                                 // Add the temporary edge
-                                if let Some(src) = self.blocks.get_mut(&first_try_block) {
+                                if let Some(src) = self.blocks.iter_mut().find(|b| b.id == first_try_block) {
                                     src.successors.push(handler_id);
                                 }
-                                if let Some(dst) = self.blocks.get_mut(&handler_id) {
+                                if let Some(dst) = self.blocks.iter_mut().find(|b| b.id == handler_id) {
                                     dst.predecessors.push(first_try_block);
                                     dst.add_flag(AFlag::TmpEdge);
                                 }
@@ -145,26 +143,27 @@ impl CFG {
 
         // Find blocks with TmpEdge flag
         let tmp_edge_blocks: Vec<u32> = self.blocks.iter()
-            .filter(|(_, b)| b.has_flag(AFlag::TmpEdge))
-            .map(|(&id, _)| id)
+            .filter(|b| b.has_flag(AFlag::TmpEdge))
+            .map(|b| b.id)
             .collect();
 
         for handler_id in tmp_edge_blocks {
             // Get predecessors to remove
-            let preds_to_check: Vec<u32> = self.blocks.get(&handler_id)
+            let preds_to_check: Vec<u32> = self.blocks.iter()
+                .find(|b| b.id == handler_id)
                 .map(|b| b.predecessors.clone())
                 .unwrap_or_default();
 
             // Remove edges from predecessors that added temp edges
             for pred_id in preds_to_check {
                 // Remove handler from predecessor's successors
-                if let Some(pred) = self.blocks.get_mut(&pred_id) {
+                if let Some(pred) = self.blocks.iter_mut().find(|b| b.id == pred_id) {
                     pred.successors.retain(|&s| s != handler_id);
                 }
             }
 
             // Clear predecessors and flag on handler block
-            if let Some(handler) = self.blocks.get_mut(&handler_id) {
+            if let Some(handler) = self.blocks.iter_mut().find(|b| b.id == handler_id) {
                 // Keep only non-temp predecessors (those that existed before temp edges)
                 // For simplicity, clear the flag - the actual exception handling
                 // will rebuild proper edges during region building
@@ -185,12 +184,12 @@ impl CFG {
 
     /// Get a block by ID
     pub fn get_block(&self, id: u32) -> Option<&BasicBlock> {
-        self.blocks.get(&id)
+        self.blocks.iter().find(|b| b.id == id)
     }
 
     /// Get all block IDs
     pub fn block_ids(&self) -> impl Iterator<Item = u32> + '_ {
-        self.blocks.keys().copied()
+        self.blocks.iter().map(|b| b.id)
     }
 
     /// Get blocks in reverse postorder
@@ -256,23 +255,23 @@ impl CFG {
 
     /// Get successors of a block
     pub fn successors(&self, block: u32) -> &[u32] {
-        self.blocks
-            .get(&block)
+        self.blocks.iter()
+            .find(|b| b.id == block)
             .map(|b| b.successors.as_slice())
             .unwrap_or(&[])
     }
 
     /// Get predecessors of a block
     pub fn predecessors(&self, block: u32) -> &[u32] {
-        self.blocks
-            .get(&block)
+        self.blocks.iter()
+            .find(|b| b.id == block)
             .map(|b| b.predecessors.as_slice())
             .unwrap_or(&[])
     }
 
     /// Get mutable reference to a block
     pub fn get_block_mut(&mut self, id: u32) -> Option<&mut BasicBlock> {
-        self.blocks.get_mut(&id)
+        self.blocks.iter_mut().find(|b| b.id == id)
     }
 
     /// Collect all blocks dominated by dominator within a region
@@ -313,7 +312,7 @@ impl CFG {
             result.push(block_id);
 
             // Add predecessors to worklist
-            if let Some(block) = self.blocks.get(&block_id) {
+            if let Some(block) = self.blocks.iter().find(|b| b.id == block_id) {
                 for &pred in &block.predecessors {
                     if !visited.contains(&pred) {
                         worklist.push(pred);
@@ -328,7 +327,7 @@ impl CFG {
     /// Find the bottom block in a region (block with no successors in region)
     pub fn get_bottom_block(&self, blocks: &BTreeSet<u32>) -> Option<u32> {
         for &block_id in blocks {
-            if let Some(block) = self.blocks.get(&block_id) {
+            if let Some(block) = self.blocks.iter().find(|b| b.id == block_id) {
                 // Check if this block has no successors in the region
                 let has_succ_in_region = block.successors.iter().any(|s| blocks.contains(s));
                 if !has_succ_in_region {
@@ -350,7 +349,7 @@ impl CFG {
                 return current;
             }
 
-            if let Some(block) = self.blocks.get(&current) {
+            if let Some(block) = self.blocks.iter().find(|b| b.id == current) {
                 if !block.is_empty() {
                     return current;
                 }
@@ -378,13 +377,13 @@ impl CFG {
     ) -> Vec<u32> {
         let mut result = Vec::new();
 
-        if let Some(bottom_block) = self.blocks.get(&bottom) {
+        if let Some(bottom_block) = self.blocks.iter().find(|b| b.id == bottom) {
             // Get predecessors excluding the finally bottom block
             for &pred in &bottom_block.predecessors {
                 if pred != bottom_finally {
                     // If bottom is exit block, get predecessors of predecessors
                     if Some(bottom) == exit_block {
-                        if let Some(pred_block) = self.blocks.get(&pred) {
+                        if let Some(pred_block) = self.blocks.iter().find(|b| b.id == pred) {
                             result.extend(pred_block.predecessors.iter().copied());
                         }
                     } else {
@@ -414,7 +413,7 @@ impl CFG {
             return;
         }
 
-        if let Some(b) = self.blocks.get(&block) {
+        if let Some(b) = self.blocks.iter().find(|b| b.id == block) {
             for &succ in &b.successors {
                 self.dfs_postorder(succ, visited, postorder);
             }
@@ -430,7 +429,7 @@ impl CFG {
         }
 
         // Map block ID to RPO index
-        let mut rpo_num: BTreeMap<u32, usize> = BTreeMap::new();
+        let mut rpo_num: FxHashMap<u32, usize> = FxHashMap::default();
         for (i, &block) in self.rpo.iter().enumerate() {
             rpo_num.insert(block, i);
         }
@@ -485,7 +484,7 @@ impl CFG {
     }
 
     /// Intersect two dominators
-    fn intersect(&self, mut b1: u32, mut b2: u32, rpo_num: &BTreeMap<u32, usize>) -> u32 {
+    fn intersect(&self, mut b1: u32, mut b2: u32, rpo_num: &FxHashMap<u32, usize>) -> u32 {
         // Limit iterations to prevent infinite loops
         let max_iters = self.blocks.len() * 2;
         let mut iters = 0;
@@ -531,7 +530,7 @@ impl CFG {
             self.exits[0]
         } else {
             // Use max block ID + 1 as virtual exit
-            let virtual_exit = self.blocks.keys().max().map(|&m| m + 1).unwrap_or(0);
+            let virtual_exit = self.blocks.iter().map(|b| b.id).max().map(|m| m + 1).unwrap_or(0);
             virtual_exit
         };
 
@@ -546,7 +545,7 @@ impl CFG {
         reverse_rpo.reverse();
 
         // Map to RPO numbers
-        let mut rpo_num: BTreeMap<u32, usize> = BTreeMap::new();
+        let mut rpo_num: FxHashMap<u32, usize> = FxHashMap::default();
         for (i, &block) in reverse_rpo.iter().enumerate() {
             rpo_num.insert(block, i);
         }
@@ -619,7 +618,7 @@ impl CFG {
         postorder.push(block);
     }
 
-    fn intersect_pdom(&self, mut b1: u32, mut b2: u32, rpo_num: &BTreeMap<u32, usize>) -> u32 {
+    fn intersect_pdom(&self, mut b1: u32, mut b2: u32, rpo_num: &FxHashMap<u32, usize>) -> u32 {
         // Limit iterations to prevent infinite loops
         let max_iters = self.blocks.len() * 2;
         let mut iters = 0;
@@ -684,7 +683,8 @@ impl CFG {
         let mut frontier = Vec::new();
 
         // For each block in CFG
-        for &b in self.blocks.keys() {
+        for b_block in &self.blocks {
+            let b = b_block.id;
             // Check if block is in dominance frontier of `block`
             let preds = self.predecessors(b);
             if preds.len() >= 2 {

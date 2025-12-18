@@ -4,8 +4,6 @@
 //! basic blocks at branch points. A basic block is a sequence of instructions
 //! where control flow enters at the beginning and leaves at the end.
 
-use std::collections::BTreeMap;
-
 use rustc_hash::{FxHashMap, FxHashSet};
 
 use dexterity_ir::attributes::AFlag;
@@ -78,8 +76,9 @@ impl BasicBlock {
 /// Result of block splitting
 #[derive(Debug, Clone)]
 pub struct BlockSplitResult {
-    /// Basic blocks indexed by ID
-    pub blocks: BTreeMap<u32, BasicBlock>,
+    /// Basic blocks stored in a Vec (indexed by block.id)
+    /// Vec is more cache-friendly and faster than BTreeMap for sequential access
+    pub blocks: Vec<BasicBlock>,
     /// Entry block ID
     pub entry_block: u32,
     /// Exit block IDs (blocks that end with return/throw)
@@ -87,24 +86,29 @@ pub struct BlockSplitResult {
 }
 
 impl BlockSplitResult {
-    /// Get a block by ID
+    /// Get a block by ID - O(n) scan but blocks are typically sequential
     pub fn get_block(&self, id: u32) -> Option<&BasicBlock> {
-        self.blocks.get(&id)
+        self.blocks.iter().find(|b| b.id == id)
     }
 
     /// Get a mutable block by ID
     pub fn get_block_mut(&mut self, id: u32) -> Option<&mut BasicBlock> {
-        self.blocks.get_mut(&id)
+        self.blocks.iter_mut().find(|b| b.id == id)
     }
 
     /// Iterate over blocks in order
     pub fn blocks_iter(&self) -> impl Iterator<Item = &BasicBlock> {
-        self.blocks.values()
+        self.blocks.iter()
     }
 
     /// Get block count
     pub fn block_count(&self) -> usize {
         self.blocks.len()
+    }
+
+    /// Get all block IDs
+    pub fn block_ids(&self) -> impl Iterator<Item = u32> + '_ {
+        self.blocks.iter().map(|b| b.id)
     }
 }
 
@@ -113,7 +117,7 @@ impl BlockSplitResult {
 pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     if instructions.is_empty() {
         return BlockSplitResult {
-            blocks: BTreeMap::new(),
+            blocks: Vec::new(),
             entry_block: 0,
             exit_blocks: Vec::new(),
         };
@@ -170,7 +174,7 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
 
     // Second pass: distribute instructions directly to blocks (no Arc/Mutex overhead)
     // Each instruction is cloned once into its block - simple and memory-efficient
-    let mut blocks = BTreeMap::new();
+    let mut blocks: Vec<BasicBlock> = Vec::new();
     let mut current_block: Option<BasicBlock> = None;
     let mut block_id = 0u32;
     // Use FxHashMap for O(1) lookups during successor resolution
@@ -184,7 +188,7 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
             // Save current block
             if let Some(block) = current_block.take() {
                 if !block.is_empty() {
-                    blocks.insert(block.id, block);
+                    blocks.push(block);
                 }
             }
 
@@ -205,27 +209,27 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     // Save final block
     if let Some(block) = current_block {
         if !block.is_empty() {
-            blocks.insert(block.id, block);
+            blocks.push(block);
         }
     }
 
     // Third pass: compute successors and predecessors
-    let block_ids: Vec<u32> = blocks.keys().copied().collect();
+    let block_ids: Vec<u32> = blocks.iter().map(|b| b.id).collect();
 
     for &block_id in &block_ids {
         let successors = {
-            let block = blocks.get(&block_id).unwrap();
+            let block = blocks.iter().find(|b| b.id == block_id).unwrap();
             compute_successors(block, &offset_to_block, &block_ids)
         };
 
         // Add successors to current block
-        if let Some(block) = blocks.get_mut(&block_id) {
+        if let Some(block) = blocks.iter_mut().find(|b| b.id == block_id) {
             block.successors = successors.clone();
         }
 
         // Add this block as predecessor to successors
         for &succ_id in &successors {
-            if let Some(succ_block) = blocks.get_mut(&succ_id) {
+            if let Some(succ_block) = blocks.iter_mut().find(|b| b.id == succ_id) {
                 if !succ_block.predecessors.contains(&block_id) {
                     succ_block.predecessors.push(block_id);
                 }
@@ -235,7 +239,7 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
 
     // Find exit blocks
     let exit_blocks: Vec<u32> = blocks
-        .values()
+        .iter()
         .filter(|block| {
             block.last_insn().map_or(false, |insn| {
                 matches!(insn.insn_type, InsnType::Return { .. } | InsnType::Throw { .. })

@@ -293,35 +293,54 @@ if self.next_var >= VARS_SOFT_LIMIT {
 
 ---
 
-### P1-3: BTreeMap in Block Splitting (O(log N) vs O(1))
+### P1-3: BTreeMap in Block Splitting (O(log N) vs O(1)) - TODO
 
-**Location**: `crates/dexterity-passes/src/block_split.rs:121,147,171`
+**Location**: `crates/dexterity-passes/src/block_split.rs`, `crates/dexterity-passes/src/cfg.rs`
 
-**Problem**: Uses BTreeMap/BTreeSet when HashMap would suffice:
+**Problem**: Uses BTreeMap for block storage when Vec with direct indexing would be more efficient.
 
+**Current Implementation**:
 ```rust
-let mut leaders = BTreeSet::new();
-let mut offset_to_idx: BTreeMap<u32, usize> = BTreeMap::new();
-let mut offset_to_block: BTreeMap<u32, u32> = BTreeMap::new();
+// BlockSplitResult with BTreeMap - O(log N) lookup
+pub blocks: BTreeMap<u32, BasicBlock>
+pub fn get_block(&self, id: u32) -> Option<&BasicBlock> {
+    self.blocks.get(&id)
+}
+
+// CFG with BTreeMap - O(log N) per graph operation
+blocks: BTreeMap<u32, BasicBlock>
 ```
 
 **Impact**:
-- O(log N) per insertion vs O(1) for HashMap
-- Hundreds of insertions per method
-- Order only needed for final iteration
+- O(log N) per block lookup vs O(1) possible
+- Block IDs are dense sequential integers (0, 1, 2, ...) - perfect for Vec indexing
+- Graph algorithms (dominators, SSA) perform many lookups per method
 
-**Solution**: Use FxHashMap, convert to sorted only when needed:
+**Proposed Solution**: Change block storage from `BTreeMap<u32, BasicBlock>` to `Vec<BasicBlock>`:
 
 ```rust
-use rustc_hash::FxHashSet;
-
-let mut leaders = FxHashSet::default();
-let mut offset_to_idx: FxHashMap<u32, usize> = FxHashMap::default();
-
-// Only sort when iteration order matters
-let mut sorted_leaders: Vec<_> = leaders.into_iter().collect();
-sorted_leaders.sort_unstable();
+// PROPOSED: Vec with direct index access - O(1)
+pub blocks: Vec<BasicBlock>  // IDs are dense sequential integers 0,1,2...
+pub fn get_block(&self, id: u32) -> Option<&BasicBlock> {
+    self.blocks.get(id as usize)
+}
 ```
+
+**Files to Change**:
+- `crates/dexterity-passes/src/block_split.rs` - `BlockSplitResult.blocks` to `Vec<BasicBlock>`
+- `crates/dexterity-passes/src/cfg.rs` - `CFG.blocks` to `Vec<BasicBlock>`
+- `crates/dexterity-passes/src/ssa.rs` - Update iteration patterns for Vec
+- `crates/dexterity-passes/src/region_builder.rs` - Use `block.start_offset` for address lookups
+
+**Related**: `crates/dexterity-passes/src/type_update.rs` - Contains `TypeListener` trait and `InsnKind` discriminant enum (note: a separate `type_listener.rs` file exists but is not compiled)
+
+**Expected Benefits**:
+- O(1) direct index access vs O(log N) BTree lookup
+- Better cache locality with contiguous memory layout
+- Lower per-element memory overhead than BTreeMap nodes
+- Reduced allocation pressure for graph algorithms
+
+**Status**: TODO
 
 **Estimated Gain**: 2-5%
 
@@ -521,7 +540,7 @@ Recommended attack order for maximum impact with minimum effort:
 | 1 | RwLock → DashMap in GlobalFieldPool | dex_info.rs | 65 | 10-20% | **DONE** |
 | 2 | Arc wrap for res_names | main.rs | 1457 | 5-10% | **DONE** |
 | 3 | Batch progress bar updates | main.rs | 1522 | 5-15% | TODO |
-| 4 | BTreeMap → FxHashMap in block_split | block_split.rs | 121 | 2-5% | **DONE** |
+| 4 | BTreeMap → Vec in block_split/cfg | block_split.rs, cfg.rs | - | 2-5% | TODO |
 | 5 | Increase memory checkpoint interval | main.rs | 1347 | 1-3% | **DONE** |
 | 6 | SSA instruction cloning elimination | ssa.rs | - | **19.8%** | **DONE** |
 
@@ -573,7 +592,7 @@ done
 | P0-3: Progress bar batching | TODO | - |
 | P1-1: SSA instruction cloning | **DONE** | 2025-12-17 - transform_to_ssa_owned() |
 | P1-2: Type var limit | TODO | - |
-| P1-3: BTreeMap → FxHashMap | DONE | 2025-12-17 |
+| P1-3: BTreeMap → Vec in block_split/cfg | TODO | - |
 | P1-4: Parallel DEX processing | TODO | - |
 | P1-5: Memory checkpoint interval | DONE | 2025-12-17 (100 → 1000) |
 

@@ -7,7 +7,7 @@ This document provides a detailed comparison between JADX's visitor passes and D
 | Metric | JADX | Dexterity | Status |
 |--------|------|-----------|--------|
 | Total Passes | 63+ | 24+ | ~38% |
-| Type Inference Files | 26 | 5 | Enhanced |
+| Type Inference Files | 26 | 3 | Enhanced |
 | Region Analysis Files | 8 | 3 | Partial |
 | Code Optimization Passes | 15+ | 10 | Enhanced |
 
@@ -129,8 +129,9 @@ FINAL CODE PREPARATION
 | `CheckCode.java` | - | MISSING | Bad code validation |
 
 **Dexterity Implementation:**
-- `block_split.rs`: 431 lines, splits bytecode into basic blocks
+- `block_split.rs`: 437 lines, splits bytecode into basic blocks
 - `cfg.rs`: 831 lines, builds CFG and computes dominators
+- Block storage uses `BTreeMap<u32, BasicBlock>` for both structures. A future optimization could change to `Vec<BasicBlock>` for O(1) direct index access since block IDs are dense sequential integers (0,1,2...).
 
 **Missing from Dexterity:**
 - `FixMultiEntryLoops` - Restructure loops with multiple entry points
@@ -203,8 +204,10 @@ jadx/core/dex/visitors/typeinference/
 dexterity-passes/src/
 ├── type_inference.rs   (2,658 lines) - Main engine
 ├── type_bound.rs       (703 lines)   - TypeBound trait system
-└── type_update.rs      (1,135 lines) - Propagation engine
+└── type_update.rs      (1,135 lines) - Propagation engine with TypeListener trait
 ```
+
+Note: A `type_listener.rs` file (361 lines) exists in the source tree but is not compiled. The TypeListener functionality is in `type_update.rs`.
 
 #### Key Concept Comparison
 

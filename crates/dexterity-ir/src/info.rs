@@ -492,7 +492,7 @@ impl MethodData {
     }
 }
 
-/// Try-catch block information
+/// Try-catch block information (basic structure for initial parsing from DEX)
 #[derive(Debug, Clone)]
 pub struct TryBlock {
     /// Start offset (code units)
@@ -503,13 +503,145 @@ pub struct TryBlock {
     pub handlers: Vec<ExceptionHandler>,
 }
 
-/// Exception handler
+/// Exception handler (basic structure for initial parsing from DEX)
 #[derive(Debug, Clone)]
 pub struct ExceptionHandler {
     /// Exception type (None for catch-all)
     pub exception_type: Option<String>,
     /// Handler address (code units)
     pub handler_addr: u32,
+}
+
+/// Try-catch block attribute for CFG processing (matches JADX's TryCatchBlockAttr)
+///
+/// This enhanced structure is created during exception handler processing and provides
+/// complete information about try-catch regions including nesting, block lists, and
+/// synthetic splitter blocks for proper control flow.
+#[derive(Debug, Clone)]
+pub struct TryCatchBlockAttr {
+    /// Unique identifier for this try-catch block
+    pub id: u32,
+    /// Exception handlers for this try block
+    pub handlers: Vec<EnhancedExceptionHandler>,
+    /// Block IDs in the try region
+    pub try_block_ids: Vec<u32>,
+    /// Inner (nested) try-catch blocks
+    pub inner_try_blocks: Vec<u32>,  // IDs of nested TryCatchBlockAttr
+    /// Outer (parent) try-catch block (None if top-level)
+    pub outer_try_block: Option<u32>,  // ID of parent TryCatchBlockAttr
+    /// Top splitter block ID (synthetic block connecting try entry and handler entry)
+    pub top_splitter: Option<u32>,
+    /// Bottom splitter block ID (synthetic block connecting handler exit and continuation)
+    pub bottom_splitter: Option<u32>,
+}
+
+impl TryCatchBlockAttr {
+    /// Create a new try-catch block attribute
+    pub fn new(id: u32) -> Self {
+        TryCatchBlockAttr {
+            id,
+            handlers: Vec::new(),
+            try_block_ids: Vec::new(),
+            inner_try_blocks: Vec::new(),
+            outer_try_block: None,
+            top_splitter: None,
+            bottom_splitter: None,
+        }
+    }
+
+    /// Add a handler to this try-catch block
+    pub fn add_handler(&mut self, handler: EnhancedExceptionHandler) {
+        self.handlers.push(handler);
+    }
+
+    /// Add a block to the try region
+    pub fn add_try_block(&mut self, block_id: u32) {
+        if !self.try_block_ids.contains(&block_id) {
+            self.try_block_ids.push(block_id);
+        }
+    }
+
+    /// Add a nested try-catch block
+    pub fn add_inner_try_block(&mut self, inner_id: u32) {
+        if !self.inner_try_blocks.contains(&inner_id) {
+            self.inner_try_blocks.push(inner_id);
+        }
+    }
+}
+
+/// Enhanced exception handler with full block and type information
+///
+/// This matches JADX's ExceptionHandler class and provides complete information
+/// about the handler region, caught exception types, and exception variable.
+#[derive(Debug, Clone)]
+pub struct EnhancedExceptionHandler {
+    /// Handler start block ID
+    pub handler_block: u32,
+    /// All block IDs that are part of this handler
+    pub handler_block_ids: Vec<u32>,
+    /// Exception types caught by this handler (multi-catch support)
+    /// Empty Vec means catch-all
+    pub catch_types: Vec<String>,
+    /// Register number for the exception variable (from MOVE_EXCEPTION)
+    pub exception_reg: Option<u16>,
+    /// Exception variable name (from debug info or generated)
+    pub exception_var_name: Option<String>,
+}
+
+impl EnhancedExceptionHandler {
+    /// Create a new enhanced exception handler
+    pub fn new(handler_block: u32) -> Self {
+        EnhancedExceptionHandler {
+            handler_block,
+            handler_block_ids: vec![handler_block],
+            catch_types: Vec::new(),
+            exception_reg: None,
+            exception_var_name: None,
+        }
+    }
+
+    /// Add a caught exception type
+    pub fn add_catch_type(&mut self, exception_type: String) {
+        if !self.catch_types.contains(&exception_type) {
+            self.catch_types.push(exception_type);
+        }
+    }
+
+    /// Add a block to this handler region
+    pub fn add_handler_block(&mut self, block_id: u32) {
+        if !self.handler_block_ids.contains(&block_id) {
+            self.handler_block_ids.push(block_id);
+        }
+    }
+
+    /// Check if this is a catch-all handler
+    pub fn is_catch_all(&self) -> bool {
+        self.catch_types.is_empty()
+    }
+
+    /// Check if this handler can be merged with another (same handler block)
+    pub fn can_merge_with(&self, other: &EnhancedExceptionHandler) -> bool {
+        // Can merge if they flow to the same block and don't overlap exception types
+        self.handler_block == other.handler_block
+            && self.catch_types.iter().all(|t1| !other.catch_types.contains(t1))
+    }
+
+    /// Merge another handler into this one (for multi-catch)
+    pub fn merge(&mut self, other: EnhancedExceptionHandler) {
+        // Merge catch types
+        for catch_type in other.catch_types {
+            self.add_catch_type(catch_type);
+        }
+        // Merge handler blocks
+        for block_id in other.handler_block_ids {
+            self.add_handler_block(block_id);
+        }
+        // Keep first exception variable if not set
+        if self.exception_reg.is_none() && other.exception_reg.is_some() {
+            self.exception_reg = other.exception_reg;
+            self.exception_var_name = other.exception_var_name;
+        }
+    }
 }
 
 /// Debug information for a method

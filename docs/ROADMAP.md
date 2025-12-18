@@ -9,6 +9,80 @@
 
 ---
 
+## Dexterity-IR Improvements (Dec 17, 2025)
+
+**Status:** dexterity-ir improved from 82% → 85-90% JADX parity | **Regions: 72% → 80%+**
+
+### Completed Enhancements
+
+1. **TryCatchBlockAttr Structure** ✓
+   - Full exception handler nesting support
+   - Multi-catch merging capability
+   - Synthetic splitter block tracking
+   - Location: `crates/dexterity-ir/src/info.rs`
+   - Impact: Enables P1-HIGH exception handling improvements
+
+2. **Type Listener Architecture** ✓
+   - Pluggable instruction-specific type refinement
+   - Listeners for PHI, MOVE, AGET/APUT, CHECK_CAST, INVOKE
+   - Location: `crates/dexterity-passes/src/type_update.rs` (TypeListener trait and InsnKind enum)
+   - Note: A standalone `type_listener.rs` file exists but is not compiled; `type_update.rs` is the active implementation
+   - Impact: Enables P2-MEDIUM type inference improvements
+
+3. **Post-Dominator Tree** ✓
+   - Already fully implemented in `cfg.rs`
+   - Supports loop/return analysis
+
+### Region IR Parity Improvements (Dec 17, 2025)
+
+**Region Parity: 72% → 80%+** (177 unit tests passing)
+
+4. **Phase 1: Parent Tracking** ✓
+   - Added `RegionType` enum for region classification (Sequence, If, Loop, Switch, TryCatch, Synchronized, Break, Continue)
+   - Added `RegionContext` struct for parent tracking during traversal with enclosing loop management
+   - Added Region methods: `region_type()`, `is_control_flow()`, `loop_kind()`, `has_jump_statements()`, `direct_blocks()`, `total_block_count()`
+   - Added `break_label()`/`continue_label()` for labeled loop statement generation
+   - Location: `crates/dexterity-ir/src/regions.rs`
+
+5. **Phase 2: Enhanced Condition Merging (JADX IfRegionMaker parity)** ✓
+   - Added `EnhancedMergedCondition` struct with full condition chain tracking
+   - Added `EnhancedMergeMode` enum (Single, And, Or, Mixed)
+   - Added `merge_nested_ifs_recursive()` implementing JADX's `mergeNestedIfNodes()` algorithm
+   - Added `is_blocks_equivalent()` for OR pattern detection
+   - Added `is_equal_paths()` for identical branch detection
+   - Added `find_enhanced_condition_chains()` for top-level API
+   - Location: `crates/dexterity-passes/src/conditionals.rs`
+
+6. **Phase 3: ForLoop Structure Enhancement** ✓
+   - Added `ForLoopInfo` struct with init/incr block and offset tracking
+   - Added `ForEachLoopInfo` struct with element variable tracking
+   - Added `IterableSource` enum (Array vs Iterator iteration patterns)
+   - Added `LoopDetails` struct combining `LoopKind` with detailed info
+   - Added `IteratorForEachPattern` detection (hasNext()/next() pattern)
+   - Added `analyze_loop_patterns_enhanced()` returning full `LoopDetails`
+   - Added `From` implementations for pattern-to-info conversion
+   - Locations: `crates/dexterity-ir/src/regions.rs`, `crates/dexterity-passes/src/loop_analysis.rs`
+
+### Future Region Improvements (Phases 4-6)
+
+7. **Phase 4: LoopRegionVisitor** (TODO)
+   - while → for conversion: Detect init/increment patterns and upgrade
+   - Iterable for-each: Detect `iterator.hasNext()/next()` patterns
+   - Loop condition inversion: Clean up negated conditions
+
+8. **Phase 5: IfRegionVisitor** (TODO)
+   - Else-if chain detection: `if {} else { if {} else {} }` → `if {} else if {} else {}`
+   - Empty branch removal
+   - Branch reordering for readability
+
+9. **Phase 6: SwitchBreakVisitor** (TODO)
+   - Extract common breaks: If all cases end with break, move to after switch
+   - Remove unreachable breaks after return/throw
+
+**Documentation:** See `docs/IR_PARITY_IMPROVEMENTS.md` for detailed analysis
+
+---
+
 ## JADX Reference Documentation
 
 8 detailed algorithm documents created from `jadx-fast` source analysis:
@@ -329,6 +403,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Block splitting (SPLIT_WITHOUT_CONNECT, SEPARATE_INSNS)
 - [x] Exception handler temporary CFG edges - **DONE** (TmpEdge flag, from_blocks_with_try_catch, add/remove temp edges in cfg.rs)
 - [x] SSA instruction cloning optimization - **DONE** (Dec 2025) - `transform_to_ssa_owned()` moves instructions instead of cloning, 19.8% faster at 8 cores, 7-10GB allocation pressure eliminated
+- [ ] BTreeMap → Vec block storage optimization - **TODO** - `BlockSplitResult.blocks` and `CFG.blocks` use `BTreeMap<u32, BasicBlock>`; could change to `Vec<BasicBlock>` for O(1) direct index access (block IDs are dense sequential integers 0,1,2...)
 
 ### Type Inference ([JADX_TYPE_INFERENCE.md](JADX_TYPE_INFERENCE.md))
 - [x] AssignBound vs UseBound separation
@@ -344,6 +419,12 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Endless loop explicit breaks - **DONE** (Region::Break/Continue variants, if-break pattern in loop bodies)
 - [x] For-each loop detection - **DONE** (Array pattern: `i < arr.length` with AGET → `for (T item : arr)`, Iterator pattern: hasNext/next)
 - [x] Traditional for loop generation - **DONE** (Pattern analysis: `for(int i=0; i<N; i++)` via `analyze_loop_patterns()` in dexterity-passes)
+- [x] Parent tracking (RegionContext) - **DONE Dec 17** (RegionType enum, parent stack, enclosing loop tracking)
+- [x] Enhanced condition merging (IfRegionMaker) - **DONE Dec 17** (merge_nested_ifs_recursive, AND/OR/Mixed patterns)
+- [x] ForLoop structure details - **DONE Dec 17** (ForLoopInfo, ForEachLoopInfo, IterableSource, LoopDetails)
+- [ ] LoopRegionVisitor - while→for upgrade, condition inversion
+- [ ] IfRegionVisitor - else-if chains, empty branch removal
+- [ ] SwitchBreakVisitor - common break extraction
 
 ### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md))
 - [x] Debug info application

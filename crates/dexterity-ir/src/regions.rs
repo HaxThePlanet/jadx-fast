@@ -380,6 +380,309 @@ impl CatchHandler {
     }
 }
 
+// ============================================================================
+// JADX Parity: Enhanced Region IR Types (Phase 1-3)
+// ============================================================================
+
+/// Region type classification (matches JADX IContainer hierarchy)
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RegionType {
+    Sequence,
+    If,
+    Loop,
+    Switch,
+    TryCatch,
+    Synchronized,
+    Break,
+    Continue,
+}
+
+/// Context for tracking parent chain during region traversal
+/// Used for context-sensitive code generation and analysis
+#[derive(Debug, Clone, Default)]
+pub struct RegionContext {
+    /// Stack of parent region types (outermost first)
+    pub parent_types: Vec<RegionType>,
+    /// Stack of enclosing loop headers (for break/continue target resolution)
+    pub enclosing_loops: Vec<u32>,
+    /// Current nesting depth
+    pub depth: usize,
+}
+
+impl RegionContext {
+    /// Create a new empty context
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// Push a region onto the context stack
+    pub fn push(&mut self, region_type: RegionType, loop_header: Option<u32>) {
+        self.parent_types.push(region_type);
+        if let Some(header) = loop_header {
+            self.enclosing_loops.push(header);
+        }
+        self.depth += 1;
+    }
+
+    /// Pop the most recent region from the context stack
+    pub fn pop(&mut self, was_loop: bool) {
+        self.parent_types.pop();
+        if was_loop && !self.enclosing_loops.is_empty() {
+            self.enclosing_loops.pop();
+        }
+        self.depth = self.depth.saturating_sub(1);
+    }
+
+    /// Get the innermost enclosing loop header
+    pub fn innermost_loop(&self) -> Option<u32> {
+        self.enclosing_loops.last().copied()
+    }
+
+    /// Check if we're inside a loop
+    pub fn is_in_loop(&self) -> bool {
+        !self.enclosing_loops.is_empty()
+    }
+
+    /// Check if we're inside a try-catch
+    pub fn is_in_try_catch(&self) -> bool {
+        self.parent_types.contains(&RegionType::TryCatch)
+    }
+}
+
+/// Detailed information about a for-loop (indexed loop)
+#[derive(Debug, Clone)]
+pub struct ForLoopInfo {
+    /// Block containing initialization (e.g., i = 0)
+    pub init_block: Option<u32>,
+    /// Instruction offset of initialization
+    pub init_offset: Option<u32>,
+    /// Block containing increment (e.g., i++)
+    pub incr_block: Option<u32>,
+    /// Instruction offset of increment
+    pub incr_offset: Option<u32>,
+    /// Name of loop variable (e.g., "i")
+    pub loop_var: Option<String>,
+    /// Register holding loop variable (reg_num, ssa_version)
+    pub loop_var_reg: Option<(u16, u32)>,
+}
+
+/// Information about a for-each loop
+#[derive(Debug, Clone)]
+pub struct ForEachLoopInfo {
+    /// Name of element variable (e.g., "elem")
+    pub elem_var: Option<String>,
+    /// Register holding element (reg_num, ssa_version)
+    pub elem_var_reg: Option<(u16, u32)>,
+    /// Source of iteration
+    pub iterable: IterableSource,
+}
+
+/// Source of iteration for for-each loops
+#[derive(Debug, Clone)]
+pub enum IterableSource {
+    /// Iterating over an array: for (T elem : array)
+    Array {
+        /// Register holding the array (reg_num, ssa_version)
+        array_reg: (u16, u32),
+        /// Register holding the index (reg_num, ssa_version)
+        index_reg: Option<(u16, u32)>,
+    },
+    /// Iterating via Iterator: for (T elem : iterable)
+    Iterator {
+        /// Offset of iterator() call
+        iterator_call_offset: Option<u32>,
+        /// Offset of hasNext() call
+        has_next_offset: Option<u32>,
+        /// Offset of next() call
+        next_offset: Option<u32>,
+    },
+    /// Unknown iteration source
+    Unknown,
+}
+
+/// Combined loop details for enhanced code generation
+#[derive(Debug, Clone)]
+pub struct LoopDetails {
+    /// The kind of loop (While, DoWhile, For, ForEach, Endless)
+    pub kind: LoopKind,
+    /// Additional info if this is an indexed for-loop
+    pub for_info: Option<ForLoopInfo>,
+    /// Additional info if this is a for-each loop
+    pub foreach_info: Option<ForEachLoopInfo>,
+}
+
+impl LoopDetails {
+    /// Create details for a simple while loop
+    pub fn while_loop() -> Self {
+        LoopDetails {
+            kind: LoopKind::While,
+            for_info: None,
+            foreach_info: None,
+        }
+    }
+
+    /// Create details for a do-while loop
+    pub fn do_while_loop() -> Self {
+        LoopDetails {
+            kind: LoopKind::DoWhile,
+            for_info: None,
+            foreach_info: None,
+        }
+    }
+
+    /// Create details for an endless loop
+    pub fn endless_loop() -> Self {
+        LoopDetails {
+            kind: LoopKind::Endless,
+            for_info: None,
+            foreach_info: None,
+        }
+    }
+
+    /// Create details for a for-loop with info
+    pub fn for_loop(info: ForLoopInfo) -> Self {
+        LoopDetails {
+            kind: LoopKind::For,
+            for_info: Some(info),
+            foreach_info: None,
+        }
+    }
+
+    /// Create details for a for-each loop with info
+    pub fn foreach_loop(info: ForEachLoopInfo) -> Self {
+        LoopDetails {
+            kind: LoopKind::ForEach,
+            for_info: None,
+            foreach_info: Some(info),
+        }
+    }
+}
+
+// ============================================================================
+// Region helper methods
+// ============================================================================
+
+impl Region {
+    /// Get the type of this region
+    pub fn region_type(&self) -> RegionType {
+        match self {
+            Region::Sequence(_) => RegionType::Sequence,
+            Region::If { .. } => RegionType::If,
+            Region::Loop { .. } => RegionType::Loop,
+            Region::Switch { .. } => RegionType::Switch,
+            Region::TryCatch { .. } => RegionType::TryCatch,
+            Region::Synchronized { .. } => RegionType::Synchronized,
+            Region::Break { .. } => RegionType::Break,
+            Region::Continue { .. } => RegionType::Continue,
+        }
+    }
+
+    /// Check if this is a control flow region (not a sequence)
+    pub fn is_control_flow(&self) -> bool {
+        !matches!(self, Region::Sequence(_))
+    }
+
+    /// Get the loop kind if this is a loop region
+    pub fn loop_kind(&self) -> Option<LoopKind> {
+        match self {
+            Region::Loop { kind, .. } => Some(*kind),
+            _ => None,
+        }
+    }
+
+    /// Check if this region contains break or continue statements (with depth limit)
+    pub fn has_jump_statements(&self) -> bool {
+        self.has_jump_statements_depth(0)
+    }
+
+    fn has_jump_statements_depth(&self, depth: usize) -> bool {
+        const MAX_DEPTH: usize = 100;
+        if depth > MAX_DEPTH {
+            return false;
+        }
+
+        match self {
+            Region::Break { .. } | Region::Continue { .. } => true,
+            Region::Sequence(contents) => contents.iter().any(|c| match c {
+                RegionContent::Region(r) => r.has_jump_statements_depth(depth + 1),
+                RegionContent::Block(_) => false,
+            }),
+            Region::If { then_region, else_region, .. } => {
+                then_region.has_jump_statements_depth(depth + 1)
+                    || else_region.as_ref().map_or(false, |r| r.has_jump_statements_depth(depth + 1))
+            }
+            Region::Loop { body, .. } => body.has_jump_statements_depth(depth + 1),
+            Region::Switch { cases, default, .. } => {
+                cases.iter().any(|c| c.region.has_jump_statements_depth(depth + 1))
+                    || default.as_ref().map_or(false, |r| r.has_jump_statements_depth(depth + 1))
+            }
+            Region::TryCatch { try_region, handlers, finally, .. } => {
+                try_region.has_jump_statements_depth(depth + 1)
+                    || handlers.iter().any(|h| h.region.has_jump_statements_depth(depth + 1))
+                    || finally.as_ref().map_or(false, |r| r.has_jump_statements_depth(depth + 1))
+            }
+            Region::Synchronized { body, .. } => body.has_jump_statements_depth(depth + 1),
+        }
+    }
+
+    /// Get direct block IDs from this region (non-recursive)
+    pub fn direct_blocks(&self) -> Vec<u32> {
+        match self {
+            Region::Sequence(contents) => contents
+                .iter()
+                .filter_map(|c| match c {
+                    RegionContent::Block(id) => Some(*id),
+                    RegionContent::Region(_) => None,
+                })
+                .collect(),
+            Region::If { .. } => vec![],
+            Region::Loop { .. } => vec![],
+            Region::Switch { header_block, .. } => vec![*header_block],
+            Region::TryCatch { .. } => vec![],
+            Region::Synchronized { enter_block, .. } => vec![*enter_block],
+            Region::Break { .. } | Region::Continue { .. } => vec![],
+        }
+    }
+
+    /// Count total blocks in this region (with depth limit)
+    pub fn total_block_count(&self) -> usize {
+        self.total_block_count_depth(0)
+    }
+
+    fn total_block_count_depth(&self, depth: usize) -> usize {
+        const MAX_DEPTH: usize = 100;
+        if depth > MAX_DEPTH {
+            return 0;
+        }
+
+        match self {
+            Region::Sequence(contents) => contents
+                .iter()
+                .map(|c| match c {
+                    RegionContent::Block(_) => 1,
+                    RegionContent::Region(r) => r.total_block_count_depth(depth + 1),
+                })
+                .sum(),
+            Region::If { then_region, else_region, .. } => {
+                then_region.total_block_count_depth(depth + 1)
+                    + else_region.as_ref().map_or(0, |r| r.total_block_count_depth(depth + 1))
+            }
+            Region::Loop { body, .. } => body.total_block_count_depth(depth + 1),
+            Region::Switch { cases, default, .. } => {
+                1 + cases.iter().map(|c| c.region.total_block_count_depth(depth + 1)).sum::<usize>()
+                    + default.as_ref().map_or(0, |r| r.total_block_count_depth(depth + 1))
+            }
+            Region::TryCatch { try_region, handlers, finally, .. } => {
+                try_region.total_block_count_depth(depth + 1)
+                    + handlers.iter().map(|h| h.region.total_block_count_depth(depth + 1)).sum::<usize>()
+                    + finally.as_ref().map_or(0, |r| r.total_block_count_depth(depth + 1))
+            }
+            Region::Synchronized { body, .. } => 1 + body.total_block_count_depth(depth + 1),
+            Region::Break { .. } | Region::Continue { .. } => 0,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -619,7 +619,17 @@ These must run **after** SSA transformation completes.
 
 ### Data Structures
 
+**Note:** Dexterity currently uses `BTreeMap<u32, BasicBlock>` for block storage. Block IDs are dense sequential integers (0, 1, 2, ...), so a future optimization could change to `Vec<BasicBlock>` for O(1) direct index access vs O(log N) BTree lookup.
+
 ```rust
+// Current: Block storage in BlockSplitResult and CFG
+pub blocks: BTreeMap<u32, BasicBlock>
+
+// O(log N) block access by ID
+pub fn get_block(&self, id: u32) -> Option<&BasicBlock> {
+    self.blocks.get(&id)
+}
+
 pub struct BlockNode {
     pub id: BlockId,
     pub pos: usize,

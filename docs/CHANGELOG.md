@@ -4,6 +4,34 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Type Listener System (Dec 2025)
+
+**Added pluggable type listener system for instruction-specific type refinement.**
+
+**Active Implementation:** `crates/dexterity-passes/src/type_update.rs`
+
+The TypeListener trait and InsnKind enum are implemented in `type_update.rs` and are re-exported from the crate:
+- `TypeListener` trait for instruction-specific type constraints
+- `InsnKind` discriminant enum for hashable instruction type classification
+- `TypeUpdateEngine` for propagation logic
+
+**Note:** A standalone file `type_listener.rs` exists in the source tree but is NOT declared as a module in lib.rs and is not compiled. The active implementation is in `type_update.rs`.
+
+**`InsnKind` Discriminant Enum (from type_update.rs):**
+```rust
+pub enum InsnKind {
+    Phi, Move, ArrayGet, ArrayPut, CheckCast,
+    InvokeVirtual, InvokeInterface, InvokeDirect, InvokeStatic, InvokeSuper, InvokeCustom,
+    Other,
+}
+```
+
+**Block Storage Note:** Block storage currently uses `BTreeMap<u32, BasicBlock>` for both `BlockSplitResult` and `CFG`. A future optimization could change this to `Vec<BasicBlock>` for O(1) direct index access since block IDs are dense sequential integers (0,1,2...).
+
+**All 685 integration tests passing.**
+
+---
+
 ### SSA Instruction Cloning Optimization (Dec 2025)
 
 **Major performance improvement: 19.8% faster at 8 cores with superlinear scaling restored.**

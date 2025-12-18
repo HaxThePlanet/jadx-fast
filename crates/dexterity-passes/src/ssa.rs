@@ -63,7 +63,7 @@ impl DominatorTree {
     /// Compute dominator tree for a CFG
     pub fn compute(blocks: &BlockSplitResult) -> Self {
         let entry = blocks.entry_block;
-        let block_ids: Vec<u32> = blocks.blocks.keys().copied().collect();
+        let block_ids: Vec<u32> = blocks.blocks.iter().map(|b| b.id).collect();
 
         if block_ids.is_empty() {
             return DominatorTree {
@@ -175,11 +175,12 @@ impl DominatorTree {
     pub fn compute_frontiers(&self, blocks: &BlockSplitResult) -> FxHashMap<u32, FxHashSet<u32>> {
         let mut frontiers: FxHashMap<u32, FxHashSet<u32>> = FxHashMap::default();
 
-        for &block_id in blocks.blocks.keys() {
-            frontiers.insert(block_id, FxHashSet::default());
+        for block in &blocks.blocks {
+            frontiers.insert(block.id, FxHashSet::default());
         }
 
-        for (&block_id, block) in &blocks.blocks {
+        for block in &blocks.blocks {
+            let block_id = block.id;
             if block.predecessors.len() >= 2 {
                 for &pred in &block.predecessors {
                     let mut runner = pred;
@@ -377,7 +378,8 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
     let mut defs_per_block: FxHashMap<u32, FxHashSet<u16>> = FxHashMap::default();
     let mut all_vars: FxHashSet<u16> = FxHashSet::default();
 
-    for (&block_id, block) in &blocks.blocks {
+    for block in &blocks.blocks {
+        let block_id = block.id;
         let defs = find_defs(block);
         all_vars.extend(&defs);
         defs_per_block.insert(block_id, defs);
@@ -427,7 +429,8 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
     // Create SSA blocks
     let mut ssa_blocks: FxHashMap<u32, SsaBlock> = FxHashMap::default();
 
-    for (&block_id, block) in &blocks.blocks {
+    for block in &blocks.blocks {
+        let block_id = block.id;
         let phi_vars = phi_placements.get(&block_id).cloned().unwrap_or_default();
 
         let phi_nodes: Vec<PhiNode> = phi_vars
@@ -662,7 +665,8 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     let mut defs_per_block: FxHashMap<u32, FxHashSet<u16>> = FxHashMap::default();
     let mut all_vars: FxHashSet<u16> = FxHashSet::default();
 
-    for (&block_id, block) in &blocks.blocks {
+    for block in &blocks.blocks {
+        let block_id = block.id;
         let defs = find_defs(block);
         all_vars.extend(&defs);
         defs_per_block.insert(block_id, defs);
@@ -710,7 +714,8 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     // Take blocks out of the BlockSplitResult to avoid borrowing issues
     let original_blocks = std::mem::take(&mut blocks.blocks);
 
-    for (block_id, block) in original_blocks {
+    for block in original_blocks {
+        let block_id = block.id;
         let phi_vars = phi_placements.get(&block_id).cloned().unwrap_or_default();
 
         let phi_nodes: Vec<PhiNode> = phi_vars

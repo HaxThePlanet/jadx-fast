@@ -1862,8 +1862,11 @@ pub fn build_method_regions(blocks: &BTreeMap<u32, BasicBlock>, entry: u32) -> R
     // Convert to BlockSplitResult format
     use crate::block_split::BlockSplitResult;
 
-    let exits: Vec<u32> = blocks
-        .values()
+    // Convert BTreeMap to Vec
+    let blocks_vec: Vec<BasicBlock> = blocks.values().cloned().collect();
+
+    let exits: Vec<u32> = blocks_vec
+        .iter()
         .filter(|b| {
             b.instructions
                 .last()
@@ -1874,7 +1877,7 @@ pub fn build_method_regions(blocks: &BTreeMap<u32, BasicBlock>, entry: u32) -> R
         .collect();
 
     let result = BlockSplitResult {
-        blocks: blocks.clone(),
+        blocks: blocks_vec,
         entry_block: entry,
         exit_blocks: exits,
     };

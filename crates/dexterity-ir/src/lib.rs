@@ -31,8 +31,9 @@ pub use builder::build_ir_insn;
 pub use class_hierarchy::ClassHierarchy;
 pub use info::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility, BytecodeRef, ClassData,
-    DebugInfo, ExceptionHandler, FieldData, FieldValue, KotlinClassInfo, LoadStage, LocalVar,
-    MethodData, MethodInlineAttr, ProcessState, TryBlock, TypeParameter,
+    DebugInfo, EnhancedExceptionHandler, ExceptionHandler, FieldData, FieldValue, KotlinClassInfo,
+    LoadStage, LocalVar, MethodData, MethodInlineAttr, ProcessState, TryBlock, TryCatchBlockAttr,
+    TypeParameter,
 };
 pub use instructions::{InsnArg, InsnNode, InsnType, LambdaHandleType, LambdaInfo, RegisterArg, WrappedInsn};
 pub use kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};
@@ -41,3 +42,7 @@ pub use ssa::{
     SSA_FLAG_IMMUTABLE_TYPE, SSA_FLAG_METHOD_ARG, SSA_FLAG_PHI_ASSIGN, SSA_FLAG_THIS_ARG,
 };
 pub use types::{compare_types, ArgType, TypeCompare};
+pub use regions::{
+    CatchHandler, Condition, ForEachLoopInfo, ForLoopInfo, IterableSource, LoopDetails,
+    LoopKind, Region, RegionContent, RegionContext, RegionType, SwitchCase,
+};

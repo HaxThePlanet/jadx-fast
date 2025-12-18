@@ -44,6 +44,43 @@
 
 ---
 
+## Dexterity-IR Improvements (Dec 17, 2025)
+
+**IR Parity:** 82% → 85-90% (Regions: 72% → 80%+)
+
+**Completed:**
+1. TryCatchBlockAttr - Full exception handler nesting (`crates/dexterity-ir/src/info.rs`)
+2. TypeListener - Pluggable type refinement (`crates/dexterity-passes/src/type_update.rs`)
+
+### Region IR Parity Improvements (Dec 17, 2025)
+
+**Phase 1: Parent Tracking** (`crates/dexterity-ir/src/regions.rs`)
+- Added `RegionType` enum for region classification (Sequence, If, Loop, Switch, TryCatch, Synchronized, Break, Continue)
+- Added `RegionContext` struct for parent tracking during traversal
+- Added methods: `region_type()`, `is_control_flow()`, `loop_kind()`, `has_jump_statements()`, `direct_blocks()`, `total_block_count()`
+- Added `break_label()`/`continue_label()` for labeled loop statement generation
+
+**Phase 2: Enhanced Condition Merging** (`crates/dexterity-passes/src/conditionals.rs`)
+- Added `EnhancedMergedCondition` struct with full condition chain tracking
+- Added `EnhancedMergeMode` enum supporting Mixed AND/OR chains
+- Added `merge_nested_ifs_recursive()` implementing JADX's `mergeNestedIfNodes()` algorithm
+- Added `is_blocks_equivalent()` for OR pattern detection
+- Added `is_equal_paths()` for identical branch detection
+- Added `find_enhanced_condition_chains()` for top-level API
+
+**Phase 3: ForLoop Structure Enhancement** (`crates/dexterity-ir/src/regions.rs`, `crates/dexterity-passes/src/loop_analysis.rs`)
+- Added `ForLoopInfo` struct with init/incr block and offset tracking
+- Added `ForEachLoopInfo` struct with element variable tracking
+- Added `IterableSource` enum (Array vs Iterator iteration patterns)
+- Added `LoopDetails` combining LoopKind with detailed info
+- Added `IteratorForEachPattern` detection (hasNext()/next() pattern)
+- Added `analyze_loop_patterns_enhanced()` returning full `LoopDetails`
+- Added `From` implementations for pattern-to-info conversion
+
+See ROADMAP.md for details.
+
+---
+
 ## Quality Comparison
 
 | Criterion | JADX | Dexterity | Status |
