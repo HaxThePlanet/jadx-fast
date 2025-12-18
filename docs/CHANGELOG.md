@@ -4,6 +4,38 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Constructor Return Inlining - P2 Readability Improvement (Dec 18, 2025)
+
+**Implemented constructor return inlining for cleaner code output.**
+
+**The Problem:**
+Single-use constructor expressions before return statements were not being inlined:
+```java
+// Dexterity (BEFORE)
+X x = new X(args);
+return method(x);
+
+// Dexterity (AFTER)
+return method(new X(args));
+```
+
+**Implementation:**
+- Location: `crates/dexterity-codegen/src/body_gen.rs` (lines 6262-6337)
+- Constructor handler now checks `should_inline()` for single-use variables
+- Single-use constructor expressions stored via `store_inline_expr()` for later substitution
+- Pattern supported: `X x = new X(args); return method(x);` inlines to `return method(new X(args));`
+
+**Testing:**
+- Added `constructor_return_inline_test` in `crates/dexterity-cli/tests/integration/inline_tests.rs`
+- All 686 tests pass (686 integration + unit tests across all crates)
+
+**Impact:**
+- P2 "Intermediate variables" gap now resolved
+- Improved code readability for constructor patterns
+- Closer to JADX output style
+
+---
+
 ### Class Generation 100% Parity - Enum Declaration Syntax (Dec 18, 2025)
 
 **Class Generation now at 100% JADX parity (was 90%).**

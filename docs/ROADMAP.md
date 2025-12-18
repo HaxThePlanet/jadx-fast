@@ -1,11 +1,62 @@
 # Dexterity Implementation Roadmap
 
-**Current State:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 18, 2025)
+**Current State:** PRODUCTION READY with ~85-90% JADX parity (Dec 18, 2025)
 **Quality Achieved:** **96%+ overall (A grade) / 96.5%+ defect score** | 1,175 tests passing | **100% Class Generation parity**
 **Code Issues:** **ALL P0 CRITICAL RESOLVED** (interface generics, undefined variables, missing imports) + 25 others | P3 verbosity = positive tradeoff
 **Resource Issues:** **4 FIXED** (XML enums, localized strings, density qualifiers, missing resource files) | **1 remaining** (P3 cosmetic)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
+
+---
+
+## Parity Analysis Results (Dec 18, 2025)
+
+### Performance Comparison
+
+| APK | Dexterity | JADX | Speedup |
+|-----|-----------|------|---------|
+| small.apk | 0.015s | 1.84s | **123x** |
+| medium.apk | 4.16s | 14.91s | **3.6x** |
+| large.apk | 8.64s | 16.40s | **1.9x** |
+| badboy.apk | 0.22s | 13.45s | **61x** |
+| badboy-x86.apk | 0.21s | 13.37s | **64x** |
+
+### File Output Comparison
+
+| APK | Dexterity Files | JADX Files | Ratio | Dexterity Size | JADX Size |
+|-----|-----------------|------------|-------|----------------|-----------|
+| small | 1 | 2 | 50% | 116 KB | 120 KB |
+| medium | 6,032 | 10,073 | 60% | 61 MB | 93 MB |
+| large | 9,624 | 12,822 | 75% | 142 MB | 167 MB |
+| badboy | 84 | 6,323 | 1.3% | 2.6 MB | 69 MB |
+| badboy-x86 | 44 | 6,283 | 0.7% | 2.2 MB | 69 MB |
+
+### Code Quality Assessment
+
+| APK | Sample File | Dexterity Lines | JADX Lines | Assessment |
+|-----|-------------|-----------------|------------|------------|
+| **small** | MainActivity.java | 15 | 15 | **100% Identical** |
+| **medium** | Flowable.java | 4,881 | 4,465 | 9% larger |
+| **large** | OkHttpClient.java | 1,344 | 1,189 | 13% larger |
+
+### Remaining Gaps (P3)
+
+1. **Static field initialization** - Uses verbose `static {}` blocks instead of inline init
+2. **Variable naming** - Indexed names (`function2`, `i3`) vs cleaner JADX names
+3. ~~**Intermediate variables** - Creates temporaries before return instead of inlining~~ **FIXED (Dec 18, 2025)** - Constructor return inlining now implemented
+4. **Self-references** - Uses `Flowable.empty()` instead of `empty()`
+5. **Kotlin/Compose lambdas** - Uses stub references instead of inline bodies
+
+### Summary
+
+| Category | Rating |
+|----------|--------|
+| Performance | **A+** (1.9x-123x faster) |
+| Simple Java | **A** (100% identical) |
+| Complex Java | **B+** (9-13% larger) |
+| Kotlin/Compose | **B** (stub references) |
+
+**Overall Parity: ~85-90%**
 
 ---
 
@@ -83,9 +134,9 @@
    - Empty branch removal
    - Branch reordering for readability
 
-9. **Phase 6: SwitchBreakVisitor** (TODO)
-   - Extract common breaks: If all cases end with break, move to after switch
-   - Remove unreachable breaks after return/throw
+9. **Phase 6: SwitchBreakVisitor** (PARTIAL - Dec 18, 2025)
+   - ✅ Remove unreachable breaks after return/throw - Already handled by `case_ends_with_exit()`
+   - ⏸️ Extract common breaks - Deferred (cosmetic, significant complexity for minimal benefit)
 
 **Documentation:** See `docs/JADX_DEXTERITY_IR_REFERENCE.md` for detailed analysis
 
@@ -117,11 +168,11 @@
 | SSA Transform | ssa.rs | 1,284 | DONE |
 | Type Inference | type_inference.rs | 2,658 | DONE |
 | Region Builder | region_builder.rs | 2,511 | DONE |
-| Variable Naming | var_naming.rs | 1,784 | DONE |
-| Code Generation | body_gen.rs + expr_gen.rs | 8,526 | DONE |
+| Variable Naming | var_naming.rs | 1,963 | DONE |
+| Code Generation | body_gen.rs + expr_gen.rs | 8,594 | DONE |
 | Exception Handling | region_builder.rs | - | DONE |
 | Deobfuscation | deobf.rs | 1,007 | DONE |
-| Kotlin Metadata | dexterity-kotlin/*.rs | 1,130 | **61% parity** |
+| Kotlin Metadata | dexterity-kotlin/*.rs | 992 | **61% parity** |
 
 ### To Clone Next
 
@@ -326,7 +377,7 @@ Compare dexterity implementations against JADX originals:
 | Dexterity | JADX | LOC Comparison | Status |
 |-----------|------|----------------|--------|
 | simplify.rs (1,646) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
-| code_shrink.rs (1,038) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks, InvokeCustom lambda inline restriction |
+| code_shrink.rs (1,052) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks, InvokeCustom lambda inline restriction |
 | conditionals.rs (740) | TernaryMod.java (352) | Port ternary conversion | **DONE** - return-ternary, single-branch ternary |
 | mod_visitor.rs (831) | ModVisitor.java (634) | Array init fusion | **DONE** - NEW_ARRAY+FILL_ARRAY fusion, dead MOVE removal |
 
@@ -443,7 +494,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] ForLoop structure details - **DONE Dec 17** (ForLoopInfo, ForEachLoopInfo, IterableSource, LoopDetails)
 - [ ] LoopRegionVisitor - while→for upgrade, condition inversion
 - [ ] IfRegionVisitor - else-if chains, empty branch removal
-- [ ] SwitchBreakVisitor - common break extraction
+- [x] SwitchBreakVisitor - unreachable break removal (Dec 18); common break extraction deferred
 
 ### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md)) - **100% JADX Parity**
 - [x] Debug info application
@@ -501,11 +552,13 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 | File | LOC | Purpose |
 |------|-----|---------|
 | `crates/dexterity-passes/src/type_inference.rs` | 2,658 | Type inference |
-| `crates/dexterity-codegen/src/body_gen.rs` | 7,038 | Region traversal |
+| `crates/dexterity-codegen/src/body_gen.rs` | 7,106 | Region traversal |
 | `crates/dexterity-passes/src/region_builder.rs` | 2,511 | Control flow |
-| `crates/dexterity-passes/src/var_naming.rs` | 1,784 | Variable naming |
+| `crates/dexterity-passes/src/var_naming.rs` | 1,963 | Variable naming |
 | `crates/dexterity-codegen/src/expr_gen.rs` | 1,488 | Expression gen |
-| `crates/dexterity-codegen/src/class_gen.rs` | 1,733 | Class structure |
+| `crates/dexterity-codegen/src/class_gen.rs` | 1,750 | Class structure |
+| `crates/dexterity-codegen/src/method_gen.rs` | 770 | Method generation |
+| `crates/dexterity-codegen/src/type_gen.rs` | 529 | Type formatting |
 | `crates/dexterity-codegen/src/fallback_gen.rs` | 44 | Fallback mode raw output |
 
 ### JADX Source (jadx-fast)
@@ -537,6 +590,25 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 ---
 
 ## Completed Work History
+
+### Dec 18, 2025 - Switch Statement Quality Improvements
+
+**Commit:** 2ac5fc62b
+
+1. **Method name verification for hashCode/equals detection**
+   - Now verifies method is actually `hashCode()` or `equals()` instead of just checking argument count
+   - Prevents false positives from other 1-arg or 2-arg virtual methods
+
+2. **Extended hashCode lookup to all blocks**
+   - Previously only searched the switch header block
+   - Now searches all blocks if `hashCode()` not found in header
+   - Handles patterns where `hashCode()` is called in a predecessor block
+
+3. **Break handling verified**
+   - `case_ends_with_exit()` correctly handles not emitting break after return/throw/continue
+   - No additional changes needed for RemoveUnreachableBreak
+
+**Results:** All 685 integration tests pass (26 switch-related), string switch detection working correctly
 
 ### Dec 18, 2025 - P0 Critical Issues ALL FIXED (Grade B+ to A)
 
@@ -605,8 +677,8 @@ All 19 P1-P2 issues resolved:
 
 ---
 
-**Last Updated:** Dec 17, 2025
-**Status:** PRODUCTION READY - All 20 P0-P2 issues resolved + 4 major features complete
+**Last Updated:** Dec 18, 2025
+**Status:** PRODUCTION READY - All P0-P2 issues resolved + 4 major features complete
 **Remaining Issues:** 0 critical - All P0-P2 resolved (BADBOY-P3-001 verbosity = positive tradeoff)
 **Note:** Framework filtering is intentional by design. BADBOY-P3-001 is a positive tradeoff.
 
@@ -671,7 +743,7 @@ All 19 P1-P2 issues resolved:
 - `process_kotlin_intrinsics_with_context()` for full DEX context support
 - Pattern-based extraction from `checkNotNullParameter()` calls
 
-**Kotlin crate growth:** 597 → 1,130 lines | **Parity:** 28% → 61%
+**Kotlin crate growth:** 597 → 992 lines | **Parity:** 28% → 61%
 
 ---
 

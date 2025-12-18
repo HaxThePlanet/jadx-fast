@@ -136,16 +136,16 @@ The remaining 5% to reach 100% parity consists entirely of cosmetic improvements
 | AnnotationGen.java | ~200 | Annotations |
 | NameGen.java | ~400 | Variable naming |
 
-### Dexterity Codegen (Rust - 11 modules, ~13,466 lines)
+### Dexterity Codegen (Rust - 11 modules, ~13,811 lines)
 | Module | Lines | JADX Equivalent |
 |--------|-------|-----------------|
-| body_gen.rs | ~6,871 | RegionGen + InsnGen |
-| class_gen.rs | ~1,711 | ClassGen |
+| body_gen.rs | ~7,106 | RegionGen + InsnGen |
+| class_gen.rs | ~1,750 | ClassGen |
 | expr_gen.rs | ~1,488 | InsnGen |
-| dex_info.rs | ~959 | N/A (DEX bridge) |
+| dex_info.rs | ~954 | N/A (DEX bridge) |
 | stmt_gen.rs | ~769 | InsnGen (statements) |
-| method_gen.rs | ~737 | MethodGen |
-| type_gen.rs | ~486 | TypeGen |
+| method_gen.rs | ~770 | MethodGen |
+| type_gen.rs | ~529 | TypeGen |
 | access_flags.rs | ~218 | (utilities) |
 | writer.rs | ~141 | CodeWriter |
 | fallback_gen.rs | ~44 | Fallback mode |
@@ -329,6 +329,7 @@ The remaining 5% to reach 100% parity consists entirely of cosmetic improvements
 | String concatenation optimization | DONE | StrConcat for `a + b + c` |
 | Array initialization fusion | DONE | NEW_ARRAY + APUT → `new int[]{1, 2, 3}` |
 | Lambda inlining | DONE | Single-expression lambdas inlined |
+| **Constructor return inlining** | **DONE** | `X x = new X(); return m(x);` → `return m(new X());` |
 | Fallback mode | DONE | Raw bytecode dump on decompilation failure |
 | Resource constant resolution | DONE | `0x7f010001` → `R.id.button` (enabled by default) |
 | **Formatting** | **95%** | Minor whitespace differences (~5%) |
