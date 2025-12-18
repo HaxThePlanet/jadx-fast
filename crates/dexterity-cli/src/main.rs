@@ -121,15 +121,25 @@ fn main() -> Result<()> {
         Ok(_) => {
             tracing::info!("Configured rayon with {} thread(s), 32MB stack per thread", num_threads);
         }
-        Err(_) => {
-            // If build_global() fails, rayon is already initialized
-            // Check if we got the requested thread count anyway
+        Err(e) => {
+            // If build_global() fails, rayon is already initialized with different settings
+            // This happens if another library calls rayon before dexterity does
+            tracing::warn!("Failed to configure rayon thread pool: {}", e);
+
             let actual_threads = rayon::current_num_threads();
+            let actual_stack = std::thread::current().stack_size().unwrap_or(0);
+
             if actual_threads != num_threads {
-                tracing::warn!("Rayon already initialized with {} thread(s), but requested {}", actual_threads, num_threads);
-                tracing::warn!("To use {} threads on next run, set: RAYON_NUM_THREADS={} dexterity [args]", num_threads, num_threads);
+                tracing::warn!("Rayon initialized by another library with {} thread(s), but dexterity requested {}", actual_threads, num_threads);
+                tracing::warn!("To override, set environment variable: RAYON_NUM_THREADS={} dexterity [args]", num_threads);
             } else {
-                tracing::info!("Using existing rayon configuration with {} thread(s)", actual_threads);
+                tracing::info!("Using pre-initialized rayon configuration with {} thread(s)", actual_threads);
+            }
+
+            if actual_stack < 32 * 1024 * 1024 {
+                let stack_mb = actual_stack / (1024 * 1024);
+                tracing::warn!("Current thread stack size is {}MB, but dexterity configured {} thread pool with 32MB", stack_mb, num_threads);
+                tracing::warn!("If you encounter stack overflow crashes, increase stack size with: RUST_MIN_STACK=33554432 dexterity [args]");
             }
         }
     }
