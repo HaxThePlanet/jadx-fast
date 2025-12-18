@@ -525,7 +525,8 @@ pub struct ClassGenConfig {
     /// Deobfuscation: maximum name length (longer names get renamed)
     pub deobf_max_length: usize,
     /// Resource ID -> name mapping (e.g., 0x7f010001 -> "id/button")
-    pub res_names: std::collections::HashMap<u32, String>,
+    /// Wrapped in Arc for efficient sharing across parallel class processing.
+    pub res_names: std::sync::Arc<std::collections::HashMap<u32, String>>,
     /// Whether to replace resource IDs with R.* field references
     pub replace_consts: bool,
     /// App package name for R class imports
@@ -547,7 +548,7 @@ impl Default for ClassGenConfig {
             hierarchy: None,
             deobf_min_length: 3,
             deobf_max_length: 64,
-            res_names: std::collections::HashMap::new(),
+            res_names: std::sync::Arc::new(std::collections::HashMap::new()),
             replace_consts: false,
             app_package_name: None,
             comments_level: CommentsLevel::Info,
@@ -1367,7 +1368,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
             code.newline();
         }
         first_method = false;
-        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), config.deobf_min_length, config.deobf_max_length, &config.res_names, config.replace_consts, config.comments_level, code);
+        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), config.deobf_min_length, config.deobf_max_length, &*config.res_names, config.replace_consts, config.comments_level, code);
     }
 }
 

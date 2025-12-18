@@ -33,7 +33,6 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use dashmap::DashMap;
-use parking_lot::RwLock;
 
 use crate::expr_gen::{ExprGen, FieldInfo, MethodInfo};
 use crate::type_gen::type_to_string;
@@ -57,12 +56,12 @@ const ACC_VARARGS: u32 = 0x0080;
 /// NOT by DEX field index. When multiple DEX files reference the same field,
 /// they all get the same cached FieldInfo, enabling consistent name resolution.
 ///
-/// Uses parking_lot::RwLock for ~15% faster lock operations than std::sync::RwLock.
+/// Uses DashMap for lock-free concurrent access - critical for 56+ core scaling.
 #[derive(Default)]
 pub struct GlobalFieldPool {
     /// Map from (class, name, type) tuple to canonical FieldInfo
     /// Uses a custom key for deduplication across DEX boundaries
-    fields: RwLock<HashMap<FieldKey, FieldInfo>>,
+    fields: DashMap<FieldKey, FieldInfo>,
 }
 
 /// Key for deduplicating fields across DEX files
@@ -83,6 +82,8 @@ impl GlobalFieldPool {
     /// Get or cache a field by its descriptor tuple
     /// If the same (class, name, type) already exists, return the cached instance.
     /// Otherwise, add it to the pool and return it.
+    ///
+    /// Uses DashMap's entry API for lock-free concurrent access.
     pub fn get_or_cache(&self, field: FieldInfo) -> FieldInfo {
         let key = FieldKey {
             class_type: field.class_type.clone(),
@@ -90,13 +91,8 @@ impl GlobalFieldPool {
             field_type: type_to_string(&field.field_type),
         };
 
-        let mut pool = self.fields.write();
-        if let Some(existing) = pool.get(&key) {
-            existing.clone()
-        } else {
-            pool.insert(key, field.clone());
-            field
-        }
+        // DashMap entry API - lock-free for reads, fine-grained locking for writes
+        self.fields.entry(key).or_insert_with(|| field.clone()).clone()
     }
 
     /// Get cached field if it exists (without adding)
@@ -110,14 +106,13 @@ impl GlobalFieldPool {
             field_name: field_name.to_string(),
             field_type: field_type_str.to_string(),
         };
-        self.fields.read().get(&key).cloned()
+        self.fields.get(&key).map(|r| r.clone())
     }
 
     /// Statistics for debugging
     #[allow(dead_code)]
     pub fn stats(&self) -> (usize, usize) {
-        let pool = self.fields.read();
-        (pool.len(), 0)  // TODO: track memory usage if needed
+        (self.fields.len(), 0)  // TODO: track memory usage if needed
     }
 }
 

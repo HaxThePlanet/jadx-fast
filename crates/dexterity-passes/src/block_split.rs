@@ -4,7 +4,9 @@
 //! basic blocks at branch points. A basic block is a sequence of instructions
 //! where control flow enters at the beginning and leaves at the end.
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeMap;
+
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use dexterity_ir::attributes::AFlag;
 use dexterity_ir::instructions::{InsnNode, InsnType};
@@ -118,7 +120,8 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     }
 
     // First pass: find all block leaders (start points)
-    let mut leaders = BTreeSet::new();
+    // Use FxHashSet for O(1) insertions instead of BTreeSet's O(log N)
+    let mut leaders = FxHashSet::default();
     leaders.insert(0u32); // First instruction is always a leader
 
     for insn in instructions {
@@ -144,13 +147,15 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     }
 
     // Build offset -> instruction index mapping
-    let mut offset_to_idx: BTreeMap<u32, usize> = BTreeMap::new();
+    // Use FxHashMap for O(1) lookups instead of BTreeMap's O(log N)
+    let mut offset_to_idx: FxHashMap<u32, usize> = FxHashMap::default();
     for (idx, insn) in instructions.iter().enumerate() {
         offset_to_idx.insert(insn.offset, idx);
     }
 
     // Create leader set based on instruction indices
-    let leader_indices: BTreeSet<usize> = leaders
+    // Use FxHashSet for O(1) membership tests
+    let leader_indices: FxHashSet<usize> = leaders
         .iter()
         .filter_map(|&offset| offset_to_idx.get(&offset).copied())
         .collect();
@@ -168,7 +173,8 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     let mut blocks = BTreeMap::new();
     let mut current_block: Option<BasicBlock> = None;
     let mut block_id = 0u32;
-    let mut offset_to_block: BTreeMap<u32, u32> = BTreeMap::new();
+    // Use FxHashMap for O(1) lookups during successor resolution
+    let mut offset_to_block: FxHashMap<u32, u32> = FxHashMap::default();
 
     for (idx, insn) in instructions.iter().enumerate() {
         let offset = insn.offset;
@@ -261,7 +267,7 @@ fn is_terminator(insn_type: &InsnType) -> bool {
 /// Compute successors for a block
 fn compute_successors(
     block: &BasicBlock,
-    offset_to_block: &BTreeMap<u32, u32>,
+    offset_to_block: &FxHashMap<u32, u32>,
     all_blocks: &[u32],
 ) -> Vec<u32> {
     let mut successors = Vec::new();

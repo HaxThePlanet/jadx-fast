@@ -391,6 +391,8 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         let pretty_print = !args.no_xml_pretty_print;
         res_names = process_resources_streaming(out_res, manifest_data, arsc_data, &xml_resource_names, raw_file_count, input, pretty_print)?;
     }
+    // Wrap res_names in Arc for efficient sharing across parallel class processing
+    let res_names = Arc::new(res_names);
 
     // Process source code (DEX) - one at a time to minimize memory
     if !args.skip_sources {
@@ -418,7 +420,7 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             entry.read_to_end(&mut dex_data)?;
 
             // Process it immediately
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, &res_names) {
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, std::sync::Arc::clone(&res_names)) {
                 Ok(count) => total_classes += count,
                 Err(e) => {
                     tracing::warn!("Failed to process {}: {}", dex_name, e);
@@ -699,8 +701,8 @@ fn process_dex(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     let progress = create_progress_bar(args);
     let global_field_pool = Arc::new(GlobalFieldPool::new());
     let dex_name = input.file_name().and_then(|n| n.to_str()).unwrap_or("classes.dex");
-    let res_names = std::collections::HashMap::new(); // DEX files don't have resources
-    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), 0, dex_name, &res_names)?;
+    let res_names = Arc::new(std::collections::HashMap::new()); // DEX files don't have resources
+    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), 0, dex_name, Arc::clone(&res_names))?;
 
     if let Some(pb) = progress {
         pb.finish_with_message("done");
@@ -770,8 +772,8 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
             entry.read_to_end(&mut dex_data)?;
 
             // Process it immediately - JAR DEX files have no resource mappings
-            let empty_res_names = std::collections::HashMap::new();
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, &empty_res_names) {
+            let empty_res_names = Arc::new(std::collections::HashMap::new());
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, Arc::clone(&empty_res_names)) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
@@ -912,8 +914,8 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             entry.read_to_end(&mut dex_data)?;
 
             // Process it immediately - AAB DEX files have no resource mappings
-            let empty_res_names = std::collections::HashMap::new();
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, &empty_res_names) {
+            let empty_res_names = Arc::new(std::collections::HashMap::new());
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, empty_res_names) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
@@ -1037,7 +1039,7 @@ fn process_dex_bytes(
     global_field_pool: Arc<GlobalFieldPool>,
     dex_idx: u32,
     dex_name: &str,
-    res_names: &std::collections::HashMap<u32, String>,
+    res_names: std::sync::Arc<std::collections::HashMap<u32, String>>,
 ) -> Result<usize> {
     mem_checkpoint!("before DexReader");
 
@@ -1342,9 +1344,21 @@ fn process_dex_bytes(
 
     // Process only outer classes - inner classes are nested inside
     outer_class_indices.par_iter().for_each(|&idx| {
-        // Memory checkpoint every 100 classes
+        // Memory checkpoint every 1000 classes (reduced from 100 to minimize syscall overhead)
         let pc = processed_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-        if pc % 100 == 0 { // Reduce log spam
+
+        // Fetch class name on-demand to avoid storing all names in memory
+        let class_desc = dex.get_class(idx)
+            .ok()
+            .and_then(|c| c.class_type().ok().map(|t| t.to_string()))
+            .unwrap_or_else(|| format!("LUnknownClass{};", idx));
+
+        // Log every class in debug mode or single-threaded mode for hang debugging
+        if num_threads == 1 || (pc > 1000 && pc < 2000) {
+            tracing::debug!("Processing class[{}]: {}", pc, class_desc);
+        }
+
+        if pc % 1000 == 0 { // Reduced frequency for better parallel scaling
             let mem = get_mem_mb();
             eprintln!("MEM[class {}]: {} MB", pc, mem);
             if mem > 32 * 1024 { // 32GB safety limit
@@ -1352,11 +1366,6 @@ fn process_dex_bytes(
                 std::process::exit(137); // OOM exit code
             }
         }
-        // Fetch class name on-demand to avoid storing all names in memory
-        let class_desc = dex.get_class(idx)
-            .ok()
-            .and_then(|c| c.class_type().ok().map(|t| t.to_string()))
-            .unwrap_or_else(|| format!("LUnknownClass{};", idx));
 
         let out_path = {
             let rel_path = deobf::class_output_rel_path(&class_desc, &alias_registry);
@@ -1454,7 +1463,7 @@ fn process_dex_bytes(
                     hierarchy: Some(hierarchy_arc.clone()),
                     deobf_min_length: args.deobf_min_length,
                     deobf_max_length: args.deobf_max_length,
-                    res_names: res_names.clone(),
+                    res_names: std::sync::Arc::clone(&res_names),
                     replace_consts: args.replace_consts(),
                     app_package_name: None, // TODO: Extract from ARSC or ClassData
                     comments_level,

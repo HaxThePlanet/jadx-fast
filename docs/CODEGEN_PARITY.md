@@ -2,20 +2,20 @@
 
 **Last Updated**: 2025-12-17
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
-**Overall Parity**: **93%**
+**Overall Parity**: **94%**
 
 ---
 
 ## Executive Summary
 
-Dexterity's code generation module achieves approximately **93% feature parity** with JADX's mature codegen implementation. Key strengths include full lambda/method reference support, comprehensive control flow handling, robust type generation, and complete increment/compound assignment support (including field operations). Main remaining gap is pre/post increment context detection (`++i` vs `i++`).
+Dexterity's code generation module achieves approximately **94% feature parity** with JADX's mature codegen implementation. Key strengths include full lambda/method reference support, comprehensive control flow handling, robust type generation, complete increment/compound assignment support (including field operations), and traditional for loop generation from pattern analysis. Main remaining gap is pre/post increment context detection (`++i` vs `i++`).
 
 | Component | Parity | Status |
 |-----------|--------|--------|
 | Class Generation | 92% | Production Ready |
 | Method Generation | 95% | Production Ready |
 | Expression Generation | 93% | Production Ready |
-| Control Flow | 90% | Production Ready |
+| Control Flow | 92% | Production Ready |
 | Condition Generation | 90% | Production Ready |
 | Type Generation | 95% | Production Ready |
 | Annotation Generation | 90% | Production Ready |
@@ -123,7 +123,7 @@ Dexterity's code generation module achieves approximately **93% feature parity**
 | Else-if chaining | DONE | |
 | While loops | DONE | |
 | Do-while loops | DONE | |
-| For loops | DONE | Init/cond/update |
+| For loops | DONE | Init/cond/update + pattern analysis |
 | For-each (array) | DONE | |
 | For-each (iterator) | DONE | hasNext()/next() |
 | Switch statements | DONE | With fallthrough |
@@ -237,6 +237,7 @@ Dexterity's code generation module achieves approximately **93% feature parity**
 
 | Feature | Coverage | JADX Reference | Notes |
 |---------|----------|----------------|-------|
+| Traditional for loop generation | **DONE** | LoopRegionVisitor | Pattern analysis for `for(int i=0; i<N; i++)` via `analyze_loop_patterns()` |
 | String switch reconstruction | **79%** | SwitchOverStringVisitor | Two-switch pattern merge via `detect_two_switch_in_sequence()` |
 | Field increment ops | **DONE** | InsnGen:1216-1230 | `obj.field++`, `this.count += n` via `detect_field_increment()` in body_gen.rs:955-1105 |
 | Field compound assignments | **DONE** | InsnGen | `obj.field += n`, `this.count -= 1` for all operators (+, -, *, /, %, &, \|, ^, <<, >>, >>>) |

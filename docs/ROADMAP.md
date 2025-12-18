@@ -52,6 +52,7 @@
 | Multi-DEX support | RootNode.java | P2 | jadx-core/dex/nodes/ | **DONE** |
 | Warning comments | CodeGen.java retry | P3 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** |
 | For-each loops | LoopRegionVisitor.java | P2 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** - array pattern + iterator pattern |
+| Traditional for loops | LoopRegionVisitor.java | P2 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** - pattern analysis for `for(int i=0; i<N; i++)` |
 | ReplaceNewArray | ReplaceNewArray.java (218 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** - NEW_ARRAY + APUT sequence fusion |
 | Two-Switch Pattern | SwitchOverStringVisitor.java | P2 | [JADX_REGION_CONTROL_FLOW.md](JADX_REGION_CONTROL_FLOW.md) | **DONE** - hashCode+index switch merge |
 
@@ -341,6 +342,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Break/continue insertion
 - [x] Endless loop explicit breaks - **DONE** (Region::Break/Continue variants, if-break pattern in loop bodies)
 - [x] For-each loop detection - **DONE** (Array pattern: `i < arr.length` with AGET → `for (T item : arr)`, Iterator pattern: hasNext/next)
+- [x] Traditional for loop generation - **DONE** (Pattern analysis: `for(int i=0; i<N; i++)` via `analyze_loop_patterns()` in dexterity-passes)
 
 ### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md))
 - [x] Debug info application

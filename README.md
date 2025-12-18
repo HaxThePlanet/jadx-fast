@@ -181,6 +181,7 @@ Resource IDs automatically resolve to `R.layout.activity_main`, `R.id.button` et
 - Bitwise to logical conversion (`a & b` → `a && b`)
 - Algebraic simplifications
 - Condition simplification (`!(a < b)` → `a >= b`)
+- Traditional for loop generation (`while` to `for(int i=0; i<N; i++)`)
 
 ## Quick Start
 
@@ -290,7 +291,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | ✅ 100% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification, condition simplification, for-each loops, varargs expansion all done |
+| Code Generation | ✅ 100% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification, condition simplification, for-each loops, traditional for loops, varargs expansion all done |
 | Input Formats | 🔶 70% | APK, DEX, JAR, AAR, AAB, XAPK, APKM (missing APKS, Smali, .class) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
@@ -395,7 +396,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 | `dexterity-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) ([parity details](docs/DEX_PARITY.md)) | **100%** |
 | `dexterity-ir` | Intermediate representation, SSA, class hierarchy ([parity details](docs/JADX_DEXTERITY_IR_REFERENCE.md)) | **82%** |
 | `dexterity-passes` | Type inference, region reconstruction, optimization ([parity details](docs/PASSES_COMPARISON.md)) | **95%** |
-| `dexterity-codegen` | Java source generation ([parity details](docs/CODEGEN_PARITY.md)) | **93%** |
+| `dexterity-codegen` | Java source generation ([parity details](docs/CODEGEN_PARITY.md)) | **94%** |
 | `dexterity-resources` | AXML and resources.arsc decoding | **100%** |
 | `dexterity-deobf` | Deobfuscation, ProGuard parser | **100%** |
 | `dexterity-kotlin` | Kotlin metadata parsing | **100%** |
@@ -413,7 +414,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 
 - [Quality Status](docs/QUALITY_STATUS.md) - Detailed output quality vs Java JADX
 - [DEX Parity](docs/DEX_PARITY.md) - **100% parity** for DEX binary parsing (dexterity-dex vs jadx-dex)
-- [Codegen Parity](docs/CODEGEN_PARITY.md) - 93% parity for code generation
+- [Codegen Parity](docs/CODEGEN_PARITY.md) - 94% parity for code generation
 - [Kotlin Parity](docs/KOTLIN_PARITY.md) - **61% parity** for Kotlin metadata extraction (field names, data classes, companion objects, function modifiers)
 - [Roadmap](docs/ROADMAP.md) - Remaining work and implementation plan
 - [Changelog](docs/CHANGELOG.md) - Development history and fixes
@@ -481,6 +482,72 @@ Dexterity prioritizes **complete output** over concise output:
 - JADX sometimes fails on complex Compose lambdas with "Method not decompiled"
 - Dexterity succeeds on these complex cases, producing complete (albeit verbose) output
 - This is a deliberate design choice: correctness and completeness trump brevity
+
+## Known Issues
+
+### Hanging APK: Zara Android App
+
+**APK:** `419955240b7c62b61832a62f6e8c28650a19830f0f75ff3c2abe290ecb158484.apk`
+**Package:** `com.inditex.zara` v16.0.2 (versionCode 26001213)
+**Size:** 45 MB
+**Issue:** Dexterity hangs during decompilation on DEX file 2 (classes2.dex), between class 1000-2000
+
+#### Symptoms
+- Processes first 3 DEX files successfully (classes.dex, classes2.dex first 1000 classes, classes3.dex)
+- Hangs indefinitely during processing of classes2.dex around class index 1000-2000
+- Memory usage stable at ~9.6 GB (not an OOM issue)
+- Occurs in both single-threaded (`-j 1`) and multi-threaded modes
+- Process must be killed with SIGTERM (exit 124) or OOM killer (exit 137)
+
+#### APK Details
+```
+DEX files: 4 (classes.dex, classes2.dex, classes3.dex, classes4.dex)
+Total classes: ~40,000
+Resource XMLs: 2,949
+Raw files: 360
+SDK: targetSdkVersion 35, minSdkVersion 26
+```
+
+#### Reproduction
+```bash
+# Single-threaded mode (easier to debug)
+timeout 120 ./target/release/dexterity -j 1 -d /tmp/output \
+  419955240b7c62b61832a62f6e8c28650a19830f0f75ff3c2abe290ecb158484.apk
+
+# Multi-threaded mode (112 threads)
+timeout 120 ./target/release/dexterity -d /tmp/output \
+  419955240b7c62b61832a62f6e8c28650a19830f0f75ff3c2abe290ecb158484.apk
+```
+
+#### Observed Behavior
+```
+✅ DEX 0 (classes.dex): 8,832 classes processed successfully in 2.39s
+✅ DEX 1 (classes2.dex): First 1,000 classes processed
+❌ DEX 1 (classes2.dex): Hangs between class 1000-2000
+⏸️  Process becomes unresponsive, timeout required
+```
+
+#### Investigation Status
+- **Likely cause:** Infinite loop or deadlock in decompiler on a specific class
+- **Not memory-related:** Memory usage stable, no OOM conditions
+- **Not timeout-related:** Hangs indefinitely without progress
+- **Next steps:** Need per-class logging in single-threaded mode to identify exact class causing hang
+
+#### Workaround
+None currently available. APK cannot be fully decompiled until the root cause is identified and fixed.
+
+#### Technical Details
+```
+MEM[before DexReader]: 274 MB
+MEM[after DexReader]: 274 MB
+DEX: 10392 classes, 57713 methods, 50453 strings
+Processing 10366 classes (9283 outer, 1083 inner)
+Kotlin metadata prepass: 3718 classes scanned, 883 aliases registered
+Class hierarchy built in 14.455601ms
+MEM[class 0]: 411 MB
+MEM[class 1000]: 411 MB
+[HANG - no further progress]
+```
 
 ## License
 

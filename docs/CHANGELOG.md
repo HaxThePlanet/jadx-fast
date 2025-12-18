@@ -4,6 +4,44 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Traditional For Loop Generation (Dec 17, 2025)
+
+**Implemented traditional for loop generation for improved code readability and JADX parity.**
+
+**Problem:** Indexed loops were being output as while loops:
+```java
+// Dexterity (BEFORE)
+int i = 0;
+while (i < array.length) {
+    // body
+    i++;
+}
+
+// Dexterity (AFTER)
+for (int i = 0; i < array.length; i++) {
+    // body
+}
+```
+
+**Implementation:**
+- Added `loop_patterns` field to `DecompiledMethod` struct for SSA-based loop analysis
+- Added `analyze_loop_patterns()` and `detect_loops()` functions in dexterity-passes
+- Pass loop patterns through `BodyGenContext` to codegen
+- Detect indexed for-loop patterns (init/condition/update) and generate proper for loop headers
+- Falls back to while loop if pattern doesn't match
+
+**Files Changed:**
+- `crates/dexterity-cli/src/decompiler.rs` - Added loop pattern analysis stage (5.8)
+- `crates/dexterity-codegen/src/body_gen.rs` - Added for loop generation with pattern matching
+
+**Results:**
+- Traditional for loops now generated for indexed iteration patterns
+- Improved code readability
+- Closer to 1:1 JADX parity
+- All tests pass
+
+---
+
 ### Kotlin Codegen Quality Fixes (Dec 17, 2025)
 
 **Fixed critical bugs in Kotlin/Compose code generation for badboy APK.**
