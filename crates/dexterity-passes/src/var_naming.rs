@@ -200,9 +200,13 @@ fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
         // Arrays are compatible if element types are compatible
         (ArgType::Array(e1), ArgType::Array(e2)) => types_compatible_for_naming(e1, e2),
 
-        // Array and Object are compatible (arrays are objects)
+        // Arrays are NOT compatible with non-array Objects for naming purposes
+        // While arrays ARE objects at the JVM level, in Java source code:
+        //   String str = readFile();
+        //   str = str.split(" ");  // COMPILE ERROR: String[] cannot be assigned to String
+        // So Array and Object types must have different variable names.
         (ArgType::Array(_), ArgType::Object(_)) |
-        (ArgType::Object(_), ArgType::Array(_)) => true,
+        (ArgType::Object(_), ArgType::Array(_)) => false,
 
         // Generic types - base types must be compatible
         (ArgType::Generic { base: b1, .. }, ArgType::Generic { base: b2, .. }) => {
