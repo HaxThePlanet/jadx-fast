@@ -166,6 +166,22 @@ public class RootNode {
 						return; // Skip this class entirely
 					}
 
+					// Google Play Services, Firebase, Guava
+					if (clsName.startsWith("Lcom/google/android/gms/")
+							|| clsName.startsWith("Lcom/google/firebase/")
+							|| clsName.startsWith("Lcom/google/common/")) {
+						return;
+					}
+
+					// Square libraries (OkHttp, Retrofit, Moshi, Wire, Picasso)
+					if (clsName.startsWith("Lcom/squareup/")
+							|| clsName.startsWith("Lokhttp3/")
+							|| clsName.startsWith("Lokhttp/")
+							|| clsName.startsWith("Lretrofit2/")
+							|| clsName.startsWith("Lretrofit/")) {
+						return;
+					}
+
 					// Generated resource files (R.java, BuildConfig)
 					if (clsName.endsWith("/R;")
 							|| clsName.contains("/R$")
@@ -213,16 +229,13 @@ public class RootNode {
 						return;
 					}
 
-					// React Native
-					if (clsName.startsWith("Lcom/facebook/react/")
-							|| clsName.startsWith("Lcom/facebook/hermes/")
-							|| clsName.startsWith("Lcom/facebook/jni/")
-							|| clsName.startsWith("Lcom/facebook/soloader/")
-							|| clsName.startsWith("Lcom/facebook/yoga/")
-							|| clsName.startsWith("Lcom/facebook/imagepipeline/")
-							|| clsName.startsWith("Lcom/facebook/drawee/")
-							|| clsName.startsWith("Lcom/facebook/fresco/")
-							|| clsName.startsWith("Lcom/swmansion/")
+					// Facebook SDK (includes React Native, Fresco, etc.)
+					if (clsName.startsWith("Lcom/facebook/")) {
+						return;
+					}
+
+					// React Native ecosystem (non-Facebook packages)
+					if (clsName.startsWith("Lcom/swmansion/")
 							|| clsName.startsWith("Lcom/reactnativecommunity/")
 							|| clsName.startsWith("Lcom/horcrux/svg/")
 							|| clsName.startsWith("Lexpo/modules/")) {
@@ -307,6 +320,33 @@ public class RootNode {
 							|| clsName.startsWith("Landroidx/test/")
 							|| clsName.startsWith("Landroid/support/test/")
 							|| clsName.startsWith("Lorg/robolectric/")) {
+						return;
+					}
+
+					// Image loading
+					if (clsName.startsWith("Lcom/bumptech/glide/")) {
+						return;
+					}
+
+					// Reactive programming
+					if (clsName.startsWith("Lio/reactivex/")
+							|| clsName.startsWith("Lrx/")) {
+						return;
+					}
+
+					// JSON processing & utilities
+					if (clsName.startsWith("Lcom/fasterxml/jackson/")
+							|| clsName.startsWith("Lorg/apache/commons/")) {
+						return;
+					}
+
+					// Logging libraries
+					if (clsName.startsWith("Lorg/slf4j/")
+							|| clsName.startsWith("Lch/qos/logback/")
+							|| clsName.startsWith("Lorg/apache/logging/")
+							|| clsName.startsWith("Lorg/apache/log4j/")
+							|| clsName.startsWith("Ltimber/")
+							|| clsName.startsWith("Lcom/jakewharton/timber/")) {
 						return;
 					}
 
