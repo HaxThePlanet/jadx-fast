@@ -274,7 +274,7 @@ Cores │ Time    │ Speedup │ Efficiency
 MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d output/ app.apk
 ```
 
-**Framework Filtering:** By default, Dexterity skips framework classes (`android.*`, `androidx.*`, `kotlin.*`, `kotlinx.*`) for faster output and smaller size. Use `--include-framework` to include them.
+**Framework & Library Filtering:** By default, Dexterity skips framework classes (`android.*`, `androidx.*`, `kotlin.*`, `java.*`) and common libraries (`okhttp3.*`, `retrofit2.*`, `com.google.firebase.*`, etc.) for faster output and smaller size. Use `--include-framework` to include them.
 
 ## Feature Status
 
@@ -450,19 +450,31 @@ cargo test
 
 ## Design Decisions
 
-### Framework Class Filtering (Default Behavior)
+### Framework & Library Filtering (Default Behavior)
 
-By default, Dexterity **skips framework classes** for faster output and smaller size:
+By default, Dexterity **skips framework and common library classes** for faster output and smaller size:
+
+**Framework packages skipped:**
 - `android.*`, `androidx.*` - Android framework
 - `kotlin.*`, `kotlinx.*` - Kotlin stdlib
 - `java.*`, `javax.*` - Java stdlib
 
+**Library packages skipped:**
+- `com.google.android.gms.*`, `com.google.firebase.*` - Google Play Services & Firebase
+- `com.google.common.*` - Guava
+- `com.squareup.*`, `okhttp3.*`, `retrofit2.*` - Square libraries
+- `com.facebook.*` - Facebook SDK
+- `com.bumptech.glide.*` - Glide image loading
+- `io.reactivex.*`, `rx.*` - RxJava
+- `com.fasterxml.jackson.*` - Jackson JSON
+- `org.apache.commons.*` - Apache Commons
+- `org.slf4j.*`, `ch.qos.logback.*`, `timber.*` - Logging frameworks
+
 **What's Included by Default:**
 - All app classes (`com.yourapp.*`)
-- Third-party libraries (`okhttp3`, `okio`, `grpc`, etc.)
 - Resources, manifests, XML
 
-**To include framework classes**, use the `--include-framework` flag:
+**To include framework/library classes**, use the `--include-framework` flag:
 ```bash
 ./target/release/dexterity --include-framework -d output/ app.apk
 ```
