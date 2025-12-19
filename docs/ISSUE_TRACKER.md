@@ -3,9 +3,9 @@
 This tracker contains structured issues for autonomous agents working toward JADX parity.
 See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
-**Status (Dec 17, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
+**Status (Dec 19, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
 
-**27 total issues (26 resolved, 1 remaining from badboy APK comparison)**
+**29+ total issues (27+ resolved, 2 remaining from Dec 19 investigation)**
 
 24 of 24 P1-P2 issues fully resolved:
 - Overall Quality: **95.5%+** (Dec 17 QA re-run) - improved from 77.1%/70.0%
@@ -1787,58 +1787,131 @@ Changed to return `false` - arrays and non-array objects must have different var
 
 ---
 
+### Issue ID: DEC19-FIX-019
+
+**Status:** RESOLVED (Dec 19, 2025)
+**Priority:** P2 (HIGH)
+**Category:** PHI Compatibility for Missing Types
+**Impact:** Variables with missing types grouped incorrectly into one "obj" group
+**Commit:** (bundled with commit `3cc55ee8d`)
+
+**The Problem (FIXED):**
+Variables with missing types were assumed compatible in PHI grouping (`_ => true`), causing unrelated variables to collapse into a single "obj" group.
+
+**Root Cause:**
+In `build_codevar_groups()` function, the PHI compatibility check had a catch-all pattern that assumed compatibility when either type was missing:
+```rust
+// BEFORE (broken):
+match (dest_type, src_type) {
+    (Some(dt), Some(st)) => types_compatible_for_naming(dt, st),
+    _ => true,  // BUG: Assumed compatibility when types missing
+}
+```
+
+**Solution:**
+Changed the logic to only group when at least one has a known type. When BOTH are missing, don't group them:
+```rust
+// AFTER (fixed):
+match (dest_type, src_type) {
+    (Some(dt), Some(st)) => types_compatible_for_naming(dt, st),
+    (Some(_), None) | (None, Some(_)) => true,  // One has type - allow grouping
+    (None, None) => false,  // Both missing - don't group
+}
+```
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` (lines 250-257)
+
+**Acceptance Criteria:**
+- [x] Unrelated variables no longer grouped into one "obj" name
+- [x] All 1,175 tests pass (685 integration + 490 unit)
+- [x] Variable naming quality improved
+
+---
+
+### Issue ID: DEC19-FIX-020
+
+**Status:** RESOLVED (Dec 19, 2025)
+**Priority:** P2 (HIGH)
+**Category:** Unknown Type Naming Score
+**Impact:** Unknown types could "win" in PHI groups, causing "obj" name for entire group
+**Commit:** (bundled with commit `3cc55ee8d`)
+
+**The Problem (FIXED):**
+Unknown types got the same naming score (40) as known types, allowing them to "win" in PHI groups and propagate generic "obj" names.
+
+**Root Cause:**
+In the naming score calculation, Unknown types received the same score as known types:
+```rust
+// BEFORE (broken):
+let score = 40;  // Same score for all types
+```
+
+**Solution:**
+Give Unknown types a much lower score (5) so known types always win when a PHI group has mixed type inference quality:
+```rust
+// AFTER (fixed):
+let score = if matches!(arg_type,
+    ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide |
+    ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral
+) {
+    5   // Low score for unknown types
+} else {
+    40  // Normal score for known types
+};
+```
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` (lines 1184-1191)
+
+**Acceptance Criteria:**
+- [x] Known types always win naming for PHI groups over Unknown types
+- [x] All 1,175 tests pass (685 integration + 490 unit)
+- [x] Variable naming uses descriptive names when type info available
+
+---
+
 ### Issue ID: DEC19-OPEN-001
 
-**Status:** OPEN (Investigation Complete, Fix Pending)
+**Status:** PARTIALLY RESOLVED (Dec 19, 2025)
 **Priority:** P2 (HIGH)
 **Category:** Variable Naming with 'obj' Prefix
 **Impact:** Poor readability - variables named obj11, obj12 instead of descriptive names
-**Assigned To:** Unassigned
+**Assigned To:** Unassigned (partial fixes complete)
 
 **The Problem:**
 Even when type information is available, variables get generic "obj" names instead of type-based names like "str", "strArr", "calendar".
 
-**Investigation Findings:**
+**Fixes Implemented (Dec 19):**
 
-1. **Type info IS available at declaration time:**
-   - The declaration shows `String obj11 = ...` (type is known)
-   - But the name is "obj11" instead of "str" or "string"
+1. **Fix 19: PHI compatibility when both types missing** (var_naming.rs:250-257):
+   - See DEC19-FIX-019 above
+   - **Benefit:** Prevents unrelated variables from collapsing into one "obj" group
 
-2. **Root Cause Hypothesis:**
-   The issue is likely that type_info.types doesn't have entries for all SSA versions, causing fallback to "obj":
-   ```rust
-   // In var_naming.rs lines 1265-1270:
-   if let Some(arg_type) = type_info.types.get(&(reg, version)) {
-       naming.name_for_type(arg_type)  // Should return "str" for String
-   } else {
-       naming.make_unique("obj")  // Falls back to "obj" when type missing
-   }
-   ```
+2. **Fix 20: Unknown types get lower naming score** (var_naming.rs:1184-1191):
+   - See DEC19-FIX-020 above
+   - **Benefit:** When a PHI group has mixed types, known types always win for naming
 
-3. **Variable grouping through Unknown types:**
-   When one variable in a PHI group has Unknown type, all are considered compatible:
-   ```rust
-   // Lines 247-250:
-   let compatible = match (dest_type, src_type) {
-       (Some(dt), Some(st)) => types_compatible_for_naming(dt, st),
-       _ => true,  // Unknown types assumed compatible!
-   };
-   ```
+3. **Fixed test for Array/Object compatibility** (var_naming.rs:1966-1971):
+   - Updated test to expect Array/Object incompatibility (commit 3cc55ee8d changed this)
 
-**How to Debug:**
-Add logging to `assign_var_names_with_lookups()` to trace:
-1. What types are in `type_info.types` for each (reg, version)
-2. Which variables are being grouped together via PHI
-3. Why the type-based naming fallback isn't being used
+4. **Fixed SmallVec errors in code_shrink tests** (code_shrink.rs:963,978,1003):
+   - Added `.into()` conversion for vec![] to SmallVec
 
-**Potential Fixes:**
-1. Fix type inference to populate all SSA versions
-2. Don't assume compatibility when type is Unknown
-3. Use type from declaration instead of type_info
+**Remaining Work for Full Fix:**
+The fundamental issue is that type inference (`type_info.types`) doesn't have entries for all SSA versions. Types ARE resolved later at codegen time (`expr_gen.var_types`), but naming happens earlier.
 
-**Files to Investigate:**
-- `crates/dexterity-passes/src/var_naming.rs` - `assign_var_names_with_lookups()` and `build_code_vars()`
-- `crates/dexterity-passes/src/type_inference.rs` - Why some types are missing
+To fully fix this:
+1. Improve type inference to populate all SSA versions
+2. Or: Make naming happen after codegen has resolved types
+3. Or: Propagate types from PHI sources when destination type is unknown
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` - PHI compatibility and Unknown scoring
+- `crates/dexterity-passes/src/code_shrink.rs` - Test fixes
+
+**Files to Investigate for full fix:**
+- `crates/dexterity-passes/src/type_inference.rs` - `get_all_types()` skips unresolved variables
 
 ---
 
@@ -1999,5 +2072,5 @@ Synthetic accessor methods (`access$XXX`) generated by the compiler for private 
 
 ---
 
-**Last Updated: 2025-12-19**
+**Last Updated: 2025-12-19** (Fix 17-20 documented)
 **For workflow instructions, see: `LLM_AGENT_GUIDE.md`**

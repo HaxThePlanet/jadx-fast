@@ -14,7 +14,7 @@ Test specific functions in isolation.
 
 **Run all unit tests:**
 ```bash
-cd /mnt/nvme4tb/jadx-rust
+cd /mnt/nvme4tb/jadx-fast
 cargo test --lib
 ```
 
@@ -40,7 +40,7 @@ cargo test -- --nocapture --test-threads=1
 
 Test Java source → bytecode → decompilation → Java output.
 
-**Location:** `/mnt/nvme4tb/jadx-rust/crates/dexterity-cli/tests/integration/`
+**Location:** `/mnt/nvme4tb/jadx-fast/crates/dexterity-cli/tests/integration/`
 
 **Test Categories:**
 - `android_tests.rs` - Android-specific features
@@ -451,7 +451,7 @@ For future CI/CD setup:
 
 ### Current Test Status
 
-**Expected passing:** 685 integration tests + 490 unit tests across all crates (1,175 total)
+**Expected passing:** 685+ integration tests + 490+ unit tests across all crates (1,175+ total)
 
 **Test files:**
 - `crates/dexterity-cli/tests/integration/android_tests.rs` - Android-specific features
@@ -640,7 +640,7 @@ output/
 
 **Build Dexterity (56 cores):**
 ```bash
-cd /mnt/nvme4tb/jadx-rust/crates
+cd /mnt/nvme4tb/jadx-fast/crates
 cargo build --release -j 56
 ```
 
@@ -701,6 +701,6 @@ See `qa_reports/` in the project root for pre-generated comparison reports:
 
 ---
 
-**Last Updated: 2025-12-17**
+**Last Updated: 2025-12-19**
 **For workflow, see: `LLM_AGENT_GUIDE.md`**
 **For issues, see: `ISSUE_TRACKER.md`**

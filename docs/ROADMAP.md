@@ -1,8 +1,8 @@
 # Dexterity Implementation Roadmap
 
-**Current State:** PRODUCTION READY with ~85-90% JADX parity (Dec 18, 2025)
+**Current State:** PRODUCTION READY with ~85-90% JADX parity (Dec 19, 2025)
 **Quality Achieved:** **96%+ overall (A grade) / 96.5%+ defect score** | 1,175 tests passing | **100% Class Generation parity**
-**Code Issues:** **ALL P0 CRITICAL RESOLVED** (interface generics, undefined variables, missing imports) + 25 others | P3 verbosity = positive tradeoff
+**Code Issues:** **ALL P0 CRITICAL RESOLVED** + Fix 17-20 Dec 19 | 27+ issues resolved | P3 verbosity = positive tradeoff
 **Resource Issues:** **4 FIXED** (XML enums, localized strings, density qualifiers, missing resource files) | **1 remaining** (P3 cosmetic)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
@@ -678,9 +678,94 @@ All 19 P1-P2 issues resolved:
 ---
 
 **Last Updated:** Dec 19, 2025
-**Status:** PRODUCTION READY - All P0-P2 issues resolved + 4 major features complete + 2 Dec 19 fixes
-**Remaining Issues:** 4 open (2 P2-HIGH, 2 P3-MEDIUM) - see ISSUE_TRACKER.md DEC19-OPEN-* entries
+**Status:** PRODUCTION READY - All P0-P2 issues resolved + 4 major features complete + Fix 17-20 Dec 19
+**Remaining Issues:** 4 open (2 P2-HIGH partial, 2 P3-MEDIUM) - see ISSUE_TRACKER.md DEC19-OPEN-* entries
 **Note:** Framework filtering is intentional by design. BADBOY-P3-001 verbosity = positive tradeoff.
+
+---
+
+## Next LLM Continuation Guide (Dec 19 Handoff)
+
+### What Was Fixed Today (Dec 19, 2025)
+
+| Fix | Issue | Commit | Files Changed |
+|-----|-------|--------|---------------|
+| Fix 17 | Exception Handler PHI declarations | `61f519295` | `body_gen.rs` (116 insertions) |
+| Fix 18 | Array/Object type compatibility | `3cc55ee8d` | `var_naming.rs` (5 lines) |
+| Fix 19 | PHI compatibility for missing types | `3cc55ee8d` | `var_naming.rs:250-257` |
+| Fix 20 | Unknown type naming score | `3cc55ee8d` | `var_naming.rs:1184-1191` |
+
+### Code Changes Summary
+
+**Fix 17 - Exception Handler PHI:**
+```rust
+// body_gen.rs - Added collect_exception_handler_blocks() to identify handler blocks
+// from try_blocks metadata, skip PHI declarations for these at method scope
+```
+
+**Fix 18 - Array/Object Incompatibility:**
+```rust
+// var_naming.rs - types_compatible_for_naming() now returns false for Array/Object pairs
+// Prevents: String obj = readFile(); obj = obj.split(" "); (type error)
+```
+
+**Fix 19 - PHI Missing Types:**
+```rust
+// var_naming.rs:250-257 - Changed (None, None) case from true to false
+// Prevents unrelated variables from collapsing into one "obj" group
+```
+
+**Fix 20 - Unknown Type Score:**
+```rust
+// var_naming.rs:1184-1191 - Unknown types get score 5, known types get 40
+// Ensures known types always win for naming in PHI groups
+```
+
+### Remaining Work - Priority Order
+
+1. **P2-HIGH: Variable 'obj' prefix (DEC19-OPEN-001)**
+   - Root cause: `type_inference.rs:get_all_types()` skips unresolved variables
+   - Types ARE resolved later at codegen time, but naming happens earlier
+   - **Next step:** Add type propagation from PHI sources when destination type is unknown
+   - Files: `crates/dexterity-passes/src/type_inference.rs`
+
+2. **P2-HIGH: Array for-each detection (DEC19-OPEN-002)**
+   - Root cause: Forward scanning misses PHI-based indices
+   - JADX uses SSA use-chains: find increment -> check 3 uses (IF, AGET, increment)
+   - **Next step:** Port JADX's `LoopRegionVisitor.java:checkArrayForEach` algorithm
+   - Files: `crates/dexterity-codegen/src/body_gen.rs:2175-2294`
+
+3. **P3-MEDIUM: StringBuilder collapsing (DEC19-OPEN-003)**
+   - No pass to detect/collapse `.append()` chains
+   - **Next step:** Add pattern detection pass
+   - Files: `crates/dexterity-passes/src/code_shrink.rs`
+
+4. **P3-MEDIUM: Synthetic accessors (DEC19-OPEN-004)**
+   - `access$XXX` methods not mapped to target methods
+   - **Next step:** Add accessor resolution pass
+   - Files: New pass needed
+
+### Test Commands
+
+```bash
+# Run all tests (should see 1,175+ passing)
+cargo test
+
+# Run specific crate tests
+cargo test -p dexterity-passes
+cargo test -p dexterity-codegen
+
+# Run integration tests
+cargo test --test integration_test_framework
+```
+
+### Key Files to Read First
+
+1. `docs/ISSUE_TRACKER.md` - All issue details including DEC19-OPEN-* entries
+2. `docs/QUALITY_STATUS.md` - Current quality metrics and fix history
+3. `crates/dexterity-passes/src/var_naming.rs` - Variable naming logic
+4. `crates/dexterity-passes/src/type_inference.rs` - Type inference system
+5. `crates/dexterity-codegen/src/body_gen.rs` - Code generation including for-each
 
 ---
 

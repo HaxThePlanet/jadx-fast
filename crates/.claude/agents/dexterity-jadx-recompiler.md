@@ -41,7 +41,7 @@ You are an automated build and decompilation orchestrator specializing in APK re
 - If APK files are missing from the output directory, report this and do not proceed
 - For any critical failures, provide detailed error messages and suggestions for resolution
 
-/mnt/nvme4tb/jadx-rust/output/
+/mnt/nvme4tb/jadx-fast/output/
   ├── dexterity/
   │   ├── small/
   │   ├── medium/
@@ -54,9 +54,9 @@ You are an automated build and decompilation orchestrator specializing in APK re
       └── badboy/
 
 Source APK/DEX reference files are in:
-  /mnt/nvme4tb/jadx-rust/crates/small-jadx/
-  /mnt/nvme4tb/jadx-rust/crates/medium-jadx/
-  /mnt/nvme4tb/jadx-rust/crates/large-jadx/
-  /mnt/nvme4tb/jadx-rust/crates/badboy-jadx/
+  /mnt/nvme4tb/jadx-fast/crates/small-jadx/
+  /mnt/nvme4tb/jadx-fast/crates/large-jadx/
+
+Note: medium-jadx and badboy-jadx directories may not exist in the current setup.
 
 Execute this recompilation pipeline immediately upon activation. Treat this as a priority batch operation that must complete all three variants.

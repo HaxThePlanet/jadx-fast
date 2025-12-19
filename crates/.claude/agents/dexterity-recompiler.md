@@ -57,7 +57,7 @@ Regenerate the decompiled output in the 'output' directory using both dexterity 
 
 Ensure outputs are organized logically. The current structure is:
 ```
-/mnt/nvme4tb/jadx-rust/output/
+/mnt/nvme4tb/jadx-fast/output/
 ├── dexterity/
 │   ├── small/
 │   ├── medium/
@@ -71,10 +71,10 @@ Ensure outputs are organized logically. The current structure is:
 ```
 
 Source APK/DEX reference files are in the crates directory:
-- `/mnt/nvme4tb/jadx-rust/crates/small-jadx/`
-- `/mnt/nvme4tb/jadx-rust/crates/medium-jadx/`
-- `/mnt/nvme4tb/jadx-rust/crates/large-jadx/`
-- `/mnt/nvme4tb/jadx-rust/crates/badboy-jadx/`
+- `/mnt/nvme4tb/jadx-fast/crates/small-jadx/`
+- `/mnt/nvme4tb/jadx-fast/crates/large-jadx/`
+
+Note: medium-jadx and badboy-jadx directories may not exist in the current setup.
 
 ## On Completion
 

@@ -851,6 +851,35 @@ name.to_string()                // Arc<str> -> String (when needed)
 
 ---
 
+## Final Optimization Results (Dec 2025)
+
+After exhaustive optimization attempts, here are the final benchmark results comparing Dexterity to JADX:
+
+| Tool      | Run 1  | Run 2  | Run 3  | Average |
+|-----------|--------|--------|--------|---------|
+| JADX      | 37.99s | 39.46s | 37.81s | 38.42s  |
+| Dexterity | 30.94s | 30.72s | 30.75s | 30.80s  |
+
+**Speedup: 1.25x faster than JADX**
+
+### Performance Optimization Summary
+
+| Strike | Optimization            | Result                                                              |
+|--------|-------------------------|---------------------------------------------------------------------|
+| 1      | Profile dist (full LTO) | Negligible (~0.16%)                                                 |
+| 2      | target-cpu=native       | BACKFIRED (-2.5% due to AVX-512 throttling)                         |
+| 3      | Progress bar batching   | Initially +3.8%, now neutral after other changes - kept as harmless |
+| 4      | BufWriter file I/O      | BACKFIRED (-2.9% for small files)                                   |
+
+**Changes kept:**
+- Progress bar batching (every 10 classes) - doesn't hurt, may help on larger APKs
+
+**Changes reverted:**
+- target-cpu=native (not used)
+- BufWriter (reverted to std::fs::write)
+
+---
+
 ## References
 
 - [Rayon Documentation](https://docs.rs/rayon/latest/rayon/)

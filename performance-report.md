@@ -173,7 +173,7 @@ jadx-fast produces 8.7% more Java files, likely due to:
 
 **dexterity:**
 ```bash
-/mnt/nvme4tb/jadx-rust/crates/target/release/dexterity \
+/mnt/nvme4tb/jadx-fast/crates/target/release/dexterity \
   -j 56 \
   -d /mnt/ramdisk/benchmark-output-dexterity \
   /mnt/ramdisk/benchmark-apks/*.apk

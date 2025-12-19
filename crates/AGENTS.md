@@ -16,14 +16,16 @@
 
 ```
 crates/
-├── dexterity-dex/       # DEX parsing (4,332 lines)
-├── dexterity-ir/        # IR types & class hierarchy (5,585 lines)
-├── dexterity-passes/    # Decompilation passes (22,636 lines)
-├── dexterity-codegen/   # Java code generation (13,226 lines)
-├── dexterity-resources/ # AXML & resources.arsc (3,439 lines)
-├── dexterity-deobf/     # Deobfuscation (1,831 lines)
-├── dexterity-kotlin/    # Kotlin metadata parsing (992 lines)
-└── dexterity-cli/       # CLI application (5,700 lines)
+├── dexterity-dex/         # DEX parsing (~4,400 lines)
+├── dexterity-ir/          # IR types & class hierarchy (~9,200 lines)
+├── dexterity-passes/      # Decompilation passes (~24,600 lines)
+├── dexterity-codegen/     # Java code generation (~13,900 lines)
+├── dexterity-resources/   # AXML & resources.arsc (~3,400 lines)
+├── dexterity-deobf/       # Deobfuscation (~1,800 lines)
+├── dexterity-kotlin/      # Kotlin metadata parsing (~992 lines)
+├── dexterity-cli/         # CLI application (~5,800 lines)
+├── dexterity-qa/          # Quality assurance tools
+└── dexterity-llm-postproc/# LLM post-processing utilities
 ```
 
 ### dexterity-dex (DEX Parsing)
@@ -175,7 +177,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 ## Build Commands
 
 ```bash
-cd /mnt/nvme4tb/jadx-rust/crates
+cd /mnt/nvme4tb/jadx-fast/crates
 
 # Development build
 cargo build

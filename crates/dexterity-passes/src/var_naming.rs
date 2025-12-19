@@ -249,8 +249,11 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
                 // Only connect if types are compatible
                 let compatible = match (dest_type, src_type) {
                     (Some(dt), Some(st)) => types_compatible_for_naming(dt, st),
-                    // If either type is unknown, assume compatible
-                    _ => true,
+                    // If one has type and other doesn't, still allow grouping so type can inform naming
+                    (Some(_), None) | (None, Some(_)) => true,
+                    // If BOTH are missing types, don't group - they might be unrelated variables
+                    // This prevents all untyped variables from collapsing into a single "obj" group
+                    (None, None) => false,
                 };
 
                 if compatible {
@@ -1172,10 +1175,21 @@ pub fn assign_var_names_with_lookups<'a>(
             }
         }
 
-        // Priority 3: Type-based name (score 40)
+        // Priority 3: Type-based name (score depends on type quality)
         if let Some(arg_type) = type_info.types.get(&(reg, version)) {
             let base = VarNaming::base_name_for_type(arg_type);
-            return Some((base.to_string(), 40));
+            // Give Unknown types a much lower score so known types always win in groups
+            // This prevents "obj" from winning over "str", "list", etc. when PHI nodes
+            // connect variables with different type inference quality
+            let score = if matches!(arg_type,
+                ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide |
+                ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral
+            ) {
+                5  // Low score for unknown types
+            } else {
+                40  // Normal score for known types
+            };
+            return Some((base.to_string(), score));
         }
 
         None
@@ -1949,8 +1963,9 @@ mod tests {
             &ArgType::Object("java/lang/Integer".to_string())
         ));
 
-        // Arrays and objects are compatible
-        assert!(types_compatible_for_naming(
+        // Arrays and non-array objects are NOT compatible for naming
+        // (commit 3cc55ee8d fixed this - String and String[] must have different names)
+        assert!(!types_compatible_for_naming(
             &ArgType::Array(Box::new(ArgType::Int)),
             &ArgType::Object("java/lang/Object".to_string())
         ));

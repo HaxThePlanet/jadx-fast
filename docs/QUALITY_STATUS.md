@@ -1,8 +1,8 @@
 # Dexterity Decompilation Quality Status
 
-**Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 18, 2025)
-**Target:** 85+/100 Quality Score | **Result:** 96%+ (A grade, Dec 18 assessment)
-**Code Issues:** All P0 critical issues FIXED + 24 others resolved (25 total + 1 P3 positive tradeoff)
+**Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 19, 2025)
+**Target:** 85+/100 Quality Score | **Result:** 96%+ (A grade, Dec 19 assessment)
+**Code Issues:** All P0 critical issues FIXED + 26 others resolved (27+ total + 1 P3 positive tradeoff)
 **Resource Issues:** **4 FIXED** (XML enums, localized strings, density qualifiers, missing resource files) | **1 remaining** (P3 cosmetic)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -144,11 +144,47 @@ See ROADMAP.md for details.
 - **Solution:** Changed to return false - arrays and non-array objects must have different names
 - **Files Changed:** `crates/dexterity-passes/src/var_naming.rs` (5 lines)
 
+#### Fix 19: PHI Compatibility for Missing Types (P2-HIGH - Partial Fix)
+- **Commit:** Bundled with `3cc55ee8d`
+- **Before:** Variables with missing types assumed compatible (`_ => true`), grouped into one "obj" group
+- **After:** Only group when at least one has a known type
+- **Root Cause:** PHI compatibility in `build_codevar_groups()` defaulted to `true` when both types missing
+- **Solution:** Changed to `(None, None) => false` - don't group when both types missing
+- **Files Changed:** `crates/dexterity-passes/src/var_naming.rs` (lines 250-257)
+- **Code Pattern:**
+  ```rust
+  // Before: _ => true,
+  // After:
+  (Some(_), None) | (None, Some(_)) => true,  // One has type - allow grouping
+  (None, None) => false,  // Both missing - don't group
+  ```
+
+#### Fix 20: Unknown Type Naming Score (P2-HIGH - Partial Fix)
+- **Commit:** Bundled with `3cc55ee8d`
+- **Before:** Unknown types got score 40 (same as known types) in group naming
+- **After:** Unknown types get score 5, known types get score 40
+- **Root Cause:** Unknown types could "win" in PHI groups, causing "obj" name for entire group
+- **Solution:** Give Unknown types much lower priority (5 vs 40) so known types always win for naming
+- **Files Changed:** `crates/dexterity-passes/src/var_naming.rs` (lines 1184-1191)
+- **Code Pattern:**
+  ```rust
+  let score = if matches!(arg_type, ArgType::Unknown | ArgType::UnknownNarrow | ...) {
+      5   // Low score for unknown types
+  } else {
+      40  // Normal score for known types
+  };
+  ```
+
+#### Additional Fix: SmallVec Conversion in Tests
+- **Before:** `vec![...]` used directly where SmallVec expected
+- **After:** Added `.into()` conversion for vec![] to SmallVec
+- **Files Changed:** `crates/dexterity-passes/src/code_shrink.rs` (lines 963, 978, 1003)
+
 #### Remaining Gaps Identified (Investigation Complete)
 
 | Issue | Priority | Root Cause | Files to Change |
 |-------|----------|------------|-----------------|
-| Variable 'obj' prefix | P2-HIGH | Type info missing for SSA versions, or PHI grouping through Unknown | `var_naming.rs`, `type_inference.rs` |
+| Variable 'obj' prefix | P2-HIGH (partial) | Type inference misses some SSA versions - Fixes 19/20 help but don't fully solve | `type_inference.rs:get_all_types()` |
 | Array for-each detection | P2-HIGH | Forward scanning misses PHI-based indices; JADX uses SSA use-chains | `body_gen.rs:2175-2294`, `loop_analysis.rs` |
 | StringBuilder collapsing | P3-MEDIUM | No pass to detect/collapse `.append()` chains | `code_shrink.rs` or `body_gen.rs` |
 | Synthetic accessors | P3-MEDIUM | `access$XXX` not mapped to target methods | New pass needed |
