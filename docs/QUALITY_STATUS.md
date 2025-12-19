@@ -126,6 +126,37 @@ See ROADMAP.md for details.
 
 ## Recent Major Fixes
 
+### Dec 19, 2025 - Exception Handler PHI Fixes and Quality Investigation
+
+**Commits:** `61f519295` (exception PHI), `3cc55ee8d` (Array/Object naming)
+
+#### Fix 17: Exception Handler PHI Node Declarations (P1-CRITICAL)
+- **Before:** Undefined variable `th` in exception handlers
+- **After:** Exception handler PHI nodes handled locally, not at method scope
+- **Root Cause:** `collect_phi_destinations()` included PHI nodes from exception handler blocks
+- **Solution:** Added `collect_exception_handler_blocks()` function to identify handler blocks from `try_blocks` metadata
+- **Files Changed:** `crates/dexterity-codegen/src/body_gen.rs` (116 insertions)
+
+#### Fix 18: Array/Object Type Compatibility in Variable Naming (P2-HIGH)
+- **Before:** `String obj11 = readFile(); obj11 = obj11.split(" ");` (type error)
+- **After:** Different names for String and String[] variables
+- **Root Cause:** `types_compatible_for_naming()` returned true for Array/Object pairs
+- **Solution:** Changed to return false - arrays and non-array objects must have different names
+- **Files Changed:** `crates/dexterity-passes/src/var_naming.rs` (5 lines)
+
+#### Remaining Gaps Identified (Investigation Complete)
+
+| Issue | Priority | Root Cause | Files to Change |
+|-------|----------|------------|-----------------|
+| Variable 'obj' prefix | P2-HIGH | Type info missing for SSA versions, or PHI grouping through Unknown | `var_naming.rs`, `type_inference.rs` |
+| Array for-each detection | P2-HIGH | Forward scanning misses PHI-based indices; JADX uses SSA use-chains | `body_gen.rs:2175-2294`, `loop_analysis.rs` |
+| StringBuilder collapsing | P3-MEDIUM | No pass to detect/collapse `.append()` chains | `code_shrink.rs` or `body_gen.rs` |
+| Synthetic accessors | P3-MEDIUM | `access$XXX` not mapped to target methods | New pass needed |
+
+See ISSUE_TRACKER.md DEC19-OPEN-* entries for detailed investigation notes.
+
+---
+
 ### Dec 18, 2025 - P0 Critical Issues - ALL FIXED (Grade B+ 88% to A 96%)
 
 **Achievement: All P0 Critical Issues Resolved - Quality Upgrade to A Grade (96%)**
@@ -769,7 +800,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 
 ---
 
-**Last Updated:** Dec 17, 2025 (documentation sync)
+**Last Updated:** Dec 19, 2025 (Dec 19 fixes + investigation results)
 
 ---
 

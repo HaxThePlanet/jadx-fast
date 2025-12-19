@@ -677,10 +677,49 @@ All 19 P1-P2 issues resolved:
 
 ---
 
-**Last Updated:** Dec 18, 2025
-**Status:** PRODUCTION READY - All P0-P2 issues resolved + 4 major features complete
-**Remaining Issues:** 0 critical - All P0-P2 resolved (BADBOY-P3-001 verbosity = positive tradeoff)
-**Note:** Framework filtering is intentional by design. BADBOY-P3-001 is a positive tradeoff.
+**Last Updated:** Dec 19, 2025
+**Status:** PRODUCTION READY - All P0-P2 issues resolved + 4 major features complete + 2 Dec 19 fixes
+**Remaining Issues:** 4 open (2 P2-HIGH, 2 P3-MEDIUM) - see ISSUE_TRACKER.md DEC19-OPEN-* entries
+**Note:** Framework filtering is intentional by design. BADBOY-P3-001 verbosity = positive tradeoff.
+
+---
+
+## Dec 19, 2025 - Exception Handler PHI Fixes and Quality Investigation
+
+**Commits:** `61f519295` (exception PHI), `3cc55ee8d` (Array/Object naming)
+
+### Completed Fixes
+
+1. **Exception Handler PHI Node Declarations** - FIXED
+   - Problem: PHI nodes in exception handler blocks were declared at method scope, causing undefined variables
+   - Solution: Added `collect_exception_handler_blocks()` to identify handler blocks from `try_blocks` metadata
+   - Files: `body_gen.rs` (116 insertions, 6 deletions)
+
+2. **Array/Object Type Compatibility** - FIXED
+   - Problem: Array and Object types were considered "compatible" for naming, causing `String obj = readFile(); obj = obj.split()` (type error)
+   - Solution: Changed `types_compatible_for_naming()` to return `false` for Array/Object pairs
+   - Files: `var_naming.rs` (5 line change)
+
+### Remaining Gaps (Investigation Complete)
+
+| Issue | Priority | Root Cause | Status |
+|-------|----------|------------|--------|
+| Variable naming with 'obj' prefix | P2-HIGH | Type info missing for some SSA versions, or PHI grouping through Unknown | Needs debug logging |
+| Array for-each not detected | P2-HIGH | Forward scanning misses PHI-based indices; JADX uses SSA use-chain | Needs algorithm change |
+| StringBuilder chain collapsing | P3-MEDIUM | No pass to detect/collapse append chains | New feature |
+| Synthetic accessor resolution | P3-MEDIUM | `access$XXX` not mapped to target methods | New feature |
+
+### How to Continue
+
+1. **For 'obj' naming issue:**
+   - Add logging to `var_naming.rs:assign_var_names_with_lookups()` to trace type lookups
+   - Check why `type_info.types.get(&(reg, version))` returns None for some variables
+   - Consider not assuming compatibility when type is Unknown (lines 247-250)
+
+2. **For array for-each detection:**
+   - Study JADX's `LoopRegionVisitor.java:checkArrayForEach` algorithm
+   - Port SSA use-chain approach: find increment → check 3 uses (IF, AGET, increment)
+   - Modify `detect_array_foreach_pattern()` in `body_gen.rs` lines 2175-2294
 
 ## Current Work (LLM Agent - Dec 17, 2025)
 
