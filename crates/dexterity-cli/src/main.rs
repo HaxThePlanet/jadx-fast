@@ -1556,8 +1556,12 @@ fn process_dex_bytes(
             error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
         }
 
+        // OPTIMIZATION: Batch progress bar updates to reduce mutex contention
+        // Update every 10 classes instead of every single class to reduce lock contention
         if let Some(pb) = progress_ref {
-            pb.inc(1);
+            if (pc + 1) % 10 == 0 {
+                pb.inc(10);
+            }
         }
     });
 

@@ -6,6 +6,15 @@
 use crate::arena::ArenaId;
 use crate::attributes::AFlag;
 use crate::types::ArgType;
+use smallvec::SmallVec;
+
+/// Type alias for instruction argument vectors.
+/// Uses SmallVec to avoid heap allocation for most method calls (<=8 args).
+pub type InsnArgs = SmallVec<[InsnArg; 8]>;
+
+/// Type alias for phi node sources.
+/// Most phi nodes have <=4 sources (if/else, switch cases).
+pub type PhiSources = SmallVec<[(u32, InsnArg); 4]>;
 
 /// Instruction node ID
 pub type InsnId = ArenaId<InsnNode>;
@@ -234,7 +243,7 @@ pub enum InsnType {
     FilledNewArray {
         dest: Option<RegisterArg>,
         type_idx: u32,
-        args: Vec<InsnArg>,
+        args: InsnArgs,
     },
 
     /// Fill array data (from payload)
@@ -293,7 +302,7 @@ pub enum InsnType {
     Invoke {
         kind: InvokeKind,
         method_idx: u32,
-        args: Vec<InsnArg>,
+        args: InsnArgs,
         /// Proto index for polymorphic invokes (MethodHandle/VarHandle)
         proto_idx: Option<u32>,
     },
@@ -306,7 +315,7 @@ pub enum InsnType {
         /// Call site index in DEX file
         call_site_idx: u32,
         /// Arguments to the lambda
-        args: Vec<InsnArg>,
+        args: InsnArgs,
         /// Destination register for lambda result
         dest: Option<RegisterArg>,
         /// Lambda metadata (populated during conversion)
@@ -389,7 +398,7 @@ pub enum InsnType {
     /// Phi node (for SSA form)
     Phi {
         dest: RegisterArg,
-        sources: Vec<(u32, InsnArg)>, // (block_id, value)
+        sources: PhiSources, // (block_id, value)
     },
 
     // === Synthetic/Additional instructions (matching JADX) ===

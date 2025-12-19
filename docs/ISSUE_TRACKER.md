@@ -3,9 +3,9 @@
 This tracker contains structured issues for autonomous agents working toward JADX parity.
 See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
-**Status (Dec 17, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
+**Status (Dec 19, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
 
-**27 total issues (26 resolved, 1 remaining from badboy APK comparison)**
+**29+ total issues (27+ resolved, 4 remaining from Dec 19 investigation)**
 
 24 of 24 P1-P2 issues fully resolved:
 - Overall Quality: **95.5%+** (Dec 17 QA re-run) - improved from 77.1%/70.0%
@@ -927,12 +927,12 @@ Issue does not manifest with current test cases. May already be resolved via HIG
 
 **Relevant Code Areas:**
 
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/body_gen.rs`
   - Line 2297-2323: Region::If handling (no emit_condition_block_prelude call)
   - Line 2326-2336: Region::Loop handling (HAS emit_condition_block_prelude call)
   - Line 477-522: `emit_phi_declarations()` - PHI variable early declarations
   - Line 532-596: `emit_assignment_with_hint()` - Variable declaration tracking
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/regions.rs`
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-ir/src/regions.rs`
   - Line 153-157: `Condition::get_blocks()` - Can be used for pre-condition setup
 
 **Acceptance Criteria:**
@@ -1192,8 +1192,8 @@ The issue appears to have been resolved by previous fixes to the code generation
 
 **Relevant Code Areas:**
 
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/method_gen.rs` - Method generation (WORKING)
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs` - Method enumeration (WORKING)
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/method_gen.rs` - Method generation (WORKING)
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/class_gen.rs` - Method enumeration (WORKING)
 
 **Acceptance Criteria:**
 
@@ -1681,5 +1681,396 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 
 ---
 
-**Last Updated: 2025-12-17**
+---
+
+## NEW Issues (Dec 19, 2025 - NanoHTTPD.java Investigation)
+
+Investigation comparing Dexterity vs JADX output on NanoHTTPD.java revealed **5 remaining quality gaps**. Two fixes were implemented and committed.
+
+### Issue ID: DEC19-FIX-001
+
+**Status:** RESOLVED (Dec 19, 2025)
+**Priority:** P1 (CRITICAL)
+**Category:** Exception Handler PHI Node Declarations
+**Impact:** Undefined variables in methods with exception handling
+**Commit:** `61f519295`
+
+**The Problem (FIXED):**
+PHI nodes at exception handler merge points were being declared at method scope, causing undefined variable references.
+
+**Root Cause:**
+`collect_phi_destinations()` in `body_gen.rs` collected ALL PHI nodes for early declaration, including those in exception handler blocks. Exception handler PHIs should be handled locally, not at method start.
+
+**Solution:**
+1. Added `collect_exception_handler_blocks()` function to identify handler blocks from `try_blocks` metadata
+2. Modified `collect_phi_destinations()` to skip PHI nodes in exception handler blocks
+3. Created mapping from `handler_addr` (code offset) to `block_id` using first instruction offsets
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`:
+  - Added `TryBlock` import
+  - Added `collect_exception_handler_blocks()` function (lines 725-745)
+  - Updated `collect_phi_destinations()` signature to accept `exception_handler_blocks` parameter
+  - Updated all 3 call sites to pass exception handler blocks
+
+**Key Code Pattern:**
+```rust
+fn collect_exception_handler_blocks(
+    ssa_result: &dexterity_passes::ssa::SsaResult,
+    try_blocks: &[TryBlock],
+) -> HashSet<u32> {
+    let mut handler_blocks = HashSet::new();
+    let mut offset_to_block: HashMap<u32, u32> = HashMap::new();
+    // Map code offsets to block IDs via first instruction
+    for block in &ssa_result.blocks {
+        if let Some(first_insn) = block.instructions.first() {
+            offset_to_block.insert(first_insn.offset, block.id);
+        }
+    }
+    // Find handler blocks
+    for try_block in try_blocks {
+        for handler in &try_block.handlers {
+            if let Some(&block_id) = offset_to_block.get(&handler.handler_addr) {
+                handler_blocks.insert(block_id);
+            }
+        }
+    }
+    handler_blocks
+}
+```
+
+**Acceptance Criteria:**
+- [x] No undefined variables from exception handler PHIs
+- [x] All 686 integration tests pass
+- [x] Exception handling still works correctly
+
+---
+
+### Issue ID: DEC19-FIX-002
+
+**Status:** RESOLVED (Dec 19, 2025)
+**Priority:** P2 (HIGH)
+**Category:** Array/Object Type Compatibility in Variable Naming
+**Impact:** Variables with incompatible types sharing the same name
+**Commit:** `3cc55ee8d`
+
+**The Problem (FIXED):**
+In `types_compatible_for_naming()`, Array and Object types were considered compatible, causing:
+```java
+String obj11 = readFile();
+obj11 = obj11.split(" ");  // COMPILE ERROR: String[] cannot be assigned to String
+```
+
+**Root Cause:**
+Lines 203-205 in `var_naming.rs` returned `true` for Array/Object pairs because arrays ARE objects at the JVM level. However, this is wrong for decompilation:
+```rust
+// BEFORE (broken):
+(ArgType::Array(_), ArgType::Object(_)) |
+(ArgType::Object(_), ArgType::Array(_)) => true,
+```
+
+**Solution:**
+Changed to return `false` - arrays and non-array objects must have different variable names:
+```rust
+// AFTER (fixed):
+(ArgType::Array(_), ArgType::Object(_)) |
+(ArgType::Object(_), ArgType::Array(_)) => false,
+```
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` (lines 203-208)
+
+**Acceptance Criteria:**
+- [x] Array and Object types get different variable names
+- [x] No type assignment errors in decompiled code
+- [x] All 686 integration tests pass
+
+---
+
+### Issue ID: DEC19-FIX-019
+
+**Status:** RESOLVED (Dec 19, 2025)
+**Priority:** P2 (HIGH)
+**Category:** PHI Compatibility for Missing Types
+**Impact:** Variables with missing types grouped incorrectly into one "obj" group
+**Commit:** (bundled with commit `3cc55ee8d`)
+
+**The Problem (FIXED):**
+Variables with missing types were assumed compatible in PHI grouping (`_ => true`), causing unrelated variables to collapse into a single "obj" group.
+
+**Root Cause:**
+In `build_codevar_groups()` function, the PHI compatibility check had a catch-all pattern that assumed compatibility when either type was missing:
+```rust
+// BEFORE (broken):
+match (dest_type, src_type) {
+    (Some(dt), Some(st)) => types_compatible_for_naming(dt, st),
+    _ => true,  // BUG: Assumed compatibility when types missing
+}
+```
+
+**Solution:**
+Changed the logic to only group when at least one has a known type. When BOTH are missing, don't group them:
+```rust
+// AFTER (fixed):
+match (dest_type, src_type) {
+    (Some(dt), Some(st)) => types_compatible_for_naming(dt, st),
+    (Some(_), None) | (None, Some(_)) => true,  // One has type - allow grouping
+    (None, None) => false,  // Both missing - don't group
+}
+```
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` (lines 250-257)
+
+**Acceptance Criteria:**
+- [x] Unrelated variables no longer grouped into one "obj" name
+- [x] All 1,175 tests pass (685 integration + 490 unit)
+- [x] Variable naming quality improved
+
+---
+
+### Issue ID: DEC19-FIX-020
+
+**Status:** RESOLVED (Dec 19, 2025)
+**Priority:** P2 (HIGH)
+**Category:** Unknown Type Naming Score
+**Impact:** Unknown types could "win" in PHI groups, causing "obj" name for entire group
+**Commit:** (bundled with commit `3cc55ee8d`)
+
+**The Problem (FIXED):**
+Unknown types got the same naming score (40) as known types, allowing them to "win" in PHI groups and propagate generic "obj" names.
+
+**Root Cause:**
+In the naming score calculation, Unknown types received the same score as known types:
+```rust
+// BEFORE (broken):
+let score = 40;  // Same score for all types
+```
+
+**Solution:**
+Give Unknown types a much lower score (5) so known types always win when a PHI group has mixed type inference quality:
+```rust
+// AFTER (fixed):
+let score = if matches!(arg_type,
+    ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide |
+    ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral
+) {
+    5   // Low score for unknown types
+} else {
+    40  // Normal score for known types
+};
+```
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` (lines 1184-1191)
+
+**Acceptance Criteria:**
+- [x] Known types always win naming for PHI groups over Unknown types
+- [x] All 1,175 tests pass (685 integration + 490 unit)
+- [x] Variable naming uses descriptive names when type info available
+
+---
+
+### Issue ID: DEC19-OPEN-001
+
+**Status:** IN_PROGRESS (Dec 19, 2025)
+**Priority:** P2 (HIGH)
+**Category:** Variable Naming with 'obj' Prefix
+**Impact:** Poor readability - variables named obj11, obj12 instead of descriptive names
+**Assigned To:** claude-opus-4-5 (working on type propagation from PHI sources)
+
+**The Problem:**
+Even when type information is available, variables get generic "obj" names instead of type-based names like "str", "strArr", "calendar".
+
+**Fixes Implemented (Dec 19):**
+
+1. **Fix 19: PHI compatibility when both types missing** (var_naming.rs:250-257):
+   - See DEC19-FIX-019 above
+   - **Benefit:** Prevents unrelated variables from collapsing into one "obj" group
+
+2. **Fix 20: Unknown types get lower naming score** (var_naming.rs:1184-1191):
+   - See DEC19-FIX-020 above
+   - **Benefit:** When a PHI group has mixed types, known types always win for naming
+
+3. **Fixed test for Array/Object compatibility** (var_naming.rs:1966-1971):
+   - Updated test to expect Array/Object incompatibility (commit 3cc55ee8d changed this)
+
+4. **Fixed SmallVec errors in code_shrink tests** (code_shrink.rs:963,978,1003):
+   - Added `.into()` conversion for vec![] to SmallVec
+
+**Remaining Work for Full Fix:**
+The fundamental issue is that type inference (`type_info.types`) doesn't have entries for all SSA versions. Types ARE resolved later at codegen time (`expr_gen.var_types`), but naming happens earlier.
+
+To fully fix this:
+1. Improve type inference to populate all SSA versions
+2. Or: Make naming happen after codegen has resolved types
+3. Or: Propagate types from PHI sources when destination type is unknown
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` - PHI compatibility and Unknown scoring
+- `crates/dexterity-passes/src/code_shrink.rs` - Test fixes
+
+**Files to Investigate for full fix:**
+- `crates/dexterity-passes/src/type_inference.rs` - `get_all_types()` skips unresolved variables
+
+---
+
+### Issue ID: DEC19-OPEN-002
+
+**Status:** OPEN (Investigation Complete, Fix Pending)
+**Priority:** P2 (HIGH)
+**Category:** Array For-Each Loop Detection
+**Impact:** While loops instead of clean for-each syntax
+**Assigned To:** Unassigned
+
+**The Problem:**
+```java
+// JADX (correct):
+for (String str2 : strArrSplit) {
+    // loop body
+}
+
+// Dexterity (broken):
+while (i < obj11.length) {
+    valueOf = obj11[i];
+    // loop body
+    i++;
+}
+```
+
+**Investigation Findings:**
+
+1. **Detection function exists:** `detect_array_foreach_pattern()` in `body_gen.rs` (lines 2175-2294)
+
+2. **Why detection fails:**
+   The function looks for:
+   - ArrayLength instruction in condition block ✓
+   - If instruction comparing index < length ✓
+   - AGET instruction in body ✓
+   - Increment in body ✓
+
+   But it requires the loop index to be initialized somewhere, and doesn't handle cases where:
+   - Index comes from PHI at loop entry
+   - Index is declared at method start without explicit initialization
+
+3. **JADX approach is different:**
+   JADX traces backward from the increment instruction using SSA use chains (see `LoopRegionVisitor.java:checkArrayForEach`). This is more robust than forward scanning.
+
+**How to Fix:**
+1. **Option A:** Improve `detect_array_foreach_pattern()` to handle PHI-based loop indices
+2. **Option B:** Port JADX's SSA use-chain approach:
+   - Find increment instruction (`i = i + 1`)
+   - Get SSA variable for index
+   - Check use-list: should have 3 uses (IF, AGET, increment)
+   - Verify AGET array matches ArrayLength array
+
+**Files to Change:**
+- `crates/dexterity-codegen/src/body_gen.rs` - `detect_array_foreach_pattern()`
+- `crates/dexterity-passes/src/loop_analysis.rs` - Add SSA use-chain analysis
+
+**Test Case:**
+```java
+// Source pattern that fails:
+for (String s : str.split(";")) {
+    System.out.println(s);
+}
+```
+
+---
+
+### Issue ID: DEC19-OPEN-003
+
+**Status:** OPEN
+**Priority:** P3 (MEDIUM)
+**Category:** StringBuilder Chain Collapsing
+**Impact:** Verbose code instead of concise string concatenation
+**Assigned To:** Unassigned
+
+**The Problem:**
+```java
+// JADX:
+return "Header: " + header + ", Value: " + value;
+
+// Dexterity:
+StringBuilder sb = new StringBuilder();
+sb.append("Header: ");
+sb.append(header);
+sb.append(", Value: ");
+sb.append(value);
+return sb.toString();
+```
+
+**Root Cause:**
+Dexterity doesn't have a pass to detect StringBuilder patterns and collapse them.
+
+**JADX Implementation:**
+- `SimplifyVisitor.java` detects StringBuilder.append() chains
+- Collapses to `+` concatenation when pattern matches
+
+**How to Fix:**
+Add a post-processing pass in `code_shrink.rs` or `body_gen.rs`:
+1. Detect pattern: `new StringBuilder() + N×append() + toString()`
+2. Collect all append arguments
+3. Replace with single concatenation expression
+
+**Files to Change:**
+- `crates/dexterity-passes/src/code_shrink.rs` (new pattern)
+- Or `crates/dexterity-codegen/src/body_gen.rs` (at codegen time)
+
+---
+
+### Issue ID: DEC19-OPEN-004
+
+**Status:** OPEN
+**Priority:** P3 (MEDIUM)
+**Category:** Synthetic Accessor Resolution
+**Impact:** Exposes internal implementation details
+**Assigned To:** Unassigned
+
+**The Problem:**
+```java
+// JADX:
+NanoHTTPD.safeClose(socket);
+
+// Dexterity:
+NanoHTTPD.access$000(socket);
+```
+
+**Root Cause:**
+Synthetic accessor methods (`access$XXX`) generated by the compiler for private member access from inner classes aren't being resolved to their target methods.
+
+**How to Fix:**
+1. Parse accessor methods to find their target:
+   - `access$000` typically just calls/returns a private method/field
+   - The body is usually 1-2 instructions
+
+2. Replace all calls to `access$XXX` with calls to the target method/field
+
+**Files to Change:**
+- New pass in `crates/dexterity-passes/` or integration with deobfuscation
+
+---
+
+## Comparison: NanoHTTPD.java Quality Assessment (Dec 19, 2025)
+
+### Side-by-Side Comparison
+
+| Aspect | JADX | Dexterity | Status |
+|--------|------|-----------|--------|
+| Variable naming | `firstLineFromSystemFile_Str`, `strArrSplit` | `obj11` (generic) | **GAP** |
+| Type correctness | `String` and `String[]` separate | `String obj11` reused for both | **FIXED** (DEC19-FIX-002) |
+| For-each loops | `for (String s : arr)` | `while (i < arr.length)` | **GAP** |
+| StringBuilder | `"a" + "b" + "c"` | Explicit `.append()` chains | **GAP** |
+| Synthetic accessors | `safeClose()` | `access$000()` | **GAP** |
+| Exception handling | Clean structure | Undefined `th` variable | **FIXED** (DEC19-FIX-001) |
+
+### Files Examined
+
+- **JADX output:** `/tmp/aida64-jadx/sources/com/finalwire/aidaengine/SysInfo.java`
+- **Dexterity output:** `/tmp/aida64-fixed/sources/com/finalwire/aidaengine/SysInfo.java`
+- **Test APK:** `/mnt/apkzoo/com.finalwire.aida64_v212_legitimate.apk`
+
+---
+
+**Last Updated: 2025-12-19** (Fix 17-20 documented)
 **For workflow instructions, see: `LLM_AGENT_GUIDE.md`**

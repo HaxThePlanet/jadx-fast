@@ -35,7 +35,7 @@ pub use info::{
     LoadStage, LocalVar, MethodData, MethodInlineAttr, ProcessState, TryBlock, TryCatchBlockAttr,
     TypeParameter,
 };
-pub use instructions::{InsnArg, InsnNode, InsnType, LambdaHandleType, LambdaInfo, RegisterArg, WrappedInsn};
+pub use instructions::{InsnArg, InsnArgs, InsnNode, InsnType, LambdaHandleType, LambdaInfo, PhiSources, RegisterArg, WrappedInsn};
 pub use kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};
 pub use ssa::{
     CodeVar, SSAContext, SSAVar, SSAVarRef, TypeBound, TypeInfo,

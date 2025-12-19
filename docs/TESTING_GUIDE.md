@@ -14,7 +14,7 @@ Test specific functions in isolation.
 
 **Run all unit tests:**
 ```bash
-cd /mnt/nvme4tb/jadx-rust
+cd /mnt/nvme4tb/jadx-fast
 cargo test --lib
 ```
 
@@ -40,7 +40,7 @@ cargo test -- --nocapture --test-threads=1
 
 Test Java source → bytecode → decompilation → Java output.
 
-**Location:** `/mnt/nvme4tb/jadx-rust/crates/dexterity-cli/tests/integration/`
+**Location:** `/mnt/nvme4tb/jadx-fast/crates/dexterity-cli/tests/integration/`
 
 **Test Categories:**
 - `android_tests.rs` - Android-specific features
@@ -98,7 +98,45 @@ cargo test
 test result: ok. X passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
-All integration tests should pass (710 tests).
+All integration tests should pass (685 integration tests, 1,175 total with unit tests).
+
+### 4. Reference APKs for Manual Testing
+
+Reference APKs are provided for benchmarking and manual testing.
+
+**Location:** `apks/` (project root)
+
+| APK | Size | Description |
+|-----|------|-------------|
+| small.apk | 10 KB | Minimal test (2 classes) |
+| medium.apk | 10 MB | Medium complexity (13,271 classes, 3 DEX) |
+| large.apk | 54 MB | Large app (17,666 classes, 3 DEX) |
+| badboy-x86.apk | 24 MB | x86 native (92 classes, 5 DEX) |
+
+**Output Directory:** `output/` (project root)
+
+Decompiled output should be placed in the project's `output/` directory:
+
+```
+output/
+├── badboy-dexterity/   # Dexterity output
+├── badboy-jadx/        # JADX output for comparison
+├── large-dexterity/
+├── large-jadx/
+├── medium-dexterity/
+├── medium-jadx/
+├── small-dexterity/
+└── small-jadx/
+```
+
+**Manual decompilation commands:**
+```bash
+# Dexterity
+./target/release/dexterity -d output/small-dexterity apks/small.apk
+
+# JADX (for comparison)
+./build/jadx/bin/jadx -d output/small-jadx apks/small.apk
+```
 
 ---
 
@@ -451,7 +489,7 @@ For future CI/CD setup:
 
 ### Current Test Status
 
-**Expected passing:** 685 integration tests + 490 unit tests across all crates (1,175 total)
+**Expected passing:** 685+ integration tests + 490+ unit tests across all crates (1,175+ total)
 
 **Test files:**
 - `crates/dexterity-cli/tests/integration/android_tests.rs` - Android-specific features
@@ -515,7 +553,7 @@ Your fix is successful when:
 ✅ **Test Coverage**
 - [ ] New test written and passing
 - [ ] Related tests still passing
-- [ ] Full test suite still passes (710 integration tests + 469 unit tests)
+- [ ] Full test suite still passes (685 integration tests + 490 unit tests = 1,175 total)
 
 ✅ **Quality Metrics**
 - [ ] Overall quality improved
@@ -640,7 +678,7 @@ output/
 
 **Build Dexterity (56 cores):**
 ```bash
-cd /mnt/nvme4tb/jadx-rust/crates
+cd /mnt/nvme4tb/jadx-fast/crates
 cargo build --release -j 56
 ```
 
@@ -701,6 +739,6 @@ See `qa_reports/` in the project root for pre-generated comparison reports:
 
 ---
 
-**Last Updated: 2025-12-17**
+**Last Updated: 2025-12-19**
 **For workflow, see: `LLM_AGENT_GUIDE.md`**
 **For issues, see: `ISSUE_TRACKER.md`**

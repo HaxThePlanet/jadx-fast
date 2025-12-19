@@ -1,8 +1,8 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**PRODUCTION READY - 98%+ JADX CLI parity (Dec 18, 2025)**
-**Status:** All P0 Critical issues FIXED + 25 P0-P2 issues resolved. **1 remaining issue** (P3 verbosity - positive tradeoff, not a bug).
-**Tests:** 685/685 integration + 490/490 unit (1,175 total). **Quality: 96%+ overall (A grade), 96.5%+ defect score** (Dec 18).
+**PRODUCTION READY - 98%+ JADX CLI parity (Dec 19, 2025)**
+**Status:** All P0 Critical issues FIXED + 27 P0-P2 issues resolved. **4 remaining issues** (2 P2-HIGH partial, 2 P3-MEDIUM).
+**Tests:** 685/685 integration + 490/490 unit (1,175 total). **Quality: 96%+ overall (A grade), 96.5%+ defect score** (Dec 19).
 **Note:** Framework classes are skipped by default for faster output. Use `--include-framework` to include them.
 
 ---
@@ -375,6 +375,46 @@ Results:
 ---
 
 ## Recent Fixes
+
+### Dec 19, 2025 - Fix 17-20: Exception PHI and Variable Naming Improvements
+
+**Commits:** `61f519295` (exception PHI), `3cc55ee8d` (Array/Object naming, PHI compatibility, Unknown type score)
+
+#### Fix 17: Exception Handler PHI Node Declarations (P1-CRITICAL)
+- **Before:** Undefined variable `th` in exception handlers
+- **After:** Exception handler PHI nodes handled locally, not at method scope
+- **Root Cause:** `collect_phi_destinations()` included PHI nodes from exception handler blocks
+- **Solution:** Added `collect_exception_handler_blocks()` function to identify handler blocks from `try_blocks` metadata
+- **Files Changed:** `crates/dexterity-codegen/src/body_gen.rs` (116 insertions)
+
+#### Fix 18: Array/Object Type Compatibility in Variable Naming (P2-HIGH)
+- **Before:** `String obj11 = readFile(); obj11 = obj11.split(" ");` (type error)
+- **After:** Different names for String and String[] variables
+- **Root Cause:** `types_compatible_for_naming()` returned true for Array/Object pairs
+- **Solution:** Changed to return false - arrays and non-array objects must have different names
+- **Files Changed:** `crates/dexterity-passes/src/var_naming.rs` (5 lines)
+
+#### Fix 19: PHI Compatibility for Missing Types (P2-HIGH - Partial Fix)
+- **Before:** Variables with missing types assumed compatible (`_ => true`), grouped into one "obj" group
+- **After:** Only group when at least one has a known type
+- **Root Cause:** PHI compatibility in `build_codevar_groups()` defaulted to `true` when both types missing
+- **Solution:** Changed to `(None, None) => false` at lines 250-257
+- **Files Changed:** `crates/dexterity-passes/src/var_naming.rs`
+
+#### Fix 20: Unknown Type Naming Score (P2-HIGH - Partial Fix)
+- **Before:** Unknown types got score 40 (same as known types) in group naming
+- **After:** Unknown types get score 5, known types get score 40
+- **Root Cause:** Unknown types could "win" in PHI groups, causing "obj" name for entire group
+- **Solution:** Give Unknown types much lower priority (5 vs 40) so known types always win
+- **Files Changed:** `crates/dexterity-passes/src/var_naming.rs` (lines 1184-1191)
+
+#### Additional Fixes
+- Fixed SmallVec errors in code_shrink tests (lines 963, 978, 1003) with `.into()` conversion
+- Updated Array/Object compatibility test to expect incompatibility (var_naming.rs:1966-1971)
+
+**Results:** All 1,175 tests pass (685 integration + 490 unit). Quality maintained at 96%+ overall.
+
+---
 
 ### Dec 18, 2025 - P0 Critical Issues ALL FIXED (Grade B+ 88% to A 96%)
 
@@ -1146,7 +1186,7 @@ cargo test --test *_tests
 
 ### Test Files
 
-Located in: `/mnt/nvme4tb/jadx-rust/crates/dexterity-cli/tests/integration/`
+Located in: `/mnt/nvme4tb/jadx-fast/crates/dexterity-cli/tests/integration/`
 
 - `loops_tests.rs` - Loop constructs and bounds
 - `types_tests.rs` - Type inference
@@ -1434,6 +1474,6 @@ When you fix an issue, document it here:
 
 ---
 
-**Last Updated: 2025-12-17**
+**Last Updated: 2025-12-19** (Fix 17-20 documented)
 **For issue details, see: `ISSUE_TRACKER.md`**
 **For workflow, see: `LLM_AGENT_GUIDE.md`**

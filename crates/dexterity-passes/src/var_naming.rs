@@ -200,9 +200,13 @@ fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
         // Arrays are compatible if element types are compatible
         (ArgType::Array(e1), ArgType::Array(e2)) => types_compatible_for_naming(e1, e2),
 
-        // Array and Object are compatible (arrays are objects)
+        // Arrays are NOT compatible with non-array Objects for naming purposes
+        // While arrays ARE objects at the JVM level, in Java source code:
+        //   String str = readFile();
+        //   str = str.split(" ");  // COMPILE ERROR: String[] cannot be assigned to String
+        // So Array and Object types must have different variable names.
         (ArgType::Array(_), ArgType::Object(_)) |
-        (ArgType::Object(_), ArgType::Array(_)) => true,
+        (ArgType::Object(_), ArgType::Array(_)) => false,
 
         // Generic types - base types must be compatible
         (ArgType::Generic { base: b1, .. }, ArgType::Generic { base: b2, .. }) => {
@@ -243,9 +247,14 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
                 let src_type = type_info.types.get(&src);
 
                 // Only connect if types are compatible
+                // PHI nodes connect SSA versions of the SAME variable by definition,
+                // so we should allow grouping even when types are missing.
+                // The name propagation will still work because PHI sources often have
+                // instruction-based names (from method calls, field access, etc.)
                 let compatible = match (dest_type, src_type) {
                     (Some(dt), Some(st)) => types_compatible_for_naming(dt, st),
-                    // If either type is unknown, assume compatible
+                    // If one or both are missing types, allow grouping - PHI means same variable
+                    // Name propagation from sources with instruction context will still work
                     _ => true,
                 };
 
@@ -969,9 +978,15 @@ impl<'a> VarNaming<'a> {
         for prefix in prefixes {
             if method_name.starts_with(prefix) && method_name.len() > prefix.len() {
                 let rest = &method_name[prefix.len()..];
-                // Check if the next character is uppercase (proper camelCase)
-                if rest.chars().next().map(|c| c.is_ascii_uppercase()).unwrap_or(false) {
-                    // Convert first char to lowercase
+                let first_char = rest.chars().next();
+
+                // Check if the next character is uppercase (camelCase: getUser)
+                // OR underscore followed by uppercase (snake_case: get_User, build_Manufacturer_UC)
+                let is_camel_case = first_char.map(|c| c.is_ascii_uppercase()).unwrap_or(false);
+                let is_snake_case = first_char == Some('_') && rest.chars().nth(1).map(|c| c.is_ascii_uppercase()).unwrap_or(false);
+
+                if is_camel_case {
+                    // camelCase: convert first char to lowercase
                     let mut chars = rest.chars();
                     if let Some(first) = chars.next() {
                         let rest_str: String = chars.collect();
@@ -979,6 +994,18 @@ impl<'a> VarNaming<'a> {
                         // Skip very short names
                         if result.len() >= 2 {
                             // Sanitize result (may contain Kotlin synthetic hyphens)
+                            return sanitize_identifier(&result);
+                        }
+                    }
+                } else if is_snake_case {
+                    // snake_case: skip underscore, use rest as name (e.g., build_Manufacturer_UC -> manufacturer_UC)
+                    let name_part = &rest[1..]; // Skip leading underscore
+                    if name_part.len() >= 2 {
+                        // Convert first char to lowercase
+                        let mut chars = name_part.chars();
+                        if let Some(first) = chars.next() {
+                            let rest_str: String = chars.collect();
+                            let result = format!("{}{}", first.to_lowercase(), rest_str);
                             return sanitize_identifier(&result);
                         }
                     }
@@ -1168,10 +1195,21 @@ pub fn assign_var_names_with_lookups<'a>(
             }
         }
 
-        // Priority 3: Type-based name (score 40)
+        // Priority 3: Type-based name (score depends on type quality)
         if let Some(arg_type) = type_info.types.get(&(reg, version)) {
             let base = VarNaming::base_name_for_type(arg_type);
-            return Some((base.to_string(), 40));
+            // Give Unknown types a much lower score so known types always win in groups
+            // This prevents "obj" from winning over "str", "list", etc. when PHI nodes
+            // connect variables with different type inference quality
+            let score = if matches!(arg_type,
+                ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide |
+                ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral
+            ) {
+                5  // Low score for unknown types
+            } else {
+                40  // Normal score for known types
+            };
+            return Some((base.to_string(), score));
         }
 
         None
@@ -1945,8 +1983,9 @@ mod tests {
             &ArgType::Object("java/lang/Integer".to_string())
         ));
 
-        // Arrays and objects are compatible
-        assert!(types_compatible_for_naming(
+        // Arrays and non-array objects are NOT compatible for naming
+        // (commit 3cc55ee8d fixed this - String and String[] must have different names)
+        assert!(!types_compatible_for_naming(
             &ArgType::Array(Box::new(ArgType::Int)),
             &ArgType::Object("java/lang/Object".to_string())
         ));

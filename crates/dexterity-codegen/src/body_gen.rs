@@ -35,7 +35,7 @@ use dexterity_ir::attributes::AFlag;
 use dexterity_ir::instructions::{BinaryOp, IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LambdaInfo, LiteralArg};
 use dexterity_ir::regions::{Condition, LoopKind, Region, RegionContent};
 use dexterity_ir::types::ArgType;
-use dexterity_ir::MethodData;
+use dexterity_ir::{MethodData, TryBlock};
 use dexterity_passes::block_split::{split_blocks, BasicBlock};
 use dexterity_passes::cfg::CFG;
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
@@ -129,6 +129,12 @@ pub struct BodyGenContext {
     pub lambda_methods: HashMap<String, std::sync::Arc<dexterity_ir::MethodData>>,
     /// Loop pattern analysis results (for/foreach detection)
     pub loop_patterns: dexterity_passes::LoopPatternResult,
+    /// Current exception handler block ID (if currently generating code inside a catch block)
+    /// Used to track exception context for proper variable declaration handling
+    pub exception_handler_block: Option<u32>,
+    /// Set of blocks that are exception handler entry points
+    /// PHI nodes with sources from these blocks need special handling
+    pub exception_handler_blocks: HashSet<u32>,
 }
 
 /// Tracks a StringBuilder chain for optimization to string concatenation
@@ -252,6 +258,8 @@ impl BodyGenContext {
             is_constructor: method.name == "<init>",
             lambda_methods: HashMap::new(),
             loop_patterns: dexterity_passes::LoopPatternResult::default(),
+            exception_handler_block: None,
+            exception_handler_blocks: HashSet::new(),
         }
     }
 
@@ -528,6 +536,31 @@ impl BodyGenContext {
             }
         }
     }
+
+    /// Check if currently generating code inside an exception handler
+    pub fn in_exception_handler(&self) -> bool {
+        self.exception_handler_block.is_some()
+    }
+
+    /// Set the current exception handler block ID
+    pub fn enter_exception_handler(&mut self, block_id: u32) {
+        self.exception_handler_block = Some(block_id);
+    }
+
+    /// Clear the current exception handler block ID
+    pub fn exit_exception_handler(&mut self) {
+        self.exception_handler_block = None;
+    }
+
+    /// Check if a block is an exception handler entry point
+    pub fn is_exception_handler_block(&self, block_id: u32) -> bool {
+        self.exception_handler_blocks.contains(&block_id)
+    }
+
+    /// Register a block as an exception handler entry point
+    pub fn register_exception_handler_block(&mut self, block_id: u32) {
+        self.exception_handler_blocks.insert(block_id);
+    }
 }
 
 use dexterity_ir::instructions::RegisterArg;
@@ -654,11 +687,48 @@ fn count_uses_in_insn(insn: &InsnType, counts: &mut HashMap<(u16, u32), usize>) 
     }
 }
 
+/// Identify exception handler blocks from try_blocks metadata
+/// Returns a set of block IDs that are exception handler entry points
+fn collect_exception_handler_blocks(
+    ssa_result: &dexterity_passes::ssa::SsaResult,
+    try_blocks: &[TryBlock],
+) -> HashSet<u32> {
+    let mut handler_blocks = HashSet::new();
+
+    // Build a map from instruction offset to block ID
+    let mut offset_to_block: HashMap<u32, u32> = HashMap::new();
+    for block in &ssa_result.blocks {
+        if let Some(first_insn) = block.instructions.first() {
+            offset_to_block.insert(first_insn.offset, block.id);
+        }
+    }
+
+    // Find blocks that start at exception handler addresses
+    for try_block in try_blocks {
+        for handler in &try_block.handlers {
+            if let Some(&block_id) = offset_to_block.get(&handler.handler_addr) {
+                handler_blocks.insert(block_id);
+            }
+        }
+    }
+
+    handler_blocks
+}
+
 /// Collect phi node destinations from SSA result
 /// These variables need early declaration at method start since phi "assignments" aren't emitted
-fn collect_phi_destinations(ssa_result: &dexterity_passes::ssa::SsaResult) -> HashSet<(u16, u32)> {
+/// Exception handler blocks are skipped since their phi nodes merge exception paths
+fn collect_phi_destinations(
+    ssa_result: &dexterity_passes::ssa::SsaResult,
+    exception_handler_blocks: &HashSet<u32>,
+) -> HashSet<(u16, u32)> {
     let mut phi_dests = HashSet::new();
     for block in &ssa_result.blocks {
+        // Skip phi nodes in exception handler blocks - these merge exception paths
+        // and should not be declared at method start
+        if exception_handler_blocks.contains(&block.id) {
+            continue;
+        }
         for phi in &block.phi_nodes {
             // Skip 'this' parameter (reg 0, version 0 for instance methods)
             if phi.dest.reg_num == 0 && phi.dest.ssa_version == 0 {
@@ -1097,7 +1167,7 @@ fn detect_field_increment(
         let obj_str = ctx.expr_gen.gen_arg(obj);
         let field_info = ctx.expr_gen.get_field_value(field_idx);
         let field_name = field_info.as_ref()
-            .map(|f| f.field_name.clone())
+            .map(|f| f.field_name.to_string())
             .unwrap_or_else(|| format!("field#{}", field_idx));
         format!("{}.{}", obj_str, field_name)
     } else {
@@ -1243,8 +1313,10 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     let mut ctx = BodyGenContext::from_method(method);
     let max_versions = ssa_result.max_versions.clone();
+    // Identify exception handler blocks to skip in phi declaration
+    let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);
     // Collect phi destinations AND phi source uses before consuming SSA result
-    ctx.phi_declarations = collect_phi_destinations(&ssa_result);
+    ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -1386,8 +1458,8 @@ fn generate_body_impl<W: CodeWriter>(
 
         let method_lookup = move |idx: u32| {
             dex_for_method.get_method(idx).map(|m| dexterity_passes::MethodNameInfo {
-                method_name: m.method_name.clone(),
-                class_name: m.class_name.clone(),
+                method_name: m.method_name.to_string(),
+                class_name: m.class_name.to_string(),
             })
         };
 
@@ -1397,8 +1469,8 @@ fn generate_body_impl<W: CodeWriter>(
 
         let field_lookup = move |idx: u32| {
             dex_for_field.get_field(idx).map(|f| dexterity_passes::FieldNameInfo {
-                field_name: f.field_name.clone(),
-                class_name: f.class_name.clone(),
+                field_name: f.field_name.to_string(),
+                class_name: f.class_name.to_string(),
             })
         };
 
@@ -1427,8 +1499,10 @@ fn generate_body_impl<W: CodeWriter>(
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
     let max_versions = ssa_result.max_versions.clone();
+    // Identify exception handler blocks to skip in phi declaration
+    let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);
     // Collect phi destinations AND phi source uses before consuming SSA result
-    ctx.phi_declarations = collect_phi_destinations(&ssa_result);
+    ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -1673,8 +1747,8 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
         // Arc<MethodInfo> - we only clone the fields we need, not the whole struct
         let method_lookup = move |idx: u32| {
             dex_for_method.get_method(idx).map(|m| dexterity_passes::MethodNameInfo {
-                method_name: m.method_name.clone(),
-                class_name: m.class_name.clone(),
+                method_name: m.method_name.to_string(),
+                class_name: m.class_name.to_string(),
             })
         };
 
@@ -1684,8 +1758,8 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
 
         let field_lookup = move |idx: u32| {
             dex_for_field.get_field(idx).map(|f| dexterity_passes::FieldNameInfo {
-                field_name: f.field_name.clone(),
-                class_name: f.class_name.clone(),
+                field_name: f.field_name.to_string(),
+                class_name: f.class_name.to_string(),
             })
         };
 
@@ -1726,8 +1800,10 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     ctx.expr_gen.set_deobf_limits(deobf_min_length, deobf_max_length);
     ctx.expr_gen.set_resources(res_names.clone(), replace_consts);
     let max_versions = ssa_result.max_versions.clone();
+    // Identify exception handler blocks to skip in phi declaration
+    let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);
     // Collect phi destinations AND phi source uses before consuming SSA result
-    ctx.phi_declarations = collect_phi_destinations(&ssa_result);
+    ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -1840,7 +1916,7 @@ fn detect_iterator_pattern(condition: &Condition, ctx: &BodyGenContext) -> Optio
                 if let InsnType::Invoke { kind, method_idx, args, .. } = &insn.insn_type {
                     if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
                         if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                            if method_info.method_name == "hasNext" && args.len() == 1 {
+                            if &*method_info.method_name == "hasNext" && args.len() == 1 {
                                 // Found hasNext() call - extract the iterator register
                                 if let InsnArg::Register(reg) = &args[0] {
                                     let iter_str = ctx.expr_gen.gen_arg(&InsnArg::Register(*reg));
@@ -1915,7 +1991,7 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
         if let InsnType::Invoke { kind, method_idx, args, .. } = &insn.insn_type {
             if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
                 if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                    if method_info.method_name == "next" && args.len() == 1 {
+                    if &*method_info.method_name == "next" && args.len() == 1 {
                         if let InsnArg::Register(reg) = &args[0] {
                             if reg.reg_num == iterator_reg {
                                 // Found next() call on the same iterator
@@ -2379,7 +2455,7 @@ fn find_hashcode_in_single_block(
             if args.len() == 1 {
                 // Verify method name is "hashCode"
                 if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                    if method_info.method_name != "hashCode" {
+                    if &*method_info.method_name != "hashCode" {
                         continue;
                     }
                 } else {
@@ -2470,7 +2546,7 @@ fn extract_string_from_equals(
         if args.len() == 2 {
             // Verify method name is "equals"
             if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                if method_info.method_name != "equals" {
+                if &*method_info.method_name != "equals" {
                     return None;
                 }
             } else {
@@ -4506,7 +4582,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             for (i, handler) in handlers.iter().enumerate() {
                 // Generate catch clause - support multi-catch syntax
-                if handler.catch_all {
+                let exc_var = if handler.catch_all {
                     // Catch-all handler
                     let exc_var = generate_exception_var_name("Throwable", i);
                     code.start_line()
@@ -4514,6 +4590,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .add(&exc_var)
                         .add(") {")
                         .newline();
+                    exc_var
                 } else if handler.is_multi_catch() {
                     // Multi-catch: catch (Type1 | Type2 | Type3 e)
                     // Convert internal format (java/io/IOException) to Java format (java.io.IOException)
@@ -4532,6 +4609,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .add(&exc_var)
                         .add(") {")
                         .newline();
+                    exc_var
                 } else {
                     // Single exception type
                     // Convert internal format (java/io/IOException) to Java format (java.io.IOException)
@@ -4546,10 +4624,23 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .add(&exc_var)
                         .add(") {")
                         .newline();
+                    exc_var
+                };
+
+                // Mark exception variable as declared - prevents redeclaration inside catch block
+                ctx.mark_name_declared(&exc_var);
+
+                // Enter exception handler context for proper variable handling
+                if let Some(entry_block) = get_handler_entry_block(&handler.region) {
+                    ctx.enter_exception_handler(entry_block);
                 }
+
                 code.inc_indent();
                 generate_region(&handler.region, ctx, code);
                 code.dec_indent();
+
+                // Exit exception handler context
+                ctx.exit_exception_handler();
             }
 
             if let Some(fin) = finally {
@@ -4735,6 +4826,25 @@ fn is_control_flow(insn: &InsnType) -> bool {
             | InsnType::PackedSwitch { .. }
             | InsnType::SparseSwitch { .. }
     )
+}
+
+/// Get the entry block ID from a region (first block in the region)
+/// Used to identify exception handler entry points
+fn get_handler_entry_block(region: &Region) -> Option<u32> {
+    match region {
+        Region::Sequence(contents) => {
+            contents.iter().find_map(|c| match c {
+                RegionContent::Block(id) => Some(*id),
+                RegionContent::Region(r) => get_handler_entry_block(r),
+            })
+        }
+        Region::If { condition, .. } => condition.get_blocks().first().copied(),
+        Region::Loop { header_block, .. } => *header_block,
+        Region::Switch { header_block, .. } => Some(*header_block),
+        Region::TryCatch { try_region, .. } => get_handler_entry_block(try_region),
+        Region::Synchronized { enter_block, .. } => Some(*enter_block),
+        Region::Break { .. } | Region::Continue { .. } => None,
+    }
 }
 
 /// Emit pre-condition instructions from a condition block
@@ -5226,7 +5336,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 code.add(")");
             }
             InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
-                if info.method_name == "<init>" {
+                if &*info.method_name == "<init>" {
                     // Check receiver - determine if it's "this" by variable name
                     let is_this = if let Some(InsnArg::Register(reg)) = args.first() {
                         ctx.expr_gen.get_var_name(reg) == "this"
@@ -5238,7 +5348,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                         // Constructor call on 'this' - could be super() or this()
                         // Compare target class with current class to determine which
                         let is_same_class = ctx.current_class_type.as_ref()
-                            .map(|current| current == &info.class_type)
+                            .map(|current| current.as_str() == &*info.class_type)
                             .unwrap_or(false);
 
                         if is_same_class {
@@ -5273,7 +5383,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 code.add(")");
             }
             InvokeKind::Super => {
-                if info.method_name == "<init>" {
+                if &*info.method_name == "<init>" {
                     code.add("super(");
                 } else {
                     code.add("super.").add(&sanitize_method_name(&info.method_name)).add("(");
@@ -5363,7 +5473,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
         if matches!(kind, InvokeKind::Direct) {
             // Get method info to check if this is <init>
             if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                if method_info.method_name == "<init>" {
+                if &*method_info.method_name == "<init>" {
                     // Get the receiver register (first argument for non-static)
                     if let Some(InsnArg::Register(recv_reg)) = args.first() {
                         // Check if this register has a pending new-instance
@@ -5480,7 +5590,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             // 1. Constructor calling super() or this() - legitimate
                             // 2. Static method or non-constructor - should NOT emit super()
                             if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                                if method_info.method_name == "<init>" {
+                                if &*method_info.method_name == "<init>" {
                                     // Build argument list (skip receiver which is first arg)
                                     // Use type-aware formatting (0 -> null for Object params)
                                     let param_types = &method_info.param_types;
@@ -5501,7 +5611,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                     if ctx.is_constructor {
                                         // Check if calling same class (this()) or parent (super())
                                         let is_same_class = ctx.current_class_type.as_ref()
-                                            .map(|current| current == &method_info.class_type)
+                                            .map(|current| current.as_str() == &*method_info.class_type)
                                             .unwrap_or(false);
 
                                         code.start_line();
@@ -5910,7 +6020,7 @@ fn generate_insn<W: CodeWriter>(
             // Get field info for both name and type (for proper boolean literal formatting)
             let field_info = ctx.expr_gen.get_field_value(*field_idx);
             let field_name = field_info.as_ref()
-                .map(|f| f.field_name.clone())
+                .map(|f| f.field_name.to_string())
                 .unwrap_or_else(|| format!("field#{}", field_idx));
             let field_type = field_info
                 .map(|f| f.field_type)

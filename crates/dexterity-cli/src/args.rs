@@ -305,8 +305,8 @@ impl Args {
         if self.threads > 0 {
             return self.threads;
         }
-        // Default to all available CPUs
-        num_cpus::get()
+        // Default to physical cores (not hyperthreads) for better performance
+        num_cpus::get_physical()
     }
 
     /// Validate arguments

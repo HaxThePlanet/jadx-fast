@@ -1875,17 +1875,28 @@ impl TypeInference {
     /// When phi sources have conflicting object types that couldn't be unified,
     /// this computes their common supertype using the class hierarchy.
     ///
+    /// Also propagates types from resolved sources to unresolved PHI destinations,
+    /// which helps variable naming get better type information.
+    ///
     /// Examples:
     /// - phi(String, Integer) -> Object (unrelated types -> LCA)
     /// - phi(String, null) -> String (null is compatible with any object)
     /// - phi(ArrayList, LinkedList) -> List (if hierarchy knows this)
     /// - phi(int, int) -> int (same types stay same)
+    /// - phi(String, <unresolved>) -> String (partial resolution)
     fn compute_phi_lcas(&mut self) {
         let Some(ref hierarchy) = self.hierarchy else {
-            return; // No hierarchy available for LCA computation
+            // Even without hierarchy, try to propagate partial types
+            self.propagate_partial_phi_types();
+            return;
         };
 
         for (dest_var, source_vars) in &self.phi_nodes {
+            // Skip if destination already has a resolved type
+            if self.resolved.contains_key(dest_var) {
+                continue;
+            }
+
             // Collect resolved types from all sources
             let mut object_types: Vec<&str> = Vec::new();
             let mut non_null_type: Option<&str> = None;
@@ -1897,8 +1908,16 @@ impl TypeInference {
             let mut array_type: Option<ArgType> = None;
             let mut has_array = false;
 
+            // Track first resolved type for partial propagation
+            let mut first_resolved_type: Option<ArgType> = None;
+
             for src_var in source_vars {
                 if let Some(InferredType::Concrete(ty)) = self.resolved.get(src_var) {
+                    // Track first resolved type for fallback
+                    if first_resolved_type.is_none() {
+                        first_resolved_type = Some(ty.clone());
+                    }
+
                     match ty {
                         ArgType::Object(name) => {
                             if name == "null" {
@@ -1930,14 +1949,13 @@ impl TypeInference {
                             }
                         }
                         _ => {
-                            // Unknown or other type - can't compute LCA
+                            // Unknown or other type - mark as not fully resolved but continue
                             all_resolved = false;
-                            break;
                         }
                     }
                 } else {
+                    // Source not resolved - mark but continue collecting other sources
                     all_resolved = false;
-                    break;
                 }
             }
 
@@ -1985,6 +2003,70 @@ impl TypeInference {
                         *dest_var,
                         InferredType::Concrete(ArgType::Object(lca)),
                     );
+                }
+                continue;
+            }
+
+            // PARTIAL RESOLUTION: If not all sources resolved but we have at least one type,
+            // propagate it to the destination. This helps variable naming get better info.
+            if !all_resolved {
+                // Priority: non-null object type > array type > primitive type > null
+                if let Some(non_null) = non_null_type {
+                    self.resolved.insert(
+                        *dest_var,
+                        InferredType::Concrete(ArgType::Object(non_null.to_string())),
+                    );
+                } else if let Some(arr_ty) = array_type {
+                    self.resolved.insert(*dest_var, InferredType::Concrete(arr_ty));
+                } else if let Some(prim_ty) = primitive_type {
+                    self.resolved.insert(*dest_var, InferredType::Concrete(prim_ty));
+                } else if has_null {
+                    // Only null resolved - use Object as placeholder
+                    self.resolved.insert(
+                        *dest_var,
+                        InferredType::Concrete(ArgType::Object("java/lang/Object".to_string())),
+                    );
+                }
+                // If first_resolved_type is set but didn't match above patterns, use it
+                else if let Some(ty) = first_resolved_type {
+                    self.resolved.insert(*dest_var, InferredType::Concrete(ty));
+                }
+            }
+        }
+    }
+
+    /// Propagate partial types for PHI nodes when no hierarchy is available
+    fn propagate_partial_phi_types(&mut self) {
+        for (dest_var, source_vars) in &self.phi_nodes {
+            // Skip if destination already has a resolved type
+            if self.resolved.contains_key(dest_var) {
+                continue;
+            }
+
+            // Find the first resolved source type and propagate it
+            for src_var in source_vars {
+                if let Some(InferredType::Concrete(ty)) = self.resolved.get(src_var) {
+                    // Skip null types - prefer concrete types
+                    if matches!(ty, ArgType::Object(name) if name == "null") {
+                        continue;
+                    }
+                    self.resolved.insert(*dest_var, InferredType::Concrete(ty.clone()));
+                    break;
+                }
+            }
+
+            // If still not resolved, check for null and use Object
+            if !self.resolved.contains_key(dest_var) {
+                for src_var in source_vars {
+                    if let Some(InferredType::Concrete(ArgType::Object(name))) = self.resolved.get(src_var) {
+                        if name == "null" {
+                            self.resolved.insert(
+                                *dest_var,
+                                InferredType::Concrete(ArgType::Object("java/lang/Object".to_string())),
+                            );
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -2186,6 +2268,8 @@ pub fn infer_types(ssa: &SsaResult) -> TypeInferenceResult {
     let num_constraints = inference.constraints.len();
     let num_type_vars = inference.next_var as usize;
     inference.solve();
+    // Post-solve: propagate partial types from resolved PHI sources
+    inference.propagate_partial_phi_types();
     let num_resolved = inference.resolved.len();
     let types = inference.get_all_types();
 
@@ -2218,6 +2302,8 @@ where
     let num_constraints = inference.constraints.len();
     let num_type_vars = inference.next_var as usize;
     inference.solve();
+    // Post-solve: propagate partial types from resolved PHI sources
+    inference.propagate_partial_phi_types();
     let num_resolved = inference.resolved.len();
     let types = inference.get_all_types();
 

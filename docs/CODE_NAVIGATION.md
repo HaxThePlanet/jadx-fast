@@ -4,7 +4,7 @@ Maps issue categories to relevant source files and provides context for code exp
 
 See `LLM_AGENT_GUIDE.md` for workflow and `ISSUE_TRACKER.md` for issue details.
 
-**Status:** 23 issues (20 resolved, 3 remaining from badboy APK comparison)
+**Status:** 29+ issues (27+ resolved, 4 remaining from Dec 19 investigation)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
 ---
@@ -17,7 +17,7 @@ See `LLM_AGENT_GUIDE.md` for workflow and `ISSUE_TRACKER.md` for issue details.
 **Root Cause:** StaticPut handler bypasses expression inlining
 
 **Files:**
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs` (lines 4962, 4985)
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/body_gen.rs` (lines 4962, 4985)
 
 **Fix:** 2-line change - replace `write_arg_with_type()` with `write_arg_inline_typed()`
 
@@ -35,9 +35,9 @@ grep -n "StaticPut\|static_put\|write_arg_with_type" body_gen.rs
 **Status:** RESOLVED
 
 **Files Changed:**
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/info.rs` - Added `annotation_default: Option<AnnotationValue>` to `MethodData`
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-cli/src/converter.rs` - Added `apply_annotation_defaults()` function
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/method_gen.rs` - Emit `default <value>` for annotation methods
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-ir/src/info.rs` - Added `annotation_default: Option<AnnotationValue>` to `MethodData`
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-cli/src/converter.rs` - Added `apply_annotation_defaults()` function
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/method_gen.rs` - Emit `default <value>` for annotation methods
 
 ```bash
 # Find annotation handling
@@ -53,7 +53,7 @@ grep -n "annotation_default\|default" method_gen.rs
 **Root Cause:** Import collector doesn't traverse annotation argument types
 
 **Files:**
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs` - ImportCollector
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/class_gen.rs` - ImportCollector
 
 ```bash
 # Find import collection
@@ -68,8 +68,8 @@ grep -n "ImportCollector\|collect_import\|annotation" class_gen.rs
 **Note:** **NOT A BUG** - Dexterity succeeds where JADX fails on Compose lambdas
 
 **Files (for optional optimization):**
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/code_shrink.rs`
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/body_gen.rs`
+- `/mnt/nvme4tb/jadx-fast/crates/dexterity-passes/src/code_shrink.rs`
 
 ---
 
@@ -84,7 +84,7 @@ Navigate to the right files based on the issue you're working on.
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~2,094 lines)
+**File 1: `/mnt/nvme4tb/jadx-fast/crates/dexterity-passes/src/region_builder.rs`** (~2,094 lines)
 - **Type:** Large - Use grep for specific functions
 - **Key Functions:**
   - `build_regions()` (entry point) - Orchestrates region building
@@ -114,7 +114,7 @@ grep -n "struct LoopInfo" region_builder.rs
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/cfg.rs`** (~831 lines)
+**File 2: `/mnt/nvme4tb/jadx-fast/crates/dexterity-passes/src/cfg.rs`** (~831 lines)
 - **Type:** Medium - Can search for specific functions
 - **Key Functions:**
   - `build_cfg()` - Constructs control flow graph
@@ -137,7 +137,7 @@ grep -n "DominatorTree" cfg.rs
 
 ---
 
-**File 3: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/ssa.rs`** (~964 lines)
+**File 3: `/mnt/nvme4tb/jadx-fast/crates/dexterity-passes/src/ssa.rs`** (~964 lines)
 - **Type:** Large - Use grep for functions
 - **Key Functions:**
   - `transform_to_ssa()` - Entry point for SSA transformation
@@ -164,7 +164,7 @@ grep -n "fn rename_variables" ssa.rs
 
 #### Supporting Files
 
-**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/block_split.rs`**
+**File 4: `/mnt/nvme4tb/jadx-fast/crates/dexterity-passes/src/block_split.rs`**
 - **Type:** Small
 - **Purpose:** Splits instructions into basic blocks
 - **Key Function:** `compute_successors()` - Determines block boundaries
@@ -178,7 +178,7 @@ grep -n "fn rename_variables" ssa.rs
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~2,644 lines)
+**File 1: `/mnt/nvme4tb/jadx-fast/crates/dexterity-passes/src/type_inference.rs`** (~2,644 lines)
 - **Type:** Very Large - Extensive grep usage required
 - **Key Functions:**
   - `infer_types_with_context_and_hierarchy()` - Main type inference entry
@@ -224,7 +224,7 @@ struct TypeBounds {
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/class_hierarchy.rs`** (~382 lines)
+**File 2: `/mnt/nvme4tb/jadx-fast/crates/dexterity-ir/src/class_hierarchy.rs`** (~382 lines)
 - **Type:** Medium
 - **Key Functions:**
   - `common_supertype()` - LCA computation for class hierarchy
@@ -244,7 +244,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 
 ---
 
-**File 3: `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/types.rs`** (~669 lines)
+**File 3: `/mnt/nvme4tb/jadx-fast/crates/dexterity-ir/src/types.rs`** (~669 lines)
 - **Type:** Large
 - **Key Functions:**
   - Type system definitions
@@ -259,7 +259,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 
 #### Supporting Files
 
-**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~5,491 lines)
+**File 4: `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/body_gen.rs`** (~5,491 lines)
 - **Type:** Very Large - Use grep for specific functions
 - **Purpose:** Generates Java code from IR
 - **Key:** How type information is used in code generation
@@ -280,7 +280,7 @@ grep -n "default_value" body_gen.rs  # How defaults are chosen
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/var_naming.rs`** (~1,480 lines)
+**File 1: `/mnt/nvme4tb/jadx-fast/crates/dexterity-passes/src/var_naming.rs`** (~1,480 lines)
 - **Type:** Medium - Can search for specific functions
 - **Key Functions:**
   - `assign_variable_names()` - Main naming entry
@@ -329,7 +329,7 @@ enum NameSource {
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/expr_gen.rs`** (~1,379 lines)
+**File 2: `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/expr_gen.rs`** (~1,379 lines)
 - **Type:** Large
 - **Purpose:** Expression code generation
 - **Key:** Where variables are referenced in expressions
@@ -343,7 +343,7 @@ enum NameSource {
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs`** (~1,539 lines)
+**File 1: `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/class_gen.rs`** (~1,539 lines)
 - **Type:** Large
 - **Key Functions:**
   - `generate_class()` - Class/interface/enum generation
@@ -367,7 +367,7 @@ grep -n "static" class_gen.rs | grep "fn\|let"  # Look for static handling
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~5,491 lines)
+**File 2: `/mnt/nvme4tb/jadx-fast/crates/dexterity-codegen/src/body_gen.rs`** (~5,491 lines)
 - **Type:** Very Large
 - **Purpose:** Method body generation
 - **Key Functions:**
@@ -381,7 +381,7 @@ grep -n "static" class_gen.rs | grep "fn\|let"  # Look for static handling
 
 ---
 
-**File 3: `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/nodes.rs`**
+**File 3: `/mnt/nvme4tb/jadx-fast/crates/dexterity-ir/src/nodes.rs`**
 - **Type:** Medium
 - **Purpose:** IR node definitions
 - **Key Structures:**
@@ -512,7 +512,7 @@ Detailed:
 
 ```bash
 # Find where a variable is used
-cd /mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src
+cd /mnt/nvme4tb/jadx-fast/crates/dexterity-passes/src
 grep -n "loop_bounds\|loop_counter" *.rs
 
 # Find all references to a function
@@ -608,7 +608,7 @@ grep -n "AFlag\|AType\|contains\|get(" jadx-fast/jadx-core/src/main/java/jadx/co
 
 ---
 
-**Last Updated: 2025-12-17**
+**Last Updated: 2025-12-19**
 **For algorithm context, see: `ALGORITHM_REFERENCES.md`**
 **For codegen parity, see: `JADX_CODEGEN_REFERENCE.md` Part 4**
 **For issues, see: `ISSUE_TRACKER.md`**
