@@ -35,7 +35,7 @@ use dexterity_ir::attributes::AFlag;
 use dexterity_ir::instructions::{BinaryOp, IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LambdaInfo, LiteralArg};
 use dexterity_ir::regions::{Condition, LoopKind, Region, RegionContent};
 use dexterity_ir::types::ArgType;
-use dexterity_ir::MethodData;
+use dexterity_ir::{MethodData, TryBlock};
 use dexterity_passes::block_split::{split_blocks, BasicBlock};
 use dexterity_passes::cfg::CFG;
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
@@ -129,6 +129,12 @@ pub struct BodyGenContext {
     pub lambda_methods: HashMap<String, std::sync::Arc<dexterity_ir::MethodData>>,
     /// Loop pattern analysis results (for/foreach detection)
     pub loop_patterns: dexterity_passes::LoopPatternResult,
+    /// Current exception handler block ID (if currently generating code inside a catch block)
+    /// Used to track exception context for proper variable declaration handling
+    pub exception_handler_block: Option<u32>,
+    /// Set of blocks that are exception handler entry points
+    /// PHI nodes with sources from these blocks need special handling
+    pub exception_handler_blocks: HashSet<u32>,
 }
 
 /// Tracks a StringBuilder chain for optimization to string concatenation
@@ -252,6 +258,8 @@ impl BodyGenContext {
             is_constructor: method.name == "<init>",
             lambda_methods: HashMap::new(),
             loop_patterns: dexterity_passes::LoopPatternResult::default(),
+            exception_handler_block: None,
+            exception_handler_blocks: HashSet::new(),
         }
     }
 
@@ -528,6 +536,31 @@ impl BodyGenContext {
             }
         }
     }
+
+    /// Check if currently generating code inside an exception handler
+    pub fn in_exception_handler(&self) -> bool {
+        self.exception_handler_block.is_some()
+    }
+
+    /// Set the current exception handler block ID
+    pub fn enter_exception_handler(&mut self, block_id: u32) {
+        self.exception_handler_block = Some(block_id);
+    }
+
+    /// Clear the current exception handler block ID
+    pub fn exit_exception_handler(&mut self) {
+        self.exception_handler_block = None;
+    }
+
+    /// Check if a block is an exception handler entry point
+    pub fn is_exception_handler_block(&self, block_id: u32) -> bool {
+        self.exception_handler_blocks.contains(&block_id)
+    }
+
+    /// Register a block as an exception handler entry point
+    pub fn register_exception_handler_block(&mut self, block_id: u32) {
+        self.exception_handler_blocks.insert(block_id);
+    }
 }
 
 use dexterity_ir::instructions::RegisterArg;
@@ -654,11 +687,48 @@ fn count_uses_in_insn(insn: &InsnType, counts: &mut HashMap<(u16, u32), usize>) 
     }
 }
 
+/// Identify exception handler blocks from try_blocks metadata
+/// Returns a set of block IDs that are exception handler entry points
+fn collect_exception_handler_blocks(
+    ssa_result: &dexterity_passes::ssa::SsaResult,
+    try_blocks: &[TryBlock],
+) -> HashSet<u32> {
+    let mut handler_blocks = HashSet::new();
+
+    // Build a map from instruction offset to block ID
+    let mut offset_to_block: HashMap<u32, u32> = HashMap::new();
+    for block in &ssa_result.blocks {
+        if let Some(first_insn) = block.instructions.first() {
+            offset_to_block.insert(first_insn.offset, block.id);
+        }
+    }
+
+    // Find blocks that start at exception handler addresses
+    for try_block in try_blocks {
+        for handler in &try_block.handlers {
+            if let Some(&block_id) = offset_to_block.get(&handler.handler_addr) {
+                handler_blocks.insert(block_id);
+            }
+        }
+    }
+
+    handler_blocks
+}
+
 /// Collect phi node destinations from SSA result
 /// These variables need early declaration at method start since phi "assignments" aren't emitted
-fn collect_phi_destinations(ssa_result: &dexterity_passes::ssa::SsaResult) -> HashSet<(u16, u32)> {
+/// Exception handler blocks are skipped since their phi nodes merge exception paths
+fn collect_phi_destinations(
+    ssa_result: &dexterity_passes::ssa::SsaResult,
+    exception_handler_blocks: &HashSet<u32>,
+) -> HashSet<(u16, u32)> {
     let mut phi_dests = HashSet::new();
     for block in &ssa_result.blocks {
+        // Skip phi nodes in exception handler blocks - these merge exception paths
+        // and should not be declared at method start
+        if exception_handler_blocks.contains(&block.id) {
+            continue;
+        }
         for phi in &block.phi_nodes {
             // Skip 'this' parameter (reg 0, version 0 for instance methods)
             if phi.dest.reg_num == 0 && phi.dest.ssa_version == 0 {
@@ -1243,8 +1313,10 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     let mut ctx = BodyGenContext::from_method(method);
     let max_versions = ssa_result.max_versions.clone();
+    // Identify exception handler blocks to skip in phi declaration
+    let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);
     // Collect phi destinations AND phi source uses before consuming SSA result
-    ctx.phi_declarations = collect_phi_destinations(&ssa_result);
+    ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -1427,8 +1499,10 @@ fn generate_body_impl<W: CodeWriter>(
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
     let max_versions = ssa_result.max_versions.clone();
+    // Identify exception handler blocks to skip in phi declaration
+    let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);
     // Collect phi destinations AND phi source uses before consuming SSA result
-    ctx.phi_declarations = collect_phi_destinations(&ssa_result);
+    ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -1726,8 +1800,10 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     ctx.expr_gen.set_deobf_limits(deobf_min_length, deobf_max_length);
     ctx.expr_gen.set_resources(res_names.clone(), replace_consts);
     let max_versions = ssa_result.max_versions.clone();
+    // Identify exception handler blocks to skip in phi declaration
+    let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);
     // Collect phi destinations AND phi source uses before consuming SSA result
-    ctx.phi_declarations = collect_phi_destinations(&ssa_result);
+    ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -4506,7 +4582,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             for (i, handler) in handlers.iter().enumerate() {
                 // Generate catch clause - support multi-catch syntax
-                if handler.catch_all {
+                let exc_var = if handler.catch_all {
                     // Catch-all handler
                     let exc_var = generate_exception_var_name("Throwable", i);
                     code.start_line()
@@ -4514,6 +4590,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .add(&exc_var)
                         .add(") {")
                         .newline();
+                    exc_var
                 } else if handler.is_multi_catch() {
                     // Multi-catch: catch (Type1 | Type2 | Type3 e)
                     // Convert internal format (java/io/IOException) to Java format (java.io.IOException)
@@ -4532,6 +4609,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .add(&exc_var)
                         .add(") {")
                         .newline();
+                    exc_var
                 } else {
                     // Single exception type
                     // Convert internal format (java/io/IOException) to Java format (java.io.IOException)
@@ -4546,10 +4624,23 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .add(&exc_var)
                         .add(") {")
                         .newline();
+                    exc_var
+                };
+
+                // Mark exception variable as declared - prevents redeclaration inside catch block
+                ctx.mark_name_declared(&exc_var);
+
+                // Enter exception handler context for proper variable handling
+                if let Some(entry_block) = get_handler_entry_block(&handler.region) {
+                    ctx.enter_exception_handler(entry_block);
                 }
+
                 code.inc_indent();
                 generate_region(&handler.region, ctx, code);
                 code.dec_indent();
+
+                // Exit exception handler context
+                ctx.exit_exception_handler();
             }
 
             if let Some(fin) = finally {
@@ -4735,6 +4826,25 @@ fn is_control_flow(insn: &InsnType) -> bool {
             | InsnType::PackedSwitch { .. }
             | InsnType::SparseSwitch { .. }
     )
+}
+
+/// Get the entry block ID from a region (first block in the region)
+/// Used to identify exception handler entry points
+fn get_handler_entry_block(region: &Region) -> Option<u32> {
+    match region {
+        Region::Sequence(contents) => {
+            contents.iter().find_map(|c| match c {
+                RegionContent::Block(id) => Some(*id),
+                RegionContent::Region(r) => get_handler_entry_block(r),
+            })
+        }
+        Region::If { condition, .. } => condition.get_blocks().first().copied(),
+        Region::Loop { header_block, .. } => *header_block,
+        Region::Switch { header_block, .. } => Some(*header_block),
+        Region::TryCatch { try_region, .. } => get_handler_entry_block(try_region),
+        Region::Synchronized { enter_block, .. } => Some(*enter_block),
+        Region::Break { .. } | Region::Continue { .. } => None,
+    }
 }
 
 /// Emit pre-condition instructions from a condition block
