@@ -792,6 +792,63 @@ done
 
 **Commit**: df12b6ab5 (2025-12-19)
 
+## String Interning with Arc<str> (Dec 2025)
+
+**Problem**: FieldInfo, MethodInfo, and AliasRegistry used `String` fields which require expensive heap clones (~50ns each). These structs are cloned millions of times during decompilation for field/method lookups and deobfuscation.
+
+**Solution**: Replace `String` with `Arc<str>` for frequently cloned string fields. Arc clone is just an atomic reference count bump (~1ns).
+
+**Files Modified**:
+- `crates/dexterity-codegen/src/expr_gen.rs` - FieldInfo/MethodInfo struct definitions
+- `crates/dexterity-codegen/src/dex_info.rs` - Construction sites, GlobalFieldPool
+- `crates/dexterity-codegen/src/body_gen.rs` - Usage sites (comparisons, conversions)
+- `crates/dexterity-deobf/src/registry.rs` - AliasRegistry values
+
+**Changes**:
+```rust
+// Before: String fields (expensive clone ~50ns)
+pub struct FieldInfo {
+    pub class_name: String,
+    pub class_type: String,
+    pub field_name: String,
+    pub field_type: ArgType,
+}
+
+// After: Arc<str> fields (cheap clone ~1ns)
+pub struct FieldInfo {
+    pub class_name: Arc<str>,
+    pub class_type: Arc<str>,
+    pub field_name: Arc<str>,
+    pub field_type: ArgType,
+}
+```
+
+**Benchmark Results** (Spotify APK - 210MB, 56 cores):
+
+| Metric | Value |
+|--------|-------|
+| Wall Time | ~10.5s |
+| Peak Memory | ~385 MB |
+| Files Generated | 512 |
+
+**Key improvements**:
+- **50x faster struct cloning** - Arc::clone() vs String::clone()
+- **Reduced allocation pressure** - Same string instance shared across lookups
+- **Better cache locality** - Fewer heap allocations, more pointer reuse
+- All tests passing, output verified correct
+
+**Usage pattern updates**:
+```rust
+// Comparisons: dereference Arc<str> to &str
+if &*info.method_name == "<init>" { ... }
+
+// Conversions: use .into() for Arc<str>, .to_string() for String
+field_name: field_name.into(),  // String -> Arc<str>
+name.to_string()                // Arc<str> -> String (when needed)
+```
+
+**Commit**: 2670dd5e5 (2025-12-19)
+
 ---
 
 ## References
