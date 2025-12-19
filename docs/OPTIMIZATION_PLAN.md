@@ -318,6 +318,7 @@ perf lock record ./target/release/dexterity ...
 
 ## Completed Optimizations
 
+- [x] **String interning with Arc<str>** (2025-12-19) - FieldInfo/MethodInfo fields and AliasRegistry values use Arc<str> instead of String, reducing clone costs from ~50ns to ~1ns
 - [x] **Physical core count default** (2025-12-19) - Use `num_cpus::get_physical()` instead of `get()` for ~7% speedup
 - [x] **Transparent Huge Pages** (2025-12-17) - 8.8% improvement at 56 cores
 - [x] **SSA instruction cloning elimination** (2025-12-17) - 19.8% faster at 8 cores

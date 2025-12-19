@@ -3,7 +3,7 @@
 //! This module handles the conversion from Dalvik bytecode to our IR representation.
 
 use crate::instructions::{
-    ArrayElemType, BinaryOp, CastType, CompareOp, IfCondition, InsnArg, InsnNode, InsnType,
+    ArrayElemType, BinaryOp, CastType, CompareOp, IfCondition, InsnArg, InsnArgs, InsnNode, InsnType,
     InvokeKind, LiteralArg, RegisterArg, UnaryOp,
 };
 
@@ -698,7 +698,7 @@ pub fn build_ir_insn(
 }
 
 /// Build invoke arguments from register array
-fn build_invoke_args(regs: &[u16; 5], count: u8) -> Vec<InsnArg> {
+fn build_invoke_args(regs: &[u16; 5], count: u8) -> InsnArgs {
     // Clamp count to max 5 registers (protection against malformed DEX)
     let safe_count = (count as usize).min(5);
     regs[..safe_count]
@@ -708,7 +708,7 @@ fn build_invoke_args(regs: &[u16; 5], count: u8) -> Vec<InsnArg> {
 }
 
 /// Build range arguments (consecutive registers)
-fn build_range_args(start: u16, count: u8) -> Vec<InsnArg> {
+fn build_range_args(start: u16, count: u8) -> InsnArgs {
     (0..count as u16)
         .map(|i| InsnArg::reg(start + i))
         .collect()

@@ -141,7 +141,7 @@ fn fuse_array_init(ssa: &mut SsaResult) -> usize {
         let new_array_insn = &ssa.blocks[na_block].instructions[na_idx];
         if let InsnType::NewArray { dest, .. } = &new_array_insn.insn_type {
             // Convert data elements to InsnArgs
-            let args: Vec<InsnArg> = data.iter().map(|&val| {
+            let args: dexterity_ir::InsnArgs = data.iter().map(|&val| {
                 InsnArg::Literal(LiteralArg::Int(val))
             }).collect();
 
@@ -291,7 +291,7 @@ fn fuse_aput_sequence(ssa: &mut SsaResult) -> usize {
             };
 
             // Build the args array, filling gaps with zero literals
-            let mut args: Vec<InsnArg> = Vec::with_capacity(size as usize);
+            let mut args: dexterity_ir::InsnArgs = smallvec::SmallVec::with_capacity(size as usize);
             for i in 0..size {
                 if let Some((_, val)) = puts.get(&i) {
                     args.push(val.clone());

@@ -75,10 +75,10 @@ pub struct ExprGen {
 #[derive(Clone)]
 pub struct FieldInfo {
     /// Simple class name (e.g., "Log") for code generation
-    pub class_name: String,
+    pub class_name: Arc<str>,
     /// Internal class type (e.g., "android/util/Log") for import collection
-    pub class_type: String,
-    pub field_name: String,
+    pub class_type: Arc<str>,
+    pub field_name: Arc<str>,
     pub field_type: ArgType,
 }
 
@@ -86,10 +86,10 @@ pub struct FieldInfo {
 #[derive(Clone)]
 pub struct MethodInfo {
     /// Simple class name (e.g., "Log") for code generation
-    pub class_name: String,
+    pub class_name: Arc<str>,
     /// Internal class type (e.g., "android/util/Log") for import collection
-    pub class_type: String,
-    pub method_name: String,
+    pub class_type: Arc<str>,
+    pub method_name: Arc<str>,
     pub return_type: ArgType,
     pub param_types: Vec<ArgType>,
     /// Whether this method accepts varargs (None if unknown, e.g., external method)
@@ -116,12 +116,12 @@ impl BoxingType {
     /// Matches patterns like Integer.valueOf(int), Boolean.valueOf(boolean), etc.
     pub fn from_method(info: &MethodInfo) -> Option<BoxingType> {
         // Must be valueOf method with exactly one parameter
-        if info.method_name != "valueOf" || info.param_types.len() != 1 {
+        if &*info.method_name != "valueOf" || info.param_types.len() != 1 {
             return None;
         }
 
         // Match class type (internal format: java/lang/Integer)
-        match info.class_type.as_str() {
+        match &*info.class_type {
             "java/lang/Integer" => {
                 if matches!(info.param_types[0], ArgType::Int) {
                     Some(BoxingType::Integer)
@@ -500,7 +500,7 @@ impl ExprGen {
     /// Get field name (just the name, not qualified)
     /// Uses local cache first, then DEX provider fallback
     pub fn get_field_name(&self, idx: u32) -> Option<String> {
-        self.get_field_value(idx).map(|f| f.field_name)
+        self.get_field_value(idx).map(|f| f.field_name.to_string())
     }
 
     /// Get static field reference (Class.fieldName)
@@ -858,7 +858,7 @@ impl ExprGen {
                         InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
                             let receiver = args.first().map(|a| self.gen_arg(a)).unwrap_or_default();
                             // Handle constructor calls: this.<init>() -> super()
-                            if info.method_name == "<init>" {
+                            if &*info.method_name == "<init>" {
                                 if receiver == "this" {
                                     // Constructor calling super constructor
                                     Some(format!("super({})", args_str.join(", ")))
@@ -873,7 +873,7 @@ impl ExprGen {
                             }
                         }
                         InvokeKind::Super => {
-                            if info.method_name == "<init>" {
+                            if &*info.method_name == "<init>" {
                                 Some(format!("super({})", args_str.join(", ")))
                             } else {
                                 Some(format!("super.{}({})", method_name, args_str.join(", ")))
@@ -1055,7 +1055,7 @@ impl ExprGen {
                         InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
                             if let Some(receiver) = args.first() {
                                 let recv_name = self.gen_arg(receiver); // Need this for conditional logic
-                                if info.method_name == "<init>" {
+                                if &*info.method_name == "<init>" {
                                     if recv_name == "this" {
                                         writer.add("super(");
                                     } else {
@@ -1075,7 +1075,7 @@ impl ExprGen {
                             writer.add(")");
                         }
                         InvokeKind::Super => {
-                            if info.method_name == "<init>" {
+                            if &*info.method_name == "<init>" {
                                 writer.add("super(");
                             } else {
                                 writer.add("super.").add(&method_name).add("(");
@@ -1385,9 +1385,9 @@ mod tests {
     fn test_boxing_type_detection() {
         // Test Integer.valueOf(int)
         let int_method = MethodInfo {
-            class_name: "Integer".to_string(),
-            class_type: "java/lang/Integer".to_string(),
-            method_name: "valueOf".to_string(),
+            class_name: "Integer".into(),
+            class_type: "java/lang/Integer".into(),
+            method_name: "valueOf".into(),
             return_type: ArgType::Object("Ljava/lang/Integer;".to_string()),
             param_types: vec![ArgType::Int],
             is_varargs: None,
@@ -1396,9 +1396,9 @@ mod tests {
 
         // Test Boolean.valueOf(boolean)
         let bool_method = MethodInfo {
-            class_name: "Boolean".to_string(),
-            class_type: "java/lang/Boolean".to_string(),
-            method_name: "valueOf".to_string(),
+            class_name: "Boolean".into(),
+            class_type: "java/lang/Boolean".into(),
+            method_name: "valueOf".into(),
             return_type: ArgType::Object("Ljava/lang/Boolean;".to_string()),
             param_types: vec![ArgType::Boolean],
             is_varargs: None,
@@ -1407,9 +1407,9 @@ mod tests {
 
         // Test Long.valueOf(long)
         let long_method = MethodInfo {
-            class_name: "Long".to_string(),
-            class_type: "java/lang/Long".to_string(),
-            method_name: "valueOf".to_string(),
+            class_name: "Long".into(),
+            class_type: "java/lang/Long".into(),
+            method_name: "valueOf".into(),
             return_type: ArgType::Object("Ljava/lang/Long;".to_string()),
             param_types: vec![ArgType::Long],
             is_varargs: None,
@@ -1418,9 +1418,9 @@ mod tests {
 
         // Test non-boxing method
         let other_method = MethodInfo {
-            class_name: "String".to_string(),
-            class_type: "java/lang/String".to_string(),
-            method_name: "valueOf".to_string(),
+            class_name: "String".into(),
+            class_type: "java/lang/String".into(),
+            method_name: "valueOf".into(),
             return_type: ArgType::Object("Ljava/lang/String;".to_string()),
             param_types: vec![ArgType::Int],
             is_varargs: None,
@@ -1429,9 +1429,9 @@ mod tests {
 
         // Test wrong method name
         let parse_method = MethodInfo {
-            class_name: "Integer".to_string(),
-            class_type: "java/lang/Integer".to_string(),
-            method_name: "parseInt".to_string(),
+            class_name: "Integer".into(),
+            class_type: "java/lang/Integer".into(),
+            method_name: "parseInt".into(),
             return_type: ArgType::Int,
             param_types: vec![ArgType::Object("Ljava/lang/String;".to_string())],
             is_varargs: None,

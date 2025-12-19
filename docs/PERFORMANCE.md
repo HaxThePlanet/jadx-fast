@@ -679,6 +679,7 @@ done
 | P1-4: Parallel DEX processing | TODO | - |
 | P1-5: Memory checkpoint interval | DONE | 2025-12-17 (100 → 1000) |
 | P1-8: Physical core count default | **DONE** | 2025-12-19 - df12b6ab5 |
+| P2: String interning (Arc<str>) | **DONE** | 2025-12-19 - FieldInfo/MethodInfo/AliasRegistry |
 
 ## Benchmark Results (2025-12-17)
 

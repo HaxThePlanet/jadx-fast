@@ -86,8 +86,8 @@ impl GlobalFieldPool {
     /// Uses DashMap's entry API for lock-free concurrent access.
     pub fn get_or_cache(&self, field: FieldInfo) -> FieldInfo {
         let key = FieldKey {
-            class_type: field.class_type.clone(),
-            field_name: field.field_name.clone(),
+            class_type: field.class_type.to_string(),
+            field_name: field.field_name.to_string(),
             field_type: type_to_string(&field.field_type),
         };
 
@@ -437,9 +437,9 @@ impl LazyDexInfo {
         let field_type_desc = field.field_type().ok()?;
 
         let field_info = FieldInfo {
-            class_name: descriptor_to_simple_name(&class_type),
-            class_type: descriptor_to_internal_name(&class_type),
-            field_name: field_name.to_string(),
+            class_name: descriptor_to_simple_name(&class_type).into(),
+            class_type: descriptor_to_internal_name(&class_type).into(),
+            field_name: field_name.into(),
             field_type: parse_type_descriptor(&field_type_desc),
         };
 
@@ -480,9 +480,9 @@ impl LazyDexInfo {
                 .unwrap_or_default();
 
             Some(Arc::new(MethodInfo {
-                class_name: descriptor_to_simple_name(&class_type),
-                class_type: descriptor_to_internal_name(&class_type),
-                method_name: method_name.to_string(),
+                class_name: descriptor_to_simple_name(&class_type).into(),
+                class_type: descriptor_to_internal_name(&class_type).into(),
+                method_name: method_name.into(),
                 return_type,
                 param_types,
                 is_varargs,
@@ -815,12 +815,12 @@ impl DexInfoProvider for AliasAwareDexInfo {
         // Apply class alias
         let class_desc = Self::internal_to_descriptor(&info.class_type);
         if let Some(class_alias) = self.registry.get_class_alias(&class_desc) {
-            info.class_name = class_alias;
+            info.class_name = class_alias.into();
         }
 
         // Apply field alias
-        if let Some(field_alias) = self.registry.get_field_alias(&class_desc, &info.field_name) {
-            info.field_name = field_alias;
+        if let Some(field_alias) = self.registry.get_field_alias(&class_desc, &*info.field_name) {
+            info.field_name = field_alias.into();
         }
 
         Some(info)
@@ -833,16 +833,16 @@ impl DexInfoProvider for AliasAwareDexInfo {
         let class_desc = Self::internal_to_descriptor(&info.class_type);
         let class_alias = self.registry.get_class_alias(&class_desc);
         let proto_desc = dexterity_deobf::method_proto_to_descriptor(&info.param_types, &info.return_type);
-        let method_alias = self.registry.get_method_alias(&class_desc, &info.method_name, &proto_desc);
+        let method_alias = self.registry.get_method_alias(&class_desc, &*info.method_name, &proto_desc);
 
         // Only clone if we need to modify
         if class_alias.is_some() || method_alias.is_some() {
             let mut cloned = (*info).clone();
             if let Some(alias) = class_alias {
-                cloned.class_name = alias;
+                cloned.class_name = alias.into();
             }
             if let Some(alias) = method_alias {
-                cloned.method_name = alias;
+                cloned.method_name = alias.into();
             }
             Some(Arc::new(cloned))
         } else {
@@ -938,9 +938,9 @@ mod tests {
         dex_info.add_field(
             0,
             FieldInfo {
-                class_name: "MyClass".to_string(),
-                class_type: "com/example/MyClass".to_string(),
-                field_name: "value".to_string(),
+                class_name: "MyClass".into(),
+                class_type: "com/example/MyClass".into(),
+                field_name: "value".into(),
                 field_type: ArgType::Int,
             },
         );

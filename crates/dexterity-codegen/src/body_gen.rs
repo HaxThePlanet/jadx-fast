@@ -1097,7 +1097,7 @@ fn detect_field_increment(
         let obj_str = ctx.expr_gen.gen_arg(obj);
         let field_info = ctx.expr_gen.get_field_value(field_idx);
         let field_name = field_info.as_ref()
-            .map(|f| f.field_name.clone())
+            .map(|f| f.field_name.to_string())
             .unwrap_or_else(|| format!("field#{}", field_idx));
         format!("{}.{}", obj_str, field_name)
     } else {
@@ -1386,8 +1386,8 @@ fn generate_body_impl<W: CodeWriter>(
 
         let method_lookup = move |idx: u32| {
             dex_for_method.get_method(idx).map(|m| dexterity_passes::MethodNameInfo {
-                method_name: m.method_name.clone(),
-                class_name: m.class_name.clone(),
+                method_name: m.method_name.to_string(),
+                class_name: m.class_name.to_string(),
             })
         };
 
@@ -1397,8 +1397,8 @@ fn generate_body_impl<W: CodeWriter>(
 
         let field_lookup = move |idx: u32| {
             dex_for_field.get_field(idx).map(|f| dexterity_passes::FieldNameInfo {
-                field_name: f.field_name.clone(),
-                class_name: f.class_name.clone(),
+                field_name: f.field_name.to_string(),
+                class_name: f.class_name.to_string(),
             })
         };
 
@@ -1673,8 +1673,8 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
         // Arc<MethodInfo> - we only clone the fields we need, not the whole struct
         let method_lookup = move |idx: u32| {
             dex_for_method.get_method(idx).map(|m| dexterity_passes::MethodNameInfo {
-                method_name: m.method_name.clone(),
-                class_name: m.class_name.clone(),
+                method_name: m.method_name.to_string(),
+                class_name: m.class_name.to_string(),
             })
         };
 
@@ -1684,8 +1684,8 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
 
         let field_lookup = move |idx: u32| {
             dex_for_field.get_field(idx).map(|f| dexterity_passes::FieldNameInfo {
-                field_name: f.field_name.clone(),
-                class_name: f.class_name.clone(),
+                field_name: f.field_name.to_string(),
+                class_name: f.class_name.to_string(),
             })
         };
 
@@ -1840,7 +1840,7 @@ fn detect_iterator_pattern(condition: &Condition, ctx: &BodyGenContext) -> Optio
                 if let InsnType::Invoke { kind, method_idx, args, .. } = &insn.insn_type {
                     if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
                         if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                            if method_info.method_name == "hasNext" && args.len() == 1 {
+                            if &*method_info.method_name == "hasNext" && args.len() == 1 {
                                 // Found hasNext() call - extract the iterator register
                                 if let InsnArg::Register(reg) = &args[0] {
                                     let iter_str = ctx.expr_gen.gen_arg(&InsnArg::Register(*reg));
@@ -1915,7 +1915,7 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
         if let InsnType::Invoke { kind, method_idx, args, .. } = &insn.insn_type {
             if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
                 if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                    if method_info.method_name == "next" && args.len() == 1 {
+                    if &*method_info.method_name == "next" && args.len() == 1 {
                         if let InsnArg::Register(reg) = &args[0] {
                             if reg.reg_num == iterator_reg {
                                 // Found next() call on the same iterator
@@ -2379,7 +2379,7 @@ fn find_hashcode_in_single_block(
             if args.len() == 1 {
                 // Verify method name is "hashCode"
                 if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                    if method_info.method_name != "hashCode" {
+                    if &*method_info.method_name != "hashCode" {
                         continue;
                     }
                 } else {
@@ -2470,7 +2470,7 @@ fn extract_string_from_equals(
         if args.len() == 2 {
             // Verify method name is "equals"
             if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                if method_info.method_name != "equals" {
+                if &*method_info.method_name != "equals" {
                     return None;
                 }
             } else {
@@ -5226,7 +5226,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 code.add(")");
             }
             InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
-                if info.method_name == "<init>" {
+                if &*info.method_name == "<init>" {
                     // Check receiver - determine if it's "this" by variable name
                     let is_this = if let Some(InsnArg::Register(reg)) = args.first() {
                         ctx.expr_gen.get_var_name(reg) == "this"
@@ -5238,7 +5238,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                         // Constructor call on 'this' - could be super() or this()
                         // Compare target class with current class to determine which
                         let is_same_class = ctx.current_class_type.as_ref()
-                            .map(|current| current == &info.class_type)
+                            .map(|current| current.as_str() == &*info.class_type)
                             .unwrap_or(false);
 
                         if is_same_class {
@@ -5273,7 +5273,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 code.add(")");
             }
             InvokeKind::Super => {
-                if info.method_name == "<init>" {
+                if &*info.method_name == "<init>" {
                     code.add("super(");
                 } else {
                     code.add("super.").add(&sanitize_method_name(&info.method_name)).add("(");
@@ -5363,7 +5363,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
         if matches!(kind, InvokeKind::Direct) {
             // Get method info to check if this is <init>
             if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                if method_info.method_name == "<init>" {
+                if &*method_info.method_name == "<init>" {
                     // Get the receiver register (first argument for non-static)
                     if let Some(InsnArg::Register(recv_reg)) = args.first() {
                         // Check if this register has a pending new-instance
@@ -5480,7 +5480,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             // 1. Constructor calling super() or this() - legitimate
                             // 2. Static method or non-constructor - should NOT emit super()
                             if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
-                                if method_info.method_name == "<init>" {
+                                if &*method_info.method_name == "<init>" {
                                     // Build argument list (skip receiver which is first arg)
                                     // Use type-aware formatting (0 -> null for Object params)
                                     let param_types = &method_info.param_types;
@@ -5501,7 +5501,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                     if ctx.is_constructor {
                                         // Check if calling same class (this()) or parent (super())
                                         let is_same_class = ctx.current_class_type.as_ref()
-                                            .map(|current| current == &method_info.class_type)
+                                            .map(|current| current.as_str() == &*method_info.class_type)
                                             .unwrap_or(false);
 
                                         code.start_line();
@@ -5910,7 +5910,7 @@ fn generate_insn<W: CodeWriter>(
             // Get field info for both name and type (for proper boolean literal formatting)
             let field_info = ctx.expr_gen.get_field_value(*field_idx);
             let field_name = field_info.as_ref()
-                .map(|f| f.field_name.clone())
+                .map(|f| f.field_name.to_string())
                 .unwrap_or_else(|| format!("field#{}", field_idx));
             let field_type = field_info
                 .map(|f| f.field_type)
