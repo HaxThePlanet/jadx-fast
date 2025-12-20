@@ -1,12 +1,64 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**PRODUCTION READY (Dec 20, 2025)**
+**CRITICAL BUGS IDENTIFIED (Dec 20, 2025 Quality Audit)**
 **Feature Implementation:** A- Grade (88-90/100) - measures passes/features implemented
-**Actual Output Quality:** C- Grade (49/100) - based on comparison of decompiled code against JADX
-**Status:** ALL P0-P1 ISSUES RESOLVED + 39+ total issues addressed (including P0 Variable Type Safety Dec 19, P1-001/P1-002 control flow fixes Dec 20, P1-002-GENERICS generic propagation Dec 20, TernaryMod + IfRegionVisitor control flow improvements Dec 19).
-**Tests:** 1,201 total passing.
+**Actual Output Quality:** C- Grade - based on comprehensive comparison of decompiled code against JADX
+**Status:** 12 NEW CRITICAL BUGS discovered during Dec 20, 2025 quality audit that produce uncompilable code.
+**Tests:** 1,201 total passing (note: tests may not cover all edge cases found in real APKs).
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency).
 **Note:** Framework classes are skipped by default for faster output. Use `--include-framework` to include them.
+
+---
+
+## CRITICAL: Dec 20, 2025 Quality Audit Results
+
+### Updated Quality Grades
+
+| Category | Grade | Notes |
+|----------|-------|-------|
+| **Codegen** | **D** | Critical bugs produce uncompilable code |
+| **IR/Control Flow** | **C-** | Missing synthetic classes, control flow issues |
+| **Variable Renaming** | **B+** | Actually better than JADX for simple cases |
+| **JADX 1:1 Match** | **F** | Significant structural differences |
+| **Overall** | **C-** | Major work needed before production use |
+
+### File Coverage Issues
+
+| APK | Missing Files | Total Files | Gap |
+|-----|---------------|-------------|-----|
+| Medium APK | 2,861 | 5,933 | **48% missing** |
+| Large APK | ~13% | - | 13% missing |
+| AnonymousClass | JADX: 713 | Dexterity: 1 | **712 missing** |
+
+### Critical Bugs (P0 - Uncompilable Code)
+
+| ID | Bug | Files Affected | Description |
+|----|-----|----------------|-------------|
+| **BUG-001** | Undefined switch variable `i` | 6+ | Switch map synthetic classes not generated |
+| **BUG-002** | Undefined variables `d`, `d2` | 10+ | Division expressions reference undefined vars |
+| **BUG-003** | Missing type cast in equals() | Multiple | Object.uuid accessed without cast |
+| **BUG-004** | Boolean returns `0` | Multiple | Should be `false`, not `0` |
+| **BUG-005** | Infinite recursion in clone() | Multiple | Calls self instead of super.clone() |
+| **BUG-006** | Boolean compared to null | Multiple | `isClosed() == null` invalid |
+| **BUG-007** | Undefined `i11` in hashCode() | Multiple | References undefined variable |
+
+### High Severity Bugs (P1)
+
+| ID | Bug | Impact |
+|----|-----|--------|
+| **BUG-008** | Empty else blocks | Dead code |
+| **BUG-009** | Wrong @Override annotations | Incorrect semantics |
+| **BUG-010** | Static final reassignment | Invalid Java |
+| **BUG-011** | 712 missing AnonymousClass | Major loss |
+| **BUG-012** | Type reassignment issues | Type safety |
+
+### Positive Findings
+
+- Variable naming preserves debug info (savedInstanceState vs bundle)
+- Long literal handling correct (0L vs 0)
+- Simple case decompilation better than JADX
+
+---
 
 ---
 

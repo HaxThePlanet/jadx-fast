@@ -25,15 +25,27 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **~89,000 lines of Rust | 1,201 tests passing | 2-124x faster than JADX**
 
-**Status (Dec 20, 2025):** PRODUCTION READY with **A- quality (88-90/100)** based on objective output comparison. Dexterity achieves **1:1 identical output** on simple APKs, produces correct code on complex APKs, and is **1.9x-127x faster** than JADX. **All P0-P1 Critical issues FIXED** (Dec 20: P0-001 null vs 0, P1-001 same-package types, P1-003 source comments, P1-004 variable naming, control flow duplication, early returns in loops). Only P1-002 (generic propagation) remaining. Framework classes skipped by default (use `--include-framework` to include them).
+**Status (Dec 20, 2025): CRITICAL BUGS IDENTIFIED** - Comprehensive quality audit revealed **C- overall grade** with critical bugs producing uncompilable code. **Codegen: D grade** (7 P0 bugs including undefined switch variables, missing type casts, boolean returning 0). **IR/Control Flow: C-** (712 missing AnonymousClass synthetic files, 48% file gap on medium APK). **Variable Renaming: B+** (better than JADX for simple cases). See [Quality Status](docs/QUALITY_STATUS.md) and [Issue Tracker](docs/ISSUE_TRACKER.md) for full bug list. Framework classes skipped by default (use `--include-framework` to include them).
 
 ## Speed vs Quality Trade-off
 
 | APK | Size | Dexterity | JADX | Speedup | Quality |
 |-----|------|-----------|------|---------|---------|
 | small.apk | 9.8 KB | 0.015s | 1.867s | **124x** | **1:1 Identical** |
-| medium.apk | 10.8 MB | 4.322s | 15.250s | **3.5x** | High quality (app code) |
-| large.apk | 54 MB | 8.625s | 16.508s | **1.9x** | High quality (app code) |
+| medium.apk | 10.8 MB | 4.322s | 15.250s | **3.5x** | **C- (48% files missing, P0 bugs)** |
+| large.apk | 54 MB | 8.625s | 16.508s | **1.9x** | **C- (13% files missing)** |
+
+### Quality Audit Results (Dec 20, 2025)
+
+| Category | Grade | Notes |
+|----------|-------|-------|
+| **Codegen** | **D** | 7 P0 bugs produce uncompilable code |
+| **IR/Control Flow** | **C-** | 712 missing AnonymousClass files |
+| **Variable Renaming** | **B+** | Better than JADX for simple cases |
+| **JADX 1:1 Match** | **F** | Significant structural differences |
+| **Overall** | **C-** | Major work needed |
+
+*See [Issue Tracker](docs/ISSUE_TRACKER.md) for full bug list.*
 
 ### 56-Core Benchmark (Dec 17, 2025)
 
@@ -46,15 +58,17 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **Dexterity Strengths:**
 - 2-124x faster decompilation
-- Zero errors across all APKs
 - Lower memory usage
 - Scales to 56+ cores
-- 1:1 app code on simple APKs (R.java excluded)
+- Variable naming preserves debug info (savedInstanceState vs bundle)
+- Long literal handling correct (0L vs 0)
 
-**JADX Strengths:**
-- Complete interface generic type parameters
-- Correct array index handling in complex cases
-- Propagates generic types to local variables (P1-002 - only remaining gap)
+**JADX Strengths (Current Gaps):**
+- Complete switch map synthetic class generation (BUG-001)
+- Proper type casts in equals() implementations (BUG-003)
+- Boolean literal returns instead of integer 0 (BUG-004)
+- super.clone() resolution (BUG-005)
+- 712 more AnonymousClass files (BUG-011)
 
 ## Highlights
 

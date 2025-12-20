@@ -3,13 +3,70 @@
 **Primary Goal:** 1:1 identical decompilation output with JADX
 **Reference:** Java JADX v1.5.3 at `jadx-fast/` is the authoritative source for all output decisions
 
-**Current State:** PRODUCTION READY (Dec 20, 2025)
-**Feature Implementation:** **A- (88-90/100)** based on features/passes implemented | 1,201 tests passing | **100% Class Generation parity**
-**Actual Output Quality:** **C- (49/100)** based on comparison of decompiled Java against JADX output (see below)
-**Code Issues:** **ALL P0-P2 ISSUES RESOLVED** + Fix 17-21 Dec 19 + P1-001/P1-002/P2-001 Dec 19-20 + **P0 Variable Type Safety Dec 19** + **P1-002 Generic Type Propagation Dec 20** | 37+ issues resolved | **All known issues fixed**
+**Current State: CRITICAL BUGS IDENTIFIED (Dec 20, 2025 Quality Audit)**
+
+**Quality Grades (Dec 20, 2025):**
+| Category | Grade | Notes |
+|----------|-------|-------|
+| **Codegen** | **D** | 7 P0 bugs produce uncompilable code |
+| **IR/Control Flow** | **C-** | 712 missing AnonymousClass files |
+| **Variable Renaming** | **B+** | Better than JADX for simple cases |
+| **JADX 1:1 Match** | **F** | Significant structural differences |
+| **Overall** | **C-** | Major work needed |
+
+**File Coverage Issues:**
+| APK | Missing | Total | Gap |
+|-----|---------|-------|-----|
+| Medium | 2,861 | 5,933 | **48%** |
+| Large | ~13% | - | 13% |
+| AnonymousClass | 712 | 713 | **99.9%** |
+
+**Tests:** 1,201 passing (may not cover all edge cases found in real APKs)
 **Resource Issues:** **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention)
-**Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation from `jadx-fast/` source
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
+
+---
+
+## CRITICAL: Dec 20, 2025 Quality Audit
+
+**A comprehensive quality analysis revealed critical bugs that produce uncompilable code.**
+
+### P0 Critical Bugs (Uncompilable Code)
+
+| ID | Bug | Files | Description |
+|----|-----|-------|-------------|
+| **BUG-001** | Undefined switch variable `i` | 6+ | Switch map synthetic classes not generated |
+| **BUG-002** | Undefined `d`, `d2` | 10+ | Division expressions undefined |
+| **BUG-003** | Missing type cast in equals() | Multiple | Object.uuid accessed without cast |
+| **BUG-004** | Boolean returns `0` | Multiple | Should be `false`, not `0` |
+| **BUG-005** | Infinite recursion in clone() | Multiple | Calls self instead of super.clone() |
+| **BUG-006** | Boolean compared to null | Multiple | `isClosed() == null` invalid |
+| **BUG-007** | Undefined `i11` in hashCode() | Multiple | References undefined variable |
+
+### P1 High Severity Bugs
+
+| ID | Bug | Impact |
+|----|-----|--------|
+| **BUG-008** | Empty else blocks | Dead code |
+| **BUG-009** | Wrong @Override annotations | Incorrect semantics |
+| **BUG-010** | Static final reassignment | Invalid Java |
+| **BUG-011** | 712 missing AnonymousClass | Major loss |
+| **BUG-012** | Type reassignment issues | Type safety |
+
+### Positive Findings
+
+- Variable naming preserves debug info (savedInstanceState vs bundle)
+- Long literal handling correct (0L vs 0)
+- Simple case decompilation better than JADX
+
+---
+
+## Previous Assessment (Pre-Audit)
+
+**Note: The following reflects the state before the Dec 20, 2025 quality audit.**
+
+**Feature Implementation:** **A- (88-90/100)** based on features/passes implemented | 1,201 tests passing
+**Actual Output Quality:** **C- (49/100)** based on comparison of decompiled Java against JADX output
 
 ---
 

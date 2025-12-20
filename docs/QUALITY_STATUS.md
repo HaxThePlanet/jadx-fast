@@ -155,6 +155,66 @@ Iterator<String> it = list.iterator();  // Properly resolved generic type
 
 ---
 
+## CRITICAL: Comprehensive Quality Analysis (Dec 20, 2025)
+
+**Quality Audit Results - Major Issues Identified**
+
+A comprehensive quality analysis comparing Dexterity output against JADX revealed critical code generation bugs that produce **uncompilable code**. These findings supersede previous quality assessments.
+
+### Updated Quality Grades (Dec 20, 2025)
+
+| Category | Grade | Notes |
+|----------|-------|-------|
+| **Codegen** | **D** | Critical bugs produce uncompilable code |
+| **IR/Control Flow** | **C-** | Missing synthetic classes, control flow issues |
+| **Variable Renaming** | **B+** | Actually better than JADX for simple cases |
+| **JADX 1:1 Match** | **F** | Significant structural differences |
+| **Overall** | **C-** | Major work needed before production use |
+
+### File Coverage Issues
+
+| APK | Missing Files | Total Files | Gap |
+|-----|---------------|-------------|-----|
+| Medium APK | 2,861 | 5,933 | **48% missing** |
+| Large APK | ~13% | - | 13% missing |
+| AnonymousClass | JADX: 713 | Dexterity: 1 | **712 missing** |
+
+---
+
+## Critical Bugs Found (P0 - Uncompilable Code)
+
+These bugs produce Java code that **will not compile**:
+
+| ID | Bug | Files Affected | Description |
+|----|-----|----------------|-------------|
+| **BUG-001** | Undefined switch variable `i` | 6+ files | Switch map synthetic classes (AnonymousClass1) not generated |
+| **BUG-002** | Undefined variables `d`, `d2` | 10+ files | Division expressions reference undefined variables |
+| **BUG-003** | Missing type cast in equals() | Multiple | Accesses `object.uuid` without casting to proper type |
+| **BUG-004** | Boolean methods return `0` | Multiple | Should return `false`, not integer `0` |
+| **BUG-005** | Infinite recursion in clone() | Multiple | Calls itself instead of `super.clone()` |
+| **BUG-006** | Boolean compared to null | Multiple | `isClosed() == null` - boolean cannot be null |
+| **BUG-007** | Undefined variable `i11` | Multiple | hashCode() references undefined variable |
+
+### High Severity Bugs (P1)
+
+| ID | Bug | Impact |
+|----|-----|--------|
+| **BUG-008** | Empty else blocks | Dead code, confusing output |
+| **BUG-009** | Wrong @Override annotations | Claims to override Serializable methods |
+| **BUG-010** | Static final field reassignment | Invalid Java - final fields cannot be reassigned in static blocks |
+| **BUG-011** | 712 missing AnonymousClass synthetic classes | Major functionality loss |
+| **BUG-012** | Variable type reassignment issues | Type safety violations |
+
+### Positive Findings
+
+Despite the critical bugs, some aspects work well:
+
+- **Variable naming preserves debug info** - e.g., `savedInstanceState` vs generic `bundle`
+- **Long literal handling** - Correctly uses `0L` vs `0`
+- **Simple case decompilation** - Works better than JADX for straightforward code
+
+---
+
 ## IMPORTANT: Objective Output Assessment (Dec 19, 2025)
 
 **Documentation vs Reality Gap Identified**

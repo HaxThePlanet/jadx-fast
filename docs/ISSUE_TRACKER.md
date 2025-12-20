@@ -3,9 +3,294 @@
 This tracker contains structured issues for autonomous agents working toward JADX parity.
 See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
-**Status (Dec 20, 2025): PRODUCTION READY with A- (88-90/100) quality**
+**Status (Dec 20, 2025): CRITICAL BUGS IDENTIFIED - Quality Grade C-**
 
-**41+ total issues (ALL RESOLVED including P1-002 generic propagation)**
+**WARNING: Comprehensive quality analysis on Dec 20, 2025 revealed critical bugs that produce uncompilable code.**
+
+---
+
+## NEW: Critical Bugs from Dec 20, 2025 Quality Analysis
+
+### Quality Grades (Dec 20, 2025 Audit)
+
+| Category | Grade | Notes |
+|----------|-------|-------|
+| **Codegen** | **D** | Critical bugs produce uncompilable code |
+| **IR/Control Flow** | **C-** | Missing synthetic classes, control flow issues |
+| **Variable Renaming** | **B+** | Actually better than JADX for simple cases |
+| **JADX 1:1 Match** | **F** | Significant structural differences |
+| **Overall** | **C-** | Major work needed before production use |
+
+### File Coverage Issues
+
+| APK | Missing Files | Total Files | Gap |
+|-----|---------------|-------------|-----|
+| Medium APK | 2,861 | 5,933 | **48% missing** |
+| Large APK | ~13% | - | 13% missing |
+| AnonymousClass | JADX: 713 | Dexterity: 1 | **712 missing** |
+
+---
+
+## P0 Critical Bugs (Uncompilable Code) - OPEN
+
+### BUG-001: Undefined Switch Variable `i`
+
+**Status:** OPEN
+**Priority:** P0 (CRITICAL)
+**Impact:** 6+ files produce uncompilable code
+**Category:** Switch Map Synthetic Classes
+
+**The Problem:**
+Switch map synthetic classes (AnonymousClass1, etc.) are not being generated. When the decompiled code references switch tables, it uses an undefined variable `i`.
+
+**Example:**
+```java
+// Dexterity output (BROKEN - won't compile)
+switch(i) {  // 'i' is undefined - should reference synthetic switch map
+    case 0: ...
+}
+
+// JADX output (CORRECT)
+switch(AnonymousClass1.$SwitchMap$...[ordinal]) {
+    case 1: ...
+}
+```
+
+**Root Cause:** Missing generation of switch map synthetic inner classes that JADX creates.
+
+**Files Affected:** 6+ files in medium APK
+
+---
+
+### BUG-002: Undefined Variables `d`, `d2` in Division
+
+**Status:** OPEN
+**Priority:** P0 (CRITICAL)
+**Impact:** 10+ files produce uncompilable code
+**Category:** Division Expression Codegen
+
+**The Problem:**
+Division expressions reference undefined variables `d`, `d2`.
+
+**Example:**
+```java
+// Dexterity output (BROKEN)
+return d / d2;  // Both 'd' and 'd2' are undefined
+
+// JADX output (CORRECT)
+return this.value / divisor;
+```
+
+**Root Cause:** Division operands not being properly resolved during code generation.
+
+**Files Affected:** 10+ files
+
+---
+
+### BUG-003: Missing Type Cast in equals()
+
+**Status:** OPEN
+**Priority:** P0 (CRITICAL)
+**Impact:** Multiple files with equals() implementations
+**Category:** Type Casting
+
+**The Problem:**
+In `equals()` method implementations, object fields are accessed without first casting the parameter to the proper type.
+
+**Example:**
+```java
+// Dexterity output (BROKEN)
+public boolean equals(Object object) {
+    return this.uuid.equals(object.uuid);  // ERROR: Object doesn't have .uuid field
+}
+
+// JADX output (CORRECT)
+public boolean equals(Object obj) {
+    if (obj instanceof MyClass) {
+        MyClass other = (MyClass) obj;
+        return this.uuid.equals(other.uuid);
+    }
+    return false;
+}
+```
+
+---
+
+### BUG-004: Boolean Methods Return Integer `0`
+
+**Status:** OPEN
+**Priority:** P0 (CRITICAL)
+**Impact:** Multiple boolean-returning methods
+**Category:** Return Type Mismatch
+
+**The Problem:**
+Methods with boolean return type emit `return 0;` instead of `return false;`.
+
+**Example:**
+```java
+// Dexterity output (BROKEN)
+public boolean isValid() {
+    return 0;  // ERROR: int is not boolean
+}
+
+// JADX output (CORRECT)
+public boolean isValid() {
+    return false;
+}
+```
+
+---
+
+### BUG-005: Infinite Recursion in clone()
+
+**Status:** OPEN
+**Priority:** P0 (CRITICAL)
+**Impact:** Multiple Cloneable classes
+**Category:** Method Call Resolution
+
+**The Problem:**
+`clone()` implementations call themselves recursively instead of calling `super.clone()`.
+
+**Example:**
+```java
+// Dexterity output (BROKEN - infinite recursion)
+public Object clone() {
+    return clone();  // Calls itself - infinite loop!
+}
+
+// JADX output (CORRECT)
+public Object clone() {
+    return super.clone();
+}
+```
+
+---
+
+### BUG-006: Boolean Compared to Null
+
+**Status:** OPEN
+**Priority:** P0 (CRITICAL)
+**Impact:** Multiple boolean method calls
+**Category:** Type Inference
+
+**The Problem:**
+Boolean method results are compared to `null`, which is invalid since primitives cannot be null.
+
+**Example:**
+```java
+// Dexterity output (BROKEN)
+if (isClosed() == null) {  // ERROR: boolean cannot be null
+    ...
+}
+
+// JADX output (CORRECT)
+if (!isClosed()) {
+    ...
+}
+```
+
+---
+
+### BUG-007: Undefined Variable `i11` in hashCode()
+
+**Status:** OPEN
+**Priority:** P0 (CRITICAL)
+**Impact:** Multiple hashCode() implementations
+**Category:** Variable Resolution
+
+**The Problem:**
+`hashCode()` implementations reference undefined variables like `i11`.
+
+**Example:**
+```java
+// Dexterity output (BROKEN)
+public int hashCode() {
+    return i11 * 31 + this.value;  // 'i11' is undefined
+}
+
+// JADX output (CORRECT)
+public int hashCode() {
+    return this.field.hashCode() * 31 + this.value;
+}
+```
+
+---
+
+## P1 High Severity Bugs - OPEN
+
+### BUG-008: Empty Else Blocks
+
+**Status:** OPEN
+**Priority:** P1 (HIGH)
+**Impact:** Dead code, confusing output
+**Category:** Control Flow
+
+**The Problem:**
+Empty else blocks are emitted as dead code instead of being eliminated.
+
+---
+
+### BUG-009: Wrong @Override Annotations
+
+**Status:** OPEN
+**Priority:** P1 (HIGH)
+**Impact:** Incorrect code semantics
+**Category:** Annotation Generation
+
+**The Problem:**
+`@Override` annotations claim to override Serializable interface methods when they don't.
+
+---
+
+### BUG-010: Static Final Field Reassignment
+
+**Status:** OPEN
+**Priority:** P1 (HIGH)
+**Impact:** Invalid Java - final fields cannot be reassigned
+**Category:** Static Block Generation
+
+**The Problem:**
+Static blocks attempt to reassign `static final` fields, which is invalid Java.
+
+---
+
+### BUG-011: 712 Missing AnonymousClass Synthetic Classes
+
+**Status:** OPEN
+**Priority:** P1 (HIGH)
+**Impact:** Major functionality loss
+**Category:** Synthetic Class Generation
+
+**The Problem:**
+JADX generates 713 AnonymousClass files, Dexterity generates only 1. This represents 712 missing synthetic inner classes.
+
+---
+
+### BUG-012: Variable Type Reassignment Issues
+
+**Status:** OPEN
+**Priority:** P1 (HIGH)
+**Impact:** Type safety violations
+**Category:** Type Inference
+
+**The Problem:**
+Variables are reassigned across incompatible types without proper type handling.
+
+---
+
+## Positive Findings (Dec 20, 2025)
+
+Despite the critical bugs, these aspects work well:
+
+- **Variable naming preserves debug info** - Uses `savedInstanceState` instead of generic `bundle`
+- **Long literal handling** - Correctly uses `0L` vs `0`
+- **Simple case decompilation** - Works better than JADX for straightforward code
+
+---
+
+## Previously Resolved Issues (Reference)
+
+**41+ total issues previously marked as resolved:**
 - DEC19-OPEN-001: Variable 'obj' prefix - **RESOLVED** (44% reduction via type-aware declaration)
 - DEC19-OPEN-002: Array for-each loop detection - **RESOLVED** (working since Dec 16)
 - DEC19-OPEN-003: StringBuilder chain collapsing - **RESOLVED** (handled at codegen level)
@@ -22,12 +307,13 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 - **P1-004: Variable Naming Improvements** - **RESOLVED Dec 20** (commit 06da51488, JADX-style special method naming)
 - **P1-002-GENERICS: Hierarchy-Based Generic Type Propagation** - **RESOLVED Dec 20** (commit d7f3daf7b, ClassHierarchy-based type variable resolution)
 
-All P0-P2 issues resolved:
-- Overall Quality: **A- (88-90/100)** based on objective `output/dexterity` vs `output/jadx` comparison
+**Note:** These fixes addressed specific issues but the comprehensive quality analysis revealed additional critical bugs.
+
+Previously tracked metrics (may need re-evaluation):
 - Variable Naming: 99.96% reduction (27,794 -> 11)
 - Null Comparisons: 100% correct (26 -> 0)
 - Type Inference: 0 Unknown failures
-- Control Flow: **FIXED Dec 20** (P1-001 duplication, P1-002 early returns)
+- Control Flow: P1-001 duplication, P1-002 early returns fixed
 - Resource Field Resolution: DONE - R.* references enabled by default
 - Annotation Default Values: DONE - `apply_annotation_defaults()` in converter.rs
 - Integration Tests: 687/687 passing
