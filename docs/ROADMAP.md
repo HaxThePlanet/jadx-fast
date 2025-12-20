@@ -41,7 +41,7 @@
 | ID | Bug | Status | Notes |
 |----|-----|--------|-------|
 | **BUG-008** | Empty else blocks | Low Priority | Cosmetic |
-| **BUG-009** | Wrong @Override annotations | Low Priority | Cosmetic |
+| **BUG-009** | Wrong @Override annotations | **FIXED** | Annotation interface check added |
 | **BUG-010** | Static final reassignment | **FIXED** | Handled correctly |
 | **BUG-011** | Missing AnonymousClass | **FIXED (Partial)** | Switch map classes generated |
 | **BUG-012** | Type reassignment issues | **FIXED** | Type safety enforced |
