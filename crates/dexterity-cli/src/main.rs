@@ -1184,12 +1184,16 @@ fn process_dex_bytes(
     }
 
     // ========================================================================
-    // MEMORY-OPTIMIZED CLASS COLLECTION
-    // Collect all class indices for processing - each class becomes a separate file
-    // Pre-allocate vector based on class count to avoid reallocations
+    // OPTIMIZED CLASS COLLECTION - Single-pass for all data
+    // PERF: Previously we were calling class_type().to_string() 5x per class!
+    // Now we collect class_indices, class_descs, inner_class_map, and outer indices
+    // all in ONE loop, eliminating ~4N redundant string allocations.
     // ========================================================================
 
     let mut class_indices: Vec<u32> = Vec::with_capacity(class_count);
+    let mut class_descs: rustc_hash::FxHashMap<u32, String> = rustc_hash::FxHashMap::default();
+    let mut outer_class_indices: Vec<u32> = Vec::with_capacity(class_count);
+    let mut inner_class_map: std::collections::HashMap<String, Vec<(u32, String)>> = std::collections::HashMap::new();
     let mut outer_count = 0usize;
     let mut inner_count = 0usize;
 
@@ -1197,7 +1201,7 @@ fn process_dex_bytes(
         match class_result {
             Ok(class) => {
                 if let Ok(class_type) = class.class_type() {
-                    let class_name = class_type.to_string();
+                    let class_name = class_type.to_string();  // Only call to_string() ONCE per class
 
                     // Apply filters
                     if let Some(ref single) = args.single_class {
@@ -1210,14 +1214,22 @@ fn process_dex_bytes(
                         continue;
                     }
 
-                    // Track outer vs inner for logging
-                    if class_name.contains('$') {
+                    let idx = i as u32;
+
+                    // Track outer vs inner and build inner_class_map in same pass
+                    let is_inner = dexterity_codegen::is_inner_class(&class_name);
+                    if is_inner {
                         inner_count += 1;
+                        if let Some(outer) = dexterity_codegen::get_outer_class(&class_name) {
+                            inner_class_map.entry(outer).or_default().push((idx, class_name.clone()));
+                        }
                     } else {
                         outer_count += 1;
+                        outer_class_indices.push(idx);
                     }
 
-                    class_indices.push(i as u32);
+                    class_descs.insert(idx, class_name);
+                    class_indices.push(idx);
                 }
             }
             Err(e) => {
@@ -1308,42 +1320,11 @@ fn process_dex_bytes(
         dex_info
     };
 
-    // Build inner class grouping: outer_class_type -> Vec<(idx, inner_class_type)>
-    // This allows us to nest inner classes inside their outer class during code generation
-    let inner_class_map: std::collections::HashMap<String, Vec<(u32, String)>> = {
-        let mut map: std::collections::HashMap<String, Vec<(u32, String)>> = std::collections::HashMap::new();
-        for &idx in &class_indices {
-            if let Ok(class) = dex.get_class(idx) {
-                if let Ok(class_type) = class.class_type() {
-                    let class_desc = class_type.to_string();
-                    if dexterity_codegen::is_inner_class(&class_desc) {
-                        if let Some(outer) = dexterity_codegen::get_outer_class(&class_desc) {
-                            map.entry(outer).or_default().push((idx, class_desc));
-                        }
-                    }
-                }
-            }
-        }
-        map
-    };
-
-    // Filter to only outer classes (inner classes will be nested inside their outer class)
-    let outer_class_indices: Vec<u32> = class_indices
-        .iter()
-        .filter(|&&idx| {
-            dex.get_class(idx)
-                .ok()
-                .and_then(|c| c.class_type().ok().map(|t| !dexterity_codegen::is_inner_class(&t.to_string())))
-                .unwrap_or(true)
-        })
-        .copied()
-        .collect();
-
-    let inner_class_count = class_indices.len() - outer_class_indices.len();
+    // inner_class_map and outer_class_indices were built in the optimized single-pass loop above
     tracing::info!(
         "Processing {} outer classes ({} inner classes will be nested)",
         outer_class_indices.len(),
-        inner_class_count
+        inner_count
     );
 
     // Share the inner class map across threads
@@ -1353,20 +1334,16 @@ fn process_dex_bytes(
         pb.set_length(outer_class_indices.len() as u64);
     }
 
-    // OPTIMIZATION: Parallelize directory creation
-    // Pre-create directories in parallel (fetch class names on-demand)
-    // This was previously sequential and wasted time; now all threads create directories
-    // concurrently. Even though mkdir is fast, for 50K classes this saves ~250ms.
+    // OPTIMIZATION: Parallelize directory creation using pre-computed class_descs
+    // No redundant dex.get_class() or to_string() calls needed
     tracing::debug!("Pre-creating {} output directories in parallel...", class_indices.len());
+    let class_descs_arc = std::sync::Arc::new(class_descs);
     class_indices.par_iter().for_each(|&idx| {
-        if let Ok(class) = dex.get_class(idx) {
-            if let Ok(class_type) = class.class_type() {
-                let class_desc = class_type.to_string();
-                let rel_path = deobf::class_output_rel_path(&class_desc, &alias_registry);
-                let out_path = out_src.join(&rel_path);
-                if let Some(parent) = out_path.parent() {
-                    std::fs::create_dir_all(parent).ok();
-                }
+        if let Some(class_desc) = class_descs_arc.get(&idx) {
+            let rel_path = deobf::class_output_rel_path(class_desc, &alias_registry);
+            let out_path = out_src.join(&rel_path);
+            if let Some(parent) = out_path.parent() {
+                std::fs::create_dir_all(parent).ok();
             }
         }
     });
@@ -1409,11 +1386,10 @@ fn process_dex_bytes(
         // Memory checkpoint every 1000 classes (reduced from 100 to minimize syscall overhead)
         let pc = processed_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
 
-        // Fetch class name on-demand to avoid storing all names in memory
-        let class_desc = dex.get_class(idx)
-            .ok()
-            .and_then(|c| c.class_type().ok().map(|t| t.to_string()))
-            .unwrap_or_else(|| format!("LUnknownClass{};", idx));
+        // Use pre-computed class_desc from single-pass loop (eliminates redundant dex lookup + to_string)
+        let class_desc = class_descs_arc.get(&idx)
+            .map(|s| s.as_str())
+            .unwrap_or("LUnknownClass;");
 
         // Log every class in debug mode or single-threaded mode for hang debugging
         if num_threads == 1 || (pc > 1000 && pc < 2000) {
@@ -1459,7 +1435,7 @@ fn process_dex_bytes(
 
         // Convert inner classes to IR (if any)
         let nested_inner_classes: Vec<dexterity_ir::ClassData> = inner_class_map
-            .get(&class_desc)
+            .get(class_desc)
             .map(|inners| {
                 inners.iter().filter_map(|(inner_idx, _inner_desc)| {
                     std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {

@@ -99,6 +99,10 @@ pub fn extract_field_init(class: &mut ClassData, dex: Option<&DexReader>) {
         .filter_map(|(idx, f)| f.dex_field_idx.map(|dex_idx| (dex_idx, idx)))
         .collect();
 
+    // NEW-001 FIX: First, clear initial values for fields that have complex clinit assignments
+    // This handles the case where DEX stores `null` as a placeholder but clinit does the real init
+    clear_complex_clinit_fields(class, clinit_idx, &dex_to_array_idx, dex);
+
     // Iteratively extract fields until no more can be extracted
     // This handles dependencies between static field initializations
     // Limit iterations to prevent infinite loops (JADX has similar limits)
@@ -126,6 +130,62 @@ pub fn extract_field_init(class: &mut ClassData, dex: Option<&DexReader>) {
         if iteration >= MAX_EXTRACT_ITERATIONS - 1 {
             tracing::warn!("extract_field_init hit iteration limit for class {}", class.class_type);
             break;
+        }
+    }
+}
+
+/// NEW-001 FIX: Clear initial values for fields that have complex assignments in clinit
+///
+/// When DEX stores `null` as a placeholder value for a field, but the `<clinit>` method
+/// does the real initialization (e.g., `Pattern.compile(...)`), we need to clear the
+/// field's initial_value so we don't emit `= null` in the declaration.
+fn clear_complex_clinit_fields(
+    class: &mut ClassData,
+    clinit_idx: usize,
+    dex_to_array_idx: &std::collections::HashMap<u32, usize>,
+    dex: Option<&DexReader>,
+) {
+    let method = &class.methods[clinit_idx];
+    let instructions = match method.instructions() {
+        Some(insns) => insns,
+        None => return,
+    };
+
+    // Find all fields that have SPUTs in clinit
+    for insn in instructions.iter() {
+        if let InsnType::StaticPut { field_idx, value } = &insn.insn_type {
+            let array_idx = match dex_to_array_idx.get(field_idx) {
+                Some(&idx) => idx,
+                None => continue,
+            };
+
+            if array_idx >= class.static_fields.len() {
+                continue;
+            }
+
+            let field = &class.static_fields[array_idx];
+
+            // Only process static final fields with null initial value
+            if !field.is_static() || !field.is_final() {
+                continue;
+            }
+
+            // Check if the current initial value is null (placeholder)
+            let has_null_init = matches!(field.initial_value, Some(FieldValue::Null));
+            if !has_null_init {
+                continue;
+            }
+
+            // Check if we can extract a constant from this SPUT
+            // Search for the instruction index first
+            let insn_idx = instructions.iter().position(|i| std::ptr::eq(i, insn)).unwrap_or(0);
+            let can_extract = extract_constant_value(value, method, insn_idx, dex).is_some();
+
+            // If we can't extract a constant, clear the initial value
+            // This means clinit will handle the initialization
+            if !can_extract {
+                class.static_fields[array_idx].initial_value = None;
+            }
         }
     }
 }
