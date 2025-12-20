@@ -64,6 +64,7 @@
 //! Typically reduces static initializer codegen time by 50-70% for obfuscated code.
 
 use std::collections::HashSet;
+use dexterity_dex::DexReader;
 use dexterity_ir::{ClassData, FieldData, FieldValue, InsnArg, InsnType, MethodData};
 
 /// Information about a field initialization instruction
@@ -82,7 +83,10 @@ struct FieldInitInfo {
 /// This function modifies the class in-place by:
 /// - Moving field values from `<clinit>` SPUT instructions to field `initial_value`
 /// - Removing the SPUT instructions from the method
-pub fn extract_field_init(class: &mut ClassData) {
+///
+/// If a `DexReader` is provided, string and class literals can be resolved from
+/// the DEX constant pools, enabling more field initializations to be extracted.
+pub fn extract_field_init(class: &mut ClassData, dex: Option<&DexReader>) {
     // Find the static initializer method
     let clinit_idx = match class.methods.iter().position(|m| m.is_class_init()) {
         Some(idx) => idx,
@@ -102,7 +106,7 @@ pub fn extract_field_init(class: &mut ClassData) {
 
     for iteration in 0..MAX_EXTRACT_ITERATIONS {
         let method = &class.methods[clinit_idx];
-        let inits = collect_field_inits(method, &class.static_fields, &dex_to_array_idx);
+        let inits = collect_field_inits(method, &class.static_fields, &dex_to_array_idx, dex);
 
         if inits.is_empty() {
             break; // No more fields to extract
@@ -168,6 +172,7 @@ fn collect_field_inits(
     method: &MethodData,
     fields: &[FieldData],
     dex_to_array_idx: &std::collections::HashMap<u32, usize>,
+    dex: Option<&DexReader>,
 ) -> Vec<FieldInitInfo> {
     let mut inits = Vec::new();
 
@@ -192,7 +197,7 @@ fn collect_field_inits(
             }
 
             // Try to extract a constant value from the SPUT
-            if let Some(mut field_value) = extract_constant_value(value, method, insn_idx) {
+            if let Some(mut field_value) = extract_constant_value(value, method, insn_idx, dex) {
                 // Convert value to correct type based on field declaration
                 field_value = convert_value_to_field_type(&field_value, &fields[array_idx].field_type);
                 inits.push(FieldInitInfo {
@@ -266,12 +271,13 @@ fn is_safe_init(field: &FieldData, value: &FieldValue) -> bool {
 
 /// Extract a constant value from an instruction argument
 /// insn_idx: the index of the IPUT/SPUT instruction we're analyzing (to limit search scope)
-fn extract_constant_value(arg: &InsnArg, method: &MethodData, insn_idx: usize) -> Option<FieldValue> {
+/// dex: optional DEX reader for resolving string/class literals
+fn extract_constant_value(arg: &InsnArg, method: &MethodData, insn_idx: usize, dex: Option<&DexReader>) -> Option<FieldValue> {
     match arg {
         InsnArg::Register(reg) => {
             // Trace back through instructions to find the const instruction that defined this register
             // Only look at instructions BEFORE the current one
-            trace_register_constant(reg.reg_num as usize, method, insn_idx)
+            trace_register_constant(reg.reg_num as usize, method, insn_idx, dex)
         }
         InsnArg::Literal(lit) => {
             // Direct literal value (all int types are stored as Int(i64))
@@ -288,18 +294,21 @@ fn extract_constant_value(arg: &InsnArg, method: &MethodData, insn_idx: usize) -
 
 /// Trace back through instructions to find the constant value assigned to a register
 /// up_to_idx: only look at instructions with index < up_to_idx
-fn trace_register_constant(reg_num: usize, method: &MethodData, up_to_idx: usize) -> Option<FieldValue> {
-    trace_register_constant_impl(reg_num, method, up_to_idx, &mut HashSet::new(), 0)
+/// dex: optional DEX reader for resolving string/class literals
+fn trace_register_constant(reg_num: usize, method: &MethodData, up_to_idx: usize, dex: Option<&DexReader>) -> Option<FieldValue> {
+    trace_register_constant_impl(reg_num, method, up_to_idx, &mut HashSet::new(), 0, dex)
 }
 
 /// Implementation with cycle detection and depth limiting
 /// up_to_idx: only look at instructions with index < up_to_idx
+/// dex: optional DEX reader for resolving string/class literals
 fn trace_register_constant_impl(
     reg_num: usize,
     method: &MethodData,
     up_to_idx: usize,
     visited: &mut HashSet<usize>,
     depth: usize,
+    dex: Option<&DexReader>,
 ) -> Option<FieldValue> {
     // Prevent infinite recursion (limit depth to 20, matching JADX's conservative approach)
     const MAX_TRACE_DEPTH: usize = 20;
@@ -335,16 +344,22 @@ fn trace_register_constant_impl(
                     dexterity_ir::instructions::LiteralArg::Null => FieldValue::Null,
                 });
             }
-            InsnType::ConstString { dest, .. } if dest.reg_num == reg_num as u16 => {
-                // Found a const-string instruction
-                // We need to resolve the string from the DEX string pool
-                // For now, we can't do this without access to DexFile
-                // Return None to skip this (will be fixed when we add DexFile access)
+            InsnType::ConstString { dest, string_idx } if dest.reg_num == reg_num as u16 => {
+                // Found a const-string instruction - resolve from DEX string pool
+                if let Some(dex) = dex {
+                    if let Ok(s) = dex.get_string(*string_idx) {
+                        return Some(FieldValue::String(s.to_string()));
+                    }
+                }
                 return None;
             }
-            InsnType::ConstClass { dest, .. } if dest.reg_num == reg_num as u16 => {
-                // Found a const-class instruction
-                // Similar issue - need DexFile to resolve type_idx
+            InsnType::ConstClass { dest, type_idx } if dest.reg_num == reg_num as u16 => {
+                // Found a const-class instruction - resolve from DEX type pool
+                if let Some(dex) = dex {
+                    if let Ok(type_desc) = dex.get_type(*type_idx) {
+                        return Some(FieldValue::Type(type_desc.to_string()));
+                    }
+                }
                 return None;
             }
             InsnType::Move { dest, src } if dest.reg_num == reg_num as u16 => {
@@ -356,6 +371,7 @@ fn trace_register_constant_impl(
                         idx, // Use the move instruction index as the new limit
                         visited,
                         depth + 1,
+                        dex,
                     );
                 } else if let InsnArg::Literal(lit) = src {
                     return Some(match lit {
@@ -439,8 +455,11 @@ struct InstanceFieldInitInfo {
 /// This function moves common field initializations from constructors to field declarations.
 /// A field initialization is only extracted if it appears in ALL constructors with the same value.
 ///
+/// If a `DexReader` is provided, string and class literals can be resolved from
+/// the DEX constant pools, enabling more field initializations to be extracted.
+///
 /// Based on Java JADX's `moveCommonFieldsInit()` in ExtractFieldInit.java
-pub fn extract_instance_field_init(class: &mut ClassData) {
+pub fn extract_instance_field_init(class: &mut ClassData, dex: Option<&DexReader>) {
     // Skip if no instance fields
     if class.instance_fields.is_empty() {
         return;
@@ -468,7 +487,7 @@ pub fn extract_instance_field_init(class: &mut ClassData) {
 
     for &constructor_idx in &constructor_indices {
         let method = &class.methods[constructor_idx];
-        let inits = collect_instance_field_inits(method, &class.instance_fields, &dex_to_array_idx);
+        let inits = collect_instance_field_inits(method, &class.instance_fields, &dex_to_array_idx, dex);
 
         if inits.is_empty() {
             // If any constructor has no field inits, we can't extract anything
@@ -520,6 +539,7 @@ fn collect_instance_field_inits(
     method: &MethodData,
     fields: &[FieldData],
     dex_to_array_idx: &std::collections::HashMap<u32, usize>,
+    dex: Option<&DexReader>,
 ) -> Vec<InstanceFieldInitInfo> {
     let mut inits = Vec::new();
 
@@ -549,7 +569,7 @@ fn collect_instance_field_inits(
             }
 
             // Try to extract a constant value from the IPUT
-            if let Some(mut field_value) = extract_constant_value(value, method, insn_idx) {
+            if let Some(mut field_value) = extract_constant_value(value, method, insn_idx, dex) {
                 // Convert value to correct type based on field declaration
                 field_value = convert_value_to_field_type(&field_value, &fields[array_idx].field_type);
                 inits.push(InstanceFieldInitInfo {
@@ -647,8 +667,8 @@ mod tests {
 
         class.methods.push(clinit);
 
-        // Apply extraction
-        extract_field_init(&mut class);
+        // Apply extraction (None for dex - tests don't need string/class resolution)
+        extract_field_init(&mut class, None);
 
         // Verify field has initial value
         assert!(matches!(
@@ -696,8 +716,8 @@ mod tests {
 
         class.methods.push(clinit);
 
-        // Apply extraction
-        extract_field_init(&mut class);
+        // Apply extraction (None for dex - tests don't need string/class resolution)
+        extract_field_init(&mut class, None);
 
         // Non-final fields should NOT be extracted
         assert!(class.static_fields[0].initial_value.is_none());

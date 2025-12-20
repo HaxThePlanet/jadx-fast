@@ -43,7 +43,7 @@
 
 ### Remaining Gaps (P2-P3)
 
-1. ~~**Static field initialization** - Uses verbose `static {}` blocks instead of inline init~~ **MITIGATED (Dec 19)** - Not high priority, only in resource files
+1. ~~**Static field initialization** - Uses verbose `static {}` blocks instead of inline init~~ **FIXED (Dec 19)** - Now resolves const-string and const-class from DEX pools
 2. ~~**Variable naming** - Indexed names (`function2`, `i3`) vs cleaner JADX names~~ **FIXED (Dec 18, 2025)** - Type-aware grouping + root package reservation
 3. ~~**Intermediate variables** - Creates temporaries before return instead of inlining~~ **FIXED (Dec 18, 2025)** - Constructor return inlining now implemented
 4. **Self-references** - Uses `Flowable.empty()` instead of `empty()` - P3 COSMETIC

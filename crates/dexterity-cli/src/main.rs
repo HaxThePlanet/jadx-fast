@@ -1450,8 +1450,8 @@ fn process_dex_bytes(
                                             let _ = converter::load_method_instructions(method, &dex);
                                         }
                                         // Extract field initializations
-                                        dexterity_passes::extract_field_init(&mut inner_data);
-                                        dexterity_passes::extract_instance_field_init(&mut inner_data);
+                                        dexterity_passes::extract_field_init(&mut inner_data, Some(&dex));
+                                        dexterity_passes::extract_instance_field_init(&mut inner_data, Some(&dex));
                                         inner_data
                                     })
                             })
@@ -1471,9 +1471,9 @@ fn process_dex_bytes(
                 }
 
                 // Extract static field initializations from <clinit>
-                dexterity_passes::extract_field_init(&mut ir_class);
+                dexterity_passes::extract_field_init(&mut ir_class, Some(&dex));
                 // Extract instance field initializations from constructors
-                dexterity_passes::extract_instance_field_init(&mut ir_class);
+                dexterity_passes::extract_instance_field_init(&mut ir_class, Some(&dex));
 
                 // Convert CLI CommentsLevel to codegen CommentsLevel
                 let comments_level = match args.comments_level {
