@@ -105,6 +105,124 @@ Region builder included merged condition blocks in both condition prelude AND th
 
 ---
 
+### P0-001: Return null vs 0 for Objects - FIXED (Dec 20, 2025)
+
+**Commit:** `5c06bacfe`
+**Priority:** P0-CRITICAL - RESOLVED
+
+**The Problem:**
+Methods with generic/wildcard return types were returning `0` instead of `null`:
+
+```java
+// Before (broken - won't compile):
+public <E> E get() { return 0; }
+
+// After (fixed):
+public <E> E get() { return null; }
+```
+
+**Root Cause:**
+TypeVariable, Generic, and Wildcard types were not recognized as object types in the null detection logic.
+
+**Fix Applied:**
+- Extended object type detection in `type_gen.rs` and `body_gen.rs`
+- TypeVariable, Generic, Wildcard now correctly emit `null` for zero-valued returns
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+- `crates/dexterity-codegen/src/type_gen.rs`
+
+---
+
+### P1-001-TYPES: Same-Package Simple Type Names - FIXED (Dec 20, 2025)
+
+**Commit:** `84df4daba`
+**Priority:** P1-HIGH - RESOLVED
+
+**The Problem:**
+Types in the same package were rendered with fully qualified names:
+
+```java
+// Before (verbose):
+package com.example;
+private com.example.MyClass field;
+
+// After (clean):
+package com.example;
+private MyClass field;
+```
+
+**Fix Applied:**
+- Added `current_package` field to `BodyGenContext`
+- Threaded package info through `class_gen.rs`, `method_gen.rs`, and `body_gen.rs`
+- Same-package types now use simple names matching JADX behavior
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+- `crates/dexterity-codegen/src/class_gen.rs`
+- `crates/dexterity-codegen/src/method_gen.rs`
+
+---
+
+### P1-003: Source File Comments - FIXED (Dec 20, 2025)
+
+**Commit:** `40d14e46d`
+**Priority:** P1-HIGH - RESOLVED
+
+**The Problem:**
+Missing `/* compiled from: */` comments for source file traceability:
+
+```java
+// Before:
+/* loaded from: classes.dex */
+public @interface a { }
+
+// After (matches JADX):
+/* compiled from: Keep.java */
+/* loaded from: classes.dex */
+public @interface a { }
+```
+
+**Fix Applied:**
+- Added source file comment emission in `class_gen.rs`
+- Only emits when source file name differs from class name (JADX parity)
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/class_gen.rs`
+
+---
+
+### P1-004: Variable Naming Improvements - FIXED (Dec 20, 2025)
+
+**Commit:** `06da51488`
+**Priority:** P1-HIGH - RESOLVED
+
+**The Problem:**
+Generic variable names like `iterator` instead of JADX-style names:
+
+```java
+// Before:
+final Iterator iterator = obj.iterator();
+
+// After (JADX-style):
+final Iterator it = obj.iterator();
+```
+
+**Fix Applied:**
+Added JADX-style special method naming:
+- `iterator()`/`listIterator()` -> `it`
+- `getInstance()`/`newInstance()` -> class name (e.g., `cipher`)
+- `getClass()`/`forName()` -> `cls`
+- `toString()`/`valueOf()` -> `str`
+- `next()`/`previous()` -> `next`, `prev`
+- `getValue()`/`getKey()` -> `value`, `key`
+- `entrySet()`/`keySet()`/`values()` -> `entries`, `keys`, `values`
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs`
+
+---
+
 ### Quality Grade Upgraded to A- (Dec 20, 2025)
 
 **Revised Grade:** A- (88-90/100) based on objective comparison after P1-001 and P1-002 fixes.

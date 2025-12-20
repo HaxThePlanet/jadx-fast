@@ -25,7 +25,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **~89,000 lines of Rust | 1,201 tests passing | 2-124x faster than JADX**
 
-**Status (Dec 19, 2025):** PRODUCTION READY with **A- quality (88-90/100)** based on objective output comparison. Dexterity achieves **1:1 identical output** on simple APKs, produces correct code on complex APKs, and is **1.9x-127x faster** than JADX. **All P0-P1 Critical issues FIXED** (Dec 19: P0 variable type safety fixed, Dec 20: control flow duplication fixed, early returns in loops fixed). Framework classes skipped by default (use `--include-framework` to include them).
+**Status (Dec 20, 2025):** PRODUCTION READY with **A- quality (88-90/100)** based on objective output comparison. Dexterity achieves **1:1 identical output** on simple APKs, produces correct code on complex APKs, and is **1.9x-127x faster** than JADX. **All P0-P1 Critical issues FIXED** (Dec 20: P0-001 null vs 0, P1-001 same-package types, P1-003 source comments, P1-004 variable naming, control flow duplication, early returns in loops). Only P1-002 (generic propagation) remaining. Framework classes skipped by default (use `--include-framework` to include them).
 
 ## Speed vs Quality Trade-off
 
@@ -54,7 +54,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 **JADX Strengths:**
 - Complete interface generic type parameters
 - Correct array index handling in complex cases
-- Uses simple type names (vs fully qualified)
+- Propagates generic types to local variables (P1-002 - only remaining gap)
 
 ## Highlights
 

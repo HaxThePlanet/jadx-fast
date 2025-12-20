@@ -5,7 +5,7 @@
 
 **Status:** PRODUCTION READY (Dec 20, 2025)
 **Target:** 85+/100 Quality Score | **Documented Result:** A- (88-90/100) based on features implemented
-**Code Issues:** All P0-P3 issues FIXED | **37+ total issues (P0 Variable Type Safety + P1-001/P1-002/P2-001/P2-002 FIXED Dec 19-20)**
+**Code Issues:** All P0-P3 issues FIXED | **40+ total issues (P0-001/P1-001/P1-003/P1-004 ALL FIXED Dec 20, only P1-002 generic propagation remaining)**
 **Resource Issues:** **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -32,7 +32,7 @@
 
 | ID | Issue | Impact | Fix Location | LOC |
 |----|-------|--------|--------------|-----|
-| **P1-001** | Fully qualified type names | Verbose output | `type_gen.rs` | ~150 |
+| **P1-001** | Fully qualified type names | Verbose output | `type_gen.rs`, `class_gen.rs`, `method_gen.rs`, `body_gen.rs` | **FIXED Dec 20** |
 | **P1-002** | Raw types instead of generics | `Iterator` vs `Iterator<T>` | `type_inference.rs` | ~200 |
 | **P1-003** | Missing `/* compiled from: */` | Traceability | `class_gen.rs` | **FIXED Dec 20** |
 | **P1-004** | Variable naming gap (40%) | 5% vs 45% excellent names | `var_naming.rs` | **FIXED Dec 20** |
@@ -44,7 +44,7 @@
 3. ~~**P1-003** (source comments) - MEDIUM ROI, ~30 LOC~~ **FIXED Dec 20**
 4. ~~**P1-004** (variable naming) - VERY HIGH ROI, ~50 LOC~~ **FIXED Dec 20**
 5. **P1-002** (generic propagation) - HIGH ROI, ~200 LOC
-6. **P1-001** (simple type names) - HIGH ROI, ~150 LOC
+6. ~~**P1-001** (simple type names) - HIGH ROI, ~150 LOC~~ **FIXED Dec 20** (commit 84df4daba)
 
 ---
 
@@ -94,6 +94,32 @@ final Iterator iterator = obj.iterator();
 ```java
 final Iterator it = obj.iterator();
 ```
+
+### P1-001: Same-Package Simple Type Names (FIXED)
+
+Threading `current_package` through `class_gen.rs`, `method_gen.rs`, and `body_gen.rs` to enable same-package type simplification matching JADX. Types in the same package as the current class now use simple names instead of fully qualified names.
+
+**Commit:** `84df4daba`
+
+**Before:**
+```java
+package com.example;
+private com.example.MyClass field;
+public void method(com.example.OtherClass param) { }
+```
+
+**After:**
+```java
+package com.example;
+private MyClass field;
+public void method(OtherClass param) { }
+```
+
+**Implementation Details:**
+- Added `current_package` field to `BodyGenContext`
+- Updated `add_fields`, `add_field` to accept and use `current_package`
+- Updated `generate_type_parameters`, `add_parameters`, `add_throws_clause`
+- Threaded package info through `generate_method_with_dex` and `generate_method_with_inner_classes`
 
 ---
 
@@ -1268,7 +1294,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 
 ---
 
-**Last Updated:** Dec 19, 2025 (Upgraded to A- grade: P0 Variable Type Safety + P1-001 and P1-002 FIXED, optimization passes added, 1,201 tests passing)
+**Last Updated:** Dec 20, 2025 (P0-001 null vs 0, P1-001 same-package types, P1-003 source comments, P1-004 variable naming ALL FIXED. Remaining: P1-002 generic propagation ~200 LOC)
 
 ---
 

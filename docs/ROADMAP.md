@@ -31,7 +31,7 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 |----------|---------|---------|--------|
 | P0-001 | Returns `0` for objects | `return 0;` vs `return null;` | **FIXED Dec 20** |
 | P0-002 | Missing method generics | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | **ALREADY IMPLEMENTED** |
-| P1-001 | Fully qualified names | `com.foo.Bar` vs `Bar` (imported) | HIGH |
+| P1-001 | Fully qualified names | `com.foo.Bar` vs `Bar` (imported) | **FIXED Dec 20** (commit 84df4daba) |
 | P1-002 | Raw generic types | `Iterator obj` vs `Iterator<T> it` | HIGH |
 | P1-003 | Missing source comments | No `/* compiled from: X.java */` | **FIXED Dec 20** |
 | P1-004 | Variable naming (40% gap) | 5% excellent vs JADX 45% | **FIXED Dec 20** |
@@ -42,7 +42,7 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 |-------|-----------|----------------|
 | P0-001 | `TypeGen.java:88-94` | `type_gen.rs:257-265` |
 | P0-002 | `MethodGen.java` | `method_gen.rs` |
-| P1-001 | `ClassGen.java:679-729` | `type_gen.rs` |
+| P1-001 | `ClassGen.java:679-729` | `type_gen.rs`, `class_gen.rs`, `method_gen.rs`, `body_gen.rs` |
 | P1-002 | `GenericTypesVisitor.java` | `type_inference.rs` |
 | P1-003 | `CodeGenUtils.java:122-136` | `class_gen.rs` |
 | P1-004 | `ApplyVariableNames.java` | `var_naming.rs` |
@@ -51,7 +51,7 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 
 | Issue | Problem | Effort |
 |-------|---------|--------|
-| P1-001 | Use simple type names with imports | ~150 LOC |
+| ~~P1-001~~ | ~~Use simple type names with imports~~ | ~~**FIXED Dec 20** (commit 84df4daba)~~ |
 | P1-002 | Propagate generics to variables | ~200 LOC |
 
 ---
@@ -67,6 +67,12 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 - Special method names: `iterator()`→`it`, `getInstance()`→class name, `next()`→`next`
 - Improved naming for common patterns matching JADX
 - Commit: `06da51488`
+
+### P1-001: Same-Package Simple Type Names
+- Threading `current_package` through `class_gen.rs`, `method_gen.rs`, and `body_gen.rs`
+- Types in same package now use simple names instead of fully qualified names
+- Matches JADX behavior for same-package type references
+- Commit: `84df4daba`
 
 ---
 
@@ -918,14 +924,18 @@ All 19 P1-P2 issues resolved:
 
 ---
 
-**Last Updated:** Dec 19, 2025
+**Last Updated:** Dec 20, 2025
 **Status:** PRODUCTION READY - Feature Implementation A- (88-90/100), Actual Output Quality C- (49/100)
-**Remaining Issues:** Critical control flow, type system, and exception handling issues in actual decompiled output
+**Remaining Issues:** P1-002 generic propagation to variables (~200 LOC)
 **Resolved Dec 19-20:**
 - Fix 1: Optimization Passes Added (commit 4519abde) - 1.6% line reduction
-- Fix 2: P1-001 Control Flow Duplication (commit 8ac97729c) - 11.5% line reduction
-- Fix 3: P1-002 Early Return in Loops (commit ebe6fe276) - Early returns now inside loops
+- Fix 2: NEW-P1-001 Control Flow Duplication (commit 8ac97729c) - 11.5% line reduction
+- Fix 3: NEW-P1-002 Early Return in Loops (commit ebe6fe276) - Early returns now inside loops
 - **Fix 4: P0 Variable Type Safety (Dec 19)** - `types_compatible_for_naming()` made conservative, StringBuilder/int no longer share names
+- **Fix 5: P0-001 Return null vs 0 (commit 5c06bacfe)** - Return null for generic/wildcard types
+- **Fix 6: P1-001 Same-Package Simple Type Names (commit 84df4daba)** - Thread current_package through codegen
+- **Fix 7: P1-003 Source File Comments (commit 40d14e46d)** - Add `/* compiled from: */` comments
+- **Fix 8: P1-004 Variable Naming (commit 06da51488)** - JADX-style special method naming
 **Note:** Framework filtering is intentional by design. All P0-P1 issues now resolved.
 
 ---

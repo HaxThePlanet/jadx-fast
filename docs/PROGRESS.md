@@ -29,7 +29,7 @@
 | **P1-003** | Missing `/* compiled from: */` | Traceability | **FIXED Dec 20** |
 | **P1-004** | Variable naming gap (40%) | Readability | **FIXED Dec 20** |
 | **P1-002** | Raw types (no generics) | Type safety | ~200 LOC |
-| **P1-001** | Fully qualified names | Verbosity | ~150 LOC |
+| ~~**P1-001**~~ | ~~Fully qualified names~~ | ~~Verbosity~~ | **FIXED Dec 20** (commit 84df4daba) |
 
 ### Full Report
 
@@ -1726,7 +1726,8 @@ All 687 integration tests pass, 490/490 unit tests pass (1,177 total). ALL P0-P3
 
 ---
 
-**Last Updated: 2025-12-19** (Fix 17-21 documented, including Compose UI complexity detection)
+**Last Updated: 2025-12-20** (P0-001 null vs 0, P1-001 same-package types, P1-003 source comments, P1-004 variable naming ALL FIXED)
 **Documentation vs Reality Gap:** Feature Implementation A- (88-90/100) vs Actual Output Quality C- (49/100)
+**Remaining Work:** P1-002 (generic propagation to variables) ~200 LOC
 **For issue details, see: `ISSUE_TRACKER.md`**
 **For workflow, see: `LLM_AGENT_GUIDE.md`**

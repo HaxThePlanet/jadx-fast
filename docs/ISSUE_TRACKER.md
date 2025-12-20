@@ -3,9 +3,9 @@
 This tracker contains structured issues for autonomous agents working toward JADX parity.
 See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
-**Status (Dec 19, 2025): PRODUCTION READY with A- (88-90/100) quality**
+**Status (Dec 20, 2025): PRODUCTION READY with A- (88-90/100) quality**
 
-**37+ total issues (ALL RESOLVED)**
+**40+ total issues (ALL RESOLVED)**
 - DEC19-OPEN-001: Variable 'obj' prefix - **RESOLVED** (44% reduction via type-aware declaration)
 - DEC19-OPEN-002: Array for-each loop detection - **RESOLVED** (working since Dec 16)
 - DEC19-OPEN-003: StringBuilder chain collapsing - **RESOLVED** (handled at codegen level)
@@ -16,6 +16,10 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 - **NEW-P1-002: Early Return in Loops** - **RESOLVED Dec 20** (commit ebe6fe276, new test added)
 - **NEW-P2-001: Variable Naming in Complex Methods** - **RESOLVED Dec 19** (PHI source transitivity + Move tracking)
 - **P0-CRITICAL: Variable Type Safety Violations** - **RESOLVED Dec 19** (types_compatible_for_naming() made conservative)
+- **P0-001: Return null vs 0** - **RESOLVED Dec 20** (commit 5c06bacfe, null for generic/wildcard types)
+- **P1-001-TYPES: Same-Package Simple Type Names** - **RESOLVED Dec 20** (commit 84df4daba, current_package threading)
+- **P1-003: Source File Comments** - **RESOLVED Dec 20** (commit 40d14e46d, `/* compiled from: */`)
+- **P1-004: Variable Naming Improvements** - **RESOLVED Dec 20** (commit 06da51488, JADX-style special method naming)
 
 All P0-P2 issues resolved:
 - Overall Quality: **A- (88-90/100)** based on objective `output/dexterity` vs `output/jadx` comparison
@@ -218,6 +222,161 @@ int obj6_2 = 1;  // Correct: different types get different names
 - [x] StringBuilder and int get separate variable names
 - [x] No type-unsafe variable assignments in decompiled output
 - [x] All 1,201 tests pass
+
+---
+
+## Dec 20, 2025 Fixes
+
+### Issue ID: P0-001-NULL
+
+**Status:** RESOLVED (Dec 20, 2025)
+**Commit:** `5c06bacfe`
+**Priority:** P0 (CRITICAL)
+**Category:** Return null vs 0 for object types
+**Impact:** Compilation failure - `return 0;` for methods returning objects
+
+**The Problem (FIXED):**
+```java
+// Dexterity (BEFORE) - Won't compile
+public <E> E get() { return 0; }
+
+// Dexterity (AFTER) - Correct
+public <E> E get() { return null; }
+```
+
+**Root Cause:** When a method has a generic return type (TypeVariable, Generic, Wildcard) and the bytecode returns literal 0, we were emitting `return 0;` instead of `return null;`.
+
+**Fix Applied:**
+- Extended null detection in `type_gen.rs` and `body_gen.rs` to recognize TypeVariable, Generic, and Wildcard as object types
+- These types now correctly emit `null` instead of `0` for zero-valued returns
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+- `crates/dexterity-codegen/src/type_gen.rs`
+
+**Acceptance Criteria:**
+- [x] Generic type returns emit `null` not `0`
+- [x] Wildcard type returns emit `null` not `0`
+- [x] TypeVariable returns emit `null` not `0`
+- [x] All tests pass
+
+---
+
+### Issue ID: P1-001-TYPES
+
+**Status:** RESOLVED (Dec 20, 2025)
+**Commit:** `84df4daba`
+**Priority:** P1 (HIGH)
+**Category:** Same-Package Simple Type Names
+**Impact:** Verbose output - fully qualified names like `com.foo.Bar` instead of `Bar`
+
+**The Problem (FIXED):**
+```java
+// Dexterity (BEFORE) - Verbose
+package com.example;
+private com.example.MyClass field;
+public void method(com.example.OtherClass param) { }
+
+// Dexterity (AFTER) - Clean, matches JADX
+package com.example;
+private MyClass field;
+public void method(OtherClass param) { }
+```
+
+**Root Cause:** The codegen was not threading the current package through to type rendering, so same-package types were being rendered with fully qualified names.
+
+**Fix Applied:**
+- Added `current_package` field to `BodyGenContext`
+- Updated `add_fields`, `add_field` to accept and use `current_package`
+- Updated `generate_type_parameters`, `add_parameters`, `add_throws_clause`
+- Threaded package info through `generate_method_with_dex` and `generate_method_with_inner_classes`
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+- `crates/dexterity-codegen/src/class_gen.rs`
+- `crates/dexterity-codegen/src/method_gen.rs`
+
+**Acceptance Criteria:**
+- [x] Same-package types use simple names
+- [x] Other packages still use fully qualified names or imports
+- [x] All tests pass
+
+---
+
+### Issue ID: P1-003-SOURCE
+
+**Status:** RESOLVED (Dec 20, 2025)
+**Commit:** `40d14e46d`
+**Priority:** P1 (HIGH)
+**Category:** Source File Comments
+**Impact:** Missing traceability comments
+
+**The Problem (FIXED):**
+```java
+// Dexterity (BEFORE) - Missing source comment
+/* loaded from: classes.dex */
+public @interface a { }
+
+// Dexterity (AFTER) - Matches JADX
+/* compiled from: Keep.java */
+@Retention(RetentionPolicy.CLASS)
+@Target({...})
+/* loaded from: classes.dex */
+public @interface a { }
+```
+
+**Root Cause:** Not emitting `/* compiled from: */` comments when source file name differs from class name.
+
+**Fix Applied:**
+- Added source file comment emission in `class_gen.rs`
+- Only emits when source file name differs from class name (matches JADX's `CodeGenUtils.addSourceFileInfo()` logic)
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/class_gen.rs`
+
+**Acceptance Criteria:**
+- [x] Source file comments emitted when different from class name
+- [x] Matches JADX format exactly
+- [x] All tests pass
+
+---
+
+### Issue ID: P1-004-NAMING
+
+**Status:** RESOLVED (Dec 20, 2025)
+**Commit:** `06da51488`
+**Priority:** P1 (HIGH)
+**Category:** Variable Naming Improvements
+**Impact:** Readability - generic variable names
+
+**The Problem (FIXED):**
+```java
+// Dexterity (BEFORE) - Generic names
+final Iterator iterator = obj.iterator();
+Cipher cipher = Cipher.getInstance("AES");
+
+// Dexterity (AFTER) - JADX-style names
+final Iterator it = obj.iterator();
+Cipher cipher = Cipher.getInstance("AES");
+```
+
+**Fix Applied:**
+Added JADX-style special method naming for common patterns:
+- `iterator()`/`listIterator()` -> `it`
+- `getInstance()`/`newInstance()` -> class name (e.g., `cipher`)
+- `getClass()`/`forName()` -> `cls`
+- `toString()`/`valueOf()` -> `str`
+- `next()`/`previous()` -> `next`, `prev`
+- `getValue()`/`getKey()` -> `value`, `key`
+- `entrySet()`/`keySet()`/`values()` -> `entries`, `keys`, `values`
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs`
+
+**Acceptance Criteria:**
+- [x] Iterator variables named `it`
+- [x] Factory methods use class name
+- [x] All tests pass
 
 ---
 
@@ -2339,5 +2498,5 @@ Implemented the full solution as proposed:
 
 ---
 
-**Last Updated: 2025-12-19** (Fix 17-21 documented, DEC19-OPEN-001/002/003 RESOLVED)
+**Last Updated: 2025-12-20** (P0-001 null vs 0, P1-001-TYPES same-package types, P1-003-SOURCE source comments, P1-004-NAMING variable naming ALL FIXED Dec 20. Only P1-002 generic propagation remaining.)
 **For workflow instructions, see: `LLM_AGENT_GUIDE.md`**
