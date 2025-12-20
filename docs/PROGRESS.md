@@ -25,8 +25,8 @@
 | Priority | Issue | Impact | Status |
 |----------|-------|--------|--------|
 | **P0-001** | `return 0` instead of `return null` | Compilation failure | **FIXED Dec 20** |
-| **P0-002** | Missing method `<T>` generics | Compilation failure | **IN PROGRESS** |
-| **P1-004** | Variable naming gap (40%) | Readability | ~200 LOC |
+| **P0-002** | Missing method `<T>` generics | Compilation failure | **ALREADY IMPLEMENTED** |
+| **P1-004** | Variable naming gap (40%) | Readability | **FIXED Dec 20** |
 | **P1-002** | Raw types (no generics) | Type safety | ~200 LOC |
 | **P1-001** | Fully qualified names | Verbosity | ~150 LOC |
 

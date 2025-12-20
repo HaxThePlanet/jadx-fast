@@ -26,7 +26,7 @@
 | ID | Issue | Example | Fix Location | Status |
 |----|-------|---------|--------------|--------|
 | **P0-001** | Returns `0` instead of `null` for objects | `return 0;` should be `return null;` | `type_gen.rs`, `body_gen.rs` | **FIXED Dec 20** |
-| **P0-002** | Missing method generic params | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | `method_gen.rs` | **IN PROGRESS** |
+| **P0-002** | Missing method generic params | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | `method_gen.rs` | **ALREADY IMPLEMENTED** |
 
 ### P1-HIGH: Major Semantic Differences
 
