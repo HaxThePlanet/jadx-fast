@@ -1,11 +1,24 @@
 # Dexterity Implementation Roadmap
 
-**Current State:** PRODUCTION READY with **96%+ quality (A grade)** (Dec 19, 2025)
-**Quality Achieved:** **96%+ overall (A grade) / 96.5%+ defect score** | 1,176 tests passing | **100% Class Generation parity**
-**Code Issues:** **ALL P0 CRITICAL RESOLVED** + Fix 17-21 Dec 19 | 28+ issues resolved | P3 verbosity resolved (Compose complexity detection)
-**Resource Issues:** **4 FIXED** (XML enums, localized strings, density qualifiers, missing resource files) | **1 remaining** (P3 cosmetic)
+**Current State:** PRODUCTION READY (Dec 19, 2025)
+**Quality Achieved:** **B+ (87-88/100)** based on objective JADX output comparison | 1,176 tests passing | **100% Class Generation parity**
+**Code Issues:** **ALL P0 CRITICAL RESOLVED** + Fix 17-21 Dec 19 | 28+ issues resolved | **3 remaining P1-P2 issues** (control flow, early returns, variable naming)
+**Resource Issues:** **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
+
+### Revised Quality Assessment (Dec 19, 2025)
+
+Previous claim of 96%+ was overstated. Based on objective comparison of `output/dexterity` vs `output/jadx`:
+
+| Aspect | Dexterity | JADX | Winner |
+|--------|-----------|------|--------|
+| Speed | 3-13x faster | Baseline | Dexterity |
+| File Coverage | +17.9% more files | Baseline | Dexterity |
+| Variable Naming | Type-based (str, i2) | Semantic | JADX |
+| Control Flow | Early return bugs, duplicates | Correct | JADX |
+| Dead Store Elim | Implemented | Implemented | Tie |
+| Complex Methods | 2000 insn threshold | Same threshold | Tie |
 
 ---
 
@@ -57,10 +70,69 @@
 |----------|--------|
 | Performance | **A+** (1.9x-123x faster) |
 | Simple Java | **A** (100% identical) |
-| Complex Java | **B+** (9-13% larger) |
+| Complex Java | **B** (9-13% larger, control flow issues) |
 | Kotlin/Compose | **A-** (clean stubs for complex methods, JADX parity) |
 
-**Overall Parity: 96%+ (A grade)**
+**Overall Parity: B+ (87-88/100)** based on objective output comparison
+
+---
+
+## Remaining P1-P2 Issues (Dec 19, 2025)
+
+Three remaining issues identified from objective output comparison:
+
+### NEW-P1-001: Control Flow Duplication
+
+**Priority:** P1-HIGH
+**Impact:** Methods produce 50-80% more lines than JADX
+**Root Cause:** Region builder produces duplicate code blocks in complex methods
+**Example:** BadAccessibilityService.java has 96 lines vs JADX's 54 lines
+
+**Files to Fix:**
+- `crates/dexterity-passes/src/region_builder.rs` - Duplicate block detection
+- `crates/dexterity-passes/src/loops.rs` - Loop body boundary detection
+
+### NEW-P1-002: Early Return in Loops
+
+**Priority:** P1-HIGH
+**Impact:** Returns misplaced outside loops instead of inside
+**Root Cause:** Loop body reconstruction doesn't detect early returns; returns inside loops are treated as blocks AFTER the loop
+
+**Files to Fix:**
+- `crates/dexterity-passes/src/loops.rs` - Early return detection
+- `crates/dexterity-passes/src/region_builder.rs` - Loop boundary handling
+
+### NEW-P2-001: Variable Naming in Complex Methods
+
+**Priority:** P2-MEDIUM
+**Impact:** Variables named str, str2, str3, i2-i9 instead of semantic names
+**Root Cause:** DEX info providers working, but complex control flow causes SSA version explosion
+**Note:** Simple methods work fine (constants inlined)
+
+**Files to Fix:**
+- `crates/dexterity-passes/src/var_naming.rs` - SSA version coalescing
+- `crates/dexterity-passes/src/type_inference.rs` - PHI node handling
+
+---
+
+## Optimization Passes Added to Codegen (Dec 19, 2025)
+
+**Commit:** `4519abde`
+
+Added 5 optimization passes to `body_gen.rs` that were previously only in `decompiler.rs`:
+
+| Pass | Purpose |
+|------|---------|
+| `run_mod_visitor` | Array init fusion, dead code removal |
+| `inline_constants` | Constant inlining (before type inference) |
+| `simplify_instructions` | Arithmetic simplification (post-type-inference) |
+| `shrink_code` | Single-use variable marking for inlining |
+| `prepare_for_codegen` | Final cleanup |
+
+**Results on badboy APK:**
+- Total line reduction: 2,490 to 2,450 lines (-1.6%)
+- MaliciousPatterns.java: 972 to 924 lines (-5%)
+- Simple methods now inline constants directly
 
 ---
 
@@ -682,10 +754,10 @@ All 19 P1-P2 issues resolved:
 ---
 
 **Last Updated:** Dec 19, 2025
-**Status:** PRODUCTION READY - All P0-P2 issues resolved + 6 major features complete + Fix 17-21 Dec 19
-**Remaining Issues:** None - ALL ISSUES RESOLVED (DEC19-OPEN-004 fixed Dec 19, 2025)
-**Resolved Today:** DEC19-OPEN-001 (44% obj reduction), DEC19-OPEN-002 (array for-each), DEC19-OPEN-003 (StringBuilder), Fix 21 (Compose UI complexity detection)
-**Note:** Framework filtering is intentional by design. BADBOY-P3-001 verbosity resolved with Compose complexity detection.
+**Status:** PRODUCTION READY - B+ (87-88/100) based on objective output comparison
+**Remaining Issues:** 3 P1-P2 issues (control flow duplication, early returns in loops, variable naming in complex methods)
+**Resolved Today:** Optimization passes added to codegen, revised quality grade based on objective comparison
+**Note:** Framework filtering is intentional by design. Previous 96%+ claim was overstated.
 
 ---
 

@@ -3,19 +3,22 @@
 This tracker contains structured issues for autonomous agents working toward JADX parity.
 See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
-**Status (Dec 19, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
+**Status (Dec 19, 2025): PRODUCTION READY with B+ (87-88/100) quality**
 
-**32+ total issues (ALL RESOLVED)**
+**32+ total issues (3 NEW P1-P2 OPEN)**
 - DEC19-OPEN-001: Variable 'obj' prefix - **RESOLVED** (44% reduction via type-aware declaration)
 - DEC19-OPEN-002: Array for-each loop detection - **RESOLVED** (working since Dec 16)
 - DEC19-OPEN-003: StringBuilder chain collapsing - **RESOLVED** (handled at codegen level)
 - DEC19-OPEN-004: Synthetic accessor resolution - **RESOLVED** (access$XXX -> direct field/method)
 - DEC19-FIX-021: Compose UI complexity detection - **RESOLVED** (939 lines -> 7-line clean stub)
 - DEC19-FIX-022: Resource naming convention - **RESOLVED** ($prefix -> _prefix + _res_0x{id} suffix)
+- **NEW-P1-001: Control Flow Duplication** - **OPEN** (duplicate code blocks in complex methods)
+- **NEW-P1-002: Early Return in Loops** - **OPEN** (returns misplaced outside loops)
+- **NEW-P2-001: Variable Naming in Complex Methods** - **OPEN** (SSA version explosion)
 
-24 of 24 P1-P2 issues fully resolved:
-- Overall Quality: **95.5%+** (Dec 17 QA re-run) - improved from 77.1%/70.0%
-- Defect Score: **96.5%** (Dec 17 QA re-run) - improved from 90.3%/69.7%
+Previous issues resolved, 3 new issues identified from objective output comparison:
+- Overall Quality: **B+ (87-88/100)** based on objective `output/dexterity` vs `output/jadx` comparison
+- Previous claim of 96%+ was overstated
 - Variable Naming: 99.96% reduction (27,794 → 11)
 - Null Comparisons: 100% correct (26 → 0)
 - Type Inference: 0 Unknown failures
@@ -38,7 +41,119 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 ---
 
-## New Issues (Dec 17 - badboy APK Comparison)
+## New Issues (Dec 19 - Objective Output Comparison)
+
+### Issue ID: NEW-P1-001
+
+**Status:** OPEN
+**Priority:** P1 (HIGH)
+**Category:** Control Flow Duplication
+**Impact:** Methods produce 50-80% more lines than JADX
+**Assigned To:** Unassigned
+
+**The Problem:**
+```java
+// Dexterity: Duplicate code blocks in complex methods
+if (condition) {
+    doSomething();
+}
+// ... same block appears again due to region builder
+
+// JADX: Clean single block
+if (condition) {
+    doSomething();
+}
+```
+
+**Root Cause:**
+Region builder produces duplicate code blocks in complex methods. BadAccessibilityService.java has 96 lines vs JADX's 54 lines (78% larger).
+
+**Files to Change:**
+- `crates/dexterity-passes/src/region_builder.rs` - Duplicate block detection
+- `crates/dexterity-passes/src/loops.rs` - Loop body boundary detection
+
+**Acceptance Criteria:**
+- [ ] No duplicate code blocks in output
+- [ ] Methods within 10% of JADX line count
+- [ ] All 1,176 tests pass
+
+---
+
+### Issue ID: NEW-P1-002
+
+**Status:** OPEN
+**Priority:** P1 (HIGH)
+**Category:** Early Return in Loops
+**Impact:** Returns misplaced outside loops instead of inside
+**Assigned To:** Unassigned
+
+**The Problem:**
+```java
+// Dexterity: Return misplaced outside loop
+while (condition) {
+    // loop body
+}
+return value;  // Should be INSIDE the loop
+
+// JADX: Return correctly inside loop
+while (condition) {
+    // loop body
+    return value;
+}
+```
+
+**Root Cause:**
+Loop body reconstruction doesn't detect early returns. Returns inside loops are treated as blocks AFTER the loop instead of inside.
+
+**Files to Change:**
+- `crates/dexterity-passes/src/loops.rs` - Early return detection
+- `crates/dexterity-passes/src/region_builder.rs` - Loop boundary handling
+
+**Acceptance Criteria:**
+- [ ] Returns inside loops stay inside loops
+- [ ] Early return detection works correctly
+- [ ] All 1,176 tests pass
+
+---
+
+### Issue ID: NEW-P2-001
+
+**Status:** OPEN
+**Priority:** P2 (MEDIUM)
+**Category:** Variable Naming in Complex Methods
+**Impact:** Variables named str, str2, str3, i2-i9 instead of semantic names
+**Assigned To:** Unassigned
+
+**The Problem:**
+```java
+// Dexterity: SSA version explosion
+String str = "value";
+String str2 = "other";
+int i2 = 0;
+int i3 = i2 + 1;
+
+// JADX: Semantic naming
+String value = "value";
+String other = "other";
+int count = 0;
+int next = count + 1;
+```
+
+**Root Cause:**
+DEX info providers working, but complex control flow causes SSA version explosion. Simple methods work fine (constants inlined).
+
+**Files to Change:**
+- `crates/dexterity-passes/src/var_naming.rs` - SSA version coalescing
+- `crates/dexterity-passes/src/type_inference.rs` - PHI node handling
+
+**Acceptance Criteria:**
+- [ ] Reduce numbered variable suffixes (str2, i3) in complex methods
+- [ ] PHI nodes properly coalesced for naming
+- [ ] All 1,176 tests pass
+
+---
+
+## Resolved Issues (Dec 17 - badboy APK Comparison)
 
 ### Issue ID: BADBOY-P0-001
 

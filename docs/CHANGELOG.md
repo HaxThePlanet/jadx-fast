@@ -4,6 +4,52 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Optimization Passes Added to Codegen (Dec 19, 2025)
+
+**Commit:** `4519abde`
+
+Added 5 optimization passes to `body_gen.rs` that were previously only in `decompiler.rs`:
+
+| Pass | Purpose |
+|------|---------|
+| `run_mod_visitor` | Array init fusion, dead code removal |
+| `inline_constants` | Constant inlining (before type inference) |
+| `simplify_instructions` | Arithmetic simplification (post-type-inference) |
+| `shrink_code` | Single-use variable marking for inlining |
+| `prepare_for_codegen` | Final cleanup |
+
+**Results on badboy APK:**
+- Total line reduction: 2,490 to 2,450 lines (-1.6%)
+- MaliciousPatterns.java: 972 to 924 lines (-5%)
+- Simple methods now inline constants directly
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs` - Added optimization pass pipeline
+
+---
+
+### Quality Grade Revised to B+ (Dec 19, 2025)
+
+**Revised Grade:** B+ (87-88/100) based on objective comparison of `output/dexterity` vs `output/jadx`.
+
+Previous claim of 96%+ was overstated. Actual output comparison shows:
+
+| Aspect | Dexterity | JADX | Winner |
+|--------|-----------|------|--------|
+| Speed | 3-13x faster | Baseline | Dexterity |
+| File Coverage | +17.9% more files | Baseline | Dexterity |
+| Variable Naming | Type-based (str, i2) | Semantic | JADX |
+| Control Flow | Early return bugs, duplicates | Correct | JADX |
+| Dead Store Elim | Implemented | Implemented | Tie |
+| Complex Methods | 2000 insn threshold | Same threshold | Tie |
+
+**Remaining P1-P2 Issues:**
+1. **Control Flow Duplication** - Region builder produces duplicate code blocks
+2. **Early Return in Loops** - Returns misplaced outside loops
+3. **Variable Naming in Complex Methods** - SSA version explosion causes str, str2, i2-i9 patterns
+
+---
+
 ### Compose UI Complexity Detection - Fix 21 (Dec 19, 2025)
 
 **Implemented graceful handling of overly complex Kotlin Compose UI methods.**
