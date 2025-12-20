@@ -94,7 +94,11 @@ pub struct BodyGenContext {
     /// Imports set for using simple type names (internal class names without L; wrapper)
     pub imports: Option<BTreeSet<String>>,
     /// Use counts for each variable (reg, version) - how many times it's read
+    /// This includes both instruction uses AND phi source uses (for dead code elimination)
     pub use_counts: HashMap<(u16, u32), usize>,
+    /// Instruction-only use counts (excludes PHI sources) - used for inlining decisions
+    /// PHI sources don't appear in Java output, so they shouldn't prevent inlining
+    pub insn_use_counts: HashMap<(u16, u32), usize>,
     /// Inlined expressions - variables with single use store their expression here
     pub inlined_exprs: HashMap<(u16, u32), String>,
     /// Anonymous class registry - maps type descriptor to ClassData for inline generation
@@ -249,6 +253,7 @@ impl BodyGenContext {
             pending_new_instances: HashMap::new(),
             imports: None,
             use_counts: HashMap::new(),
+            insn_use_counts: HashMap::new(),
             inlined_exprs: HashMap::new(),
             anonymous_classes,
             final_vars: HashSet::new(),
@@ -308,8 +313,9 @@ impl BodyGenContext {
         if self.is_parameter(reg, version) {
             return false;
         }
-        // Check use count - only inline if used exactly once
-        self.use_counts.get(&(reg, version)).copied().unwrap_or(0) == 1
+        // Check instruction use count (excludes PHI sources) - only inline if used exactly once
+        // PHI sources don't appear in Java output, so they shouldn't prevent inlining
+        self.insn_use_counts.get(&(reg, version)).copied().unwrap_or(0) == 1
     }
 
     /// Store an expression for potential inlining
@@ -1398,8 +1404,11 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
 
-    // Count variable uses from both instructions and phi sources
-    ctx.use_counts = count_variable_uses(&ctx.blocks);
+    // Count variable uses from instructions only (for inlining decisions)
+    // PHI sources don't appear in Java output, so they shouldn't prevent inlining
+    ctx.insn_use_counts = count_variable_uses(&ctx.blocks);
+    // Total use counts include PHI sources (for dead code elimination)
+    ctx.use_counts = ctx.insn_use_counts.clone();
     merge_use_counts(&mut ctx.use_counts, phi_uses);
 
     ctx.set_final_vars_from_max_versions(&max_versions);
@@ -1597,8 +1606,11 @@ fn generate_body_impl<W: CodeWriter>(
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
 
-    // Count variable uses from both instructions and phi sources
-    ctx.use_counts = count_variable_uses(&ctx.blocks);
+    // Count variable uses from instructions only (for inlining decisions)
+    // PHI sources don't appear in Java output, so they shouldn't prevent inlining
+    ctx.insn_use_counts = count_variable_uses(&ctx.blocks);
+    // Total use counts include PHI sources (for dead code elimination)
+    ctx.use_counts = ctx.insn_use_counts.clone();
     merge_use_counts(&mut ctx.use_counts, phi_uses);
 
     ctx.set_final_vars_from_max_versions(&max_versions);
@@ -1923,8 +1935,11 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
         ctx.set_current_class_type(class_type.to_string());
     }
 
-    // Count variable uses from both instructions and phi sources
-    ctx.use_counts = count_variable_uses(&ctx.blocks);
+    // Count variable uses from instructions only (for inlining decisions)
+    // PHI sources don't appear in Java output, so they shouldn't prevent inlining
+    ctx.insn_use_counts = count_variable_uses(&ctx.blocks);
+    // Total use counts include PHI sources (for dead code elimination)
+    ctx.use_counts = ctx.insn_use_counts.clone();
     merge_use_counts(&mut ctx.use_counts, phi_uses);
 
     ctx.set_final_vars_from_max_versions(&max_versions);

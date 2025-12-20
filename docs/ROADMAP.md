@@ -5,7 +5,7 @@
 
 **Current State:** PRODUCTION READY (Dec 20, 2025)
 **Quality Achieved:** **A- (88-90/100)** based on objective JADX output comparison | 1,177 tests passing (687 integration + 490 unit) | **100% Class Generation parity**
-**Code Issues:** **ALL P0-P1 CRITICAL RESOLVED** + Fix 17-21 Dec 19 + P1-001/P1-002 Dec 20 | 34+ issues resolved | **1 remaining P2 issue** (variable naming in complex methods)
+**Code Issues:** **ALL P0-P2 ISSUES RESOLVED** + Fix 17-21 Dec 19 + P1-001/P1-002/P2-001 Dec 19-20 | 35+ issues resolved | **All known issues fixed**
 **Resource Issues:** **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation from `jadx-fast/` source
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
@@ -111,19 +111,21 @@ All P1 issues have been resolved. One P2 issue remains:
 **New Test:** array_for_each_early_return_test
 **Result:** Early returns now correctly placed inside loop body
 
-### NEW-P2-001: Variable Naming in Complex Methods - **IN PROGRESS**
+### NEW-P2-001: Variable Naming in Complex Methods - **FIXED (Dec 19, 2025)**
 
-**Priority:** P2-MEDIUM
+**Priority:** P2-MEDIUM - RESOLVED
 **Impact:** Variables named str, str2, str3, i2-i9 instead of semantic names
-**Root Cause:** DEX info providers working, but complex control flow causes SSA version explosion
-**Note:** Simple methods work fine (constants inlined)
+**Root Cause:** Incomplete SSA variable coalescing in `build_code_vars()`
 
-**Investigation Started:** Dec 19, 2025
-**Status:** Investigating SSA version coalescing opportunities
+**Fix Applied:**
+- Enhanced `build_code_vars()` in `var_naming.rs` with:
+  1. PHI source transitivity: all sources feeding same PHI are connected
+  2. Move instruction tracking: Move dest <-> src creates variable aliases
+  3. BFS from all connected variables, not just PHI destinations
+- Type compatibility checks prevent incompatible types from sharing names
 
-**Files to Fix:**
-- `crates/dexterity-passes/src/var_naming.rs` - SSA version coalescing
-- `crates/dexterity-passes/src/type_inference.rs` - PHI node handling
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` - Enhanced SSA version coalescing
 
 ---
 

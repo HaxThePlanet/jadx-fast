@@ -237,108 +237,143 @@ pub fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
     }
 }
 
-/// Build CodeVar groups from SSA result by following PHI node connections.
+/// Build CodeVar groups from SSA result by following PHI node and Move instruction connections.
 /// This mirrors JADX's InitCodeVariables.collectConnectedVars() - all SSA variables
 /// connected through PHI nodes should share the same name.
 ///
-/// TYPE-AWARE VERSION: Variables with incompatible types are NOT grouped together,
-/// even if they're PHI-connected. This prevents assigning boolean values to int variables.
+/// ENHANCED VERSION (Dec 2025 - P2-001 fix):
+/// 1. Bidirectional PHI connections: dest <-> all sources
+/// 2. PHI source transitivity: all sources that feed the same PHI are connected
+/// 3. Move instruction tracking: Move dest <-> src (they represent same logical variable)
+///
+/// TYPE-AWARE: Variables with incompatible types are NOT grouped together,
+/// even if they're PHI/Move connected. This prevents assigning boolean values to int variables.
 ///
 /// Returns a map: (reg, version) -> code_var_index
 /// Variables with the same index should get the same name.
 fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<(u16, u32), usize> {
+    use dexterity_ir::instructions::{InsnType, InsnArg};
+
     let mut ssa_to_code_var: HashMap<(u16, u32), usize> = HashMap::new();
     let mut next_code_var_idx = 0usize;
 
-    // Build adjacency list from PHI nodes
-    // For each PHI: dest is connected to all sources IF their types are compatible
-    let mut phi_connections: HashMap<(u16, u32), HashSet<(u16, u32)>> = HashMap::new();
+    // Build complete adjacency graph from PHI nodes and Move instructions
+    let mut connections: HashMap<(u16, u32), HashSet<(u16, u32)>> = HashMap::new();
 
+    // Helper to check type compatibility
+    let check_compatible = |v1: (u16, u32), v2: (u16, u32)| -> bool {
+        let t1 = type_info.types.get(&v1);
+        let t2 = type_info.types.get(&v2);
+        match (t1, t2) {
+            (Some(t1), Some(t2)) => types_compatible_for_naming(t1, t2),
+            // If one or both are missing types, allow grouping - PHI/Move means same variable
+            _ => true,
+        }
+    };
+
+    // Helper to add bidirectional connection if types are compatible
+    let mut add_connection = |v1: (u16, u32), v2: (u16, u32), connections: &mut HashMap<(u16, u32), HashSet<(u16, u32)>>| {
+        let t1 = type_info.types.get(&v1);
+        let t2 = type_info.types.get(&v2);
+        let compatible = match (t1, t2) {
+            (Some(t1), Some(t2)) => types_compatible_for_naming(t1, t2),
+            _ => true,
+        };
+        if compatible {
+            connections.entry(v1).or_default().insert(v2);
+            connections.entry(v2).or_default().insert(v1);
+        }
+    };
+
+    // Phase 1: Build connections from PHI nodes
     for block in &ssa.blocks {
         for phi in &block.phi_nodes {
             let dest = (phi.dest.reg_num, phi.dest.ssa_version);
-            let dest_type = type_info.types.get(&dest);
 
-            for (_, source) in &phi.sources {
-                let src = (source.reg_num, source.ssa_version);
-                let src_type = type_info.types.get(&src);
+            // Collect all sources for this PHI
+            let sources: Vec<(u16, u32)> = phi.sources.iter()
+                .map(|(_, source)| (source.reg_num, source.ssa_version))
+                .collect();
 
-                // Only connect if types are compatible
-                // PHI nodes connect SSA versions of the SAME variable by definition,
-                // so we should allow grouping even when types are missing.
-                // The name propagation will still work because PHI sources often have
-                // instruction-based names (from method calls, field access, etc.)
-                let compatible = match (dest_type, src_type) {
-                    (Some(dt), Some(st)) => types_compatible_for_naming(dt, st),
-                    // If one or both are missing types, allow grouping - PHI means same variable
-                    // Name propagation from sources with instruction context will still work
-                    _ => true,
-                };
+            // Connect dest <-> all sources (bidirectional)
+            for &src in &sources {
+                add_connection(dest, src, &mut connections);
+            }
 
-                if compatible {
-                    // Bidirectional connection (like JADX's collectConnectedVars)
-                    phi_connections.entry(dest).or_default().insert(src);
-                    phi_connections.entry(src).or_default().insert(dest);
+            // Connect all sources to each other (PHI source transitivity)
+            // If multiple variables all flow into the same PHI, they're the same logical variable
+            // This is key to reducing "SSA version explosion" - variables like i, i2, i3 that
+            // all feed the same loop PHI should share one name
+            for i in 0..sources.len() {
+                for j in (i + 1)..sources.len() {
+                    add_connection(sources[i], sources[j], &mut connections);
                 }
             }
         }
     }
 
-    // BFS to find connected components - each component becomes one CodeVar
-    let mut visited: HashSet<(u16, u32)> = HashSet::new();
-
+    // Phase 2: Build connections from Move instructions
+    // Move instructions create variable aliases - if we have `v1 = move v0`,
+    // then v1 and v0 represent the same logical variable and should share a name
     for block in &ssa.blocks {
-        for phi in &block.phi_nodes {
-            let start = (phi.dest.reg_num, phi.dest.ssa_version);
-            if visited.contains(&start) {
+        for insn in &block.instructions {
+            if let InsnType::Move { dest, src } = &insn.insn_type {
+                if let InsnArg::Register(src_reg) = src {
+                    let dest_key = (dest.reg_num, dest.ssa_version);
+                    let src_key = (src_reg.reg_num, src_reg.ssa_version);
+                    add_connection(dest_key, src_key, &mut connections);
+                }
+            }
+        }
+    }
+
+    // Phase 3: BFS to find connected components
+    // Start from ALL variables that have connections, not just PHI destinations
+    let mut visited: HashSet<(u16, u32)> = HashSet::new();
+    let all_vars: Vec<(u16, u32)> = connections.keys().cloned().collect();
+
+    for start in all_vars {
+        if visited.contains(&start) {
+            continue;
+        }
+
+        // BFS to find all connected SSA vars with COMPATIBLE types
+        let mut connected: Vec<(u16, u32)> = Vec::new();
+        let mut queue: VecDeque<(u16, u32)> = VecDeque::new();
+        queue.push_back(start);
+
+        while let Some(current) = queue.pop_front() {
+            if visited.contains(&current) {
                 continue;
             }
 
-            let start_type = type_info.types.get(&start);
+            // Double-check type compatibility before adding to group
+            let compatible = check_compatible(start, current);
 
-            // BFS to find all connected SSA vars with COMPATIBLE types
-            let mut connected: Vec<(u16, u32)> = Vec::new();
-            let mut queue: VecDeque<(u16, u32)> = VecDeque::new();
-            queue.push_back(start);
+            if !compatible {
+                // Don't add to this group - it will get its own group later
+                continue;
+            }
 
-            while let Some(current) = queue.pop_front() {
-                if visited.contains(&current) {
-                    continue;
-                }
+            visited.insert(current);
+            connected.push(current);
 
-                // Double-check type compatibility before adding to group
-                let current_type = type_info.types.get(&current);
-                let compatible = match (start_type, current_type) {
-                    (Some(st), Some(ct)) => types_compatible_for_naming(st, ct),
-                    _ => true,
-                };
-
-                if !compatible {
-                    // Mark as visited but don't add to this group
-                    // It will get its own group later
-                    continue;
-                }
-
-                visited.insert(current);
-                connected.push(current);
-
-                if let Some(neighbors) = phi_connections.get(&current) {
-                    for neighbor in neighbors {
-                        if !visited.contains(neighbor) {
-                            queue.push_back(*neighbor);
-                        }
+            if let Some(neighbors) = connections.get(&current) {
+                for neighbor in neighbors {
+                    if !visited.contains(neighbor) {
+                        queue.push_back(*neighbor);
                     }
                 }
             }
+        }
 
-            // Assign all connected vars to the same CodeVar index
-            if !connected.is_empty() {
-                let code_var_idx = next_code_var_idx;
-                next_code_var_idx += 1;
+        // Assign all connected vars to the same CodeVar index
+        if !connected.is_empty() {
+            let code_var_idx = next_code_var_idx;
+            next_code_var_idx += 1;
 
-                for ssa_var in connected {
-                    ssa_to_code_var.insert(ssa_var, code_var_idx);
-                }
+            for ssa_var in connected {
+                ssa_to_code_var.insert(ssa_var, code_var_idx);
             }
         }
     }

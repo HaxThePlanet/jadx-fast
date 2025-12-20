@@ -5,7 +5,7 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 **Status (Dec 20, 2025): PRODUCTION READY with A- (88-90/100) quality**
 
-**34+ total issues (1 P2 OPEN)**
+**35+ total issues (ALL RESOLVED)**
 - DEC19-OPEN-001: Variable 'obj' prefix - **RESOLVED** (44% reduction via type-aware declaration)
 - DEC19-OPEN-002: Array for-each loop detection - **RESOLVED** (working since Dec 16)
 - DEC19-OPEN-003: StringBuilder chain collapsing - **RESOLVED** (handled at codegen level)
@@ -14,9 +14,9 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 - DEC19-FIX-022: Resource naming convention - **RESOLVED** ($prefix -> _prefix + _res_0x{id} suffix)
 - **NEW-P1-001: Control Flow Duplication** - **RESOLVED Dec 20** (commit 8ac97729c, 11.5% line reduction)
 - **NEW-P1-002: Early Return in Loops** - **RESOLVED Dec 20** (commit ebe6fe276, new test added)
-- **NEW-P2-001: Variable Naming in Complex Methods** - **OPEN** (SSA version explosion)
+- **NEW-P2-001: Variable Naming in Complex Methods** - **RESOLVED Dec 19** (PHI source transitivity + Move tracking)
 
-All P1 issues resolved Dec 20, 1 P2 issue remaining:
+All P0-P2 issues resolved:
 - Overall Quality: **A- (88-90/100)** based on objective `output/dexterity` vs `output/jadx` comparison
 - Variable Naming: 99.96% reduction (27,794 -> 11)
 - Null Comparisons: 100% correct (26 -> 0)
