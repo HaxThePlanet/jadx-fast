@@ -6,7 +6,7 @@
 //!
 //! Based on JADX's LoopRegionVisitor patterns.
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use dexterity_ir::instructions::{BinaryOp, InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
 use dexterity_ir::regions::LoopKind;
 use crate::ssa::SsaResult;
@@ -81,9 +81,17 @@ pub fn analyze_loop_patterns(ssa: &SsaResult, loops: &[LoopInfo]) -> LoopPattern
     // Build a map of (reg, version) -> use count
     let use_counts = count_uses(ssa);
 
+    // Build use locations for JADX validation (usedOnlyInLoop)
+    let use_locations = build_use_locations(ssa);
+
+    // Build def locations for JADX validation (assignOnlyInLoop)
+    let def_locations = build_def_locations(ssa);
+
     for loop_info in loops {
-        // Try to detect indexed for-loop pattern
-        if let Some(for_pattern) = detect_indexed_for(ssa, loop_info, &def_map, &use_counts) {
+        // Try to detect indexed for-loop pattern with JADX validations
+        if let Some(for_pattern) = detect_indexed_for(
+            ssa, loop_info, &def_map, &use_counts, &use_locations, &def_locations
+        ) {
             // Check if it's actually an array for-each
             if let Some(foreach_pattern) = detect_array_foreach(ssa, &for_pattern, &def_map, &use_counts) {
                 result.array_for_each.push(foreach_pattern);
@@ -99,11 +107,14 @@ pub fn analyze_loop_patterns(ssa: &SsaResult, loops: &[LoopInfo]) -> LoopPattern
 }
 
 /// Try to detect an indexed for-loop pattern
+/// Matches JADX LoopRegionVisitor.checkForIndexedLoop()
 fn detect_indexed_for(
     ssa: &SsaResult,
     loop_info: &LoopInfo,
     def_map: &HashMap<(u16, u32), &InsnNode>,
-    _use_counts: &HashMap<(u16, u32), usize>,
+    use_counts: &HashMap<(u16, u32), usize>,
+    use_locations: &HashMap<(u16, u32), Vec<u32>>,
+    def_locations: &HashMap<(u16, u32), (u32, u32)>,
 ) -> Option<ForLoopPattern> {
     // Find the header block
     let header_block = ssa.blocks.iter().find(|b| b.id == loop_info.header)?;
@@ -128,14 +139,20 @@ fn detect_indexed_for(
     let phi_for_var = header_block.phi_nodes.iter()
         .find(|phi| phi.dest.reg_num == loop_var.0)?;
 
-    // Get one of the phi sources as the initial value
+    // JADX: phiInsn.getArgsCount() != 2
+    // PHI must have exactly 2 arguments: init from outside + back-edge from loop
+    if phi_for_var.sources.len() != 2 {
+        return None;
+    }
+
+    // Get one of the phi sources as the initial value (from outside the loop)
     let init_source = phi_for_var.sources.iter()
         .find(|(pred, _)| !loop_info.blocks.contains(pred))?;
 
     // Get the initialization instruction
     let init_insn = def_map.get(&(init_source.1.reg_num, init_source.1.ssa_version))?;
 
-    // Init should be a CONST 0
+    // Init should be a CONST 0 (or other small constant for some loops)
     let is_zero_init = matches!(&init_insn.insn_type,
         InsnType::Const { value: LiteralArg::Int(0), .. }
     );
@@ -147,6 +164,39 @@ fn detect_indexed_for(
     // Find the increment instruction in the loop body
     // It should be an ADD with literal 1
     let incr_insn = find_increment_insn(ssa, loop_info, loop_var)?;
+
+    // Get the increment result register
+    let incr_result = get_result_reg(incr_insn)?;
+    let incr_var = (incr_result.reg_num, incr_result.ssa_version);
+
+    // JADX: incrArg.getSVar().getUseCount() != 1
+    // Increment result should be used only once (in the PHI node)
+    let incr_uses = use_counts.get(&incr_var).copied().unwrap_or(0);
+    if incr_uses != 1 {
+        return None;
+    }
+
+    // JADX: !usedOnlyInLoop(mth, loopRegion, arg)
+    // The loop variable must not escape the loop
+    if !used_only_in_loop(loop_info, loop_var, use_locations) {
+        return None;
+    }
+
+    // JADX: can't make loop if argument from increment instruction is assigned in loop
+    // Check that increment operands are not reassigned within the loop
+    let incr_args = get_register_args(incr_insn);
+    for arg in incr_args {
+        // Skip the loop variable itself (it's expected to be assigned)
+        if arg.0 == loop_var.0 {
+            continue;
+        }
+        let mut visited = HashSet::new();
+        if assign_only_in_loop(ssa, loop_info, arg, def_locations, &mut visited) {
+            // If the argument is assigned only in the loop, this is problematic
+            // because it means the increment depends on a value that changes in the loop
+            return None;
+        }
+    }
 
     // Determine the upper bound
     let upper_bound = match cond_right {
@@ -379,6 +429,154 @@ fn count_insn_uses_inner(insn: &InsnNode, counts: &mut HashMap<(u16, u32), usize
     }
 }
 
+// =============================================================================
+// JADX LoopRegionVisitor Validation Helpers
+// =============================================================================
+
+/// Build map of (reg, version) -> [block_ids where used]
+pub fn build_use_locations(ssa: &SsaResult) -> HashMap<(u16, u32), Vec<u32>> {
+    let mut locations: HashMap<(u16, u32), Vec<u32>> = HashMap::new();
+
+    for block in &ssa.blocks {
+        for phi in &block.phi_nodes {
+            for (_, src) in &phi.sources {
+                locations.entry((src.reg_num, src.ssa_version))
+                    .or_default()
+                    .push(block.id);
+            }
+        }
+        for insn in &block.instructions {
+            collect_insn_use_locations(insn, block.id, &mut locations);
+        }
+    }
+    locations
+}
+
+fn collect_insn_use_locations(insn: &InsnNode, block_id: u32, locations: &mut HashMap<(u16, u32), Vec<u32>>) {
+    let mut add_use = |arg: &InsnArg| {
+        if let InsnArg::Register(reg) = arg {
+            locations.entry((reg.reg_num, reg.ssa_version))
+                .or_default()
+                .push(block_id);
+        }
+    };
+
+    match &insn.insn_type {
+        InsnType::Move { src, .. } => add_use(src),
+        InsnType::Return { value: Some(v) } => add_use(v),
+        InsnType::Throw { exception } => add_use(exception),
+        InsnType::InstanceGet { object, .. } => add_use(object),
+        InsnType::InstancePut { object, value, .. } => { add_use(object); add_use(value); }
+        InsnType::StaticPut { value, .. } => add_use(value),
+        InsnType::Invoke { args, .. } => { for arg in args { add_use(arg); } }
+        InsnType::Unary { arg, .. } => add_use(arg),
+        InsnType::Binary { left, right, .. } => { add_use(left); add_use(right); }
+        InsnType::Cast { arg, .. } => add_use(arg),
+        InsnType::Compare { left, right, .. } => { add_use(left); add_use(right); }
+        InsnType::If { left, right, .. } => { add_use(left); if let Some(r) = right { add_use(r); } }
+        InsnType::NewArray { size, .. } => add_use(size),
+        InsnType::ArrayLength { array, .. } => add_use(array),
+        InsnType::ArrayGet { array, index, .. } => { add_use(array); add_use(index); }
+        InsnType::ArrayPut { array, index, value, .. } => { add_use(array); add_use(index); add_use(value); }
+        InsnType::FilledNewArray { args, .. } => { for arg in args { add_use(arg); } }
+        InsnType::FillArrayData { array, .. } => add_use(array),
+        InsnType::InstanceOf { object, .. } => add_use(object),
+        InsnType::CheckCast { object, .. } => add_use(object),
+        InsnType::MonitorEnter { object } => add_use(object),
+        InsnType::MonitorExit { object } => add_use(object),
+        InsnType::PackedSwitch { value, .. } => add_use(value),
+        InsnType::SparseSwitch { value, .. } => add_use(value),
+        _ => {}
+    }
+}
+
+/// Check if a variable is used only inside the loop region.
+pub fn used_only_in_loop(
+    loop_info: &LoopInfo,
+    var: (u16, u32),
+    use_locations: &HashMap<(u16, u32), Vec<u32>>,
+) -> bool {
+    if let Some(block_ids) = use_locations.get(&var) {
+        for block_id in block_ids {
+            if !loop_info.blocks.contains(block_id) {
+                return false;
+            }
+        }
+        true
+    } else {
+        true
+    }
+}
+
+/// Check if a variable is assigned only inside the loop.
+pub fn assign_only_in_loop(
+    ssa: &SsaResult,
+    loop_info: &LoopInfo,
+    var: (u16, u32),
+    def_map: &HashMap<(u16, u32), (u32, u32)>,
+    visited: &mut HashSet<(u16, u32)>,
+) -> bool {
+    if visited.contains(&var) { return true; }
+    visited.insert(var);
+
+    if let Some((def_block_id, _)) = def_map.get(&var) {
+        if !loop_info.blocks.contains(def_block_id) {
+            return false;
+        }
+    }
+
+    for block in &ssa.blocks {
+        for phi in &block.phi_nodes {
+            if phi.dest.reg_num == var.0 && phi.dest.ssa_version == var.1 {
+                for (pred_block, source) in &phi.sources {
+                    if loop_info.blocks.contains(pred_block) {
+                        let source_var = (source.reg_num, source.ssa_version);
+                        if !assign_only_in_loop(ssa, loop_info, source_var, def_map, visited) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    true
+}
+
+/// Build map of (reg, version) -> (block_id, offset) for definitions
+pub fn build_def_locations(ssa: &SsaResult) -> HashMap<(u16, u32), (u32, u32)> {
+    let mut def_locs: HashMap<(u16, u32), (u32, u32)> = HashMap::new();
+
+    for block in &ssa.blocks {
+        for phi in &block.phi_nodes {
+            def_locs.insert((phi.dest.reg_num, phi.dest.ssa_version), (block.id, 0));
+        }
+        for insn in &block.instructions {
+            if let Some(dest) = get_result_reg(insn) {
+                def_locs.insert((dest.reg_num, dest.ssa_version), (block.id, insn.offset));
+            }
+        }
+    }
+    def_locs
+}
+
+/// Get register arguments from an instruction
+pub fn get_register_args(insn: &InsnNode) -> Vec<(u16, u32)> {
+    let mut args = Vec::new();
+    let mut add_arg = |arg: &InsnArg| {
+        if let InsnArg::Register(reg) = arg {
+            args.push((reg.reg_num, reg.ssa_version));
+        }
+    };
+
+    match &insn.insn_type {
+        InsnType::Binary { left, right, .. } => { add_arg(left); add_arg(right); }
+        InsnType::Unary { arg, .. } => add_arg(arg),
+        InsnType::Move { src, .. } => add_arg(src),
+        _ => {}
+    }
+    args
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -393,5 +591,27 @@ mod tests {
     fn test_upper_bound_array_length() {
         let bound = UpperBound::ArrayLength { array_reg: (1, 0) };
         assert!(matches!(bound, UpperBound::ArrayLength { array_reg: (1, 0) }));
+    }
+
+    #[test]
+    fn test_used_only_in_loop() {
+        let loop_info = LoopInfo {
+            header: 1,
+            blocks: vec![1, 2, 3].into_iter().collect(),
+            back_edges: vec![],
+            exit_blocks: Vec::new(),
+            exit_targets: Vec::new(),
+            kind: LoopKind::While,
+            depth: 0,
+            parent: None,
+        };
+
+        let mut use_locations = HashMap::new();
+        use_locations.insert((0, 1), vec![1, 2]);
+        use_locations.insert((1, 0), vec![1, 4]);
+
+        assert!(used_only_in_loop(&loop_info, (0, 1), &use_locations));
+        assert!(!used_only_in_loop(&loop_info, (1, 0), &use_locations));
+        assert!(used_only_in_loop(&loop_info, (2, 0), &use_locations));
     }
 }

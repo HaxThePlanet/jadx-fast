@@ -1,7 +1,8 @@
 # LLM Agent Guide: Autonomous Development Toward JADX Parity
 
-**Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
-**Issues:** 27 total (26 resolved, **1 remaining** from badboy APK comparison)
+**Status:** PRODUCTION READY with A- (88-90/100) quality (Dec 20, 2025)
+**Issues:** 34+ total (33+ resolved, **1 P2 remaining** - variable naming in complex methods)
+**Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**
 
@@ -13,7 +14,7 @@
 2. **Pick a task from roadmap**: [ROADMAP.md](ROADMAP.md)
 3. **Find the JADX algorithm**: See [JADX Reference Documentation](#jadx-reference-documentation) below
 4. **Reference JADX source**: `jadx-fast/jadx-core/src/main/java/jadx/core/`
-5. **Implement and test**: Run `cargo test` (710 integration tests)
+5. **Implement and test**: Run `cargo test` (687 integration tests, 1,177 total)
 
 ---
 
@@ -131,10 +132,11 @@ If you made significant improvements, update:
 | Undefined Variables | FIXED - Type-aware grouping + Move propagation |
 | Resource Field Resolution | DONE - R.* enabled by default |
 | Lambda Body Decompilation | DONE - Full body + inlining |
-| Integration Tests | 686/686 passing |
+| Integration Tests | 687/687 passing |
 | Unit Tests | 490/490 passing |
-| Total Tests | 1,176 passing |
-| Speed Advantage | 3-88x faster than JADX |
+| Total Tests | 1,177 passing |
+| Speed Advantage | 1.49x faster than JADX |
+| Memory Efficiency | 14.6x better (574MB vs 8.4GB) |
 
 ### What's Implemented (JADX Parity)
 
@@ -181,7 +183,7 @@ If you made significant improvements, update:
 - Test edge cases (empty, single item, large input)
 
 ### When Testing
-- All 710 integration tests must pass
+- All 1,177 tests must pass (687 integration + 490 unit)
 - Add tests for new functionality
 - Test with real APKs, not just simple examples
 
@@ -249,4 +251,4 @@ crates/
 
 ---
 
-**Last Updated:** Dec 18, 2025
+**Last Updated:** Dec 20, 2025

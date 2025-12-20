@@ -1063,6 +1063,11 @@ impl DexInfoProvider for AliasAwareDexInfo {
         // Delegate to inner, but the ExprGen will call back through us for lookups
         self.inner.populate_expr_gen(expr_gen);
     }
+
+    fn get_method_inline_attr(&self, method_idx: u32) -> Option<MethodInlineAttr> {
+        // Delegate to inner - synthetic accessor resolution works through aliases
+        self.inner.get_method_inline_attr(method_idx)
+    }
 }
 
 #[cfg(test)]

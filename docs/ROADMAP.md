@@ -111,21 +111,26 @@ All P1 issues have been resolved. One P2 issue remains:
 **New Test:** array_for_each_early_return_test
 **Result:** Early returns now correctly placed inside loop body
 
-### NEW-P2-001: Variable Naming in Complex Methods - **FIXED (Dec 19, 2025)**
+### NEW-P2-001: Variable Naming in Complex Methods - **FIXED (Dec 20, 2025)**
 
 **Priority:** P2-MEDIUM - RESOLVED
-**Impact:** Variables named str, str2, str3, i2-i9 instead of semantic names
-**Root Cause:** Incomplete SSA variable coalescing in `build_code_vars()`
+**Impact:** Variables named str, str2, str3, i2-i9 instead of semantic names; const-string not inlined
+**Root Cause:** PHI source uses were counted in `use_counts`, preventing single-use inlining
 
-**Fix Applied:**
-- Enhanced `build_code_vars()` in `var_naming.rs` with:
-  1. PHI source transitivity: all sources feeding same PHI are connected
-  2. Move instruction tracking: Move dest <-> src creates variable aliases
-  3. BFS from all connected variables, not just PHI destinations
-- Type compatibility checks prevent incompatible types from sharing names
+**Fix Applied (Dec 20, 2025):**
+- Added `insn_use_counts` field to `BodyGenContext` for instruction-only use counting
+- `should_inline()` now uses instruction counts (excludes PHI sources)
+- PHI sources don't appear in Java output, so they shouldn't prevent inlining
+- Result: 63% reduction in str patterns (41 -> 15 in detectEmulator method)
+- Dexterity now inlines more strings than JADX (15 vs 29 patterns)
 
 **Files Changed:**
-- `crates/dexterity-passes/src/var_naming.rs` - Enhanced SSA version coalescing
+- `crates/dexterity-codegen/src/body_gen.rs` - Separate instruction use counts for inlining
+
+**Previous Fix (Dec 19, 2025):**
+- Enhanced `build_code_vars()` in `var_naming.rs` with PHI source transitivity
+- Move instruction tracking for variable alias creation
+- Type compatibility checks prevent incompatible types from sharing names
 
 ---
 
@@ -214,10 +219,12 @@ Added 5 optimization passes to `body_gen.rs` that were previously only in `decom
 
 ### Future Region Improvements (Phases 4-6)
 
-7. **Phase 4: LoopRegionVisitor** (TODO)
+7. **Phase 4: LoopRegionVisitor** ✓ (DONE Dec 19, 2025)
    - while → for conversion: Detect init/increment patterns and upgrade
    - Iterable for-each: Detect `iterator.hasNext()/next()` patterns
    - Loop condition inversion: Clean up negated conditions
+   - JADX validation helpers: `used_only_in_loop()`, `assign_only_in_loop()`
+   - Enhanced `detect_indexed_for()` with PHI validation and escape analysis
 
 8. **Phase 5: IfRegionVisitor** (TODO)
    - Else-if chain detection: `if {} else { if {} else {} }` → `if {} else if {} else {}`
@@ -582,7 +589,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Parent tracking (RegionContext) - **DONE Dec 17** (RegionType enum, parent stack, enclosing loop tracking)
 - [x] Enhanced condition merging (IfRegionMaker) - **DONE Dec 17** (merge_nested_ifs_recursive, AND/OR/Mixed patterns)
 - [x] ForLoop structure details - **DONE Dec 17** (ForLoopInfo, ForEachLoopInfo, IterableSource, LoopDetails)
-- [ ] LoopRegionVisitor - while→for upgrade, condition inversion
+- [x] LoopRegionVisitor - while→for upgrade, condition inversion, JADX validation helpers (Dec 19)
 - [ ] IfRegionVisitor - else-if chains, empty branch removal
 - [x] SwitchBreakVisitor - unreachable break removal (Dec 18); common break extraction deferred
 

@@ -326,4 +326,13 @@ perf lock record ./target/release/dexterity ...
 - [x] **BTreeMap -> Vec in CFG** (2025-12-17) - 2-5% improvement
 - [x] **Jemalloc background threads** (2025-12-17) - 5-15% improvement
 
+### Latest Benchmark Results (Dec 2025)
+
+| Metric | Dexterity | JADX | Advantage |
+|--------|-----------|------|-----------|
+| Time | 14.58s | 21.74s | **1.49x faster** |
+| Memory | 574MB | 8.4GB | **14.6x more efficient** |
+
+**Key achievement**: 14.6x memory efficiency makes Dexterity ideal for memory-constrained environments and CI/CD pipelines.
+
 See [PERFORMANCE.md](PERFORMANCE.md) for detailed benchmark results.

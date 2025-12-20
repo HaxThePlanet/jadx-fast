@@ -14,6 +14,7 @@ pub mod extract_field_init;
 pub mod finally_extract;
 pub mod fix_types;
 pub mod generic_types;
+pub mod if_region_visitor;
 pub mod kotlin_intrinsics;
 pub mod loop_analysis;
 pub mod loops;
@@ -93,6 +94,7 @@ pub use deboxing::{
 pub use generic_types::{
     attach_generic_types, class_has_generics, resolve_constructor_generics, GenericTypesResult,
 };
+pub use if_region_visitor::{process_if_regions, IfRegionVisitorResult};
 pub use shadow_field::{
     apply_shadow_field_fixes, get_field_fix, is_instance_field_access, search_shadowed_fields,
     FieldFixInfo, FieldFixType, ShadowFieldResult,

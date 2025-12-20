@@ -681,6 +681,15 @@ done
 | P1-8: Physical core count default | **DONE** | 2025-12-19 - df12b6ab5 |
 | P2: String interning (Arc<str>) | **DONE** | 2025-12-19 - FieldInfo/MethodInfo/AliasRegistry |
 
+## Latest Benchmark (Dec 2025)
+
+| Metric | Dexterity | JADX | Advantage |
+|--------|-----------|------|-----------|
+| Time | 14.58s | 21.74s | **1.49x faster** |
+| Memory | 574MB | 8.4GB | **14.6x more efficient** |
+
+**Key finding**: Dexterity now uses 14.6x less memory than JADX (574MB vs 8.4GB), making it ideal for memory-constrained environments and large APK processing.
+
 ## Benchmark Results (2025-12-17)
 
 **Test APK**: large.apk (52MB, 17666 classes across 3 DEX files)

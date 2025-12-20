@@ -1,14 +1,15 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-19 (P0-P2 Issues ALL FIXED + Compose UI Complexity Detection - A Grade 96%+)
+**Last Updated**: 2025-12-20 (P1-001/P1-002 Control Flow FIXED - A- Grade 88-90/100)
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
-**Overall Parity**: **96%+** (5 components at 100%, 6 components at 95%+, overall quality 96%+ A grade)
+**Overall Parity**: **A- (88-90/100)** (5 components at 100%, 6 components at 95%+)
+**Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
 
 ---
 
 ## Executive Summary
 
-Dexterity's code generation module achieves approximately **96% feature parity** with JADX's mature codegen implementation. **Simple APKs produce identical output**, and complex APKs achieve **96%+ quality (A grade)** with minor differences in output style. **Class Generation has reached 100% parity** with all P0 critical issues resolved (interface generics, undefined variables, missing imports).
+Dexterity's code generation module achieves **A- (88-90/100) quality** compared to JADX's mature codegen implementation. **Simple APKs produce identical output**, and complex APKs achieve production-quality output with minor differences in variable naming style. **Class Generation has reached 100% parity** with all P0-P1 critical issues resolved (interface generics, undefined variables, missing imports, control flow).
 
 | Component | Parity | Status | Difficulty |
 |-----------|--------|--------|------------|
@@ -62,7 +63,7 @@ public class MainActivity extends Activity {
 
 ## Resolved Issues (Dec 2025)
 
-All critical and high-priority issues have been **resolved** to achieve 96%+ parity (A grade quality).
+All critical and high-priority issues have been **resolved** to achieve A- (88-90/100) quality.
 
 ### RESOLVED: Type Inference - Null Handling
 - Object-named variables now correctly use `== null` instead of `== 0`

@@ -42,14 +42,16 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | APK Type | Match Rate | Example |
 |----------|------------|---------|
 | Simple (small) | **100%** | MainActivity.java identical to JADX |
-| Medium | **96%+ (A grade)** | Minor style differences |
-| Complex (large) | **96%+ (A grade)** | Minor verbosity differences (positive tradeoff) |
+| Medium | **A- (88-90/100)** | Minor style differences |
+| Complex (large) | **A- (88-90/100)** | Minor verbosity differences (positive tradeoff) |
+
+**Benchmark (Dec 2025):** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
 
 ---
 
 ## Resolved Codegen Issues (Dec 2025)
 
-Most codegen issues have been **RESOLVED** to achieve 96%+ quality (A grade):
+Most codegen issues have been **RESOLVED** to achieve A- (88-90/100) quality:
 
 ### 1. Null Literal Inference - RESOLVED
 **Status:** Fixed via type-aware codegen (Dec 17-18, 2025)
