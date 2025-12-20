@@ -36,11 +36,17 @@ use dashmap::DashMap;
 
 use crate::expr_gen::{ExprGen, FieldInfo, MethodInfo};
 use crate::type_gen::type_to_string;
-use dexterity_dex::DexReader;
+use dexterity_dex::insns::{InsnIterator, Opcode};
+use dexterity_dex::{CodeItem, DexReader};
 use dexterity_ir::types::ArgType;
+use dexterity_ir::MethodInlineAttr;
 
 /// ACC_VARARGS access flag (0x0080) - method accepts variable arguments
 const ACC_VARARGS: u32 = 0x0080;
+/// ACC_SYNTHETIC access flag (0x1000) - compiler-generated method
+const ACC_SYNTHETIC: u32 = 0x1000;
+/// ACC_BRIDGE access flag (0x40) - bridge method for type erasure
+const ACC_BRIDGE: u32 = 0x0040;
 
 // =============================================================================
 // GlobalFieldPool - Multi-DEX field deduplication (like Java JADX)
@@ -160,6 +166,12 @@ pub trait DexInfoProvider: Send + Sync {
         } else {
             false
         }
+    }
+
+    /// Get inline attribute for a method (for synthetic accessor resolution)
+    /// Returns Some(attr) if the method is a synthetic accessor that should be inlined
+    fn get_method_inline_attr(&self, _method_idx: u32) -> Option<MethodInlineAttr> {
+        None // Default: no inlining info available
     }
 }
 
@@ -340,6 +352,10 @@ pub struct LazyDexInfo {
     /// Method access flags index: method_idx -> access_flags
     /// Built at initialization to enable varargs detection (ACC_VARARGS flag)
     method_access_flags: DashMap<u32, u32>,
+    /// Synthetic method inline registry: method_idx -> MethodInlineAttr
+    /// Built at initialization by analyzing synthetic accessor method bodies
+    /// Used to inline access$XXX calls to direct field/method access
+    method_inline_registry: DashMap<u32, MethodInlineAttr>,
 }
 
 /// Build method access flags index by scanning all class definitions
@@ -371,33 +387,209 @@ fn build_method_access_flags_index(dex: &DexReader) -> DashMap<u32, u32> {
     flags_map
 }
 
+/// Build synthetic method inline registry by analyzing method bodies
+///
+/// This scans all classes for synthetic/bridge methods (access$XXX patterns)
+/// and analyzes their bytecode to determine inline behavior:
+/// - FieldGet: synthetic getter -> direct field access
+/// - FieldSet: synthetic setter -> direct field assignment
+/// - MethodCall: synthetic bridge -> direct method call
+///
+/// This enables replacing `NanoHTTPD.access$000(socket)` with `NanoHTTPD.safeClose(socket)`
+fn build_method_inline_index(dex: &DexReader) -> DashMap<u32, MethodInlineAttr> {
+    let registry = DashMap::with_capacity(64);
+
+    for class_idx in 0..dex.class_count() {
+        if let Ok(class_def) = dex.get_class(class_idx as u32) {
+            if let Ok(Some(class_data)) = class_def.class_data() {
+                // Only direct methods can be synthetic accessors
+                for method in class_data.direct_methods() {
+                    // Check if synthetic or bridge method
+                    let is_synthetic = (method.access_flags & ACC_SYNTHETIC) != 0;
+                    let is_bridge = (method.access_flags & ACC_BRIDGE) != 0;
+
+                    // Also check for access$XXX naming pattern
+                    let is_access_pattern = dex.get_method(method.method_idx)
+                        .ok()
+                        .and_then(|m| m.name().ok())
+                        .map(|n| n.starts_with("access$"))
+                        .unwrap_or(false);
+
+                    if (is_synthetic || is_bridge || is_access_pattern) && method.code_off != 0 {
+                        if let Some(attr) = analyze_method_bytecode(dex, method.code_off) {
+                            registry.insert(method.method_idx, attr);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    registry
+}
+
+/// Analyze method bytecode to determine inline pattern
+///
+/// Detects simple patterns:
+/// - Field getter: SGET/IGET followed by RETURN
+/// - Field setter: SPUT/IPUT followed by RETURN
+/// - Method delegate: INVOKE followed by RETURN
+fn analyze_method_bytecode(dex: &DexReader, code_off: u32) -> Option<MethodInlineAttr> {
+    let code_item = CodeItem::parse(dex, code_off).ok()?;
+    let code = code_item.instructions();
+
+    // Skip methods with too many instructions (not simple accessors)
+    if code_item.insns_size > 10 {
+        return None;
+    }
+
+    // Collect non-nop instructions
+    let mut meaningful_insns = Vec::new();
+    for insn_result in InsnIterator::new(code) {
+        if let Ok(insn) = insn_result {
+            if insn.opcode != Opcode::Nop {
+                meaningful_insns.push(insn);
+            }
+        }
+        // Limit to first 5 meaningful instructions
+        if meaningful_insns.len() >= 5 {
+            break;
+        }
+    }
+
+    if meaningful_insns.is_empty() {
+        return None;
+    }
+
+    // Pattern 1: Field getter (1-2 instructions: SGET/IGET + optional RETURN)
+    if meaningful_insns.len() <= 2 {
+        let first = &meaningful_insns[0];
+        match first.opcode {
+            // Static field get
+            Opcode::Sget | Opcode::SgetWide | Opcode::SgetObject |
+            Opcode::SgetBoolean | Opcode::SgetByte | Opcode::SgetChar | Opcode::SgetShort => {
+                // Check if last instruction is return (or this is the only instruction)
+                let is_return = meaningful_insns.len() == 1 ||
+                    matches!(meaningful_insns.last().map(|i| i.opcode),
+                        Some(Opcode::Return | Opcode::ReturnWide | Opcode::ReturnObject | Opcode::ReturnVoid));
+                if is_return {
+                    return Some(MethodInlineAttr::FieldGet {
+                        field_idx: first.index,
+                        is_instance: false
+                    });
+                }
+            }
+            // Instance field get
+            Opcode::Iget | Opcode::IgetWide | Opcode::IgetObject |
+            Opcode::IgetBoolean | Opcode::IgetByte | Opcode::IgetChar | Opcode::IgetShort => {
+                let is_return = meaningful_insns.len() == 1 ||
+                    matches!(meaningful_insns.last().map(|i| i.opcode),
+                        Some(Opcode::Return | Opcode::ReturnWide | Opcode::ReturnObject | Opcode::ReturnVoid));
+                if is_return {
+                    return Some(MethodInlineAttr::FieldGet {
+                        field_idx: first.index,
+                        is_instance: true
+                    });
+                }
+            }
+            _ => {}
+        }
+    }
+
+    // Pattern 2: Field setter (2-3 instructions: SPUT/IPUT + optional MOVE + RETURN)
+    if meaningful_insns.len() >= 2 && meaningful_insns.len() <= 3 {
+        let first = &meaningful_insns[0];
+        match first.opcode {
+            // Static field put
+            Opcode::Sput | Opcode::SputWide | Opcode::SputObject |
+            Opcode::SputBoolean | Opcode::SputByte | Opcode::SputChar | Opcode::SputShort => {
+                let is_return = matches!(meaningful_insns.last().map(|i| i.opcode),
+                    Some(Opcode::Return | Opcode::ReturnWide | Opcode::ReturnObject | Opcode::ReturnVoid));
+                if is_return {
+                    return Some(MethodInlineAttr::FieldSet {
+                        field_idx: first.index,
+                        is_instance: false
+                    });
+                }
+            }
+            // Instance field put
+            Opcode::Iput | Opcode::IputWide | Opcode::IputObject |
+            Opcode::IputBoolean | Opcode::IputByte | Opcode::IputChar | Opcode::IputShort => {
+                let is_return = matches!(meaningful_insns.last().map(|i| i.opcode),
+                    Some(Opcode::Return | Opcode::ReturnWide | Opcode::ReturnObject | Opcode::ReturnVoid));
+                if is_return {
+                    return Some(MethodInlineAttr::FieldSet {
+                        field_idx: first.index,
+                        is_instance: true
+                    });
+                }
+            }
+            _ => {}
+        }
+    }
+
+    // Pattern 3: Method delegate (2-3 instructions: INVOKE + optional MOVE_RESULT + RETURN)
+    if meaningful_insns.len() >= 2 && meaningful_insns.len() <= 3 {
+        let first = &meaningful_insns[0];
+        match first.opcode {
+            Opcode::InvokeVirtual | Opcode::InvokeSuper | Opcode::InvokeDirect |
+            Opcode::InvokeStatic | Opcode::InvokeInterface |
+            Opcode::InvokeVirtualRange | Opcode::InvokeSuperRange |
+            Opcode::InvokeDirectRange | Opcode::InvokeStaticRange | Opcode::InvokeInterfaceRange => {
+                // Check last instruction is return
+                let is_return = matches!(meaningful_insns.last().map(|i| i.opcode),
+                    Some(Opcode::Return | Opcode::ReturnWide | Opcode::ReturnObject | Opcode::ReturnVoid));
+                if is_return {
+                    return Some(MethodInlineAttr::MethodCall {
+                        method_idx: first.index
+                    });
+                }
+            }
+            _ => {}
+        }
+    }
+
+    None
+}
+
 impl LazyDexInfo {
     /// Create a new LazyDexInfo wrapping a DexReader (without global pool)
     ///
-    /// This builds the method access flags index for varargs detection.
+    /// This builds the method access flags index for varargs detection
+    /// and the synthetic method inline registry for accessor resolution.
     /// Use `new_with_pool()` for multi-DEX deduplication.
     pub fn new(dex: Arc<DexReader>) -> Self {
         let method_access_flags = build_method_access_flags_index(&dex);
+        let method_inline_registry = build_method_inline_index(&dex);
         LazyDexInfo {
             dex,
             global_field_pool: None,
             method_cache: DashMap::with_capacity(256),
             method_access_flags,
+            method_inline_registry,
         }
     }
 
     /// Create a new LazyDexInfo wrapping a DexReader with a global field pool
     ///
     /// The global pool enables deduplication of fields across multiple DEX files.
-    /// This builds the method access flags index for varargs detection.
+    /// This builds the method access flags index for varargs detection
+    /// and the synthetic method inline registry for accessor resolution.
     pub fn new_with_pool(dex: Arc<DexReader>, pool: Arc<GlobalFieldPool>) -> Self {
         let method_access_flags = build_method_access_flags_index(&dex);
+        let method_inline_registry = build_method_inline_index(&dex);
         LazyDexInfo {
             dex,
             global_field_pool: Some(pool),
             method_cache: DashMap::with_capacity(256),
             method_access_flags,
+            method_inline_registry,
         }
+    }
+
+    /// Get inline attribute for a method (for synthetic accessor resolution)
+    pub fn get_method_inline_attr(&self, method_idx: u32) -> Option<MethodInlineAttr> {
+        self.method_inline_registry.get(&method_idx).map(|r| r.clone())
     }
 
     /// Get a string by index (lazy - reads from DEX on-demand)
@@ -568,6 +760,10 @@ impl DexInfoProvider for LazyDexInfo {
 
     fn populate_expr_gen(&self, expr_gen: &mut ExprGen) {
         LazyDexInfo::populate_expr_gen(self, expr_gen)
+    }
+
+    fn get_method_inline_attr(&self, method_idx: u32) -> Option<MethodInlineAttr> {
+        LazyDexInfo::get_method_inline_attr(self, method_idx)
     }
 }
 

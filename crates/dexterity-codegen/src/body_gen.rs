@@ -35,7 +35,7 @@ use dexterity_ir::attributes::AFlag;
 use dexterity_ir::instructions::{BinaryOp, IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LambdaInfo, LiteralArg};
 use dexterity_ir::regions::{Condition, LoopKind, Region, RegionContent};
 use dexterity_ir::types::ArgType;
-use dexterity_ir::{MethodData, TryBlock};
+use dexterity_ir::{MethodData, MethodInlineAttr, TryBlock};
 use dexterity_passes::block_split::{split_blocks, BasicBlock};
 use dexterity_passes::cfg::CFG;
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
@@ -5438,6 +5438,95 @@ fn write_invoke_with_inlining<W: CodeWriter>(
     if matches!(kind, InvokeKind::Polymorphic) {
         write_polymorphic_invoke(args, proto_idx, ctx, code);
         return;
+    }
+
+    // Synthetic accessor inlining (DEC19-OPEN-004)
+    // Check if this is a synthetic accessor (access$XXX) that should be inlined
+    if let Some(ref dex) = ctx.expr_gen.dex_provider {
+        if let Some(inline_attr) = dex.get_method_inline_attr(method_idx) {
+            match inline_attr {
+                MethodInlineAttr::FieldGet { field_idx, is_instance } => {
+                    // Replace access$XXX(obj) with obj.field or Class.field
+                    if let Some(field_info) = ctx.expr_gen.get_field_value(field_idx) {
+                        if is_instance {
+                            // Instance field: first arg is the object
+                            if let Some(receiver) = args.first() {
+                                ctx.write_arg_inline(code, receiver);
+                                code.add(".");
+                            }
+                            code.add(&field_info.field_name);
+                        } else {
+                            // Static field: Class.field
+                            code.add(&field_info.class_name).add(".").add(&field_info.field_name);
+                        }
+                        return;
+                    }
+                }
+                MethodInlineAttr::FieldSet { field_idx, is_instance } => {
+                    // Replace access$XXX(obj, value) with (obj.field = value) or (Class.field = value)
+                    if let Some(field_info) = ctx.expr_gen.get_field_value(field_idx) {
+                        code.add("(");
+                        if is_instance {
+                            // Instance field: obj.field = value
+                            if let Some(receiver) = args.first() {
+                                ctx.write_arg_inline(code, receiver);
+                                code.add(".");
+                            }
+                            code.add(&field_info.field_name).add(" = ");
+                            // Value is second arg for instance, first for static
+                            if args.len() > 1 {
+                                ctx.write_arg_inline(code, &args[1]);
+                            }
+                        } else {
+                            // Static field: Class.field = value
+                            code.add(&field_info.class_name).add(".").add(&field_info.field_name).add(" = ");
+                            if let Some(value) = args.first() {
+                                ctx.write_arg_inline(code, value);
+                            }
+                        }
+                        code.add(")");
+                        return;
+                    }
+                }
+                MethodInlineAttr::MethodCall { method_idx: target_method_idx } => {
+                    // Replace access$XXX(obj, args...) with direct method call
+                    // Recursively call with the target method
+                    // Skip first arg (it becomes receiver if instance method)
+                    if let Some(target_info) = ctx.expr_gen.get_method_value(target_method_idx) {
+                        // Determine if target is static (no receiver in accessor args)
+                        // Synthetic accessors for instance methods include 'this' as first arg
+                        let is_static = args.is_empty() ||
+                            (target_info.param_types.len() == args.len());
+
+                        if is_static {
+                            // Static method call
+                            code.add(&target_info.class_name).add(".").add(&sanitize_method_name(&target_info.method_name)).add("(");
+                            for (i, arg) in args.iter().enumerate() {
+                                if i > 0 { code.add(", "); }
+                                ctx.write_arg_inline(code, arg);
+                            }
+                            code.add(")");
+                        } else {
+                            // Instance method: first arg is receiver
+                            if let Some(receiver) = args.first() {
+                                ctx.write_arg_inline(code, receiver);
+                                code.add(".");
+                            }
+                            code.add(&sanitize_method_name(&target_info.method_name)).add("(");
+                            for (i, arg) in args.iter().skip(1).enumerate() {
+                                if i > 0 { code.add(", "); }
+                                ctx.write_arg_inline(code, arg);
+                            }
+                            code.add(")");
+                        }
+                        return;
+                    }
+                }
+                MethodInlineAttr::NotNeeded => {
+                    // Fall through to normal handling
+                }
+            }
+        }
     }
 
     // Get method info for proper formatting

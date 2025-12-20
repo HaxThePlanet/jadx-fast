@@ -1,6 +1,6 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-18 (P0 Critical Issues ALL FIXED - A Grade 96%+)
+**Last Updated**: 2025-12-19 (P0-P2 Issues ALL FIXED + Compose UI Complexity Detection - A Grade 96%+)
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
 **Overall Parity**: **96%+** (5 components at 100%, 6 components at 95%+, overall quality 96%+ A grade)
 
@@ -91,6 +91,13 @@ All critical and high-priority issues have been **resolved** to achieve 96%+ par
 - Enums now correctly emit without `static` modifier
 - Inner enums properly recognized as implicitly static (JLS §8.9)
 - 0 instances of incorrect `static enum` declarations
+
+### RESOLVED: Compose UI Complexity Detection (Dec 19, 2025)
+- Complex Kotlin Compose UI methods now emit clean stubs matching JADX behavior
+- Detection: >2000 instructions, Compose patterns (Composer parameter), @Composable annotations
+- Output: 7-line stub with helpful "Method not decompiled: too complex" comment
+- Impact: MainActivityKt.Greeting() reduced from 939 lines of garbage to clean stub
+- Files: `method_gen.rs` (should_skip_complex_method), `var_naming.rs` (SSA prefix stripping)
 
 ---
 
