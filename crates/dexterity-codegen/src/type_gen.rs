@@ -254,7 +254,8 @@ pub fn literal_to_string(value: i64, ty: &ArgType) -> String {
             let d = f64::from_bits(value as u64);
             format_double(d)
         }
-        ArgType::Object(_) | ArgType::Array(_) => {
+        ArgType::Object(_) | ArgType::Array(_) | ArgType::TypeVariable(_)
+        | ArgType::Generic { .. } | ArgType::Wildcard { .. } => {
             if value == 0 {
                 "null".to_string()
             } else {

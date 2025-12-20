@@ -6340,7 +6340,8 @@ fn generate_insn<W: CodeWriter>(
                 };
                 let is_object_return = matches!(
                     ctx.return_type,
-                    ArgType::Object(_) | ArgType::Array(_)
+                    ArgType::Object(_) | ArgType::Array(_) | ArgType::TypeVariable(_)
+                    | ArgType::Generic { .. } | ArgType::Wildcard { .. }
                 );
                 if is_zero_value && is_object_return {
                     code.add("null");
