@@ -17,16 +17,16 @@
 
 Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 
-### P0 Critical - WON'T COMPILE (3 Open, 3 Fixed, 1 Not A Bug)
+### P0 Critical - WON'T COMPILE (4 Open, 2 Fixed, 1 Not A Bug)
 
 | ID | Issue | Scope | Example |
 |----|-------|-------|---------|
-| **NEW-001** | Static final = null + reassign | 30+ files | `final byte[] X = null; static { X = {...}; }` |
+| **NEW-001** | Static final = null + reassign | 30+ files | ~~`final byte[] X = null; static { X = {...}; }`~~ **FIXED** |
 | **NEW-002** | Undefined/uninitialized variables | 40+ methods | `int i; while(i < 16)` - i never set |
-| **NEW-003** | throw non-Throwable | 5+ methods | ~~`throw i;` where i is int~~ **FIXED** |
+| **NEW-003** | throw non-Throwable | 5+ methods | `throw i;` where i is int |
 | **NEW-004** | Variable type confusion | 20+ methods | String reused for AccessibilityNodeInfo |
 | **NEW-005** | Kotlin INSTANCE uninitialized | All Kotlin objects | ~~`static final INSTANCE;`~~ **NOT A BUG** - initialized in static block |
-| **NEW-006** | Enum wrong value types | Multiple enums | ~~`OK(false)` instead of `OK(0)`~~ **FIXED** |
+| **NEW-006** | Enum wrong value types | Multiple enums | `OK(false)` instead of `OK(0)` - enum_visitor.rs:466-467 |
 | **NEW-007** | Unreachable code after return | 15+ methods | ~~`return x; synchronized {...}`~~ **FIXED** |
 
 ### P1 High - WRONG SEMANTICS (5 Categories, 55+ instances)
@@ -51,16 +51,17 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 | BUG-006 | Boolean compared to null | FIXED |
 | BUG-007 | Undefined variable in hashCode() | FIXED |
 | P1-001 to P1-004 | Various | FIXED |
-| NEW-003 | throw non-Throwable | FIXED |
-| NEW-006 | Enum wrong value types | FIXED |
+| NEW-001 | Static final = null + reassign | FIXED |
+| NEW-007 | Unreachable code after return | FIXED |
+| BUG-009 | @Override on annotation interfaces | FIXED |
 | Variable Naming | Long prefix l->j, OBJ_ALIAS mappings | FIXED |
+| P2-001 | JADX parity for variable naming in method parameters | FIXED |
 
 ## Quality Metrics
 
 | Metric | Value |
 |--------|-------|
-| Integration Tests | 687/687 passing |
-| Unit Tests | 490/490 passing |
+| Total Tests | 976/976 passing |
 | **Real-world APK compilation** | **FAILING** |
 
 ## Output Quality by APK Size

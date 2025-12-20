@@ -375,7 +375,10 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
     // Phase 3: BFS to find connected components
     // Start from ALL variables that have connections, not just PHI destinations
     let mut visited: HashSet<(u16, u32)> = HashSet::new();
-    let all_vars: Vec<(u16, u32)> = connections.keys().cloned().collect();
+    let mut all_vars: Vec<(u16, u32)> = connections.keys().cloned().collect();
+    // CRITICAL: Sort for deterministic ordering across runs
+    // HashMap iteration order is randomized, causing non-deterministic variable names
+    all_vars.sort();
 
     for start in all_vars {
         if visited.contains(&start) {
@@ -1365,7 +1368,11 @@ pub fn assign_var_names_with_lookups<'a>(
     };
 
     // For each CodeVar group, find the best BASE name across all members
-    for (&code_var_idx, members) in &code_var_members {
+    // CRITICAL: Sort keys for deterministic ordering across runs
+    let mut code_var_keys: Vec<usize> = code_var_members.keys().cloned().collect();
+    code_var_keys.sort();
+    for code_var_idx in code_var_keys {
+        let members = code_var_members.get(&code_var_idx).unwrap();
         let mut best_name: Option<String> = None;
         let mut best_score: u32 = 0;
 

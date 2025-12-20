@@ -5,12 +5,13 @@
 
 ## Immediate Priority: Fix P0 Compilation Errors
 
-### Phase 1: Static Field Initialization (NEW-001)
+### Phase 1: Static Field Initialization (NEW-001) - FIXED
 
 **Problem:** `final byte[] X = null; static { X = {...}; }` - illegal Java
 **Scope:** 30+ files
-**Fix:** Inline array/object initializers into field declarations
-**Files:** `crates/dexterity-codegen/src/class_gen.rs`
+**Fix:** Modified `extract_field_init.rs` to clear null initial values for fields with complex clinit assignments, and only extract the last SPUT per field if all are constant.
+**Files:** `crates/dexterity-passes/src/extract_field_init.rs`
+**Status:** FIXED (Dec 20, 2025) - 344 → 4 patterns (99% reduction)
 
 ### Phase 2: Undefined Variables (NEW-002)
 
@@ -19,13 +20,13 @@
 **Fix:** Properly track loop variable initialization in SSA
 **Files:** `crates/dexterity-passes/src/loops.rs`, `var_naming.rs`
 
-### Phase 3: throw non-Throwable (NEW-003) - FIXED
+### Phase 3: throw non-Throwable (NEW-003)
 
 **Problem:** `throw i;` where i is int
 **Scope:** 5+ methods
 **Fix:** Validate exception type, emit `throw null;` for non-Throwable types
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
-**Status:** FIXED (Dec 20, 2025)
+**Status:** OPEN - fix not implemented
 
 ### Phase 4: Variable Type Confusion (NEW-004)
 
@@ -41,13 +42,13 @@
 **Fix:** Detect and emit singleton initialization
 **Files:** `crates/dexterity-kotlin/src/`
 
-### Phase 6: Enum Values (NEW-006) - FIXED
+### Phase 6: Enum Values (NEW-006)
 
 **Problem:** `OK(false)` instead of `OK(0)`
 **Scope:** Multiple enums
-**Fix:** Search backwards for register values, don't convert 0/1 to boolean
-**Files:** `crates/dexterity-passes/src/enum_visitor.rs`
-**Status:** FIXED (Dec 20, 2025)
+**Fix:** Remove lines 466-467 in enum_visitor.rs that convert Int(0)/Int(1) to Bool
+**Files:** `crates/dexterity-passes/src/enum_visitor.rs:466-467`
+**Status:** OPEN - bug still present in code
 
 ### Phase 7: Synchronized Blocks (NEW-007) - FIXED
 
@@ -75,8 +76,7 @@
 
 | Issue | Status |
 |-------|--------|
-| NEW-003 throw non-Throwable | FIXED Dec 20 |
-| NEW-006 Enum wrong values | FIXED Dec 20 |
+| NEW-001 Static final = null | FIXED Dec 20 |
 | NEW-007 Unreachable code after return | FIXED Dec 20 |
 | Self-reference simplification | FIXED Dec 20 |
 | Empty else blocks | FIXED Dec 20 |
@@ -84,6 +84,8 @@
 | P1-001 to P1-004 | FIXED Dec 20 |
 | Variable Naming: long prefix l->j | FIXED Dec 20 |
 | Variable Naming: OBJ_ALIAS mappings | FIXED Dec 20 |
+| BUG-009 @Override on annotation interface | FIXED Dec 20 |
+| P2-001 Variable naming JADX parity | FIXED Dec 20 |
 
 ---
 

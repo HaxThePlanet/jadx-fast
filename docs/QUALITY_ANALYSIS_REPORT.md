@@ -1,11 +1,11 @@
 # Comprehensive Quality Comparison Report: JADX vs Dexterity
-## December 17-20, 2025 - PRODUCTION READY
+## December 17-20, 2025 - IN DEVELOPMENT
 
 ---
 
 ## Executive Summary
 
-**VERDICT: PRODUCTION READY with A- (88-90/100) quality (Dec 20, 2025)**
+**VERDICT: NOT PRODUCTION READY - See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades (D overall)**
 
 ### Revised Assessment (Dec 20, 2025)
 
@@ -21,11 +21,11 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 
-**Grade: A- (88-90/100)** after Dec 20 control flow fixes
+**Grade: D** - 2 P0 bugs remain (NEW-002, NEW-004). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
 
-Dexterity is 1.49x faster with 14.6x better memory efficiency AND produces production-quality Java code:
-- Overall Quality: **A- (88-90/100)** based on objective output comparison
-- Defect Score: **88-90%** after P1-001/P1-002/P1-002-GENERICS fixes
+Dexterity is 1.49x faster with 14.6x better memory efficiency but has critical bugs:
+- Overall Quality: **D** per QUALITY_STATUS.md (compilation errors on real APKs)
+- Feature Implementation: A- (passes/features implemented)
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing
@@ -50,7 +50,7 @@ Dexterity is 1.49x faster with 14.6x better memory efficiency AND produces produ
 
 | Criterion | JADX | Dexterity | Winner |
 |-----------|:----:|:---------:|:------:|
-| Valid/Compilable Java | ✅ | ✅ | **TIE** |
+| Valid/Compilable Java | ✅ | ❌ | **JADX** (2 P0 bugs cause compilation errors) |
 | Generic Type Parameters | ✅ | ✅ | **TIE** (736 classes now have `<T>`) |
 | Exception Handling | ✅ | ✅ | **TIE** |
 | Semantic Variable Names | ✅ | ✅ | **Dexterity** (0.98 vs 0.93 quality) |
@@ -80,10 +80,10 @@ Dexterity is 1.49x faster with 14.6x better memory efficiency AND produces produ
 
 ### Recommendation (UPDATED - Dec 20, 2025)
 
-- **Use Dexterity** for most use cases: 1.49x faster with 14.6x better memory and A- quality (88-90/100)
-- **Use Dexterity** for simple APKs: 1:1 identical output
-- **Use Dexterity** for performance-critical workflows: faster with 14.6x memory efficiency
-- **Use JADX** if you need semantic variable naming in complex methods (str vs value)
+- **Use JADX** for production decompilation until P0 bugs are fixed
+- **Use Dexterity** for simple APKs: works well for straightforward code
+- **Use Dexterity** for performance testing: 1.49x faster with 14.6x memory efficiency
+- **Track progress:** See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current bug status
 
 ---
 

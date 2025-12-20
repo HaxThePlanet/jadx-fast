@@ -9,7 +9,9 @@ members = [
     "dexterity-resources",
     "dexterity-deobf",
     "dexterity-kotlin",
-    "dexterity-qa", "dexterity-llm-postproc",
+    "dexterity-qa",
+    "dexterity-llm-postproc",
+    "dexterity-fingerprint",
 ]
 
 [workspace.package]
@@ -81,6 +83,7 @@ dexterity-resources = { path = "dexterity-resources" }
 dexterity-deobf = { path = "dexterity-deobf" }
 dexterity-kotlin = { path = "dexterity-kotlin" }
 dexterity-llm-postproc = { path = "dexterity-llm-postproc" }
+dexterity-fingerprint = { path = "dexterity-fingerprint" }
 
 # Fast release builds (default: cargo build --release)
 [profile.release]

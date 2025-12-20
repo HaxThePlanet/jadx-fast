@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** 5 P0 + 5 P1 Critical Issues Open (Dec 20, 2025)
+**Status:** 4 P0 + 5 P1 Critical Issues Open (Dec 20, 2025)
 
 ## Open Issues - P0 Critical (Won't Compile)
 
@@ -9,7 +9,7 @@
 **Priority:** P0 - COMPILATION ERROR
 **Scope:** 30+ files
 **APKs:** Medium, Large
-**Assigned:** IN PROGRESS
+**Status:** FIXED (Dec 20, 2025)
 
 **Problem:**
 ```java
@@ -21,12 +21,18 @@ static {
 
 // JADX (CORRECT):
 private static final byte[] DIGITS = {48, 49, 50, 51, ...};
+// OR:
+private static final Pattern BOUNDARY_PATTERN;  // No initializer
+static {
+    BOUNDARY_PATTERN = Pattern.compile(...);  // Assigned in static block
+}
 ```
 
-**Files Affected:**
-- `Buffer.java`, `NanoHTTPD.java`, `MD5Utils.java`, `FactoryPools.java`, `LazyHeaders.java`, +25 more
+**Fix:** Modified `extract_field_init.rs` to:
+1. Clear null initial values for fields with non-constant clinit assignments
+2. Only extract the LAST SPUT per field, skip if any SPUT is non-constant
 
-**Root Cause:** `class_gen.rs` - Field init extraction fails to inline array initializers
+**Result:** 344 → 4 `static final = null` patterns (99% reduction). Remaining 4 are legitimate null fields.
 
 ---
 
@@ -60,7 +66,7 @@ for (int i = 0; i < 16; i++) {
 
 **Priority:** P0 - COMPILATION ERROR
 **Scope:** 5+ methods
-**Status:** FIXED (Dec 20, 2025)
+**Status:** OPEN
 
 **Problem:**
 ```java
@@ -76,6 +82,8 @@ throw null;  // or proper exception
 - `h.java` (io.grpc.k1) lines 175, 185, 1081, 1244, 1272
 
 **Root Cause:** `body_gen.rs` - Exception object tracking lost in CFG
+
+**Fix Required:** Validate exception type before emitting throw; emit `throw null;` for non-Throwable types
 
 ---
 
@@ -124,7 +132,7 @@ The original issue description was incorrect.
 
 **Priority:** P0 - COMPILATION ERROR
 **Scope:** Multiple enums
-**Status:** FIXED (Dec 20, 2025)
+**Status:** OPEN
 
 **Problem:**
 ```java
@@ -149,7 +157,9 @@ public enum b {
 **Files Affected:**
 - `d1.java` (io.grpc), other enums
 
-**Root Cause:** `class_gen.rs` - Enum bytecode value decoding
+**Root Cause:** `enum_visitor.rs:466-467` - Incorrectly converts Int(0)/Int(1) to Bool(false)/Bool(true)
+
+**Fix Required:** Remove boolean conversion in `convert_to_enum_arg_with_lookup()`, keep integers as integers
 
 ---
 
@@ -203,9 +213,38 @@ return gVarArr;
 |----|-----|-------|
 | BUG-001 to BUG-007 | Original P0 bugs | Dec 20, 2025 |
 | P1-001 to P1-004 | Original P1 bugs | Dec 20, 2025 |
-| NEW-003 | throw non-Throwable | Dec 20, 2025 |
-| NEW-006 | Enum wrong value types | Dec 20, 2025 |
+| NEW-001 | Static final = null + reassign | Dec 20, 2025 |
+| NEW-007 | Unreachable code after return | Dec 20, 2025 |
 | Variable Naming | Long prefix l->j, OBJ_ALIAS | Dec 20, 2025 |
+| P2-001 | JADX parity for variable naming | Dec 20, 2025 |
+
+---
+
+### P2-001: JADX Parity for Variable Naming in Method Parameters
+
+**Priority:** P2 - MEDIUM
+**Status:** FIXED (Dec 20, 2025)
+**Commit:** `d60cf950b`
+
+**Problem:** Variable naming for method parameters did not match JADX output, causing inconsistent decompiled code.
+
+**Fix Applied:**
+1. Added "Var" suffix for short class names (< 3 characters)
+   - Example: `AB` class becomes `abVar` instead of `ab`
+2. Implemented OBJ_ALIAS mappings matching JADX:
+   - `String` -> `str`, `StringBuilder/StringBuffer` -> `sb`
+   - `Map/HashMap/LinkedHashMap/TreeMap` -> `map`
+   - `List/ArrayList/LinkedList` -> `list`
+   - `Set/HashSet/TreeSet` -> `set`
+   - `Iterator` -> `it`, `Exception` -> `exc`, etc.
+3. Added collision detection with suffixes starting at 2
+   - Example: `str`, `str2`, `str3`, etc.
+4. Added `is_static` parameter to fix off-by-one error in parameter register calculation
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` - Core naming logic
+- `crates/dexterity-codegen/src/method_gen.rs` - Parameter naming
+- `crates/dexterity-codegen/src/body_gen.rs` - Variable naming in body
 
 ---
 

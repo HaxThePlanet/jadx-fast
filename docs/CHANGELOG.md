@@ -4,6 +4,32 @@ Development history and notable fixes.
 
 ## December 2025
 
+### P2-001: JADX Parity for Variable Naming in Method Parameters - FIXED (Dec 20, 2025)
+
+**Commit:** `d60cf950b`
+
+Full JADX parity for variable naming in method parameters:
+
+1. **Short class name "Var" suffix:** Class names < 3 characters get "Var" suffix
+   - Example: `AB` class becomes `abVar` instead of `ab`
+
+2. **OBJ_ALIAS mappings:** Implemented JADX's type-based aliases
+   - `String` -> `str`, `StringBuilder/StringBuffer` -> `sb`
+   - `Map/HashMap/LinkedHashMap/TreeMap` -> `map`
+   - `List/ArrayList/LinkedList` -> `list`, `Set/HashSet/TreeSet` -> `set`
+   - `Iterator` -> `it`, `Exception` -> `exc`, `Throwable/Error` -> `th`
+
+3. **Collision detection:** Suffixes starting at 2 (`str`, `str2`, `str3`...)
+
+4. **is_static parameter fix:** Fixed off-by-one error in parameter register calculation
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs`
+- `crates/dexterity-codegen/src/method_gen.rs`
+- `crates/dexterity-codegen/src/body_gen.rs`
+
+---
+
 ### Variable Naming JADX Parity (Dec 20, 2025)
 
 Fixed variable naming to match JADX output for 1:1 compatibility.
@@ -38,6 +64,14 @@ Parameter naming now uses JADX's type-based aliases:
 **Known Remaining:**
 - Semantic naming for method returns (e.g., `iMin` for `Math.min()`) not yet implemented
 - Codegen variable tracking bugs causing undefined variable references
+
+---
+
+### BUG-009: @Override on Annotation Interface Methods - FIXED (Dec 20, 2025)
+
+**Commit:** `a51539c1f`
+**Problem:** @Override incorrectly emitted on annotation interface methods
+**Solution:** Skip @Override for annotation interface method declarations in `method_gen.rs`
 
 ---
 

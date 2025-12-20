@@ -116,6 +116,10 @@ pub struct BodyGenContext {
     /// Phi node destinations that need early declaration at method start
     /// These are variables that merge values from multiple branches
     pub phi_declarations: HashSet<(u16, u32)>,
+    /// Constant initializers for PHI variables (for NEW-002 fix)
+    /// Maps (reg, version) of PHI destination to its constant initializer string
+    /// This fixes: `int i;` -> `int i = 0;` when PHI has a constant source
+    pub phi_constant_inits: HashMap<(u16, u32), String>,
     /// Instructions to skip in for-each loops (block_id -> set of instruction indices)
     pub skip_foreach_insns: HashMap<u32, HashSet<usize>>,
     /// StringBuilder chain tracking for optimization
@@ -264,6 +268,7 @@ impl BodyGenContext {
             current_class_type: None,
             current_package: None,
             phi_declarations: HashSet::new(),
+            phi_constant_inits: HashMap::new(),
             skip_foreach_insns: HashMap::new(),
             stringbuilder_chains: HashMap::new(),
             last_stringbuilder_reg: None,
@@ -938,6 +943,87 @@ fn merge_use_counts(main: &mut HashMap<(u16, u32), usize>, other: HashMap<(u16, 
     }
 }
 
+/// Collect constant initializers for PHI variables (NEW-002 fix)
+///
+/// For each PHI node, checks if any source is a Const instruction. If so,
+/// returns a mapping from PHI destination (reg, version) to the formatted constant.
+/// This allows emitting `int i = 0;` instead of `int i;` for loop variables.
+fn collect_phi_constant_inits(
+    ssa_result: &dexterity_passes::ssa::SsaResult,
+    exception_handler_blocks: &HashSet<u32>,
+) -> HashMap<(u16, u32), String> {
+    let mut inits: HashMap<(u16, u32), String> = HashMap::new();
+
+    // Build a map from (reg, version) -> constant value for all Const instructions
+    let mut const_values: HashMap<(u16, u32), LiteralArg> = HashMap::new();
+    for block in &ssa_result.blocks {
+        for insn in &block.instructions {
+            if let InsnType::Const { dest, value } = &insn.insn_type {
+                const_values.insert((dest.reg_num, dest.ssa_version), value.clone());
+            }
+        }
+    }
+
+    // For each PHI node, check if any source has a constant initializer
+    for block in &ssa_result.blocks {
+        // Skip PHI nodes in exception handler blocks
+        if exception_handler_blocks.contains(&block.id) {
+            continue;
+        }
+
+        for phi in &block.phi_nodes {
+            // Skip 'this' parameter
+            if phi.dest.reg_num == 0 && phi.dest.ssa_version == 0 {
+                continue;
+            }
+
+            // Look for a constant source (typically the loop initialization)
+            for (_, source) in &phi.sources {
+                if let Some(value) = const_values.get(&(source.reg_num, source.ssa_version)) {
+                    // Format the constant value
+                    let init_str = format_literal_for_init(value);
+                    inits.insert((phi.dest.reg_num, phi.dest.ssa_version), init_str);
+                    break; // Use first constant source found
+                }
+            }
+        }
+    }
+
+    inits
+}
+
+/// Format a literal value for use in variable initialization
+fn format_literal_for_init(lit: &LiteralArg) -> String {
+    match lit {
+        LiteralArg::Int(v) => {
+            if *v >= i32::MIN as i64 && *v <= i32::MAX as i64 {
+                format!("{}", v)
+            } else {
+                format!("{}L", v)
+            }
+        }
+        LiteralArg::Float(v) => {
+            if v.is_nan() {
+                "Float.NaN".to_string()
+            } else if v.is_infinite() {
+                if *v > 0.0 { "Float.POSITIVE_INFINITY" } else { "Float.NEGATIVE_INFINITY" }.to_string()
+            } else {
+                format!("{}f", v)
+            }
+        }
+        LiteralArg::Double(v) => {
+            if v.is_nan() {
+                "Double.NaN".to_string()
+            } else if v.is_infinite() {
+                if *v > 0.0 { "Double.POSITIVE_INFINITY" } else { "Double.NEGATIVE_INFINITY" }.to_string()
+            } else {
+                format!("{}d", v)
+            }
+        }
+        LiteralArg::Null => "null".to_string(),
+    }
+}
+
 /// Emit declarations for phi variables at method start
 /// Like Java JADX's DeclareVariablesAttr, this ensures variables used before
 /// their first "real" assignment are declared
@@ -994,7 +1080,13 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
         // Use imports-aware and package-aware type formatting
         let type_str = type_to_string_with_imports_and_package(&var_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
 
-        code.add(&type_str).add(" ").add(&var_name).add(";").newline();
+        // NEW-002 fix: Include constant initializer if available
+        // This changes: `int i;` -> `int i = 0;` for loop variables with constant init
+        if let Some(init_value) = ctx.phi_constant_inits.get(&(reg, version)) {
+            code.add(&type_str).add(" ").add(&var_name).add(" = ").add(init_value).add(";").newline();
+        } else {
+            code.add(&type_str).add(" ").add(&var_name).add(";").newline();
+        }
 
         // Mark as declared (both by version and by name with type)
         ctx.mark_declared(reg, version);
@@ -1576,8 +1668,9 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     let max_versions = ssa_result.max_versions.clone();
     // Identify exception handler blocks to skip in phi declaration
     let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);
-    // Collect phi destinations AND phi source uses before consuming SSA result
+    // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
+    ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -1594,7 +1687,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     apply_inferred_types(&mut ctx);
     apply_var_names_from_pass(&var_names, &mut ctx);
 
-    // Emit declarations for phi variables at method start
+    // Emit declarations for phi variables at method start (with initializers for NEW-002 fix)
     emit_phi_declarations(&mut ctx, code);
 
     // Generate code from region tree
@@ -1778,8 +1871,9 @@ fn generate_body_impl<W: CodeWriter>(
     let max_versions = ssa_result.max_versions.clone();
     // Identify exception handler blocks to skip in phi declaration
     let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);
-    // Collect phi destinations AND phi source uses before consuming SSA result
+    // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
+    ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -2103,8 +2197,9 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     let max_versions = ssa_result.max_versions.clone();
     // Identify exception handler blocks to skip in phi declaration
     let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);
-    // Collect phi destinations AND phi source uses before consuming SSA result
+    // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
+    ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -6593,9 +6688,29 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::Throw { exception } => {
-            code.start_line().add("throw ");
-            ctx.write_arg_inline(code, exception);  // OPTIMIZED: direct write
-            code.add(";").newline();
+            // Check if exception type is valid (Throwable or subclass)
+            let is_valid_throwable = match exception {
+                InsnArg::Register(reg) => {
+                    ctx.type_info.as_ref()
+                        .and_then(|ti| ti.types.get(&(reg.reg_num, reg.ssa_version)))
+                        .map(|ty| is_throwable_type(ty))
+                        .unwrap_or(true) // Unknown type - assume valid
+                }
+                InsnArg::Literal(_) => false, // Literals can't be thrown
+                _ => true, // Other args (Named, Wrapped, etc.) - assume valid
+            };
+
+            if is_valid_throwable {
+                code.start_line().add("throw ");
+                ctx.write_arg_inline(code, exception);
+                code.add(";").newline();
+            } else {
+                // Invalid throw - emit null throw with warning comment
+                code.start_line()
+                    .add("/* JADX WARN: Attempted to throw non-Throwable value */")
+                    .newline();
+                code.start_line().add("throw null;").newline();
+            }
             true
         }
 
@@ -7548,6 +7663,37 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
 /// Check if class name is StringBuilder or StringBuffer
 fn is_stringbuilder_class(class_name: &str) -> bool {
     class_name == "StringBuilder" || class_name == "StringBuffer"
+}
+
+/// Check if a type is Throwable or a subclass
+/// Used to validate throw statements - Java only allows throwing Throwable types
+fn is_throwable_type(ty: &ArgType) -> bool {
+    match ty {
+        ArgType::Object(class_name) => {
+            // Common Throwable classes (direct check for common cases)
+            matches!(class_name.as_str(),
+                "java/lang/Throwable" |
+                "java/lang/Exception" |
+                "java/lang/Error" |
+                "java/lang/RuntimeException" |
+                "java/lang/IllegalStateException" |
+                "java/lang/IllegalArgumentException" |
+                "java/lang/NullPointerException" |
+                "java/lang/IndexOutOfBoundsException" |
+                "java/lang/ClassCastException" |
+                "java/lang/IOException" |
+                "java/lang/UnsupportedOperationException" |
+                "java/lang/SecurityException" |
+                "java/lang/AssertionError" |
+                "java/lang/OutOfMemoryError" |
+                "java/lang/StackOverflowError"
+            ) || class_name.ends_with("Exception")
+              || class_name.ends_with("Error")
+              || class_name.ends_with("Throwable")
+        }
+        ArgType::UnknownObject | ArgType::Unknown => true, // Assume valid when type unknown
+        _ => false, // Primitives, arrays, etc. can't be thrown
+    }
 }
 
 /// Try to convert a StringBuilder chain to string concatenation

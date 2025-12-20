@@ -1561,7 +1561,7 @@ fn process_dex_bytes(
         };
 
         // Write to file
-        if let Err(e) = std::fs::write(&out_path, java_code) {
+        if let Err(e) = std::fs::write(&out_path, &java_code) {
             tracing::warn!("Failed to write {}: {}", out_path.display(), e);
             error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
         }

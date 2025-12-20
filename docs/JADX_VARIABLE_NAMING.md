@@ -471,11 +471,15 @@ To achieve parity with JADX variable naming:
 
 ### Dexterity Implementation Status (Dec 20, 2025)
 
+**P2-001 FIXED (Commit `d60cf950b`):**
+
 **Implemented:**
 - Long type prefix: `j` (not `l`) - matches JADX
 - Array naming: `jArr` for long arrays
 - OBJ_ALIAS mappings for common types (String->str, StringBuilder->sb, etc.)
 - Numeric suffix collision handling (str, str2, str3...)
+- Short class name "Var" suffix: names < 3 chars get "Var" suffix (e.g., `AB` -> `abVar`)
+- `is_static` parameter fix for correct parameter register calculation
 
 **Not Yet Implemented:**
 - Semantic naming from method returns (e.g., `iMin` for `Math.min()` result)

@@ -1,30 +1,30 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**ALL P0 BUGS FIXED (Dec 20, 2025) - Production Ready**
+**Status:** 2 P0 Issues Remain - NOT Production Ready (Dec 20, 2025)
+**See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades (D overall)
 **Feature Implementation:** A- Grade (88-90/100) - measures passes/features implemented
-**Actual Output Quality:** A- Grade - all 7 P0 critical bugs fixed, produces compilable Java code
-**Status:** All 7 P0 critical bugs discovered during Dec 20, 2025 quality audit have been FIXED.
-**Tests:** 1,177+ total passing.
+**Actual Output Quality:** D Grade - 2 P0 bugs remain (NEW-002, NEW-004), compilation errors on real APKs
+**Tests:** 976 total passing.
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency).
 **Note:** Framework classes are skipped by default for faster output. Use `--include-framework` to include them.
 
 ---
 
-## Dec 20, 2025: All P0 Bugs Fixed
+## Dec 20, 2025: Progress Update
 
-**All 7 P0 critical bugs have been fixed. The decompiler now produces compilable Java code.**
+**Many P0 bugs fixed, 2 remain (NEW-002, NEW-004). See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current state.**
 
-### Updated Quality Grades (Post-Fix)
+### Current Quality Grades
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **A-** | All 7 P0 bugs FIXED |
-| **IR/Control Flow** | **A-** | Switch map classes now generated (24 classes) |
-| **Variable Renaming** | **B+** | Better than JADX for simple cases |
-| **JADX 1:1 Match** | **B** | Significant improvements with fixes |
-| **Overall** | **A-** | Production ready |
+| **Codegen** | **D** | 2 P0 bugs remain (NEW-002, NEW-004) |
+| **IR/Control Flow** | **D** | Synchronized blocks, loops broken |
+| **Variable Naming** | **B-** | JADX parity improved (long=j, OBJ_ALIAS) |
+| **JADX 1:1 Match** | **F** | Major structural differences |
+| **Overall** | **D** | Not production ready |
 
-### P0 Critical Bugs - ALL FIXED
+### P0 Critical Bugs (BUG-001 to BUG-007) - FIXED
 
 | ID | Bug | Status | Commit | Description |
 |----|-----|--------|--------|-------------|
@@ -41,10 +41,11 @@
 | ID | Bug | Status | Notes |
 |----|-----|--------|-------|
 | **BUG-008** | Empty else blocks | Low Priority | Cosmetic |
-| **BUG-009** | Wrong @Override annotations | Low Priority | Cosmetic |
+| **BUG-009** | Wrong @Override annotations | **FIXED** | Commit `a51539c1f` |
 | **BUG-010** | Static final reassignment | **FIXED** | Handled correctly |
 | **BUG-011** | Missing AnonymousClass | **FIXED (Partial)** | Switch map classes generated |
 | **BUG-012** | Type reassignment issues | **FIXED** | Type safety enforced |
+| **P2-001** | Variable naming JADX parity | **FIXED** | Commit `d60cf950b` - Var suffix, OBJ_ALIAS, is_static fix |
 
 ### Positive Findings
 
