@@ -768,14 +768,17 @@ impl DexInfoProvider for LazyDexInfo {
 }
 
 /// Replace single $ with . for inner classes, but preserve $$ for synthetic classes
+/// Also prefixes anonymous class numbers with "AnonymousClass" to make valid Java identifiers.
 ///
 /// Examples:
 /// - "MainActivity$InnerClass" -> "MainActivity.InnerClass"
 /// - "MainActivity$$ExternalSyntheticLambda0" -> "MainActivity$$ExternalSyntheticLambda0"
 /// - "Outer$Inner$Deep" -> "Outer.Inner.Deep"
 /// - "R$layout" -> "R.layout"
+/// - "Keys$1" -> "Keys.AnonymousClass1" (BUG-001 fix: anonymous classes get valid names)
+/// - "Outer$1$2" -> "Outer.AnonymousClass1.AnonymousClass2"
 pub fn replace_inner_class_separator(s: &str) -> String {
-    let mut result = String::with_capacity(s.len());
+    let mut result = String::with_capacity(s.len() + 32); // Extra space for "AnonymousClass" prefixes
     let chars: Vec<char> = s.chars().collect();
     let len = chars.len();
 
@@ -791,6 +794,12 @@ pub fn replace_inner_class_separator(s: &str) -> String {
             } else {
                 // Single $, convert to .
                 result.push('.');
+
+                // Check if the next part starts with a digit (anonymous class like $1, $2)
+                // If so, add "AnonymousClass" prefix to make it a valid Java identifier
+                if i + 1 < len && chars[i + 1].is_ascii_digit() {
+                    result.push_str("AnonymousClass");
+                }
                 i += 1;
             }
         } else {

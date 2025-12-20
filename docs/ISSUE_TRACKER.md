@@ -35,30 +35,29 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 ### BUG-001: Undefined Switch Variable `i`
 
-**Status:** OPEN
+**Status:** FIXED ✅ (Dec 20, 2025)
 **Priority:** P0 (CRITICAL)
 **Impact:** 6+ files produce uncompilable code
 **Category:** Switch Map Synthetic Classes
 
 **The Problem:**
-Switch map synthetic classes (AnonymousClass1, etc.) are not being generated. When the decompiled code references switch tables, it uses an undefined variable `i`.
+Switch map synthetic classes (AnonymousClass1, etc.) were not being generated. When the decompiled code references switch tables, it used an undefined variable `i`.
 
-**Example:**
-```java
-// Dexterity output (BROKEN - won't compile)
-switch(i) {  // 'i' is undefined - should reference synthetic switch map
-    case 0: ...
-}
+**Fix Applied:**
+1. Added `is_switch_map_class()` function in `class_gen.rs` to detect switch map synthetic classes
+2. Modified `add_nested_inner_classes()` to NOT skip switch map classes (even if anonymous)
+3. Updated `get_inner_class_simple_name()` to prefix digit-starting names with "AnonymousClass"
+4. Updated `replace_inner_class_separator()` to handle anonymous class references like `Keys$1` → `Keys.AnonymousClass1`
 
-// JADX output (CORRECT)
-switch(AnonymousClass1.$SwitchMap$...[ordinal]) {
-    case 1: ...
-}
-```
+**Result:**
+- 24 switch map synthetic classes now generated in large APK
+- References use valid Java syntax (`AnonymousClass1.$SwitchMap$...`)
+- Switch statements correctly reference synthetic switch maps
 
-**Root Cause:** Missing generation of switch map synthetic inner classes that JADX creates.
-
-**Files Affected:** 6+ files in medium APK
+**Files Changed:**
+- `crates/dexterity-codegen/src/class_gen.rs`
+- `crates/dexterity-codegen/src/dex_info.rs`
+- `crates/dexterity-codegen/src/lib.rs`
 
 ---
 

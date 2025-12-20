@@ -32,7 +32,7 @@ pub use class_gen::{
     generate_class_with_nested_inner_classes, ClassGenConfig, CommentsLevel,
     // Inner class utilities
     get_inner_class_info, get_outer_class, group_by_outer_class,
-    is_anonymous_class, is_inner_class, is_lambda_class, is_sam_interface,
+    is_anonymous_class, is_inner_class, is_lambda_class, is_sam_interface, is_switch_map_class,
     InnerClassInfo, InnerClassKind,
 };
 pub use dex_info::{DexInfo, DexInfoProvider, LazyDexInfo, GlobalFieldPool, AliasAwareDexInfo, AliasRegistry};
