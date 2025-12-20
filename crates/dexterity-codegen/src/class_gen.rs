@@ -916,16 +916,15 @@ fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str, comment
 /// Add class declaration (modifiers, name, extends, implements)
 fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, comments_level: CommentsLevel, code: &mut W) {
     // Add "compiled from" comment for top-level classes when source file differs from class name (INFO level)
-    // Matches JADX's CodeGenUtils.addSourceFileInfo() logic
+    // Matches JADX's CodeGenUtils.addSourceFileInfo() logic exactly
     if !is_inner_class(&class.class_type) && comments_level.show_info() {
         if let Some(ref source_file) = class.source_file {
             let class_name = class.simple_name();
-            // Only emit if the source file name differs from the class name
             // JADX: if (topClsName.contains(fileName)) { return; }
-            let file_base = source_file.strip_suffix(".java")
-                .or_else(|| source_file.strip_suffix(".kt"))
-                .unwrap_or(source_file);
-            if !class_name.contains(file_base) {
+            // JADX keeps the extension (e.g., "Keep.java") in the contains check
+            // "Keep".contains("Keep.java") = false, so comment IS emitted
+            // This effectively means comment is always emitted for INFO level
+            if !class_name.contains(source_file.as_str()) {
                 code.start_line()
                     .add("/* compiled from: ")
                     .add(source_file)

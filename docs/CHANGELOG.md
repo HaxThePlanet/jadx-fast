@@ -270,7 +270,7 @@ private MyClass field;
 
 ### P1-003: Source File Comments - FIXED (Dec 20, 2025)
 
-**Commit:** `40d14e46d`
+**Commit:** `40d14e46d`, follow-up fix Dec 20
 **Priority:** P1-HIGH - RESOLVED
 
 **The Problem:**
@@ -290,6 +290,13 @@ public @interface a { }
 **Fix Applied:**
 - Added source file comment emission in `class_gen.rs`
 - Only emits when source file name differs from class name (JADX parity)
+
+**Follow-up Fix (Dec 20):**
+The initial implementation incorrectly stripped the `.java`/`.kt` extension before the contains check, causing fewer comments to be emitted than JADX. JADX keeps the extension in the check:
+- JADX: `"Keep".contains("Keep.java")` = false → emit comment
+- Dexterity (before): `"Keep".contains("Keep")` = true → no comment
+
+Fixed by removing extension stripping to match JADX's `CodeGenUtils.addSourceFileInfo()` exactly.
 
 **Files Changed:**
 - `crates/dexterity-codegen/src/class_gen.rs`

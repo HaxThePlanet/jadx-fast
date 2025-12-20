@@ -71,7 +71,9 @@ public @interface a { }
 public @interface a { }
 ```
 
-**Implementation:** Only emits when source file name differs from class name (matches JADX's `CodeGenUtils.addSourceFileInfo()` logic).
+**Implementation:** Matches JADX's `CodeGenUtils.addSourceFileInfo()` logic exactly.
+
+**Follow-up Fix (Dec 20):** Fixed extension stripping bug. JADX keeps the `.java` extension in the contains check (`"Keep".contains("Keep.java")` = false → emit). Initial implementation incorrectly stripped extensions causing fewer comments to be emitted.
 
 ### P1-004: Variable Naming Improvements (FIXED)
 

@@ -3168,9 +3168,21 @@ fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenCon
         }
         _ => {
             // Not an If region - generate regular else
-            gen_else(code);
-            generate_region(else_region, ctx, code);
+            // Skip empty else blocks for JADX parity (BUG-008)
+            if !is_empty_region(else_region) {
+                gen_else(code);
+                generate_region(else_region, ctx, code);
+            }
         }
+    }
+}
+
+/// Check if a region is empty (no meaningful content)
+/// Used to skip generating empty else blocks for JADX parity (BUG-008)
+fn is_empty_region(region: &Region) -> bool {
+    match region {
+        Region::Sequence(contents) => contents.is_empty(),
+        _ => false,
     }
 }
 
@@ -4598,8 +4610,11 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             generate_region(then_region, ctx, code);
 
             if let Some(else_reg) = else_region {
-                // Check if the else region is another If - chain as else-if
-                generate_else_chain(else_reg, ctx, code);
+                // Skip empty else blocks for JADX parity (BUG-008)
+                if !is_empty_region(else_reg) {
+                    // Check if the else region is another If - chain as else-if
+                    generate_else_chain(else_reg, ctx, code);
+                }
             }
 
             gen_close_block(code);

@@ -132,11 +132,23 @@ All 7 P0 critical bugs have been fixed. The decompiler now produces compilable J
 
 ### BUG-008: Empty Else Blocks
 
-**Status:** Low Priority
+**Status:** FIXED (Dec 20, 2025)
 **Priority:** P1 (HIGH)
 **Category:** Control Flow
 
-Cosmetic issue - does not affect compilation.
+**Problem:** Empty else blocks were generated when JADX would eliminate them:
+```java
+if (condition) {
+} else {
+}
+```
+
+**Fix:** Added `is_empty_region()` helper function to detect empty regions (`Region::Sequence(vec![])`), then skip generating else blocks when they're empty.
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs` - Added `is_empty_region()` and two guard checks
+
+**Result:** Empty else blocks no longer generated, matching JADX output.
 
 ---
 
@@ -497,7 +509,7 @@ public void method(OtherClass param) { }
 ### Issue ID: P1-003-SOURCE
 
 **Status:** RESOLVED (Dec 20, 2025)
-**Commit:** `40d14e46d`
+**Commit:** `40d14e46d`, follow-up fix Dec 20
 **Priority:** P1 (HIGH)
 **Category:** Source File Comments
 **Impact:** Missing traceability comments
@@ -521,6 +533,12 @@ public @interface a { }
 **Fix Applied:**
 - Added source file comment emission in `class_gen.rs`
 - Only emits when source file name differs from class name (matches JADX's `CodeGenUtils.addSourceFileInfo()` logic)
+
+**Follow-up Fix (Dec 20):**
+Initial implementation incorrectly stripped `.java`/`.kt` extensions before the contains check, causing fewer comments to be emitted than JADX:
+- JADX: `"Keep".contains("Keep.java")` = false → emit comment
+- Dexterity (before): `"Keep".contains("Keep")` = true → no comment
+Fixed by removing extension stripping to match JADX exactly.
 
 **Files Changed:**
 - `crates/dexterity-codegen/src/class_gen.rs`
