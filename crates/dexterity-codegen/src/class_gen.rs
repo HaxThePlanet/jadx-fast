@@ -1444,6 +1444,12 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
             if is_default_constructor(method) {
                 return false;
             }
+            // Skip synthetic bridge methods (compiler-generated for covariant return types)
+            // These just delegate to another overloaded method and look like infinite recursion
+            // when decompiled (e.g., `return clone();` calling the other clone() method)
+            if access_flags::is_synthetic(method.access_flags) && access_flags::is_bridge(method.access_flags) {
+                return false;
+            }
             // Skip synthetic enum methods (values(), valueOf(), enum constructors)
             if is_enum_synthetic_method(method, is_enum) {
                 return false;
