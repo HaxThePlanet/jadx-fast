@@ -873,6 +873,12 @@ fn emit_assignment_with_hint<W: CodeWriter>(
     let reg = dest.reg_num;
     let version = dest.ssa_version;
 
+    // DEAD VARIABLE ELIMINATION: Skip variables that are never used
+    let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
+    if use_count == 0 {
+        return;  // Skip unused variables - dead code elimination
+    }
+
     // Check if this variable should be inlined (used exactly once)
     if ctx.should_inline(reg, version) {
         // Store the expression for later inlining instead of emitting
@@ -949,6 +955,12 @@ fn emit_assignment_insn<W: CodeWriter>(
 ) -> bool {
     let reg = dest.reg_num;
     let version = dest.ssa_version;
+
+    // DEAD VARIABLE ELIMINATION: Skip variables that are never used
+    let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
+    if use_count == 0 {
+        return false;  // Skip unused variables - dead code elimination
+    }
 
     // Check if this variable should be inlined (used exactly once)
     // This is the rare case where we need the String for deferred emission
@@ -6155,6 +6167,12 @@ fn generate_insn<W: CodeWriter>(
             // Emit the assignment
             let var_name = ctx.expr_gen.get_var_name(dest);
             code.start_line();
+
+            // DEAD VARIABLE ELIMINATION: Skip variables that are never used
+            let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
+            if use_count == 0 {
+                return true;  // Skip unused array allocation
+            }
 
             let needs_decl = !ctx.is_declared(reg, version)
                 && !ctx.is_parameter(reg, version)

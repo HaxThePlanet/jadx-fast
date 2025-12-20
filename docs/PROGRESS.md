@@ -475,7 +475,7 @@ Results:
 - Fixed SmallVec errors in code_shrink tests (lines 963, 978, 1003) with `.into()` conversion
 - Updated Array/Object compatibility test to expect incompatibility (var_naming.rs:1966-1971)
 
-**Results:** All 1,175 tests pass (685 integration + 490 unit). Quality maintained at 96%+ overall.
+**Results:** All 1,176 tests pass (686 integration + 490 unit). Quality maintained at 96%+ overall.
 
 ---
 
@@ -509,7 +509,7 @@ All P0 critical issues have been resolved, significantly improving code generati
 #### Additional Improvements
 - **Constructor Generic Types:** `generic_types: Option<Vec<ArgType>>` added to Constructor instruction
 - **Type-Aware Variable Naming:** `types_compatible_for_naming()` prevents incompatible types (int vs boolean) from sharing names
-- **Test Count:** All 1,175 tests pass (685 integration + 490 unit)
+- **Test Count:** All 1,176 tests pass (686 integration + 490 unit)
 - **Observable.java:** Now decompiles correctly with proper interface generics
 
 ---
@@ -665,7 +665,7 @@ MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d outpu
 **Files Changed:**
 - `crates/dexterity-passes/src/var_naming.rs`
 
-**Results:** `padding-3ABfNKs` -> `padding3ABfNKs`, `constructor-impl` -> `constructorImpl`. All 1,175 tests pass.
+**Results:** `padding-3ABfNKs` -> `padding3ABfNKs`, `constructor-impl` -> `constructorImpl`. All 1,176 tests pass.
 
 ---
 
@@ -687,7 +687,7 @@ MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d outpu
 **Files Changed:**
 - `crates/dexterity-codegen/src/body_gen.rs`
 
-**Results:** Varargs patterns now properly expanded. All 1,175 tests pass.
+**Results:** Varargs patterns now properly expanded. All 1,176 tests pass.
 
 ---
 

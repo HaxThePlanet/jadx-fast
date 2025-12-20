@@ -1073,7 +1073,14 @@ impl TypeInference {
                 let mut source_vars = Vec::with_capacity(sources.len());
                 for (_, src_arg) in sources {
                     if let Some(src_var) = self.var_for_arg(src_arg) {
-                        self.add_constraint(Constraint::Same(dest_var, src_var));
+                        // BOUNDS-BASED PHI HANDLING: Don't force unification with Constraint::Same
+                        // Instead, accumulate bounds from all sources and compute LCA later
+                        // This allows handling incompatible types (e.g., Cursor vs String)
+
+                        // Try to resolve source type and add as bound
+                        if let Some(InferredType::Concrete(src_type)) = self.resolved.get(&src_var) {
+                            self.add_constraint(Constraint::AssignBound(dest_var, src_type.clone()));
+                        }
                         source_vars.push(src_var);
                     }
                 }
@@ -1330,6 +1337,11 @@ impl TypeInference {
                 }
             }
         }
+
+        // BOUNDS-BASED PHI RESOLUTION: Compute LCA for incompatible PHI types
+        // This happens AFTER constraint solving to find the least common ancestor of
+        // incompatible types (e.g., PHI(Cursor, String) -> Object)
+        self.compute_phi_lcas();
 
         // Second pass: resolve bounds to concrete types
         self.resolve_bounds();

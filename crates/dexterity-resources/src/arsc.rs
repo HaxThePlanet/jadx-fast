@@ -440,6 +440,10 @@ pub struct ArscParser {
     entries: Vec<ResourceEntry>,
     /// Resource ID to full name mapping
     res_names: HashMap<u32, String>,
+    /// Track seen resource names for duplicate detection (type/name -> first ID)
+    seen_names: HashMap<String, u32>,
+    /// Original APK path to normalized path mapping (for file extraction)
+    path_mappings: HashMap<String, String>,
 }
 
 impl ArscParser {
@@ -449,6 +453,8 @@ impl ArscParser {
             strings: StringPool::empty(),
             entries: Vec::new(),
             res_names: HashMap::new(),
+            seen_names: HashMap::new(),
+            path_mappings: HashMap::new(),
         }
     }
 
@@ -456,6 +462,8 @@ impl ArscParser {
     pub fn parse(&mut self, data: &[u8]) -> Result<()> {
         self.entries.clear();
         self.res_names.clear();
+        self.seen_names.clear();
+        self.path_mappings.clear();
 
         let mut cursor = Cursor::new(data);
 
@@ -506,6 +514,12 @@ impl ArscParser {
     /// Get all parsed resource entries
     pub fn get_entries(&self) -> &[ResourceEntry] {
         &self.entries
+    }
+
+    /// Get the file path mappings (original APK path -> normalized path)
+    /// Used for extracting resource files with correct names
+    pub fn get_path_mappings(&self) -> HashMap<String, String> {
+        self.path_mappings.clone()
     }
 
     /// Parse string pool chunk
@@ -832,19 +846,65 @@ impl ArscParser {
         };
 
         // Get key name
-        let key_name = key_strings
+        let original_key_name = key_strings
             .get(key_idx)
             .unwrap_or_else(|| format!("entry{}", entry_idx));
 
         // Build resource ID: 0xPPTTEEEE
         let res_id = (package_id << 24) | (type_id << 16) | entry_idx;
 
+        // Sanitize the key name for JADX compatibility
+        let (sanitized_name, name_changed) = sanitize_resource_name(&original_key_name);
+
+        // Check for duplicates and add _res_0x{id} suffix if needed
+        let full_name_key = format!("{}/{}", type_name, sanitized_name);
+        let final_key_name = if let Some(&prev_id) = self.seen_names.get(&full_name_key) {
+            // Duplicate found! Rename both entries with _res_0x{id} suffix
+            // First, rename the previous entry if not already renamed
+            let prev_full_name = format!("{}/{}", type_name, sanitized_name);
+            if self.res_names.get(&prev_id) == Some(&prev_full_name) {
+                let prev_new_name = format!("{}_res_0x{:08x}", sanitized_name, prev_id);
+                self.res_names.insert(prev_id, format!("{}/{}", type_name, prev_new_name));
+                // Update the entry's key_name
+                for entry in &mut self.entries {
+                    if entry.id == prev_id {
+                        // Build path mapping for the previous entry
+                        let orig_path = format!("res/{}{}/{}", type_name, entry.config.replace("default", ""), original_key_name);
+                        let new_path = format!("res/{}{}/{}", type_name, entry.config.replace("default", ""), prev_new_name);
+                        if orig_path != new_path {
+                            self.path_mappings.insert(orig_path, new_path);
+                        }
+                        entry.key_name = prev_new_name;
+                        break;
+                    }
+                }
+            }
+            // Now rename the current entry
+            format!("{}_res_0x{:08x}", sanitized_name, res_id)
+        } else if name_changed {
+            // Name was sanitized, add the suffix
+            format!("{}_res_0x{:08x}", sanitized_name, res_id)
+        } else {
+            // No duplicate, no sanitization needed
+            self.seen_names.insert(full_name_key, res_id);
+            sanitized_name
+        };
+
+        // Build path mapping if name changed
+        if final_key_name != original_key_name {
+            let config_suffix = if config == "default" { "" } else { config };
+            let orig_path = format!("res/{}{}/{}", type_name, config_suffix, original_key_name);
+            let new_path = format!("res/{}{}/{}", type_name, config_suffix, final_key_name);
+            // Note: we'll add extension later when we know the file type
+            self.path_mappings.insert(orig_path, new_path);
+        }
+
         // Add entry
         let entry = ResourceEntry {
             id: res_id,
             package_name: package_name.to_string(),
             type_name: type_name.to_string(),
-            key_name: key_name.clone(),
+            key_name: final_key_name.clone(),
             value,
             bag_items,
             parent,
@@ -1594,28 +1654,91 @@ fn escape_string_resource(s: &str) -> String {
     result
 }
 
-/// Normalize resource name for XML compatibility (matches Java JADX behavior)
+/// Java reserved words that need postfix when used as resource names
+const JAVA_RESERVED_WORDS: &[&str] = &[
+    "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
+    "class", "const", "continue", "default", "do", "double", "else", "enum",
+    "extends", "false", "final", "finally", "float", "for", "goto", "if",
+    "implements", "import", "instanceof", "int", "interface", "long", "native",
+    "new", "null", "package", "private", "protected", "public", "return",
+    "short", "static", "strictfp", "super", "switch", "synchronized", "this",
+    "throw", "throws", "transient", "true", "try", "void", "volatile", "while",
+    "_", // underscore alone is reserved in Java 9+
+];
+
+/// Sanitize a resource name for XML and R class compatibility (matches JADX behavior).
+/// Returns (sanitized_name, name_was_changed).
+///
+/// Rules:
+/// - Invalid start chars ($, /, -, digits, etc.) are converted to `_`
+/// - Invalid chars in the middle ($, /, -, etc.) are converted to `_`
+/// - `.` is allowed in the middle but not at start
+/// - Reserved words get marked as changed
+fn sanitize_resource_name(name: &str) -> (String, bool) {
+    if name.is_empty() {
+        return ("_".to_string(), true);
+    }
+
+    let mut result = String::with_capacity(name.len() + 1);
+    let mut name_changed = false;
+    let mut chars = name.chars().peekable();
+
+    // Handle first character
+    if let Some(first) = chars.next() {
+        if is_valid_resource_name_start(first) {
+            result.push(first);
+        } else {
+            result.push('_');
+            name_changed = true;
+            // If the original char is valid as a part (not start), keep it
+            if is_valid_resource_name_part(first) {
+                result.push(first);
+            }
+        }
+    }
+
+    // Handle rest of characters
+    for c in chars {
+        if is_valid_resource_name_part(c) {
+            result.push(c);
+        } else {
+            result.push('_');
+            name_changed = true;
+        }
+    }
+
+    // Check if it's a reserved word
+    if JAVA_RESERVED_WORDS.contains(&result.as_str()) {
+        name_changed = true;
+    }
+
+    (result, name_changed)
+}
+
+/// Check if a character is valid as the start of a resource name
+fn is_valid_resource_name_start(c: char) -> bool {
+    // Must be a valid Java identifier start AND valid for aapt2
+    // Excludes: $, /, -, digits, punctuation
+    c.is_ascii_alphabetic() || c == '_' || (c > '\u{007f}' && c.is_alphabetic())
+}
+
+/// Check if a character is valid as part of a resource name (not first char)
+fn is_valid_resource_name_part(c: char) -> bool {
+    // Allows: letters, digits, underscore, dot (for style names like Theme.AppCompat)
+    // Excludes: $, /, -
+    c.is_ascii_alphanumeric() || c == '_' || c == '.' || (c > '\u{007f}' && (c.is_alphanumeric() || c == '_'))
+}
+
+/// Normalize resource name for XML compatibility (for public.xml generation)
 /// - Names starting with $ get _ prefix and _res_0x{id} suffix
 /// - Names with invalid XML chars get escaped
 fn normalize_resource_name(name: &str, id: u32) -> String {
-    if name.is_empty() {
-        return format!("res_0x{:08x}", id);
+    let (sanitized, changed) = sanitize_resource_name(name);
+    if changed || name.is_empty() {
+        format!("{}_res_0x{:08x}", sanitized, id)
+    } else {
+        sanitized
     }
-
-    let first_char = name.chars().next().unwrap();
-
-    // Names starting with $ are invalid XML - normalize like Java JADX
-    if first_char == '$' {
-        let normalized = name.replace('$', "_");
-        return format!("{}_res_0x{:08x}", normalized, id);
-    }
-
-    // Names starting with digit need underscore prefix
-    if first_char.is_ascii_digit() {
-        return format!("_{}_res_0x{:08x}", name, id);
-    }
-
-    name.to_string()
 }
 
 #[cfg(test)]

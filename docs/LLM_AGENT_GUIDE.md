@@ -131,9 +131,9 @@ If you made significant improvements, update:
 | Undefined Variables | FIXED - Type-aware grouping + Move propagation |
 | Resource Field Resolution | DONE - R.* enabled by default |
 | Lambda Body Decompilation | DONE - Full body + inlining |
-| Integration Tests | 685/685 passing |
+| Integration Tests | 686/686 passing |
 | Unit Tests | 490/490 passing |
-| Total Tests | 1,175 passing |
+| Total Tests | 1,176 passing |
 | Speed Advantage | 3-88x faster than JADX |
 
 ### What's Implemented (JADX Parity)

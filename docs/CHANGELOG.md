@@ -379,7 +379,7 @@ pub enum InsnKind {
 
 **Block Storage Note:** Block storage currently uses `BTreeMap<u32, BasicBlock>` for both `BlockSplitResult` and `CFG`. A future optimization could change this to `Vec<BasicBlock>` for O(1) direct index access since block IDs are dense sequential integers (0,1,2...).
 
-**All 685 integration tests passing.**
+**All 686 integration tests passing.**
 
 ---
 
@@ -420,7 +420,7 @@ SsaBlock {
 - **19.8% faster** at 8 cores (the sweet spot for most systems)
 - **Superlinear scaling restored** (101% efficiency at 4-8 cores)
 - **7-10 GB allocation pressure eliminated**
-- All 685 integration tests passing
+- All 686 integration tests passing
 
 **Files Changed:**
 - `crates/dexterity-passes/src/ssa.rs` - Added `transform_to_ssa_owned()`
@@ -637,7 +637,7 @@ switch(str) { case "foo": doFoo(); ... }
 
 **Files Changed:** `crates/dexterity-codegen/src/body_gen.rs`
 **Result:** 79% of complex switch-over-string patterns now show string literals instead of hashCodes
-**Tests:** All 685 integration tests pass (26 switch-specific tests)
+**Tests:** All 686 integration tests pass (26 switch-specific tests)
 
 ---
 
@@ -999,7 +999,7 @@ Resource output is now **1:1 identical** with JADX for: strings.xml, styles.xml,
 **Results:**
 - Before: `() -> { /* method body unavailable */ }`
 - After: `(x) -> x + 1` or `(a, b) -> { return a.compareTo(b); }`
-- All 685 integration tests passing (90/91 unit tests, 1 failing in method_gen)
+- All 686 integration tests passing (90/91 unit tests, 1 failing in method_gen)
 
 ---
 
@@ -1027,7 +1027,7 @@ Resource output is now **1:1 identical** with JADX for: strings.xml, styles.xml,
 - After: `setContentView(R.layout.activity_main);`
 - Unknown resources show: `0x7f010099 /* Unknown resource */`
 - Framework resources: `android.R.attr.minWidth`
-- All 685 integration tests passing (90/91 unit tests passing)
+- All 686 integration tests passing (90/91 unit tests passing)
 
 **Usage:**
 ```bash
@@ -1089,7 +1089,7 @@ Resource output is now **1:1 identical** with JADX for: strings.xml, styles.xml,
 
 **Results:**
 - **26 → 0** object-named variables with incorrect `== 0` comparisons
-- All 685 integration tests pass
+- All 686 integration tests pass
 - All 91 codegen unit tests pass
 
 **Example Fix:**
@@ -1131,7 +1131,7 @@ Third major bug fix completes undefined variable elimination across all region t
 
 **Results:**
 - **81 -> ~0** undefined variables (target achieved)
-- All 685 integration tests pass
+- All 686 integration tests pass
 - All 91 codegen unit tests pass
 - Combined with previous fixes: **701 -> ~0** undefined variables (99.9%+ elimination)
 
@@ -1179,7 +1179,7 @@ Two major bug fixes implemented that significantly close the gap with JADX:
 **Results:**
 - **27,794 -> 0** arg0/arg1 instances (100% elimination!)
 - Parameters now correctly named from debug info (e.g., `savedInstanceState`)
-- All 685 integration tests pass
+- All 686 integration tests pass
 - All unit tests pass
 
 ---
@@ -1217,7 +1217,7 @@ Two major bug fixes implemented that significantly close the gap with JADX:
 - **736 classes** now have type parameters
 - Before: `public abstract class Maybe implements io.reactivex.MaybeSource`
 - After: `public abstract class Maybe<T> implements io.reactivex.MaybeSource`
-- All 685 integration tests pass
+- All 686 integration tests pass
 
 ---
 
@@ -1252,7 +1252,7 @@ Two major bug fixes implemented that significantly close the gap with JADX:
 **Results:**
 - **216 → 81** undefined length patterns (63% reduction, ~135 fixes)
 - Combined with previous fixes: **701 → 81** total undefined variables (88% reduction)
-- All 685/685 integration tests pass
+- All 686/686 integration tests pass
 - If conditions now correctly inline expressions like `arr.length`
 
 **Remaining Issues (separate bugs, not fixed here):**
@@ -1342,7 +1342,7 @@ Major quality improvements implemented across 5 phases with an estimated +10-18%
 ---
 
 **Test Results:**
-- All 685 integration tests pass
+- All 686 integration tests pass
 - All unit tests pass
 - Release build successful
 
@@ -1385,7 +1385,7 @@ Two critical bugs in Dexterity's code generation were fixed, significantly impro
 - `crates/dexterity-passes/src/var_naming.rs` - Added digit detection logic
 
 **Testing:**
-- All 685 integration tests pass
+- All 686 integration tests pass
 - All 91 codegen unit tests pass
 - All 13 var_naming tests pass (2 new tests added)
 - Verified on badboy-x86.apk decompilation
@@ -1476,7 +1476,7 @@ fieldName = value;
 this.fieldName = value;
 ```
 
-**Test Status:** All 685 integration tests pass.
+**Test Status:** All 686 integration tests pass.
 
 ---
 
@@ -1521,7 +1521,7 @@ After:  while (i < i2) { var1 = getValue(); }  // "v1" (2 chars) < 5, renamed
 - `crates/dexterity-codegen/src/body_gen.rs` - Applied settings via set_deobf_limits()
 - `crates/dexterity-cli/src/main.rs` - Wired CLI args to config
 
-**Test Status:** All 685 integration tests pass. Output now 1:1 with JADX-fast behavior.
+**Test Status:** All 686 integration tests pass. Output now 1:1 with JADX-fast behavior.
 
 ### Type Inference Bounds Refactor (Dec 15)
 

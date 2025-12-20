@@ -425,7 +425,7 @@ Add JADX-style diagnostic comments:
 - Static method references: `Integer::parseInt`
 - Lambda body generation: `(x) -> x + 1` with full body decompilation
 - Single-expression lambda inlining: `try_inline_single_expression_lambda()`
-- All 685 integration tests pass (including lambda tests)
+- All 686 integration tests pass (including lambda tests)
 
 ### Important Missing Features (P2)
 
@@ -637,20 +637,20 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 **Additional Improvements:**
 - Constructor Generic Types: `generic_types: Option<Vec<ArgType>>` in Constructor instruction
 - Type-Aware Variable Naming: `types_compatible_for_naming()` prevents incompatible types sharing names
-- All 1,175 tests pass (685 integration + 490 unit)
+- All 1,176 tests pass (686 integration + 490 unit)
 
 ### Dec 2025 - SSA Instruction Cloning Optimization
 - **Performance**: 19.8% faster at 8 cores, superlinear scaling restored (101% efficiency)
 - **Bottleneck fixed**: SSA `transform_to_ssa()` was cloning 500K+ instruction vectors
 - **Solution**: Use `transform_to_ssa_owned()` to move instructions without cloning
 - **Memory**: 7-10 GB allocation pressure eliminated
-- **Tests**: All 685 integration tests passing
+- **Tests**: All 686 integration tests passing
 - See [PERFORMANCE.md](PERFORMANCE.md) for benchmark details
 
 ### Dec 17, 2025 - Ternary IR Type and Fallback Mode
 - Added `InsnType::Ternary` for cleaner ternary expression output
 - Added `fallback_gen.rs` for raw bytecode dump on method generation failure
-- All 685 integration tests pass
+- All 686 integration tests pass
 - Quality: **95.5%+ overall, 96.5% defect score** (Dec 17 QA re-run)
 
 ### Dec 16, 2025 - Major Quality Improvements Completed
@@ -759,7 +759,7 @@ All 19 P1-P2 issues resolved:
 ### Test Commands
 
 ```bash
-# Run all tests (should see 1,175+ passing)
+# Run all tests (should see 1,176+ passing)
 cargo test
 
 # Run specific crate tests
@@ -916,7 +916,7 @@ cargo test --test integration_test_framework
 - `generate_lambda_expression()` - main entry point
 - `try_inline_single_expression_lambda()` - inlines simple lambdas
 - `generate_insn_as_expression()` - converts instructions to expressions
-- All 685 integration tests passing
+- All 686 integration tests passing
 
 ### Android R.* Resource Field Resolution ✅
 - `try_resolve_resource()` detects 0x7fxxxxxx (app) and 0x01xxxxxx (framework)

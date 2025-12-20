@@ -298,7 +298,7 @@ See ISSUE_TRACKER.md DEC19-OPEN-* entries for detailed investigation notes.
 
 **Quality Metrics:**
 - Overall grade: B+ (88%) to **A (96%)**
-- All 1,175 tests pass (685 integration + 490 unit)
+- All 1,176 tests pass (686 integration + 490 unit)
 - Release build succeeds
 - Observable.java (and similar complex generics) now decompiles correctly
 
