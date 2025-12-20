@@ -4,14 +4,71 @@
 **Reference:** Java JADX v1.5.3 at `jadx-fast/` is the authoritative source for all output decisions
 
 **Status:** PRODUCTION READY (Dec 20, 2025)
-**Target:** 85+/100 Quality Score | **Result:** A- (88-90/100) based on objective JADX comparison
+**Target:** 85+/100 Quality Score | **Documented Result:** A- (88-90/100) based on features implemented
 **Code Issues:** All P0-P3 issues FIXED | **36+ total issues (P1-001/P1-002/P2-001/P2-002 FIXED Dec 20)**
 **Resource Issues:** **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
-### Revised Quality Assessment (Dec 20, 2025)
+---
 
-Based on objective comparison of `output/dexterity` vs `output/jadx`:
+## IMPORTANT: Objective Output Assessment (Dec 19, 2025)
+
+**Documentation vs Reality Gap Identified**
+
+The quality grades documented in this file have historically measured *features implemented*, not *actual output correctness*. An objective comparison of decompiled output against JADX reveals a significant gap:
+
+| Metric | Documentation Claim | Actual Output Quality |
+|--------|--------------------|-----------------------|
+| **Grade** | A- (88-90/100) | **C- (49/100)** |
+| **Gap** | - | **39 points** |
+
+### Objective Quality Assessment by Category
+
+Based on manual comparison of actual decompiled Java code against JADX output:
+
+| Category | Score | Max | Notes |
+|----------|-------|-----|-------|
+| Control Flow | 12 | 30 | Broken if/else, empty blocks, unreachable code |
+| Type System | 13 | 25 | int used as null, type confusion |
+| Exception Handling | 5 | 15 | Missing throws declarations (10+ methods) |
+| Variable Naming | 9 | 15 | obj2, obj6, obj9 patterns |
+| Code Conciseness | 6 | 10 | 20% more verbose than JADX |
+| Kotlin Support | 4 | 5 | 72% parity, variance + toString() parsing |
+| **Total** | **49** | **100** | **C- grade** |
+
+### Evidence from Actual Decompiled Output
+
+**File 1:** `output/dexterity/medium/sources/com/twitter/sdk/android/tweetcomposer/ComposerActivity.java`
+- Lines 37-41: Broken if/else with empty else block and unreachable throw
+- Lines 73-86: Mangled hashtags() loop with uninitialized variables
+
+**File 2:** `output/dexterity/badboy/sources/com/prototype/badboy/MaliciousPatterns.java`
+- Line 320: `final int i2 = 0;` used as null in invoke() call (type confusion)
+- Missing IOException throws on execCommand1-3 methods
+
+### Critical Issues (P0) in Actual Output
+
+1. **Control flow inversion:** `if (x != null) {...} else {} throw` instead of `if (x == null) throw`
+2. **Type confusion:** int variables used as Object references
+3. **Missing exception declarations:** code won't compile without throws clauses
+
+### What the Documentation Grade Measures
+
+The A- (88-90/100) grade measures:
+- Features implemented (passes, optimizations, IR parity)
+- Test suite passing (1,177 tests)
+- Performance metrics (speed, memory)
+
+It does NOT measure:
+- Actual correctness of decompiled output
+- Comparison of generated Java against JADX output
+- Compilability of generated code
+
+---
+
+### Feature Implementation Assessment (Dec 20, 2025)
+
+Based on comparison of *features implemented* vs JADX (not output quality):
 
 | Aspect | Dexterity | JADX | Winner |
 |--------|-----------|------|--------|
@@ -22,7 +79,8 @@ Based on objective comparison of `output/dexterity` vs `output/jadx`:
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 
-**Quality Grade:** A- (88-90/100) after Dec 19-20 fixes.
+**Feature Implementation Grade:** A- (88-90/100) after Dec 19-20 fixes.
+**Actual Output Quality Grade:** C- (49/100) based on decompiled code comparison.
 
 ---
 
@@ -30,7 +88,8 @@ Based on objective comparison of `output/dexterity` vs `output/jadx`:
 
 | Metric | Value |
 |--------|-------|
-| Overall Quality Score | **A- (88-90/100)** - based on objective output comparison (Dec 20, 2025) |
+| Feature Implementation | **A- (88-90/100)** - based on features/passes implemented |
+| **Actual Output Quality** | **C- (49/100)** - based on decompiled code comparison with JADX |
 | Type Inference | **0 Unknown type failures** |
 | Interface Generics | **DONE** - `interface OnSubscribe<T>` now includes type parameter |
 | Variable Naming | **100% JADX parity** (99.96% arg reduction + dead var elimination + root package reservation + type-aware grouping) |
@@ -42,7 +101,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx`:
 | Instance Type Propagation | **DONE** - Generic args resolved |
 | Resource Field Resolution | **DONE** - `R.id.button` enabled by default (`--no-replace-consts` to disable) |
 | Constructor Generic Types | **DONE** - Emits `ArrayList<String>` when type inference provides generic info |
-| Defect Score | **A- (88-90%)** - based on objective output comparison (Dec 20, 2025) |
+| Defect Score | **C- (49%)** - based on actual output comparison (Dec 19, 2025) |
 | Integration Tests | **687/687 passing** |
 | Unit Tests | **490/490 passing** |
 | Total Tests | **1,177 passing** |
@@ -479,7 +538,7 @@ Type obj = new Type(args);  // Clean, readable constructor call
 - **Result:** 79% of complex switch-over-string patterns now show string literals instead of hashCodes
 - **Files Changed:** `dexterity-codegen/src/body_gen.rs`
 
-### Dec 19, 2025 - Kotlin Type Variance Annotations (67% parity)
+### Dec 19, 2025 - Kotlin Type Variance Annotations (61% -> 67% parity)
 
 **Feature: Kotlin declaration-site variance support**
 - **Purpose:** Emit `<in T>`, `<out T>`, `<reified T>` for Kotlin type parameters
@@ -1062,7 +1121,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 | dexterity-codegen | Java source generation | ~11,685 |
 | dexterity-resources | AXML and resources.arsc | ~4,032 |
 | dexterity-deobf | Deobfuscation | ~1,825 |
-| dexterity-kotlin | Kotlin metadata (67% parity) | ~991 |
+| dexterity-kotlin | Kotlin metadata (72% parity) | ~1,611 |
 | dexterity-cli | CLI application | ~5,254 |
 
 ---

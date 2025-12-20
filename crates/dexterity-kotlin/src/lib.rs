@@ -8,10 +8,12 @@ pub mod parser;
 pub mod extractor;
 pub mod types;
 pub mod visitor;
+pub mod tostring_parser;
 
 // Re-exports
 pub use visitor::KotlinAwareCondition;
-pub use extractor::apply_getter_recognition;
+pub use extractor::{apply_getter_recognition, apply_tostring_names};
+pub use tostring_parser::TypeResolver;
 pub use types::{KotlinClassMetadata, KotlinFunction, KotlinProperty, KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags, KotlinTypeParameter, KotlinVariance};
 
 // Re-export generated protobuf types
@@ -20,11 +22,15 @@ pub mod proto {
 }
 
 use anyhow::Result;
+use dexterity_dex::DexReader;
 use dexterity_ir::ClassData;
 use dexterity_ir::kotlin_metadata::get_class_alias;
 
 /// Process Kotlin metadata for a class, extracting and applying names
-pub fn process_kotlin_metadata(cls: &mut ClassData) -> Result<()> {
+///
+/// If `dex` is provided, also applies toString() bytecode analysis as a fallback
+/// for extracting field names when protobuf metadata is unavailable.
+pub fn process_kotlin_metadata(cls: &mut ClassData, dex: Option<&DexReader>) -> Result<()> {
     // Attempt to extract class alias from Kotlin metadata (d2 array)
     // This runs before protobuf parsing to ensure we have the correct class name
     // even if protobuf parsing fails or is incomplete.
@@ -70,6 +76,11 @@ pub fn process_kotlin_metadata(cls: &mut ClassData) -> Result<()> {
 
     // Apply getter/setter recognition
     extractor::apply_getter_recognition(cls, &kotlin_metadata);
+
+    // Apply toString() bytecode analysis (fallback for obfuscated metadata)
+    if let Some(dex_reader) = dex {
+        extractor::apply_tostring_names(cls, dex_reader)?;
+    }
 
     Ok(())
 }

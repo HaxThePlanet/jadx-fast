@@ -1,8 +1,10 @@
 //! Name extraction and application to IR
 
 use anyhow::Result;
+use dexterity_dex::DexReader;
 use dexterity_ir::{ClassData, FieldData, KotlinClassInfo, TypeParameter};
 use crate::types::{KotlinClassMetadata, KotlinKind, KotlinProperty};
+use crate::tostring_parser::{self, TypeResolver};
 
 /// Apply Kotlin metadata names to IR class structure
 pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -> Result<()> {
@@ -323,4 +325,94 @@ fn looks_obfuscated(name: &str) -> bool {
     }
 
     false
+}
+
+/// TypeResolver implementation for DexReader
+struct DexReaderResolver<'a> {
+    reader: &'a DexReader,
+}
+
+impl<'a> TypeResolver for DexReaderResolver<'a> {
+    fn get_type(&self, type_idx: u32) -> Option<String> {
+        self.reader.get_type(type_idx).ok()
+    }
+
+    fn get_method(&self, method_idx: u32) -> Option<String> {
+        // Get method and format as "ClassName.methodName"
+        self.reader.get_method(method_idx).ok().and_then(|m| {
+            let class_type = m.class_type().ok()?;
+            let method_name = m.name().ok()?;
+            Some(format!("{}.{}", class_type, method_name))
+        })
+    }
+
+    fn get_string(&self, string_idx: u32) -> Option<String> {
+        self.reader.get_string(string_idx).ok().map(|s| s.to_string())
+    }
+}
+
+/// Apply toString() bytecode analysis to extract field names
+///
+/// This is a fallback mechanism for when protobuf metadata is missing or obfuscated.
+/// Kotlin data classes generate predictable toString() methods that contain
+/// original field names as string literals.
+pub fn apply_tostring_names(cls: &mut ClassData, dex: &DexReader) -> Result<()> {
+    // Only process data classes
+    if !cls.is_data_class() {
+        return Ok(());
+    }
+
+    // Find toString() method
+    let tostring_method = match cls.methods.iter().find(|m| m.name == "toString" && m.arg_types.is_empty()) {
+        Some(m) => m,
+        None => return Ok(()), // No toString() method
+    };
+
+    // Get method instructions
+    let instructions = match &tostring_method.instructions {
+        Some(insns) => insns,
+        None => return Ok(()), // No instructions (abstract/native)
+    };
+
+    // Parse the toString() method
+    let resolver = DexReaderResolver { reader: dex };
+    let result = match tostring_parser::parse_tostring(tostring_method, instructions, &resolver) {
+        Some(r) => r,
+        None => return Ok(()), // Parsing failed or no fields found
+    };
+
+    // Apply class alias if extracted and not already set
+    if let Some(class_alias) = result.class_alias {
+        if cls.alias.is_none() && !class_alias.is_empty() {
+            tracing::debug!(
+                "toString() extracted class alias: '{}' for {}",
+                class_alias, cls.class_type
+            );
+            cls.alias = Some(class_alias);
+        }
+    }
+
+    // Apply field renames
+    for (field_idx, alias) in result.field_renames {
+        // The field_idx from InstanceGet is a DEX field index, we need to find
+        // the corresponding field in our ClassData by matching the index
+        // Since we don't have direct index mapping, we need to look it up
+        if let Ok(field_id) = dex.get_field(field_idx) {
+            let field_name = field_id.name().unwrap_or_default();
+
+            // Find matching field in instance_fields
+            for field in &mut cls.instance_fields {
+                if field.name == field_name && field.alias.is_none() {
+                    field.alias = Some(alias.clone());
+                    tracing::debug!(
+                        "toString() extracted field alias: '{}' -> '{}' in {}",
+                        field_name, alias, cls.class_type
+                    );
+                    break;
+                }
+            }
+        }
+    }
+
+    Ok(())
 }

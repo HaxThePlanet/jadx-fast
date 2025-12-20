@@ -6,12 +6,12 @@
 
 | Metric | Value |
 |--------|-------|
-| **Overall Parity** | **67%** (12/18 JADX features implemented) |
+| **Overall Parity** | **72%** (13/18 JADX features implemented) |
 | **Proto Parsing** | 95% (comprehensive metadata schema) |
-| **IR Extraction** | 67% (significantly improved feature usage) |
-| **Production Impact** | Medium - class/method/field names work, function modifiers tracked, **variance annotations supported** |
+| **IR Extraction** | 72% (significantly improved feature usage) |
+| **Production Impact** | Medium - class/method/field names work, function modifiers tracked, **variance annotations + toString() parsing** |
 
-Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lines total) and now implements **12 practical extraction features** including field names, data class detection, companion objects, function modifiers, and **type parameter variance (in/out/reified)**.
+Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lines total) and now implements **13 practical extraction features** including field names, data class detection, companion objects, function modifiers, **type parameter variance (in/out/reified)**, and **toString() bytecode parsing for obfuscated code**.
 
 ---
 
@@ -24,7 +24,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lin
 | Class aliasing (d2 array) | YES | YES | **DONE** | `precompute_kotlin_aliases()` in deobf.rs |
 | Method parameter names | YES | YES | **DONE** | `extract_names_to_ir()` in extractor.rs |
 | Field name extraction | YES | YES | **DONE** | Multi-strategy matching (exact, backing field, obfuscated) |
-| toString() parsing | YES | NO | **GAP** | No bytecode analysis (JADX: ToStringParser.kt) |
+| toString() parsing | YES | YES | **DONE** | `tostring_parser.rs` bytecode analysis |
 | Getter method recognition | YES | YES | **DONE** | `apply_getter_recognition()` matches getXxx()/isXxx() |
 | Kotlin intrinsics vars | YES | YES | **DONE** | `process_kotlin_intrinsics_with_context()` extracts names |
 
@@ -68,7 +68,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lin
 
 ## Implementation Status by File
 
-### `crates/dexterity-kotlin/src/parser.rs` (407 lines)
+### `crates/dexterity-kotlin/src/parser.rs` (444 lines)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
@@ -80,7 +80,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lin
 | Function flags | **NEW** | suspend, inline, operator, infix, tailrec |
 | Property flags | **NEW** | var, const, lateinit, delegated |
 
-### `crates/dexterity-kotlin/src/extractor.rs` (293 lines)
+### `crates/dexterity-kotlin/src/extractor.rs` (418 lines)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
@@ -91,7 +91,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lin
 | JVM signature matching | **IMPROVED** | Name + obfuscation heuristics |
 | KotlinClassInfo population | **NEW** | isData, isSealed, isInline, companion |
 
-### `crates/dexterity-kotlin/src/types.rs` (126 lines)
+### `crates/dexterity-kotlin/src/types.rs` (155 lines)
 
 | Type | Purpose | Status |
 |------|---------|--------|
@@ -139,15 +139,15 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lin
 
 **Current Parity:** 61%
 
-### P2: Remaining Tasks (2 tasks)
+### P2: Remaining Tasks (1 task)
 
 | Task | Impact | Effort | Notes |
 |------|--------|--------|-------|
-| 7. toString() bytecode parsing | MEDIUM | HIGH | Needs bytecode pattern matching |
+| ~~7. toString() bytecode parsing~~ | ~~MEDIUM~~ | ~~HIGH~~ | **DONE** (Dec 19, 2025) |
 | ~~8. Type variance annotations~~ | ~~LOW~~ | ~~MEDIUM~~ | **DONE** (Dec 19, 2025) |
 | 9. SMAP debug extension support | LOW | HIGH | New attribute parser |
 
-**Current Parity:** 67% (12/18 JADX features implemented)
+**Current Parity:** 72% (13/18 JADX features implemented)
 
 #### Completed: Type Variance Annotations (Dec 19, 2025)
 
@@ -169,6 +169,38 @@ interface Producer<out E> { ... } // Covariant
 ```
 
 **Expected Parity After P2:** 100%
+
+#### Completed: toString() Bytecode Parsing (Dec 19, 2025)
+
+Implemented bytecode analysis for Kotlin data class toString() methods:
+- Added `tostring_parser.rs` module with state machine for StringBuilder pattern detection
+- Parse `StringBuilder.append()` chains to extract field names from string literals
+- Map field references (InstanceGet instructions) to their original names
+- Falls back to this when protobuf metadata is unavailable or obfuscated
+- 4 unit tests for parser logic
+
+Example pattern matched:
+```java
+// Kotlin data class generates:
+// override fun toString() = "User(name=$name, age=$age)"
+
+// Bytecode pattern:
+new StringBuilder()
+  .append("User(name=")   // ← Extract "User" as class alias, "name" as field alias
+  .append(this.name)       // ← Map to field_idx
+  .append(", age=")        // ← Extract "age" as field alias
+  .append(this.age)        // ← Map to field_idx
+  .append(")")
+  .toString()
+```
+
+**Files Added:**
+- `crates/dexterity-kotlin/src/tostring_parser.rs` - Core parser implementation
+
+**Files Modified:**
+- `crates/dexterity-kotlin/src/lib.rs` - Module integration
+- `crates/dexterity-kotlin/src/extractor.rs` - `apply_tostring_names()` function
+- `crates/dexterity-cli/src/main.rs` - Pass DexReader to Kotlin processing
 
 ---
 

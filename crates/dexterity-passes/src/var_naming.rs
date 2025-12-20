@@ -266,8 +266,13 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
         let t2 = type_info.types.get(&v2);
         match (t1, t2) {
             (Some(t1), Some(t2)) => types_compatible_for_naming(t1, t2),
-            // If one or both are missing types, allow grouping - PHI/Move means same variable
-            _ => true,
+            // CRITICAL FIX (Dec 2025): Be more conservative when type info is missing.
+            // Only allow grouping if BOTH types are missing (they might be the same variable).
+            // If one has a known type and the other is missing, we can't safely group
+            // because the missing one might have an incompatible type (e.g., StringBuilder vs int).
+            // This prevents the bug where obj6 is declared as StringBuilder then reassigned to int.
+            (None, None) => true,
+            _ => false,
         }
     };
 
@@ -277,7 +282,11 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
         let t2 = type_info.types.get(&v2);
         let compatible = match (t1, t2) {
             (Some(t1), Some(t2)) => types_compatible_for_naming(t1, t2),
-            _ => true,
+            // CRITICAL FIX (Dec 2025): Same fix as check_compatible above.
+            // Only connect if both types are missing. If one is known and one is missing,
+            // we can't verify compatibility, so don't create the connection.
+            (None, None) => true,
+            _ => false,
         };
         if compatible {
             connections.entry(v1).or_default().insert(v2);

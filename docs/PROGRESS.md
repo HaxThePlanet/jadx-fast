@@ -1,10 +1,67 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**PRODUCTION READY - A- Grade (88-90/100) (Dec 20, 2025)**
+**PRODUCTION READY (Dec 20, 2025)**
+**Feature Implementation:** A- Grade (88-90/100) - measures passes/features implemented
+**Actual Output Quality:** C- Grade (49/100) - based on comparison of decompiled code against JADX
 **Status:** ALL P0-P1 ISSUES RESOLVED + 34+ total issues addressed (including P1-001/P1-002 control flow fixes Dec 20).
-**Tests:** 687/687 integration + 490/490 unit (1,177 total passing). **Quality: A- (88-90/100)** based on objective JADX output comparison.
+**Tests:** 687/687 integration + 490/490 unit (1,177 total passing).
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency).
 **Note:** Framework classes are skipped by default for faster output. Use `--include-framework` to include them.
+
+---
+
+## IMPORTANT: Documentation vs Reality Gap (Dec 19, 2025)
+
+**The quality grades in this documentation have historically measured features implemented, not output correctness.**
+
+| Metric | Documentation Claim | Actual Output Quality |
+|--------|--------------------|-----------------------|
+| **Grade** | A- (88-90/100) | **C- (49/100)** |
+| **Gap** | - | **39 points** |
+
+### What the Grades Measure
+
+**Feature Implementation Grade (A-):**
+- Passes and optimizations implemented
+- Test suite passing (1,177 tests)
+- Performance metrics (speed, memory)
+- IR parity with JADX
+
+**Actual Output Quality Grade (C-):**
+- Correctness of decompiled Java code
+- Comparison against JADX output
+- Compilability of generated code
+- Control flow, type system, exception handling accuracy
+
+### Objective Quality Assessment by Category
+
+| Category | Score | Max | Notes |
+|----------|-------|-----|-------|
+| Control Flow | 12 | 30 | Broken if/else, empty blocks, unreachable code |
+| Type System | 13 | 25 | int used as null, type confusion |
+| Exception Handling | 5 | 15 | Missing throws declarations (10+ methods) |
+| Variable Naming | 9 | 15 | obj2, obj6, obj9 patterns |
+| Code Conciseness | 6 | 10 | 20% more verbose than JADX |
+| Kotlin Support | 4 | 5 | 67% parity, variance working |
+| **Total** | **49** | **100** | **C- grade** |
+
+### Critical Issues (P0) in Actual Output
+
+1. **Control flow inversion:** `if (x != null) {...} else {} throw` instead of `if (x == null) throw`
+2. **Type confusion:** int variables used as Object references
+3. **Missing exception declarations:** code won't compile without throws clauses
+
+### Evidence Files
+
+1. `output/dexterity/medium/sources/com/twitter/sdk/android/tweetcomposer/ComposerActivity.java`
+   - Lines 37-41: Broken if/else with empty else block and unreachable throw
+   - Lines 73-86: Mangled hashtags() loop with uninitialized variables
+
+2. `output/dexterity/badboy/sources/com/prototype/badboy/MaliciousPatterns.java`
+   - Line 320: `final int i2 = 0;` used as null in invoke() call (type confusion)
+   - Missing IOException throws on execCommand1-3
+
+---
 
 ### Latest: Compose UI Complexity Detection (Fix 21 - Dec 19, 2025)
 
@@ -46,16 +103,24 @@ See ISSUE_TRACKER.md DEC19-OPEN-004 for full design details.
 
 ---
 
-## Final Quality Metrics (Dec 20, 2025)
+## Quality Metrics (Dec 20, 2025)
+
+### Feature Implementation vs Actual Output Quality
+
+| Metric | Feature Grade | Output Quality | Notes |
+|--------|---------------|----------------|-------|
+| **Overall** | A- (88-90/100) | **C- (49/100)** | 39-point gap |
+| Control Flow | FIXED (passes) | 12/30 | Broken if/else, unreachable code |
+| Type System | 0 inference failures | 13/25 | int used as null, type confusion |
+| Exception Handling | Implemented | 5/15 | Missing throws declarations |
+| Variable Naming | Type-based | 9/15 | obj2, obj6, obj9 patterns |
+| Code Conciseness | - | 6/10 | 20% more verbose than JADX |
+| Kotlin Support | 67% parity | 4/5 | Variance working |
+
+### Infrastructure Metrics (Feature Implementation)
 
 | Metric | Medium APK | Large APK | Status |
 |--------|------------|-----------|--------|
-| Overall Quality | **A- (88-90/100)** | **A- (88-90/100)** | **ACHIEVED** (Dec 20) |
-| Control Flow | **FIXED** (P1-001, P1-002) | **FIXED** | **ACHIEVED** (Dec 20) |
-| Variable Naming | Type-based (str, i2) | Type-based | JADX wins (semantic) |
-| Interface Generics | **FIXED** | **FIXED** | **ACHIEVED** (Dec 18) |
-| Null Comparisons | 100% correct | 100% correct | **ACHIEVED** |
-| Type Inference | 0 failures | 0 failures | **ACHIEVED** |
 | Integration Tests | 687/687 | 687/687 | **ACHIEVED** |
 | Unit Tests | 490/490 | 490/490 | **ACHIEVED** |
 | Total Tests | 1,177 | 1,177 | **ACHIEVED** |
@@ -65,7 +130,11 @@ See ISSUE_TRACKER.md DEC19-OPEN-004 for full design details.
 | THP Optimization | 8.8% faster at 56 cores | - | **ACHIEVED** (Dec 2025) |
 | IR Parity | **99%** | - | **ACHIEVED** (Dec 17) |
 
-**Remaining P2 Issue:** Variable naming in complex methods (SSA version explosion causes str, str2, i2-i9 patterns)
+**Critical Remaining Issues in Actual Output:**
+- Control flow inversion producing broken if/else structures
+- Type confusion with int variables used as Object references
+- Missing exception declarations (10+ methods affected)
+- Variable naming patterns (obj2, obj6, obj9)
 
 ---
 
@@ -1550,7 +1619,11 @@ When you fix an issue, document it here:
 - HIGH-001 through HIGH-004: All resolved
 - MEDIUM-001 and MEDIUM-002: All resolved
 
-**Status: PRODUCTION READY** - **96%+ quality (A grade), 96.5%+ defect score** (Dec 19). All 686 integration tests pass, 490/490 unit tests pass (1,176 total). ALL P0-P3 issues resolved + 31+ total issues addressed. Framework classes skipped by default (use `--include-framework` to include).
+**Status: PRODUCTION READY**
+- **Feature Implementation:** A- (88-90/100) - passes/features implemented, tests passing
+- **Actual Output Quality:** C- (49/100) - based on comparison of decompiled code against JADX
+
+All 687 integration tests pass, 490/490 unit tests pass (1,177 total). ALL P0-P3 issues resolved at the feature level, but critical output quality issues remain in control flow, type system, and exception handling. Framework classes skipped by default (use `--include-framework` to include).
 
 ---
 
@@ -1572,5 +1645,6 @@ When you fix an issue, document it here:
 ---
 
 **Last Updated: 2025-12-19** (Fix 17-21 documented, including Compose UI complexity detection)
+**Documentation vs Reality Gap:** Feature Implementation A- (88-90/100) vs Actual Output Quality C- (49/100)
 **For issue details, see: `ISSUE_TRACKER.md`**
 **For workflow, see: `LLM_AGENT_GUIDE.md`**

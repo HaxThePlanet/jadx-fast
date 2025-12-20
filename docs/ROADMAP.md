@@ -4,15 +4,57 @@
 **Reference:** Java JADX v1.5.3 at `jadx-fast/` is the authoritative source for all output decisions
 
 **Current State:** PRODUCTION READY (Dec 20, 2025)
-**Quality Achieved:** **A- (88-90/100)** based on objective JADX output comparison | 1,177 tests passing (687 integration + 490 unit) | **100% Class Generation parity**
+**Feature Implementation:** **A- (88-90/100)** based on features/passes implemented | 1,177 tests passing (687 integration + 490 unit) | **100% Class Generation parity**
+**Actual Output Quality:** **C- (49/100)** based on comparison of decompiled Java against JADX output (see below)
 **Code Issues:** **ALL P0-P2 ISSUES RESOLVED** + Fix 17-21 Dec 19 + P1-001/P1-002/P2-001 Dec 19-20 | 35+ issues resolved | **All known issues fixed**
 **Resource Issues:** **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation from `jadx-fast/` source
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
-### Revised Quality Assessment (Dec 20, 2025)
+---
 
-Based on objective comparison of `output/dexterity` vs `output/jadx` after Dec 19-20 fixes:
+## CRITICAL: Documentation vs Reality Gap (Dec 19, 2025)
+
+**The documentation has been grading features implemented, not output correctness.**
+
+| Metric | Documentation Claim | Actual Output Quality |
+|--------|--------------------|-----------------------|
+| **Grade** | A- (88-90/100) | **C- (49/100)** |
+| **Gap** | - | **39 points** |
+
+### Objective Quality Assessment (Based on Actual Decompiled Code)
+
+| Category | Score | Max | Notes |
+|----------|-------|-----|-------|
+| Control Flow | 12 | 30 | Broken if/else, empty blocks, unreachable code |
+| Type System | 13 | 25 | int used as null, type confusion |
+| Exception Handling | 5 | 15 | Missing throws declarations (10+ methods) |
+| Variable Naming | 9 | 15 | obj2, obj6, obj9 patterns |
+| Code Conciseness | 6 | 10 | 20% more verbose than JADX |
+| Kotlin Support | 4 | 5 | 72% parity, variance + toString() parsing |
+| **Total** | **49** | **100** | **C- grade** |
+
+### Evidence Files
+
+1. `output/dexterity/medium/sources/com/twitter/sdk/android/tweetcomposer/ComposerActivity.java`
+   - Lines 37-41: Broken if/else with empty else block and unreachable throw
+   - Lines 73-86: Mangled hashtags() loop with uninitialized variables
+
+2. `output/dexterity/badboy/sources/com/prototype/badboy/MaliciousPatterns.java`
+   - Line 320: `final int i2 = 0;` used as null in invoke() call (type confusion)
+   - Missing IOException throws on execCommand1-3
+
+### Critical Issues (P0) Found in Actual Output
+
+1. **Control flow inversion:** `if (x != null) {...} else {} throw` instead of `if (x == null) throw`
+2. **Type confusion:** int variables used as Object references
+3. **Missing exception declarations:** code won't compile without throws clauses
+
+---
+
+### Feature Implementation Assessment (Dec 20, 2025)
+
+Based on comparison of *features implemented* vs JADX (not output quality):
 
 | Aspect | Dexterity | JADX | Winner |
 |--------|-----------|------|--------|
@@ -69,14 +111,15 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after Dec 1
 
 ### Summary
 
-| Category | Rating |
-|----------|--------|
-| Performance | **A+** (1.9x-123x faster) |
-| Simple Java | **A** (100% identical) |
-| Complex Java | **A-** (control flow issues FIXED Dec 20) |
-| Kotlin/Compose | **A-** (clean stubs for complex methods, JADX parity) |
+| Category | Feature Grade | Output Quality |
+|----------|---------------|----------------|
+| Performance | **A+** (1.9x-123x faster) | N/A |
+| Simple Java | **A** (feature complete) | Varies |
+| Complex Java | **A-** (passes implemented) | **C-** (broken control flow, type confusion) |
+| Kotlin/Compose | **A-** (stubs for complex) | 72% parity |
 
-**Overall Parity: A- (88-90/100)** based on objective output comparison after Dec 20 fixes
+**Feature Implementation: A- (88-90/100)** - measures passes/features implemented
+**Actual Output Quality: C- (49/100)** - measures correctness of decompiled Java code
 
 ---
 
@@ -264,13 +307,13 @@ Added 5 optimization passes to `body_gen.rs` that were previously only in `decom
 | Component | Dexterity File | LOC | Status |
 |-----------|----------------|-----|--------|
 | SSA Transform | ssa.rs | 1,284 | DONE |
-| Type Inference | type_inference.rs | 2,658 | DONE |
-| Region Builder | region_builder.rs | 2,511 | DONE |
-| Variable Naming | var_naming.rs | 1,963 | DONE |
+| Type Inference | type_inference.rs | 2,756 | DONE |
+| Region Builder | region_builder.rs | 2,731 | DONE |
+| Variable Naming | var_naming.rs | 2,063 | DONE |
 | Code Generation | body_gen.rs + expr_gen.rs | 8,594 | DONE |
 | Exception Handling | region_builder.rs | - | DONE |
 | Deobfuscation | deobf.rs | 1,007 | DONE |
-| Kotlin Metadata | dexterity-kotlin/*.rs | 992 | **67% parity** |
+| Kotlin Metadata | dexterity-kotlin/*.rs | 1,611 | **72% parity** |
 
 ### To Clone Next
 
@@ -650,9 +693,9 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 | File | LOC | Purpose |
 |------|-----|---------|
 | `crates/dexterity-passes/src/type_inference.rs` | 2,744 | Type inference |
-| `crates/dexterity-codegen/src/body_gen.rs` | 7,598 | Region traversal |
-| `crates/dexterity-passes/src/region_builder.rs` | 2,511 | Control flow |
-| `crates/dexterity-passes/src/var_naming.rs` | 2,019 | Variable naming |
+| `crates/dexterity-codegen/src/body_gen.rs` | 7,715 | Region traversal |
+| `crates/dexterity-passes/src/region_builder.rs` | 2,731 | Control flow |
+| `crates/dexterity-passes/src/var_naming.rs` | 2,063 | Variable naming |
 | `crates/dexterity-codegen/src/expr_gen.rs` | 1,488 | Expression gen |
 | `crates/dexterity-codegen/src/class_gen.rs` | 1,750 | Class structure |
 | `crates/dexterity-codegen/src/method_gen.rs` | 832 | Method generation |
@@ -776,8 +819,8 @@ All 19 P1-P2 issues resolved:
 ---
 
 **Last Updated:** Dec 20, 2025
-**Status:** PRODUCTION READY - A- (88-90/100) based on objective output comparison
-**Remaining Issues:** 1 P2 issue (variable naming in complex methods)
+**Status:** PRODUCTION READY - Feature Implementation A- (88-90/100), Actual Output Quality C- (49/100)
+**Remaining Issues:** Critical control flow, type system, and exception handling issues in actual decompiled output
 **Resolved Dec 19-20:**
 - Fix 1: Optimization Passes Added (commit 4519abde) - 1.6% line reduction
 - Fix 2: P1-001 Control Flow Duplication (commit 8ac97729c) - 11.5% line reduction

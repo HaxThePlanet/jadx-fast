@@ -1,2 +1,28 @@
-CLAIMED by claude-opus-4-5 at 2025-12-19
-Working on: P2-MEDIUM Kotlin parity - toString() bytecode parsing for variable name extraction
+Task: Kotlin toString() Bytecode Parsing
+Priority: P2-MEDIUM
+Agent: Claude Opus 4.5
+Claimed: 2025-12-19 21:00:00
+Completed: 2025-12-19 21:30:00
+Status: COMPLETED
+
+Description:
+Implemented Kotlin toString() bytecode parsing for field name extraction.
+This provides a fallback mechanism when protobuf metadata is obfuscated.
+Kotlin Metadata Parity improved from 67% to 72% (13/18 JADX features).
+
+Changes Made:
+1. Added tostring_parser.rs with state machine for StringBuilder pattern detection
+2. Added apply_tostring_names() function in extractor.rs
+3. Updated process_kotlin_metadata() signature to accept Option<&DexReader>
+4. Updated main.rs call sites to pass DexReader
+5. Added 4 unit tests for parser logic
+6. Updated KOTLIN_PARITY.md documentation
+
+Files Added:
+- crates/dexterity-kotlin/src/tostring_parser.rs
+
+Files Modified:
+- crates/dexterity-kotlin/src/lib.rs
+- crates/dexterity-kotlin/src/extractor.rs
+- crates/dexterity-cli/src/main.rs
+- docs/KOTLIN_PARITY.md

@@ -474,7 +474,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 | `dexterity-codegen` | Java source generation ([parity details](docs/CODEGEN_PARITY.md)) | **94%** |
 | `dexterity-resources` | AXML and resources.arsc decoding | **100%** |
 | `dexterity-deobf` | Deobfuscation, ProGuard parser | **100%** |
-| `dexterity-kotlin` | Kotlin metadata parsing | **100%** |
+| `dexterity-kotlin` | Kotlin metadata parsing | **72%** |
 | `dexterity-cli` | CLI application | **98%** |
 
 ## Key Technical Features
@@ -490,7 +490,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 - [Quality Status](docs/QUALITY_STATUS.md) - Detailed output quality vs Java JADX
 - [DEX Parity](docs/DEX_PARITY.md) - **100% parity** for DEX binary parsing (dexterity-dex vs jadx-dex)
 - [Codegen Parity](docs/CODEGEN_PARITY.md) - 94% parity for code generation
-- [Kotlin Parity](docs/KOTLIN_PARITY.md) - **61% parity** for Kotlin metadata extraction (field names, data classes, companion objects, function modifiers)
+- [Kotlin Parity](docs/KOTLIN_PARITY.md) - **72% parity** for Kotlin metadata extraction (field names, data classes, companion objects, function modifiers, toString() parsing)
 - [Roadmap](docs/ROADMAP.md) - Remaining work and implementation plan
 - [Changelog](docs/CHANGELOG.md) - Development history and fixes
 - [Architecture](crates/AGENTS.md) - Crate structure and design

@@ -1413,7 +1413,7 @@ fn process_dex_bytes(
                         .map(|mut class_data| {
                             // Process Kotlin metadata annotations (extracts names)
                             if process_kotlin {
-                                if let Err(e) = dexterity_kotlin::process_kotlin_metadata(&mut class_data) {
+                                if let Err(e) = dexterity_kotlin::process_kotlin_metadata(&mut class_data, Some(&dex)) {
                                     tracing::debug!("Kotlin metadata processing failed for {}: {}", class_desc, e);
                                 }
                             }
@@ -1441,7 +1441,7 @@ fn process_dex_bytes(
                                     .map(|mut inner_data| {
                                         // Process Kotlin metadata
                                         if process_kotlin {
-                                            let _ = dexterity_kotlin::process_kotlin_metadata(&mut inner_data);
+                                            let _ = dexterity_kotlin::process_kotlin_metadata(&mut inner_data, Some(&dex));
                                         }
                                         // Apply aliases
                                         deobf::apply_aliases_from_registry(&mut inner_data, &alias_registry);
@@ -1826,7 +1826,7 @@ fn apply_resource_path_mapping(
 
 /// Check if a file should be extracted as raw (unprocessed) from the APK
 fn should_extract_raw_file(name: &str) -> bool {
-    // META-INF directory (certificates, manifests, signatures)
+    // META-INF directory (certificates, manifests, signatures) - needed for knox-vision
     if name.starts_with("META-INF/") {
         return true;
     }
