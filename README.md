@@ -23,7 +23,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **~89,000 lines of Rust | 1,176 tests passing | 2-124x faster than JADX**
 
-**Status (Dec 19, 2025):** PRODUCTION READY with **B+ quality (87-88/100)** based on objective output comparison. Dexterity achieves **1:1 identical output** on simple APKs, produces correct code on complex APKs (9-13% larger than JADX due to control flow reconstruction differences), and is **1.9x-127x faster** than JADX. **All P0 Critical issues FIXED**. 3 P1-P2 issues remain (control flow duplication, early returns in loops, variable naming in complex methods). Framework classes skipped by default (use `--include-framework` to include them).
+**Status (Dec 20, 2025):** PRODUCTION READY with **B+ quality (87-88/100)** based on objective output comparison. Dexterity achieves **1:1 identical output** on simple APKs, produces correct code on complex APKs (9-13% larger than JADX due to control flow reconstruction differences), and is **1.9x-127x faster** than JADX. **All P0 Critical issues FIXED**. 2 P1-P2 issues remain (control flow duplication, variable naming in complex methods). Framework classes skipped by default (use `--include-framework` to include them).
 
 ## Speed vs Quality Trade-off
 
@@ -174,14 +174,15 @@ return bufferSize();
 | **Complex Java** | **B+** | 9-13% larger (improving with P1-P5) |
 | **Kotlin/Compose** | **A-** | Clean stubs for complex methods, JADX parity (Fix 21) |
 
-**Overall Parity Estimate: B+ (87-88/100)** — Based on objective output comparison. 3 P1-P2 issues remain (control flow, early returns, variable naming)
+**Overall Parity Estimate: B+ (87-88/100)** — Based on objective output comparison. 2 P1-P2 issues remain (control flow duplication, variable naming in complex methods)
 
-### Quality Metrics Achieved (Dec 18, 2025)
+### Quality Metrics Achieved (Dec 20, 2025)
 
-#### Current Quality Status (All P0 Critical Issues FIXED - Dec 18, 2025)
+#### Current Quality Status (All P0-P1 Critical Issues FIXED - Dec 20, 2025)
 
 | Issue | Status | Notes |
 |-------|--------|-------|
+| **Early Return in Loops** | ✅ FIXED (Dec 20) | Direct successor check for empty branch blocks |
 | **Variable Naming** | ✅ 100% JADX parity | Type-aware grouping + Move instruction propagation |
 | **Class Generic Type Params** | ✅ FIXED | 736 classes now have proper `<T>` declarations |
 | **Interface Generic Type Params** | ✅ FIXED (Dec 18) | `interface OnSubscribe<T>` now includes type parameter |

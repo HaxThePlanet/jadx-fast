@@ -181,6 +181,11 @@ fn collect_branch_blocks(
     let mut visited = BTreeSet::new();
     let mut worklist = vec![start];
 
+    // Find if the condition block is inside a loop - if so, treat the loop header as a boundary
+    let containing_loop_header = loops.iter()
+        .find(|l| l.contains(condition))
+        .map(|l| l.header);
+
     while let Some(block) = worklist.pop() {
         // Stop at merge point
         if block == merge {
@@ -189,6 +194,13 @@ fn collect_branch_blocks(
 
         // Don't go back to condition
         if block == condition {
+            continue;
+        }
+
+        // Stop at the containing loop's header (prevents following the back edge)
+        // This is critical for conditionals inside loops - we shouldn't collect blocks
+        // reached via the loop header's exit edge (e.g., blocks after the loop)
+        if Some(block) == containing_loop_header {
             continue;
         }
 

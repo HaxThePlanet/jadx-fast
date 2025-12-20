@@ -1432,9 +1432,9 @@ impl<'a> RegionBuilder<'a> {
                 })));
             } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
                 // Nested conditional - check if fully contained in loop
-                if cond.then_blocks.iter().all(|b| loop_info.blocks.contains(b))
-                    && cond.else_blocks.iter().all(|b| loop_info.blocks.contains(b))
-                {
+                let then_in_loop = cond.then_blocks.iter().all(|b| loop_info.blocks.contains(b));
+                let else_in_loop = cond.else_blocks.iter().all(|b| loop_info.blocks.contains(b));
+                if then_in_loop && else_in_loop {
                     let (if_region, _) = self.process_if(cond);
                     contents.push(RegionContent::Region(Box::new(if_region)));
                     // Mark all then/else blocks as visited to prevent duplicate processing
@@ -1551,8 +1551,21 @@ impl<'a> RegionBuilder<'a> {
     /// - if (cond) return; else { body } - when then branch exits via return
     /// - if (!cond) break; else { body } - when else branch exits (negated condition)
     fn create_loop_break_region(&mut self, cond: &IfInfo, loop_info: &LoopInfo) -> Option<Region> {
-        let then_exits = cond.then_blocks.iter().any(|b| !loop_info.blocks.contains(b));
-        let else_exits = cond.else_blocks.iter().any(|b| !loop_info.blocks.contains(b));
+        // Check both collected blocks AND direct successors to determine which branch exits.
+        // This handles cases where:
+        // 1. The exit block is not included in then_blocks/else_blocks because it's the merge point
+        // 2. The exit is a direct successor containing a return statement
+        let succs = self.cfg.successors(cond.condition_block);
+        let then_target = succs.get(0).copied();
+        let else_target = succs.get(1).copied();
+
+        // A branch exits if:
+        // 1. Any block in then_blocks/else_blocks is outside the loop, OR
+        // 2. The direct successor is outside the loop (handles empty block lists)
+        let then_exits = cond.then_blocks.iter().any(|b| !loop_info.blocks.contains(b))
+            || then_target.map(|t| !loop_info.blocks.contains(&t)).unwrap_or(false);
+        let else_exits = cond.else_blocks.iter().any(|b| !loop_info.blocks.contains(b))
+            || else_target.map(|t| !loop_info.blocks.contains(&t)).unwrap_or(false);
 
         // Only handle simple cases where exactly one branch exits
         if then_exits == else_exits {
@@ -1561,8 +1574,14 @@ impl<'a> RegionBuilder<'a> {
         }
 
         // Check if the exit branch terminates with return/throw (not a break)
-        let exit_blocks = if then_exits { &cond.then_blocks } else { &cond.else_blocks };
-        let exits_via_return = self.exits_via_return_or_throw(exit_blocks);
+        // Also check the direct successor block for return/throw
+        let (exit_blocks, exit_target) = if then_exits {
+            (&cond.then_blocks, then_target)
+        } else {
+            (&cond.else_blocks, else_target)
+        };
+        let exits_via_return = self.exits_via_return_or_throw(exit_blocks)
+            || exit_target.map(|t| self.block_ends_with_return_or_throw(t)).unwrap_or(false);
 
         // Get break label for nested loops
         let label = if loop_info.parent.is_some() {
@@ -1583,7 +1602,16 @@ impl<'a> RegionBuilder<'a> {
             // Create then region - either break or the return block itself
             let then_region = if exits_via_return {
                 // Include the return block directly so the return statement is emitted
-                self.build_branch_region(&cond.then_blocks)
+                // If then_blocks is empty, use the direct successor which contains the return
+                if cond.then_blocks.is_empty() {
+                    if let Some(target) = then_target {
+                        Region::Sequence(vec![RegionContent::Block(target)])
+                    } else {
+                        Region::Break { label }
+                    }
+                } else {
+                    self.build_branch_region(&cond.then_blocks)
+                }
             } else {
                 Region::Break { label }
             };
@@ -1606,7 +1634,16 @@ impl<'a> RegionBuilder<'a> {
             // Create then region - either break or the return block itself
             let then_region = if exits_via_return {
                 // Include the return block directly so the return statement is emitted
-                self.build_branch_region(&cond.else_blocks)
+                // If else_blocks is empty, use the direct successor which contains the return
+                if cond.else_blocks.is_empty() {
+                    if let Some(target) = else_target {
+                        Region::Sequence(vec![RegionContent::Block(target)])
+                    } else {
+                        Region::Break { label }
+                    }
+                } else {
+                    self.build_branch_region(&cond.else_blocks)
+                }
             } else {
                 Region::Break { label }
             };
@@ -1622,13 +1659,64 @@ impl<'a> RegionBuilder<'a> {
     /// Check if a set of blocks exits via return or throw (not a loop break)
     fn exits_via_return_or_throw(&self, blocks: &[u32]) -> bool {
         for &block_id in blocks {
-            if let Some(block) = self.cfg.get_block(block_id) {
+            if self.block_ends_with_return_or_throw(block_id) {
+                return true;
+            }
+        }
+        false
+    }
+
+    /// Check if a single block ends with return or throw
+    /// Follows Goto chains to find the actual exit instruction
+    fn block_ends_with_return_or_throw(&self, block_id: u32) -> bool {
+        let mut current_block = block_id;
+        let mut visited = std::collections::BTreeSet::new();
+
+        // Follow Goto chain (up to 10 hops to prevent infinite loops)
+        for hop in 0..10 {
+            if !visited.insert(current_block) {
+                // Cycle detected
+                return false;
+            }
+
+            if let Some(block) = self.cfg.get_block(current_block) {
                 if let Some(last) = block.instructions.last() {
-                    if matches!(last.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }) {
-                        return true;
+                    match &last.insn_type {
+                        InsnType::Return { .. } | InsnType::Throw { .. } => {
+                            if block_id < 30 {
+                                eprintln!("DEBUG block_ends_with_return: block {} hop {} -> RETURN", block_id, hop);
+                            }
+                            return true;
+                        }
+                        InsnType::Goto { target } => {
+                            // Follow the goto to the target block
+                            // Find block by offset
+                            if let Some(target_block) = self.cfg.block_ids().find(|&bid| {
+                                self.cfg.get_block(bid)
+                                    .map(|b| b.start_offset == *target)
+                                    .unwrap_or(false)
+                            }) {
+                                if block_id < 30 {
+                                    eprintln!("DEBUG block_ends_with_return: block {} hop {} -> Goto {} -> block {}", block_id, hop, target, target_block);
+                                }
+                                current_block = target_block;
+                                continue;
+                            }
+                            if block_id < 30 {
+                                eprintln!("DEBUG block_ends_with_return: block {} hop {} -> Goto {} NOT FOUND", block_id, hop, target);
+                            }
+                            return false;
+                        }
+                        _ => {
+                            if block_id < 30 {
+                                eprintln!("DEBUG block_ends_with_return: block {} hop {} -> other", block_id, hop);
+                            }
+                            return false;
+                        }
                     }
                 }
             }
+            return false;
         }
         false
     }

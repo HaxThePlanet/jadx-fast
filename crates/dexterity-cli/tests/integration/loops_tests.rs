@@ -1914,3 +1914,39 @@ existingItem.name = items[i].name;
         .contains_one("synchronized (this.mCache) {")
         .contains_one("for (int i = 0; i < items.length; i++) {");
 }
+
+#[test]
+fn array_for_each_early_return_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
+    // This test covers the checkMagisk pattern: early return inside a for-each loop
+    // Expected: for (String path : paths) { if (new File(path).exists()) return true; }
+    let helper = IntegrationTestHelper::new("array_for_each_early_return_test");
+    let source = r#"
+import java.io.File;
+public class TestCls {
+    public boolean checkPaths() {
+        String[] paths = {"/path1", "/path2", "/path3"};
+        for (String path : paths) {
+            if (new File(path).exists()) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+"#;
+
+    let result = helper.test_decompilation(source)
+        .expect("Decompilation failed");
+
+    result
+        .contains_one("for (String str : strArr) {")  // for-each syntax
+        .contains_one("if (new File(str).exists()) {")  // condition inside loop
+        .contains_one("return true;")  // early return
+        .contains("return false");  // default return
+}
