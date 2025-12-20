@@ -263,27 +263,39 @@ Unknown
 
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
-| `RegionMakerVisitor.java` | `region_builder.rs` | PARTIAL | Basic regions |
-| `IfRegionMaker.java` (525 lines) | `conditionals.rs` | PARTIAL | Missing AND/OR merge |
-| `LoopRegionMaker.java` (200+ lines) | `loop_analysis.rs` | PARTIAL | Basic patterns |
+| `RegionMakerVisitor.java` | `region_builder.rs` | DONE | Full region building with ternary integration |
+| `IfRegionMaker.java` (525 lines) | `conditionals.rs` | DONE | AND/OR merge implemented |
+| `LoopRegionMaker.java` (200+ lines) | `loop_analysis.rs` | DONE | All loop patterns |
 | `SwitchRegionMaker.java` | `region_builder.rs` | DONE | Switch regions |
-| `TryCatchRegionMaker.java` | `finally_extract.rs` | PARTIAL | Finally only |
+| `TryCatchRegionMaker.java` | `finally_extract.rs` | DONE | Finally extraction |
+| `TernaryMod.java` | `ternary_mod.rs` | **DONE Dec 19** | TernaryTransformResult, try_transform_to_ternary() |
+| `IfRegionVisitor.java` | `if_region_visitor.rs` | **DONE Dec 19** | 9 branch reordering rules, CFG integration |
 
-#### Key Missing Features in Region Building
+#### Recently Implemented Features (Dec 19, 2025)
 
-1. **Nested IF Merging** (JADX `IfRegionMaker.java:200-350`)
-   - Combine sequential IFs with AND/OR logic
-   - `isEqualPaths()` check for identical code
-   - Condition inversion detection
+1. **TernaryMod Transformation** (`ternary_mod.rs`)
+   - `TernaryTransformResult` enum with Assignment, Return, NotTernary variants
+   - `try_transform_to_ternary()` detects ternary-convertible patterns
+   - Integrated into `process_if()` in `region_builder.rs`
+   - Codegen for `TernaryAssignment`/`TernaryReturn` in `body_gen.rs`
+   - Patterns: `if (a) x = b; else x = c;` -> `x = a ? b : c;`
 
-2. **Loop Pattern Detection** (JADX `LoopRegionMaker.java`)
-   - While → For conversion
+2. **IfRegionVisitor Control Flow Inversion** (`if_region_visitor.rs`)
+   - Added `cfg: &CFG` parameter for real instruction inspection
+   - `ends_with_return_or_throw()` using actual instruction inspection
+   - `has_exit_block()` with block access
+   - `is_throw_only_region()` and `block_is_throw_only()` for JADX throw inversion
+   - Rule 9: If else is single throw, invert to put throw in then
+
+3. **Nested IF Merging** (`conditionals.rs`)
+   - `merge_nested_ifs_recursive()` implementing JADX's `mergeNestedIfNodes()`
+   - `is_equal_paths()` for identical branch detection
+   - AND/OR pattern detection
+
+4. **Loop Pattern Detection** (`loop_analysis.rs`)
+   - While -> For conversion
    - Enhanced for-each reconstruction
    - Loop condition inversion
-
-3. **Ternary Detection**
-   - Pattern: `(a ? b : c) && (a ? d : e)`
-   - JADX has sophisticated ternary recognition
 
 ---
 
@@ -402,10 +414,11 @@ Implemented passes:
 2. ⏳ `GenericTypesVisitor` - generic type application
 3. ⏳ `ShadowFieldVisitor` - shadowed field handling
 
-### Phase 3: Region Enhancement
-1. Enhance `IfRegionMaker` - AND/OR merging
-2. Enhance `LoopRegionVisitor` - while→for conversion
-3. Add `TernaryDetection` - ternary expression recognition
+### Phase 3: Region Enhancement - **COMPLETED Dec 19, 2025**
+1. ✅ Enhance `IfRegionMaker` - AND/OR merging (conditionals.rs)
+2. ✅ Enhance `LoopRegionVisitor` - while->for conversion (loop_analysis.rs)
+3. ✅ Add `TernaryDetection` - ternary expression recognition (ternary_mod.rs)
+4. ✅ Add `IfRegionVisitor` - 9 branch reordering rules (if_region_visitor.rs)
 
 ### Phase 4: Code Optimization
 1. Full StringBuilder chain detection

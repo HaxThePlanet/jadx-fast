@@ -395,14 +395,14 @@ m com/example/MainActivity.onCreate(Landroid/os/Bundle;)V = mo0onCreate
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `dexterity-deobf/src/lib.rs` | 28 | Public API exports |
-| `dexterity-deobf/src/alias_provider.rs` | 225 | Name generation |
+| `dexterity-deobf/src/lib.rs` | 27 | Public API exports |
+| `dexterity-deobf/src/alias_provider.rs` | 224 | Name generation |
 | `dexterity-deobf/src/conditions.rs` | 492 | Rename conditions |
-| `dexterity-deobf/src/name_mapper.rs` | 163 | Name validation |
-| `dexterity-deobf/src/registry.rs` | 287 | Thread-safe storage |
-| `dexterity-deobf/src/visitor.rs` | 191 | Core visitor |
-| `dexterity-deobf/src/mapping_parser.rs` | 390 | ProGuard parsing |
-| `dexterity-cli/src/deobf.rs` | 796 | CLI integration |
+| `dexterity-deobf/src/name_mapper.rs` | 162 | Name validation |
+| `dexterity-deobf/src/registry.rs` | 288 | Thread-safe storage |
+| `dexterity-deobf/src/visitor.rs` | 190 | Core visitor |
+| `dexterity-deobf/src/mapping_parser.rs` | 389 | ProGuard parsing |
+| `dexterity-cli/src/deobf.rs` | 1007 | CLI integration |
 
 ### JADX Reference (jadx-fast/)
 

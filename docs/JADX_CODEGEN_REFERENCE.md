@@ -757,8 +757,8 @@ Key properties:
        └─ Removes empty regions
 4. LoopRegionVisitor.visit(mth)
    ↓ Converts while → for/for-each
-5. IfRegionVisitor.visit(mth)
-   ↓ Condition optimization, ternary detection
+5. IfRegionVisitor.visit(mth) - **FULLY IMPLEMENTED Dec 19**
+   ↓ Condition optimization, ternary detection (if_region_visitor.rs, ternary_mod.rs)
 6. Region tree ready for codegen
 ```
 
@@ -877,9 +877,17 @@ else if (b) { then }
 // Converts OR conditions appropriately
 ```
 
-#### Ternary Detection
+#### Ternary Detection - **FULLY IMPLEMENTED Dec 19, 2025**
 
-**File**: `jadx-core/src/main/java/jadx/core/dex/visitors/regions/TernaryMod.java`
+**JADX File**: `jadx-core/src/main/java/jadx/core/dex/visitors/regions/TernaryMod.java`
+**Dexterity File**: `crates/dexterity-passes/src/ternary_mod.rs`
+
+**Dexterity Implementation:**
+- `TernaryTransformResult` enum with `Assignment`, `Return`, and `NotTernary` variants
+- `try_transform_to_ternary()` function detects ternary-convertible patterns
+- Integrated into `process_if()` in `region_builder.rs` (called before building sub-regions)
+- Codegen for `TernaryAssignment` and `TernaryReturn` regions in `body_gen.rs`
+- Helper functions: `extract_block_value_expression()`, `extract_block_return_expression()`, `binary_op_to_string()`
 
 **Criteria**:
 1. Not marked as else-if chain
@@ -994,8 +1002,8 @@ switch (lastInsn.getType()) {
 | `visitors/regions/maker/IfRegionMaker.java` | If region construction |
 | `visitors/regions/maker/LoopRegionMaker.java` | Loop region construction |
 | `visitors/regions/LoopRegionVisitor.java` | For-each detection |
-| `visitors/regions/IfRegionVisitor.java` | Condition optimization |
-| `visitors/regions/TernaryMod.java` | Ternary conversion |
+| `visitors/regions/IfRegionVisitor.java` | Condition optimization - **DONE** (if_region_visitor.rs) |
+| `visitors/regions/TernaryMod.java` | Ternary conversion - **DONE** (ternary_mod.rs) |
 
 ---
 

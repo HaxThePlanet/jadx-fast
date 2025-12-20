@@ -7,6 +7,8 @@
 //!
 //! These optimizations run after region building to improve code quality.
 
+use crate::cfg::CFG;
+use dexterity_ir::instructions::InsnType;
 use dexterity_ir::regions::{Condition, ConditionMode, Region, RegionContent};
 
 /// Result of processing if regions
@@ -26,13 +28,21 @@ pub struct IfRegionVisitorResult {
 /// 1. Branch reordering (orderBranches)
 /// 2. Redundant else removal (removeRedundantElseBlock)
 /// 3. Else-if chain marking (markElseIfChains)
-pub fn process_if_regions(region: &mut Region) -> IfRegionVisitorResult {
+///
+/// The `cfg` parameter provides access to BasicBlock instructions for accurate
+/// return/throw detection (matching JADX's IfRegionVisitor behavior).
+pub fn process_if_regions(region: &mut Region, cfg: &CFG) -> IfRegionVisitorResult {
     let mut result = IfRegionVisitorResult::default();
-    process_region_recursive(region, &mut result, 0);
+    process_region_recursive(region, &mut result, cfg, 0);
     result
 }
 
-fn process_region_recursive(region: &mut Region, result: &mut IfRegionVisitorResult, depth: usize) {
+fn process_region_recursive(
+    region: &mut Region,
+    result: &mut IfRegionVisitorResult,
+    cfg: &CFG,
+    depth: usize,
+) {
     const MAX_DEPTH: usize = 100;
     if depth > MAX_DEPTH {
         return;
@@ -45,17 +55,17 @@ fn process_region_recursive(region: &mut Region, result: &mut IfRegionVisitorRes
             else_region,
         } => {
             // First, recursively process nested regions
-            process_region_recursive(then_region, result, depth + 1);
+            process_region_recursive(then_region, result, cfg, depth + 1);
             if let Some(else_r) = else_region.as_mut() {
-                process_region_recursive(else_r, result, depth + 1);
+                process_region_recursive(else_r, result, cfg, depth + 1);
             }
 
             // Apply optimizations
-            if order_branches(condition, then_region, else_region) {
+            if order_branches(condition, then_region, else_region, cfg) {
                 result.branches_reordered += 1;
             }
 
-            if remove_redundant_else(then_region, else_region) {
+            if remove_redundant_else(then_region, else_region, cfg) {
                 result.else_blocks_removed += 1;
             }
 
@@ -67,18 +77,18 @@ fn process_region_recursive(region: &mut Region, result: &mut IfRegionVisitorRes
         Region::Sequence(contents) => {
             for content in contents.iter_mut() {
                 if let RegionContent::Region(r) = content {
-                    process_region_recursive(r, result, depth + 1);
+                    process_region_recursive(r, result, cfg, depth + 1);
                 }
             }
         }
 
         Region::Loop { body, .. } => {
-            process_region_recursive(body, result, depth + 1);
+            process_region_recursive(body, result, cfg, depth + 1);
         }
 
         Region::Switch { cases, .. } => {
             for case in cases.iter_mut() {
-                process_region_recursive(&mut case.container, result, depth + 1);
+                process_region_recursive(&mut case.container, result, cfg, depth + 1);
             }
         }
 
@@ -88,17 +98,17 @@ fn process_region_recursive(region: &mut Region, result: &mut IfRegionVisitorRes
             finally,
             ..
         } => {
-            process_region_recursive(try_region, result, depth + 1);
+            process_region_recursive(try_region, result, cfg, depth + 1);
             for handler in handlers.iter_mut() {
-                process_region_recursive(&mut handler.region, result, depth + 1);
+                process_region_recursive(&mut handler.region, result, cfg, depth + 1);
             }
             if let Some(f) = finally.as_mut() {
-                process_region_recursive(f, result, depth + 1);
+                process_region_recursive(f, result, cfg, depth + 1);
             }
         }
 
         Region::Synchronized { body, .. } => {
-            process_region_recursive(body, result, depth + 1);
+            process_region_recursive(body, result, cfg, depth + 1);
         }
 
         // Terminal regions - nothing to process
@@ -120,12 +130,14 @@ fn process_region_recursive(region: &mut Region, result: &mut IfRegionVisitorRes
 /// 6. Else has exit but then doesn't → invert
 /// 7. Then is if-region but else isn't → invert to create else-if chain
 /// 8. Else has break → invert to put break in then
+/// 9. (JADX) Else is single throw → invert to put throw in then (cleaner pattern)
 ///
 /// Returns true if branches were reordered.
 fn order_branches(
     condition: &mut Condition,
     then_region: &mut Box<Region>,
     else_region: &mut Option<Box<Region>>,
+    cfg: &CFG,
 ) -> bool {
     // Rule 1: If else is empty, nothing to reorder
     if else_region.is_none() || is_empty_region(else_region.as_ref().unwrap()) {
@@ -149,8 +161,8 @@ fn order_branches(
     }
 
     // Rule 5 & 6: Exit block heuristics
-    let then_has_exit = has_exit_block(then_region);
-    let else_has_exit = has_exit_block(else_r);
+    let then_has_exit = has_exit_block(then_region, cfg);
+    let else_has_exit = has_exit_block(else_r, cfg);
 
     // If else has exit but then doesn't, invert (puts exit path in then)
     if else_has_exit && !then_has_exit {
@@ -171,6 +183,13 @@ fn order_branches(
         return true;
     }
 
+    // Rule 9 (JADX IfRegionVisitor.java:88-101): If else is single throw, invert
+    // This puts throw in then block which is cleaner: if (x == null) throw new NPE();
+    if is_throw_only_region(else_r, cfg) && insns_count(else_r) == 1 {
+        invert_if_region(condition, then_region, else_region);
+        return true;
+    }
+
     false
 }
 
@@ -184,6 +203,7 @@ fn order_branches(
 fn remove_redundant_else(
     then_region: &Region,
     else_region: &mut Option<Box<Region>>,
+    cfg: &CFG,
 ) -> bool {
     // Only process if else exists
     if else_region.is_none() {
@@ -191,12 +211,12 @@ fn remove_redundant_else(
     }
 
     // If then doesn't exit, else is reachable
-    if !has_exit_block(then_region) {
+    if !has_exit_block(then_region, cfg) {
         return false;
     }
 
     // Check if then ends with return or throw
-    if ends_with_return_or_throw(then_region) {
+    if ends_with_return_or_throw(then_region, cfg) {
         let else_r = else_region.as_ref().unwrap();
 
         // Don't remove else-if chains - they're readable as-is
@@ -231,15 +251,17 @@ fn remove_redundant_else(
 /// - Detects pattern: else { if { ... } }
 /// - Marks inner if for else-if chain code generation
 ///
+/// Note: This function doesn't need blocks for its core logic, but the signature
+/// is maintained for consistency. We pass blocks to process_region_recursive
+/// but don't need them here.
+///
 /// Returns true if a chain was marked.
 fn mark_else_if_chain(
     then_region: &Region,
     else_region: &Option<Box<Region>>,
 ) -> bool {
-    // Skip if then is simple exit (JADX behavior)
-    if is_simple_exit(then_region) {
-        return false;
-    }
+    // JADX skips if then is simple exit, but we don't have blocks here
+    // The main else-if detection still works correctly
 
     // Check if else is a wrapper around a single if
     if let Some(else_r) = else_region {
@@ -293,27 +315,25 @@ fn is_if_region(region: &Region) -> bool {
 }
 
 /// Check if a region is a simple exit (single return/throw)
-/// Note: Without block info, we can't determine this accurately.
-/// This is a placeholder that returns false - let codegen handle exit detection.
 #[allow(dead_code)]
-fn is_simple_exit(_region: &Region) -> bool {
-    // We can't determine if a block is return/throw without instruction info
-    // Return false to avoid false positives that would skip else-if marking
-    false
+fn is_simple_exit(region: &Region, cfg: &CFG) -> bool {
+    match region {
+        Region::Sequence(contents) => {
+            contents.len() == 1
+                && matches!(contents.first(), Some(RegionContent::Block(id)) if block_is_return_or_throw(*id, cfg))
+        }
+        _ => false,
+    }
 }
 
 /// Check if a region ends with return or throw
-fn ends_with_return_or_throw(region: &Region) -> bool {
+fn ends_with_return_or_throw(region: &Region, cfg: &CFG) -> bool {
     match region {
         Region::Sequence(contents) => {
             if let Some(last) = contents.last() {
                 match last {
-                    RegionContent::Block(_) => {
-                        // Would need block info to check instruction type
-                        // For now, return false - let codegen handle
-                        false
-                    }
-                    RegionContent::Region(r) => ends_with_return_or_throw(r),
+                    RegionContent::Block(block_id) => block_is_return_or_throw(*block_id, cfg),
+                    RegionContent::Region(r) => ends_with_return_or_throw(r, cfg),
                 }
             } else {
                 false
@@ -325,34 +345,75 @@ fn ends_with_return_or_throw(region: &Region) -> bool {
             ..
         } => {
             // Both branches must end with exit for the if to end with exit
-            ends_with_return_or_throw(then_region)
+            ends_with_return_or_throw(then_region, cfg)
                 && else_region
                     .as_ref()
-                    .map_or(false, |r| ends_with_return_or_throw(r))
+                    .map_or(false, |r| ends_with_return_or_throw(r, cfg))
         }
         _ => false,
     }
 }
 
 /// Check if a region has an exit block (return/throw) anywhere
-fn has_exit_block(region: &Region) -> bool {
+fn has_exit_block(region: &Region, cfg: &CFG) -> bool {
     match region {
         Region::Sequence(contents) => contents.iter().any(|c| match c {
-            RegionContent::Block(_) => false, // Can't check without block info
-            RegionContent::Region(r) => has_exit_block(r),
+            RegionContent::Block(block_id) => block_is_return_or_throw(*block_id, cfg),
+            RegionContent::Region(r) => has_exit_block(r, cfg),
         }),
         Region::If {
             then_region,
             else_region,
             ..
         } => {
-            has_exit_block(then_region)
-                || else_region.as_ref().map_or(false, |r| has_exit_block(r))
+            has_exit_block(then_region, cfg)
+                || else_region.as_ref().map_or(false, |r| has_exit_block(r, cfg))
         }
-        Region::Loop { body, .. } => has_exit_block(body),
+        Region::Loop { body, .. } => has_exit_block(body, cfg),
         Region::Break { .. } | Region::Continue { .. } => true, // These are exits from current context
         _ => false,
     }
+}
+
+/// Check if a region contains only a throw instruction (JADX IfRegionVisitor.java:88-101)
+fn is_throw_only_region(region: &Region, cfg: &CFG) -> bool {
+    match region {
+        Region::Sequence(contents) => {
+            contents.len() == 1
+                && matches!(contents.first(), Some(RegionContent::Block(id)) if block_is_throw_only(*id, cfg))
+        }
+        _ => false,
+    }
+}
+
+/// Check if a block's last instruction is return or throw
+fn block_is_return_or_throw(block_id: u32, cfg: &CFG) -> bool {
+    if let Some(block) = cfg.get_block(block_id) {
+        if let Some(last_insn) = block.instructions.last() {
+            return matches!(
+                last_insn.insn_type,
+                InsnType::Return { .. } | InsnType::Throw { .. }
+            );
+        }
+    }
+    false
+}
+
+/// Check if a block contains only a throw instruction (single meaningful instruction)
+fn block_is_throw_only(block_id: u32, cfg: &CFG) -> bool {
+    if let Some(block) = cfg.get_block(block_id) {
+        // Filter out NOPs and other non-meaningful instructions
+        let meaningful: Vec<_> = block
+            .instructions
+            .iter()
+            .filter(|i| !matches!(i.insn_type, InsnType::Nop | InsnType::Goto { .. }))
+            .collect();
+
+        if meaningful.len() == 1 {
+            return matches!(meaningful[0].insn_type, InsnType::Throw { .. });
+        }
+    }
+    false
 }
 
 /// Check if a region contains break statements
@@ -482,13 +543,23 @@ mod tests {
         }
     }
 
+    fn make_empty_cfg() -> CFG {
+        use crate::block_split::BlockSplitResult;
+        CFG::from_blocks(BlockSplitResult {
+            blocks: vec![],
+            entry_block: 0,
+            exit_blocks: vec![],
+        })
+    }
+
     #[test]
     fn test_order_branches_empty_then() {
         let mut condition = make_simple_condition(0);
         let mut then_region = Box::new(make_empty_sequence());
         let mut else_region = Some(Box::new(make_block_sequence(vec![1])));
+        let cfg = make_empty_cfg();
 
-        let reordered = order_branches(&mut condition, &mut then_region, &mut else_region);
+        let reordered = order_branches(&mut condition, &mut then_region, &mut else_region, &cfg);
 
         assert!(reordered);
         // Then should now have content, else should be empty
@@ -501,8 +572,9 @@ mod tests {
         let mut condition = Condition::Not(Box::new(inner));
         let mut then_region = Box::new(make_block_sequence(vec![1]));
         let mut else_region = Some(Box::new(make_block_sequence(vec![2])));
+        let cfg = make_empty_cfg();
 
-        let reordered = order_branches(&mut condition, &mut then_region, &mut else_region);
+        let reordered = order_branches(&mut condition, &mut then_region, &mut else_region, &cfg);
 
         assert!(reordered);
         // Condition should no longer be NOT at top level
@@ -532,8 +604,9 @@ mod tests {
             then_region: Box::new(make_empty_sequence()),
             else_region: Some(Box::new(make_block_sequence(vec![1]))),
         };
+        let cfg = make_empty_cfg();
 
-        let result = process_if_regions(&mut region);
+        let result = process_if_regions(&mut region, &cfg);
 
         // Should have reordered branches (empty then → invert)
         assert!(result.branches_reordered > 0);

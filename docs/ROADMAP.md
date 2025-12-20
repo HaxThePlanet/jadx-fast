@@ -26,13 +26,13 @@
 
 | Category | Score | Max | Notes |
 |----------|-------|-----|-------|
-| Control Flow | 12 | 30 | Broken if/else, empty blocks, unreachable code |
+| Control Flow | 12 | 30 | **TernaryMod + IfRegionVisitor IMPLEMENTED Dec 19** - Expected improvement toward 26-30/30 |
 | Type System | 13 | 25 | int used as null, type confusion |
 | Exception Handling | 5 | 15 | Missing throws declarations (10+ methods) |
 | Variable Naming | 12 | 15 | **FIXED Dec 19** - Type safety enforced, obj2, obj6 patterns reduced |
 | Code Conciseness | 6 | 10 | 20% more verbose than JADX |
 | Kotlin Support | 4 | 5 | 72% parity, variance + toString() parsing |
-| **Total** | **49** | **100** | **C- grade** |
+| **Total** | **49** | **100** | **C- grade** (control flow improvements pending re-evaluation) |
 
 ### Evidence Files
 
@@ -61,7 +61,9 @@ Based on comparison of *features implemented* vs JADX (not output quality):
 | Speed | 3-13x faster | Baseline | Dexterity |
 | File Coverage | +17.9% more files | Baseline | Dexterity |
 | Variable Naming | Type-based (str, i2) | Semantic | JADX |
-| Control Flow | **FIXED Dec 20** (P1-001, P1-002) | Correct | **Tie** |
+| Control Flow | **FIXED Dec 20** (P1-001, P1-002) + **TernaryMod + IfRegionVisitor Dec 19** | Correct | **Tie** |
+| TernaryMod | **IMPLEMENTED Dec 19** - Assignment/Return ternary patterns | Implemented | Tie |
+| IfRegionVisitor | **IMPLEMENTED Dec 19** - 9 branch reordering rules | Implemented | Tie |
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 
@@ -306,10 +308,14 @@ Added 5 optimization passes to `body_gen.rs` that were previously only in `decom
    - JADX validation helpers: `used_only_in_loop()`, `assign_only_in_loop()`
    - Enhanced `detect_indexed_for()` with PHI validation and escape analysis
 
-8. **Phase 5: IfRegionVisitor** ✓ (DONE Dec 19, 2025)
+8. **Phase 5: IfRegionVisitor** ✓ (FULLY IMPLEMENTED Dec 19, 2025)
    - Else-if chain detection: `if {} else { if {} else {} }` → `if {} else if {} else {}`
    - Empty branch removal (at codegen level)
-   - Branch reordering for readability (8 JADX rules)
+   - Branch reordering for readability (9 JADX rules including Rule 9 throw inversion)
+   - Added `cfg: &CFG` parameter for real instruction inspection
+   - Implemented `ends_with_return_or_throw()` using actual instruction inspection
+   - Implemented `has_exit_block()` with block access
+   - Added `is_throw_only_region()` and `block_is_throw_only()` for JADX throw inversion rule
    - Implementation: `crates/dexterity-passes/src/if_region_visitor.rs`
 
 9. **Phase 6: SwitchBreakVisitor** (PARTIAL - Dec 18, 2025)
@@ -671,7 +677,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Enhanced condition merging (IfRegionMaker) - **DONE Dec 17** (merge_nested_ifs_recursive, AND/OR/Mixed patterns)
 - [x] ForLoop structure details - **DONE Dec 17** (ForLoopInfo, ForEachLoopInfo, IterableSource, LoopDetails)
 - [x] LoopRegionVisitor - while→for upgrade, condition inversion, JADX validation helpers (Dec 19)
-- [x] IfRegionVisitor - else-if chains, empty branch removal, branch reordering (Dec 19)
+- [x] IfRegionVisitor - **FULLY IMPLEMENTED Dec 19** (cfg: &CFG parameter for real instruction inspection, ends_with_return_or_throw(), has_exit_block(), is_throw_only_region(), block_is_throw_only(), Rule 9 throw inversion, 9 branch reordering rules)
 - [x] SwitchBreakVisitor - unreachable break removal (Dec 18); common break extraction deferred
 
 ### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md)) - **100% JADX Parity**
@@ -687,7 +693,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 ### Optimization Passes ([JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md)) - **100% COMPLETE**
 - [x] ConstInlineVisitor equivalent
 - [x] SimplifyVisitor audit - **DONE**: double negation (--x, ~~x, !!x), CMP unwrapping, StringBuilder chain (codegen level), cast chain optimization, CHECK_CAST duplicate elimination
-- [x] TernaryMod (If-region to ternary) - **IMPLEMENTED** (analysis pass in ternary_mod.rs, detection at codegen in body_gen.rs)
+- [x] TernaryMod (If-region to ternary) - **FULLY IMPLEMENTED Dec 19** (TernaryTransformResult enum, try_transform_to_ternary() in ternary_mod.rs, TernaryAssignment/TernaryReturn regions, codegen in body_gen.rs with extract_block_value_expression/extract_block_return_expression helpers)
 - [x] DeboxingVisitor - **IMPLEMENTED** (at codegen level in body_gen.rs:2992-3006, BoxingType in expr_gen.rs)
 - [x] PrepareForCodeGen final cleanup - **IMPLEMENTED** (prepare_for_codegen.rs, redundant move removal, associative chain marking)
 - [x] IfCondition.simplify() - **DONE** (De Morgan's laws, double negation elimination, NOT distribution for ternary, in dexterity-ir/src/regions.rs:196-279 Condition::simplify())

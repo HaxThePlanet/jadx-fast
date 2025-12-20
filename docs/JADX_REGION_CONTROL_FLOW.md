@@ -494,10 +494,47 @@ RemoveUnreachableBreak:
 7. **ReturnVisitor** - Optimize return paths
 8. **IfRegionVisitor again** - Final optimization pass
 
-### TernaryMod
+### TernaryMod - **FULLY IMPLEMENTED (Dec 19, 2025)**
 
-- Converts nested if-else into ternary operator where appropriate
+**Location:** `crates/dexterity-passes/src/ternary_mod.rs`
+
+Converts nested if-else into ternary operator where appropriate:
 - Condition pattern: `if (a) x = b; else x = c;` -> `x = a ? b : c;`
+- Return pattern: `if (a) return b; else return c;` -> `return a ? b : c;`
+
+**Implementation Details:**
+- Added `TernaryTransformResult` enum with `Assignment`, `Return`, and `NotTernary` variants
+- `try_transform_to_ternary()` function detects ternary-convertible patterns
+- Integrated into `process_if()` in `region_builder.rs` (called before building sub-regions)
+- Codegen for `TernaryAssignment` and `TernaryReturn` regions in `body_gen.rs`
+- Helper functions: `extract_block_value_expression()`, `extract_block_return_expression()`, `binary_op_to_string()`
+
+### IfRegionVisitor - **FULLY IMPLEMENTED (Dec 19, 2025)**
+
+**Location:** `crates/dexterity-passes/src/if_region_visitor.rs`
+
+Branch reordering and optimization based on JADX's IfRegionVisitor.java:
+
+**Key Functions:**
+- `process_if_regions(region, cfg)` - Main entry point with CFG parameter for real instruction inspection
+- `order_branches()` - 9 branch reordering rules for readability
+- `remove_redundant_else()` - Remove else blocks after return/throw
+- `mark_else_if_chain()` - Detect and mark else-if chains
+
+**New Helper Functions (Dec 19):**
+- `ends_with_return_or_throw(region, cfg)` - Real instruction inspection for exit detection
+- `has_exit_block(region, cfg)` - Check if region contains exit statements
+- `is_throw_only_region(region, cfg)` - Detect single-throw regions for Rule 9
+- `block_is_throw_only(block_id, cfg)` - Check if block contains only throw
+
+**Branch Reordering Rules:**
+1. Empty else - keep as-is
+2. Empty then - invert condition, swap branches
+3. Condition is NOT - invert to remove NOT wrapper
+4. Else has exit but then doesn't - invert (puts exit path in then)
+5. Then is if-region but else isn't - invert to create else-if chain
+6. Else has break - invert to put break in then
+7. **Rule 9 (NEW):** Else is single throw - invert to put throw in then (JADX pattern)
 
 ---
 

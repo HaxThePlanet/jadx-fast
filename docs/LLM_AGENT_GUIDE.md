@@ -66,13 +66,14 @@ jadx-fast/jadx-core/src/main/java/jadx/core/
 
 Check [ROADMAP.md](ROADMAP.md) → "To Clone Next" section:
 
-| Priority | Task | Reference Doc |
-|----------|------|---------------|
-| P1 | Interface Generics | JADX_CODEGEN_REFERENCE.md |
-| P2 | SimplifyVisitor audit | JADX_OPTIMIZATION_PASSES.md |
-| P2 | TernaryMod pass | JADX_OPTIMIZATION_PASSES.md |
-| P2 | Multi-DEX support | jadx-core/dex/nodes/ |
-| P3 | Warning comments | JADX_CODEGEN_REFERENCE.md |
+| Priority | Task | Reference Doc | Status |
+|----------|------|---------------|--------|
+| P1 | Interface Generics | JADX_CODEGEN_REFERENCE.md | |
+| P2 | SimplifyVisitor audit | JADX_OPTIMIZATION_PASSES.md | |
+| P2 | TernaryMod pass | JADX_OPTIMIZATION_PASSES.md | **DONE Dec 19** |
+| P2 | IfRegionVisitor | JADX_REGION_CONTROL_FLOW.md | **DONE Dec 19** |
+| P2 | Multi-DEX support | jadx-core/dex/nodes/ | |
+| P3 | Warning comments | JADX_CODEGEN_REFERENCE.md | |
 
 ### Step 2: Study the Algorithm
 
@@ -90,6 +91,8 @@ Check [ROADMAP.md](ROADMAP.md) → "To Clone Next" section:
 | Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (7,093 LOC) |
 | Expression Gen | `crates/dexterity-codegen/src/expr_gen.rs` (1,488 LOC) |
 | Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,733 LOC) |
+| TernaryMod | `crates/dexterity-passes/src/ternary_mod.rs` (NEW Dec 19) |
+| IfRegionVisitor | `crates/dexterity-passes/src/if_region_visitor.rs` (NEW Dec 19) |
 
 ### Step 4: Implement
 

@@ -334,6 +334,175 @@ pub fn process_ternary_mod(
     analyze_ternary_opportunities(region, blocks, cfg)
 }
 
+// ============================================================================
+// TernaryMod Transformation (Phase 2) - JADX TernaryMod.java Algorithm
+// ============================================================================
+//
+// This implements the actual transformation of if-else regions to ternary
+// expressions. Called by region_builder.rs before building if sub-regions.
+
+use dexterity_ir::regions::Condition;
+
+/// Result of ternary transformation attempt
+#[derive(Debug)]
+pub enum TernaryTransformResult {
+    /// Successfully transformed to ternary assignment: dest = cond ? then : else
+    Assignment {
+        condition: Condition,
+        dest_reg: u16,
+        dest_version: u32,
+        then_block: u32,
+        else_block: u32,
+    },
+    /// Successfully transformed to ternary return: return cond ? then : else
+    Return {
+        condition: Condition,
+        then_block: u32,
+        else_block: u32,
+    },
+    /// Could not transform (not a ternary pattern)
+    NotTernary,
+}
+
+/// Try to transform an if-else pattern into a ternary expression.
+///
+/// This is called by RegionBuilder BEFORE building sub-regions.
+/// If successful, returns the ternary transformation result.
+///
+/// Pattern 1: Assignment in both branches
+///   if (cond) { r = a; } else { r = b; }
+///   -> r = cond ? a : b;
+///
+/// Pattern 2: Return from both branches
+///   if (cond) { return a; } else { return b; }
+///   -> return cond ? a : b;
+///
+/// # Arguments
+/// * `condition` - The condition from the if-block
+/// * `then_blocks` - Block IDs in the then branch
+/// * `else_blocks` - Block IDs in the else branch
+/// * `cfg` - The control flow graph with block access
+///
+/// # Returns
+/// * `TernaryTransformResult` - Success with transformation info or NotTernary
+pub fn try_transform_to_ternary(
+    condition: Condition,
+    then_blocks: &[u32],
+    else_blocks: &[u32],
+    cfg: &CFG,
+) -> TernaryTransformResult {
+    // JADX TernaryMod.java line 79-83: Both branches must be single blocks
+    if then_blocks.len() != 1 || else_blocks.len() != 1 {
+        return TernaryTransformResult::NotTernary;
+    }
+
+    let then_block_id = then_blocks[0];
+    let else_block_id = else_blocks[0];
+
+    // Get the blocks
+    let then_block = match cfg.get_block(then_block_id) {
+        Some(b) => b,
+        None => return TernaryTransformResult::NotTernary,
+    };
+    let else_block = match cfg.get_block(else_block_id) {
+        Some(b) => b,
+        None => return TernaryTransformResult::NotTernary,
+    };
+
+    // JADX TernaryMod.java line 90-91: Each block must have exactly one meaningful instruction
+    // (excluding control flow like goto)
+    let then_meaningful = get_meaningful_instructions(then_block);
+    let else_meaningful = get_meaningful_instructions(else_block);
+
+    if then_meaningful.len() != 1 || else_meaningful.len() != 1 {
+        return TernaryTransformResult::NotTernary;
+    }
+
+    let then_insn = &then_block.instructions[then_meaningful[0]];
+    let else_insn = &else_block.instructions[else_meaningful[0]];
+
+    // Try Pattern 1: Assignment in both branches (lines 97-135)
+    if let (Some(then_dest), Some(else_dest)) = (
+        get_assignment_dest_with_version(&then_insn.insn_type),
+        get_assignment_dest_with_version(&else_insn.insn_type),
+    ) {
+        // Both must assign to the same register (they'll merge at a PHI node)
+        if then_dest.0 == else_dest.0 {
+            return TernaryTransformResult::Assignment {
+                condition,
+                dest_reg: then_dest.0,
+                dest_version: then_dest.1,
+                then_block: then_block_id,
+                else_block: else_block_id,
+            };
+        }
+    }
+
+    // Try Pattern 2: Return from both branches (lines 137-168)
+    if is_return_instruction(&then_insn.insn_type) && is_return_instruction(&else_insn.insn_type) {
+        // Skip void returns (nothing to ternary-fy)
+        if has_return_value(&then_insn.insn_type) && has_return_value(&else_insn.insn_type) {
+            return TernaryTransformResult::Return {
+                condition,
+                then_block: then_block_id,
+                else_block: else_block_id,
+            };
+        }
+    }
+
+    TernaryTransformResult::NotTernary
+}
+
+/// Get indices of meaningful (non-control-flow) instructions in a block
+fn get_meaningful_instructions(block: &BasicBlock) -> Vec<usize> {
+    block
+        .instructions
+        .iter()
+        .enumerate()
+        .filter(|(_, insn)| !is_control_flow(&insn.insn_type))
+        .map(|(i, _)| i)
+        .collect()
+}
+
+/// Get the destination register and SSA version from an assignment instruction
+fn get_assignment_dest_with_version(insn_type: &InsnType) -> Option<(u16, u32)> {
+    match insn_type {
+        InsnType::Move { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::MoveResult { dest } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::MoveException { dest } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::Const { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::ConstString { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::ConstClass { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::Binary { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::Unary { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::Cast { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::Compare { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::ArrayLength { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::NewInstance { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::NewArray { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::FilledNewArray { dest: Some(dest), .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::InstanceOf { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::InstanceGet { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::StaticGet { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::ArrayGet { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::Phi { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        _ => None,
+    }
+}
+
+/// Check if an instruction is a return
+fn is_return_instruction(insn_type: &InsnType) -> bool {
+    matches!(insn_type, InsnType::Return { .. })
+}
+
+/// Check if a return instruction has a value (not void return)
+fn has_return_value(insn_type: &InsnType) -> bool {
+    match insn_type {
+        InsnType::Return { value } => value.is_some(),
+        _ => false,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

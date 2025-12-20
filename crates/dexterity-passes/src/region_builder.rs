@@ -44,6 +44,7 @@ use crate::finally_extract::{apply_finally_marking, extract_finally};
 use crate::conditionals::{detect_conditionals, find_condition_chains, IfInfo, MergedCondition, MergeMode};
 use crate::if_region_visitor::process_if_regions;
 use crate::loops::{detect_loops, LoopInfo};
+use crate::ternary_mod::{try_transform_to_ternary, TernaryTransformResult};
 
 /// Try block information
 #[derive(Debug, Clone)]
@@ -248,7 +249,7 @@ pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[dexterity_ir::TryBl
     let mut region = builder.make_method_region();
 
     // Apply if-region optimizations (branch reordering, else-if chain marking)
-    process_if_regions(&mut region);
+    process_if_regions(&mut region, cfg);
 
     region
 }
@@ -1774,13 +1775,78 @@ impl<'a> RegionBuilder<'a> {
         // Mark condition block as processed
         self.processed.insert(cond.condition_block);
 
+        // =========================================================================
+        // TernaryMod Phase 2: Try ternary transformation BEFORE building sub-regions
+        // This matches JADX TernaryMod.java which runs before CodeShrinkVisitor.
+        // =========================================================================
+        //
+        // Check if this if-else can be converted to a ternary expression:
+        //   if (cond) { r = a; } else { r = b; }  ->  r = cond ? a : b;
+        //   if (cond) { return a; } else { return b; }  ->  return cond ? a : b;
+
+        // Extract condition first (needed for ternary)
+        let condition = self.extract_condition_with_negation(cond.condition_block, cond.negate_condition);
+
+        // Only try ternary if we have an else branch
+        if !cond.else_blocks.is_empty() {
+            match try_transform_to_ternary(
+                condition.clone(),
+                &cond.then_blocks,
+                &cond.else_blocks,
+                self.cfg,
+            ) {
+                TernaryTransformResult::Assignment {
+                    condition: ternary_cond,
+                    dest_reg,
+                    dest_version,
+                    then_block,
+                    else_block,
+                } => {
+                    // Mark blocks as processed
+                    self.processed.insert(then_block);
+                    self.processed.insert(else_block);
+
+                    // Return TernaryAssignment region
+                    let region = Region::TernaryAssignment {
+                        condition: ternary_cond,
+                        dest_reg,
+                        dest_version,
+                        then_value_block: then_block,
+                        else_value_block: else_block,
+                    };
+                    return (region, cond.merge_block);
+                }
+                TernaryTransformResult::Return {
+                    condition: ternary_cond,
+                    then_block,
+                    else_block,
+                } => {
+                    // Mark blocks as processed
+                    self.processed.insert(then_block);
+                    self.processed.insert(else_block);
+
+                    // Return TernaryReturn region
+                    let region = Region::TernaryReturn {
+                        condition: ternary_cond,
+                        then_value_block: then_block,
+                        else_value_block: else_block,
+                    };
+                    return (region, cond.merge_block);
+                }
+                TernaryTransformResult::NotTernary => {
+                    // Fall through to normal if-else processing
+                }
+            }
+        }
+
+        // =========================================================================
+        // Normal if-else processing (when ternary transformation not applicable)
+        // =========================================================================
+
         self.stack.push();
 
         // Add merge point as exit
         self.stack.add_exit(cond.merge_block);
-
-        // Extract condition from the block, respecting the negate_condition flag
-        let condition = self.extract_condition_with_negation(cond.condition_block, cond.negate_condition);
 
         // If this is a merged condition (&&, ||), mark ALL merged blocks as processed.
         // This prevents the merged blocks from being processed again as separate conditionals.

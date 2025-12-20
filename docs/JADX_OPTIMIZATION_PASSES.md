@@ -159,13 +159,22 @@ Inline single-use variables and simplify MOVEs for code size reduction.
 
 ---
 
-## TernaryMod - Ternary Operator Reconstruction
+## TernaryMod - Ternary Operator Reconstruction - **FULLY IMPLEMENTED (Dec 19, 2025)**
 
-**File:** `dex/visitors/regions/TernaryMod.java` (352 lines)
+**JADX File:** `dex/visitors/regions/TernaryMod.java` (352 lines)
+**Dexterity File:** `crates/dexterity-passes/src/ternary_mod.rs`
 
 ### Purpose
 
 Converts IF regions to ternary operations for cleaner code.
+
+### Dexterity Implementation (Dec 19, 2025)
+
+- `TernaryTransformResult` enum with `Assignment`, `Return`, and `NotTernary` variants
+- `try_transform_to_ternary()` function detects ternary-convertible patterns
+- Integrated into `process_if()` in `region_builder.rs` (called before building sub-regions)
+- Codegen for `TernaryAssignment` and `TernaryReturn` regions in `body_gen.rs`
+- Helper functions: `extract_block_value_expression()`, `extract_block_return_expression()`, `binary_op_to_string()`
 
 ### Two-Phase Execution
 

@@ -32,7 +32,7 @@ use rustc_hash::FxHashMap;
 use tracing::error;
 
 use dexterity_ir::attributes::AFlag;
-use dexterity_ir::instructions::{BinaryOp, IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LambdaInfo, LiteralArg};
+use dexterity_ir::instructions::{BinaryOp, CastType, IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LambdaInfo, LiteralArg, UnaryOp};
 use dexterity_ir::regions::{Condition, LoopKind, Region, RegionContent};
 use dexterity_ir::types::ArgType;
 use dexterity_ir::{MethodData, MethodInlineAttr, TryBlock};
@@ -4944,23 +4944,77 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             code.newline();
         }
 
-        Region::TernaryAssignment { .. } => {
-            // TernaryAssignment regions are for Phase 2 implementation.
-            // Currently, ternary assignments are detected and emitted at If region level.
-            // This placeholder codegen is reached only if a TernaryAssignment region was created,
-            // which doesn't happen in Phase 1. Phase 2 will implement region-level transformation.
-            code.start_line()
-                .add("/* TernaryAssignment region - phase 2 implementation */")
+        Region::TernaryAssignment {
+            condition,
+            dest_reg,
+            dest_version,
+            then_value_block,
+            else_value_block,
+        } => {
+            // Generate: type varName = cond ? thenExpr : elseExpr;
+
+            // First emit any prelude instructions from the condition block
+            emit_condition_block_prelude(condition, ctx, code);
+
+            // Generate condition expression
+            let cond_str = generate_condition(condition, ctx);
+
+            // Extract then and else value expressions from their blocks
+            let then_expr = extract_block_value_expression(*then_value_block, ctx);
+            let else_expr = extract_block_value_expression(*else_value_block, ctx);
+
+            // Get variable name and type
+            let var_name = ctx.expr_gen.get_var_name_by_ids(*dest_reg, *dest_version);
+            let var_type = ctx.expr_gen.get_var_type(*dest_reg, *dest_version)
+                .unwrap_or(ArgType::Unknown);
+
+            code.start_line();
+
+            // Add type declaration if this is the first use
+            if !ctx.is_declared(*dest_reg, *dest_version)
+                && !ctx.is_parameter(*dest_reg, *dest_version)
+            {
+                let type_str = crate::type_gen::type_to_string(&var_type);
+                code.add(&type_str).add(" ");
+                ctx.mark_declared(*dest_reg, *dest_version);
+            }
+
+            code.add(&var_name)
+                .add(" = ")
+                .add(&cond_str)
+                .add(" ? ")
+                .add(&then_expr)
+                .add(" : ")
+                .add(&else_expr)
+                .add(";")
                 .newline();
         }
 
-        Region::TernaryReturn { .. } => {
-            // TernaryReturn regions are for Phase 2 implementation.
-            // Currently, ternary returns are detected and emitted at If region level.
-            // This placeholder codegen is reached only if a TernaryReturn region was created,
-            // which doesn't happen in Phase 1. Phase 2 will implement region-level transformation.
+        Region::TernaryReturn {
+            condition,
+            then_value_block,
+            else_value_block,
+        } => {
+            // Generate: return cond ? thenExpr : elseExpr;
+
+            // First emit any prelude instructions from the condition block
+            emit_condition_block_prelude(condition, ctx, code);
+
+            // Generate condition expression
+            let cond_str = generate_condition(condition, ctx);
+
+            // Extract then and else value expressions from their blocks
+            let then_expr = extract_block_return_expression(*then_value_block, ctx);
+            let else_expr = extract_block_return_expression(*else_value_block, ctx);
+
             code.start_line()
-                .add("/* TernaryReturn region - phase 2 implementation */")
+                .add("return ")
+                .add(&cond_str)
+                .add(" ? ")
+                .add(&then_expr)
+                .add(" : ")
+                .add(&else_expr)
+                .add(";")
                 .newline();
         }
     }
@@ -5127,6 +5181,209 @@ fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut 
             // Generate the instruction
             generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code);
         }
+    }
+}
+
+/// Extract the value expression from a block for ternary assignment
+/// The block should contain a single meaningful assignment instruction.
+/// Returns the RHS expression as a string.
+fn extract_block_value_expression(block_id: u32, ctx: &mut BodyGenContext) -> String {
+    let instructions = match ctx.blocks.get(&block_id) {
+        Some(block) => block.instructions.clone(),
+        None => return "/* unknown */".to_string(),
+    };
+
+    // Find the meaningful instruction (skip control flow like goto)
+    for insn in instructions.iter().rev() {
+        if is_control_flow(&insn.insn_type) {
+            continue;
+        }
+
+        // Extract the RHS value based on instruction type
+        return match &insn.insn_type {
+            // Constant values
+            InsnType::Const { value, .. } => ctx.expr_gen.gen_literal(value),
+            InsnType::ConstString { string_idx, .. } => {
+                ctx.expr_gen.get_string_value(*string_idx)
+                    .map(|s| format!("\"{}\"", s.replace('\\', "\\\\").replace('"', "\\\"")))
+                    .unwrap_or_else(|| format!("string#{}", string_idx))
+            }
+            InsnType::ConstClass { type_idx, .. } => {
+                ctx.expr_gen.get_type_value(*type_idx)
+                    .map(|t| format!("{}.class", crate::type_gen::get_simple_name(&t)))
+                    .unwrap_or_else(|| format!("Type#{}.class", type_idx))
+            }
+
+            // Move from another register
+            InsnType::Move { src, .. } => ctx.gen_arg_inline(src),
+
+            // Binary operations
+            InsnType::Binary { op, left, right, .. } => {
+                let left_str = ctx.gen_arg_inline(left);
+                let right_str = ctx.gen_arg_inline(right);
+                let op_str = binary_op_to_string(op);
+                format!("{} {} {}", left_str, op_str, right_str)
+            }
+
+            // Unary operations
+            InsnType::Unary { op, arg, .. } => {
+                let arg_str = ctx.gen_arg_inline(arg);
+                let op_str = unary_op_to_string(op);
+                format!("{}{}", op_str, arg_str)
+            }
+
+            // Field access
+            InsnType::InstanceGet { object, field_idx, .. } => {
+                let obj_str = ctx.gen_arg_inline(object);
+                let field_name = ctx.expr_gen.get_field_value(*field_idx)
+                    .map(|f| f.field_name.to_string())
+                    .unwrap_or_else(|| format!("field#{}", field_idx));
+                format!("{}.{}", obj_str, field_name)
+            }
+            InsnType::StaticGet { field_idx, .. } => {
+                if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
+                    format!("{}.{}", field_info.class_name, field_info.field_name)
+                } else {
+                    format!("field#{}", field_idx)
+                }
+            }
+
+            // Array access
+            InsnType::ArrayGet { array, index, .. } => {
+                let arr_str = ctx.gen_arg_inline(array);
+                let idx_str = ctx.gen_arg_inline(index);
+                format!("{}[{}]", arr_str, idx_str)
+            }
+
+            // ArrayLength
+            InsnType::ArrayLength { array, .. } => {
+                let arr_str = ctx.gen_arg_inline(array);
+                format!("{}.length", arr_str)
+            }
+
+            // Cast
+            InsnType::Cast { cast_type, arg, .. } => {
+                let arg_str = ctx.gen_arg_inline(arg);
+                let type_str = cast_type_to_string(cast_type);
+                format!("({}){}", type_str, arg_str)
+            }
+
+            // InstanceOf
+            InsnType::InstanceOf { object, type_idx, .. } => {
+                let obj_str = ctx.gen_arg_inline(object);
+                let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                    .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                format!("{} instanceof {}", obj_str, type_name)
+            }
+
+            // NewInstance - should have been handled with constructor
+            InsnType::NewInstance { type_idx, .. } => {
+                let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                    .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                format!("new {}()", type_name)
+            }
+
+            // NewArray
+            InsnType::NewArray { type_idx, size, .. } => {
+                let size_str = ctx.gen_arg_inline(size);
+                let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                    .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                // Remove [] from type since we're adding [size]
+                let base_type = type_name.trim_end_matches("[]");
+                format!("new {}[{}]", base_type, size_str)
+            }
+
+            // Compare operations
+            InsnType::Compare { left, right, .. } => {
+                let left_str = ctx.gen_arg_inline(left);
+                let right_str = ctx.gen_arg_inline(right);
+                format!("Long.compare({}, {})", left_str, right_str)
+            }
+
+            // Phi - use the destination variable name
+            InsnType::Phi { dest, .. } => {
+                ctx.expr_gen.get_var_name(dest)
+            }
+
+            // MoveResult - handled specially with invoke
+            InsnType::MoveResult { dest } => {
+                ctx.expr_gen.get_var_name(dest)
+            }
+
+            // Fallback for unhandled cases
+            _ => format!("/* {:?} */", insn.insn_type),
+        };
+    }
+
+    "/* no value */".to_string()
+}
+
+/// Extract the return value expression from a block for ternary return
+/// The block should contain a return instruction.
+fn extract_block_return_expression(block_id: u32, ctx: &mut BodyGenContext) -> String {
+    let instructions = match ctx.blocks.get(&block_id) {
+        Some(block) => block.instructions.clone(),
+        None => return "/* unknown */".to_string(),
+    };
+
+    // Find the return instruction
+    for insn in instructions.iter() {
+        if let InsnType::Return { value: Some(val) } = &insn.insn_type {
+            return ctx.gen_arg_inline(val);
+        }
+    }
+
+    "/* no return value */".to_string()
+}
+
+/// Convert a binary operator to its Java string representation
+fn binary_op_to_string(op: &BinaryOp) -> &'static str {
+    match op {
+        BinaryOp::Add => "+",
+        BinaryOp::Sub => "-",
+        BinaryOp::Mul => "*",
+        BinaryOp::Div => "/",
+        BinaryOp::Rem => "%",
+        BinaryOp::And => "&",
+        BinaryOp::Or => "|",
+        BinaryOp::Xor => "^",
+        BinaryOp::Shl => "<<",
+        BinaryOp::Shr => ">>",
+        BinaryOp::Ushr => ">>>",
+        BinaryOp::Rsub => "-", // Reverse subtract: b - a (operands swapped in codegen)
+    }
+}
+
+/// Convert a unary operator to its Java string representation
+fn unary_op_to_string(op: &UnaryOp) -> &'static str {
+    match op {
+        UnaryOp::Neg => "-",
+        UnaryOp::Not => "~",
+        UnaryOp::BoolNot => "!",
+    }
+}
+
+/// Convert a cast type to its Java string representation
+fn cast_type_to_string(cast_type: &CastType) -> &'static str {
+    match cast_type {
+        CastType::IntToByte => "byte",
+        CastType::IntToChar => "char",
+        CastType::IntToShort => "short",
+        CastType::IntToLong => "long",
+        CastType::IntToFloat => "float",
+        CastType::IntToDouble => "double",
+        CastType::LongToInt => "int",
+        CastType::LongToFloat => "float",
+        CastType::LongToDouble => "double",
+        CastType::FloatToInt => "int",
+        CastType::FloatToLong => "long",
+        CastType::FloatToDouble => "double",
+        CastType::DoubleToInt => "int",
+        CastType::DoubleToLong => "long",
+        CastType::DoubleToFloat => "float",
     }
 }
 

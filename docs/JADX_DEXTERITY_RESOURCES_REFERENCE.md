@@ -1149,8 +1149,8 @@ crates/dexterity-resources/src/
 ├── error.rs         # ResourceError enum
 ├── constants.rs     # Chunk types, value types, decoders
 ├── string_pool.rs   # StringPool (UTF-8/UTF-16)
-├── axml.rs          # AxmlParser (~1321 lines)
-└── arsc.rs          # ArscParser (~2155 lines)
+├── axml.rs          # AxmlParser (~962 lines)
+└── arsc.rs          # ArscParser (~1858 lines)
 ```
 
 ---

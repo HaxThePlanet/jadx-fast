@@ -525,6 +525,15 @@ impl ExprGen {
         format!("obj{}", reg.reg_num)
     }
 
+    /// Get variable name by register number and SSA version
+    /// Convenience method for when you don't have a RegisterArg
+    pub fn get_var_name_by_ids(&self, reg_num: u16, ssa_version: u32) -> String {
+        if let Some(name) = self.var_names.get(&(reg_num, ssa_version)) {
+            return name.clone();
+        }
+        format!("obj{}", reg_num)
+    }
+
     /// Get string by index (local cache first, then DEX provider)
     pub fn get_string_value(&self, idx: u32) -> Option<String> {
         self.strings.get(&idx).cloned()
