@@ -6140,6 +6140,15 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::Move { dest, src } => {
+            // Check if this is a self-assignment (x = x) due to SSA coalescing
+            // This happens when dest and src get the same variable name after naming
+            let dest_name = ctx.expr_gen.get_var_name(dest);
+            let src_name = ctx.expr_gen.gen_arg(src);
+            if dest_name == src_name {
+                // Self-assignment is a no-op, skip it
+                return true;
+            }
+
             // Check if this variable is used only once - if so, inline it
             let reg = dest.reg_num;
             let version = dest.ssa_version;
