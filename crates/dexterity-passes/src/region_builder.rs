@@ -1178,6 +1178,7 @@ impl<'a> RegionBuilder<'a> {
     /// Build the try body region
     fn build_try_body(&mut self, try_info: &TryInfo) -> Region {
         let mut contents = Vec::new();
+        let mut processed_in_try = BTreeSet::new();
 
         // Build blocks in order
         let mut sorted_blocks: Vec<u32> = try_info.try_blocks.iter().copied().collect();
@@ -1186,6 +1187,10 @@ impl<'a> RegionBuilder<'a> {
         for block_id in sorted_blocks {
             // Skip already processed (in case of nested structures)
             if !try_info.try_blocks.contains(&block_id) {
+                continue;
+            }
+            // Skip blocks already processed as part of nested structures
+            if processed_in_try.contains(&block_id) {
                 continue;
             }
 
@@ -1203,6 +1208,10 @@ impl<'a> RegionBuilder<'a> {
                         header_block: Some(loop_info.header),
                         pre_condition_block: None,
                     })));
+                    // Mark all loop blocks as processed
+                    for &b in &loop_info.blocks {
+                        processed_in_try.insert(b);
+                    }
                     continue;
                 }
             }
@@ -1213,6 +1222,13 @@ impl<'a> RegionBuilder<'a> {
                 {
                     let (if_region, _) = self.process_if(cond);
                     contents.push(RegionContent::Region(Box::new(if_region)));
+                    // Mark all then/else blocks as processed to prevent duplication
+                    for &b in &cond.then_blocks {
+                        processed_in_try.insert(b);
+                    }
+                    for &b in &cond.else_blocks {
+                        processed_in_try.insert(b);
+                    }
                     continue;
                 }
             }
@@ -1421,10 +1437,28 @@ impl<'a> RegionBuilder<'a> {
                 {
                     let (if_region, _) = self.process_if(cond);
                     contents.push(RegionContent::Region(Box::new(if_region)));
+                    // Mark all then/else blocks as visited to prevent duplicate processing
+                    // This is critical: process_if handles these blocks recursively,
+                    // so we must not add them to worklist again
+                    for &b in &cond.then_blocks {
+                        visited.insert(b);
+                    }
+                    for &b in &cond.else_blocks {
+                        visited.insert(b);
+                    }
                 } else {
                     // One branch exits the loop - create if-break structure
                     if let Some(break_region) = self.create_loop_break_region(cond, loop_info) {
                         contents.push(RegionContent::Region(Box::new(break_region)));
+                        // Mark the branch that's inside the loop as visited
+                        let inside_blocks: Vec<u32> = cond.then_blocks.iter()
+                            .chain(cond.else_blocks.iter())
+                            .filter(|b| loop_info.blocks.contains(b))
+                            .copied()
+                            .collect();
+                        for b in inside_blocks {
+                            visited.insert(b);
+                        }
                     } else {
                         contents.push(RegionContent::Block(block_id));
                     }
@@ -1473,10 +1507,23 @@ impl<'a> RegionBuilder<'a> {
                     {
                         let (if_region, _) = self.process_if(cond);
                         contents.push(RegionContent::Region(Box::new(if_region)));
+                        // Mark all then/else blocks as visited to prevent duplicate processing
+                        for &b in &cond.then_blocks {
+                            visited.insert(b);
+                        }
+                        for &b in &cond.else_blocks {
+                            visited.insert(b);
+                        }
                     } else {
                         // One branch exits the loop - create if-break structure
                         if let Some(break_region) = self.create_loop_break_region(cond, loop_info) {
                             contents.push(RegionContent::Region(Box::new(break_region)));
+                            // Mark the branch that's inside the loop as visited
+                            for &b in cond.then_blocks.iter().chain(cond.else_blocks.iter()) {
+                                if loop_info.blocks.contains(&b) {
+                                    visited.insert(b);
+                                }
+                            }
                         } else {
                             contents.push(RegionContent::Block(block_id));
                         }
@@ -1583,13 +1630,33 @@ impl<'a> RegionBuilder<'a> {
         // Extract condition from the block, respecting the negate_condition flag
         let condition = self.extract_condition_with_negation(cond.condition_block, cond.negate_condition);
 
+        // If this is a merged condition (&&, ||), mark ALL merged blocks as processed.
+        // This prevents the merged blocks from being processed again as separate conditionals.
+        // The code from merged blocks is generated by emit_condition_block_prelude in codegen.
+        let merged_block_set: BTreeSet<u32> = if let Some(merged) = self.merged_map.get(&cond.condition_block) {
+            for &block in &merged.merged_blocks {
+                self.processed.insert(block);
+            }
+            merged.merged_blocks.iter().copied().collect()
+        } else {
+            BTreeSet::new()
+        };
+
+        // Filter then_blocks to exclude merged condition blocks.
+        // These blocks are part of the condition, not the body.
+        let filtered_then_blocks: Vec<u32> = cond.then_blocks
+            .iter()
+            .filter(|&&b| !merged_block_set.contains(&b))
+            .copied()
+            .collect();
+
         // Build then region
         // Note: Don't pre-mark blocks as processed - let traverse() discover
         // nested control structures (switches, ifs, loops) properly
-        let then_region = if cond.then_blocks.is_empty() {
+        let then_region = if filtered_then_blocks.is_empty() {
             Region::Sequence(vec![])
         } else {
-            self.build_branch_region(&cond.then_blocks)
+            self.build_branch_region(&filtered_then_blocks)
         };
 
         // Build else region
