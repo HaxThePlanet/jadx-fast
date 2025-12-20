@@ -867,7 +867,36 @@ fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str, comment
 
 /// Add class declaration (modifiers, name, extends, implements)
 fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, comments_level: CommentsLevel, code: &mut W) {
+    // Add "compiled from" comment for top-level classes when source file differs from class name (INFO level)
+    // Matches JADX's CodeGenUtils.addSourceFileInfo() logic
+    if !is_inner_class(&class.class_type) && comments_level.show_info() {
+        if let Some(ref source_file) = class.source_file {
+            let class_name = class.simple_name();
+            // Only emit if the source file name differs from the class name
+            // JADX: if (topClsName.contains(fileName)) { return; }
+            let file_base = source_file.strip_suffix(".java")
+                .or_else(|| source_file.strip_suffix(".kt"))
+                .unwrap_or(source_file);
+            if !class_name.contains(file_base) {
+                code.start_line()
+                    .add("/* compiled from: ")
+                    .add(source_file)
+                    .add(" */")
+                    .newline();
+            }
+        }
+    }
+
+    // Emit class-level annotations (JADX puts these between "compiled from" and "loaded from")
+    for annotation in &class.annotations {
+        if should_emit_annotation(annotation) {
+            generate_annotation(annotation, code);
+            code.newline();
+        }
+    }
+
     // Add "loaded from" comment for top-level classes (INFO level)
+    // JADX puts this after annotations, right before class declaration
     if !is_inner_class(&class.class_type) && comments_level.show_info() {
         let dex_name = class.dex_name.as_deref().unwrap_or("classes.dex");
         code.start_line()
@@ -875,14 +904,6 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
             .add(dex_name)
             .add(" */")
             .newline();
-    }
-
-    // Emit class-level annotations
-    for annotation in &class.annotations {
-        if should_emit_annotation(annotation) {
-            generate_annotation(annotation, code);
-            code.newline();
-        }
     }
 
     // Add rename comment if class was renamed during deobfuscation (INFO level)
