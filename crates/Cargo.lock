@@ -510,23 +510,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "dexterity-fingerprint"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "dexterity-dex",
- "parking_lot",
- "pretty_assertions",
- "rayon",
- "rustc-hash",
- "serde",
- "serde_json",
- "thiserror",
- "tracing",
- "zip",
-]
-
-[[package]]
 name = "dexterity-ir"
 version = "1.0.0"
 dependencies = [

@@ -208,8 +208,10 @@ where
 
                     if let (Some(name), Some(ordinal)) = (name, ordinal) {
                         // Extract extra constructor arguments (skip name, ordinal, get rest)
+                        // Use convert_to_enum_arg_before_idx to search backwards from insn_idx
+                        // This fixes enum value corruption from register reuse
                         let extra_args: Vec<EnumArg> = args.iter().skip(3)
-                            .map(|a| convert_to_enum_arg_with_lookup(a, insns, string_lookup))
+                            .map(|a| convert_to_enum_arg_before_idx(a, insns, insn_idx, string_lookup))
                             .collect();
 
                         // Store with instruction index to track which constructor call this is
@@ -442,9 +444,26 @@ fn convert_to_enum_arg(arg: &InsnArg, insns: &[InsnNode]) -> EnumArg {
 }
 
 /// Convert an instruction argument to an EnumArg with optional string lookup
+/// DEPRECATED: Use convert_to_enum_arg_before_idx for correct behavior with register reuse
+#[allow(dead_code)]
 fn convert_to_enum_arg_with_lookup<F>(
     arg: &InsnArg,
     insns: &[InsnNode],
+    string_lookup: &Option<F>,
+) -> EnumArg
+where
+    F: Fn(u32) -> Option<String>,
+{
+    // Delegate to the indexed version, searching from the end
+    convert_to_enum_arg_before_idx(arg, insns, insns.len(), string_lookup)
+}
+
+/// Convert an instruction argument to an EnumArg by searching BACKWARDS from before_idx
+/// This fixes enum value corruption where register reuse caused wrong values to be matched
+fn convert_to_enum_arg_before_idx<F>(
+    arg: &InsnArg,
+    insns: &[InsnNode],
+    before_idx: usize,
     string_lookup: &Option<F>,
 ) -> EnumArg
 where
@@ -458,9 +477,9 @@ where
             LiteralArg::Null => EnumArg::Null,
         },
         InsnArg::Register(reg) => {
-            // Try to find what defines this register
-            for insn in insns {
-                match &insn.insn_type {
+            // Search BACKWARDS from before_idx to find the nearest preceding definition
+            for i in (0..before_idx).rev() {
+                match &insns[i].insn_type {
                     InsnType::Const { dest, value } if dest.reg_num == reg.reg_num => {
                         return match value {
                             // Keep integers as integers - don't convert 0/1 to booleans
