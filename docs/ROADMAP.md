@@ -49,12 +49,13 @@
 **Files:** `crates/dexterity-passes/src/enum_visitor.rs`
 **Status:** FIXED (Dec 20, 2025)
 
-### Phase 7: Synchronized Blocks (NEW-007)
+### Phase 7: Synchronized Blocks (NEW-007) - FIXED
 
 **Problem:** Return before synchronized block (unreachable code)
 **Scope:** 15+ methods
-**Fix:** Correct synchronized region boundary detection
-**Files:** `crates/dexterity-passes/src/region_builder.rs`
+**Fix:** Skip return/throw when emitting enter_block prelude before synchronized
+**Files:** `crates/dexterity-codegen/src/body_gen.rs`
+**Status:** FIXED (Dec 20, 2025)
 
 ---
 
@@ -76,6 +77,7 @@
 |-------|--------|
 | NEW-003 throw non-Throwable | FIXED Dec 20 |
 | NEW-006 Enum wrong values | FIXED Dec 20 |
+| NEW-007 Unreachable code after return | FIXED Dec 20 |
 | Self-reference simplification | FIXED Dec 20 |
 | Empty else blocks | FIXED Dec 20 |
 | BUG-001 to BUG-012 | FIXED Dec 20 |

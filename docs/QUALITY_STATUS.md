@@ -17,7 +17,7 @@
 
 Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 
-### P0 Critical - WON'T COMPILE (4 Open, 2 Fixed, 1 Not A Bug)
+### P0 Critical - WON'T COMPILE (3 Open, 3 Fixed, 1 Not A Bug)
 
 | ID | Issue | Scope | Example |
 |----|-------|-------|---------|
@@ -27,7 +27,7 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 | **NEW-004** | Variable type confusion | 20+ methods | String reused for AccessibilityNodeInfo |
 | **NEW-005** | Kotlin INSTANCE uninitialized | All Kotlin objects | ~~`static final INSTANCE;`~~ **NOT A BUG** - initialized in static block |
 | **NEW-006** | Enum wrong value types | Multiple enums | ~~`OK(false)` instead of `OK(0)`~~ **FIXED** |
-| **NEW-007** | Unreachable code after return | 15+ methods | `return x; synchronized {...}` |
+| **NEW-007** | Unreachable code after return | 15+ methods | ~~`return x; synchronized {...}`~~ **FIXED** |
 
 ### P1 High - WRONG SEMANTICS (5 Categories, 55+ instances)
 

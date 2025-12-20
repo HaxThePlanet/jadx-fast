@@ -972,8 +972,8 @@ mod tests {
         let code = writer.finish();
 
         // Check that method signature has correct modifiers, return type, name and parameter types
-        // Variable names may vary based on naming logic
-        assert!(code.contains("public int bar(int i, String string"), "Code was: {}", code);
+        // JADX PARITY: String → "str" (from OBJ_ALIAS mappings)
+        assert!(code.contains("public int bar(int i, String str)"), "Code was: {}", code);
     }
 
     #[test]
@@ -1020,7 +1020,8 @@ mod tests {
         generate_method(&method, &class, false, &mut writer);
         let code = writer.finish();
 
-        assert!(code.contains("public void varargs(String... stringArr)"));
+        // JADX PARITY: String[] → "strArr" (from OBJ_ALIAS mappings + Arr suffix)
+        assert!(code.contains("public void varargs(String... strArr)"), "Code was: {}", code);
     }
 
     #[test]

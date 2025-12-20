@@ -168,21 +168,30 @@ fn convert_value_to_field_type(value: &FieldValue, field_type: &dexterity_ir::Ar
 }
 
 /// Collect SPUT instructions that initialize static fields
+///
+/// IMPORTANT (NEW-001 fix): For fields with multiple SPUTs, we only extract if:
+/// 1. The LAST SPUT to that field has a simple constant value, OR
+/// 2. There's only one SPUT and it's a simple constant
+///
+/// This prevents extracting `= null` when the real initialization follows later.
 fn collect_field_inits(
     method: &MethodData,
     fields: &[FieldData],
     dex_to_array_idx: &std::collections::HashMap<u32, usize>,
     dex: Option<&DexReader>,
 ) -> Vec<FieldInitInfo> {
-    let mut inits = Vec::new();
+    use std::collections::HashMap;
 
     // Get instructions (lazy loading support)
     let instructions = match method.instructions() {
         Some(insns) => insns,
-        None => return inits, // Method not loaded
+        None => return Vec::new(), // Method not loaded
     };
 
-    // Scan all instructions for SPUT operations
+    // First pass: collect ALL SPUTs for each field, keeping track of the last one
+    // Key: field array index, Value: (last_insn_idx, has_any_non_constant_sput)
+    let mut field_sput_info: HashMap<usize, (usize, bool)> = HashMap::new();
+
     for (insn_idx, insn) in instructions.iter().enumerate() {
         if let InsnType::StaticPut { field_idx, value } = &insn.insn_type {
             // Map DEX field_idx to our array index
@@ -191,9 +200,49 @@ fn collect_field_inits(
                 None => continue, // Field not in this class
             };
 
+            // Check if this SPUT has a non-extractable value
+            let is_non_constant = extract_constant_value(value, method, insn_idx, dex).is_none();
+
+            // Update: always track the last SPUT, and if ANY SPUT is non-constant
+            field_sput_info
+                .entry(array_idx)
+                .and_modify(|(last_idx, has_non_const)| {
+                    *last_idx = insn_idx;
+                    *has_non_const = *has_non_const || is_non_constant;
+                })
+                .or_insert((insn_idx, is_non_constant));
+        }
+    }
+
+    // Second pass: only collect the LAST SPUT for each field, and only if:
+    // - The field doesn't already have an initial value
+    // - There are no non-constant SPUTs to this field (meaning we can safely extract)
+    let mut inits = Vec::new();
+
+    for (insn_idx, insn) in instructions.iter().enumerate() {
+        if let InsnType::StaticPut { field_idx, value } = &insn.insn_type {
+            let array_idx = match dex_to_array_idx.get(field_idx) {
+                Some(&idx) => idx,
+                None => continue,
+            };
+
             // Skip if this field already has an initial value (might have been extracted already)
             if fields[array_idx].initial_value.is_some() {
                 continue;
+            }
+
+            // Check if this is the LAST SPUT for this field
+            if let Some(&(last_idx, has_non_const)) = field_sput_info.get(&array_idx) {
+                // Skip if this isn't the last SPUT for this field
+                if insn_idx != last_idx {
+                    continue;
+                }
+
+                // Skip if ANY SPUT to this field had a non-constant value
+                // (means the field has complex initialization we can't inline)
+                if has_non_const {
+                    continue;
+                }
             }
 
             // Try to extract a constant value from the SPUT
@@ -729,5 +778,77 @@ mod tests {
             .map(|insns| insns.iter().any(|i| matches!(i.insn_type, InsnType::StaticPut { .. })))
             .unwrap_or(false);
         assert!(has_sput);
+    }
+
+    /// NEW-001 fix: Don't extract `= null` when field has later non-constant assignment
+    #[test]
+    fn test_skip_null_when_later_complex_assignment() {
+        let mut class = ClassData::new("Lcom/example/Test;".to_string(), 0);
+
+        // Add a static final array field (simulating byte[] DIGITS = null pattern)
+        let mut field = FieldData::new("DIGITS".to_string(), 0x0018, ArgType::Array(Box::new(ArgType::Byte)));
+        field.dex_field_idx = Some(0);
+        class.static_fields.push(field);
+
+        // Create <clinit> that:
+        // 1. First puts 0 (null) to the field
+        // 2. Then creates an array and puts it to the same field
+        let mut clinit = MethodData::new("<clinit>".to_string(), 0x0008, ArgType::Void);
+        clinit.regs_count = 2;
+        clinit.set_instructions(vec![
+            // const v0, 0
+            InsnNode::new(
+                InsnType::Const {
+                    dest: RegisterArg::new(0),
+                    value: LiteralArg::Int(0),
+                },
+                0,
+            ),
+            // sput-object v0, DIGITS (putting null)
+            InsnNode::new(
+                InsnType::StaticPut {
+                    field_idx: 0,
+                    value: InsnArg::Register(RegisterArg::new(0)),
+                },
+                1,
+            ),
+            // new-array v1, 10 (creates array - this writes to v1, not extractable)
+            InsnNode::new(
+                InsnType::NewArray {
+                    dest: RegisterArg::new(1),
+                    size: InsnArg::Literal(LiteralArg::Int(10)),
+                    type_idx: 0,  // type index (doesn't matter for test)
+                },
+                2,
+            ),
+            // sput-object v1, DIGITS (putting the real array)
+            InsnNode::new(
+                InsnType::StaticPut {
+                    field_idx: 0,
+                    value: InsnArg::Register(RegisterArg::new(1)),
+                },
+                3,
+            ),
+            InsnNode::new(InsnType::Return { value: None }, 4),
+        ]);
+
+        class.methods.push(clinit);
+
+        // Apply extraction
+        extract_field_init(&mut class, None);
+
+        // Field should NOT have initial_value (because of complex later assignment)
+        assert!(
+            class.static_fields[0].initial_value.is_none(),
+            "Field should not be extracted when there's a complex later assignment"
+        );
+
+        // Both SPUTs should still be in the method
+        let clinit_method = &class.methods[0];
+        let sput_count = clinit_method
+            .instructions()
+            .map(|insns| insns.iter().filter(|i| matches!(i.insn_type, InsnType::StaticPut { .. })).count())
+            .unwrap_or(0);
+        assert_eq!(sput_count, 2, "Both SPUTs should remain");
     }
 }
