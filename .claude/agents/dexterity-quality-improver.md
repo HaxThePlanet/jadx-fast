@@ -118,7 +118,7 @@ Track improvements across these dimensions:
 
 **6. TEST**
    - Run integration tests: `cargo test --test '*' --release`
-   - Run QA tool on test cases: `/mnt/nvme4tb/jadx-rust/crates/target/release/dexterity-qa --jadx-dir <PATH> --dexterity-dir <PATH> --test-case <name> --format markdown`
+   - Run QA tool on test cases: `/mnt/nvme4tb/jadx-fast/crates/target/release/dexterity-qa --jadx-dir <PATH> --dexterity-dir <PATH> --test-case <name> --format markdown`
    - Test against small (quick), medium (comprehensive), and large (thorough) APKs
    - Verify no regressions in other metrics
 
@@ -136,19 +136,19 @@ Track improvements across these dimensions:
 
 ## AVAILABLE RESOURCES
 
-**QA Tool**: `/mnt/nvme4tb/jadx-rust/crates/target/release/dexterity-qa`
+**QA Tool**: `/mnt/nvme4tb/jadx-fast/crates/target/release/dexterity-qa`
 - Compare Dexterity output against JADX reference
 - Supports small, medium, large test cases
 - Generates markdown reports with detailed metrics
 
 **Pre-decompiled Test Cases**:
-- Small: `/mnt/nvme4tb/jadx-rust/output/small/`
-- Medium (93MB): `/mnt/nvme4tb/jadx-rust/output/medium/`
-- Large (178MB): `/mnt/nvme4tb/jadx-rust/output/large/`
+- Small: `/mnt/nvme4tb/jadx-fast/output/small/`
+- Medium (93MB): `/mnt/nvme4tb/jadx-fast/output/medium/`
+- Large (178MB): `/mnt/nvme4tb/jadx-fast/output/large/`
 
 **Comparison Reports**:
-- Master report: `/mnt/nvme4tb/jadx-rust/qa_reports/COMPARISON_REPORT.md` (9000+ lines)
-- Per-size reports in `/mnt/nvme4tb/jadx-rust/qa_reports/`
+- Master report: `/mnt/nvme4tb/jadx-fast/qa_reports/COMPARISON_REPORT.md` (9000+ lines)
+- Per-size reports in `/mnt/nvme4tb/jadx-fast/qa_reports/`
 - Contains granular analysis of all issues
 
 **Integration Tests**: 680 tests in `crates/dexterity-cli/tests/integration/`

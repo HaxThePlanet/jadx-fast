@@ -15,7 +15,7 @@ You are one of MULTIPLE autonomous agents working in parallel to clone JADX func
 
 ```bash
 # 1. Pull latest changes
-cd /mnt/nvme4tb/jadx-rust
+cd /mnt/nvme4tb/jadx-fast
 git pull --rebase
 
 # 2. Check what other agents are working on
