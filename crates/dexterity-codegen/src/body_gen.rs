@@ -6348,11 +6348,39 @@ fn generate_insn<W: CodeWriter>(
                     ArgType::Object(_) | ArgType::Array(_) | ArgType::TypeVariable(_)
                     | ArgType::Generic { .. } | ArgType::Wildcard { .. }
                 );
+                let is_boolean_return = matches!(ctx.return_type, ArgType::Boolean);
+
                 if is_zero_value && is_object_return {
                     code.add("null");
                     // Consume the inlined expression if it was a register
                     if let InsnArg::Register(reg) = v {
                         ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
+                    }
+                } else if is_boolean_return {
+                    // BUG-004 fix: Format boolean literals correctly (0 → false, 1 → true)
+                    // In Dalvik, booleans are stored as int 0/1
+                    match v {
+                        InsnArg::Literal(LiteralArg::Int(val)) => {
+                            code.add(if *val == 0 { "false" } else { "true" });
+                        }
+                        InsnArg::Register(reg) => {
+                            // Check for inlined constant "0" or "1"
+                            let inlined = ctx.peek_inline_expr(reg.reg_num, reg.ssa_version);
+                            if inlined.as_ref().map(|s| s.as_str()) == Some("0") {
+                                code.add("false");
+                                ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
+                            } else if inlined.as_ref().map(|s| s.as_str()) == Some("1") {
+                                code.add("true");
+                                ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
+                            } else {
+                                // Not a constant 0/1 - could be boolean expression, emit as-is
+                                ctx.write_arg_inline(code, v);
+                            }
+                        }
+                        _ => {
+                            // Other literal types (shouldn't happen for boolean, but handle gracefully)
+                            ctx.write_arg_inline(code, v);
+                        }
                     }
                 } else {
                     ctx.write_arg_inline(code, v);  // OPTIMIZED: direct write
