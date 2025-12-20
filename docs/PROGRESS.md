@@ -1,10 +1,10 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** 2 P0 Issues Remain - Critical Bugs Fixed (Dec 20, 2025)
+**Status:** 1 P0 Issue Remains - Critical Bugs Fixed (Dec 20, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 **Feature Implementation:** A- Grade (88-90/100) - measures passes/features implemented
-**Actual Output Quality:** Improving - 2 P0 bugs remain (NEW-004, NEW-006), 4 P0 bugs fixed (NEW-001, NEW-002, NEW-003, NEW-007)
-**Latest Fixes:** NEW-002 PHI constant init, NEW-003 throw non-Throwable validation (Commit `6b023278e`)
+**Actual Output Quality:** Improving - 1 P0 bug remains (NEW-006), 5 P0 bugs fixed (NEW-001, NEW-002, NEW-003, NEW-004, NEW-007)
+**Latest Fixes:** NEW-004 Variable type confusion fix - exact Object type match in var_naming.rs:255
 **Tests:** 976 total passing.
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency).
 **Note:** Framework classes are skipped by default for faster output. Use `--include-framework` to include them.
@@ -13,13 +13,13 @@
 
 ## Dec 20, 2025: Progress Update
 
-**Many P0 bugs fixed, 2 remain (NEW-004, NEW-006). NEW-001 (static final), NEW-002 (undefined vars), NEW-003 (throw non-Throwable), NEW-007 (unreachable code) all fixed. See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current state.**
+**Many P0 bugs fixed, 1 remains (NEW-006). NEW-001 (static final), NEW-002 (undefined vars), NEW-003 (throw non-Throwable), NEW-004 (variable type confusion), NEW-007 (unreachable code) all fixed. See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current state.**
 
 ### Current Quality Grades
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **D** | 2 P0 bugs remain (NEW-004, NEW-006), 4 fixed |
+| **Codegen** | **D+** | 1 P0 bug remains (NEW-006), 5 fixed |
 | **IR/Control Flow** | **D** | Synchronized blocks, loops broken |
 | **Variable Naming** | **B-** | JADX parity improved (long=j, OBJ_ALIAS) |
 | **JADX 1:1 Match** | **F** | Major structural differences |

@@ -4,6 +4,43 @@ Development history and notable fixes.
 
 ## December 2025
 
+### NEW-004: Variable Type Confusion - FIXED (Dec 20, 2025)
+
+Fixed P0 compilation error where different object types shared the same variable name, causing type confusion.
+
+**Problem:**
+```java
+// Before (WRONG - won't compile):
+String source = "BadAccessibility";
+source = obj.getSource();  // ERROR: AccessibilityNodeInfo cannot be assigned to String
+source.recycle();          // ERROR: String has no recycle() method
+```
+
+**Root Cause:**
+`types_compatible_for_naming()` in `var_naming.rs:251` returned `true` for any two Object types:
+```rust
+(ArgType::Object(_), ArgType::Object(_)) => true,  // TOO PERMISSIVE
+```
+
+**Solution:**
+Changed to require exact class name match:
+```rust
+(ArgType::Object(name1), ArgType::Object(name2)) => name1 == name2,
+```
+
+**Result:**
+```java
+// After (compilable):
+String str = "BadAccessibility";
+AccessibilityNodeInfo source = event.getSource();
+source.recycle();
+```
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` (line 255)
+
+---
+
 ### NEW-002: Undefined/Uninitialized Variables - FIXED (Dec 20, 2025)
 
 Fixed P0 compilation error where PHI variables (loop variables, conditional merges) were declared without initializers.

@@ -19,15 +19,15 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 
 ### P0 Critical - WON'T COMPILE (1 Open, 5 Fixed, 1 Not A Bug)
 
-| ID | Issue | Scope | Example |
-|----|-------|-------|---------|
-| **NEW-001** | Static final = null + reassign | 30+ files | ~~`final byte[] X = null; static { X = {...}; }`~~ **FIXED** |
-| **NEW-002** | Undefined/uninitialized variables | 40+ methods | ~~`int i; while(i < 16)` - i never set~~ **FIXED** - PHI vars get constant init |
-| **NEW-003** | throw non-Throwable | 5+ methods | ~~`throw i;` where i is int~~ **FIXED** - emits `throw null;` with warning |
-| **NEW-004** | Variable type confusion | 20+ methods | ~~String reused for AccessibilityNodeInfo~~ **FIXED** - requires exact class match |
-| **NEW-005** | Kotlin INSTANCE uninitialized | All Kotlin objects | ~~`static final INSTANCE;`~~ **NOT A BUG** - initialized in static block |
-| **NEW-006** | Enum wrong value types | Multiple enums | `OK(false)` instead of `OK(0)` - enum_visitor.rs:466-467 |
-| **NEW-007** | Unreachable code after return | 15+ methods | ~~`return x; synchronized {...}`~~ **FIXED** |
+| ID | Issue | Scope | Status |
+|----|-------|-------|--------|
+| **NEW-001** | Static final = null + reassign | 30+ files | **FIXED** - Clear null init for clinit assignments |
+| **NEW-002** | Undefined/uninitialized variables | 40+ methods | **FIXED** - PHI vars get constant init |
+| **NEW-003** | throw non-Throwable | 5+ methods | **FIXED** - emits `throw null;` with warning |
+| **NEW-004** | Variable type confusion | 20+ methods | **FIXED** - requires exact Object class match in var_naming.rs:255 |
+| **NEW-005** | Kotlin INSTANCE uninitialized | All Kotlin objects | **NOT A BUG** - initialized in static block |
+| **NEW-006** | Enum wrong value types | Multiple enums | **OPEN** - `OK(false)` instead of `OK(0)` |
+| **NEW-007** | Unreachable code after return | 15+ methods | **FIXED** |
 
 ### P1 High - WRONG SEMANTICS (5 Categories, 55+ instances)
 

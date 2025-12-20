@@ -5,6 +5,8 @@
 
 ## Immediate Priority: Fix P0 Compilation Errors
 
+**P0 Status (Dec 20, 2025):** 5 FIXED (NEW-001, NEW-002, NEW-003, NEW-004, NEW-007), 1 OPEN (NEW-006), 1 NOT A BUG (NEW-005)
+
 ### Phase 1: Static Field Initialization (NEW-001) - FIXED
 
 **Problem:** `final byte[] X = null; static { X = {...}; }` - illegal Java
@@ -29,12 +31,13 @@
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
 **Status:** FIXED (Dec 20, 2025) - Commit `6b023278e`
 
-### Phase 4: Variable Type Confusion (NEW-004)
+### Phase 4: Variable Type Confusion (NEW-004) - FIXED
 
 **Problem:** Same variable name reused for incompatible types
 **Scope:** 20+ methods
-**Fix:** Don't reuse variable names across type changes
-**Files:** `crates/dexterity-passes/src/type_inference.rs`, `var_naming.rs`
+**Fix:** Require exact class match in `types_compatible_for_naming()`: changed from `(ArgType::Object(_), ArgType::Object(_)) => true` to `(ArgType::Object(name1), ArgType::Object(name2)) => name1 == name2`
+**Files:** `crates/dexterity-passes/src/var_naming.rs:255`
+**Status:** FIXED (Dec 20, 2025)
 
 ### Phase 5: Kotlin INSTANCE (NEW-005)
 
@@ -80,6 +83,7 @@
 | NEW-001 Static final = null | FIXED Dec 20 |
 | NEW-002 Undefined/uninitialized variables | FIXED Dec 20 |
 | NEW-003 throw non-Throwable validation | FIXED Dec 20 |
+| NEW-004 Variable type confusion | FIXED Dec 20 |
 | NEW-007 Unreachable code after return | FIXED Dec 20 |
 | Self-reference simplification | FIXED Dec 20 |
 | Empty else blocks | FIXED Dec 20 |
