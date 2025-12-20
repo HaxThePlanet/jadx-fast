@@ -188,7 +188,7 @@ These bugs produce Java code that **will not compile**:
 | ID | Bug | Files Affected | Description |
 |----|-----|----------------|-------------|
 | **BUG-001** | Undefined switch variable `i` | 6+ files | Switch map synthetic classes (AnonymousClass1) not generated |
-| **BUG-002** | Undefined variables `d`, `d2` | 10+ files | Division expressions reference undefined variables |
+| ~~**BUG-002**~~ | ~~Undefined variables `d`, `d2`~~ | ~~10+ files~~ | **FIXED Dec 20** - Inline expression substitution in codegen |
 | **BUG-003** | Missing type cast in equals() | Multiple | Accesses `object.uuid` without casting to proper type |
 | **BUG-004** | Boolean methods return `0` | Multiple | Should return `false`, not integer `0` |
 | **BUG-005** | Infinite recursion in clone() | Multiple | Calls itself instead of `super.clone()` |

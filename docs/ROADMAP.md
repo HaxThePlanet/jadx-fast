@@ -36,7 +36,7 @@
 | ID | Bug | Files | Description |
 |----|-----|-------|-------------|
 | **BUG-001** | Undefined switch variable `i` | 6+ | Switch map synthetic classes not generated |
-| **BUG-002** | Undefined `d`, `d2` | 10+ | Division expressions undefined |
+| ~~**BUG-002**~~ | ~~Undefined `d`, `d2`~~ | ~~10+~~ | **FIXED Dec 20** - Inline expression substitution |
 | **BUG-003** | Missing type cast in equals() | Multiple | Object.uuid accessed without cast |
 | **BUG-004** | Boolean returns `0` | Multiple | Should be `false`, not `0` |
 | **BUG-005** | Infinite recursion in clone() | Multiple | Calls self instead of super.clone() |
