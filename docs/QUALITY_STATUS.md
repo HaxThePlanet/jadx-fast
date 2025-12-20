@@ -7,7 +7,7 @@
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **D** | 70+ P0 compilation errors found |
+| **Codegen** | **C-** | All 6 P0 bugs fixed, P1 semantic issues remain |
 | **IR/Control Flow** | **D** | Synchronized blocks, loops broken |
 | **Variable Naming** | **B-** | JADX parity improved (long=j, OBJ_ALIAS) |
 | **JADX 1:1 Match** | **F** | Major structural differences |
@@ -17,7 +17,7 @@
 
 Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 
-### P0 Critical - WON'T COMPILE (1 Open, 5 Fixed, 1 Not A Bug)
+### P0 Critical - WON'T COMPILE (0 Open, 6 Fixed, 1 Not A Bug)
 
 | ID | Issue | Scope | Status |
 |----|-------|-------|--------|
@@ -26,7 +26,7 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 | **NEW-003** | throw non-Throwable | 5+ methods | **FIXED** - emits `throw null;` with warning |
 | **NEW-004** | Variable type confusion | 20+ methods | **FIXED** - requires exact Object class match in var_naming.rs:255 |
 | **NEW-005** | Kotlin INSTANCE uninitialized | All Kotlin objects | **NOT A BUG** - initialized in static block |
-| **NEW-006** | Enum wrong value types | Multiple enums | **OPEN** - `OK(false)` instead of `OK(0)` |
+| **NEW-006** | Enum wrong value types | Multiple enums | **FIXED** - backwards search + no Int->Bool conversion |
 | **NEW-007** | Unreachable code after return | 15+ methods | **FIXED** |
 
 ### P1 High - WRONG SEMANTICS (5 Categories, 55+ instances)
@@ -55,6 +55,7 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 | NEW-002 | Undefined/uninitialized variables | FIXED |
 | NEW-003 | throw non-Throwable validation | FIXED |
 | NEW-004 | Variable type confusion | FIXED |
+| NEW-006 | Enum wrong types / backwards search | FIXED |
 | NEW-007 | Unreachable code after return | FIXED |
 | BUG-009 | @Override on annotation interfaces | FIXED |
 | Variable Naming | Long prefix l->j, OBJ_ALIAS mappings | FIXED |
@@ -65,7 +66,7 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 | Metric | Value |
 |--------|-------|
 | Total Tests | 976/976 passing |
-| **Real-world APK compilation** | **FAILING** |
+| **Real-world APK compilation** | **P0 FIXED** - All 6 P0 bugs resolved |
 
 ## Output Quality by APK Size
 

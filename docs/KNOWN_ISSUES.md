@@ -182,7 +182,7 @@ JADX assigns semantic names based on method call results (e.g., `iMin` for `Math
 
 ### Undefined Variable References
 
-Codegen variable tracking bugs can cause undefined variable references in method bodies. See NEW-002 in [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
+Codegen variable tracking bugs could cause undefined variable references in method bodies. This was fixed as NEW-002 in [ISSUE_TRACKER.md](ISSUE_TRACKER.md) - PHI variables now get constant initializers.
 
 ---
 

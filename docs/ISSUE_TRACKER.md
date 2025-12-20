@@ -1,8 +1,8 @@
 # Issue Tracker
 
-**Status:** 1 P0 (NEW-006) + 5 P1 Issues Open (Dec 20, 2025) - 5 P0 Fixed, 1 Not A Bug
+**Status:** 5 P1 Issues Open (Dec 20, 2025) - 6 P0 Fixed, 1 Not A Bug
 
-## Open Issues - P0 Critical (Won't Compile)
+## Fixed Issues - P0 Critical (All Resolved)
 
 ### NEW-001: Static Final Fields Initialized to Null
 
@@ -121,7 +121,7 @@ source.recycle();
 **Files Affected:**
 - `BadAccessibilityService.java`, `NanoHTTPD.java`, +18 more
 
-**Root Cause:** `var_naming.rs:251` - `types_compatible_for_naming()` returned `true` for any two Object types
+**Root Cause:** `var_naming.rs:250-255` - `types_compatible_for_naming()` returned `true` for any two Object types
 
 **Fix Applied:** Modified `var_naming.rs:255` to require exact class match for Object types:
 ```rust
@@ -156,19 +156,20 @@ The original issue description was incorrect.
 
 **Priority:** P0 - COMPILATION ERROR
 **Scope:** Multiple enums
-**Status:** OPEN
+**Status:** FIXED (Dec 20, 2025)
+**Commits:** `6c161be5c`, `c967197ad`
 
 **Problem:**
 ```java
-// Dexterity (WRONG):
+// Dexterity (WRONG - before fix):
 public enum b {
     OK(false),           // ERROR: Expected int, got boolean
     CANCELLED(true),
     PERMISSION_DENIED(6),
-    RESOURCE_EXHAUSTED(5),  // Duplicate values
+    RESOURCE_EXHAUSTED(5),  // Duplicate values - register reuse caused wrong values
 }
 
-// JADX (CORRECT):
+// JADX (CORRECT - after fix):
 public enum b {
     OK(0),
     CANCELLED(1),
@@ -181,9 +182,13 @@ public enum b {
 **Files Affected:**
 - `d1.java` (io.grpc), other enums
 
-**Root Cause:** `enum_visitor.rs:466-467` - Incorrectly converts Int(0)/Int(1) to Bool(false)/Bool(true)
+**Root Cause:** Two issues:
+1. `enum_visitor.rs` incorrectly converted Int(0)/Int(1) to Bool(false)/Bool(true)
+2. Enum argument lookup searched forward, causing register reuse to match wrong values for enums with 7+ constants
 
-**Fix Required:** Remove boolean conversion in `convert_to_enum_arg_with_lookup()`, keep integers as integers
+**Fix Applied:**
+1. Removed Int(0/1)->Bool conversion - integers stay as integers (commit `6c161be5c`)
+2. Changed to search BACKWARDS from instruction index to find nearest preceding definition (commit `c967197ad`)
 
 ---
 
@@ -241,6 +246,7 @@ return gVarArr;
 | NEW-002 | Undefined/uninitialized variables | Dec 20, 2025 |
 | NEW-003 | throw non-Throwable validation | Dec 20, 2025 |
 | NEW-004 | Variable type confusion | Dec 20, 2025 |
+| NEW-006 | Enum wrong types / backwards search fix | Dec 20, 2025 |
 | NEW-007 | Unreachable code after return | Dec 20, 2025 |
 | Variable Naming | Long prefix l->j, OBJ_ALIAS | Dec 20, 2025 |
 | P2-001 | JADX parity for variable naming | Dec 20, 2025 |

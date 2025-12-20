@@ -1,10 +1,10 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** 1 P0 Issue Remains - Critical Bugs Fixed (Dec 20, 2025)
+**Status:** All P0 Issues Fixed - Critical Bugs Resolved (Dec 20, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 **Feature Implementation:** A- Grade (88-90/100) - measures passes/features implemented
-**Actual Output Quality:** Improving - 1 P0 bug remains (NEW-006), 5 P0 bugs fixed (NEW-001, NEW-002, NEW-003, NEW-004, NEW-007)
-**Latest Fixes:** NEW-004 Variable type confusion fix - exact Object type match in var_naming.rs:255
+**Actual Output Quality:** All 6 P0 bugs fixed (NEW-001, NEW-002, NEW-003, NEW-004, NEW-006, NEW-007)
+**Latest Fixes:** NEW-006 Enum value fix - backwards search + no Int->Bool conversion
 **Tests:** 976 total passing.
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency).
 **Note:** Framework classes are skipped by default for faster output. Use `--include-framework` to include them.
@@ -13,13 +13,13 @@
 
 ## Dec 20, 2025: Progress Update
 
-**Many P0 bugs fixed, 1 remains (NEW-006). NEW-001 (static final), NEW-002 (undefined vars), NEW-003 (throw non-Throwable), NEW-004 (variable type confusion), NEW-007 (unreachable code) all fixed. See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current state.**
+**All P0 bugs fixed. NEW-001 (static final), NEW-002 (undefined vars), NEW-003 (throw non-Throwable), NEW-004 (variable type confusion), NEW-006 (enum values), NEW-007 (unreachable code) all fixed. See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current state.**
 
 ### Current Quality Grades
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **D+** | 1 P0 bug remains (NEW-006), 5 fixed |
+| **Codegen** | **C-** | All 6 P0 bugs fixed |
 | **IR/Control Flow** | **D** | Synchronized blocks, loops broken |
 | **Variable Naming** | **B-** | JADX parity improved (long=j, OBJ_ALIAS) |
 | **JADX 1:1 Match** | **F** | Major structural differences |
@@ -53,7 +53,8 @@
 - Variable naming preserves debug info (savedInstanceState vs bundle)
 - Long literal handling correct (0L vs 0)
 - Simple case decompilation better than JADX
-- All P0 bugs now resolved - produces compilable code
+- All 6 P0 bugs now resolved - produces compilable code
+- NEW-006 enum fix prevents boolean conversion and uses backwards search
 - 1,177+ cargo tests pass
 
 ---

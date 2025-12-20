@@ -5,7 +5,7 @@
 
 ## Immediate Priority: Fix P0 Compilation Errors
 
-**P0 Status (Dec 20, 2025):** 5 FIXED (NEW-001, NEW-002, NEW-003, NEW-004, NEW-007), 1 OPEN (NEW-006), 1 NOT A BUG (NEW-005)
+**P0 Status (Dec 20, 2025):** 6 FIXED (NEW-001, NEW-002, NEW-003, NEW-004, NEW-006, NEW-007), 1 NOT A BUG (NEW-005)
 
 ### Phase 1: Static Field Initialization (NEW-001) - FIXED
 
@@ -46,13 +46,15 @@
 **Fix:** Detect and emit singleton initialization
 **Files:** `crates/dexterity-kotlin/src/`
 
-### Phase 6: Enum Values (NEW-006)
+### Phase 6: Enum Values (NEW-006) - FIXED
 
-**Problem:** `OK(false)` instead of `OK(0)`
+**Problem:** `OK(false)` instead of `OK(0)` - enum values after index 6 being incorrect
 **Scope:** Multiple enums
-**Fix:** Remove lines 466-467 in enum_visitor.rs that convert Int(0)/Int(1) to Bool
-**Files:** `crates/dexterity-passes/src/enum_visitor.rs:466-467`
-**Status:** OPEN - bug still present in code
+**Fix:**
+1. Removed Int(0/1)->Bool conversion in enum_visitor.rs (commit `6c161be5c`)
+2. Changed enum argument lookup to search BACKWARDS from instruction index to fix register reuse causing wrong values (commit `c967197ad`)
+**Files:** `crates/dexterity-passes/src/enum_visitor.rs`
+**Status:** FIXED (Dec 20, 2025)
 
 ### Phase 7: Synchronized Blocks (NEW-007) - FIXED
 
@@ -84,6 +86,7 @@
 | NEW-002 Undefined/uninitialized variables | FIXED Dec 20 |
 | NEW-003 throw non-Throwable validation | FIXED Dec 20 |
 | NEW-004 Variable type confusion | FIXED Dec 20 |
+| NEW-006 Enum boolean conversion / wrong values | FIXED Dec 20 |
 | NEW-007 Unreachable code after return | FIXED Dec 20 |
 | Self-reference simplification | FIXED Dec 20 |
 | Empty else blocks | FIXED Dec 20 |

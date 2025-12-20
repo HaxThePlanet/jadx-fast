@@ -21,10 +21,10 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 
-**Grade: D+** - 1 P0 bug remains (NEW-006). 5 P0 bugs fixed (NEW-001, NEW-002, NEW-003, NEW-004, NEW-007). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
+**Grade: C-** - All 6 P0 bugs fixed (NEW-001, NEW-002, NEW-003, NEW-004, NEW-006, NEW-007). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
 
-Dexterity is 1.49x faster with 14.6x better memory efficiency but has critical bugs:
-- Overall Quality: **D** per QUALITY_STATUS.md (compilation errors on real APKs)
+Dexterity is 1.49x faster with 14.6x better memory efficiency:
+- Overall Quality: **C-** per QUALITY_STATUS.md (all P0 compilation errors fixed)
 - Feature Implementation: A- (passes/features implemented)
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
 - Type Inference: 0 Unknown failures

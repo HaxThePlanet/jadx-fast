@@ -4,6 +4,54 @@ Development history and notable fixes.
 
 ## December 2025
 
+### NEW-006: Enum Value Extraction - FIXED (Dec 20, 2025)
+
+Fixed P0 compilation error where enum constants had wrong values due to two issues:
+1. Int(0)/Int(1) were incorrectly converted to Bool(false)/Bool(true)
+2. Register reuse caused wrong values for enums with 7+ constants
+
+**Commits:** `6c161be5c`, `c967197ad`
+
+**Problem:**
+```java
+// Before (WRONG - won't compile):
+public enum b {
+    OK(false),           // ERROR: Expected int, got boolean
+    CANCELLED(true),
+    PERMISSION_DENIED(6),
+    RESOURCE_EXHAUSTED(5),  // Wrong value - register reuse issue
+}
+
+// After (CORRECT):
+public enum b {
+    OK(0),
+    CANCELLED(1),
+    PERMISSION_DENIED(7),
+    RESOURCE_EXHAUSTED(8),
+}
+```
+
+**Root Cause:**
+1. `enum_visitor.rs` converted Int(0) to Bool(false) and Int(1) to Bool(true)
+2. Enum argument lookup searched forward from start of method, but registers are reused - for enum constants at index 7+, a later const instruction would overwrite the register with a different value
+
+**Solution:**
+1. Removed Int->Bool conversion - integers stay as integers
+2. Changed `convert_to_enum_arg_before_idx()` to search BACKWARDS from the instruction index to find the nearest preceding definition
+
+**Files Changed:**
+- `crates/dexterity-passes/src/enum_visitor.rs`
+
+---
+
+### dexterity-fingerprint crate removed (Dec 20, 2025)
+
+Removed dexterity-fingerprint from workspace as it was not in use.
+
+**Commit:** `4a0c727ad`
+
+---
+
 ### NEW-004: Variable Type Confusion - FIXED (Dec 20, 2025)
 
 Fixed P0 compilation error where different object types shared the same variable name, causing type confusion.

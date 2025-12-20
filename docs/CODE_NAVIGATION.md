@@ -4,7 +4,7 @@ Maps issue categories to relevant source files and provides context for code exp
 
 See `LLM_AGENT_GUIDE.md` for workflow and `ISSUE_TRACKER.md` for issue details.
 
-**Status:** 30+ issues (29+ resolved, 1 P0 remaining: NEW-006 enum wrong value types)
+**Status:** 30+ issues (30+ resolved, 0 P0 remaining, 5 P1 open)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
 ---

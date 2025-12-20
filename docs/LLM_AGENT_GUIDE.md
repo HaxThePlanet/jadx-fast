@@ -1,7 +1,7 @@
 # LLM Agent Guide: Autonomous Development Toward JADX Parity
 
-**Status:** 1 P0 Remains (NEW-006), 5 P0 Fixed (Dec 20, 2025) - See QUALITY_STATUS.md
-**Issues:** 30+ total (29+ resolved), 1 P0 open (NEW-006 enum wrong value types)
+**Status:** All P0 Fixed (Dec 20, 2025) - See QUALITY_STATUS.md
+**Issues:** 30+ total (30+ resolved), 0 P0 open, 5 P1 remain
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**
