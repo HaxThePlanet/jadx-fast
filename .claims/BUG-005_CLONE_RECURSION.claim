@@ -1,0 +1,9 @@
+CLAIMED by claude-opus at 2025-12-20T18:15:00Z
+Working on: BUG-005 - Infinite recursion in clone() methods
+
+Problem: clone() implementations call themselves recursively instead of super.clone()
+Example:
+  Dexterity (BROKEN): return clone();  // Infinite loop
+  JADX (CORRECT):     return super.clone();
+
+Root cause investigation in progress.
