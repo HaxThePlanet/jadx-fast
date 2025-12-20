@@ -35,7 +35,7 @@ mod deobf;
 mod decompiler;
 mod gradle_export;
 
-use std::io::Read;
+use std::io::{Read, Seek};
 use std::path::PathBuf;
 use std::time::Instant;
 
@@ -354,7 +354,17 @@ async fn add_llm_comments(src_dir: &PathBuf, args: &Args) -> Result<()> {
 fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Args) -> Result<()> {
     tracing::info!("Processing APK: {}", input.display());
 
-    let file = std::fs::File::open(input)?;
+    let mut file = std::fs::File::open(input)?;
+
+    // Fast validation: Check ZIP magic bytes to avoid hanging on non-ZIP files
+    let mut magic = [0u8; 4];
+    file.read_exact(&mut magic)?;
+    file.seek(std::io::SeekFrom::Start(0))?;
+    if magic[0..2] != [0x50, 0x4B] || (magic[2] != 0x03 && magic[2] != 0x05) {
+        anyhow::bail!("Not a valid ZIP file (magic: {:02X}{:02X}{:02X}{:02X})",
+            magic[0], magic[1], magic[2], magic[3]);
+    }
+
     let mut archive = zip::ZipArchive::new(file)?;
 
     // Security: Check Zip entries limit (Zip Bomb protection)
@@ -754,7 +764,17 @@ fn process_dex(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
 fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     tracing::info!("Processing JAR: {}", input.display());
 
-    let file = std::fs::File::open(input)?;
+    let mut file = std::fs::File::open(input)?;
+
+    // Fast validation: Check ZIP magic bytes to avoid hanging on non-ZIP files
+    let mut magic = [0u8; 4];
+    file.read_exact(&mut magic)?;
+    file.seek(std::io::SeekFrom::Start(0))?;
+    if magic[0..2] != [0x50, 0x4B] || (magic[2] != 0x03 && magic[2] != 0x05) {
+        anyhow::bail!("Not a valid ZIP file (magic: {:02X}{:02X}{:02X}{:02X})",
+            magic[0], magic[1], magic[2], magic[3]);
+    }
+
     let mut archive = zip::ZipArchive::new(file)?;
 
     let mut dex_file_names: Vec<String> = Vec::new();
@@ -862,7 +882,17 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
 fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Args) -> Result<()> {
     tracing::info!("Processing AAR: {}", input.display());
 
-    let file = std::fs::File::open(input)?;
+    let mut file = std::fs::File::open(input)?;
+
+    // Fast validation: Check ZIP magic bytes to avoid hanging on non-ZIP files
+    let mut magic = [0u8; 4];
+    file.read_exact(&mut magic)?;
+    file.seek(std::io::SeekFrom::Start(0))?;
+    if magic[0..2] != [0x50, 0x4B] || (magic[2] != 0x03 && magic[2] != 0x05) {
+        anyhow::bail!("Not a valid ZIP file (magic: {:02X}{:02X}{:02X}{:02X})",
+            magic[0], magic[1], magic[2], magic[3]);
+    }
+
     let mut archive = zip::ZipArchive::new(file)?;
 
     let mut dex_file_names: Vec<String> = Vec::new();
