@@ -1,0 +1,21 @@
+CLAIMED by claude-opus at 2025-12-20T18:30:00Z
+Working on: BUG-002 - Undefined variables d/d2 in division expressions
+
+Problem: Variables like `d` and `d2` are used in division expressions but never declared.
+Example:
+  Dexterity (BROKEN):
+    arr[i7] = Double.valueOf(d /= l);   // 'd' never declared
+    arr[i8] = Double.valueOf(d2 /= l);  // 'd2' never declared
+
+  JADX (CORRECT):
+    Double.valueOf(this.sessionLength / 1000.0d)
+
+Files affected: 10+ files in medium APK
+Priority: P0 (CRITICAL)
+Category: Variable Declaration/Scope
+
+Root cause: SSA variable elimination too aggressive, or variable declarations
+not being emitted before compound assignment expressions.
+
+
+FIX STATUS: IMPLEMENTED - Sat Dec 20 10:32:26 AM PST 2025

@@ -1,0 +1,21 @@
+CLAIMED by claude-opus at 2025-12-20T18:30:00Z
+Working on: BUG-003 - Missing type cast in equals() methods
+
+Problem: equals() methods access fields on Object parameter without casting.
+Example:
+  Dexterity (BROKEN):
+    public boolean equals(Object object) {
+        if (!Util.equalString(this.uuid, object.uuid)) {  // object.uuid doesn't exist!
+
+  JADX (CORRECT):
+    ActivityState activityState = (ActivityState) obj;
+    return Util.equalString(this.uuid, activityState.uuid) ...
+
+Files affected: Multiple Serializable classes
+Priority: P0 (CRITICAL)
+Category: Type Inference / Cast Insertion
+
+Root cause: Type narrowing from getClass() check not being tracked for cast insertion.
+
+
+FIX STATUS: IMPLEMENTED - Sat Dec 20 10:32:26 AM PST 2025

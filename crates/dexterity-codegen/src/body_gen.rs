@@ -46,7 +46,7 @@ use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_
 
 use crate::class_gen::{get_inner_class_simple_name, is_anonymous_class};
 use crate::dex_info::DexInfoProvider;
-use crate::expr_gen::{BoxingType, ExprGen};
+use crate::expr_gen::{BoxingType, ExprGen, binary_op_str, cast_type_str, compare_op_to_method, escape_string_inner, maybe_paren};
 use crate::method_gen::generate_method_with_dex;
 use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_else_if,
@@ -499,6 +499,143 @@ impl BodyGenContext {
     /// Set escape unicode mode (escape non-ASCII chars as \uXXXX in strings)
     pub fn set_escape_unicode(&mut self, escape_unicode: bool) {
         self.expr_gen.set_escape_unicode(escape_unicode);
+    }
+
+    /// Generate instruction expression with inline substitution for sub-expressions.
+    /// This is critical for avoiding self-referencing expressions like `int obj1 = (int)obj1`
+    /// when the source register should have been inlined.
+    /// BUG-002 FIX: Uses gen_arg_inline for arguments to properly chain inline expressions.
+    pub fn gen_insn_inline(&mut self, insn: &InsnType) -> Option<String> {
+        match insn {
+            InsnType::Const { value, .. } => Some(self.expr_gen.gen_literal(value)),
+            InsnType::ConstString { string_idx, .. } => {
+                Some(self.expr_gen.get_string_value(*string_idx)
+                    .map(|s| format!("\"{}\"", escape_string_inner(&s, self.expr_gen.escape_unicode)))
+                    .unwrap_or_else(|| format!("string#{}", string_idx)))
+            }
+            InsnType::ConstClass { type_idx, .. } => {
+                let name = self.expr_gen.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                Some(format!("{}.class", name))
+            }
+            InsnType::Move { src, .. } => Some(self.gen_arg_inline(src)),
+            InsnType::Cast { cast_type, arg, .. } => {
+                let arg_str = self.gen_arg_inline(arg);
+                let type_str = cast_type_str(*cast_type);
+                Some(format!("({}){}", type_str, maybe_paren(&arg_str)))
+            }
+            InsnType::Unary { op, arg, .. } => {
+                let arg_str = self.gen_arg_inline(arg);
+                Some(match op {
+                    UnaryOp::Neg => format!("-{}", maybe_paren(&arg_str)),
+                    UnaryOp::Not => format!("~{}", maybe_paren(&arg_str)),
+                    UnaryOp::BoolNot => format!("!{}", maybe_paren(&arg_str)),
+                })
+            }
+            InsnType::Binary { op, left, right, .. } => {
+                let left_str = self.gen_arg_inline(left);
+                let right_str = self.gen_arg_inline(right);
+                let op_str = binary_op_str(*op);
+                Some(format!("{} {} {}", maybe_paren(&left_str), op_str, maybe_paren(&right_str)))
+            }
+            InsnType::Compare { op, left, right, .. } => {
+                let left_str = self.gen_arg_inline(left);
+                let right_str = self.gen_arg_inline(right);
+                let method = compare_op_to_method(*op);
+                Some(format!("{}({}, {})", method, left_str, right_str))
+            }
+            InsnType::ArrayLength { array, .. } => {
+                Some(format!("{}.length", self.gen_arg_inline(array)))
+            }
+            InsnType::ArrayGet { array, index, .. } => {
+                Some(format!("{}[{}]", self.gen_arg_inline(array), self.gen_arg_inline(index)))
+            }
+            InsnType::InstanceGet { object, field_idx, .. } => {
+                let obj_str = self.gen_arg_inline(object);
+                if let Some(info) = self.expr_gen.get_field_value(*field_idx) {
+                    if obj_str == "this" {
+                        Some(format!("this.{}", info.field_name))
+                    } else {
+                        Some(format!("{}.{}", obj_str, info.field_name))
+                    }
+                } else {
+                    Some(format!("{}.field#{}", obj_str, field_idx))
+                }
+            }
+            InsnType::StaticGet { field_idx, .. } => {
+                if let Some(info) = self.expr_gen.get_field_value(*field_idx) {
+                    Some(format!("{}.{}", info.class_name, info.field_name))
+                } else {
+                    Some(format!("field#{}", field_idx))
+                }
+            }
+            InsnType::InstanceOf { object, type_idx, .. } => {
+                let name = self.expr_gen.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                Some(format!("{} instanceof {}", self.gen_arg_inline(object), name))
+            }
+            InsnType::CheckCast { object, type_idx } => {
+                let name = self.expr_gen.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                Some(format!("({}){}", name, self.gen_arg_inline(object)))
+            }
+            InsnType::NewInstance { type_idx, .. } => {
+                let name = self.expr_gen.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                Some(format!("new {}()", name))
+            }
+            InsnType::NewArray { size, type_idx, .. } => {
+                let name = self.expr_gen.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                let size_str = self.gen_arg_inline(size);
+                let elem_name = if name.ends_with("[]") {
+                    name.trim_end_matches("[]")
+                } else {
+                    name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';')
+                };
+                Some(format!("new {}[{}]", elem_name, size_str))
+            }
+            InsnType::FilledNewArray { type_idx, args, .. } => {
+                let name = self.expr_gen.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                let elem_name = if name.ends_with("[]") {
+                    name.trim_end_matches("[]")
+                } else {
+                    name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';')
+                };
+                let args_str: Vec<_> = args.iter().map(|a| self.gen_arg_inline(a)).collect();
+                Some(format!("new {}[] {{ {} }}", elem_name, args_str.join(", ")))
+            }
+            InsnType::Invoke { kind, method_idx, args, .. } => {
+                let args_str: Vec<_> = args.iter()
+                    .skip(if matches!(kind, InvokeKind::Static) { 0 } else { 1 })
+                    .map(|a| self.gen_arg_inline(a))
+                    .collect();
+                if let Some(info) = self.expr_gen.get_method_value(*method_idx) {
+                    let prefix = match kind {
+                        InvokeKind::Static => format!("{}.", info.class_name),
+                        _ => {
+                            if let Some(first) = args.first() {
+                                let recv = self.gen_arg_inline(first);
+                                if recv == "this" { String::new() } else { format!("{}.", recv) }
+                            } else {
+                                String::new()
+                            }
+                        }
+                    };
+                    Some(format!("{}{}({})", prefix, info.method_name, args_str.join(", ")))
+                } else {
+                    Some(format!("method#{}({})", method_idx, args_str.join(", ")))
+                }
+            }
+            InsnType::Ternary { condition, left, right, then_value, else_value, .. } => {
+                let cond_str = self.expr_gen.gen_condition(*condition, left, right.as_ref());
+                let then_str = self.gen_arg_inline(then_value);
+                let else_str = self.gen_arg_inline(else_value);
+                Some(format!("({}) ? {} : {}", cond_str, then_str, else_str))
+            }
+            _ => None,
+        }
     }
 
     /// Get the inferred type for a register, if available
@@ -982,7 +1119,9 @@ fn emit_assignment_insn<W: CodeWriter>(
             ctx.store_inline_expr(reg, version, incr_expr);
             return true;
         }
-        if let Some(expr_str) = ctx.expr_gen.gen_insn(insn) {
+        // BUG-002 FIX: Use gen_insn_inline to properly substitute inlined sub-expressions.
+        // This prevents self-referencing expressions like `int obj1 = (int)obj1`.
+        if let Some(expr_str) = ctx.gen_insn_inline(insn) {
             ctx.store_inline_expr(reg, version, expr_str);
             return true;
         }
@@ -1169,6 +1308,39 @@ fn detect_increment_decrement(
         Some(format!("{} {} {}", var_name, op_str, right_str))
     } else {
         None
+    }
+}
+
+/// Generate a variable name for a CheckCast result based on the type name.
+/// Converts "ActivityState" -> "activityState", "com.example.Foo" -> "foo"
+/// BUG-003 FIX: Used when emitting local variable declarations for multi-use cast results.
+fn generate_cast_var_name(type_name: &str, ctx: &BodyGenContext) -> String {
+    // Extract simple class name (after last dot or slash)
+    let simple_name = type_name
+        .rsplit(|c| c == '.' || c == '/')
+        .next()
+        .unwrap_or(type_name);
+
+    // Convert to camelCase (lowercase first letter)
+    let mut chars: Vec<char> = simple_name.chars().collect();
+    if !chars.is_empty() {
+        chars[0] = chars[0].to_lowercase().next().unwrap_or(chars[0]);
+    }
+    let base_name: String = chars.into_iter().collect();
+
+    // Ensure uniqueness by checking if name is already declared
+    if !ctx.declared_name_types.contains_key(&base_name) {
+        return base_name;
+    }
+
+    // Add numeric suffix for uniqueness
+    let mut suffix = 2;
+    loop {
+        let candidate = format!("{}{}", base_name, suffix);
+        if !ctx.declared_name_types.contains_key(&candidate) {
+            return candidate;
+        }
+        suffix += 1;
     }
 }
 

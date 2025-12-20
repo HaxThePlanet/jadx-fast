@@ -1189,8 +1189,8 @@ impl Default for ExprGen {
     }
 }
 
-/// Binary operation to string
-fn binary_op_str(op: BinaryOp) -> &'static str {
+/// Binary operation to string (public for use in body_gen.rs)
+pub fn binary_op_str(op: BinaryOp) -> &'static str {
     match op {
         BinaryOp::Add => "+",
         BinaryOp::Sub => "-",
@@ -1224,7 +1224,7 @@ fn condition_op_str(cond: IfCondition) -> &'static str {
 /// - CmpLong -> Long.compare(a, b)
 /// - CmplFloat/CmpgFloat -> Float.compare(a, b)
 /// - CmplDouble/CmpgDouble -> Double.compare(a, b)
-fn compare_op_to_method(op: CompareOp) -> &'static str {
+pub fn compare_op_to_method(op: CompareOp) -> &'static str {
     match op {
         CompareOp::CmpLong => "Long.compare",
         CompareOp::CmplFloat | CompareOp::CmpgFloat => "Float.compare",
@@ -1233,7 +1233,7 @@ fn compare_op_to_method(op: CompareOp) -> &'static str {
 }
 
 /// Cast type to Java type string
-fn cast_type_str(cast: CastType) -> &'static str {
+pub fn cast_type_str(cast: CastType) -> &'static str {
     match cast {
         CastType::IntToLong => "long",
         CastType::IntToFloat => "float",
@@ -1254,7 +1254,7 @@ fn cast_type_str(cast: CastType) -> &'static str {
 }
 
 /// Wrap in parentheses if needed (for complex expressions)
-fn maybe_paren(s: &str) -> String {
+pub fn maybe_paren(s: &str) -> String {
     if s.contains(' ') && !s.starts_with('(') {
         format!("({})", s)
     } else {
@@ -1266,7 +1266,7 @@ fn maybe_paren(s: &str) -> String {
 ///
 /// When `escape_unicode` is true, non-ASCII characters are escaped as \uXXXX.
 /// When false, UTF-8 characters are preserved for readability.
-fn escape_string_inner(s: &str, escape_unicode: bool) -> String {
+pub fn escape_string_inner(s: &str, escape_unicode: bool) -> String {
     let mut result = String::with_capacity(s.len());
     for c in s.chars() {
         match c {
