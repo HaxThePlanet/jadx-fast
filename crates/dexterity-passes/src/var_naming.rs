@@ -1184,7 +1184,7 @@ pub fn assign_var_names(
     first_param_reg: u16,
     num_params: u16,
 ) -> VarNamingResult {
-    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None, None, None, None, None)
+    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, true, None, None, None, None, None, None)
 }
 
 /// Assign names to all variables in an SSA result with optional method/type/field lookups
@@ -1193,6 +1193,7 @@ pub fn assign_var_names_with_lookups<'a>(
     type_info: &TypeInferenceResult,
     first_param_reg: u16,
     num_params: u16,
+    is_static: bool,
     param_names: Option<&[String]>,
     method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
     type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
@@ -1317,7 +1318,18 @@ pub fn assign_var_names_with_lookups<'a>(
                     if src_reg.reg_num >= first_param_reg {
                         // Source is a parameter - try to get the parameter name
                         if let Some(names_slice) = param_names {
-                            let param_idx = (src_reg.reg_num - first_param_reg) as usize;
+                            let raw_idx = (src_reg.reg_num - first_param_reg) as usize;
+                            // For instance methods, first param reg is 'this' which isn't in param_names
+                            // So we need to adjust the index
+                            let param_idx = if is_static {
+                                raw_idx
+                            } else {
+                                // Skip 'this' (p0) - it's not in param_names
+                                if raw_idx == 0 {
+                                    return None; // 'this' doesn't have a name in param_names
+                                }
+                                raw_idx - 1
+                            };
                             if let Some(param_name) = names_slice.get(param_idx) {
                                 return Some((param_name.clone(), 90)); // High priority for param names
                             }

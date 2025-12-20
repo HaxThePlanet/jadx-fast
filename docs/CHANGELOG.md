@@ -4,6 +4,43 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Variable Naming JADX Parity (Dec 20, 2025)
+
+Fixed variable naming to match JADX output for 1:1 compatibility.
+
+**Long Type Prefix:**
+- Changed prefix from `l` to `j` to match JADX
+- Arrays: `jArr` instead of `lArr`
+- Affected locations: `var_naming.rs` (4 places), `method_gen.rs` (1), `body_gen.rs` (2)
+
+**OBJ_ALIAS Mappings Added:**
+Parameter naming now uses JADX's type-based aliases:
+
+| Type | Alias |
+|------|-------|
+| String | `str` |
+| StringBuilder/StringBuffer | `sb` |
+| Throwable/Error | `th` |
+| Exception | `exc` |
+| Class | `cls` |
+| Iterator | `it` |
+| Map/HashMap/LinkedHashMap/TreeMap | `map` |
+| List/ArrayList/LinkedList | `list` |
+| Set/HashSet/TreeSet | `set` |
+| Integer/Long/Double/Float/Number | `num` |
+| Boolean | `bool` |
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs`
+- `crates/dexterity-codegen/src/method_gen.rs`
+- `crates/dexterity-codegen/src/body_gen.rs`
+
+**Known Remaining:**
+- Semantic naming for method returns (e.g., `iMin` for `Math.min()`) not yet implemented
+- Codegen variable tracking bugs causing undefined variable references
+
+---
+
 ### CRITICAL: Comprehensive Quality Audit Results (Dec 20, 2025)
 
 A comprehensive quality analysis comparing Dexterity output against JADX revealed critical code generation bugs that produce uncompilable code.

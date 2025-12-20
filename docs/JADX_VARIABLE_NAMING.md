@@ -153,20 +153,35 @@ This visitor derives meaningful variable names from types and usage patterns whe
 
 ### Object Type Aliases
 
-Common types have predefined short aliases:
+Common types have predefined short aliases (OBJ_ALIAS mappings):
 
 | Full Type | Alias |
 |-----------|-------|
 | `java.lang.String` | `str` |
-| `java.lang.Class` | `cls` |
-| `java.lang.Throwable` | `th` |
-| `java.lang.Object` | `obj` |
-| `java.util.Iterator` | `it` |
-| `java.util.HashMap` | `map` |
-| `java.lang.Boolean` | `bool` |
-| `java.lang.Integer` | `num` |
 | `java.lang.StringBuilder` | `sb` |
+| `java.lang.StringBuffer` | `sb` |
+| `java.lang.Throwable` | `th` |
+| `java.lang.Error` | `th` |
 | `java.lang.Exception` | `exc` |
+| `java.lang.Class` | `cls` |
+| `java.util.Iterator` | `it` |
+| `java.util.Map` | `map` |
+| `java.util.HashMap` | `map` |
+| `java.util.LinkedHashMap` | `map` |
+| `java.util.TreeMap` | `map` |
+| `java.util.List` | `list` |
+| `java.util.ArrayList` | `list` |
+| `java.util.LinkedList` | `list` |
+| `java.util.Set` | `set` |
+| `java.util.HashSet` | `set` |
+| `java.util.TreeSet` | `set` |
+| `java.lang.Integer` | `num` |
+| `java.lang.Long` | `num` |
+| `java.lang.Double` | `num` |
+| `java.lang.Float` | `num` |
+| `java.lang.Number` | `num` |
+| `java.lang.Boolean` | `bool` |
+| `java.lang.Object` | `obj` |
 
 ### Primitive Type Naming
 
@@ -175,13 +190,14 @@ Primitive types use their short name in lowercase:
 - `boolean` → `z`
 - `byte` → `b`
 - `double` → `d`
-- `long` → `l`
+- `long` → `j` (not `l` - JADX uses `j` to avoid confusion with `1`)
 - `float` → `f`
 
 ### Array Naming
 
 Arrays append "Arr" suffix to the element type name:
 - `int[]` → `iArr`
+- `long[]` → `jArr`
 - `String[]` → `strArr`
 - `byte[][]` → `bArrArr`
 
@@ -452,3 +468,20 @@ To achieve parity with JADX variable naming:
 4. **Validation** - Reject reserved keywords and non-printable characters
 5. **Method prefix stripping** - Recognize `get`, `set`, `parse`, etc.
 6. **Fallback mode** - Support register-based naming (`r0`, `r1`, etc.)
+
+### Dexterity Implementation Status (Dec 20, 2025)
+
+**Implemented:**
+- Long type prefix: `j` (not `l`) - matches JADX
+- Array naming: `jArr` for long arrays
+- OBJ_ALIAS mappings for common types (String->str, StringBuilder->sb, etc.)
+- Numeric suffix collision handling (str, str2, str3...)
+
+**Not Yet Implemented:**
+- Semantic naming from method returns (e.g., `iMin` for `Math.min()` result)
+- Method prefix stripping for custom types
+
+**Files:**
+- `crates/dexterity-passes/src/var_naming.rs` - Core naming logic
+- `crates/dexterity-codegen/src/method_gen.rs` - Parameter naming with OBJ_ALIAS
+- `crates/dexterity-codegen/src/body_gen.rs` - Variable naming with OBJ_ALIAS

@@ -691,6 +691,41 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
     // NOTE: Must match body_gen.rs generate_param_name for consistency between signature and body
     let base = match ty {
         ArgType::Object(name) => {
+            // JADX PARITY: Use OBJ_ALIAS mappings for common types first
+            if name.contains("StringBuilder") || name.contains("StringBuffer") {
+                return if index == 0 { "sb".to_string() } else { format!("sb{}", index + 1) };
+            }
+            if name.contains("String") {
+                return if index == 0 { "str".to_string() } else { format!("str{}", index + 1) };
+            }
+            if name.contains("Throwable") || name.contains("Error") {
+                return if index == 0 { "th".to_string() } else { format!("th{}", index + 1) };
+            }
+            if name.contains("Exception") {
+                return if index == 0 { "exc".to_string() } else { format!("exc{}", index + 1) };
+            }
+            if name.contains("Class") && !name.contains("ClassLoader") {
+                return if index == 0 { "cls".to_string() } else { format!("cls{}", index + 1) };
+            }
+            if name.contains("Iterator") {
+                return if index == 0 { "it".to_string() } else { format!("it{}", index + 1) };
+            }
+            if name.contains("Map") {
+                return if index == 0 { "map".to_string() } else { format!("map{}", index + 1) };
+            }
+            if name.contains("List") {
+                return if index == 0 { "list".to_string() } else { format!("list{}", index + 1) };
+            }
+            if name.contains("Set") {
+                return if index == 0 { "set".to_string() } else { format!("set{}", index + 1) };
+            }
+            if name.contains("Integer") || name.contains("Long") || name.contains("Double")
+               || name.contains("Float") || name.contains("Number") {
+                return if index == 0 { "num".to_string() } else { format!("num{}", index + 1) };
+            }
+            if name.contains("Boolean") {
+                return if index == 0 { "bool".to_string() } else { format!("bool{}", index + 1) };
+            }
             // Use innermost name (strip $ for inner classes) to match JADX
             let simple = get_innermost_name(name);
             // Lowercase first letter
@@ -705,7 +740,7 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
             format!("{}Arr", elem_name)
         }
         ArgType::Int => "i".to_string(),
-        ArgType::Long => "l".to_string(),
+        ArgType::Long => "j".to_string(),  // JADX uses 'j' for long
         ArgType::Float => "f".to_string(),
         ArgType::Double => "d".to_string(),
         ArgType::Boolean => "z".to_string(),
