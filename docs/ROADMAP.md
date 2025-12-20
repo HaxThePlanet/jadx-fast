@@ -1,105 +1,55 @@
 # Roadmap
 
-**Status:** Critical Issues Found - NOT Production Ready (Dec 20, 2025)
+**Status:** All P0 Fixed, 5 P1 Open (Dec 20, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 
-## Immediate Priority: Fix P0 Compilation Errors
+## Current Priority: Fix P1 Semantic Issues
 
-**P0 Status (Dec 20, 2025):** 6 FIXED (NEW-001, NEW-002, NEW-003, NEW-004, NEW-006, NEW-007), 1 NOT A BUG (NEW-005)
+### NEW-008: Malformed Synchronized Blocks
+**Problem:** Statements outside sync that should be inside
+**Scope:** 10+ methods
+**Root Cause:** `region_builder.rs` - Synchronized block boundaries wrong
+**Files:** `crates/dexterity-passes/src/region_builder.rs`
 
-### Phase 1: Static Field Initialization (NEW-001) - FIXED
+### NEW-009: Missing Imports
+**Problem:** `Function1`, `List` used without import
+**Scope:** Many files
+**Root Cause:** Import collector misses some type references
+**Files:** `crates/dexterity-codegen/src/class_gen.rs`
 
-**Problem:** `final byte[] X = null; static { X = {...}; }` - illegal Java
-**Scope:** 30+ files
-**Fix:** Modified `extract_field_init.rs` to clear null initial values for fields with complex clinit assignments, and only extract the last SPUT per field if all are constant.
-**Files:** `crates/dexterity-passes/src/extract_field_init.rs`
-**Status:** FIXED (Dec 20, 2025) - 344 → 4 patterns (99% reduction)
+### NEW-010: Boolean vs Null Comparisons
+**Problem:** `isClosed() == null` where boolean method
+**Scope:** Multiple
+**Root Cause:** Type inference not propagating boolean type
+**Files:** `crates/dexterity-passes/src/type_inference.rs`
 
-### Phase 2: Undefined Variables (NEW-002) - FIXED
-
-**Problem:** `int i; while(i < 16)` - i never initialized
-**Scope:** 40+ methods
-**Fix:** PHI variables now get constant initializers when sources include constants
+### NEW-011: Parameter/Field Mismatch
+**Problem:** Wrong parameter assigned to field
+**Scope:** 30+ methods
+**Root Cause:** Parameter/field matching logic
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
-**Status:** FIXED (Dec 20, 2025) - PHI vars get constant init (e.g., `int i = 0;`)
 
-### Phase 3: throw non-Throwable (NEW-003) - FIXED
-
-**Problem:** `throw i;` where i is int
-**Scope:** 5+ methods
-**Fix:** Validate exception type, emit `throw null;` with JADX warning comment for non-Throwable types
-**Files:** `crates/dexterity-codegen/src/body_gen.rs`
-**Status:** FIXED (Dec 20, 2025) - Commit `6b023278e`
-
-### Phase 4: Variable Type Confusion (NEW-004) - FIXED
-
-**Problem:** Same variable name reused for incompatible types
+### NEW-012: Constructor Result Discarded
+**Problem:** `new Foo(...)` result not assigned
 **Scope:** 20+ methods
-**Fix:** Require exact class match in `types_compatible_for_naming()`: changed from `(ArgType::Object(_), ArgType::Object(_)) => true` to `(ArgType::Object(name1), ArgType::Object(name2)) => name1 == name2`
-**Files:** `crates/dexterity-passes/src/var_naming.rs:255`
-**Status:** FIXED (Dec 20, 2025)
-
-### Phase 5: Kotlin INSTANCE (NEW-005)
-
-**Problem:** `static final INSTANCE;` - uninitialized
-**Scope:** All Kotlin objects
-**Fix:** Detect and emit singleton initialization
-**Files:** `crates/dexterity-kotlin/src/`
-
-### Phase 6: Enum Values (NEW-006) - FIXED
-
-**Problem:** `OK(false)` instead of `OK(0)` - enum values after index 6 being incorrect
-**Scope:** Multiple enums
-**Fix:**
-1. Removed Int(0/1)->Bool conversion in enum_visitor.rs (commit `6c161be5c`)
-2. Changed enum argument lookup to search BACKWARDS from instruction index to fix register reuse causing wrong values (commit `c967197ad`)
-**Files:** `crates/dexterity-passes/src/enum_visitor.rs`
-**Status:** FIXED (Dec 20, 2025)
-
-### Phase 7: Synchronized Blocks (NEW-007) - FIXED
-
-**Problem:** Return before synchronized block (unreachable code)
-**Scope:** 15+ methods
-**Fix:** Skip return/throw when emitting enter_block prelude before synchronized
+**Root Cause:** Constructor synthesis not tracking result usage
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
-**Status:** FIXED (Dec 20, 2025)
 
 ---
 
-## Secondary Priority: P1 Semantic Issues
+## Previously Completed (Dec 20, 2025)
 
-| Issue | Description |
-|-------|-------------|
-| NEW-008 | Malformed synchronized blocks |
-| NEW-009 | Missing imports |
-| NEW-010 | Boolean vs null comparisons |
-| NEW-011 | Parameter/field mismatch |
-| NEW-012 | Constructor result discarded |
-
----
-
-## Previously Completed
-
-| Issue | Status |
-|-------|--------|
-| NEW-001 Static final = null | FIXED Dec 20 |
-| NEW-002 Undefined/uninitialized variables | FIXED Dec 20 |
-| NEW-003 throw non-Throwable validation | FIXED Dec 20 |
-| NEW-004 Variable type confusion | FIXED Dec 20 |
-| NEW-006 Enum boolean conversion / wrong values | FIXED Dec 20 |
-| NEW-007 Unreachable code after return | FIXED Dec 20 |
-| Self-reference simplification | FIXED Dec 20 |
-| Empty else blocks | FIXED Dec 20 |
-| BUG-001 to BUG-012 | FIXED Dec 20 |
-| P1-001 to P1-004 | FIXED Dec 20 |
-| Variable Naming: long prefix l->j | FIXED Dec 20 |
-| Variable Naming: OBJ_ALIAS mappings | FIXED Dec 20 |
-| BUG-009 @Override on annotation interface | FIXED Dec 20 |
-| P2-001 Variable naming JADX parity | FIXED Dec 20 |
+All P0 compilation errors fixed:
+- NEW-001: Static final = null + reassign
+- NEW-002: Undefined/uninitialized variables
+- NEW-003: throw non-Throwable validation
+- NEW-004: Variable type confusion
+- NEW-006: Enum wrong value types
+- NEW-007: Unreachable code after return
 
 ---
 
-## Future (After P0/P1 Fixed)
+## Future (After P1 Fixed)
 
 ### Input Format Support
 - APKS (App Bundle split) - Not implemented

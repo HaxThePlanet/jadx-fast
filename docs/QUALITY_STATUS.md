@@ -1,9 +1,9 @@
 # Quality Status
 
-**Status:** Critical Issues Found (Dec 20, 2025)
+**Status:** All P0 Fixed, 5 P1 Open (Dec 20, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 
-## Current Grades (Post Deep Analysis)
+## Current Grades
 
 | Category | Grade | Notes |
 |----------|-------|-------|
@@ -13,23 +13,7 @@
 | **JADX 1:1 Match** | **F** | Major structural differences |
 | **Overall** | **D** | Not production ready |
 
-## Critical Issues Found (Dec 20 Deep Analysis)
-
-Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
-
-### P0 Critical - WON'T COMPILE (0 Open, 6 Fixed, 1 Not A Bug)
-
-| ID | Issue | Scope | Status |
-|----|-------|-------|--------|
-| **NEW-001** | Static final = null + reassign | 30+ files | **FIXED** - Clear null init for clinit assignments |
-| **NEW-002** | Undefined/uninitialized variables | 40+ methods | **FIXED** - PHI vars get constant init |
-| **NEW-003** | throw non-Throwable | 5+ methods | **FIXED** - emits `throw null;` with warning |
-| **NEW-004** | Variable type confusion | 20+ methods | **FIXED** - requires exact Object class match in var_naming.rs:255 |
-| **NEW-005** | Kotlin INSTANCE uninitialized | All Kotlin objects | **NOT A BUG** - initialized in static block |
-| **NEW-006** | Enum wrong value types | Multiple enums | **FIXED** - backwards search + no Int->Bool conversion |
-| **NEW-007** | Unreachable code after return | 15+ methods | **FIXED** |
-
-### P1 High - WRONG SEMANTICS (5 Categories, 55+ instances)
+## Open Issues - P1 (Wrong Semantics)
 
 | ID | Issue | Scope |
 |----|-------|-------|
@@ -39,56 +23,23 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 | **NEW-011** | Parameter/field mismatch | 30+ methods |
 | **NEW-012** | Constructor result discarded | 20+ methods |
 
-### Previously Fixed (Dec 20, 2025)
-
-| ID | Bug | Status |
-|----|-----|--------|
-| BUG-001 | Switch map synthetic classes | FIXED |
-| BUG-002 | Undefined division variables | FIXED |
-| BUG-003 | Missing type cast in equals() | FIXED |
-| BUG-004 | Boolean returns integer | FIXED |
-| BUG-005 | Infinite recursion in clone() | FIXED |
-| BUG-006 | Boolean compared to null | FIXED |
-| BUG-007 | Undefined variable in hashCode() | FIXED |
-| P1-001 to P1-004 | Various | FIXED |
-| NEW-001 | Static final = null + reassign | FIXED |
-| NEW-002 | Undefined/uninitialized variables | FIXED |
-| NEW-003 | throw non-Throwable validation | FIXED |
-| NEW-004 | Variable type confusion | FIXED |
-| NEW-006 | Enum wrong types / backwards search | FIXED |
-| NEW-007 | Unreachable code after return | FIXED |
-| BUG-009 | @Override on annotation interfaces | FIXED |
-| Variable Naming | Long prefix l->j, OBJ_ALIAS mappings | FIXED |
-| P2-001 | JADX parity for variable naming in method parameters | FIXED |
-
 ## Quality Metrics
 
 | Metric | Value |
 |--------|-------|
-| Total Tests | 976/976 passing |
-| **Real-world APK compilation** | **P0 FIXED** - All 6 P0 bugs resolved |
+| Total Tests | 1,177 passing (687 integration + 490 unit) |
+| P0 Bugs | **ALL FIXED** |
+| P1 Bugs | 5 open |
 
 ## Output Quality by APK Size
 
 | APK Size | Quality | Notes |
 |----------|---------|-------|
 | Small (9.8KB) | **A** | Simple code works |
-| Medium (10.3MB) | **D** | 30+ P0 errors |
-| Large (51.5MB) | **F** | 70+ P0 errors |
-| Badboy | **D** | Critical Kotlin issues |
-
-## Root Causes
-
-| Issue | Source File | Component |
-|-------|-------------|-----------|
-| Static final init | `class_gen.rs` | Field extraction |
-| Undefined vars | `var_naming.rs`, `loops.rs` | Variable tracking |
-| throw non-Throwable | `body_gen.rs` | Exception handling |
-| Type confusion | `type_inference.rs` | Type system |
-| Kotlin INSTANCE | `dexterity-kotlin/` | Singleton detection |
-| Synchronized blocks | `region_builder.rs` | Control flow |
+| Medium (10.3MB) | **C** | P1 semantic issues |
+| Large (51.5MB) | **D** | Complex control flow issues |
 
 ---
 
+For open issue details, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
 For fix plan, see [ROADMAP.md](ROADMAP.md).
-For issue details, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
