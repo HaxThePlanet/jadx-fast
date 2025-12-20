@@ -643,6 +643,9 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<
     let params = &method.arg_types;
     let param_count = params.len();
 
+    // Generate all parameter names with collision detection (JADX parity)
+    let param_names = generate_param_names(params, &method.arg_names);
+
     for (i, param_type) in params.iter().enumerate() {
         if i > 0 {
             code.add(", ");
@@ -674,18 +677,146 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<
             code.add(&type_to_string_with_imports_and_package(param_type, imports, current_package));
         }
 
-        // Parameter name: use debug info if available, otherwise generate from type
+        // Parameter name: use collision-detected name
         code.add(" ");
-        let name = method.arg_names.get(i)
-            .and_then(|n| n.clone())
-            .unwrap_or_else(|| generate_param_name(i, param_type));
-        code.add(&name);
+        code.add(&param_names[i]);
     }
 
     code.add(")");
 }
 
-/// Generate a parameter name based on type and index
+/// Generate base parameter name from type (with "Var" suffix for short class names)
+/// This matches JADX's ApplyVariableNames.fromName() logic
+fn generate_base_param_name(ty: &ArgType) -> String {
+    match ty {
+        ArgType::Object(name) => {
+            // JADX PARITY: Use OBJ_ALIAS mappings for common types first
+            if name.contains("StringBuilder") || name.contains("StringBuffer") {
+                return "sb".to_string();
+            }
+            if name.contains("String") {
+                return "str".to_string();
+            }
+            if name.contains("Throwable") || name.contains("Error") {
+                return "th".to_string();
+            }
+            if name.contains("Exception") {
+                return "exc".to_string();
+            }
+            if name.contains("Class") && !name.contains("ClassLoader") {
+                return "cls".to_string();
+            }
+            if name.contains("Iterator") {
+                return "it".to_string();
+            }
+            if name.contains("Map") {
+                return "map".to_string();
+            }
+            if name.contains("Set") {
+                return "set".to_string();
+            }
+            if name.contains("List") || name.contains("Collection") || name.contains("Iterable") {
+                return "list".to_string();
+            }
+
+            // JADX PARITY: Use innermost name (strip $ for inner classes)
+            let simple = get_innermost_name(name);
+
+            // Check if all uppercase (like "URL" → "url")
+            let is_all_uppercase = simple.chars().all(|c| !c.is_ascii_lowercase());
+
+            let base = if is_all_uppercase {
+                simple.to_lowercase()
+            } else {
+                let mut chars = simple.chars();
+                match chars.next() {
+                    Some(c) => c.to_lowercase().chain(chars).collect(),
+                    None => return "obj".to_string(),
+                }
+            };
+
+            // JADX PARITY: Add "Var" suffix for short names (< 3 chars)
+            if base.len() < 3 {
+                format!("{}Var", base)
+            } else {
+                base
+            }
+        }
+        ArgType::Array(elem) => {
+            let elem_name = generate_base_param_name(elem);
+            format!("{}Arr", elem_name)
+        }
+        ArgType::Int => "i".to_string(),
+        ArgType::Long => "j".to_string(),
+        ArgType::Float => "f".to_string(),
+        ArgType::Double => "d".to_string(),
+        ArgType::Boolean => "z".to_string(),
+        ArgType::Byte => "b".to_string(),
+        ArgType::Char => "c".to_string(),
+        ArgType::Short => "s".to_string(),
+        ArgType::Generic { base, .. } => {
+            let simple = get_innermost_name(base);
+            let mut chars = simple.chars();
+            match chars.next() {
+                Some(c) => {
+                    let base: String = c.to_lowercase().chain(chars).collect();
+                    if base.len() < 3 {
+                        format!("{}Var", base)
+                    } else {
+                        base
+                    }
+                }
+                None => "obj".to_string(),
+            }
+        }
+        ArgType::TypeVariable(name) => name.to_lowercase(),
+        ArgType::Wildcard { inner: Some(inner), .. } => generate_base_param_name(inner),
+        ArgType::Wildcard { inner: None, .. } => "obj".to_string(),
+        ArgType::Void => "v".to_string(),
+        ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide
+        | ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral => "obj".to_string(),
+    }
+}
+
+/// Generate parameter names with collision detection (JADX parity)
+/// This matches JADX's NameGen.getUniqueVarName() logic
+fn generate_param_names(arg_types: &[ArgType], arg_names: &[Option<String>]) -> Vec<String> {
+    use std::collections::HashSet;
+
+    // First, generate base names for all parameters
+    let base_names: Vec<String> = arg_types.iter().enumerate().map(|(i, ty)| {
+        arg_names.get(i)
+            .and_then(|n| n.clone())
+            .unwrap_or_else(|| generate_base_param_name(ty))
+    }).collect();
+
+    // Then apply collision detection (JADX uses suffix starting at 2)
+    let mut used: HashSet<String> = HashSet::new();
+    let mut result = Vec::with_capacity(base_names.len());
+
+    for base in base_names {
+        if !used.contains(&base) {
+            used.insert(base.clone());
+            result.push(base);
+        } else {
+            // Find next available suffix starting at 2
+            let mut suffix = 2;
+            loop {
+                let name = format!("{}{}", base, suffix);
+                if !used.contains(&name) {
+                    used.insert(name.clone());
+                    result.push(name);
+                    break;
+                }
+                suffix += 1;
+            }
+        }
+    }
+
+    result
+}
+
+/// Generate a parameter name based on type and index (legacy - kept for compatibility)
 fn generate_param_name(index: usize, ty: &ArgType) -> String {
     // Try to generate a meaningful name from the type
     // NOTE: Must match body_gen.rs generate_param_name for consistency between signature and body

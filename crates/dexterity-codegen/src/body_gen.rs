@@ -216,12 +216,13 @@ impl BodyGenContext {
         let is_static = method.is_static();
         let param_offset = if is_static { 0 } else { 1 }; // Skip 'this' for instance methods
 
+        // Generate all parameter names with collision detection (JADX parity)
+        let param_names = generate_param_names(&method.arg_types, &method.arg_names);
+
         for (i, param_type) in method.arg_types.iter().enumerate() {
             let reg = first_param_reg + param_offset as u16 + i as u16;
-            // Use debug info name if available, otherwise generate from type
-            let name = method.arg_names.get(i)
-                .and_then(|n| n.clone())
-                .unwrap_or_else(|| generate_param_name(i, param_type));
+            // Use collision-detected name
+            let name = param_names[i].clone();
             expr_gen.set_var_name(reg, 0, name);
             expr_gen.set_var_type(reg, 0, param_type.clone());
         }
@@ -1761,6 +1762,7 @@ fn generate_body_impl<W: CodeWriter>(
             &type_result,
             first_param_reg,
             num_params,
+            method.is_static(),
             Some(&param_names),
             Some(&method_lookup),
             Some(&type_lookup),
@@ -2083,6 +2085,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
             &type_result,
             first_param_reg,
             num_params,
+            method.is_static(),
             Some(&param_names),
             Some(&method_lookup),
             Some(&type_lookup),

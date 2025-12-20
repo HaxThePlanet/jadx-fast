@@ -17,7 +17,7 @@
 
 Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 
-### P0 Critical - WON'T COMPILE (5 Open, 2 Fixed)
+### P0 Critical - WON'T COMPILE (4 Open, 2 Fixed, 1 Not A Bug)
 
 | ID | Issue | Scope | Example |
 |----|-------|-------|---------|
@@ -25,7 +25,7 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 | **NEW-002** | Undefined/uninitialized variables | 40+ methods | `int i; while(i < 16)` - i never set |
 | **NEW-003** | throw non-Throwable | 5+ methods | ~~`throw i;` where i is int~~ **FIXED** |
 | **NEW-004** | Variable type confusion | 20+ methods | String reused for AccessibilityNodeInfo |
-| **NEW-005** | Kotlin INSTANCE uninitialized | All Kotlin objects | `static final INSTANCE;` - no init |
+| **NEW-005** | Kotlin INSTANCE uninitialized | All Kotlin objects | ~~`static final INSTANCE;`~~ **NOT A BUG** - initialized in static block |
 | **NEW-006** | Enum wrong value types | Multiple enums | ~~`OK(false)` instead of `OK(0)`~~ **FIXED** |
 | **NEW-007** | Unreachable code after return | 15+ methods | `return x; synchronized {...}` |
 
@@ -51,8 +51,8 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 | BUG-006 | Boolean compared to null | FIXED |
 | BUG-007 | Undefined variable in hashCode() | FIXED |
 | P1-001 to P1-004 | Various | FIXED |
-| NEW-003 | throw non-Throwable | FIXED by bigballs |
-| NEW-006 | Enum wrong value types | FIXED by bigballs |
+| NEW-003 | throw non-Throwable | FIXED |
+| NEW-006 | Enum wrong value types | FIXED |
 | Variable Naming | Long prefix l->j, OBJ_ALIAS mappings | FIXED |
 
 ## Quality Metrics

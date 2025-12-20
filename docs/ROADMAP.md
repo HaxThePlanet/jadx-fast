@@ -25,7 +25,7 @@
 **Scope:** 5+ methods
 **Fix:** Validate exception type, emit `throw null;` for non-Throwable types
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
-**Status:** FIXED by bigballs (Dec 20, 2025)
+**Status:** FIXED (Dec 20, 2025)
 
 ### Phase 4: Variable Type Confusion (NEW-004)
 
@@ -47,7 +47,7 @@
 **Scope:** Multiple enums
 **Fix:** Search backwards for register values, don't convert 0/1 to boolean
 **Files:** `crates/dexterity-passes/src/enum_visitor.rs`
-**Status:** FIXED by bigballs (Dec 20, 2025)
+**Status:** FIXED (Dec 20, 2025)
 
 ### Phase 7: Synchronized Blocks (NEW-007)
 

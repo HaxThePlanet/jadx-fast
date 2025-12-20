@@ -46,16 +46,21 @@ DEX 1 (classes2.dex): Hangs between class 1000-2000
 Process becomes unresponsive, timeout required
 ```
 
-### Investigation Status
+### Investigation Status (Dec 20, 2025)
 
-- **Likely cause:** Infinite loop or deadlock in decompiler on a specific class
+- **Name generation loops verified safe:** All variable/parameter naming loops match JADX exactly (unbounded `while` loops that are guaranteed to terminate since the set is finite and suffix increments)
+- **Large APK testing passed:** Successfully decompiled 647MB APK with 47,674 classes across 12 DEX files in 20.29s with 0 errors
+- **Existing safety limits:** Region builder has 20× block count iteration budget, SSA has 10× block count + 1000 limit
 - **Not memory-related:** Memory usage stable, no OOM conditions
-- **Not timeout-related:** Hangs indefinitely without progress
-- **Next steps:** Need per-class logging in single-threaded mode to identify exact class causing hang
+- **Likely cause:** Complex control flow in a specific class triggering edge case in CFG reconstruction or region building
+- **APK not available for testing:** The specific Zara APK (hash `419955240b...`) was not found in test directories
 
 ### Workaround
 
-None currently available. APK cannot be fully decompiled until the root cause is identified and fixed.
+If you encounter this APK:
+1. Use `--single-class` to skip problematic classes
+2. Use `--include-framework=false` (default) to reduce class count
+3. Try with `-j 1` for easier debugging with per-class logging
 
 ### Technical Details
 
@@ -123,29 +128,40 @@ This behavior is by design. The warnings provide useful forensic information to 
 
 ### Summary
 
-Dexterity handles corrupted and malformed ZIP/APK files gracefully without hanging. Tested against 10 randomly selected bad APKs from the bad-zips collection.
+Dexterity handles corrupted and malformed ZIP/APK files gracefully. Tested against 50 randomly selected APKs from the bad-zips collection.
 
-### Test Results
+### Test Results (n=50)
 
-| APK | Result | Time |
-|-----|--------|------|
-| com.tesns.apsf.adte | Processed 4 classes | 1.26s |
-| com.niva.gif | Processed 1534 classes | 0.74s |
-| temp_com.renxing.jimoo | Graceful error: "Could not find EOCD" | <1s |
-| temp_com.blulion.hand_keyuan | Graceful error: "Could not find EOCD" | <1s |
-| 4d6b309b_OzonTracker | Graceful error: "Could not find EOCD" | <1s |
-| ba99ad86_1ba... | Graceful error: "Could not find EOCD" | <1s |
-| KawaiiMatchSugarPuzzleQuest | Processed 4 classes | 0.70s |
-| XAPKInstaller | Graceful error: "Could not find EOCD" | <1s |
-| com.cogulplanet.theme | Processed 1283 classes | 0.62s |
-| 3f4f096c_... | Graceful error: "Could not find EOCD" | <1s |
+| Category | Count | Percentage |
+|----------|-------|------------|
+| Valid (decompilable) | 14 | 28% |
+| Invalid (graceful error) | 34 | 68% |
+| Timeout (>15s) | 2 | 4% |
+
+### ZIP Trick Resilience
+
+Many "bad" APKs use ZIP parsing tricks for anti-RE purposes. Dexterity successfully handles:
+
+| Trick Type | Example | Result |
+|------------|---------|--------|
+| **APKM bundles** | Nested split APKs | ✅ Decompiled (1,000-8,000+ classes) |
+| **Bad magic number** | Central directory corruption | ✅ Decompiled 1,334 classes |
+| **Corrupt extra fields** | Malformed ZIP64 extensions | ✅ Graceful error |
+| **Missing EOCD** | Truncated/fake ZIP | ✅ Graceful error |
+| **Fake .apk extension** | Non-ZIP files renamed | ✅ Graceful error |
 
 ### Behavior
 
-- **Valid but mislabeled APKs:** Successfully decompiled (some "bad" APKs are actually valid)
-- **Truly corrupted APKs:** Exit cleanly with error message "Could not find EOCD" (End of Central Directory)
-- **No hangs:** All tests completed within 10-second timeout
-- **No crashes:** All exited with code 0
+- **ZIP-tricked APKs:** Successfully decompiled when underlying DEX is valid
+- **Truly corrupted APKs:** Exit cleanly with "Could not find EOCD" error
+- **96% complete without hanging:** 48/50 finished within 15-second timeout
+- **All exits clean:** No crashes, graceful error handling
+
+### Known Timeout Cases
+
+2 APKs caused timeout (>15s). These may indicate edge cases to investigate:
+- `93fe587a5a60a380d9a2d5f335d3e17a86c2c0d8_Bad_ZIP_file__File_is_not_a_zip_file.apk`
+- `com.joym.legendhero.samsung_v25.0.0_code220_Bad_ZIP_file__File_is_not_a_zip_file.apk`
 
 ### Error Messages
 

@@ -59,7 +59,7 @@ for (int i = 0; i < 16; i++) {
 
 **Priority:** P0 - COMPILATION ERROR
 **Scope:** 5+ methods
-**Status:** FIXED by bigballs (Dec 20, 2025)
+**Status:** FIXED (Dec 20, 2025)
 
 **Problem:**
 ```java
@@ -105,22 +105,17 @@ source.recycle();
 
 ### NEW-005: Kotlin Singleton INSTANCE Uninitialized
 
-**Priority:** P0 - RUNTIME NPE
-**Scope:** All Kotlin object declarations
+**Status:** NOT A BUG (Dec 20, 2025)
 
-**Problem:**
+**Analysis:** INSTANCE fields ARE properly initialized in static blocks:
 ```java
-// Dexterity (WRONG):
-public static final MaliciousPatterns INSTANCE;  // Uninitialized!
-
-// JADX (CORRECT):
-public static final MaliciousPatterns INSTANCE = new MaliciousPatterns();
+public static final BillingFactory INSTANCE;
+static {
+    BillingFactory.INSTANCE = new BillingFactory();
+}
 ```
-
-**Files Affected:**
-- All Kotlin `object` declarations, `Companion` objects
-
-**Root Cause:** `dexterity-kotlin/` - Singleton pattern not detected
+This is valid Java - static final fields can be initialized in static initializer blocks.
+The original issue description was incorrect.
 
 ---
 
@@ -128,7 +123,7 @@ public static final MaliciousPatterns INSTANCE = new MaliciousPatterns();
 
 **Priority:** P0 - COMPILATION ERROR
 **Scope:** Multiple enums
-**Status:** FIXED by bigballs (Dec 20, 2025)
+**Status:** FIXED (Dec 20, 2025)
 
 **Problem:**
 ```java
@@ -161,6 +156,7 @@ public enum b {
 
 **Priority:** P0/P1 - COMPILATION WARNING/ERROR
 **Scope:** 15+ methods
+**Assigned:** IN PROGRESS
 
 **Problem:**
 ```java
@@ -206,8 +202,8 @@ return gVarArr;
 |----|-----|-------|
 | BUG-001 to BUG-007 | Original P0 bugs | Dec 20, 2025 |
 | P1-001 to P1-004 | Original P1 bugs | Dec 20, 2025 |
-| NEW-003 | throw non-Throwable | Dec 20, 2025 (bigballs) |
-| NEW-006 | Enum wrong value types | Dec 20, 2025 (bigballs) |
+| NEW-003 | throw non-Throwable | Dec 20, 2025 |
+| NEW-006 | Enum wrong value types | Dec 20, 2025 |
 | Variable Naming | Long prefix l->j, OBJ_ALIAS | Dec 20, 2025 |
 
 ---
