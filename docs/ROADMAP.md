@@ -33,7 +33,7 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 | P0-002 | Missing method generics | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | **ALREADY IMPLEMENTED** |
 | P1-001 | Fully qualified names | `com.foo.Bar` vs `Bar` (imported) | HIGH |
 | P1-002 | Raw generic types | `Iterator obj` vs `Iterator<T> it` | HIGH |
-| P1-003 | Missing source comments | No `/* compiled from: X.java */` | HIGH |
+| P1-003 | Missing source comments | No `/* compiled from: X.java */` | **FIXED Dec 20** |
 | P1-004 | Variable naming (40% gap) | 5% excellent vs JADX 45% | **FIXED Dec 20** |
 
 ### JADX Reference Files for Fixes

@@ -34,7 +34,7 @@
 |----|-------|--------|--------------|-----|
 | **P1-001** | Fully qualified type names | Verbose output | `type_gen.rs` | ~150 |
 | **P1-002** | Raw types instead of generics | `Iterator` vs `Iterator<T>` | `type_inference.rs` | ~200 |
-| **P1-003** | Missing `/* compiled from: */` | Traceability | `class_gen.rs` | ~50 |
+| **P1-003** | Missing `/* compiled from: */` | Traceability | `class_gen.rs` | **FIXED Dec 20** |
 | **P1-004** | Variable naming gap (40%) | 5% vs 45% excellent names | `var_naming.rs` | **FIXED Dec 20** |
 
 ### Implementation Priority
