@@ -850,9 +850,15 @@ impl<'a> VarNaming<'a> {
 
             // Method invocation - extract name from method name
             // e.g., getUser() -> "user", createBuilder() -> "builder"
+            // Special methods like getInstance(), iterator() get specific names
             InsnType::Invoke { method_idx, .. } => {
                 if let Some(lookup) = &self.method_lookup {
                     if let Some(info) = lookup(*method_idx) {
+                        // First check special method cases (getInstance, iterator, etc.)
+                        if let Some(special) = Self::extract_name_from_method_special(&info.method_name, Some(&info.class_name)) {
+                            return Some(self.make_unique(&special));
+                        }
+                        // Then try prefix stripping (getUser -> user, parseXml -> xml)
                         if let Some(base) = Self::extract_name_from_method(&info.method_name) {
                             return Some(self.make_unique(&base));
                         }
@@ -1128,6 +1134,40 @@ impl<'a> VarNaming<'a> {
         }
 
         None
+    }
+
+    /// Handle special method names that JADX treats specially
+    /// These methods have semantically meaningful return values that deserve specific names
+    fn extract_name_from_method_special(method_name: &str, class_name: Option<&str>) -> Option<String> {
+        match method_name {
+            // Factory methods - use declaring class name
+            // e.g., Cipher.getInstance() -> "cipher", KeyFactory.getInstance() -> "keyFactory"
+            "getInstance" | "newInstance" => {
+                class_name.map(|c| Self::extract_class_name_base(c).to_string())
+            }
+            // Iterator methods - always use "it"
+            "iterator" | "listIterator" | "descendingIterator" | "spliterator" => {
+                Some("it".to_string())
+            }
+            // Class/type methods
+            "forName" | "getClass" | "getComponentType" | "getSuperclass" => {
+                Some("cls".to_string())
+            }
+            // String conversion
+            "toString" | "valueOf" => Some("str".to_string()),
+            // Common getters with well-known names
+            "size" | "length" => Some("size".to_string()),
+            "next" => Some("next".to_string()),
+            "previous" => Some("prev".to_string()),
+            "current" => Some("current".to_string()),
+            "key" => Some("key".to_string()),
+            "value" | "getValue" => Some("value".to_string()),
+            "getKey" => Some("key".to_string()),
+            "entrySet" => Some("entries".to_string()),
+            "keySet" => Some("keys".to_string()),
+            "values" => Some("values".to_string()),
+            _ => None,
+        }
     }
 
     /// Sanitize a name before using it as a variable name
@@ -1473,9 +1513,15 @@ fn get_base_name_from_instruction<'a>(
         InsnType::ConstString { .. } => Some("str".to_string()),
 
         // Method invocation - extract name from method name
+        // First check special methods (getInstance, iterator, etc.) then prefix stripping
         InsnType::Invoke { method_idx, .. } => {
             if let Some(lookup) = method_lookup {
                 if let Some(info) = lookup(*method_idx) {
+                    // First check special method cases
+                    if let Some(special) = VarNaming::extract_name_from_method_special(&info.method_name, Some(&info.class_name)) {
+                        return Some(special);
+                    }
+                    // Then try prefix stripping (getUser -> user)
                     if let Some(base) = VarNaming::extract_name_from_method(&info.method_name) {
                         return Some(base);
                     }
