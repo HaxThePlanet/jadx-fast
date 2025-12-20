@@ -247,8 +247,12 @@ pub fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
          ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short |
          ArgType::Int | ArgType::Long | ArgType::Float | ArgType::Double | ArgType::Void) => false,
 
-        // Object types are compatible with each other (they share a common ancestor)
-        (ArgType::Object(_), ArgType::Object(_)) => true,
+        // FIX (NEW-004): Object types are only compatible if they're the SAME class.
+        // Different object types (e.g., String vs AccessibilityNodeInfo) must have separate
+        // variable names, even if they're connected through PHI nodes. Otherwise we get:
+        //   String source = "BadAccessibility";
+        //   source = obj.getSource();  // ERROR: AccessibilityNodeInfo cannot be assigned to String
+        (ArgType::Object(name1), ArgType::Object(name2)) => name1 == name2,
 
         // Arrays are compatible if element types are compatible
         (ArgType::Array(e1), ArgType::Array(e2)) => types_compatible_for_naming(e1, e2),
@@ -2139,8 +2143,10 @@ mod tests {
             &ArgType::Object("java/lang/Boolean".to_string())
         ));
 
-        // Different objects ARE compatible (common ancestor Object)
-        assert!(types_compatible_for_naming(
+        // FIX (NEW-004): Different object types are NOT compatible for naming
+        // String and Integer must have separate variable names to prevent type confusion
+        // (e.g., String source = "x"; source = obj.getSource(); where getSource returns AccessibilityNodeInfo)
+        assert!(!types_compatible_for_naming(
             &ArgType::Object("java/lang/String".to_string()),
             &ArgType::Object("java/lang/Integer".to_string())
         ));

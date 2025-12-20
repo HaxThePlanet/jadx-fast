@@ -17,14 +17,14 @@
 
 Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 
-### P0 Critical - WON'T COMPILE (2 Open, 4 Fixed, 1 Not A Bug)
+### P0 Critical - WON'T COMPILE (1 Open, 5 Fixed, 1 Not A Bug)
 
 | ID | Issue | Scope | Example |
 |----|-------|-------|---------|
 | **NEW-001** | Static final = null + reassign | 30+ files | ~~`final byte[] X = null; static { X = {...}; }`~~ **FIXED** |
 | **NEW-002** | Undefined/uninitialized variables | 40+ methods | ~~`int i; while(i < 16)` - i never set~~ **FIXED** - PHI vars get constant init |
 | **NEW-003** | throw non-Throwable | 5+ methods | ~~`throw i;` where i is int~~ **FIXED** - emits `throw null;` with warning |
-| **NEW-004** | Variable type confusion | 20+ methods | String reused for AccessibilityNodeInfo |
+| **NEW-004** | Variable type confusion | 20+ methods | ~~String reused for AccessibilityNodeInfo~~ **FIXED** - requires exact class match |
 | **NEW-005** | Kotlin INSTANCE uninitialized | All Kotlin objects | ~~`static final INSTANCE;`~~ **NOT A BUG** - initialized in static block |
 | **NEW-006** | Enum wrong value types | Multiple enums | `OK(false)` instead of `OK(0)` - enum_visitor.rs:466-467 |
 | **NEW-007** | Unreachable code after return | 15+ methods | ~~`return x; synchronized {...}`~~ **FIXED** |
@@ -54,6 +54,7 @@ Deep comparison of JADX vs Dexterity output on Medium, Large, and Badboy APKs.
 | NEW-001 | Static final = null + reassign | FIXED |
 | NEW-002 | Undefined/uninitialized variables | FIXED |
 | NEW-003 | throw non-Throwable validation | FIXED |
+| NEW-004 | Variable type confusion | FIXED |
 | NEW-007 | Unreachable code after return | FIXED |
 | BUG-009 | @Override on annotation interfaces | FIXED |
 | Variable Naming | Long prefix l->j, OBJ_ALIAS mappings | FIXED |

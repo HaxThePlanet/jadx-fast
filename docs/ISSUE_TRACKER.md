@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** 2 P0 + 5 P1 Critical Issues Open (Dec 20, 2025)
+**Status:** 1 P0 + 5 P1 Critical Issues Open (Dec 20, 2025)
 
 ## Open Issues - P0 Critical (Won't Compile)
 
@@ -103,16 +103,17 @@ throw null;
 
 **Priority:** P0 - COMPILATION ERROR
 **Scope:** 20+ methods
+**Status:** FIXED (Dec 20, 2025)
 
 **Problem:**
 ```java
-// Dexterity (WRONG):
+// Dexterity (WRONG - before fix):
 String source = "BadAccessibility";
 source = obj.getSource();  // ERROR: AccessibilityNodeInfo cannot be assigned to String
 source.recycle();          // ERROR: String has no recycle() method
 
-// JADX (CORRECT):
-Log.d("BadAccessibility", ...);
+// Dexterity (CORRECT - after fix):
+String str = "BadAccessibility";
 AccessibilityNodeInfo source = event.getSource();
 source.recycle();
 ```
@@ -120,7 +121,18 @@ source.recycle();
 **Files Affected:**
 - `BadAccessibilityService.java`, `NanoHTTPD.java`, +18 more
 
-**Root Cause:** `type_inference.rs`, `var_naming.rs` - Same name reused for different types
+**Root Cause:** `var_naming.rs:251` - `types_compatible_for_naming()` returned `true` for any two Object types
+
+**Fix Applied:** Modified `var_naming.rs` to require exact class match for Object types:
+```rust
+// Before (TOO PERMISSIVE):
+(ArgType::Object(_), ArgType::Object(_)) => true,
+
+// After (CORRECT):
+(ArgType::Object(name1), ArgType::Object(name2)) => name1 == name2,
+```
+
+Different object types (String vs AccessibilityNodeInfo) now get separate variable names, preventing type confusion.
 
 ---
 
@@ -228,6 +240,7 @@ return gVarArr;
 | NEW-001 | Static final = null + reassign | Dec 20, 2025 |
 | NEW-002 | Undefined/uninitialized variables | Dec 20, 2025 |
 | NEW-003 | throw non-Throwable validation | Dec 20, 2025 |
+| NEW-004 | Variable type confusion | Dec 20, 2025 |
 | NEW-007 | Unreachable code after return | Dec 20, 2025 |
 | Variable Naming | Long prefix l->j, OBJ_ALIAS | Dec 20, 2025 |
 | P2-001 | JADX parity for variable naming | Dec 20, 2025 |
