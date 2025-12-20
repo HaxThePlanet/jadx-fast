@@ -9,7 +9,7 @@
 
 ### Revised Assessment (Dec 20, 2025)
 
-Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-001 and P1-002 fixes:
+Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-001, P1-002, and P1-002-GENERICS fixes:
 
 | Aspect | Dexterity | JADX | Winner |
 |--------|-----------|------|--------|
@@ -25,7 +25,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 
 Dexterity is 1.49x faster with 14.6x better memory efficiency AND produces production-quality Java code:
 - Overall Quality: **A- (88-90/100)** based on objective output comparison
-- Defect Score: **88-90%** after P1-001/P1-002 fixes
+- Defect Score: **88-90%** after P1-001/P1-002/P1-002-GENERICS fixes
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing
@@ -903,7 +903,7 @@ catch (JSONException e) {  // Specific exception type
 
 ### Revised Assessment (Dec 20, 2025)
 
-Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-001 and P1-002 fixes:
+Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-001, P1-002, and P1-002-GENERICS fixes:
 
 | Aspect | Dexterity | JADX | Winner |
 |--------|-----------|------|--------|
@@ -953,7 +953,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 
 **Quality Metrics (Dec 20, 2025):**
 - Overall Quality: **A- (88-90/100)** based on objective output comparison
-- Defect Score: **88-90%** after P1-001/P1-002 fixes
+- Defect Score: **88-90%** after P1-001/P1-002/P1-002-GENERICS fixes
 - Variable Naming: Type-based in complex methods (str, i2), semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing

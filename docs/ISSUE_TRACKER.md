@@ -5,7 +5,7 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 **Status (Dec 20, 2025): PRODUCTION READY with A- (88-90/100) quality**
 
-**40+ total issues (ALL RESOLVED)**
+**41+ total issues (ALL RESOLVED including P1-002 generic propagation)**
 - DEC19-OPEN-001: Variable 'obj' prefix - **RESOLVED** (44% reduction via type-aware declaration)
 - DEC19-OPEN-002: Array for-each loop detection - **RESOLVED** (working since Dec 16)
 - DEC19-OPEN-003: StringBuilder chain collapsing - **RESOLVED** (handled at codegen level)
@@ -20,6 +20,7 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 - **P1-001-TYPES: Same-Package Simple Type Names** - **RESOLVED Dec 20** (commit 84df4daba, current_package threading)
 - **P1-003: Source File Comments** - **RESOLVED Dec 20** (commit 40d14e46d, `/* compiled from: */`)
 - **P1-004: Variable Naming Improvements** - **RESOLVED Dec 20** (commit 06da51488, JADX-style special method naming)
+- **P1-002-GENERICS: Hierarchy-Based Generic Type Propagation** - **RESOLVED Dec 20** (commit d7f3daf7b, ClassHierarchy-based type variable resolution)
 
 All P0-P2 issues resolved:
 - Overall Quality: **A- (88-90/100)** based on objective `output/dexterity` vs `output/jadx` comparison
@@ -376,6 +377,60 @@ Added JADX-style special method naming for common patterns:
 **Acceptance Criteria:**
 - [x] Iterator variables named `it`
 - [x] Factory methods use class name
+- [x] All tests pass
+
+---
+
+### Issue ID: P1-002-GENERICS
+
+**Status:** RESOLVED (Dec 20, 2025)
+**Commit:** `d7f3daf7b`
+**Priority:** P1 (HIGH)
+**Category:** Hierarchy-Based Generic Type Variable Propagation
+**Impact:** Type correctness - raw types instead of properly resolved generics
+
+**The Problem (FIXED):**
+```java
+// Dexterity (BEFORE) - Raw types
+Iterator iterator = list.iterator();  // Missing generic parameter
+
+// Dexterity (AFTER) - Properly resolved generics
+Iterator<String> it = list.iterator();  // Generic type from List<String> propagated
+```
+
+**Root Cause (Found and Fixed):**
+The type inference system was not using class hierarchy information to resolve type variables. When a method like `iterator()` returns `Iterator<E>`, the `E` type variable needed to be resolved by looking up the class hierarchy to find the concrete type parameter from `List<String>`.
+
+**Fix Applied:**
+
+1. Added `build_type_var_mapping()` in `type_inference.rs`:
+   - Builds mappings from type variables to concrete types using ClassHierarchy
+
+2. Added `apply_type_var_mapping()` in `type_inference.rs`:
+   - Applies type variable mappings during type resolution
+
+3. Updated `resolve_type_variable()` in `type_inference.rs`:
+   - Now uses ClassHierarchy for proper type parameter resolution
+
+4. Updated `TypeBoundInvokeAssign.resolve_return_type()` in `type_bound.rs`:
+   - Added hierarchy support for resolving generic return types
+
+5. Updated `resolve_type_var()` in `type_update.rs`:
+   - Changed to use hierarchy for lookups
+
+6. Updated `fix_types.rs`:
+   - Added TypeVariable handling in `is_unresolved()` and `try_remove_generics()`
+
+**Files Changed:**
+- `crates/dexterity-passes/src/type_inference.rs`
+- `crates/dexterity-passes/src/type_bound.rs`
+- `crates/dexterity-passes/src/type_update.rs`
+- `crates/dexterity-passes/src/fix_types.rs`
+
+**Acceptance Criteria:**
+- [x] `List<String>.iterator()` returns `Iterator<String>`
+- [x] Generic types from inherited interfaces properly resolved
+- [x] TypeVariable handling in is_unresolved() and try_remove_generics()
 - [x] All tests pass
 
 ---
@@ -2498,5 +2553,5 @@ Implemented the full solution as proposed:
 
 ---
 
-**Last Updated: 2025-12-20** (P0-001 null vs 0, P1-001-TYPES same-package types, P1-003-SOURCE source comments, P1-004-NAMING variable naming ALL FIXED Dec 20. Only P1-002 generic propagation remaining.)
+**Last Updated: 2025-12-20** (P0-001 null vs 0, P1-001-TYPES same-package types, P1-002-GENERICS generic propagation, P1-003-SOURCE source comments, P1-004-NAMING variable naming ALL FIXED Dec 20. All P0-P1 issues now resolved.)
 **For workflow instructions, see: `LLM_AGENT_GUIDE.md`**

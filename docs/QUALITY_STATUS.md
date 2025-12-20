@@ -5,7 +5,7 @@
 
 **Status:** PRODUCTION READY (Dec 20, 2025)
 **Target:** 85+/100 Quality Score | **Documented Result:** A- (88-90/100) based on features implemented
-**Code Issues:** All P0-P3 issues FIXED | **40+ total issues (P0-001/P1-001/P1-003/P1-004 ALL FIXED Dec 20, only P1-002 generic propagation remaining)**
+**Code Issues:** All P0-P3 issues FIXED | **41+ total issues ALL RESOLVED (P0-001/P1-001/P1-002/P1-003/P1-004 ALL FIXED Dec 20)**
 **Resource Issues:** **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -33,7 +33,7 @@
 | ID | Issue | Impact | Fix Location | LOC |
 |----|-------|--------|--------------|-----|
 | **P1-001** | Fully qualified type names | Verbose output | `type_gen.rs`, `class_gen.rs`, `method_gen.rs`, `body_gen.rs` | **FIXED Dec 20** |
-| **P1-002** | Raw types instead of generics | `Iterator` vs `Iterator<T>` | `type_inference.rs` | ~200 |
+| ~~**P1-002**~~ | ~~Raw types instead of generics~~ | ~~`Iterator` vs `Iterator<T>`~~ | `type_inference.rs` | **FIXED Dec 20** |
 | **P1-003** | Missing `/* compiled from: */` | Traceability | `class_gen.rs` | **FIXED Dec 20** |
 | **P1-004** | Variable naming gap (40%) | 5% vs 45% excellent names | `var_naming.rs` | **FIXED Dec 20** |
 
@@ -43,8 +43,10 @@
 2. ~~**P0-002** (method generics) - VERY HIGH ROI, ~40 LOC~~ **ALREADY IMPLEMENTED**
 3. ~~**P1-003** (source comments) - MEDIUM ROI, ~30 LOC~~ **FIXED Dec 20**
 4. ~~**P1-004** (variable naming) - VERY HIGH ROI, ~50 LOC~~ **FIXED Dec 20**
-5. **P1-002** (generic propagation) - HIGH ROI, ~200 LOC
+5. ~~**P1-002** (generic propagation) - HIGH ROI, ~200 LOC~~ **FIXED Dec 20** (commit d7f3daf7b)
 6. ~~**P1-001** (simple type names) - HIGH ROI, ~150 LOC~~ **FIXED Dec 20** (commit 84df4daba)
+
+**All P0-P1 issues now resolved as of Dec 20, 2025.**
 
 ---
 
@@ -120,6 +122,36 @@ public void method(OtherClass param) { }
 - Updated `add_fields`, `add_field` to accept and use `current_package`
 - Updated `generate_type_parameters`, `add_parameters`, `add_throws_clause`
 - Threaded package info through `generate_method_with_dex` and `generate_method_with_inner_classes`
+
+### P1-002: Hierarchy-Based Generic Type Variable Propagation (FIXED)
+
+Implemented proper generic type resolution using class hierarchy traversal, fixing issues where generic types like `Iterator<E>` from `List<String>.iterator()` were not properly resolved to `Iterator<String>`.
+
+**Commit:** `d7f3daf7b`
+
+**Before:**
+```java
+Iterator iterator = list.iterator();  // Raw type, missing generic parameter
+```
+
+**After:**
+```java
+Iterator<String> it = list.iterator();  // Properly resolved generic type
+```
+
+**Implementation Details:**
+- Added `build_type_var_mapping()` in `type_inference.rs` to build mappings from type variables to concrete types
+- Added `apply_type_var_mapping()` to apply these mappings during type resolution
+- Updated `resolve_type_variable()` to use `ClassHierarchy` for proper type parameter resolution
+- Added hierarchy support to `TypeBoundInvokeAssign.resolve_return_type()` in `type_bound.rs`
+- Changed `resolve_type_var()` in `type_update.rs` to use hierarchy for lookups
+- Added `TypeVariable` handling in `is_unresolved()` and `try_remove_generics()` in `fix_types.rs`
+
+**Files Changed:**
+- `crates/dexterity-passes/src/type_inference.rs`
+- `crates/dexterity-passes/src/type_bound.rs`
+- `crates/dexterity-passes/src/type_update.rs`
+- `crates/dexterity-passes/src/fix_types.rs`
 
 ---
 
@@ -1294,7 +1326,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 
 ---
 
-**Last Updated:** Dec 20, 2025 (P0-001 null vs 0, P1-001 same-package types, P1-003 source comments, P1-004 variable naming ALL FIXED. Remaining: P1-002 generic propagation ~200 LOC)
+**Last Updated:** Dec 20, 2025 (P0-001 null vs 0, P1-001 same-package types, P1-002 generic propagation, P1-003 source comments, P1-004 variable naming ALL FIXED. All P0-P1 issues now resolved.)
 
 ---
 

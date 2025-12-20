@@ -4,6 +4,58 @@ Development history and notable fixes.
 
 ## December 2025
 
+### P1-002: Hierarchy-Based Generic Type Variable Propagation - FIXED (Dec 20, 2025)
+
+**Commit:** `d7f3daf7b`
+**Priority:** P1-HIGH - RESOLVED
+
+**The Problem:**
+Generic types like `Iterator<E>` from `List<String>.iterator()` were not properly resolved to `Iterator<String>`. Instead, raw types or unresolved type variables were being used:
+
+```java
+// Before (broken):
+Iterator iterator = list.iterator();  // Raw type, missing generic parameter
+
+// After (fixed):
+Iterator<String> it = list.iterator();  // Properly resolved generic type
+```
+
+**Root Cause:**
+The type inference system was not using class hierarchy information to resolve type variables. When a method like `iterator()` returns `Iterator<E>`, the `E` type variable needed to be resolved by looking up the class hierarchy to find the concrete type parameter.
+
+**Fix Applied:**
+
+1. Added `build_type_var_mapping()` in `type_inference.rs`:
+   - Builds mappings from type variables to concrete types using ClassHierarchy
+
+2. Added `apply_type_var_mapping()` in `type_inference.rs`:
+   - Applies type variable mappings during type resolution
+
+3. Updated `resolve_type_variable()` in `type_inference.rs`:
+   - Now uses ClassHierarchy for proper type parameter resolution
+
+4. Updated `TypeBoundInvokeAssign.resolve_return_type()` in `type_bound.rs`:
+   - Added hierarchy support for resolving generic return types
+
+5. Updated `resolve_type_var()` in `type_update.rs`:
+   - Changed to use hierarchy for lookups
+
+6. Updated `fix_types.rs`:
+   - Added TypeVariable handling in `is_unresolved()` and `try_remove_generics()`
+
+**Files Changed:**
+- `crates/dexterity-passes/src/type_inference.rs`
+- `crates/dexterity-passes/src/type_bound.rs`
+- `crates/dexterity-passes/src/type_update.rs`
+- `crates/dexterity-passes/src/fix_types.rs`
+
+**Results:**
+- Generic types from inherited interfaces/classes now properly resolved
+- `List<String>.iterator()` correctly returns `Iterator<String>`
+- All P0-P1 issues now resolved
+
+---
+
 ### P0-CRITICAL: Variable Type Safety Violations - FIXED (Dec 19, 2025)
 
 **Priority:** P0-CRITICAL - RESOLVED

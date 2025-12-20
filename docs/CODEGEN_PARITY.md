@@ -1,6 +1,6 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-20 (P1-001/P1-002 Control Flow FIXED - A- Grade 88-90/100)
+**Last Updated**: 2025-12-20 (P1-001/P1-002 Control Flow + P1-002-GENERICS Generic Propagation FIXED - A- Grade 88-90/100)
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
 **Overall Parity**: **A- (88-90/100)** (5 components at 100%, 6 components at 95%+)
 **Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
@@ -98,7 +98,13 @@ All critical and high-priority issues have been **resolved** to achieve A- (88-9
 - Detection: >2000 instructions, Compose patterns (Composer parameter), @Composable annotations
 - Output: 7-line stub with helpful "Method not decompiled: too complex" comment
 - Impact: MainActivityKt.Greeting() reduced from 939 lines of garbage to clean stub
-- Files: `method_gen.rs` (should_skip_complex_method), `var_naming.rs` (SSA prefix stripping)
+
+### RESOLVED: Hierarchy-Based Generic Type Propagation (Dec 20, 2025)
+- Generic types like `Iterator<E>` from `List<String>.iterator()` now properly resolve to `Iterator<String>`
+- Added `build_type_var_mapping()` and `apply_type_var_mapping()` in `type_inference.rs`
+- Updated `resolve_type_variable()` to use `ClassHierarchy` for type parameter resolution
+- Commit: `d7f3daf7b`
+- Files: `type_inference.rs`, `type_bound.rs`, `type_update.rs`, `fix_types.rs`
 
 ---
 

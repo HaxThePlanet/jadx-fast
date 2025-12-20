@@ -6,7 +6,7 @@
 **Current State:** PRODUCTION READY (Dec 20, 2025)
 **Feature Implementation:** **A- (88-90/100)** based on features/passes implemented | 1,201 tests passing | **100% Class Generation parity**
 **Actual Output Quality:** **C- (49/100)** based on comparison of decompiled Java against JADX output (see below)
-**Code Issues:** **ALL P0-P2 ISSUES RESOLVED** + Fix 17-21 Dec 19 + P1-001/P1-002/P2-001 Dec 19-20 + **P0 Variable Type Safety Dec 19** | 36+ issues resolved | **All known issues fixed**
+**Code Issues:** **ALL P0-P2 ISSUES RESOLVED** + Fix 17-21 Dec 19 + P1-001/P1-002/P2-001 Dec 19-20 + **P0 Variable Type Safety Dec 19** + **P1-002 Generic Type Propagation Dec 20** | 37+ issues resolved | **All known issues fixed**
 **Resource Issues:** **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation from `jadx-fast/` source
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
@@ -32,7 +32,7 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 | P0-001 | Returns `0` for objects | `return 0;` vs `return null;` | **FIXED Dec 20** |
 | P0-002 | Missing method generics | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | **ALREADY IMPLEMENTED** |
 | P1-001 | Fully qualified names | `com.foo.Bar` vs `Bar` (imported) | **FIXED Dec 20** (commit 84df4daba) |
-| P1-002 | Raw generic types | `Iterator obj` vs `Iterator<T> it` | HIGH |
+| P1-002 | Raw generic types | `Iterator obj` vs `Iterator<T> it` | **FIXED Dec 20** (commit d7f3daf7b) |
 | P1-003 | Missing source comments | No `/* compiled from: X.java */` | **FIXED Dec 20** |
 | P1-004 | Variable naming (40% gap) | 5% excellent vs JADX 45% | **FIXED Dec 20** |
 
@@ -52,7 +52,9 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 | Issue | Problem | Effort |
 |-------|---------|--------|
 | ~~P1-001~~ | ~~Use simple type names with imports~~ | ~~**FIXED Dec 20** (commit 84df4daba)~~ |
-| P1-002 | Propagate generics to variables | ~200 LOC |
+| ~~P1-002~~ | ~~Propagate generics to variables~~ | ~~**FIXED Dec 20** (commit d7f3daf7b)~~ |
+
+**All P1 issues resolved as of Dec 20, 2025.**
 
 ---
 
@@ -73,6 +75,15 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 - Types in same package now use simple names instead of fully qualified names
 - Matches JADX behavior for same-package type references
 - Commit: `84df4daba`
+
+### P1-002: Hierarchy-Based Generic Type Variable Propagation
+- Implemented `build_type_var_mapping()` and `apply_type_var_mapping()` in `type_inference.rs`
+- Updated `resolve_type_variable()` to use `ClassHierarchy` for proper type parameter resolution
+- Added hierarchy support to `TypeBoundInvokeAssign.resolve_return_type()` in `type_bound.rs`
+- Changed `resolve_type_var()` in `type_update.rs` to use hierarchy for lookups
+- Added `TypeVariable` handling in `is_unresolved()` and `try_remove_generics()` in `fix_types.rs`
+- Fixes generic types like `Iterator<E>` from `List<String>.iterator()` now properly resolving to `Iterator<String>`
+- Commit: `d7f3daf7b`
 
 ---
 
@@ -926,7 +937,7 @@ All 19 P1-P2 issues resolved:
 
 **Last Updated:** Dec 20, 2025
 **Status:** PRODUCTION READY - Feature Implementation A- (88-90/100), Actual Output Quality C- (49/100)
-**Remaining Issues:** P1-002 generic propagation to variables (~200 LOC)
+**Remaining Issues:** All P0-P2 issues resolved. P1-002 generic propagation fixed (commit d7f3daf7b).
 **Resolved Dec 19-20:**
 - Fix 1: Optimization Passes Added (commit 4519abde) - 1.6% line reduction
 - Fix 2: NEW-P1-001 Control Flow Duplication (commit 8ac97729c) - 11.5% line reduction
@@ -936,6 +947,7 @@ All 19 P1-P2 issues resolved:
 - **Fix 6: P1-001 Same-Package Simple Type Names (commit 84df4daba)** - Thread current_package through codegen
 - **Fix 7: P1-003 Source File Comments (commit 40d14e46d)** - Add `/* compiled from: */` comments
 - **Fix 8: P1-004 Variable Naming (commit 06da51488)** - JADX-style special method naming
+- **Fix 9: P1-002 Generic Type Propagation (commit d7f3daf7b)** - Hierarchy-based generic type variable propagation using ClassHierarchy
 **Note:** Framework filtering is intentional by design. All P0-P1 issues now resolved.
 
 ---
