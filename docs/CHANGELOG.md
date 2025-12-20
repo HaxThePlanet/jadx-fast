@@ -303,6 +303,32 @@ Fixed by removing extension stripping to match JADX's `CodeGenUtils.addSourceFil
 
 ---
 
+### P3: Self-Reference Simplification - FIXED (Dec 20, 2025)
+
+**Priority:** P3-COSMETIC - RESOLVED
+
+**The Problem:**
+Static method calls within the same class used full class prefix:
+
+```java
+// Before:
+return Flowable.empty();
+
+// After (matches JADX):
+return empty();
+```
+
+**Fix Applied:**
+- Static method calls now check if target class matches current class
+- If same class, omit class prefix for cleaner output
+- Same fix applied to static field access (`EMPTY` vs `Flowable.EMPTY`)
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs` - Static method call generation
+- `crates/dexterity-codegen/src/expr_gen.rs` - Added `get_static_field_ref_in_class()`
+
+---
+
 ### P1-004: Variable Naming Improvements - FIXED (Dec 20, 2025)
 
 **Commit:** `06da51488`

@@ -508,6 +508,21 @@ impl ExprGen {
         self.get_field_value(idx).map(|f| format!("{}.{}", f.class_name, f.field_name))
     }
 
+    /// Get static field reference, omitting class prefix if same as current class
+    /// e.g., within Flowable class: EMPTY instead of Flowable.EMPTY
+    pub fn get_static_field_ref_in_class(&self, idx: u32, current_class_type: Option<&str>) -> Option<String> {
+        self.get_field_value(idx).map(|f| {
+            let is_same_class = current_class_type
+                .map(|current| current == &*f.class_type)
+                .unwrap_or(false);
+            if is_same_class {
+                f.field_name.to_string()
+            } else {
+                format!("{}.{}", f.class_name, f.field_name)
+            }
+        })
+    }
+
     /// Get variable name (or generate default)
     ///
     /// Variable names from our var_naming pass (JADX-compatible) are used as-is.

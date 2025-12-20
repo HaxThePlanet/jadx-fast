@@ -3982,7 +3982,7 @@ fn get_insn_value_expr(insn: &InsnType, ctx: &BodyGenContext) -> Option<String> 
         }
         InsnType::Move { src, .. } => Some(ctx.expr_gen.gen_arg(src)),
         InsnType::StaticGet { field_idx, .. } => {
-            Some(ctx.expr_gen.get_static_field_ref(*field_idx)
+            Some(ctx.expr_gen.get_static_field_ref_in_class(*field_idx, ctx.current_class_type.as_deref())
                 .unwrap_or_else(|| format!("field#{}", field_idx)))
         }
         InsnType::InstanceGet { object, field_idx, .. } => {
@@ -6156,7 +6156,19 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 }
 
                 // Normal static method call with type-aware argument formatting
-                code.add(&info.class_name).add(".").add(&sanitize_method_name(&info.method_name)).add("(");
+                // Check if target class is the same as current class - if so, omit class prefix
+                // e.g., within Flowable class: empty() instead of Flowable.empty()
+                let is_same_class = ctx.current_class_type.as_ref()
+                    .map(|current| current.as_str() == &*info.class_type)
+                    .unwrap_or(false);
+
+                if is_same_class {
+                    // Same class - just method name
+                    code.add(&sanitize_method_name(&info.method_name)).add("(");
+                } else {
+                    // Different class - include class prefix
+                    code.add(&info.class_name).add(".").add(&sanitize_method_name(&info.method_name)).add("(");
+                }
                 write_typed_args_with_varargs(args, &info.param_types, skip_count, info.is_varargs, ctx, code);
                 code.add(")");
             }
