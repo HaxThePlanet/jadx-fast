@@ -41,9 +41,59 @@
 
 1. ~~**P0-001** (null vs 0) - VERY HIGH ROI, ~20 LOC~~ **FIXED Dec 20**
 2. ~~**P0-002** (method generics) - VERY HIGH ROI, ~40 LOC~~ **ALREADY IMPLEMENTED**
-3. ~~**P1-004** (variable naming) - VERY HIGH ROI, ~200 LOC~~ **FIXED Dec 20**
-4. **P1-002** (generic propagation) - HIGH ROI, ~200 LOC
-5. **P1-001** (simple type names) - HIGH ROI, ~150 LOC
+3. ~~**P1-003** (source comments) - MEDIUM ROI, ~30 LOC~~ **FIXED Dec 20**
+4. ~~**P1-004** (variable naming) - VERY HIGH ROI, ~50 LOC~~ **FIXED Dec 20**
+5. **P1-002** (generic propagation) - HIGH ROI, ~200 LOC
+6. **P1-001** (simple type names) - HIGH ROI, ~150 LOC
+
+---
+
+## Fixes Completed Dec 20, 2025
+
+### P1-003: Source File Comments (FIXED)
+
+Added `/* compiled from: SourceFile.java */` comments matching JADX exactly.
+
+**Before:**
+```java
+/* loaded from: classes.dex */
+public @interface a { }
+```
+
+**After:**
+```java
+/* compiled from: Keep.java */
+@Retention(RetentionPolicy.CLASS)
+@Target({...})
+/* loaded from: classes.dex */
+public @interface a { }
+```
+
+**Implementation:** Only emits when source file name differs from class name (matches JADX's `CodeGenUtils.addSourceFileInfo()` logic).
+
+### P1-004: Variable Naming Improvements (FIXED)
+
+Added JADX-style special method naming for better variable names.
+
+| Method | Variable Name |
+|--------|---------------|
+| `iterator()`, `listIterator()` | `it` |
+| `getInstance()`, `newInstance()` | class name (e.g., `cipher`) |
+| `getClass()`, `forName()` | `cls` |
+| `toString()`, `valueOf()` | `str` |
+| `next()`, `previous()` | `next`, `prev` |
+| `getValue()`, `getKey()` | `value`, `key` |
+| `entrySet()`, `keySet()`, `values()` | `entries`, `keys`, `values` |
+
+**Before:**
+```java
+final Iterator iterator = obj.iterator();
+```
+
+**After:**
+```java
+final Iterator it = obj.iterator();
+```
 
 ---
 

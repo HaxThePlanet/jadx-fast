@@ -47,6 +47,27 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 | P1-003 | `CodeGenUtils.java:122-136` | `class_gen.rs` |
 | P1-004 | `ApplyVariableNames.java` | `var_naming.rs` |
 
+### Remaining Work
+
+| Issue | Problem | Effort |
+|-------|---------|--------|
+| P1-001 | Use simple type names with imports | ~150 LOC |
+| P1-002 | Propagate generics to variables | ~200 LOC |
+
+---
+
+## Fixes Completed Dec 20, 2025
+
+### P1-003: Source File Comments
+- Added `/* compiled from: SourceFile.java */` before class declarations
+- Only emits when source file differs from class name (JADX parity)
+- Commit: `40d14e46d`
+
+### P1-004: Variable Naming
+- Special method names: `iterator()`→`it`, `getInstance()`→class name, `next()`→`next`
+- Improved naming for common patterns matching JADX
+- Commit: `06da51488`
+
 ---
 
 ## CRITICAL: Documentation vs Reality Gap (Dec 19, 2025)
