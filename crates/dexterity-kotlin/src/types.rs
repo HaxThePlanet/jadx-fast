@@ -9,6 +9,53 @@ pub enum KotlinKind {
     MultiFileClassPart,
 }
 
+/// Type parameter variance (in/out modifiers)
+/// Maps to Kotlin's declaration-site variance annotations
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum KotlinVariance {
+    /// Contravariant (`in` modifier)
+    In,
+    /// Covariant (`out` modifier)
+    Out,
+    /// Invariant (no modifier)
+    #[default]
+    Invariant,
+}
+
+impl KotlinVariance {
+    /// Convert from proto variance enum value
+    /// Proto: IN=0, OUT=1, INV=2
+    pub fn from_proto(value: i32) -> Self {
+        match value {
+            0 => KotlinVariance::In,
+            1 => KotlinVariance::Out,
+            _ => KotlinVariance::Invariant,
+        }
+    }
+
+    /// Convert to IR TypeVariance
+    pub fn to_ir(&self) -> dexterity_ir::info::TypeVariance {
+        match self {
+            KotlinVariance::In => dexterity_ir::info::TypeVariance::Contravariant,
+            KotlinVariance::Out => dexterity_ir::info::TypeVariance::Covariant,
+            KotlinVariance::Invariant => dexterity_ir::info::TypeVariance::Invariant,
+        }
+    }
+}
+
+/// A Kotlin type parameter with variance and reification info
+#[derive(Debug, Clone)]
+pub struct KotlinTypeParameter {
+    /// The name of the type parameter (e.g., "T", "E")
+    pub name: String,
+    /// Variance (in/out/invariant)
+    pub variance: KotlinVariance,
+    /// Whether this is a reified type parameter
+    pub reified: bool,
+    /// Upper bounds (e.g., T : Any, T : Comparable<T>)
+    pub upper_bounds: Vec<String>,
+}
+
 /// Kotlin class flags extracted from protobuf
 #[derive(Debug, Clone, Default)]
 pub struct KotlinClassFlags {
@@ -40,6 +87,8 @@ pub struct KotlinClassMetadata {
     pub flags: KotlinClassFlags,
     /// Sealed subclass FQ names
     pub sealed_subclasses: Vec<String>,
+    /// Type parameters with variance information
+    pub type_parameters: Vec<KotlinTypeParameter>,
 }
 
 /// Kotlin function flags extracted from protobuf

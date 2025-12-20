@@ -22,6 +22,35 @@ use crate::instructions::InsnNode;
 use crate::types::ArgType;
 use crate::kotlin_metadata::KotlinMetadata;
 
+/// Type parameter variance for Kotlin generics (in/out modifiers)
+/// Corresponds to Kotlin's declaration-site variance annotations
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum TypeVariance {
+    /// Invariant (no modifier) - default for Java
+    #[default]
+    Invariant,
+    /// Covariant (`out` in Kotlin, `? extends T` in Java)
+    Covariant,
+    /// Contravariant (`in` in Kotlin, `? super T` in Java)
+    Contravariant,
+}
+
+impl TypeVariance {
+    /// Returns true if this is the default (invariant) variance
+    pub fn is_default(&self) -> bool {
+        matches!(self, TypeVariance::Invariant)
+    }
+
+    /// Returns the Kotlin keyword for this variance, or None for invariant
+    pub fn kotlin_keyword(&self) -> Option<&'static str> {
+        match self {
+            TypeVariance::Invariant => None,
+            TypeVariance::Covariant => Some("out"),
+            TypeVariance::Contravariant => Some("in"),
+        }
+    }
+}
+
 /// A generic type parameter declaration (e.g., T, E extends Number)
 /// Used for method-level type parameters like `<T extends Comparable<T>>`
 #[derive(Debug, Clone)]
@@ -31,6 +60,11 @@ pub struct TypeParameter {
     /// The bounds (extends constraints). Empty means extends Object implicitly.
     /// Multiple bounds means T extends A & B & C
     pub bounds: Vec<ArgType>,
+    /// Variance for Kotlin generics (in/out modifiers)
+    /// Java generics are always invariant at declaration site
+    pub variance: TypeVariance,
+    /// Whether this type parameter is reified (Kotlin inline functions)
+    pub reified: bool,
 }
 
 /// Processing state for classes and methods (mirrors Java JADX's ProcessState)

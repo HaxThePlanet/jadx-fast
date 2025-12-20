@@ -78,6 +78,7 @@ fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str, comment
 }
 
 /// Generate type parameters declaration (e.g., "<T, E extends Number>")
+/// Supports Kotlin variance annotations (in/out modifiers)
 /// Like JADX's ClassGen.addGenericTypeParameters()
 pub fn generate_type_parameters<W: CodeWriter>(
     type_params: &[TypeParameter],
@@ -93,6 +94,19 @@ pub fn generate_type_parameters<W: CodeWriter>(
         if i > 0 {
             code.add(", ");
         }
+
+        // Add Kotlin variance modifier if present (in/out)
+        // This produces declarations like `<in T>` or `<out E>`
+        if let Some(keyword) = param.variance.kotlin_keyword() {
+            code.add(keyword);
+            code.add(" ");
+        }
+
+        // Add reified modifier if present (for Kotlin inline functions)
+        if param.reified {
+            code.add("reified ");
+        }
+
         code.add(&param.name);
 
         // Add bounds if present (e.g., "extends Number & Comparable<T>")
@@ -828,5 +842,88 @@ mod tests {
         let code = writer.finish();
 
         assert!(code.contains("static {"));
+    }
+
+    #[test]
+    fn test_type_parameters_with_variance() {
+        use dexterity_ir::info::TypeVariance;
+
+        // Test invariant (default) - no modifier
+        let invariant_params = vec![TypeParameter {
+            name: "T".to_string(),
+            bounds: vec![],
+            variance: TypeVariance::Invariant,
+            reified: false,
+        }];
+        let mut writer = SimpleCodeWriter::new();
+        generate_type_parameters(&invariant_params, None, &mut writer);
+        assert_eq!(writer.finish(), "<T>");
+
+        // Test covariant (out) - Kotlin producer
+        let out_params = vec![TypeParameter {
+            name: "E".to_string(),
+            bounds: vec![],
+            variance: TypeVariance::Covariant,
+            reified: false,
+        }];
+        let mut writer = SimpleCodeWriter::new();
+        generate_type_parameters(&out_params, None, &mut writer);
+        assert_eq!(writer.finish(), "<out E>");
+
+        // Test contravariant (in) - Kotlin consumer
+        let in_params = vec![TypeParameter {
+            name: "K".to_string(),
+            bounds: vec![],
+            variance: TypeVariance::Contravariant,
+            reified: false,
+        }];
+        let mut writer = SimpleCodeWriter::new();
+        generate_type_parameters(&in_params, None, &mut writer);
+        assert_eq!(writer.finish(), "<in K>");
+
+        // Test reified type parameter
+        let reified_params = vec![TypeParameter {
+            name: "T".to_string(),
+            bounds: vec![],
+            variance: TypeVariance::Invariant,
+            reified: true,
+        }];
+        let mut writer = SimpleCodeWriter::new();
+        generate_type_parameters(&reified_params, None, &mut writer);
+        assert_eq!(writer.finish(), "<reified T>");
+
+        // Test combined: out + reified
+        let combined_params = vec![TypeParameter {
+            name: "R".to_string(),
+            bounds: vec![],
+            variance: TypeVariance::Covariant,
+            reified: true,
+        }];
+        let mut writer = SimpleCodeWriter::new();
+        generate_type_parameters(&combined_params, None, &mut writer);
+        assert_eq!(writer.finish(), "<out reified R>");
+    }
+
+    #[test]
+    fn test_multiple_type_parameters_with_variance() {
+        use dexterity_ir::info::TypeVariance;
+
+        let params = vec![
+            TypeParameter {
+                name: "K".to_string(),
+                bounds: vec![],
+                variance: TypeVariance::Contravariant, // in
+                reified: false,
+            },
+            TypeParameter {
+                name: "V".to_string(),
+                bounds: vec![],
+                variance: TypeVariance::Covariant, // out
+                reified: false,
+            },
+        ];
+        let mut writer = SimpleCodeWriter::new();
+        generate_type_parameters(&params, None, &mut writer);
+        assert_eq!(writer.finish(), "<in K, out V>");
     }
 }

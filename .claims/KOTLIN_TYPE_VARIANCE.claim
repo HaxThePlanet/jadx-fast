@@ -1,0 +1,31 @@
+Task: Kotlin Type Variance Annotations
+Priority: P2-MEDIUM
+Agent: Claude Opus 4.5
+Claimed: 2025-12-19 20:10:00
+Completed: 2025-12-19 20:30:00
+Status: COMPLETED
+
+Description:
+Implemented Kotlin type variance annotations (in/out) from metadata.
+Kotlin Metadata Parity improved from 61% to ~67% (adds variance + reified support).
+
+Changes Made:
+1. Added TypeVariance enum to dexterity-ir/src/info.rs with Invariant/Covariant/Contravariant
+2. Added variance and reified fields to TypeParameter struct
+3. Added KotlinVariance enum and KotlinTypeParameter to dexterity-kotlin/src/types.rs
+4. Added parse_type_parameter() in parser.rs to extract variance from proto metadata
+5. Updated extractor.rs to apply variance from Kotlin metadata to ClassData
+6. Updated generate_type_parameters() in method_gen.rs to emit `<in T>`, `<out T>`, `<reified T>`
+7. Added 2 unit tests for variance generation
+
+Files Changed:
+- crates/dexterity-ir/src/info.rs - TypeVariance enum + TypeParameter fields
+- crates/dexterity-ir/src/lib.rs - Export TypeVariance
+- crates/dexterity-kotlin/src/types.rs - KotlinVariance, KotlinTypeParameter
+- crates/dexterity-kotlin/src/lib.rs - Export new types
+- crates/dexterity-kotlin/src/parser.rs - parse_type_parameter()
+- crates/dexterity-kotlin/src/extractor.rs - Apply variance to IR
+- crates/dexterity-codegen/src/method_gen.rs - Emit variance annotations
+- crates/dexterity-cli/src/converter.rs - Updated TypeParameter construction
+
+Tests: All 102 codegen tests pass, 2 new variance tests added

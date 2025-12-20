@@ -12,7 +12,7 @@ pub mod visitor;
 // Re-exports
 pub use visitor::KotlinAwareCondition;
 pub use extractor::apply_getter_recognition;
-pub use types::{KotlinClassMetadata, KotlinFunction, KotlinProperty, KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags};
+pub use types::{KotlinClassMetadata, KotlinFunction, KotlinProperty, KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags, KotlinTypeParameter, KotlinVariance};
 
 // Re-export generated protobuf types
 pub mod proto {

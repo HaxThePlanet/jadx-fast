@@ -1,17 +1,17 @@
 # Kotlin Metadata Parity: Dexterity vs JADX
 
-**Last Updated:** December 17, 2025
+**Last Updated:** December 19, 2025
 
 ## Executive Summary
 
 | Metric | Value |
 |--------|-------|
-| **Overall Parity** | **61%** (11/18 JADX features implemented) |
+| **Overall Parity** | **67%** (12/18 JADX features implemented) |
 | **Proto Parsing** | 95% (comprehensive metadata schema) |
-| **IR Extraction** | 61% (significantly improved feature usage) |
-| **Production Impact** | Medium - class/method/field names work, function modifiers tracked |
+| **IR Extraction** | 67% (significantly improved feature usage) |
+| **Production Impact** | Medium - class/method/field names work, function modifiers tracked, **variance annotations supported** |
 
-Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130 lines total) and now implements **11 practical extraction features** including field names, data class detection, companion objects, and function modifiers.
+Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lines total) and now implements **12 practical extraction features** including field names, data class detection, companion objects, function modifiers, and **type parameter variance (in/out/reified)**.
 
 ---
 
@@ -43,8 +43,9 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130 line
 |---------|:----:|:---------:|:------:|-------|
 | Nullable types | NO | PARSED | N/A | `Type.nullable` field defined |
 | Generic type parameters | NO | PARSED | N/A | Full `TypeParameter` message |
-| Type variance (in/out) | NO | PARSED | N/A | `variance` enum defined |
+| Type variance (in/out) | NO | YES | **DONE** | `<in T>`, `<out T>` annotations emitted |
 | Type projections | NO | PARSED | N/A | Star projection supported |
+| Reified type parameters | NO | YES | **DONE** | `<reified T>` for inline functions |
 
 ### Function Modifier Features
 
@@ -138,13 +139,34 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130 line
 
 **Current Parity:** 61%
 
-### P2: Remaining Tasks (3 tasks)
+### P2: Remaining Tasks (2 tasks)
 
 | Task | Impact | Effort | Notes |
 |------|--------|--------|-------|
 | 7. toString() bytecode parsing | MEDIUM | HIGH | Needs bytecode pattern matching |
-| 8. Type variance annotations | LOW | MEDIUM | Type system integration |
+| ~~8. Type variance annotations~~ | ~~LOW~~ | ~~MEDIUM~~ | **DONE** (Dec 19, 2025) |
 | 9. SMAP debug extension support | LOW | HIGH | New attribute parser |
+
+**Current Parity:** 67% (12/18 JADX features implemented)
+
+#### Completed: Type Variance Annotations (Dec 19, 2025)
+
+Implemented full support for Kotlin declaration-site variance:
+- Added `TypeVariance` enum (Invariant/Covariant/Contravariant) to IR
+- Parse variance from Kotlin metadata protobuf (`TypeParameter.variance`)
+- Generate proper `<in T>`, `<out T>` annotations in output
+- Added `reified` modifier support for inline functions
+- 2 unit tests for variance generation
+
+Example output:
+```kotlin
+// Before (61% parity)
+interface Consumer<T> { ... }
+
+// After (67% parity)
+interface Consumer<in T> { ... }  // Contravariant
+interface Producer<out E> { ... } // Covariant
+```
 
 **Expected Parity After P2:** 100%
 

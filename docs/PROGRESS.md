@@ -418,6 +418,36 @@ Results:
 
 ## Recent Fixes
 
+### Dec 19, 2025 - Kotlin Type Variance Annotations (P2-MEDIUM)
+
+**Feature:** Kotlin declaration-site variance support for type parameters
+**Impact:** Kotlin Metadata parity improved from 61% to 67% (12/18 features)
+
+**Implementation:**
+- Added `TypeVariance` enum (Invariant/Covariant/Contravariant) to `dexterity-ir`
+- Added `variance` and `reified` fields to `TypeParameter` struct
+- `parse_type_parameter()` extracts variance from Kotlin metadata protobuf
+- `generate_type_parameters()` emits `<in T>`, `<out T>`, `<reified T>` annotations
+- 2 new unit tests for variance generation
+
+**Example output:**
+```kotlin
+// Before
+interface Consumer<T> { ... }
+
+// After
+interface Consumer<in T> { ... }  // Contravariant
+interface Producer<out E> { ... } // Covariant
+inline fun <reified T> check() { ... }
+```
+
+**Files Changed:**
+- `crates/dexterity-ir/src/info.rs` - Added TypeVariance enum, variance/reified fields to TypeParameter
+- `crates/dexterity-cli/src/converter.rs` - parse_type_parameter() extracts variance
+- `crates/dexterity-codegen/src/method_gen.rs` - generate_type_parameters() emits annotations
+
+---
+
 ### Dec 19, 2025 - Fix 21: Compose UI Complexity Detection
 
 **Commits:** `5333a0956` (complexity detection), related SSA prefix stripping

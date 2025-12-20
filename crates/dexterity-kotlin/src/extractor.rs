@@ -1,7 +1,7 @@
 //! Name extraction and application to IR
 
 use anyhow::Result;
-use dexterity_ir::{ClassData, FieldData, KotlinClassInfo};
+use dexterity_ir::{ClassData, FieldData, KotlinClassInfo, TypeParameter};
 use crate::types::{KotlinClassMetadata, KotlinKind, KotlinProperty};
 
 /// Apply Kotlin metadata names to IR class structure
@@ -22,6 +22,39 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
         sealed_subclasses: metadata.sealed_subclasses.clone(),
     };
     cls.set_kotlin_class_info(kotlin_info);
+
+    // 2.5. Apply type parameters with variance from Kotlin metadata
+    // This overrides the Java signature parsing which doesn't have variance info
+    if !metadata.type_parameters.is_empty() {
+        let type_params: Vec<TypeParameter> = metadata.type_parameters.iter().map(|ktp| {
+            TypeParameter {
+                name: ktp.name.clone(),
+                bounds: vec![], // TODO: Parse upper_bounds to ArgType
+                variance: ktp.variance.to_ir(),
+                reified: ktp.reified,
+            }
+        }).collect();
+
+        // Only update if we have type parameters from Kotlin metadata
+        // This preserves any bounds that were parsed from Java signature
+        if !type_params.is_empty() {
+            // Merge variance info into existing type parameters
+            for (i, ktp) in type_params.iter().enumerate() {
+                if i < cls.type_parameters.len() {
+                    // Preserve bounds from Java signature, add Kotlin variance
+                    cls.type_parameters[i].variance = ktp.variance;
+                    cls.type_parameters[i].reified = ktp.reified;
+                    tracing::trace!(
+                        "Applied Kotlin variance {:?} to type param {} in class {}",
+                        ktp.variance, cls.type_parameters[i].name, cls.class_type
+                    );
+                } else {
+                    // New type parameter from Kotlin
+                    cls.type_parameters.push(ktp.clone());
+                }
+            }
+        }
+    }
 
     // 3. Apply method names and parameter names
     for kotlin_func in &metadata.functions {

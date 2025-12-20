@@ -7,7 +7,6 @@
 //!
 //! These optimizations run after region building to improve code quality.
 
-use dexterity_ir::attributes::AFlag;
 use dexterity_ir::regions::{Condition, ConditionMode, Region, RegionContent};
 
 /// Result of processing if regions
@@ -294,19 +293,13 @@ fn is_if_region(region: &Region) -> bool {
 }
 
 /// Check if a region is a simple exit (single return/throw)
-fn is_simple_exit(region: &Region) -> bool {
-    match region {
-        Region::Sequence(contents) => {
-            contents.len() == 1
-                && matches!(
-                    contents.first(),
-                    Some(RegionContent::Block(_))
-                )
-            // Would need block info to check if it's return/throw
-            // For now, assume sequences with single block might be exits
-        }
-        _ => false,
-    }
+/// Note: Without block info, we can't determine this accurately.
+/// This is a placeholder that returns false - let codegen handle exit detection.
+#[allow(dead_code)]
+fn is_simple_exit(_region: &Region) -> bool {
+    // We can't determine if a block is return/throw without instruction info
+    // Return false to avoid false positives that would skip else-if marking
+    false
 }
 
 /// Check if a region ends with return or throw

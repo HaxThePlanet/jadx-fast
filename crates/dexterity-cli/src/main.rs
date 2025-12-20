@@ -1637,9 +1637,19 @@ fn should_skip_class_full(class_name: &str) -> bool {
         "Ljava/",
         "Ljavax/",
         "Lsun/",
-        "Lcom/google/android/",
+        "Lcom/google/",
         "Lcom/android/internal/",
         "Lcom/android/support/",
+        "Lcom/facebook/",
+        "Lcom/twitter/",
+        "Lcom/unity3d/",
+        "Lokhttp3/",
+        "Lokio/",
+        "Lretrofit2/",
+        "Lio/reactivex/",
+        "Lrx/",
+        "Lorg/intellij/",
+        "Lorg/jetbrains/",
     ];
 
     for prefix in SKIP_PREFIXES {
@@ -1832,9 +1842,6 @@ fn should_extract_raw_file(name: &str) -> bool {
     if name.starts_with("lib/") && name.ends_with(".so") {
         return true;
     }
-    // kotlin metadata
-    if name.starts_with("kotlin/") {
-        return true;
-    }
+    // Skip kotlin/ directory - just stdlib metadata, no RE value
     false
 }

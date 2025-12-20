@@ -6,7 +6,7 @@ use dexterity_ir::{Annotation, AnnotationValue};
 use prost::Message;
 use crate::types::{
     KotlinClassMetadata, KotlinKind, KotlinFunction, KotlinParameter, KotlinProperty,
-    KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags,
+    KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags, KotlinTypeParameter, KotlinVariance,
 };
 use crate::proto;
 
@@ -244,6 +244,13 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
         .filter_map(|&idx| strings.get(idx as usize).cloned())
         .collect();
 
+    // Extract type parameters with variance
+    let type_parameters = proto_class
+        .type_parameter
+        .iter()
+        .map(|tp| parse_type_parameter(tp, &strings))
+        .collect::<Result<Vec<_>>>()?;
+
     Ok(KotlinClassMetadata {
         kind: KotlinKind::Class,
         class_name,
@@ -253,6 +260,7 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
         is_data_class,
         flags,
         sealed_subclasses,
+        type_parameters,
     })
 }
 
@@ -280,6 +288,7 @@ fn parse_package_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Res
         is_data_class: false,
         flags: crate::types::KotlinClassFlags::default(),
         sealed_subclasses: vec![],
+        type_parameters: vec![], // Package facades don't have type parameters
     })
 }
 
@@ -296,6 +305,34 @@ fn parse_synthetic_class_metadata(_bytes: &[u8], _annot: &KotlinMetadataAnnotati
         is_data_class: false,
         flags: crate::types::KotlinClassFlags::default(),
         sealed_subclasses: vec![],
+        type_parameters: vec![], // Synthetic classes don't have type parameters
+    })
+}
+
+/// Parse a type parameter from proto
+fn parse_type_parameter(tp: &proto::TypeParameter, strings: &[String]) -> Result<KotlinTypeParameter> {
+    let name = strings
+        .get(tp.name as usize)
+        .ok_or_else(|| anyhow!("Invalid type parameter name index"))?
+        .clone();
+
+    // Extract variance - proto enum: IN=0, OUT=1, INV=2
+    let variance = tp.variance
+        .map(|v| KotlinVariance::from_proto(v as i32))
+        .unwrap_or(KotlinVariance::Invariant);
+
+    // Extract upper bounds (simplified - we just get the bound names)
+    // In full implementation, we'd parse the Type message recursively
+    let upper_bounds = tp.upper_bound_id
+        .iter()
+        .filter_map(|&idx| strings.get(idx as usize).cloned())
+        .collect();
+
+    Ok(KotlinTypeParameter {
+        name,
+        variance,
+        reified: tp.reified.unwrap_or(false),
+        upper_bounds,
     })
 }
 

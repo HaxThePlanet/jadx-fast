@@ -42,6 +42,7 @@ use crate::block_split::BasicBlock;
 use crate::cfg::CFG;
 use crate::finally_extract::{apply_finally_marking, extract_finally};
 use crate::conditionals::{detect_conditionals, find_condition_chains, IfInfo, MergedCondition, MergeMode};
+use crate::if_region_visitor::process_if_regions;
 use crate::loops::{detect_loops, LoopInfo};
 
 /// Try block information
@@ -244,7 +245,12 @@ pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[dexterity_ir::TryBl
     let merged = find_condition_chains(&conditionals, cfg);
 
     let mut builder = RegionBuilder::new(cfg, &loops, &conditionals, &syncs, &tries, &merged);
-    builder.make_method_region()
+    let mut region = builder.make_method_region();
+
+    // Apply if-region optimizations (branch reordering, else-if chain marking)
+    process_if_regions(&mut region);
+
+    region
 }
 
 /// Mark duplicated finally code with `DONT_GENERATE` before region building.

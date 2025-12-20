@@ -508,7 +508,12 @@ fn parse_type_parameters(chars: &mut std::iter::Peekable<std::str::Chars>) -> Ve
             }
         }
 
-        params.push(TypeParameter { name, bounds });
+        params.push(TypeParameter {
+            name,
+            bounds,
+            variance: dexterity_ir::info::TypeVariance::Invariant, // Java generics are invariant
+            reified: false, // Java doesn't have reified type parameters
+        });
     }
 
     // Consume the closing '>'

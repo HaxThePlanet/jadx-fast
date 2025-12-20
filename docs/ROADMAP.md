@@ -226,10 +226,11 @@ Added 5 optimization passes to `body_gen.rs` that were previously only in `decom
    - JADX validation helpers: `used_only_in_loop()`, `assign_only_in_loop()`
    - Enhanced `detect_indexed_for()` with PHI validation and escape analysis
 
-8. **Phase 5: IfRegionVisitor** (TODO)
+8. **Phase 5: IfRegionVisitor** ✓ (DONE Dec 19, 2025)
    - Else-if chain detection: `if {} else { if {} else {} }` → `if {} else if {} else {}`
-   - Empty branch removal
-   - Branch reordering for readability
+   - Empty branch removal (at codegen level)
+   - Branch reordering for readability (8 JADX rules)
+   - Implementation: `crates/dexterity-passes/src/if_region_visitor.rs`
 
 9. **Phase 6: SwitchBreakVisitor** (PARTIAL - Dec 18, 2025)
    - ✅ Remove unreachable breaks after return/throw - Already handled by `case_ends_with_exit()`
@@ -269,7 +270,7 @@ Added 5 optimization passes to `body_gen.rs` that were previously only in `decom
 | Code Generation | body_gen.rs + expr_gen.rs | 8,594 | DONE |
 | Exception Handling | region_builder.rs | - | DONE |
 | Deobfuscation | deobf.rs | 1,007 | DONE |
-| Kotlin Metadata | dexterity-kotlin/*.rs | 992 | **61% parity** |
+| Kotlin Metadata | dexterity-kotlin/*.rs | 992 | **67% parity** |
 
 ### To Clone Next
 
@@ -590,7 +591,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - [x] Enhanced condition merging (IfRegionMaker) - **DONE Dec 17** (merge_nested_ifs_recursive, AND/OR/Mixed patterns)
 - [x] ForLoop structure details - **DONE Dec 17** (ForLoopInfo, ForEachLoopInfo, IterableSource, LoopDetails)
 - [x] LoopRegionVisitor - while→for upgrade, condition inversion, JADX validation helpers (Dec 19)
-- [ ] IfRegionVisitor - else-if chains, empty branch removal
+- [x] IfRegionVisitor - else-if chains, empty branch removal, branch reordering (Dec 19)
 - [x] SwitchBreakVisitor - unreachable break removal (Dec 18); common break extraction deferred
 
 ### Variable Naming ([JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md)) - **100% JADX Parity**
@@ -956,6 +957,30 @@ cargo test --test integration_test_framework
    - Integration with AliasAwareDexInfo for cross-class type resolution
 
 5. **All Tests Passing**: 157+ unit tests, integration tests confirmed working
+
+## Dec 19, 2025 - Kotlin Type Variance Annotations (61% → 67% parity)
+
+### Type Variance Annotations ✅ (P2-MEDIUM)
+- Added `TypeVariance` enum (Invariant/Covariant/Contravariant) to `dexterity-ir`
+- Added `variance` and `reified` fields to `TypeParameter` struct
+- `parse_type_parameter()` extracts variance from Kotlin metadata protobuf
+- `generate_type_parameters()` emits `<in T>`, `<out T>`, `<reified T>` annotations
+- 2 new unit tests for variance generation
+
+**Example output:**
+```kotlin
+// Before (61% parity)
+interface Consumer<T> { ... }
+
+// After (67% parity)
+interface Consumer<in T> { ... }  // Contravariant
+interface Producer<out E> { ... } // Covariant
+inline fun <reified T> check() { ... }
+```
+
+**Kotlin Metadata Parity:** 61% → **67%** (12/18 JADX features implemented)
+
+---
 
 ## Dec 17, 2025 - Kotlin Metadata Parity Improved (28% → 61%)
 

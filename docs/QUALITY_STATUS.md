@@ -479,6 +479,30 @@ Type obj = new Type(args);  // Clean, readable constructor call
 - **Result:** 79% of complex switch-over-string patterns now show string literals instead of hashCodes
 - **Files Changed:** `dexterity-codegen/src/body_gen.rs`
 
+### Dec 19, 2025 - Kotlin Type Variance Annotations (67% parity)
+
+**Feature: Kotlin declaration-site variance support**
+- **Purpose:** Emit `<in T>`, `<out T>`, `<reified T>` for Kotlin type parameters
+- **Kotlin Metadata Parity:** 61% to **67%** (12/18 JADX features implemented)
+- **Implementation:**
+  1. Added `TypeVariance` enum (Invariant/Covariant/Contravariant) to `dexterity-ir`
+  2. Added `variance` and `reified` fields to `TypeParameter` struct
+  3. `parse_type_parameter()` extracts variance from Kotlin metadata protobuf
+  4. `generate_type_parameters()` emits proper variance annotations
+- **Example output:**
+  ```kotlin
+  interface Consumer<in T> { ... }  // Contravariant
+  interface Producer<out E> { ... } // Covariant
+  inline fun <reified T> check() { ... }
+  ```
+- **Files Changed:**
+  - `crates/dexterity-ir/src/info.rs` - TypeVariance enum, variance/reified fields
+  - `crates/dexterity-cli/src/converter.rs` - parse_type_parameter() variance extraction
+  - `crates/dexterity-codegen/src/method_gen.rs` - generate_type_parameters() annotation emission
+- **Tests:** 2 new unit tests for variance generation
+
+---
+
 ### Dec 17, 2025 - Kotlin Alias Prepass for Cross-Class Resolution
 
 **Feature: Kotlin Metadata Prepass**
@@ -1038,7 +1062,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 | dexterity-codegen | Java source generation | ~11,685 |
 | dexterity-resources | AXML and resources.arsc | ~4,032 |
 | dexterity-deobf | Deobfuscation | ~1,825 |
-| dexterity-kotlin | Kotlin metadata (61% parity) | ~991 |
+| dexterity-kotlin | Kotlin metadata (67% parity) | ~991 |
 | dexterity-cli | CLI application | ~5,254 |
 
 ---
