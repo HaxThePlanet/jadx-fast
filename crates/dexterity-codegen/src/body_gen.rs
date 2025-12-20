@@ -2172,6 +2172,10 @@ fn body_has_meaningful_content(body: &Region, foreach_info: &ForEachInfo, ctx: &
                 // Break/continue are single statements, no meaningful content to count
                 0
             }
+            Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => {
+                // Ternaries are meaningful statements
+                1
+            }
         }
     }
 
@@ -2229,6 +2233,10 @@ fn body_has_meaningful_structure(body: &Region, skip_block: u32, ctx: &BodyGenCo
             Region::Break { .. } | Region::Continue { .. } => {
                 // Break/continue are single statements, no blocks to count
                 0
+            }
+            Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => {
+                // Ternaries are meaningful statements
+                1
             }
         }
     }
@@ -4875,6 +4883,74 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             }
             code.newline();
         }
+
+        Region::TernaryAssignment {
+            condition,
+            dest_reg,
+            dest_version,
+            then_value_block,
+            else_value_block,
+        } => {
+            // Generate ternary assignment: dest = cond ? then_value : else_value;
+            let dest_var = ctx.expr_gen.get_var_name(
+                &dexterity_ir::instructions::RegisterArg::with_ssa(*dest_reg, *dest_version)
+            );
+            let condition_str = generate_condition(condition, ctx);
+
+            // Try to extract value expressions from blocks
+            let then_value = ctx.blocks.get(then_value_block)
+                .and_then(|block| block.instructions.last())
+                .map(|insn| ctx.expr_gen.gen_insn_value(&insn.insn_type, ctx))
+                .unwrap_or_else(|| "/* then_value */".to_string());
+
+            let else_value = ctx.blocks.get(else_value_block)
+                .and_then(|block| block.instructions.last())
+                .map(|insn| ctx.expr_gen.gen_insn_value(&insn.insn_type, ctx))
+                .unwrap_or_else(|| "/* else_value */".to_string());
+
+            code.start_line()
+                .add(&dest_var)
+                .add(" = ")
+                .add("(")
+                .add(&condition_str)
+                .add(") ? ")
+                .add(&then_value)
+                .add(" : ")
+                .add(&else_value)
+                .add(";")
+                .newline();
+        }
+
+        Region::TernaryReturn {
+            condition,
+            then_value_block,
+            else_value_block,
+        } => {
+            // Generate ternary return: return cond ? then_value : else_value;
+            let condition_str = generate_condition(condition, ctx);
+
+            // Try to extract value expressions from blocks
+            let then_value = ctx.blocks.get(then_value_block)
+                .and_then(|block| block.instructions.last())
+                .map(|insn| ctx.expr_gen.gen_insn_value(&insn.insn_type, ctx))
+                .unwrap_or_else(|| "/* then_value */".to_string());
+
+            let else_value = ctx.blocks.get(else_value_block)
+                .and_then(|block| block.instructions.last())
+                .map(|insn| ctx.expr_gen.gen_insn_value(&insn.insn_type, ctx))
+                .unwrap_or_else(|| "/* else_value */".to_string());
+
+            code.start_line()
+                .add("return ")
+                .add("(")
+                .add(&condition_str)
+                .add(") ? ")
+                .add(&then_value)
+                .add(" : ")
+                .add(&else_value)
+                .add(";")
+                .newline();
+        }
     }
 }
 
@@ -4998,6 +5074,7 @@ fn get_handler_entry_block(region: &Region) -> Option<u32> {
         Region::TryCatch { try_region, .. } => get_handler_entry_block(try_region),
         Region::Synchronized { enter_block, .. } => Some(*enter_block),
         Region::Break { .. } | Region::Continue { .. } => None,
+        Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => None,
     }
 }
 

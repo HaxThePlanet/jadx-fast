@@ -1783,4 +1783,76 @@ mod tests {
         let color_val = RawValue::new(TYPE_INT_COLOR_ARGB8, 0xff000000);
         assert_eq!(parser.decode_value(&color_val), Some("#ff000000".to_string()));
     }
+
+    #[test]
+    fn test_sanitize_resource_name_valid_names() {
+        // Valid names should not change
+        assert_eq!(sanitize_resource_name("name"), ("name".to_string(), false));
+        assert_eq!(sanitize_resource_name("app_name"), ("app_name".to_string(), false));
+        assert_eq!(sanitize_resource_name("ic_launcher"), ("ic_launcher".to_string(), false));
+        assert_eq!(sanitize_resource_name("Theme.AppCompat"), ("Theme.AppCompat".to_string(), false));
+        assert_eq!(sanitize_resource_name("name0"), ("name0".to_string(), false));
+        assert_eq!(sanitize_resource_name("na0me"), ("na0me".to_string(), false));
+    }
+
+    #[test]
+    fn test_sanitize_resource_name_dollar_sign() {
+        // $ is invalid - should be converted to _
+        assert_eq!(sanitize_resource_name("$name"), ("_name".to_string(), true));
+        assert_eq!(sanitize_resource_name("na$me"), ("na_me".to_string(), true));
+        assert_eq!(sanitize_resource_name("name$"), ("name_".to_string(), true));
+        assert_eq!(sanitize_resource_name("$ic_launcher_foreground__0"), ("_ic_launcher_foreground__0".to_string(), true));
+    }
+
+    #[test]
+    fn test_sanitize_resource_name_digit_start() {
+        // Digit at start is invalid
+        assert_eq!(sanitize_resource_name("0name"), ("_0name".to_string(), true));
+        assert_eq!(sanitize_resource_name("123abc"), ("_123abc".to_string(), true));
+    }
+
+    #[test]
+    fn test_sanitize_resource_name_hyphen() {
+        // Hyphen is invalid
+        assert_eq!(sanitize_resource_name("-name"), ("_name".to_string(), true));
+        assert_eq!(sanitize_resource_name("na-me"), ("na_me".to_string(), true));
+        assert_eq!(sanitize_resource_name("name-"), ("name_".to_string(), true));
+    }
+
+    #[test]
+    fn test_sanitize_resource_name_slash() {
+        // Slash is invalid
+        assert_eq!(sanitize_resource_name("/name"), ("_name".to_string(), true));
+        assert_eq!(sanitize_resource_name("na/me"), ("na_me".to_string(), true));
+    }
+
+    #[test]
+    fn test_sanitize_resource_name_dot_start() {
+        // Dot at start is invalid, but dot in middle is ok
+        assert_eq!(sanitize_resource_name(".name"), ("_.name".to_string(), true));
+        assert_eq!(sanitize_resource_name("na.me"), ("na.me".to_string(), false));
+    }
+
+    #[test]
+    fn test_sanitize_resource_name_reserved_words() {
+        // Reserved words should be marked as changed (but not modified)
+        assert_eq!(sanitize_resource_name("if"), ("if".to_string(), true));
+        assert_eq!(sanitize_resource_name("default"), ("default".to_string(), true));
+        assert_eq!(sanitize_resource_name("true"), ("true".to_string(), true));
+        assert_eq!(sanitize_resource_name("class"), ("class".to_string(), true));
+    }
+
+    #[test]
+    fn test_sanitize_resource_name_empty() {
+        assert_eq!(sanitize_resource_name(""), ("_".to_string(), true));
+    }
+
+    #[test]
+    fn test_normalize_resource_name() {
+        // normalize_resource_name adds _res_0x{id} suffix when name changed
+        assert_eq!(normalize_resource_name("$name", 0x7f040000), "_name_res_0x7f040000");
+        assert_eq!(normalize_resource_name("0name", 0x7f040001), "_0name_res_0x7f040001");
+        assert_eq!(normalize_resource_name("valid_name", 0x7f040002), "valid_name");
+        assert_eq!(normalize_resource_name("", 0x7f040003), "__res_0x7f040003");
+    }
 }

@@ -5,12 +5,13 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 **Status (Dec 19, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
 
-**31+ total issues (ALL RESOLVED)**
+**32+ total issues (ALL RESOLVED)**
 - DEC19-OPEN-001: Variable 'obj' prefix - **RESOLVED** (44% reduction via type-aware declaration)
 - DEC19-OPEN-002: Array for-each loop detection - **RESOLVED** (working since Dec 16)
 - DEC19-OPEN-003: StringBuilder chain collapsing - **RESOLVED** (handled at codegen level)
 - DEC19-OPEN-004: Synthetic accessor resolution - **RESOLVED** (access$XXX -> direct field/method)
 - DEC19-FIX-021: Compose UI complexity detection - **RESOLVED** (939 lines -> 7-line clean stub)
+- DEC19-FIX-022: Resource naming convention - **RESOLVED** ($prefix -> _prefix + _res_0x{id} suffix)
 
 24 of 24 P1-P2 issues fully resolved:
 - Overall Quality: **95.5%+** (Dec 17 QA re-run) - improved from 77.1%/70.0%

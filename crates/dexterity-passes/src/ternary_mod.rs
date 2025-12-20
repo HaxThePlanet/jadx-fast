@@ -161,6 +161,10 @@ fn analyze_region(region: &Region, blocks: &[BasicBlock], result: &mut TernaryMo
         Region::Break { .. } | Region::Continue { .. } => {
             // Break and continue are leaf nodes, nothing to analyze
         }
+        Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => {
+            // TernaryAssignment and TernaryReturn are already transformed ternaries
+            // Nothing to analyze
+        }
     }
 }
 

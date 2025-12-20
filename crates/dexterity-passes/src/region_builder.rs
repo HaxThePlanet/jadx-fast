@@ -2181,6 +2181,7 @@ fn refine_loops_recursive(region: &mut Region, patterns: &LoopPatternResult) {
             refine_loops_recursive(body, patterns);
         }
         Region::Break { .. } | Region::Continue { .. } => {}
+        Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => {}
     }
 }
 

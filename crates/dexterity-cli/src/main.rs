@@ -493,13 +493,15 @@ fn process_resources_streaming(
 
     // Parse resources.arsc first to get resource name mappings
     let mut res_names: HashMap<u32, String> = HashMap::new();
+    let mut path_mappings: HashMap<String, String> = HashMap::new();
     if let Some(ref data) = arsc_data {
         tracing::debug!("Parsing resources.arsc ({} bytes)", data.len());
         let mut arsc_parser = ArscParser::new();
         match arsc_parser.parse(data) {
             Ok(()) => {
                 res_names = arsc_parser.get_res_names();
-                tracing::info!("Parsed {} resource entries", res_names.len());
+                path_mappings = arsc_parser.get_path_mappings();
+                tracing::info!("Parsed {} resource entries ({} path mappings)", res_names.len(), path_mappings.len());
 
                 // Generate values/*.xml files
                 let res_dir = out_res.join("res");
@@ -575,7 +577,9 @@ fn process_resources_streaming(
                         Ok(xml) => {
                             // Normalize config qualifiers (remove redundant -v21 for anydpi, etc.)
                             let normalized_name = normalize_config_qualifier(xml_name);
-                            let out_path = out_res.join(&normalized_name);
+                            // Apply resource name mapping if available (JADX compatibility)
+                            let final_name = apply_resource_path_mapping(&normalized_name, &path_mappings);
+                            let out_path = out_res.join(&final_name);
                             if let Some(parent) = out_path.parent() {
                                 std::fs::create_dir_all(parent)?;
                             }
@@ -1783,6 +1787,31 @@ fn normalize_config_qualifier(path: &str) -> String {
     }
 
     result
+}
+
+/// Apply resource path mapping for JADX compatibility.
+/// Handles resource names with invalid chars ($, /, -, etc.) that need sanitization.
+/// The path_mappings maps original paths (without extension) to sanitized paths.
+fn apply_resource_path_mapping(
+    path: &str,
+    path_mappings: &std::collections::HashMap<String, String>,
+) -> String {
+    if path_mappings.is_empty() {
+        return path.to_string();
+    }
+
+    // Extract the path without extension
+    let (base_path, extension) = match path.rfind('.') {
+        Some(idx) if path[idx..].len() <= 10 => (&path[..idx], &path[idx..]),
+        _ => (path, ""),
+    };
+
+    // Check if we have a mapping for this base path
+    if let Some(new_base) = path_mappings.get(base_path) {
+        format!("{}{}", new_base, extension)
+    } else {
+        path.to_string()
+    }
 }
 
 /// Check if a file should be extracted as raw (unprocessed) from the APK

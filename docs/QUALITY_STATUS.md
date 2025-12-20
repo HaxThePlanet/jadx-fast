@@ -3,7 +3,7 @@
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 19, 2025)
 **Target:** 85+/100 Quality Score | **Result:** 96%+ (A grade, Dec 19 assessment)
 **Code Issues:** All P0-P3 issues FIXED | **31+ total issues (ALL RESOLVED - DEC19-OPEN-004 synthetic accessors fixed Dec 19)**
-**Resource Issues:** **4 FIXED** (XML enums, localized strings, density qualifiers, missing resource files) | **1 remaining** (P3 cosmetic)
+**Resource Issues:** **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
 ---
@@ -30,7 +30,7 @@
 | Total Tests | **1,176 passing** |
 | Speed Advantage | 3-88x faster than JADX |
 | **Remaining Code Issues** | **1 remaining** (P3 synthetic accessor resolution - cosmetic, see below) |
-| **Remaining Resource Issues** | **1 remaining** (P3 cosmetic) - 4 FIXED (XML enums, localized strings, density qualifiers, missing resource files) |
+| **Remaining Resource Issues** | **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention) |
 | Synthetic Accessor Resolution | **Investigation complete** (Dec 19) - Solution designed, not implemented |
 
 ---
@@ -592,13 +592,20 @@ Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/r
 3. **Density-specific values directories** - Generates `values-hdpi/`, `values-mdpi/`, `values-xhdpi/` with `drawables.xml` for density-specific drawable color resources
 4. **Version-specific values directories** - Generates `values-v30/` with `integers.xml` for API version-specific integer resources
 
-#### P3-LOW: Resource Naming Convention (Open - Cosmetic)
+#### P3-LOW: Resource Naming Convention - **RESOLVED (Dec 19, 2025)**
 
-| Aspect | Dexterity | JADX |
-|--------|-----------|------|
-| Prefix | `$` | `_` |
-| Resource ID | Not included | Included as hex suffix |
-| Example | `$ic_launcher_foreground__0.xml` | `_ic_launcher_foreground__0_res_0x7f040000.xml` |
+| Aspect | Dexterity (Before) | Dexterity (After) | JADX |
+|--------|---------------------|-------------------|------|
+| Prefix | `$` | `_` | `_` |
+| Resource ID | Not included | Included as hex suffix | Included as hex suffix |
+| Example | `$ic_launcher_foreground__0.xml` | `_ic_launcher_foreground__0_res_0x7f040000.xml` | `_ic_launcher_foreground__0_res_0x7f040000.xml` |
+
+**Fix implemented:**
+- Added `sanitize_resource_name()` function in `arsc.rs` (JADX-compatible name sanitization)
+- Added duplicate resource detection with `_res_0x{id}` suffix
+- Added path mapping for file extraction
+- Invalid characters (`$`, `/`, `-`, digits at start) converted to `_`
+- Reserved Java keywords trigger suffix addition
 
 #### What's Working ✓
 

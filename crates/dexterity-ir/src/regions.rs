@@ -262,6 +262,32 @@ pub enum Region {
     Continue {
         label: Option<String>,
     },
+
+    /// Ternary assignment: dest = cond ? then_val : else_val
+    /// Pattern detected and transformed from if-else regions (TernaryMod)
+    TernaryAssignment {
+        /// The condition expression to evaluate
+        condition: Condition,
+        /// Destination register for the assignment
+        dest_reg: u16,
+        /// SSA version of the destination register
+        dest_version: u32,
+        /// Block ID containing the then value expression
+        then_value_block: u32,
+        /// Block ID containing the else value expression
+        else_value_block: u32,
+    },
+
+    /// Ternary return: return cond ? then_val : else_val
+    /// Pattern detected and transformed from if-else regions (TernaryMod)
+    TernaryReturn {
+        /// The condition expression to evaluate
+        condition: Condition,
+        /// Block ID containing the then return value expression
+        then_value_block: u32,
+        /// Block ID containing the else return value expression
+        else_value_block: u32,
+    },
 }
 
 /// Content of a region (either a block or nested region)
@@ -614,6 +640,8 @@ pub enum RegionType {
     Synchronized,
     Break,
     Continue,
+    TernaryAssignment,
+    TernaryReturn,
 }
 
 /// Context for tracking parent chain during region traversal
@@ -810,6 +838,8 @@ impl IContainer for Region {
             Region::Synchronized { enter_insn_offset, .. } => format!("{:x}", enter_insn_offset),
             Region::Break { label } => label.clone().unwrap_or_else(|| "break".to_string()),
             Region::Continue { label } => label.clone().unwrap_or_else(|| "continue".to_string()),
+            Region::TernaryAssignment { dest_reg, dest_version, .. } => format!("TERNARY:v{}_{}", dest_reg, dest_version),
+            Region::TernaryReturn { .. } => "TERNARY_RET".to_string(),
         }
     }
 }
@@ -830,6 +860,8 @@ impl Region {
             Region::Synchronized { .. } => RegionType::Synchronized,
             Region::Break { .. } => RegionType::Break,
             Region::Continue { .. } => RegionType::Continue,
+            Region::TernaryAssignment { .. } => RegionType::TernaryAssignment,
+            Region::TernaryReturn { .. } => RegionType::TernaryReturn,
         }
     }
 
@@ -877,6 +909,7 @@ impl Region {
                     || finally.as_ref().map_or(false, |r| r.has_jump_statements_depth(depth + 1))
             }
             Region::Synchronized { body, .. } => body.has_jump_statements_depth(depth + 1),
+            Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => false,
         }
     }
 
@@ -896,6 +929,10 @@ impl Region {
             Region::TryCatch { .. } => vec![],
             Region::Synchronized { enter_block, .. } => vec![*enter_block],
             Region::Break { .. } | Region::Continue { .. } => vec![],
+            Region::TernaryAssignment { then_value_block, else_value_block, .. } =>
+                vec![*then_value_block, *else_value_block],
+            Region::TernaryReturn { then_value_block, else_value_block, .. } =>
+                vec![*then_value_block, *else_value_block],
         }
     }
 
@@ -933,6 +970,7 @@ impl Region {
             }
             Region::Synchronized { body, .. } => 1 + body.total_block_count_depth(depth + 1),
             Region::Break { .. } | Region::Continue { .. } => 0,
+            Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => 2,  // Two value blocks
         }
     }
 }

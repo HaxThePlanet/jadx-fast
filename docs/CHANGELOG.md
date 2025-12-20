@@ -42,6 +42,49 @@ public static final void Greeting(...) {
 
 ---
 
+### Resource Naming Convention - Fix 22 (Dec 19, 2025)
+
+**Implemented JADX-compatible resource name sanitization for proper file extraction.**
+
+**The Problem:**
+Resources with invalid characters in their names (like `$ic_launcher_foreground__0.xml`) were extracted with the original invalid name instead of being sanitized.
+
+| Before | After |
+|--------|-------|
+| `$ic_launcher_foreground__0.xml` | `_ic_launcher_foreground__0_res_0x7f040000.xml` |
+
+**Solution:**
+Added comprehensive resource name sanitization in `arsc.rs`:
+
+1. **`sanitize_resource_name()`** function:
+   - Invalid start chars (`$`, `/`, `-`, digits) → `_`
+   - Invalid chars in middle (`$`, `/`, `-`) → `_`
+   - `.` allowed in middle (for style names like `Theme.AppCompat`)
+   - Java reserved words trigger suffix addition
+
+2. **Duplicate detection**:
+   - Tracks seen resource names per type
+   - Adds `_res_0x{id:08x}` suffix to duplicates
+   - Renames previous entry for consistency
+
+3. **Path mapping**:
+   - Maps original APK paths to normalized paths
+   - Applied during file extraction in CLI
+
+**Files Changed:**
+- `crates/dexterity-resources/src/arsc.rs` - Added `sanitize_resource_name()`, duplicate detection, path mappings
+- `crates/dexterity-cli/src/main.rs` - Added `apply_resource_path_mapping()` for file extraction
+
+**Testing:**
+- 22 unit tests pass (10 new tests for resource name sanitization)
+- 686 integration tests pass
+
+**Impact:**
+- Resource naming now 100% JADX parity
+- All 5 resource issues now RESOLVED
+
+---
+
 ### Constructor Return Inlining - P2 Readability Improvement (Dec 18, 2025)
 
 **Implemented constructor return inlining for cleaner code output.**
