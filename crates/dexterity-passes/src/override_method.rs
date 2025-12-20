@@ -214,6 +214,11 @@ pub fn find_overridden_methods<F>(
 where
     F: Fn(&str) -> Option<ClassData>,
 {
+    // Skip annotation interface methods - annotations can't override anything
+    if class.is_annotation() {
+        return None;
+    }
+
     // Skip constructors, static methods, and private methods
     let is_private = (method.access_flags & ACC_PRIVATE) != 0;
     if method.is_constructor() || method.is_class_init() ||
@@ -538,8 +543,18 @@ where
 }
 
 /// Check if a method should have @Override annotation
-pub fn should_add_override(method: &MethodData, override_info: Option<&MethodOverrideAttr>) -> bool {
-    // Check explicit override info
+///
+/// # Arguments
+/// * `method` - The method to check
+/// * `class` - The class containing the method (needed to check if annotation interface)
+/// * `override_info` - Optional override analysis result
+pub fn should_add_override(method: &MethodData, class: &ClassData, override_info: Option<&MethodOverrideAttr>) -> bool {
+    // Annotation interface methods can't have @Override
+    if class.is_annotation() {
+        return false;
+    }
+
+    // Check explicit override info from analysis
     if let Some(info) = override_info {
         return info.should_annotate;
     }
@@ -551,15 +566,9 @@ pub fn should_add_override(method: &MethodData, override_info: Option<&MethodOve
         return false;
     }
 
-    // Heuristic: check common override method names
-    let common_overrides = [
-        "toString", "hashCode", "equals", "clone", "finalize",
-        "compareTo", "compare", "run", "call", "apply", "accept",
-        "get", "test", "onCreate", "onStart", "onResume", "onPause",
-        "onStop", "onDestroy", "onClick", "onTouch",
-    ];
-
-    common_overrides.contains(&method.name.as_str())
+    // No heuristics - only add @Override when we have actual override info
+    // The old heuristic based on method names was incorrect
+    false
 }
 
 #[cfg(test)]
@@ -588,26 +597,51 @@ mod tests {
 
     #[test]
     fn test_should_add_override() {
+        // Create a regular class (not annotation)
+        let class = ClassData::new("com/example/MyClass".to_string(), 0x0001); // public
+
+        // Create an annotation interface
+        let annotation_class = ClassData::new(
+            "com/example/MyAnnotation".to_string(),
+            0x2001, // public annotation (ACC_ANNOTATION = 0x2000)
+        );
+
         let method = MethodData {
             name: "toString".to_string(),
             access_flags: 0x0001, // public
             ..Default::default()
         };
-        assert!(should_add_override(&method, None));
 
+        // Without explicit override info, should return false (no heuristics)
+        assert!(!should_add_override(&method, &class, None));
+
+        // With explicit override info, should respect it
+        let override_info = MethodOverrideAttr {
+            override_list: vec![],
+            base_methods: vec![],
+            should_annotate: true,
+            dont_rename: false,
+        };
+        assert!(should_add_override(&method, &class, Some(&override_info)));
+
+        // Annotation interface methods should never get @Override
+        assert!(!should_add_override(&method, &annotation_class, Some(&override_info)));
+
+        // Static methods should not get @Override
         let method_static = MethodData {
             name: "toString".to_string(),
             access_flags: 0x0009, // public static
             ..Default::default()
         };
-        assert!(!should_add_override(&method_static, None));
+        assert!(!should_add_override(&method_static, &class, None));
 
+        // Private methods should not get @Override
         let method_private = MethodData {
             name: "toString".to_string(),
             access_flags: 0x0002, // private
             ..Default::default()
         };
-        assert!(!should_add_override(&method_private, None));
+        assert!(!should_add_override(&method_private, &class, None));
     }
 
     #[test]

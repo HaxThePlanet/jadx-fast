@@ -124,12 +124,26 @@ pub fn generate_type_parameters<W: CodeWriter>(
     code.add(">");
 }
 
-/// Check if a method should have @Override annotation (heuristic fallback)
-/// We add @Override for non-constructor, non-static, non-private methods
-/// in classes that have a superclass (other than Object) or implement interfaces
+/// Check if a method should have @Override annotation
+///
+/// Uses the method's override_attr if set (from override analysis), otherwise
+/// falls back to heuristic for common override scenarios (superclass/interface methods).
+///
 /// Returns Option<String> with the declaring class name for the comment
 fn should_add_override_heuristic(method: &MethodData, class: &ClassData) -> Option<String> {
-    // If method already has annotations, let the annotation system handle it
+    // BUG-009 fix: Annotation interface methods can't override anything
+    if class.is_annotation() {
+        return None;
+    }
+
+    // Check if method has explicit override attribute from analysis pass
+    if let Some(ref override_attr) = method.override_attr {
+        // Convert "java/lang/Object" to "java.lang.Object"
+        let declaring_class = override_attr.base_class.replace('/', ".");
+        return Some(declaring_class);
+    }
+
+    // If method already has annotations (like @Override from DEX), let the annotation system handle it
     if !method.annotations.is_empty() {
         return None;
     }
@@ -143,7 +157,8 @@ fn should_add_override_heuristic(method: &MethodData, class: &ClassData) -> Opti
         return None;
     }
 
-    // Check if class has a superclass (other than Object)
+    // Fallback heuristic: check if class has a superclass (other than Object)
+    // This is a conservative heuristic - may add @Override even when not strictly needed
     if let Some(superclass) = &class.superclass {
         if superclass != "java/lang/Object" {
             // Convert "android/app/Activity" to "android.app.Activity"

@@ -32,8 +32,8 @@ pub use class_hierarchy::ClassHierarchy;
 pub use info::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility, BytecodeRef, ClassData,
     DebugInfo, EnhancedExceptionHandler, ExceptionHandler, FieldData, FieldValue, KotlinClassInfo,
-    LoadStage, LocalVar, MethodData, MethodInlineAttr, ProcessState, TryBlock, TryCatchBlockAttr,
-    TypeParameter, TypeVariance,
+    LoadStage, LocalVar, MethodData, MethodInlineAttr, MethodOverrideAttr, ProcessState, TryBlock,
+    TryCatchBlockAttr, TypeParameter, TypeVariance,
 };
 pub use instructions::{InsnArg, InsnArgs, InsnNode, InsnType, LambdaHandleType, LambdaInfo, PhiSources, RegisterArg, WrappedInsn};
 pub use kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};

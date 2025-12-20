@@ -67,6 +67,16 @@ pub struct TypeParameter {
     pub reified: bool,
 }
 
+/// Method override attribute - tracks whether a method overrides a parent method
+/// Used to determine if @Override annotation should be emitted.
+/// Mirrors JADX's MethodOverrideAttr.
+#[derive(Debug, Clone)]
+pub struct MethodOverrideAttr {
+    /// The class that declares the base method being overridden
+    /// Format: "java/lang/Object" (internal format)
+    pub base_class: String,
+}
+
 /// Processing state for classes and methods (mirrors Java JADX's ProcessState)
 ///
 /// This enables lazy loading: load instructions on-demand, unload after codegen.
@@ -312,6 +322,9 @@ pub struct MethodData {
     /// Parsed from dalvik/annotation/AnnotationDefault class-level annotation
     /// Used to emit "default <value>" in method declarations
     pub annotation_default: Option<AnnotationValue>,
+    /// Override attribute - set when this method overrides a parent method
+    /// Used to determine if @Override annotation should be emitted
+    pub override_attr: Option<MethodOverrideAttr>,
 
     // === JADX Parity: Method Analysis Fields ===
     /// 'this' argument register for instance methods (like JADX's MethodNode.thisArg)
@@ -354,6 +367,7 @@ impl MethodData {
             parameter_annotations: Vec::new(),
             inline_attr: None,
             annotation_default: None,
+            override_attr: None,
             // JADX parity fields
             this_arg: None,
             args_list: Vec::new(),
@@ -394,6 +408,7 @@ impl MethodData {
             parameter_annotations: Vec::new(),
             inline_attr: None,
             annotation_default: None,
+            override_attr: None,
             // JADX parity fields
             this_arg: None,
             args_list: Vec::new(),
@@ -874,7 +889,7 @@ pub struct KotlinClassInfo {
 ///
 /// Supports lazy loading like Java JADX's ClassNode.
 /// Call `unload()` after code generation to free method instructions.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct ClassData {
     /// Class type descriptor (e.g., "Lcom/example/Foo;")
     pub class_type: String,

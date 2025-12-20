@@ -154,11 +154,24 @@ if (condition) {
 
 ### BUG-009: Wrong @Override Annotations
 
-**Status:** Low Priority
+**Status:** FIXED (Dec 20, 2025)
 **Priority:** P1 (HIGH)
 **Category:** Annotation Generation
 
-Cosmetic issue - does not affect compilation.
+**Problem:** Dexterity uses a heuristic to add @Override annotations which caused @Override to be incorrectly added to annotation interface methods (which can never override anything).
+
+**Root Cause:** `should_add_override_heuristic()` in `method_gen.rs` didn't check if the class was an annotation interface.
+
+**Fix:**
+1. Added check `if class.is_annotation() { return None; }` at start of `should_add_override_heuristic()`
+2. Added explicit `override_attr` check to use proper override analysis when available
+3. Added `Default` derive to `ClassData` for test compilation
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/method_gen.rs` - Annotation interface check
+- `crates/dexterity-ir/src/info.rs` - Added Default derive to ClassData
+
+**Result:** Annotation interface methods no longer receive incorrect @Override annotations.
 
 ---
 
