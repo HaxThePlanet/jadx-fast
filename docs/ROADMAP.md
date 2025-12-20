@@ -30,7 +30,7 @@ Comprehensive comparison of `output/dexterity-*` vs `output/jadx-*` directories:
 | Issue ID | Problem | Example | Status |
 |----------|---------|---------|--------|
 | P0-001 | Returns `0` for objects | `return 0;` vs `return null;` | **FIXED Dec 20** |
-| P0-002 | Missing method generics | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | CRITICAL |
+| P0-002 | Missing method generics | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | **IN PROGRESS** |
 | P1-001 | Fully qualified names | `com.foo.Bar` vs `Bar` (imported) | HIGH |
 | P1-002 | Raw generic types | `Iterator obj` vs `Iterator<T> it` | HIGH |
 | P1-003 | Missing source comments | No `/* compiled from: X.java */` | HIGH |

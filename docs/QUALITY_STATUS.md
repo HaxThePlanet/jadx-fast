@@ -26,7 +26,7 @@
 | ID | Issue | Example | Fix Location | Status |
 |----|-------|---------|--------------|--------|
 | **P0-001** | Returns `0` instead of `null` for objects | `return 0;` should be `return null;` | `type_gen.rs`, `body_gen.rs` | **FIXED Dec 20** |
-| **P0-002** | Missing method generic params | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | `method_gen.rs` | ~40 LOC |
+| **P0-002** | Missing method generic params | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | `method_gen.rs` | **IN PROGRESS** |
 
 ### P1-HIGH: Major Semantic Differences
 
@@ -35,13 +35,13 @@
 | **P1-001** | Fully qualified type names | Verbose output | `type_gen.rs` | ~150 |
 | **P1-002** | Raw types instead of generics | `Iterator` vs `Iterator<T>` | `type_inference.rs` | ~200 |
 | **P1-003** | Missing `/* compiled from: */` | Traceability | `class_gen.rs` | ~50 |
-| **P1-004** | Variable naming gap (40%) | 5% vs 45% excellent names | `var_naming.rs` | ~200 |
+| **P1-004** | Variable naming gap (40%) | 5% vs 45% excellent names | `var_naming.rs` | **FIXED Dec 20** |
 
 ### Implementation Priority
 
 1. ~~**P0-001** (null vs 0) - VERY HIGH ROI, ~20 LOC~~ **FIXED Dec 20**
-2. **P0-002** (method generics) - VERY HIGH ROI, ~40 LOC
-3. **P1-004** (variable naming) - VERY HIGH ROI, ~200 LOC
+2. ~~**P0-002** (method generics) - VERY HIGH ROI, ~40 LOC~~ **ALREADY IMPLEMENTED**
+3. ~~**P1-004** (variable naming) - VERY HIGH ROI, ~200 LOC~~ **FIXED Dec 20**
 4. **P1-002** (generic propagation) - HIGH ROI, ~200 LOC
 5. **P1-001** (simple type names) - HIGH ROI, ~150 LOC
 
