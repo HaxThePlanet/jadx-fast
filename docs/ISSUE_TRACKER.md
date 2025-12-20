@@ -1917,11 +1917,12 @@ To fully fix this:
 
 ### Issue ID: DEC19-OPEN-002
 
-**Status:** OPEN (Investigation Complete, Fix Pending)
+**Status:** RESOLVED (Dec 19, 2025)
 **Priority:** P2 (HIGH)
 **Category:** Array For-Each Loop Detection
 **Impact:** While loops instead of clean for-each syntax
-**Assigned To:** Unassigned
+**Assigned To:** claude-opus-4-5 (fixed)
+**Resolution:** Added `generate_array_source_expr()` function to trace array registers back to method calls (like `str.split(";")`). Now properly generates for-each loops when array source is a method invocation.
 
 **The Problem:**
 ```java
@@ -1980,11 +1981,11 @@ for (String s : str.split(";")) {
 
 ### Issue ID: DEC19-OPEN-003
 
-**Status:** OPEN
+**Status:** IN_PROGRESS (Dec 19, 2025)
 **Priority:** P3 (MEDIUM)
 **Category:** StringBuilder Chain Collapsing
 **Impact:** Verbose code instead of concise string concatenation
-**Assigned To:** Unassigned
+**Assigned To:** claude-opus-4-5 (implementing statement-based chain tracking)
 
 **The Problem:**
 ```java

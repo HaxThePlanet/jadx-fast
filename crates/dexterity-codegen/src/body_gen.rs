@@ -41,6 +41,7 @@ use dexterity_passes::cfg::CFG;
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
 use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
+use dexterity_passes::var_naming::types_compatible_for_naming;
 
 use crate::class_gen::{get_inner_class_simple_name, is_anonymous_class};
 use crate::dex_info::DexInfoProvider;
@@ -79,9 +80,9 @@ pub struct BodyGenContext {
     pub type_info: Option<TypeInferenceResult>,
     /// Variables that have been declared (to avoid redeclaration) - tracks (reg, version)
     pub declared_vars: HashSet<(u16, u32)>,
-    /// Variable names that have been declared (to avoid same-name redeclarations)
-    /// Different SSA versions may share the same name, so we track names too
-    pub declared_names: HashSet<String>,
+    /// Variable names that have been declared, mapping to their declared type
+    /// Used to detect when different SSA versions with incompatible types share the same name
+    pub declared_name_types: HashMap<String, ArgType>,
     /// First parameter register (registers >= this are parameters, already declared)
     pub first_param_reg: u16,
     /// Last invoke expression (for MoveResult pairing)
@@ -114,6 +115,8 @@ pub struct BodyGenContext {
     /// When we see StringBuilder.<init> we start tracking, append() adds args,
     /// toString() emits concatenation instead of method chain
     pub stringbuilder_chains: HashMap<u16, StringBuilderChain>,
+    /// Last StringBuilder register after append() - for MoveResult to transfer chain
+    pub last_stringbuilder_reg: Option<u16>,
     /// Pending vararg arrays being tracked for expansion
     /// Key: (reg_num, ssa_version) - tracks NewArray + ArrayPut sequences
     pub pending_vararg_arrays: HashMap<(u16, u32), PendingVarargArray>,
@@ -239,7 +242,7 @@ impl BodyGenContext {
             ins_count: method.ins_count,
             type_info: None,
             declared_vars: HashSet::new(),
-            declared_names: HashSet::new(),
+            declared_name_types: HashMap::new(),
             first_param_reg,
             last_invoke_expr: None,
             pending_new_instances: HashMap::new(),
@@ -252,6 +255,7 @@ impl BodyGenContext {
             phi_declarations: HashSet::new(),
             skip_foreach_insns: HashMap::new(),
             stringbuilder_chains: HashMap::new(),
+            last_stringbuilder_reg: None,
             pending_vararg_arrays: HashMap::new(),
             last_source_line: None,
             add_debug_lines: false,
@@ -499,7 +503,12 @@ impl BodyGenContext {
     /// Check if a variable NAME has been declared (to prevent same-name redeclarations)
     /// Different SSA versions may share the same Java variable name
     pub fn is_name_declared(&self, name: &str) -> bool {
-        self.declared_names.contains(name)
+        self.declared_name_types.contains_key(name)
+    }
+
+    /// Get the type of a declared variable name (if it exists)
+    pub fn get_declared_name_type(&self, name: &str) -> Option<&ArgType> {
+        self.declared_name_types.get(name)
     }
 
     /// Mark a variable as declared (by SSA version and name)
@@ -507,9 +516,22 @@ impl BodyGenContext {
         self.declared_vars.insert((reg, version));
     }
 
-    /// Mark a variable name as declared
-    pub fn mark_name_declared(&mut self, name: &str) {
-        self.declared_names.insert(name.to_string());
+    /// Mark a variable name as declared with its type
+    pub fn mark_name_declared(&mut self, name: &str, declared_type: &ArgType) {
+        self.declared_name_types.insert(name.to_string(), declared_type.clone());
+    }
+
+    /// Generate a unique name by adding numeric suffix
+    /// Used when incompatible types need separate variable names
+    fn generate_unique_name(&self, base_name: &str) -> String {
+        let mut suffix = 2;
+        loop {
+            let candidate = format!("{}_{}", base_name, suffix);
+            if !self.declared_name_types.contains_key(&candidate) {
+                return candidate;
+            }
+            suffix += 1;
+        }
     }
 
     /// Check if this register AND version is a parameter (already has a type from method signature)
@@ -787,11 +809,10 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
 
         // Get variable name using a temp RegisterArg
         let temp_reg = RegisterArg { reg_num: reg, ssa_version: version };
-        let var_name = ctx.expr_gen.get_var_name(&temp_reg);
+        let mut var_name = ctx.expr_gen.get_var_name(&temp_reg);
 
-        // Skip if already declared (e.g., parameter) or if the NAME is already declared
-        // (different SSA versions may share the same Java variable name)
-        if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) || ctx.is_name_declared(&var_name) {
+        // Skip if already declared (e.g., parameter)
+        if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
             continue;
         }
 
@@ -800,6 +821,18 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
             .or_else(|| ctx.get_inferred_type_versioned(reg, 0))
             .cloned()
             .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
+
+        // Check if name is already declared with an incompatible type
+        if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
+            if !types_compatible_for_naming(existing_type, &var_type) {
+                // Incompatible type - generate unique name
+                var_name = ctx.generate_unique_name(&var_name);
+                ctx.expr_gen.set_var_name(reg, version, var_name.clone());
+            } else {
+                // Compatible type - skip declaration (reuse existing)
+                continue;
+            }
+        }
 
         // Emit declaration
         code.start_line();
@@ -813,9 +846,9 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
 
         code.add(&type_str).add(" ").add(&var_name).add(";").newline();
 
-        // Mark as declared (both by version and by name)
+        // Mark as declared (both by version and by name with type)
         ctx.mark_declared(reg, version);
-        ctx.mark_name_declared(&var_name);
+        ctx.mark_name_declared(&var_name, &var_type);
     }
 }
 
@@ -847,46 +880,54 @@ fn emit_assignment_with_hint<W: CodeWriter>(
         return;
     }
 
-    let var_name = ctx.expr_gen.get_var_name(dest);
+    let mut var_name = ctx.expr_gen.get_var_name(dest);
 
-    code.start_line();
+    // Determine the type for this variable (used for declaration and compatibility check)
+    // Priority: 1. Type inference, 2. Type hint, 3. Try version 0, 4. Object fallback
+    let decl_type = ctx.get_inferred_type_versioned(reg, version)
+        .cloned()
+        .or_else(|| type_hint.cloned())
+        .or_else(|| {
+            if version != 0 {
+                ctx.get_inferred_type_versioned(reg, 0).cloned()
+            } else {
+                None
+            }
+        })
+        .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
 
     // Check if we need to declare this variable
     // In SSA form, only version 0 of parameter registers are actual parameters
-    // Also check if a variable with the SAME NAME has been declared (different SSA versions
-    // may share the same Java variable name)
-    let needs_decl = !ctx.is_declared(reg, version)
-        && !ctx.is_parameter(reg, version)
-        && !ctx.is_name_declared(&var_name);
+    let needs_decl = if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
+        false
+    } else if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
+        // Name exists - check type compatibility
+        if !types_compatible_for_naming(existing_type, &decl_type) {
+            // Incompatible type - generate unique name
+            var_name = ctx.generate_unique_name(&var_name);
+            ctx.expr_gen.set_var_name(reg, version, var_name.clone());
+            true  // Needs declaration with new name
+        } else {
+            false  // Compatible, reuse existing
+        }
+    } else {
+        true  // Name not declared yet
+    };
+
+    code.start_line();
 
     if needs_decl {
-        // Priority: 1. Type inference, 2. Type hint, 3. Try version 0, 4. Object fallback
-        let decl_type = ctx.get_inferred_type_versioned(reg, version)
-            .or_else(|| type_hint)
-            .or_else(|| {
-                // Try version 0 if specific version not found
-                if version != 0 {
-                    ctx.get_inferred_type_versioned(reg, 0)
-                } else {
-                    None
-                }
-            });
-
         // Emit 'final' keyword if this variable is only assigned once
         if ctx.is_final(reg, version) {
             code.add("final ");
         }
 
-        if let Some(arg_type) = decl_type {
-            // Use simple names when imports are available
-            let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
-            code.add(&type_str).add(" ");
-        } else {
-            // Fallback: use Object as default type (better than Java 10+ 'var')
-            code.add("Object ");
-        }
+        // Use simple names when imports are available
+        let type_str = type_to_string_with_imports(&decl_type, ctx.imports.as_ref());
+        code.add(&type_str).add(" ");
+
         ctx.mark_declared(reg, version);
-        ctx.mark_name_declared(&var_name);
+        ctx.mark_name_declared(&var_name, &decl_type);
     }
 
     code.add(&var_name)
@@ -931,40 +972,51 @@ fn emit_assignment_insn<W: CodeWriter>(
         return true;
     }
 
-    let var_name = ctx.expr_gen.get_var_name(dest);
+    let mut var_name = ctx.expr_gen.get_var_name(dest);
+
+    // Determine the type for this variable (used for declaration and compatibility check)
+    // Priority: 1. Type inference, 2. Type hint, 3. Try version 0, 4. Object fallback
+    let decl_type = ctx.get_inferred_type_versioned(reg, version)
+        .cloned()
+        .or_else(|| type_hint.cloned())
+        .or_else(|| {
+            if version != 0 {
+                ctx.get_inferred_type_versioned(reg, 0).cloned()
+            } else {
+                None
+            }
+        })
+        .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
+
+    // Check if we need to declare this variable
+    let needs_decl = if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
+        false
+    } else if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
+        // Name exists - check type compatibility
+        if !types_compatible_for_naming(existing_type, &decl_type) {
+            // Incompatible type - generate unique name
+            var_name = ctx.generate_unique_name(&var_name);
+            ctx.expr_gen.set_var_name(reg, version, var_name.clone());
+            true  // Needs declaration with new name
+        } else {
+            false  // Compatible, reuse existing
+        }
+    } else {
+        true  // Name not declared yet
+    };
 
     code.start_line();
 
-    // Check if we need to declare this variable
-    // Also check if a variable with the SAME NAME has been declared (different SSA versions
-    // may share the same Java variable name)
-    let needs_decl = !ctx.is_declared(reg, version)
-        && !ctx.is_parameter(reg, version)
-        && !ctx.is_name_declared(&var_name);
-
     if needs_decl {
-        let decl_type = ctx.get_inferred_type_versioned(reg, version)
-            .or_else(|| type_hint)
-            .or_else(|| {
-                if version != 0 {
-                    ctx.get_inferred_type_versioned(reg, 0)
-                } else {
-                    None
-                }
-            });
-
         if ctx.is_final(reg, version) {
             code.add("final ");
         }
 
-        if let Some(arg_type) = decl_type {
-            let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
-            code.add(&type_str).add(" ");
-        } else {
-            code.add("Object ");
-        }
+        let type_str = type_to_string_with_imports(&decl_type, ctx.imports.as_ref());
+        code.add(&type_str).add(" ");
+
         ctx.mark_declared(reg, version);
-        ctx.mark_name_declared(&var_name);
+        ctx.mark_name_declared(&var_name, &decl_type);
     }
 
     code.add(&var_name).add(" = ");
@@ -2171,6 +2223,72 @@ fn body_has_meaningful_structure(body: &Region, skip_block: u32, ctx: &BodyGenCo
     count_meaningful_blocks(body, skip_block, ctx) > 0
 }
 
+/// Generate the array source expression for a for-each loop.
+/// Traces back through the SSA graph to find if the array comes from a method call.
+/// If so, generates the method call expression (e.g., "str.split(\";\")").
+/// Otherwise, returns the simple variable name.
+///
+/// This matches JADX's behavior which uses `len.getArg(0)` which can be either
+/// a register or a wrapped instruction containing a method call.
+fn generate_array_source_expr(arr_reg_arg: &dexterity_ir::instructions::RegisterArg, ctx: &BodyGenContext) -> String {
+    // First, try to find the defining instruction for this array register
+    if let Some(defining_insn) = find_defining_instruction(arr_reg_arg, ctx) {
+        // If the array is defined by a MoveResult, the actual source is the preceding invoke
+        if matches!(defining_insn.insn_type, InsnType::MoveResult { .. }) {
+            // Find the invoke instruction that precedes this MoveResult
+            // We need to look in the same block, at the previous instruction
+            for block in ctx.blocks.values() {
+                for (i, insn) in block.instructions.iter().enumerate() {
+                    if insn.offset == defining_insn.offset {
+                        // Found the MoveResult - look at previous instruction
+                        if i > 0 {
+                            let prev_insn = &block.instructions[i - 1];
+                            if let InsnType::Invoke { kind, method_idx, args, .. } = &prev_insn.insn_type {
+                                // Generate the method call expression
+                                if let Some(info) = ctx.expr_gen.get_method_value(*method_idx) {
+                                    let mut expr = String::new();
+                                    let skip_count = if matches!(kind, InvokeKind::Static) { 0 } else { 1 };
+
+                                    match kind {
+                                        InvokeKind::Static => {
+                                            expr.push_str(&info.class_name);
+                                            expr.push('.');
+                                        }
+                                        InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
+                                            if let Some(receiver) = args.first() {
+                                                expr.push_str(&ctx.expr_gen.gen_arg(receiver));
+                                                expr.push('.');
+                                            }
+                                        }
+                                        _ => {}
+                                    }
+
+                                    expr.push_str(&sanitize_method_name(&info.method_name));
+                                    expr.push('(');
+
+                                    // Generate arguments
+                                    let arg_strs: Vec<String> = args.iter()
+                                        .skip(skip_count)
+                                        .map(|arg| ctx.expr_gen.gen_arg(arg))
+                                        .collect();
+                                    expr.push_str(&arg_strs.join(", "));
+                                    expr.push(')');
+
+                                    return expr;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // Fall back to simple variable name
+    ctx.expr_gen.gen_arg(&InsnArg::Register(*arr_reg_arg))
+}
+
 /// Detect array for-each loop pattern
 /// Pattern: for (int i = 0; i < array.length; i++) { item = array[i]; ... }
 /// Requirements (matching JADX LoopRegionVisitor.checkArrayForEach):
@@ -2193,14 +2311,15 @@ fn detect_array_foreach_pattern(
 
     // Find If instruction in condition block to get the comparison
     let mut index_reg: Option<u16> = None;
-    let mut array_reg: Option<u16> = None;
+    let mut array_reg_arg: Option<dexterity_ir::instructions::RegisterArg> = None;
     let mut array_length_reg: Option<u16> = None;
 
     // First pass: look for ArrayLength instruction to identify the array
     for insn in &cond_block.instructions {
         if let InsnType::ArrayLength { dest, array } = &insn.insn_type {
             if let InsnArg::Register(arr_reg) = array {
-                array_reg = Some(arr_reg.reg_num);
+                // Keep full RegisterArg to preserve SSA version for tracing
+                array_reg_arg = Some(*arr_reg);
                 array_length_reg = Some(dest.reg_num);
             }
         }
@@ -2230,7 +2349,8 @@ fn detect_array_foreach_pattern(
     }
 
     let idx_reg = index_reg?;
-    let arr_reg = array_reg?;
+    let arr_reg_arg = array_reg_arg?;
+    let arr_reg = arr_reg_arg.reg_num;
 
     // Now scan body for:
     // 1. AGET instruction using index_reg and array_reg
@@ -2314,8 +2434,8 @@ fn detect_array_foreach_pattern(
     let (aget_block, aget_idx, item_var, item_type) = aget_info?;
     let (incr_block, incr_idx) = incr_info?;
 
-    // Generate array expression
-    let array_expr = ctx.expr_gen.gen_arg(&InsnArg::Register(dexterity_ir::instructions::RegisterArg::new(arr_reg)));
+    // Generate array expression - trace back to method calls if array comes from invoke result
+    let array_expr = generate_array_source_expr(&arr_reg_arg, ctx);
 
     Some(ArrayForEachInfo {
         array_expr,
@@ -3666,30 +3786,38 @@ fn emit_ternary_assignment<W: CodeWriter>(
 ) {
     use dexterity_ir::instructions::RegisterArg;
 
-    let var_name = ctx.expr_gen.get_var_name(&RegisterArg::with_ssa(ternary.dest_reg, ternary.dest_version));
+    let mut var_name = ctx.expr_gen.get_var_name(&RegisterArg::with_ssa(ternary.dest_reg, ternary.dest_version));
     let reg = ternary.dest_reg;
     let version = ternary.dest_version;
 
-    code.start_line();
+    // Determine the type for this variable
+    let decl_type = ctx.get_inferred_type_versioned(reg, version)
+        .or_else(|| ctx.get_inferred_type_versioned(reg, 0))
+        .cloned()
+        .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
 
     // Check if we need to declare this variable
-    // Also check if a variable with the SAME NAME has been declared
-    let needs_decl = !ctx.is_declared(reg, version)
-        && !ctx.is_parameter(reg, version)
-        && !ctx.is_name_declared(&var_name);
+    let needs_decl = if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
+        false
+    } else if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
+        if !types_compatible_for_naming(existing_type, &decl_type) {
+            var_name = ctx.generate_unique_name(&var_name);
+            ctx.expr_gen.set_var_name(reg, version, var_name.clone());
+            true
+        } else {
+            false
+        }
+    } else {
+        true
+    };
+
+    code.start_line();
 
     if needs_decl {
-        let decl_type = ctx.get_inferred_type_versioned(reg, version)
-            .or_else(|| ctx.get_inferred_type_versioned(reg, 0));
-
-        if let Some(arg_type) = decl_type {
-            let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
-            code.add(&type_str).add(" ");
-        } else {
-            code.add("Object ");
-        }
+        let type_str = type_to_string_with_imports(&decl_type, ctx.imports.as_ref());
+        code.add(&type_str).add(" ");
         ctx.mark_declared(reg, version);
-        ctx.mark_name_declared(&var_name);
+        ctx.mark_name_declared(&var_name, &decl_type);
     }
 
     // Try to simplify ternary-to-boolean patterns first
@@ -3783,29 +3911,38 @@ fn emit_single_branch_ternary<W: CodeWriter>(
 ) {
     use dexterity_ir::instructions::RegisterArg;
 
-    let var_name = ctx.expr_gen.get_var_name(&RegisterArg::with_ssa(ternary.dest_reg, ternary.dest_version));
+    let mut var_name = ctx.expr_gen.get_var_name(&RegisterArg::with_ssa(ternary.dest_reg, ternary.dest_version));
     let reg = ternary.dest_reg;
     let version = ternary.dest_version;
 
-    code.start_line();
+    // Determine the type for this variable
+    let decl_type = ctx.get_inferred_type_versioned(reg, version)
+        .or_else(|| ctx.get_inferred_type_versioned(reg, 0))
+        .cloned()
+        .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
 
     // Check if we need to declare this variable
-    let needs_decl = !ctx.is_declared(reg, version)
-        && !ctx.is_parameter(reg, version)
-        && !ctx.is_name_declared(&var_name);
+    let needs_decl = if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
+        false
+    } else if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
+        if !types_compatible_for_naming(existing_type, &decl_type) {
+            var_name = ctx.generate_unique_name(&var_name);
+            ctx.expr_gen.set_var_name(reg, version, var_name.clone());
+            true
+        } else {
+            false
+        }
+    } else {
+        true
+    };
+
+    code.start_line();
 
     if needs_decl {
-        let decl_type = ctx.get_inferred_type_versioned(reg, version)
-            .or_else(|| ctx.get_inferred_type_versioned(reg, 0));
-
-        if let Some(arg_type) = decl_type {
-            let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
-            code.add(&type_str).add(" ");
-        } else {
-            code.add("Object ");
-        }
+        let type_str = type_to_string_with_imports(&decl_type, ctx.imports.as_ref());
+        code.add(&type_str).add(" ");
         ctx.mark_declared(reg, version);
-        ctx.mark_name_declared(&var_name);
+        ctx.mark_name_declared(&var_name, &decl_type);
     }
 
     // Generate ternary: dest = cond ? then_val : dest
@@ -4582,7 +4719,8 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             for (i, handler) in handlers.iter().enumerate() {
                 // Generate catch clause - support multi-catch syntax
-                let exc_var = if handler.catch_all {
+                // Track both the exception variable name and its type for proper declaration tracking
+                let (exc_var, exc_type) = if handler.catch_all {
                     // Catch-all handler
                     let exc_var = generate_exception_var_name("Throwable", i);
                     code.start_line()
@@ -4590,7 +4728,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .add(&exc_var)
                         .add(") {")
                         .newline();
-                    exc_var
+                    (exc_var, ArgType::Object("java/lang/Throwable".to_string()))
                 } else if handler.is_multi_catch() {
                     // Multi-catch: catch (Type1 | Type2 | Type3 e)
                     // Convert internal format (java/io/IOException) to Java format (java.io.IOException)
@@ -4602,6 +4740,10 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .map(|s| s.as_str())
                         .unwrap_or("Exception");
                     let exc_var = generate_exception_var_name(first_type, i);
+                    // Use first exception type for tracking (they're all compatible via multi-catch)
+                    let first_internal = handler.exception_types.first()
+                        .cloned()
+                        .unwrap_or_else(|| "java/lang/Exception".to_string());
                     code.start_line()
                         .add("} catch (")
                         .add(&exc_types_str)
@@ -4609,12 +4751,12 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .add(&exc_var)
                         .add(") {")
                         .newline();
-                    exc_var
+                    (exc_var, ArgType::Object(first_internal))
                 } else {
                     // Single exception type
                     // Convert internal format (java/io/IOException) to Java format (java.io.IOException)
                     let exc_type_internal = handler.exception_type()
-                        .unwrap_or("Exception");
+                        .unwrap_or("java/lang/Exception");
                     let exc_type = object_to_java_name(exc_type_internal);
                     let exc_var = generate_exception_var_name(&exc_type, i);
                     code.start_line()
@@ -4624,11 +4766,11 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .add(&exc_var)
                         .add(") {")
                         .newline();
-                    exc_var
+                    (exc_var, ArgType::Object(exc_type_internal.to_string()))
                 };
 
                 // Mark exception variable as declared - prevents redeclaration inside catch block
-                ctx.mark_name_declared(&exc_var);
+                ctx.mark_name_declared(&exc_var, &exc_type);
 
                 // Enter exception handler context for proper variable handling
                 if let Some(entry_block) = get_handler_entry_block(&handler.region) {
@@ -5305,6 +5447,50 @@ fn write_invoke_with_inlining<W: CodeWriter>(
         // StringBuilder chain optimization: Convert StringBuilder chains to string concatenation
         // Pattern: new StringBuilder(...).append(...).append(...).toString() -> "..." + "..." + ...
         if is_stringbuilder_class(&info.class_name) {
+            // First try statement-based chain tracking (for patterns like: sb.append(x); sb.append(y);)
+            if let Some(InsnArg::Register(recv_reg)) = args.first() {
+                let method_name = &*info.method_name;
+
+                if method_name == "append" {
+                    // Check if we're tracking this StringBuilder
+                    // First check if chain exists and is valid (immutable borrow)
+                    let should_track = ctx.stringbuilder_chains
+                        .get(&recv_reg.reg_num)
+                        .map(|c| c.valid && args.len() > 1)
+                        .unwrap_or(false);
+
+                    if should_track {
+                        // Generate the arg inline first (needs mutable borrow of ctx)
+                        let arg_str = ctx.gen_arg_inline(&args[1]);
+                        // Now we can get mutable access to the chain
+                        if let Some(chain) = ctx.stringbuilder_chains.get_mut(&recv_reg.reg_num) {
+                            chain.args.push(arg_str);
+                            // Mark for MoveResult to transfer chain (append returns this)
+                            ctx.last_stringbuilder_reg = Some(recv_reg.reg_num);
+                            // Don't emit any code - we'll emit concatenation at toString()
+                            return;
+                        }
+                    }
+                } else if method_name == "toString" {
+                    // Check if we have a tracked chain for this StringBuilder
+                    if let Some(chain) = ctx.stringbuilder_chains.remove(&recv_reg.reg_num) {
+                        if chain.valid && !chain.args.is_empty() {
+                            // Optimize consecutive string literals
+                            let optimized = concat_constant_strings(&chain.args);
+                            let concat_expr = optimized.join(" + ");
+                            code.add(&concat_expr);
+                            return;
+                        }
+                    }
+                } else if method_name != "<init>" {
+                    // Any other method on StringBuilder invalidates the chain
+                    if let Some(chain) = ctx.stringbuilder_chains.get_mut(&recv_reg.reg_num) {
+                        chain.valid = false;
+                    }
+                }
+            }
+
+            // Fall back to inlined expression chain parsing (for: new StringBuilder().append().toString())
             if let Some(concat_expr) = try_convert_stringbuilder_chain(&info.method_name, args, ctx) {
                 code.add(&concat_expr);
                 return;
@@ -5482,6 +5668,24 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             let type_name = ctx.expr_gen.get_type_value(type_idx)
                                 .unwrap_or_else(|| format!("Type#{}", type_idx));
 
+                            // Check if this is StringBuilder/StringBuffer for chain optimization
+                            if is_stringbuilder_class(&type_name) {
+                                // Start tracking the chain with constructor arg (if any)
+                                let initial_arg = if args.len() > 1 {
+                                    // Constructor has an argument (could be String or other type)
+                                    ctx.gen_arg_inline(&args[1])
+                                } else {
+                                    // Empty constructor - start with empty string
+                                    "\"\"".to_string()
+                                };
+                                ctx.stringbuilder_chains.insert(recv_reg.reg_num, StringBuilderChain {
+                                    args: vec![initial_arg],
+                                    valid: true,
+                                });
+                                // Don't emit code - we'll emit concatenation at toString()
+                                return true;
+                            }
+
                             // Get the type descriptor for anonymous class lookup
                             let type_desc = if let Some(ref dex) = ctx.expr_gen.dex_provider {
                                 dex.get_type_descriptor(type_idx)
@@ -5512,21 +5716,24 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                     // Take the class out temporarily to avoid borrow conflict
                                     let anon_class = ctx.anonymous_classes.remove(anon_class_key.as_ref().unwrap()).unwrap();
 
-                                    // Extract declaration type
-                                    let decl_type = if !anon_class.interfaces.is_empty() {
-                                        crate::type_gen::get_simple_name_from_argtype(&anon_class.interfaces[0])
+                                    // Extract declaration type (both for display and tracking)
+                                    let (decl_type_str, decl_type) = if !anon_class.interfaces.is_empty() {
+                                        (crate::type_gen::get_simple_name_from_argtype(&anon_class.interfaces[0]),
+                                         anon_class.interfaces[0].clone())
                                     } else if let Some(ref superclass) = anon_class.superclass {
-                                        crate::type_gen::get_simple_name(superclass).to_string()
+                                        (crate::type_gen::get_simple_name(superclass).to_string(),
+                                         ArgType::Object(superclass.clone()))
                                     } else {
-                                        "Object".to_string()
+                                        ("Object".to_string(),
+                                         ArgType::Object("java/lang/Object".to_string()))
                                     };
 
                                     // Declare variable if needed
                                     code.start_line();
                                     if needs_decl {
-                                        code.add(&decl_type).add(" ");
+                                        code.add(&decl_type_str).add(" ");
                                         ctx.mark_declared(reg, version);
-                                        ctx.mark_name_declared(&var_name);
+                                        ctx.mark_name_declared(&var_name, &decl_type);
                                     }
                                     code.add(&var_name).add(" = ");
 
@@ -5569,7 +5776,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             if needs_decl {
                                 code.add(&type_name).add(" ");
                                 ctx.mark_declared(reg, version);
-                                ctx.mark_name_declared(&var_name);
+                                ctx.mark_name_declared(&var_name, &ArgType::Object(type_name.clone().into()));
                             }
                             code.add(&var_name).add(" = new ").add(&type_name).add("(");
                             // Use type-aware formatting (0 -> null for Object params)
@@ -5760,6 +5967,16 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::MoveResult { dest } => {
+            // Check if we're transferring a StringBuilder chain (after append() call)
+            if let Some(src_reg) = ctx.last_stringbuilder_reg.take() {
+                // Transfer the chain to the new register
+                if let Some(chain) = ctx.stringbuilder_chains.remove(&src_reg) {
+                    ctx.stringbuilder_chains.insert(dest.reg_num, chain);
+                    // Don't emit anything - chain continues
+                    return true;
+                }
+            }
+
             // Use the stored invoke expression from the previous invoke
             let expr = ctx.last_invoke_expr.take()
                 .unwrap_or_else(|| "/* result */".to_string());
@@ -5866,7 +6083,7 @@ fn generate_insn<W: CodeWriter>(
                     code.add(&type_name).add(" ");
                 }
                 ctx.mark_declared(reg, version);
-                ctx.mark_name_declared(&var_name);
+                ctx.mark_name_declared(&var_name, &ArgType::Unknown);
             }
 
             code.add(&var_name).add(" = ").add(&new_array_expr).add(";").newline();
@@ -5932,7 +6149,7 @@ fn generate_insn<W: CodeWriter>(
                     code.add("Object ");
                 }
                 ctx.mark_declared(reg, version);
-                ctx.mark_name_declared(&var_name);
+                ctx.mark_name_declared(&var_name, &ArgType::Unknown);
             }
 
             code.add(&var_name).add(" = ").add(&array_get_expr).add(";").newline();
@@ -6210,7 +6427,7 @@ fn generate_insn<W: CodeWriter>(
                         }
                         code.add(&elem_type).add("[] ");
                         ctx.mark_declared(reg, version);
-                        ctx.mark_name_declared(&var_name);
+                        ctx.mark_name_declared(&var_name, &ArgType::Unknown);
                     }
 
                     code.add(&var_name).add(" = new ").add(&elem_type).add("[] { ");
@@ -6439,7 +6656,7 @@ fn generate_insn<W: CodeWriter>(
                     code.add(&type_name).add(&generic_suffix).add(" ");
                 }
                 ctx.mark_declared(reg, version);
-                ctx.mark_name_declared(&var_name);
+                ctx.mark_name_declared(&var_name, &ArgType::Unknown);
             }
 
             code.add(&var_name).add(" = ").add(&ctor_expr).add(";").newline();

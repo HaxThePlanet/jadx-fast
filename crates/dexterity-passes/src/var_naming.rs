@@ -151,7 +151,7 @@ fn get_debug_name(debug_info: Option<&DebugInfo>, reg: u16, insn_offset: u32) ->
 /// Check if two types are compatible for sharing the same variable name.
 /// Types are compatible if they're the same, or one is a supertype/subtype of the other.
 /// This is more lenient than Java assignment compatibility to avoid over-splitting.
-fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
+pub fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
     // Same type - always compatible
     if t1 == t2 {
         return true;
