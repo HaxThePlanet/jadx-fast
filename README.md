@@ -20,20 +20,20 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** 1:1 identical decompilation output with JADX
-**Status:** In Development - Critical issues found in complex APKs (see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md))
+**Status:** In Development - P1 semantic issues remain (see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md))
 
 ## Performance
 
-| APK Size | Dexterity | JADX | Speedup |
-|----------|-----------|------|---------|
-| Small (10KB) | 0.01s | 1.9s | **124x** |
-| Medium (11MB) | 3.5s | 15s | **4x** |
-| Large (55MB) | 8.6s | 17s | **2x** |
+Benchmarked on 24 APKs (977 MB total):
 
-- **2-124x faster** than Java JADX
-- **Up to 46x less memory** usage
-- **Zero errors** vs JADX's 13 errors on test suite
-- Scales to 56+ CPU cores
+| Metric | Dexterity | JADX | Advantage |
+|--------|-----------|------|-----------|
+| Wall Clock | 101s | 107s | **6% faster** |
+| Peak Memory | 758 MB | 21 GB | **28x less** |
+| Errors | 0 | 143 | **Zero errors** |
+
+- Scales to 56+ CPU cores (92% efficiency at 16 cores)
+- See [PERFORMANCE.md](docs/PERFORMANCE.md) for detailed benchmarks
 
 ## Quick Start
 
@@ -54,7 +54,7 @@ cargo build --release -p dexterity-cli
 
 ## Key Features
 
-- **Input formats:** APK, DEX, JAR, AAR, AAB, XAPK, APKM
+- **Input formats:** APK, DEX, JAR, AAR, AAB, XAPK, APKM (APKS not yet supported)
 - **Deobfuscation:** ProGuard mappings, JOBF files
 - **Kotlin support:** Metadata parsing, name restoration
 - **Resource resolution:** `R.layout.activity_main` (enabled by default)
@@ -82,11 +82,13 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 | Crate | Purpose | Parity |
 |-------|---------|--------|
 | dexterity-dex | DEX binary parsing | 100% |
-| dexterity-ir | Intermediate representation | 90% |
-| dexterity-passes | Decompilation passes | 70% |
-| dexterity-codegen | Java source generation | 60% |
+| dexterity-ir | Intermediate representation | 98% |
+| dexterity-passes | Decompilation passes | 95% |
+| dexterity-codegen | Java source generation | 94% |
 | dexterity-resources | Resource decoding | 100% |
-| dexterity-kotlin | Kotlin metadata | 50% |
+| dexterity-deobf | Deobfuscation | 100% |
+| dexterity-kotlin | Kotlin metadata | 72% |
+| dexterity-cli | CLI application | 98% |
 
 ## Sample Output
 

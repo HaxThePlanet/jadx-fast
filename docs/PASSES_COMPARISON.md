@@ -109,11 +109,17 @@ FINAL CODE PREPARATION
 6. ModVisitor             - Instruction modifications
 7. Constant Inlining      - Inline constants
 8. Type Inference         - Infer register types
-9. Simplification         - Simplify expressions
-10. Code Shrinking        - Inline variables
-11. Prepare for Codegen   - Final preparation
-12. Variable Naming       - Assign variable names
+9. Simplification         ─┐
+10. Code Shrinking        ─┴─ ITERATIVE (until fixpoint, max 5×blocks)
+11. Loop Pattern Analysis - for/foreach detection
+12. Prepare for Codegen   - Final preparation
+13. Variable Naming       - Assign variable names
 ```
+
+**Iterative Pass Execution (Dec 20, 2025):**
+Dexterity now runs simplification and code shrinking passes iteratively until no more
+changes occur (fixpoint), matching JADX's `traverseIterative()` behavior. The iteration
+limit is `5 × block_count`, same as JADX's `DepthRegionTraversal.java:13`.
 
 ---
 

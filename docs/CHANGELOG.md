@@ -2,6 +2,15 @@
 
 ## December 2025
 
+### Dec 20, 2025 - Iterative Pass Execution (JADX Parity)
+
+**Iterative Simplification + Code Shrinking**
+- Added fixpoint loop for `simplify_instructions()` + `shrink_code()` passes
+- Matches JADX's `traverseIterative()` behavior
+- Iteration limit: `5 × block_count` (from JADX's `DepthRegionTraversal.java`)
+- Enables nested ternary optimization and chained simplifications
+- File: `crates/dexterity-cli/src/decompiler.rs:92-114`
+
 ### Dec 20, 2025 - All P0 Bugs Fixed
 
 **NEW-006: Enum Value Extraction** - Fixed enum constants with wrong values
@@ -37,7 +46,7 @@
 
 ### Dec 17, 2025
 
-- Variable naming 100% JADX parity
+- Variable naming algorithm ported from JADX (edge cases remain)
 - THP optimization (8.8% faster at 56 cores)
 - Exception handling improvements
 - Multi-catch support

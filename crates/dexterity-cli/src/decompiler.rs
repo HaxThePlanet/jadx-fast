@@ -89,16 +89,29 @@ pub fn decompile_method(
         infer_types(&ssa)
     };
 
-    // Stage 5.5: Simplify instructions (arithmetic, boolean XOR)
-    // Convert types to std HashMap for simplify pass
+    // Stage 5.5-5.6: Iterative simplification and code shrinking (JADX parity)
+    // Run simplify + shrink in a loop until no more changes occur.
+    // This matches JADX's traverseIterative() behavior which runs passes repeatedly.
     let type_map: std::collections::HashMap<(u16, u32), _> = types.types.iter()
         .map(|(k, v)| (*k, v.clone()))
         .collect();
-    let _ = simplify_instructions(&mut ssa, Some(&type_map));
 
-    // Stage 5.6: Code shrinking - mark single-use variables for inlining
-    // This runs after simplify to work on the cleaned-up instruction stream
-    let shrink_result = shrink_code(&mut ssa);
+    // JADX uses: limit = 5 * block_count (see DepthRegionTraversal.java:13)
+    let max_iterations = 5 * ssa.blocks.len().max(1);
+    let mut shrink_result = CodeShrinkResult::default();
+    for _iteration in 0..max_iterations {
+        let simplify_result = simplify_instructions(&mut ssa, Some(&type_map));
+        let current_shrink = shrink_code(&mut ssa);
+
+        // Accumulate shrink results
+        shrink_result.wrapped_count += current_shrink.wrapped_count;
+        shrink_result.wrap_info.extend(current_shrink.wrap_info);
+
+        // Stop if no changes were made (fixpoint reached)
+        if simplify_result.simplified_count == 0 && current_shrink.wrapped_count == 0 {
+            break;
+        }
+    }
 
     // Stage 5.7: Final cleanup before codegen
     // Removes redundant moves, marks associative chains for parenthesis optimization
