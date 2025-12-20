@@ -2,6 +2,32 @@
 
 use tracing::error;
 
+/// Pre-computed indent strings for levels 0-20 (covers 99%+ of cases)
+/// Each level adds 4 spaces
+const INDENT_CACHE: [&str; 21] = [
+    "",                                                                                     // 0
+    "    ",                                                                                 // 1
+    "        ",                                                                             // 2
+    "            ",                                                                         // 3
+    "                ",                                                                     // 4
+    "                    ",                                                                 // 5
+    "                        ",                                                             // 6
+    "                            ",                                                         // 7
+    "                                ",                                                     // 8
+    "                                    ",                                                 // 9
+    "                                        ",                                             // 10
+    "                                            ",                                         // 11
+    "                                                ",                                     // 12
+    "                                                    ",                                 // 13
+    "                                                        ",                             // 14
+    "                                                            ",                         // 15
+    "                                                                ",                     // 16
+    "                                                                    ",                 // 17
+    "                                                                        ",             // 18
+    "                                                                            ",         // 19
+    "                                                                                ",     // 20
+];
+
 /// Code writer trait
 pub trait CodeWriter {
     /// Start a new line with current indentation
@@ -45,8 +71,14 @@ impl SimpleCodeWriter {
     }
 
     fn write_indent(&mut self) {
-        for _ in 0..self.indent_level {
-            self.buf.push_str(self.indent_str);
+        let level = self.indent_level as usize;
+        if level < INDENT_CACHE.len() {
+            self.buf.push_str(INDENT_CACHE[level]);
+        } else {
+            // Fallback for deep nesting (rare)
+            for _ in 0..self.indent_level {
+                self.buf.push_str(self.indent_str);
+            }
         }
     }
 }

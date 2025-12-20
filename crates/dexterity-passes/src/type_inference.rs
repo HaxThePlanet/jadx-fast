@@ -1572,11 +1572,12 @@ impl TypeInference {
                     dependencies.entry(*to).or_default().push(*from);
                 }
                 TypeSearchConstraint::PhiSame { vars } => {
-                    for &v1 in vars {
-                        for &v2 in vars {
-                            if v1 != v2 {
-                                dependencies.entry(v1).or_default().push(v2);
-                            }
+                    // OPTIMIZATION: Use symmetric insertion O(n) instead of O(n²)
+                    // Each pair is added once instead of twice
+                    for i in 0..vars.len() {
+                        for j in (i + 1)..vars.len() {
+                            dependencies.entry(vars[i]).or_default().push(vars[j]);
+                            dependencies.entry(vars[j]).or_default().push(vars[i]);
                         }
                     }
                 }

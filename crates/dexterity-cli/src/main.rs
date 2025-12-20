@@ -1193,7 +1193,7 @@ fn process_dex_bytes(
     let mut class_indices: Vec<u32> = Vec::with_capacity(class_count);
     let mut class_descs: rustc_hash::FxHashMap<u32, String> = rustc_hash::FxHashMap::default();
     let mut outer_class_indices: Vec<u32> = Vec::with_capacity(class_count);
-    let mut inner_class_map: std::collections::HashMap<String, Vec<(u32, String)>> = std::collections::HashMap::new();
+    let mut inner_class_map: rustc_hash::FxHashMap<String, Vec<(u32, String)>> = rustc_hash::FxHashMap::default();
     let mut outer_count = 0usize;
     let mut inner_count = 0usize;
 
