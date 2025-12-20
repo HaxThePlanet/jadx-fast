@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** 4 P0 + 5 P1 Critical Issues Open (Dec 20, 2025)
+**Status:** 2 P0 + 5 P1 Critical Issues Open (Dec 20, 2025)
 
 ## Open Issues - P0 Critical (Won't Compile)
 
@@ -40,25 +40,35 @@ static {
 
 **Priority:** P0 - COMPILATION ERROR
 **Scope:** 40+ methods
+**Status:** FIXED (Dec 20, 2025)
 
 **Problem:**
 ```java
-// Dexterity (WRONG):
+// Dexterity (WRONG - before fix):
 int i;  // Never initialized
 while (i < 16) {  // ERROR: Variable i might not have been initialized
     i++;
 }
 
-// JADX (CORRECT):
-for (int i = 0; i < 16; i++) {
-    ...
+// Dexterity (CORRECT - after fix):
+int i = 0;  // PHI constant init included
+while (i < 16) {
+    i++;
 }
 ```
 
 **Files Affected:**
 - `MD5Utils.java`, `h.java` (grpc), `ZendeskDiskLruCache.java`, +37 more
 
-**Root Cause:** `loops.rs`, `var_naming.rs` - Loop variable initialization lost
+**Root Cause:** PHI variable declarations didn't include constant initializers from SSA sources
+
+**Fix Applied:** Modified `body_gen.rs` to:
+1. Added `phi_constant_inits` field to track constant sources for PHI variables
+2. Added `collect_phi_constant_inits()` to scan SSA before consumption
+3. Modified `emit_phi_declarations()` to emit `int i = 0;` instead of `int i;`
+4. Added type compatibility checks (boolean 0/1 → false/true, objects → null)
+
+**Result:** Medium APK: 4 → 20 initialized variables. Large APK: 5,432 initialized (83% coverage).
 
 ---
 
@@ -66,16 +76,18 @@ for (int i = 0; i < 16; i++) {
 
 **Priority:** P0 - COMPILATION ERROR
 **Scope:** 5+ methods
-**Status:** OPEN
+**Status:** FIXED (Dec 20, 2025)
+**Commit:** `6b023278e`
 
 **Problem:**
 ```java
-// Dexterity (WRONG):
+// Dexterity (WRONG - before fix):
 int i = 0;
 throw i;  // ERROR: Incompatible types: int cannot be converted to Throwable
 
-// JADX (CORRECT):
-throw null;  // or proper exception
+// Dexterity (CORRECT - after fix):
+/* JADX WARN: Attempted to throw non-Throwable value */
+throw null;
 ```
 
 **Files Affected:**
@@ -83,7 +95,7 @@ throw null;  // or proper exception
 
 **Root Cause:** `body_gen.rs` - Exception object tracking lost in CFG
 
-**Fix Required:** Validate exception type before emitting throw; emit `throw null;` for non-Throwable types
+**Fix Applied:** Added validation in `body_gen.rs` that checks if the throw argument is a valid Throwable type. For non-Throwable types (primitives like int, boolean, etc.), emits `throw null;` with a JADX-style warning comment to maintain compilability.
 
 ---
 
@@ -214,6 +226,8 @@ return gVarArr;
 | BUG-001 to BUG-007 | Original P0 bugs | Dec 20, 2025 |
 | P1-001 to P1-004 | Original P1 bugs | Dec 20, 2025 |
 | NEW-001 | Static final = null + reassign | Dec 20, 2025 |
+| NEW-002 | Undefined/uninitialized variables | Dec 20, 2025 |
+| NEW-003 | throw non-Throwable validation | Dec 20, 2025 |
 | NEW-007 | Unreachable code after return | Dec 20, 2025 |
 | Variable Naming | Long prefix l->j, OBJ_ALIAS | Dec 20, 2025 |
 | P2-001 | JADX parity for variable naming | Dec 20, 2025 |

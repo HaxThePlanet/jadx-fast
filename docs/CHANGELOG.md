@@ -4,6 +4,66 @@ Development history and notable fixes.
 
 ## December 2025
 
+### NEW-002: Undefined/Uninitialized Variables - FIXED (Dec 20, 2025)
+
+Fixed P0 compilation error where PHI variables (loop variables, conditional merges) were declared without initializers.
+
+**Problem:**
+```java
+// Before (WRONG - won't compile):
+int i;  // Never initialized
+while (i < 16) {  // ERROR: Variable i might not have been initialized
+    i++;
+}
+```
+
+**Solution:**
+Added constant initializer tracking in `body_gen.rs`:
+1. `phi_constant_inits` field tracks constant sources for PHI variables
+2. `collect_phi_constant_inits()` scans SSA before consumption
+3. `emit_phi_declarations()` emits `int i = 0;` instead of `int i;`
+4. Type compatibility checks: boolean 0/1 -> false/true, objects -> null
+
+```java
+// After (compilable):
+int i = 0;  // PHI constant init included
+while (i < 16) {
+    i++;
+}
+```
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+
+---
+
+### NEW-003: throw non-Throwable Validation - FIXED (Dec 20, 2025)
+
+**Commit:** `6b023278e`
+
+Fixed P0 compilation error where non-Throwable types (primitives like int, boolean) were being thrown, producing invalid Java code.
+
+**Problem:**
+```java
+// Before (WRONG - won't compile):
+int i = 0;
+throw i;  // ERROR: Incompatible types: int cannot be converted to Throwable
+```
+
+**Solution:**
+Added validation in `body_gen.rs` that checks if the throw argument is a valid Throwable type. For non-Throwable types, emits `throw null;` with a JADX-style warning comment:
+
+```java
+// After (compilable):
+/* JADX WARN: Attempted to throw non-Throwable value */
+throw null;
+```
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+
+---
+
 ### P2-001: JADX Parity for Variable Naming in Method Parameters - FIXED (Dec 20, 2025)
 
 **Commit:** `d60cf950b`

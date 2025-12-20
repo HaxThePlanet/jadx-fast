@@ -13,20 +13,21 @@
 **Files:** `crates/dexterity-passes/src/extract_field_init.rs`
 **Status:** FIXED (Dec 20, 2025) - 344 → 4 patterns (99% reduction)
 
-### Phase 2: Undefined Variables (NEW-002)
+### Phase 2: Undefined Variables (NEW-002) - FIXED
 
 **Problem:** `int i; while(i < 16)` - i never initialized
 **Scope:** 40+ methods
-**Fix:** Properly track loop variable initialization in SSA
-**Files:** `crates/dexterity-passes/src/loops.rs`, `var_naming.rs`
+**Fix:** PHI variables now get constant initializers when sources include constants
+**Files:** `crates/dexterity-codegen/src/body_gen.rs`
+**Status:** FIXED (Dec 20, 2025) - PHI vars get constant init (e.g., `int i = 0;`)
 
-### Phase 3: throw non-Throwable (NEW-003)
+### Phase 3: throw non-Throwable (NEW-003) - FIXED
 
 **Problem:** `throw i;` where i is int
 **Scope:** 5+ methods
-**Fix:** Validate exception type, emit `throw null;` for non-Throwable types
+**Fix:** Validate exception type, emit `throw null;` with JADX warning comment for non-Throwable types
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
-**Status:** OPEN - fix not implemented
+**Status:** FIXED (Dec 20, 2025) - Commit `6b023278e`
 
 ### Phase 4: Variable Type Confusion (NEW-004)
 
@@ -77,6 +78,8 @@
 | Issue | Status |
 |-------|--------|
 | NEW-001 Static final = null | FIXED Dec 20 |
+| NEW-002 Undefined/uninitialized variables | FIXED Dec 20 |
+| NEW-003 throw non-Throwable validation | FIXED Dec 20 |
 | NEW-007 Unreachable code after return | FIXED Dec 20 |
 | Self-reference simplification | FIXED Dec 20 |
 | Empty else blocks | FIXED Dec 20 |

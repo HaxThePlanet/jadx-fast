@@ -1080,10 +1080,35 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
         // Use imports-aware and package-aware type formatting
         let type_str = type_to_string_with_imports_and_package(&var_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
 
-        // NEW-002 fix: Include constant initializer if available
+        // NEW-002 fix: Include constant initializer if available and type-compatible
         // This changes: `int i;` -> `int i = 0;` for loop variables with constant init
-        if let Some(init_value) = ctx.phi_constant_inits.get(&(reg, version)) {
-            code.add(&type_str).add(" ").add(&var_name).add(" = ").add(init_value).add(";").newline();
+        // Skip for booleans with non-boolean values (0/1 are valid, others aren't)
+        let init_value = ctx.phi_constant_inits.get(&(reg, version)).and_then(|v| {
+            // Type compatibility check: don't assign int to boolean
+            match &var_type {
+                ArgType::Boolean => {
+                    // For booleans, only emit if the value is "0", "1", "true", "false", or "null"
+                    match v.as_str() {
+                        "0" => Some("false".to_string()),
+                        "1" => Some("true".to_string()),
+                        "true" | "false" | "null" => Some(v.clone()),
+                        _ => None, // Skip invalid boolean values like "32"
+                    }
+                }
+                ArgType::Object(_) | ArgType::Array(_) => {
+                    // For objects, only emit null
+                    if v == "null" || v == "0" {
+                        Some("null".to_string())
+                    } else {
+                        None
+                    }
+                }
+                _ => Some(v.clone()), // For primitives, use as-is
+            }
+        });
+
+        if let Some(init_value) = init_value {
+            code.add(&type_str).add(" ").add(&var_name).add(" = ").add(&init_value).add(";").newline();
         } else {
             code.add(&type_str).add(" ").add(&var_name).add(";").newline();
         }

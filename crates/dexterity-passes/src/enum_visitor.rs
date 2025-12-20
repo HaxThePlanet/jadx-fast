@@ -463,8 +463,8 @@ where
                 match &insn.insn_type {
                     InsnType::Const { dest, value } if dest.reg_num == reg.reg_num => {
                         return match value {
-                            LiteralArg::Int(0) => EnumArg::Bool(false),
-                            LiteralArg::Int(1) => EnumArg::Bool(true),
+                            // Keep integers as integers - don't convert 0/1 to booleans
+                            // This fixes NEW-006: enum constants like OK(0) were becoming OK(false)
                             LiteralArg::Int(n) => EnumArg::Int(*n),
                             LiteralArg::Float(f) => EnumArg::Float(*f as f64),
                             LiteralArg::Double(d) => EnumArg::Float(*d),
