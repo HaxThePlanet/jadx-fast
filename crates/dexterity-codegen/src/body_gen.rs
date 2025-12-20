@@ -52,7 +52,7 @@ use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_else_if,
     gen_if_header, gen_while_header, gen_for_header,
 };
-use crate::type_gen::{literal_to_string, object_to_java_name, type_to_string, type_to_string_with_imports};
+use crate::type_gen::{literal_to_string, object_to_java_name, type_to_string, type_to_string_with_imports, type_to_string_with_imports_and_package};
 use crate::writer::CodeWriter;
 
 /// Sanitize a method name to be a valid Java identifier
@@ -110,6 +110,9 @@ pub struct BodyGenContext {
     /// Current class type (internal format like "com/example/MyClass")
     /// Used to distinguish super() vs this() in constructor calls
     pub current_class_type: Option<String>,
+    /// Current package (dot-separated like "com.example")
+    /// Used to emit simple type names for same-package types
+    pub current_package: Option<String>,
     /// Phi node destinations that need early declaration at method start
     /// These are variables that merge values from multiple branches
     pub phi_declarations: HashSet<(u16, u32)>,
@@ -258,6 +261,7 @@ impl BodyGenContext {
             anonymous_classes,
             final_vars: HashSet::new(),
             current_class_type: None,
+            current_package: None,
             phi_declarations: HashSet::new(),
             skip_foreach_insns: HashMap::new(),
             stringbuilder_chains: HashMap::new(),
@@ -325,7 +329,12 @@ impl BodyGenContext {
 
     /// Set the current class type (internal format like "com/example/MyClass")
     /// Used to distinguish super() vs this() in constructor calls
+    /// Also extracts and stores the package for same-package type resolution
     pub fn set_current_class_type(&mut self, class_type: String) {
+        // Extract package from class type (e.g., "com/example/MyClass" -> "com.example")
+        self.current_package = class_type.rfind('/').map(|pos| {
+            class_type[..pos].replace('/', ".")
+        });
         self.current_class_type = Some(class_type);
     }
 
@@ -844,12 +853,8 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
         // Emit declaration
         code.start_line();
 
-        // Use imports-aware type formatting if available
-        let type_str = if let Some(ref imports) = ctx.imports {
-            type_to_string_with_imports(&var_type, Some(imports))
-        } else {
-            type_to_string(&var_type)
-        };
+        // Use imports-aware and package-aware type formatting
+        let type_str = type_to_string_with_imports_and_package(&var_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
 
         code.add(&type_str).add(" ").add(&var_name).add(";").newline();
 
@@ -936,7 +941,7 @@ fn emit_assignment_with_hint<W: CodeWriter>(
         }
 
         // Use simple names when imports are available
-        let type_str = type_to_string_with_imports(&decl_type, ctx.imports.as_ref());
+        let type_str = type_to_string_with_imports_and_package(&decl_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
         code.add(&type_str).add(" ");
 
         ctx.mark_declared(reg, version);
@@ -1031,7 +1036,7 @@ fn emit_assignment_insn<W: CodeWriter>(
             code.add("final ");
         }
 
-        let type_str = type_to_string_with_imports(&decl_type, ctx.imports.as_ref());
+        let type_str = type_to_string_with_imports_and_package(&decl_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
         code.add(&type_str).add(" ");
 
         ctx.mark_declared(reg, version);
@@ -3894,7 +3899,7 @@ fn emit_ternary_assignment<W: CodeWriter>(
     code.start_line();
 
     if needs_decl {
-        let type_str = type_to_string_with_imports(&decl_type, ctx.imports.as_ref());
+        let type_str = type_to_string_with_imports_and_package(&decl_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
         code.add(&type_str).add(" ");
         ctx.mark_declared(reg, version);
         ctx.mark_name_declared(&var_name, &decl_type);
@@ -4019,7 +4024,7 @@ fn emit_single_branch_ternary<W: CodeWriter>(
     code.start_line();
 
     if needs_decl {
-        let type_str = type_to_string_with_imports(&decl_type, ctx.imports.as_ref());
+        let type_str = type_to_string_with_imports_and_package(&decl_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
         code.add(&type_str).add(" ");
         ctx.mark_declared(reg, version);
         ctx.mark_name_declared(&var_name, &decl_type);
@@ -4602,7 +4607,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                                     // Try to get element type from array type
                                     let elem_type = ctx.type_info.as_ref()
                                         .and_then(|ti| ti.types.get(&(elem_reg.0, elem_reg.1)))
-                                        .map(|t| type_to_string_with_imports(t, ctx.imports.as_ref()))
+                                        .map(|t| type_to_string_with_imports_and_package(t, ctx.imports.as_ref(), ctx.current_package.as_deref()))
                                         .unwrap_or_else(|| "Object".to_string());
 
                                     // Generate for-each: for (Type elem : array)
@@ -4974,7 +4979,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             if !ctx.is_declared(*dest_reg, *dest_version)
                 && !ctx.is_parameter(*dest_reg, *dest_version)
             {
-                let type_str = crate::type_gen::type_to_string(&var_type);
+                let type_str = type_to_string_with_imports_and_package(&var_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
                 code.add(&type_str).add(" ");
                 ctx.mark_declared(*dest_reg, *dest_version);
             }
@@ -6540,7 +6545,7 @@ fn generate_insn<W: CodeWriter>(
                     code.add("final ");
                 }
                 if let Some(arg_type) = decl_type {
-                    let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
+                    let type_str = type_to_string_with_imports_and_package(arg_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
                     code.add(&type_str).add(" ");
                 } else {
                     code.add(&type_name).add(" ");
@@ -6606,7 +6611,7 @@ fn generate_insn<W: CodeWriter>(
                     code.add("final ");
                 }
                 if let Some(arg_type) = decl_type {
-                    let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
+                    let type_str = type_to_string_with_imports_and_package(arg_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
                     code.add(&type_str).add(" ");
                 } else {
                     code.add("Object ");
@@ -7062,7 +7067,7 @@ fn generate_insn<W: CodeWriter>(
             let generic_suffix = if let Some(generics) = generic_types {
                 if !generics.is_empty() {
                     let types: Vec<_> = generics.iter()
-                        .map(|gt| type_to_string_with_imports(gt, ctx.imports.as_ref()))
+                        .map(|gt| type_to_string_with_imports_and_package(gt, ctx.imports.as_ref(), ctx.current_package.as_deref()))
                         .collect();
                     format!("<{}>", types.join(", "))
                 } else {
@@ -7112,7 +7117,7 @@ fn generate_insn<W: CodeWriter>(
                     code.add("final ");
                 }
                 if let Some(arg_type) = decl_type {
-                    let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
+                    let type_str = type_to_string_with_imports_and_package(arg_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
                     code.add(&type_str).add(" ");
                 } else {
                     // Use the constructed type as the declaration type

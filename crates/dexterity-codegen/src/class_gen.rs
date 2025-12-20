@@ -664,7 +664,7 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
 
     // Collect imports (used for both import statements and short name resolution)
     // Also collect from nested inner classes
-    let imports = if config.use_imports && !is_nested {
+    let (imports, current_package) = if config.use_imports && !is_nested {
         let mut collector = ImportCollector::new(&class.class_type);
         collector.collect_from_class_with_dex(class, dex_info.as_ref());
         // Collect imports from nested inner classes too
@@ -673,9 +673,9 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
                 collector.collect_from_class_with_dex(inner, dex_info.as_ref());
             }
         }
-        Some(collector.imports.clone())
+        (Some(collector.imports.clone()), collector.current_package.clone())
     } else {
-        None
+        (None, None)
     };
 
     // Generate import statements (only for top-level classes)
@@ -701,7 +701,7 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
     code.inc_indent();
 
     // Fields (use simple names when imports available, pass dex_info for enum string lookup)
-    add_fields(class, imports.as_ref(), config.escape_unicode, dex_info.as_ref(), config.comments_level, code);
+    add_fields(class, imports.as_ref(), current_package.as_deref(), config.escape_unicode, dex_info.as_ref(), config.comments_level, code);
 
     // Nested inner classes (generated after fields, before methods for Java convention)
     if let Some(nested) = nested_inner_classes {
@@ -782,9 +782,12 @@ fn add_inner_class_declaration<W: CodeWriter>(
     // Class name (simple name for inner classes)
     code.add(&simple_name);
 
+    // Get current package for simple type names
+    let pkg = get_package(&class.class_type);
+
     // Generic type parameters (e.g., <T, E extends Number>)
     // Like JADX's ClassGen.addGenericTypeParameters() - needed for inner interfaces/classes
-    generate_type_parameters(&class.type_parameters, imports, code);
+    generate_type_parameters(&class.type_parameters, imports, pkg.as_deref(), code);
 
     // Extends
     if let Some(ref superclass) = class.superclass {
@@ -796,7 +799,7 @@ fn add_inner_class_declaration<W: CodeWriter>(
             code.add(" extends ");
             // Use superclass_type with generics if available, otherwise fall back to plain Object type
             let ty = class.superclass_type.clone().unwrap_or_else(|| ArgType::Object(superclass.clone()));
-            code.add(&type_to_string_with_imports(&ty, imports));
+            code.add(&type_to_string_with_imports_and_package(&ty, imports, pkg.as_deref()));
         }
     }
 
@@ -810,7 +813,7 @@ fn add_inner_class_declaration<W: CodeWriter>(
         let ifaces: Vec<_> = class
             .interfaces
             .iter()
-            .map(|ty| type_to_string_with_imports(ty, imports))
+            .map(|ty| type_to_string_with_imports_and_package(ty, imports, pkg.as_deref()))
             .collect();
         code.add(&ifaces.join(", "));
     }
@@ -820,7 +823,7 @@ fn add_inner_class_declaration<W: CodeWriter>(
     code.inc_indent();
 
     // Fields (pass dex_info for enum string lookup)
-    add_fields(class, imports, config.escape_unicode, dex_info.as_ref(), config.comments_level, code);
+    add_fields(class, imports, pkg.as_deref(), config.escape_unicode, dex_info.as_ref(), config.comments_level, code);
 
     // Methods
     add_methods_with_inner_classes(class, config, imports, dex_info, inner_classes, code);
@@ -851,7 +854,7 @@ pub fn get_inner_class_simple_name(class_type: &str) -> String {
     }
 }
 
-use crate::type_gen::type_to_string_with_imports;
+use crate::type_gen::{type_to_string_with_imports, type_to_string_with_imports_and_package};
 
 /// Add a rename comment if the entity was renamed during deobfuscation
 fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str, comments_level: CommentsLevel) {
@@ -937,9 +940,12 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
     // Class name (use alias if available from deobfuscation)
     code.add(class.display_name());
 
+    // Get current package for simple type names
+    let pkg = get_package(&class.class_type);
+
     // Generic type parameters (e.g., <T, E extends Number>)
     // Like JADX's ClassGen.addGenericTypeParameters() at line 203
-    generate_type_parameters(&class.type_parameters, imports, code);
+    generate_type_parameters(&class.type_parameters, imports, pkg.as_deref(), code);
 
     // Extends
     if let Some(ref superclass) = class.superclass {
@@ -952,7 +958,7 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
             code.add(" extends ");
             // Use superclass_type with generics if available, otherwise fall back to plain Object type
             let ty = class.superclass_type.clone().unwrap_or_else(|| ArgType::Object(superclass.clone()));
-            code.add(&type_to_string_with_imports(&ty, imports));
+            code.add(&type_to_string_with_imports_and_package(&ty, imports, pkg.as_deref()));
         }
     }
 
@@ -966,7 +972,7 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
         let ifaces: Vec<_> = class
             .interfaces
             .iter()
-            .map(|ty| type_to_string_with_imports(ty, imports))
+            .map(|ty| type_to_string_with_imports_and_package(ty, imports, pkg.as_deref()))
             .collect();
         code.add(&ifaces.join(", "));
     }
@@ -976,6 +982,7 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
 fn add_fields<W: CodeWriter>(
     class: &ClassData,
     imports: Option<&BTreeSet<String>>,
+    current_package: Option<&str>,
     escape_unicode: bool,
     dex_info: Option<&std::sync::Arc<dyn DexInfoProvider>>,
     comments_level: CommentsLevel,
@@ -1011,7 +1018,7 @@ fn add_fields<W: CodeWriter>(
         if !instance_fields.is_empty() {
             code.newline();
             for field in instance_fields {
-                add_field(field, imports, escape_unicode, comments_level, code);
+                add_field(field, imports, current_package, escape_unicode, comments_level, code);
             }
         }
         return;
@@ -1034,12 +1041,12 @@ fn add_fields<W: CodeWriter>(
 
     // Static fields first
     for field in static_fields {
-        add_field(field, imports, escape_unicode, comments_level, code);
+        add_field(field, imports, current_package, escape_unicode, comments_level, code);
     }
 
     // Instance fields
     for field in instance_fields {
-        add_field(field, imports, escape_unicode, comments_level, code);
+        add_field(field, imports, current_package, escape_unicode, comments_level, code);
     }
 }
 
@@ -1148,7 +1155,7 @@ fn enum_arg_to_string(arg: &dexterity_passes::EnumArg) -> String {
 }
 
 /// Add a single field declaration
-fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>>, escape_unicode: bool, comments_level: CommentsLevel, code: &mut W) {
+fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>>, current_package: Option<&str>, escape_unicode: bool, comments_level: CommentsLevel, code: &mut W) {
     // Emit field annotations
     for annotation in &field.annotations {
         if should_emit_annotation(annotation) {
@@ -1173,8 +1180,8 @@ fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>
         code.add(&mods);
     }
 
-    // Type (use simple name if imported)
-    code.add(&type_to_string_with_imports(&field.field_type, imports));
+    // Type (use simple name if imported or same package)
+    code.add(&type_to_string_with_imports_and_package(&field.field_type, imports, current_package));
     code.add(" ");
 
     // Name (use alias if available from deobfuscation)

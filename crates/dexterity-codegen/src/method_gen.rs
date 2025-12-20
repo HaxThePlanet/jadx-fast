@@ -62,7 +62,7 @@ use crate::access_flags::{self, flags::*, AccessContext};
 use crate::body_gen::{generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes};
 use crate::class_gen::CommentsLevel;
 use crate::dex_info::DexInfoProvider;
-use crate::type_gen::{get_innermost_name, get_simple_name, type_to_string_with_imports};
+use crate::type_gen::{get_innermost_name, get_package, get_simple_name, type_to_string_with_imports_and_package};
 use crate::writer::CodeWriter;
 
 /// Add a rename comment if the method was renamed during deobfuscation
@@ -83,6 +83,7 @@ fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str, comment
 pub fn generate_type_parameters<W: CodeWriter>(
     type_params: &[TypeParameter],
     imports: Option<&BTreeSet<String>>,
+    current_package: Option<&str>,
     code: &mut W,
 ) {
     if type_params.is_empty() {
@@ -116,7 +117,7 @@ pub fn generate_type_parameters<W: CodeWriter>(
                 if j > 0 {
                     code.add(" & ");
                 }
-                code.add(&type_to_string_with_imports(bound, imports));
+                code.add(&type_to_string_with_imports_and_package(bound, imports, current_package));
             }
         }
     }
@@ -327,6 +328,10 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     code: &mut W,
 ) {
+    // Get current package for simple type names
+    let current_package = get_package(&class.class_type);
+    let pkg = current_package.as_deref();
+
     // Emit method annotations from DEX
     for annotation in &method.annotations {
         if should_emit_annotation(annotation) {
@@ -362,7 +367,7 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     // Type parameters (e.g., <T, E extends Number>)
     let has_type_params = !method.is_constructor() && !method.is_class_init() && !method.type_parameters.is_empty();
     if has_type_params {
-        generate_type_parameters(&method.type_parameters, imports, code);
+        generate_type_parameters(&method.type_parameters, imports, pkg, code);
         code.add(" "); // Space before return type
     }
 
@@ -375,8 +380,8 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         // Static initializer
         code.add("static");
     } else {
-        // Regular method (use simple names when imports available)
-        code.add(&type_to_string_with_imports(&method.return_type, imports));
+        // Regular method (use simple names when imports available or same package)
+        code.add(&type_to_string_with_imports_and_package(&method.return_type, imports, pkg));
         code.add(" ");
         // Use alias if available from deobfuscation, sanitize for valid Java identifier
         code.add(&sanitize_method_name(method.display_name()));
@@ -384,13 +389,13 @@ pub fn generate_method_with_dex<W: CodeWriter>(
 
     // Parameters (except for static initializer)
     if !method.is_class_init() {
-        add_parameters(method, imports, code);
+        add_parameters(method, imports, pkg, code);
     }
 
     // Throws clause (except for static initializer)
     if !method.is_class_init() {
         let throws = get_throws_from_annotations(&method.annotations);
-        add_throws_clause(&throws, imports, code);
+        add_throws_clause(&throws, imports, pkg, code);
     }
 
     // Method body
@@ -439,6 +444,10 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     add_debug_lines: bool,
     code: &mut W,
 ) {
+    // Get current package for simple type names
+    let current_package = get_package(&class.class_type);
+    let pkg = current_package.as_deref();
+
     // Emit method annotations from DEX
     for annotation in &method.annotations {
         if should_emit_annotation(annotation) {
@@ -476,7 +485,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     // Type parameters (e.g., <T, E extends Number>)
     let has_type_params = !method.is_constructor() && !method.is_class_init() && !method.type_parameters.is_empty();
     if has_type_params {
-        generate_type_parameters(&method.type_parameters, imports, code);
+        generate_type_parameters(&method.type_parameters, imports, pkg, code);
         code.add(" "); // Space before return type
     }
 
@@ -489,7 +498,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
         // Static initializer
         code.add("static");
     } else {
-        code.add(&type_to_string_with_imports(&method.return_type, imports));
+        code.add(&type_to_string_with_imports_and_package(&method.return_type, imports, pkg));
         code.add(" ");
         // Use alias if available from deobfuscation, sanitize for valid Java identifier
         code.add(&sanitize_method_name(method.display_name()));
@@ -497,13 +506,13 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
 
     // Parameters (except for static initializer)
     if !method.is_class_init() {
-        add_parameters(method, imports, code);
+        add_parameters(method, imports, pkg, code);
     }
 
     // Throws clause (except for static initializer)
     if !method.is_class_init() {
         let throws = get_throws_from_annotations(&method.annotations);
-        add_throws_clause(&throws, imports, code);
+        add_throws_clause(&throws, imports, pkg, code);
     }
 
     // Method body
@@ -597,7 +606,7 @@ fn get_throws_from_annotations(annotations: &[Annotation]) -> Vec<String> {
 }
 
 /// Add throws clause to method signature
-fn add_throws_clause<W: CodeWriter>(throws: &[String], imports: Option<&BTreeSet<String>>, code: &mut W) {
+fn add_throws_clause<W: CodeWriter>(throws: &[String], imports: Option<&BTreeSet<String>>, current_package: Option<&str>, code: &mut W) {
     if throws.is_empty() {
         return;
     }
@@ -606,13 +615,13 @@ fn add_throws_clause<W: CodeWriter>(throws: &[String], imports: Option<&BTreeSet
         if i > 0 {
             code.add(", ");
         }
-        // Use simple name if imported
-        code.add(&type_to_string_with_imports(&ArgType::Object(exception.clone()), imports));
+        // Use simple name if imported or same package
+        code.add(&type_to_string_with_imports_and_package(&ArgType::Object(exception.clone()), imports, current_package));
     }
 }
 
 /// Add method parameters
-fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<String>>, code: &mut W) {
+fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<String>>, current_package: Option<&str>, code: &mut W) {
     code.add("(");
 
     let is_varargs = method.access_flags & ACC_VARARGS != 0;
@@ -637,17 +646,17 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<
         let is_last = i == param_count - 1;
         let is_last_vararg = is_last && is_varargs;
 
-        // Type (convert last array to varargs if needed, use simple names when imports available)
+        // Type (convert last array to varargs if needed, use simple names when imports available or same package)
         if is_last_vararg {
             if let ArgType::Array(elem) = param_type {
-                code.add(&type_to_string_with_imports(elem, imports));
+                code.add(&type_to_string_with_imports_and_package(elem, imports, current_package));
                 code.add("...");
             } else {
                 // Fallback - shouldn't happen but handle gracefully
-                code.add(&type_to_string_with_imports(param_type, imports));
+                code.add(&type_to_string_with_imports_and_package(param_type, imports, current_package));
             }
         } else {
-            code.add(&type_to_string_with_imports(param_type, imports));
+            code.add(&type_to_string_with_imports_and_package(param_type, imports, current_package));
         }
 
         // Parameter name: use debug info if available, otherwise generate from type
@@ -856,7 +865,7 @@ mod tests {
             reified: false,
         }];
         let mut writer = SimpleCodeWriter::new();
-        generate_type_parameters(&invariant_params, None, &mut writer);
+        generate_type_parameters(&invariant_params, None, None, &mut writer);
         assert_eq!(writer.finish(), "<T>");
 
         // Test covariant (out) - Kotlin producer
@@ -867,7 +876,7 @@ mod tests {
             reified: false,
         }];
         let mut writer = SimpleCodeWriter::new();
-        generate_type_parameters(&out_params, None, &mut writer);
+        generate_type_parameters(&out_params, None, None, &mut writer);
         assert_eq!(writer.finish(), "<out E>");
 
         // Test contravariant (in) - Kotlin consumer
@@ -878,7 +887,7 @@ mod tests {
             reified: false,
         }];
         let mut writer = SimpleCodeWriter::new();
-        generate_type_parameters(&in_params, None, &mut writer);
+        generate_type_parameters(&in_params, None, None, &mut writer);
         assert_eq!(writer.finish(), "<in K>");
 
         // Test reified type parameter
@@ -889,7 +898,7 @@ mod tests {
             reified: true,
         }];
         let mut writer = SimpleCodeWriter::new();
-        generate_type_parameters(&reified_params, None, &mut writer);
+        generate_type_parameters(&reified_params, None, None, &mut writer);
         assert_eq!(writer.finish(), "<reified T>");
 
         // Test combined: out + reified
@@ -900,7 +909,7 @@ mod tests {
             reified: true,
         }];
         let mut writer = SimpleCodeWriter::new();
-        generate_type_parameters(&combined_params, None, &mut writer);
+        generate_type_parameters(&combined_params, None, None, &mut writer);
         assert_eq!(writer.finish(), "<out reified R>");
     }
 
@@ -923,7 +932,7 @@ mod tests {
             },
         ];
         let mut writer = SimpleCodeWriter::new();
-        generate_type_parameters(&params, None, &mut writer);
+        generate_type_parameters(&params, None, None, &mut writer);
         assert_eq!(writer.finish(), "<in K, out V>");
     }
 }
