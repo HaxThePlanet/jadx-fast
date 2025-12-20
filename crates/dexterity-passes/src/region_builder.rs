@@ -1601,9 +1601,15 @@ impl<'a> RegionBuilder<'a> {
 
             // Create then region - either break or the return block itself
             let then_region = if exits_via_return {
-                // Include the return block directly so the return statement is emitted
-                // If then_blocks is empty, use the direct successor which contains the return
-                if cond.then_blocks.is_empty() {
+                // Include ALL blocks from the exit path (including Goto blocks and final return)
+                // This ensures we capture const assignments before return
+                let exit_blocks = self.collect_exit_path_blocks(then_target);
+                if !exit_blocks.is_empty() {
+                    let contents: Vec<RegionContent> = exit_blocks.into_iter()
+                        .map(RegionContent::Block)
+                        .collect();
+                    Region::Sequence(contents)
+                } else if cond.then_blocks.is_empty() {
                     if let Some(target) = then_target {
                         Region::Sequence(vec![RegionContent::Block(target)])
                     } else {
@@ -1633,9 +1639,15 @@ impl<'a> RegionBuilder<'a> {
 
             // Create then region - either break or the return block itself
             let then_region = if exits_via_return {
-                // Include the return block directly so the return statement is emitted
-                // If else_blocks is empty, use the direct successor which contains the return
-                if cond.else_blocks.is_empty() {
+                // Include ALL blocks from the exit path (including Goto blocks and final return)
+                // This ensures we capture const assignments before return
+                let exit_blocks = self.collect_exit_path_blocks(else_target);
+                if !exit_blocks.is_empty() {
+                    let contents: Vec<RegionContent> = exit_blocks.into_iter()
+                        .map(RegionContent::Block)
+                        .collect();
+                    Region::Sequence(contents)
+                } else if cond.else_blocks.is_empty() {
                     if let Some(target) = else_target {
                         Region::Sequence(vec![RegionContent::Block(target)])
                     } else {
@@ -1654,6 +1666,50 @@ impl<'a> RegionBuilder<'a> {
                 else_region,
             })
         }
+    }
+
+    /// Collect all blocks in the exit path from start to the actual return/throw
+    /// This includes intermediate Goto blocks which may contain important assignments
+    fn collect_exit_path_blocks(&self, start: Option<u32>) -> Vec<u32> {
+        let mut blocks = Vec::new();
+        let mut current_block = match start {
+            Some(b) => b,
+            None => return blocks,
+        };
+        let mut visited = std::collections::BTreeSet::new();
+
+        for _ in 0..10 {
+            if !visited.insert(current_block) {
+                break;
+            }
+
+            if let Some(block) = self.cfg.get_block(current_block) {
+                blocks.push(current_block);
+
+                if let Some(last) = block.instructions.last() {
+                    match &last.insn_type {
+                        InsnType::Return { .. } | InsnType::Throw { .. } => {
+                            // Found the end of the path
+                            break;
+                        }
+                        InsnType::Goto { target } => {
+                            if let Some(target_block) = self.cfg.block_ids().find(|&bid| {
+                                self.cfg.get_block(bid)
+                                    .map(|b| b.start_offset == *target)
+                                    .unwrap_or(false)
+                            }) {
+                                current_block = target_block;
+                                continue;
+                            }
+                            break;
+                        }
+                        _ => break,
+                    }
+                }
+            }
+            break;
+        }
+        blocks
     }
 
     /// Check if a set of blocks exits via return or throw (not a loop break)
@@ -1683,9 +1739,6 @@ impl<'a> RegionBuilder<'a> {
                 if let Some(last) = block.instructions.last() {
                     match &last.insn_type {
                         InsnType::Return { .. } | InsnType::Throw { .. } => {
-                            if block_id < 30 {
-                                eprintln!("DEBUG block_ends_with_return: block {} hop {} -> RETURN", block_id, hop);
-                            }
                             return true;
                         }
                         InsnType::Goto { target } => {
@@ -1696,23 +1749,12 @@ impl<'a> RegionBuilder<'a> {
                                     .map(|b| b.start_offset == *target)
                                     .unwrap_or(false)
                             }) {
-                                if block_id < 30 {
-                                    eprintln!("DEBUG block_ends_with_return: block {} hop {} -> Goto {} -> block {}", block_id, hop, target, target_block);
-                                }
                                 current_block = target_block;
                                 continue;
                             }
-                            if block_id < 30 {
-                                eprintln!("DEBUG block_ends_with_return: block {} hop {} -> Goto {} NOT FOUND", block_id, hop, target);
-                            }
                             return false;
                         }
-                        _ => {
-                            if block_id < 30 {
-                                eprintln!("DEBUG block_ends_with_return: block {} hop {} -> other", block_id, hop);
-                            }
-                            return false;
-                        }
+                        _ => return false,
                     }
                 }
             }
