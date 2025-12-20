@@ -88,7 +88,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Net Rust lines** | 55,624 |
 | **Final codebase** | ~89,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
-| **Tests** | 1,175 total (685 integration + 490 unit) |
+| **Tests** | 1,176 total (686 integration + 490 unit) |
 
 ## Parity Analysis: JADX vs Dexterity (Dec 18, 2025)
 
@@ -509,7 +509,7 @@ cargo test
 
 ### Tests
 
-- **1,175 total tests** (685 integration + 490 unit) - 100% pass rate
+- **1,176 total tests** (686 integration + 490 unit) - 100% pass rate
 - Integration tests in `crates/dexterity-cli/tests/integration/`
 
 ## Implementation Status
