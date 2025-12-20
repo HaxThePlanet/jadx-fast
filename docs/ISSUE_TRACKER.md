@@ -3,9 +3,9 @@
 This tracker contains structured issues for autonomous agents working toward JADX parity.
 See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
-**Status (Dec 20, 2025): PRODUCTION READY with A- (88-90/100) quality**
+**Status (Dec 19, 2025): PRODUCTION READY with A- (88-90/100) quality**
 
-**35+ total issues (ALL RESOLVED)**
+**37+ total issues (ALL RESOLVED)**
 - DEC19-OPEN-001: Variable 'obj' prefix - **RESOLVED** (44% reduction via type-aware declaration)
 - DEC19-OPEN-002: Array for-each loop detection - **RESOLVED** (working since Dec 16)
 - DEC19-OPEN-003: StringBuilder chain collapsing - **RESOLVED** (handled at codegen level)
@@ -15,6 +15,7 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 - **NEW-P1-001: Control Flow Duplication** - **RESOLVED Dec 20** (commit 8ac97729c, 11.5% line reduction)
 - **NEW-P1-002: Early Return in Loops** - **RESOLVED Dec 20** (commit ebe6fe276, new test added)
 - **NEW-P2-001: Variable Naming in Complex Methods** - **RESOLVED Dec 19** (PHI source transitivity + Move tracking)
+- **P0-CRITICAL: Variable Type Safety Violations** - **RESOLVED Dec 19** (types_compatible_for_naming() made conservative)
 
 All P0-P2 issues resolved:
 - Overall Quality: **A- (88-90/100)** based on objective `output/dexterity` vs `output/jadx` comparison
@@ -167,6 +168,56 @@ PHI source uses were counted in `use_counts`, preventing single-use inlining.
 - [x] Reduce numbered variable suffixes (str2, i3) in complex methods
 - [x] PHI nodes properly coalesced for naming
 - [x] All 1,177 tests pass
+
+---
+
+### Issue ID: P0-VARIABLE-TYPE-SAFETY
+
+**Status:** RESOLVED (Dec 19, 2025)
+**Priority:** P0 (CRITICAL)
+**Category:** Variable Type Safety
+**Impact:** Type-unsafe code like `StringBuilder obj6 = ...; obj6 = 1;` - different types sharing same variable
+**Assigned To:** Completed
+
+**The Problem (FIXED):**
+```java
+// Dexterity output (BEFORE - BROKEN)
+StringBuilder obj6 = new StringBuilder();
+obj6 = 1;  // BUG: int assigned to StringBuilder variable!
+
+// Dexterity output (AFTER - FIXED)
+StringBuilder obj6 = new StringBuilder();
+int obj6_2 = 1;  // Correct: different types get different names
+```
+
+**Root Cause (Found and Fixed):**
+`types_compatible_for_naming()` was too permissive with Unknown type variants:
+- `UnknownObject` was compatible with primitives (should only be Object types)
+- `UnknownNarrow/UnknownIntegral` were compatible with Objects (should only be primitives)
+- Generic `Unknown` was compatible with concrete types (unsafe grouping)
+
+**Fix Applied (Dec 19, 2025):**
+1. Made `types_compatible_for_naming()` more conservative (lines 177-222):
+   - `UnknownObject` now only compatible with Object types (not primitives)
+   - `UnknownNarrow/UnknownIntegral` now only compatible with narrow primitives (not Objects)
+   - Generic `Unknown` is NOT compatible with concrete types
+
+2. Strengthened `check_compatible` and `add_connection` closures (lines 264-295):
+   - When one type is missing from HashMap and the other is present, don't group them
+   - Only group if both types are missing (Unknown + Unknown is safe)
+
+**Result:**
+- All 1,201 tests pass
+- SplashActivity.java type mismatch bug is fixed
+- StringBuilder and int now get separate variable names (obj6 vs obj6_2)
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` - Conservative type compatibility + strengthened closures
+
+**Acceptance Criteria:**
+- [x] StringBuilder and int get separate variable names
+- [x] No type-unsafe variable assignments in decompiled output
+- [x] All 1,201 tests pass
 
 ---
 

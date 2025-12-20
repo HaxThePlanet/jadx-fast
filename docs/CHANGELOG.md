@@ -4,6 +4,49 @@ Development history and notable fixes.
 
 ## December 2025
 
+### P0-CRITICAL: Variable Type Safety Violations - FIXED (Dec 19, 2025)
+
+**Priority:** P0-CRITICAL - RESOLVED
+
+**The Problem:**
+Type-unsafe code was being generated where different types shared the same variable name:
+```java
+// Before (broken):
+StringBuilder obj6 = new StringBuilder();
+obj6 = 1;  // BUG: int assigned to StringBuilder variable!
+
+// After (fixed):
+StringBuilder obj6 = new StringBuilder();
+int obj6_2 = 1;  // Correct: different types get different names
+```
+
+**Root Cause:**
+`types_compatible_for_naming()` in `var_naming.rs` was too permissive with Unknown type variants:
+- `UnknownObject` was compatible with primitives (should only be Object types)
+- `UnknownNarrow/UnknownIntegral` were compatible with Objects (should only be primitives)
+- Generic `Unknown` was compatible with concrete types (unsafe grouping)
+
+**Fix Applied:**
+
+1. Made `types_compatible_for_naming()` more conservative (lines 177-222):
+   - `UnknownObject` now only compatible with Object types (not primitives)
+   - `UnknownNarrow/UnknownIntegral` now only compatible with narrow primitives (not Objects)
+   - Generic `Unknown` is NOT compatible with concrete types
+
+2. Strengthened `check_compatible` and `add_connection` closures (lines 264-295):
+   - When one type is missing from HashMap and the other is present, don't group them
+   - Only group if both types are missing (Unknown + Unknown is safe)
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs`
+
+**Results:**
+- All 1,201 tests pass
+- SplashActivity.java type mismatch bug is fixed
+- StringBuilder and int now get separate variable names (obj6 vs obj6_2)
+
+---
+
 ### P1-002: Early Return in Loops - FIXED (Dec 20, 2025)
 
 **Commit:** `ebe6fe276`

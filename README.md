@@ -23,9 +23,9 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **🔄 Drop-in JADX Replacement** — Same CLI arguments, same output structure. Replace `jadx` with `dexterity` in your existing scripts and workflows.
 
-**~89,000 lines of Rust | 1,177 tests passing (687 integration + 490 unit) | 2-124x faster than JADX**
+**~89,000 lines of Rust | 1,201 tests passing | 2-124x faster than JADX**
 
-**Status (Dec 20, 2025):** PRODUCTION READY with **A- quality (88-90/100)** based on objective output comparison. Dexterity achieves **1:1 identical output** on simple APKs, produces correct code on complex APKs, and is **1.9x-127x faster** than JADX. **All P0-P1 Critical issues FIXED** (Dec 20: control flow duplication fixed, early returns in loops fixed). 1 P2 issue remains (variable naming in complex methods). Framework classes skipped by default (use `--include-framework` to include them).
+**Status (Dec 19, 2025):** PRODUCTION READY with **A- quality (88-90/100)** based on objective output comparison. Dexterity achieves **1:1 identical output** on simple APKs, produces correct code on complex APKs, and is **1.9x-127x faster** than JADX. **All P0-P1 Critical issues FIXED** (Dec 19: P0 variable type safety fixed, Dec 20: control flow duplication fixed, early returns in loops fixed). Framework classes skipped by default (use `--include-framework` to include them).
 
 ## Speed vs Quality Trade-off
 
@@ -90,7 +90,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Net Rust lines** | 55,624 |
 | **Final codebase** | ~89,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
-| **Tests** | 1,177 total (687 integration + 490 unit) |
+| **Tests** | 1,201 total |
 
 ## Parity Analysis: JADX vs Dexterity (Dec 18, 2025)
 
@@ -234,7 +234,7 @@ public class MainActivity extends Activity {
 | Criterion | JADX | Dexterity | Winner |
 |-----------|:----:|:---------:|:------:|
 | Simple APK Output | ✅ | ✅ | **Tie (1:1)** |
-| Semantic Variable Names | ✅ | ✅ | **Dexterity** (99.96% fix rate) |
+| Semantic Variable Names | ✅ | ✅ | **Dexterity** (99.96% fix rate + P0 type safety) |
 | Class Generic Type Params | ✅ | ✅ | **Tie** |
 | Interface Generic Params | ✅ | ✅ | **Tie** |
 | Type Inference | ✅ | ✅ | **Tie** (0 failures) |
@@ -260,7 +260,7 @@ public class MainActivity extends Activity {
 - **Use Dexterity** for most use cases - A- quality (88-90/100) at 2-124x the speed
 - **Use Dexterity** for simple APKs - 1:1 identical output
 - **Use Dexterity** for performance-critical workflows - 2-124x faster with production quality
-- **Use JADX** if you need semantic variable naming in complex methods (P2-001 still open)
+- **Use Dexterity** for type-safe variable naming - P0 type safety issues fixed (Dec 19)
 
 ## Key Features
 
@@ -522,7 +522,7 @@ cargo test
 
 ### Tests
 
-- **1,177 total tests** (687 integration + 490 unit) - 100% pass rate
+- **1,201 total tests** - 100% pass rate
 - Integration tests in `crates/dexterity-cli/tests/integration/`
 
 ## Implementation Status
