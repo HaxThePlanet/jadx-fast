@@ -42,6 +42,7 @@ use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplic
 use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 use dexterity_passes::var_naming::types_compatible_for_naming;
+use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen};
 
 use crate::class_gen::{get_inner_class_simple_name, is_anonymous_class};
 use crate::dex_info::DexInfoProvider;
@@ -1366,9 +1367,21 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     let block_result = cfg.into_blocks();
 
-    let ssa_result = transform_to_ssa_owned(block_result);
+    let mut ssa_result = transform_to_ssa_owned(block_result);
+
+    // Apply optimization passes (matching decompiler.rs pipeline)
+    let _ = run_mod_visitor(&mut ssa_result);
+    let _ = inline_constants(&mut ssa_result);
 
     let type_result = infer_types(&ssa_result);
+
+    // Post-type-inference optimizations
+    let type_map: std::collections::HashMap<(u16, u32), _> = type_result.types.iter()
+        .map(|(k, v)| (*k, v.clone()))
+        .collect();
+    let _ = simplify_instructions(&mut ssa_result, Some(&type_map));
+    let _ = shrink_code(&mut ssa_result);
+    let _ = prepare_for_codegen(&mut ssa_result, Some(&type_map));
 
     // Use sophisticated variable naming from dexterity-passes (JADX-compatible)
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
@@ -1492,7 +1505,11 @@ fn generate_body_impl<W: CodeWriter>(
 
     let block_result = cfg.into_blocks();
 
-    let ssa_result = transform_to_ssa_owned(block_result);
+    let mut ssa_result = transform_to_ssa_owned(block_result);
+
+    // Apply optimization passes (matching decompiler.rs pipeline)
+    let _ = run_mod_visitor(&mut ssa_result);
+    let _ = inline_constants(&mut ssa_result);
 
     let type_result = if let Some(ref dex) = dex_info {
         let dex_clone = dex.clone();
@@ -1509,6 +1526,14 @@ fn generate_body_impl<W: CodeWriter>(
     } else {
         infer_types(&ssa_result)
     };
+
+    // Post-type-inference optimizations
+    let type_map: std::collections::HashMap<(u16, u32), _> = type_result.types.iter()
+        .map(|(k, v)| (*k, v.clone()))
+        .collect();
+    let _ = simplify_instructions(&mut ssa_result, Some(&type_map));
+    let _ = shrink_code(&mut ssa_result);
+    let _ = prepare_for_codegen(&mut ssa_result, Some(&type_map));
 
     // Use sophisticated variable naming from dexterity-passes (JADX-compatible)
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
@@ -1755,7 +1780,14 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     
     let block_result = cfg.into_blocks();
 
-    let ssa_result = transform_to_ssa_owned(block_result);
+    let mut ssa_result = transform_to_ssa_owned(block_result);
+
+    // Apply optimization passes (matching decompiler.rs pipeline)
+    // Stage 1: ModVisitor - array initialization fusion, dead code removal
+    let _ = run_mod_visitor(&mut ssa_result);
+
+    // Stage 2: Constant inlining (before type inference for better results)
+    let _ = inline_constants(&mut ssa_result);
 
     // Use the most complete type inference variant available:
     // - With both hierarchy and dex_info: best precision (lookups + LCA computation)
@@ -1797,6 +1829,19 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
             infer_types(&ssa_result)
         }
     };
+
+    // Stage 3: Post-type-inference optimizations
+    // Convert types to HashMap for simplify pass
+    let type_map: std::collections::HashMap<(u16, u32), _> = type_result.types.iter()
+        .map(|(k, v)| (*k, v.clone()))
+        .collect();
+    let _ = simplify_instructions(&mut ssa_result, Some(&type_map));
+
+    // Stage 4: Code shrinking - mark single-use variables for inlining
+    let _ = shrink_code(&mut ssa_result);
+
+    // Stage 5: Final cleanup before codegen
+    let _ = prepare_for_codegen(&mut ssa_result, Some(&type_map));
 
     // Use sophisticated variable naming from dexterity-passes (JADX-compatible)
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
@@ -7273,8 +7318,9 @@ mod tests {
 
         eprintln!("Generated code:\n{}", code);
 
-        // v0 is used twice and never reassigned - should be final
-        assert!(code.contains("final"), "Expected 'final' keyword for variable used multiple times but never reassigned. Code: {}", code);
+        // With optimization passes enabled, the constant 42 is inlined directly into return
+        // This is the expected optimized output - no variable needed at all
+        assert!(code.contains("return 42"), "Expected constant inlining: return 42. Code: {}", code);
     }
 
     #[test]
