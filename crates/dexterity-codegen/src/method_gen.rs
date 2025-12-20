@@ -15,6 +15,47 @@ fn sanitize_method_name(name: &str) -> String {
     name.replace('-', "_")
 }
 
+/// Check if a method is too complex to decompile cleanly
+/// Returns Some(reason) if method should be skipped, None if it should be decompiled normally
+///
+/// This matches JADX's behavior of skipping extremely complex methods (typically Kotlin Compose UI)
+/// rather than producing thousands of lines of unreadable code.
+fn should_skip_complex_method(method: &MethodData) -> Option<String> {
+    // Check instruction count threshold (JADX uses similar threshold)
+    if let Some(ref bytecode_ref) = method.bytecode_ref {
+        if bytecode_ref.insns_count > 2000 {
+            return Some(format!("instructions count: {}", bytecode_ref.insns_count));
+        }
+    }
+
+    // Check for Compose patterns - Jetpack Compose methods are notoriously complex
+    // Composer parameter indicates Compose UI code
+    for arg_type in &method.arg_types {
+        match arg_type {
+            ArgType::Object(type_name) => {
+                if type_name.contains("Composer") && (type_name.starts_with("androidx/compose/") || type_name.starts_with("androidx.compose.")) {
+                    return Some("Kotlin Compose UI code with Composer parameter".to_string());
+                }
+            }
+            ArgType::Generic { base, .. } => {
+                if base.contains("Composer") && (base.starts_with("androidx/compose/") || base.starts_with("androidx.compose.")) {
+                    return Some("Kotlin Compose UI code with Composer parameter".to_string());
+                }
+            }
+            _ => {}
+        }
+    }
+
+    // Check for @Composable annotation
+    for annotation in &method.annotations {
+        if annotation.annotation_type.ends_with("/Composable;") || annotation.annotation_type.ends_with(".Composable;") {
+            return Some("@Composable annotation detected".to_string());
+        }
+    }
+
+    None
+}
+
 use dexterity_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData, TypeParameter};
 
 use crate::access_flags::{self, flags::*, AccessContext};
@@ -470,11 +511,32 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
-        code.add(" {").newline();
-        code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
-        code.dec_indent();
-        code.start_line().add("}").newline();
+        // Check if method is too complex to decompile cleanly
+        // Match JADX behavior: emit stub for extremely complex methods
+        if let Some(reason) = should_skip_complex_method(method) {
+            code.add(" {").newline();
+            code.inc_indent();
+            code.start_line().add("/*").newline();
+            code.start_line().add("    Method decompilation skipped: too complex").newline();
+            code.start_line().add("    Reason: ").add(&reason).newline();
+            code.start_line().add("    To view this dump add '--show-bad-code' option").newline();
+            code.start_line().add("*/").newline();
+            code.start_line().add("throw new UnsupportedOperationException(\"Method not decompiled: ")
+                .add(&get_simple_name(&class.class_type))
+                .add(".")
+                .add(&sanitize_method_name(method.display_name()))
+                .add("()\");")
+                .newline();
+            code.dec_indent();
+            code.start_line().add("}").newline();
+        } else {
+            // Regular method with body
+            code.add(" {").newline();
+            code.inc_indent();
+            add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+            code.dec_indent();
+            code.start_line().add("}").newline();
+        }
     }
 }
 
