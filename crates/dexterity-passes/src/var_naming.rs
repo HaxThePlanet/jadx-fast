@@ -174,13 +174,49 @@ pub fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
         return true;
     }
 
-    // Unknown types are compatible with anything (they'll be resolved later)
+    // CRITICAL FIX (Dec 2025): Unknown types should be handled more carefully for naming.
+    // Previously, Unknown types were compatible with anything, which caused bugs like:
+    //   StringBuilder obj6 = new StringBuilder();
+    //   obj6 = 1;  // BUG: UnknownNarrow (for int 1) was compatible with Object!
+    //
+    // For NAMING purposes, we need to be more conservative:
+    // - UnknownObject should only be compatible with Objects (not primitives)
+    // - UnknownNarrow/UnknownIntegral should only be compatible with narrow types (not Objects)
+    // - Unknown/UnknownWide should only be compatible with other Unknown types
     match (t1, t2) {
+        // Two unknown types are compatible with each other
         (ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide |
-         ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral, _) |
-        (_, ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide |
+         ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral,
+         ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide |
          ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral) => {
             return true;
+        }
+        // UnknownObject is compatible with Object types (but not primitives)
+        (ArgType::UnknownObject, ArgType::Object(_) | ArgType::Array(_) | ArgType::Generic { .. }) |
+        (ArgType::Object(_) | ArgType::Array(_) | ArgType::Generic { .. }, ArgType::UnknownObject) => {
+            return true;
+        }
+        // UnknownArray is compatible with Array types
+        (ArgType::UnknownArray, ArgType::Array(_)) |
+        (ArgType::Array(_), ArgType::UnknownArray) => {
+            return true;
+        }
+        // UnknownNarrow/UnknownIntegral are compatible with narrow primitive types (not objects)
+        (ArgType::UnknownNarrow | ArgType::UnknownIntegral,
+         ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short | ArgType::Int) |
+        (ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short | ArgType::Int,
+         ArgType::UnknownNarrow | ArgType::UnknownIntegral) => {
+            return true;
+        }
+        // UnknownWide is compatible with wide primitive types (long, double)
+        (ArgType::UnknownWide, ArgType::Long | ArgType::Double | ArgType::Float) |
+        (ArgType::Long | ArgType::Double | ArgType::Float, ArgType::UnknownWide) => {
+            return true;
+        }
+        // Generic Unknown is NOT compatible with concrete types - be conservative
+        // This prevents StringBuilder vs int issues when type inference is incomplete
+        (ArgType::Unknown, _) | (_, ArgType::Unknown) => {
+            return false;  // Conservative: don't group with concrete types
         }
         _ => {}
     }
@@ -2051,13 +2087,35 @@ mod tests {
             &ArgType::Object("java/lang/Object".to_string())
         ));
 
-        // Unknown types are compatible with anything
-        assert!(types_compatible_for_naming(&ArgType::Unknown, &ArgType::Int));
-        assert!(types_compatible_for_naming(&ArgType::Unknown, &ArgType::Boolean));
-        assert!(types_compatible_for_naming(
+        // Unknown types are NOT compatible with concrete types (conservative for naming)
+        // This prevents bugs like StringBuilder obj6 = ...; obj6 = 1;
+        assert!(!types_compatible_for_naming(&ArgType::Unknown, &ArgType::Int));
+        assert!(!types_compatible_for_naming(&ArgType::Unknown, &ArgType::Boolean));
+        assert!(!types_compatible_for_naming(
             &ArgType::Unknown,
             &ArgType::Object("java/lang/String".to_string())
         ));
-        assert!(types_compatible_for_naming(&ArgType::Int, &ArgType::Unknown));
+        assert!(!types_compatible_for_naming(&ArgType::Int, &ArgType::Unknown));
+
+        // But Unknown types are compatible with each other
+        assert!(types_compatible_for_naming(&ArgType::Unknown, &ArgType::Unknown));
+        assert!(types_compatible_for_naming(&ArgType::Unknown, &ArgType::UnknownNarrow));
+        assert!(types_compatible_for_naming(&ArgType::UnknownObject, &ArgType::UnknownArray));
+
+        // UnknownObject is compatible with Object types
+        assert!(types_compatible_for_naming(
+            &ArgType::UnknownObject,
+            &ArgType::Object("java/lang/String".to_string())
+        ));
+
+        // UnknownNarrow is compatible with narrow primitives
+        assert!(types_compatible_for_naming(&ArgType::UnknownNarrow, &ArgType::Int));
+        assert!(types_compatible_for_naming(&ArgType::UnknownIntegral, &ArgType::Int));
+
+        // But UnknownNarrow is NOT compatible with Object types (the key fix!)
+        assert!(!types_compatible_for_naming(
+            &ArgType::UnknownNarrow,
+            &ArgType::Object("java/lang/StringBuilder".to_string())
+        ));
     }
 }
