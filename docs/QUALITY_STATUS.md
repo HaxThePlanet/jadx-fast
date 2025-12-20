@@ -15,7 +15,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx`:
 | Speed | 3-13x faster | Baseline | Dexterity |
 | File Coverage | +17.9% more files | Baseline | Dexterity |
 | Variable Naming | Type-based (str, i2) | Semantic | JADX |
-| Control Flow | Early return bugs, duplicates | Correct | JADX |
+| Control Flow | Duplication FIXED Dec 20, early returns partial | Correct | JADX |
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 
@@ -44,7 +44,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx`:
 | Unit Tests | **490/490 passing** |
 | Total Tests | **1,176 passing** |
 | Speed Advantage | 3-88x faster than JADX |
-| **Remaining Code Issues** | **3 P1-P2 issues** (control flow, early returns, variable naming - see below) |
+| **Remaining Code Issues** | **2 P1-P2 issues** (P1-001 control flow FIXED Dec 20, early returns partial, variable naming - see below) |
 | **Remaining Resource Issues** | **ALL 5 FIXED** (XML enums, localized strings, density qualifiers, missing resource files, resource naming convention) |
 | Synthetic Accessor Resolution | **Investigation complete** (Dec 19) - Solution designed, not implemented |
 

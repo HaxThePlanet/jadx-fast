@@ -1544,10 +1544,11 @@ impl<'a> RegionBuilder<'a> {
         })
     }
 
-    /// Create if-break region for a conditional that exits the loop
+    /// Create if-break or if-return region for a conditional that exits the loop
     ///
     /// When one branch of an IF exits the loop, we create:
-    /// - if (cond) break; else { body } - when then branch exits
+    /// - if (cond) break; else { body } - when then branch exits via jump
+    /// - if (cond) return; else { body } - when then branch exits via return
     /// - if (!cond) break; else { body } - when else branch exits (negated condition)
     fn create_loop_break_region(&mut self, cond: &IfInfo, loop_info: &LoopInfo) -> Option<Region> {
         let then_exits = cond.then_blocks.iter().any(|b| !loop_info.blocks.contains(b));
@@ -1561,10 +1562,7 @@ impl<'a> RegionBuilder<'a> {
 
         // Check if the exit branch terminates with return/throw (not a break)
         let exit_blocks = if then_exits { &cond.then_blocks } else { &cond.else_blocks };
-        if self.exits_via_return_or_throw(exit_blocks) {
-            // This is a return/throw, not a break - let codegen handle it
-            return None;
-        }
+        let exits_via_return = self.exits_via_return_or_throw(exit_blocks);
 
         // Get break label for nested loops
         let label = if loop_info.parent.is_some() {
@@ -1574,30 +1572,48 @@ impl<'a> RegionBuilder<'a> {
         };
 
         if then_exits {
-            // Then branch exits the loop: if (cond) break; [else { body }]
+            // Then branch exits the loop: if (cond) break/return; [else { body }]
             let condition = self.extract_condition_with_negation(cond.condition_block, cond.negate_condition);
             let else_region = if cond.else_blocks.is_empty() {
                 None
             } else {
                 Some(Box::new(self.build_branch_region(&cond.else_blocks)))
             };
+
+            // Create then region - either break or the return block itself
+            let then_region = if exits_via_return {
+                // Include the return block directly so the return statement is emitted
+                self.build_branch_region(&cond.then_blocks)
+            } else {
+                Region::Break { label }
+            };
+
             Some(Region::If {
                 condition,
-                then_region: Box::new(Region::Break { label }),
+                then_region: Box::new(then_region),
                 else_region,
             })
         } else {
-            // Else branch exits the loop: if (!cond) break; [else { body }]
-            // Negate the condition so the break is in the then branch
+            // Else branch exits the loop: if (!cond) break/return; [else { body }]
+            // Negate the condition so the break/return is in the then branch
             let condition = self.extract_condition_with_negation(cond.condition_block, !cond.negate_condition);
             let else_region = if cond.then_blocks.is_empty() {
                 None
             } else {
                 Some(Box::new(self.build_branch_region(&cond.then_blocks)))
             };
+
+            // Create then region - either break or the return block itself
+            let then_region = if exits_via_return {
+                // Include the return block directly so the return statement is emitted
+                self.build_branch_region(&cond.else_blocks)
+            } else {
+                Region::Break { label }
+            };
+
             Some(Region::If {
                 condition,
-                then_region: Box::new(Region::Break { label }),
+                then_region: Box::new(then_region),
                 else_region,
             })
         }
