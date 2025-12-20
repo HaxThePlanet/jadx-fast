@@ -146,10 +146,15 @@ impl FixTypes {
         self
     }
 
+    /// Check if a type is considered unresolved
+    fn is_unresolved(ty: &ArgType) -> bool {
+        matches!(ty, ArgType::Unknown | ArgType::TypeVariable(_))
+    }
+
     /// Check if all types are resolved
     fn check_types(&self) -> bool {
-        for (var, ty) in &self.resolved_types {
-            if matches!(ty, ArgType::Unknown) {
+        for (_var, ty) in &self.resolved_types {
+            if Self::is_unresolved(ty) {
                 return false;
             }
         }
@@ -160,7 +165,7 @@ impl FixTypes {
     fn count_unresolved(&self) -> usize {
         self.resolved_types
             .values()
-            .filter(|ty| matches!(ty, ArgType::Unknown))
+            .filter(|ty| Self::is_unresolved(ty))
             .count()
     }
 
@@ -168,7 +173,7 @@ impl FixTypes {
     fn get_unresolved_vars(&self) -> Vec<TypeVar> {
         self.resolved_types
             .iter()
-            .filter(|(_, ty)| matches!(ty, ArgType::Unknown))
+            .filter(|(_, ty)| Self::is_unresolved(ty))
             .map(|(var, _)| *var)
             .collect()
     }
@@ -442,7 +447,7 @@ impl FixTypes {
             }
 
             if let Some(info) = self.type_info.get(&var) {
-                // Find object types with generics
+                // Find object types with generics or unresolved type variables
                 for bound in info.bounds() {
                     if let Some(ty) = bound.get_type() {
                         match ty {
@@ -456,6 +461,19 @@ impl FixTypes {
                             ArgType::Object(_) => {
                                 // Already a raw type, use it
                                 self.resolved_types.insert(var, ty.clone());
+                                changed = true;
+                                break;
+                            }
+                            ArgType::TypeVariable(_) => {
+                                // Unresolved type variable - fall back to Object
+                                // This handles cases where type inference couldn't resolve
+                                // the type variable (e.g., missing generic context)
+                                tracing::debug!(
+                                    "Falling back to Object for unresolved TypeVariable: {:?}",
+                                    ty
+                                );
+                                let fallback = ArgType::Object("java/lang/Object".to_string());
+                                self.resolved_types.insert(var, fallback);
                                 changed = true;
                                 break;
                             }

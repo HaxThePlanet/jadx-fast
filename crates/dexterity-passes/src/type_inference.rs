@@ -454,6 +454,58 @@ impl TypeInference {
         }
     }
 
+    /// Build a mapping from type variable names to concrete types.
+    ///
+    /// Given a generic instance type like `HashMap<String, Integer>` and
+    /// looking up the class definition `HashMap<K, V>` from the hierarchy,
+    /// returns a mapping `{K -> String, V -> Integer}`.
+    ///
+    /// This is the JADX-equivalent of `TypeUtils.getTypeVariablesMapping()`.
+    fn build_type_var_mapping(&self, instance_type: &ArgType) -> HashMap<String, ArgType> {
+        let mut mapping = HashMap::new();
+
+        if let ArgType::Generic { base, params } = instance_type {
+            // Get the class's type parameter names from hierarchy
+            if let Some(ref hierarchy) = self.hierarchy {
+                let type_param_names = hierarchy.get_type_params(base);
+                for (i, param_name) in type_param_names.iter().enumerate() {
+                    if i < params.len() {
+                        mapping.insert(param_name.to_string(), params[i].clone());
+                    }
+                }
+            }
+        }
+        mapping
+    }
+
+    /// Recursively replace type variables in a type using the mapping.
+    ///
+    /// For example, given `Iterator<E>` and mapping `{E -> String}`,
+    /// returns `Iterator<String>`.
+    ///
+    /// This is the JADX-equivalent of `TypeUtils.replaceTypeVariablesUsingMap()`.
+    fn apply_type_var_mapping(ty: &ArgType, mapping: &HashMap<String, ArgType>) -> ArgType {
+        match ty {
+            ArgType::TypeVariable(name) => {
+                mapping.get(name).cloned().unwrap_or_else(|| ty.clone())
+            }
+            ArgType::Generic { base, params } => {
+                let resolved_params: Vec<ArgType> = params
+                    .iter()
+                    .map(|p| Self::apply_type_var_mapping(p, mapping))
+                    .collect();
+                ArgType::Generic {
+                    base: base.clone(),
+                    params: resolved_params,
+                }
+            }
+            ArgType::Array(elem) => {
+                ArgType::Array(Box::new(Self::apply_type_var_mapping(elem, mapping)))
+            }
+            _ => ty.clone(),
+        }
+    }
+
     /// Resolve TypeVariables in a return type given a concrete instance type
     ///
     /// This handles common generic patterns like:
@@ -461,47 +513,43 @@ impl TypeInference {
     /// - `Map<K,V>.get(key)` -> return type `V` becomes the second param
     /// - `Optional<User>.get()` -> return type `T` becomes `User`
     ///
-    /// The resolution uses positional mapping: if the instance is `Generic { base, params }`
-    /// and return type is `TypeVariable(name)`, we resolve based on the type variable's
-    /// position in the base class's type parameters.
-    ///
-    /// For now, uses a simplified approach:
-    /// - Single type variable (E, T, V) -> first generic param
-    /// - Common patterns (K -> first, V -> second for Map-like classes)
+    /// Uses the class hierarchy to look up the actual type parameter names
+    /// from the class definition and build a proper mapping.
     fn resolve_type_variable(&self, return_type: &ArgType, instance_type: &ArgType) -> ArgType {
-        match (return_type, instance_type) {
-            // If return type is a TypeVariable and instance has Generic params, try to resolve
-            (ArgType::TypeVariable(var_name), ArgType::Generic { params, .. }) if !params.is_empty() => {
-                // Common single-letter type variables
-                match var_name.as_str() {
-                    // First type parameter (List<E>, Optional<T>, Set<E>, etc.)
-                    "E" | "T" | "R" => params.first().cloned().unwrap_or(return_type.clone()),
-                    // Second type parameter (Map<K,V>)
-                    "V" if params.len() >= 2 => params.get(1).cloned().unwrap_or(return_type.clone()),
-                    // First type parameter (Map<K,V>)
-                    "K" => params.first().cloned().unwrap_or(return_type.clone()),
-                    // Unknown variable name - use first param as fallback
-                    _ => params.first().cloned().unwrap_or(return_type.clone()),
+        // Build the type variable mapping from instance type
+        let mapping = self.build_type_var_mapping(instance_type);
+
+        if !mapping.is_empty() {
+            // Use the mapping to resolve type variables
+            Self::apply_type_var_mapping(return_type, &mapping)
+        } else {
+            // Fallback for when hierarchy is not available or instance is not Generic
+            // Use legacy positional heuristics
+            match (return_type, instance_type) {
+                (ArgType::TypeVariable(var_name), ArgType::Generic { params, .. }) if !params.is_empty() => {
+                    match var_name.as_str() {
+                        "E" | "T" | "R" => params.first().cloned().unwrap_or(return_type.clone()),
+                        "V" if params.len() >= 2 => params.get(1).cloned().unwrap_or(return_type.clone()),
+                        "K" => params.first().cloned().unwrap_or(return_type.clone()),
+                        _ => params.first().cloned().unwrap_or(return_type.clone()),
+                    }
                 }
-            }
-            // For Generic return types, recursively resolve type params
-            (ArgType::Generic { base, params: ret_params }, instance_ty) => {
-                let resolved_params: Vec<ArgType> = ret_params
-                    .iter()
-                    .map(|p| self.resolve_type_variable(p, instance_ty))
-                    .collect();
-                ArgType::Generic {
-                    base: base.clone(),
-                    params: resolved_params,
+                (ArgType::Generic { base, params: ret_params }, instance_ty) => {
+                    let resolved_params: Vec<ArgType> = ret_params
+                        .iter()
+                        .map(|p| self.resolve_type_variable(p, instance_ty))
+                        .collect();
+                    ArgType::Generic {
+                        base: base.clone(),
+                        params: resolved_params,
+                    }
                 }
+                (ArgType::Array(elem), instance_ty) => {
+                    let resolved_elem = self.resolve_type_variable(elem, instance_ty);
+                    ArgType::Array(Box::new(resolved_elem))
+                }
+                _ => return_type.clone(),
             }
-            // For Array return types, resolve element type
-            (ArgType::Array(elem), instance_ty) => {
-                let resolved_elem = self.resolve_type_variable(elem, instance_ty);
-                ArgType::Array(Box::new(resolved_elem))
-            }
-            // No resolution possible - return as-is
-            _ => return_type.clone(),
         }
     }
 
@@ -2751,6 +2799,144 @@ mod tests {
         assert_eq!(
             bounds2.unwrap().lower_bound,
             Some(ArgType::Object("java/lang/Object".to_string()))
+        );
+    }
+
+    #[test]
+    fn test_build_type_var_mapping_hashmap() {
+        let hierarchy = ClassHierarchy::new();
+        let inference = TypeInference::new().with_hierarchy(hierarchy);
+
+        // HashMap<String, Integer> instance
+        let instance_type = ArgType::Generic {
+            base: "java/util/HashMap".to_string(),
+            params: vec![
+                ArgType::Object("java/lang/String".to_string()),
+                ArgType::Object("java/lang/Integer".to_string()),
+            ],
+        };
+
+        let mapping = inference.build_type_var_mapping(&instance_type);
+
+        // Should have K -> String, V -> Integer
+        assert_eq!(
+            mapping.get("K"),
+            Some(&ArgType::Object("java/lang/String".to_string()))
+        );
+        assert_eq!(
+            mapping.get("V"),
+            Some(&ArgType::Object("java/lang/Integer".to_string()))
+        );
+    }
+
+    #[test]
+    fn test_build_type_var_mapping_list() {
+        let hierarchy = ClassHierarchy::new();
+        let inference = TypeInference::new().with_hierarchy(hierarchy);
+
+        // List<String> instance
+        let instance_type = ArgType::Generic {
+            base: "java/util/List".to_string(),
+            params: vec![ArgType::Object("java/lang/String".to_string())],
+        };
+
+        let mapping = inference.build_type_var_mapping(&instance_type);
+
+        // Should have E -> String
+        assert_eq!(
+            mapping.get("E"),
+            Some(&ArgType::Object("java/lang/String".to_string()))
+        );
+    }
+
+    #[test]
+    fn test_apply_type_var_mapping_simple() {
+        let mut mapping = HashMap::new();
+        mapping.insert(
+            "E".to_string(),
+            ArgType::Object("java/lang/String".to_string()),
+        );
+
+        // TypeVariable("E") should become String
+        let type_var = ArgType::TypeVariable("E".to_string());
+        let resolved = TypeInference::apply_type_var_mapping(&type_var, &mapping);
+
+        assert_eq!(
+            resolved,
+            ArgType::Object("java/lang/String".to_string())
+        );
+    }
+
+    #[test]
+    fn test_apply_type_var_mapping_nested_generic() {
+        let mut mapping = HashMap::new();
+        mapping.insert(
+            "E".to_string(),
+            ArgType::Object("java/lang/String".to_string()),
+        );
+
+        // Iterator<E> should become Iterator<String>
+        let generic_type = ArgType::Generic {
+            base: "java/util/Iterator".to_string(),
+            params: vec![ArgType::TypeVariable("E".to_string())],
+        };
+        let resolved = TypeInference::apply_type_var_mapping(&generic_type, &mapping);
+
+        assert_eq!(
+            resolved,
+            ArgType::Generic {
+                base: "java/util/Iterator".to_string(),
+                params: vec![ArgType::Object("java/lang/String".to_string())],
+            }
+        );
+    }
+
+    #[test]
+    fn test_resolve_type_variable_list_iterator() {
+        let hierarchy = ClassHierarchy::new();
+        let inference = TypeInference::new().with_hierarchy(hierarchy);
+
+        // List<String> instance
+        let instance_type = ArgType::Generic {
+            base: "java/util/List".to_string(),
+            params: vec![ArgType::Object("java/lang/String".to_string())],
+        };
+
+        // Return type E (from Iterator.next())
+        let return_type = ArgType::TypeVariable("E".to_string());
+
+        // Should resolve E to String
+        let resolved = inference.resolve_type_variable(&return_type, &instance_type);
+
+        assert_eq!(
+            resolved,
+            ArgType::Object("java/lang/String".to_string())
+        );
+    }
+
+    #[test]
+    fn test_resolve_type_variable_map_entry() {
+        let hierarchy = ClassHierarchy::new();
+        let inference = TypeInference::new().with_hierarchy(hierarchy);
+
+        // HashMap<String, Integer> instance
+        let instance_type = ArgType::Generic {
+            base: "java/util/HashMap".to_string(),
+            params: vec![
+                ArgType::Object("java/lang/String".to_string()),
+                ArgType::Object("java/lang/Integer".to_string()),
+            ],
+        };
+
+        // Return type V (from Map.get())
+        let return_type = ArgType::TypeVariable("V".to_string());
+
+        // Should resolve V to Integer
+        let resolved = inference.resolve_type_variable(&return_type, &instance_type);
+
+        assert_eq!(
+            resolved,
+            ArgType::Object("java/lang/Integer".to_string())
         );
     }
 }

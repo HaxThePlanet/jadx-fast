@@ -970,20 +970,31 @@ impl TypeUpdateEngine {
 
     /// Resolve a type variable against an instance type's generic parameters.
     ///
-    /// Maps common type variable names to their positions in generic parameters:
-    /// - E, T, R -> First type parameter (List<E>, Optional<T>, etc.)
-    /// - V -> Second type parameter (Map<K,V>)
-    /// - K -> First type parameter (Map<K,V>)
-    fn resolve_type_var(var_name: &str, instance_type: &ArgType) -> Option<ArgType> {
-        if let ArgType::Generic { params, .. } = instance_type {
-            if !params.is_empty() {
-                return match var_name {
-                    "E" | "T" | "R" => params.first().cloned(),
-                    "V" if params.len() >= 2 => params.get(1).cloned(),
-                    "K" => params.first().cloned(),
-                    _ => params.first().cloned(),
-                };
+    /// Uses the class hierarchy to look up actual type parameter names from the class
+    /// definition. Falls back to positional heuristics if hierarchy is unavailable.
+    fn resolve_type_var(&self, var_name: &str, instance_type: &ArgType) -> Option<ArgType> {
+        if let ArgType::Generic { base, params } = instance_type {
+            if params.is_empty() {
+                return None;
             }
+
+            // Try to use hierarchy for proper type variable resolution
+            if let Some(ref hierarchy) = self.hierarchy {
+                let type_param_names = hierarchy.get_type_params(base);
+                for (i, param_name) in type_param_names.iter().enumerate() {
+                    if *param_name == var_name && i < params.len() {
+                        return Some(params[i].clone());
+                    }
+                }
+            }
+
+            // Fallback: use positional heuristics
+            return match var_name {
+                "E" | "T" | "R" => params.first().cloned(),
+                "V" if params.len() >= 2 => params.get(1).cloned(),
+                "K" => params.first().cloned(),
+                _ => params.first().cloned(),
+            };
         }
         None
     }
@@ -1003,7 +1014,7 @@ impl TypeUpdateEngine {
         for arg_var in arg_vars.iter().flatten() {
             if let Some(current_type) = self.resolved.get(arg_var).cloned() {
                 if let ArgType::TypeVariable(ref var_name) = current_type {
-                    if let Some(resolved_type) = Self::resolve_type_var(var_name, instance_type) {
+                    if let Some(resolved_type) = self.resolve_type_var(var_name, instance_type) {
                         let result = self.update_type_checked(info, *arg_var, &resolved_type);
                         if result == TypeUpdateResult::Reject {
                             return result;
