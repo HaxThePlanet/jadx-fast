@@ -22,9 +22,9 @@
 
 ### Top Priority Fixes (by ROI)
 
-| Priority | Issue | Impact | Effort |
+| Priority | Issue | Impact | Status |
 |----------|-------|--------|--------|
-| **P0-001** | `return 0` instead of `return null` | Compilation failure | ~20 LOC |
+| **P0-001** | `return 0` instead of `return null` | Compilation failure | **FIXED Dec 20** |
 | **P0-002** | Missing method `<T>` generics | Compilation failure | ~40 LOC |
 | **P1-004** | Variable naming gap (40%) | Readability | ~200 LOC |
 | **P1-002** | Raw types (no generics) | Type safety | ~200 LOC |

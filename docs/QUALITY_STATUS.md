@@ -23,10 +23,10 @@
 
 ### P0-CRITICAL: Compilation Blockers
 
-| ID | Issue | Example | Fix Location | LOC |
-|----|-------|---------|--------------|-----|
-| **P0-001** | Returns `0` instead of `null` for objects | `return 0;` should be `return null;` | `type_gen.rs:257-265` | ~20 |
-| **P0-002** | Missing method generic params | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | `method_gen.rs` | ~40 |
+| ID | Issue | Example | Fix Location | Status |
+|----|-------|---------|--------------|--------|
+| **P0-001** | Returns `0` instead of `null` for objects | `return 0;` should be `return null;` | `type_gen.rs`, `body_gen.rs` | **FIXED Dec 20** |
+| **P0-002** | Missing method generic params | `Maybe<T> amb()` vs `<T> Maybe<T> amb()` | `method_gen.rs` | ~40 LOC |
 
 ### P1-HIGH: Major Semantic Differences
 
@@ -39,7 +39,7 @@
 
 ### Implementation Priority
 
-1. **P0-001** (null vs 0) - VERY HIGH ROI, ~20 LOC
+1. ~~**P0-001** (null vs 0) - VERY HIGH ROI, ~20 LOC~~ **FIXED Dec 20**
 2. **P0-002** (method generics) - VERY HIGH ROI, ~40 LOC
 3. **P1-004** (variable naming) - VERY HIGH ROI, ~200 LOC
 4. **P1-002** (generic propagation) - HIGH ROI, ~200 LOC
