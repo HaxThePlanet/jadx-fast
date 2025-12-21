@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 7 P0, 12 P1, 5 P2 (Dec 21, 2025)
+**Status:** Open: 6 P0, 11 P1, 5 P2 (Dec 21, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -14,7 +14,7 @@
 | P0-C01 | Duplicate import names | `import f.a.a.a; import f.a.b.a;` | class_gen.rs |
 | P0-C02 | Undefined variables in constructors | `this.c = obj5;` (obj5 undefined) | body_gen.rs |
 | P0-C03 | Assignment in parentheses | `(this.c.F = i3);` invalid syntax | body_gen.rs |
-| P0-C04 | Unreachable code after return | Code after `return this;` | body_gen.rs |
+| ~~P0-C04~~ | ~~Unreachable code after return~~ | **FIXED** - Skip code after throw/return | body_gen.rs |
 | P0-C05 | Variable shadows parameter | `String str;` shadows param `str` | body_gen.rs |
 | P0-C06 | Wrong constructor chain | `super(null)` instead of `this(null)` | method_gen.rs |
 | P0-C07 | Undefined variable references | `fVar5.f = str2;` (fVar5 undefined) | body_gen.rs |
@@ -23,7 +23,7 @@
 
 | ID | Issue | Example | Location |
 |----|-------|---------|----------|
-| P1-S01 | Empty if blocks missing return | `if (cond) {}` should have `return;` | body_gen.rs |
+| ~~P1-S01~~ | ~~Empty if blocks missing return~~ | **FIXED** - is_empty_region() fix | body_gen.rs |
 | P1-S02 | Boolean vs int confusion | `set(0)` instead of `set(false)` | type_inference.rs |
 | P1-S03 | Wrong return value | Returns `i` ignoring ternary result | body_gen.rs |
 | P1-S04 | Wrong method signature call | 2 args passed to 1-arg method | body_gen.rs |
@@ -68,6 +68,18 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizat
 ---
 
 ## Fixed Issues (Dec 21, 2025)
+
+### Latest Fixes (Dec 21 PM)
+
+| ID | Bug | Fix |
+|----|-----|-----|
+| P0-C04 | Unreachable code after return | Skip code after throw/return |
+| P1-S01 | Empty if blocks missing return | is_empty_region() fix |
+| VAR-001 | OBJ_ALIAS exact matching | Fix exact class matching for aliases |
+| VAR-002 | GOOD_VAR_NAMES set | Add set of good variable name patterns |
+| VAR-003 | toString() handling | Fix toString method variable naming |
+| VAR-004 | Type+method fallback | Add fallback naming with type and method |
+| INIT-001 | Static field inline init | Phase 1 static field initialization |
 
 ### P1 Semantic Issues
 
