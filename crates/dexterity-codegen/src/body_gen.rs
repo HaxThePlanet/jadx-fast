@@ -6685,8 +6685,24 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                     } else {
                                         // Not in constructor - emit as new ClassName(args)
                                         // This handles cases where new-instance tracking failed
+                                        // NEW-012 FIX: Assign result to receiver register's variable
+                                        let reg = recv_reg.reg_num;
+                                        let version = recv_reg.ssa_version;
+                                        let var_name = ctx.expr_gen.get_var_name(recv_reg);
+                                        let type_name = &*method_info.class_name;
+
+                                        // Check if we need to declare
+                                        let needs_decl = !ctx.is_declared(reg, version)
+                                            && !ctx.is_parameter(reg, version)
+                                            && !ctx.is_name_declared(&var_name);
+
                                         code.start_line();
-                                        code.add("new ").add(&method_info.class_name).add("(")
+                                        if needs_decl {
+                                            code.add(type_name).add(" ");
+                                            ctx.mark_declared(reg, version);
+                                            ctx.mark_name_declared(&var_name, &ArgType::Object(type_name.to_string()));
+                                        }
+                                        code.add(&var_name).add(" = new ").add(type_name).add("(")
                                             .add(&arg_strs.join(", ")).add(");");
                                         code.newline();
                                     }
