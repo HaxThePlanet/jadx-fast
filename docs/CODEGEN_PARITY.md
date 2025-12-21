@@ -1,6 +1,6 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-21 (0 P0, 7 P1, 2 P2 Open | P1-S06 Try-Catch Fixed)
+**Last Updated**: 2025-12-21 (0 P0, 4 P1, 2 P2 Open | P1-S02 Boolean Fix Complete)
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
 **Overall Parity**: **B+ Grade** (all critical bugs fixed, major improvements)
 **Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
@@ -134,7 +134,7 @@ Dexterity's code generation module was previously assessed at **A- (88-90/100) q
 | **Type Generation** | **95%** | **Production Ready** | **Polish** |
 | **Instruction Types** | **100%** | **Production Ready** | **Done** |
 | **Annotation Generation** | **100%** | **Production Ready** | **Done** |
-| **Variable Naming** | **100%** | **Production Ready** | **Done** |
+| **Variable Naming** | **80%** | **Functional** | JADX better (0.93 vs 0.70-0.81) |
 | **Code Quality** | **95%** | **Production Ready** | **Polish** |
 | **Special Cases** | **95%** | **Production Ready** | **Polish** |
 
@@ -182,10 +182,11 @@ All critical and high-priority issues have been **resolved** to achieve A- (88-9
 - Object-named variables now correctly use `== null` instead of `== 0`
 - 26 -> 0 incorrect null comparisons
 
-### RESOLVED: Variable Naming (100% Parity)
+### Variable Naming (80% Parity - JADX Better)
 - 99.96% reduction in arg0/arg1 instances (27,794 -> 11)
 - Debug info names extracted from DEX
 - Dead variable elimination via phi source use counting
+- **Gap:** JADX scores 0.93 vs Dexterity 0.70-0.81 on complex methods
 
 ### RESOLVED: Generic Type Parameters
 - 736 classes now have proper `<T>` declarations
@@ -449,7 +450,7 @@ The remaining 5% to reach 100% parity consists entirely of cosmetic improvements
 | Visibility filtering | DONE | |
 | Parameter annotations | DONE | Added support for parameter annotations |
 
-### 9. Variable Naming - 100% (Better than JADX)
+### 9. Variable Naming - 80% (JADX Scores Higher on Complex Methods)
 
 | Feature | Status | Notes |
 |---------|--------|-------|

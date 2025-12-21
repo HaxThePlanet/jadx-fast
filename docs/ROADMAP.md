@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 7 P1, 2 P2 Open | Kotlin 100% | P1-S06 Try-Catch Fixed (Dec 21, 2025)
+**Status:** 0 P0, 4 P1, 2 P2 Open | Kotlin 100% | P1-S02 Boolean Fix Complete (Dec 21, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -110,7 +110,7 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2/P1-4 op
 - **class_gen.rs NewInstance rendering:** Renders `new ClassName()` for static field initializers
 - **Files changed:** `info.rs`, `extract_field_init.rs`, `class_gen.rs`, `method_gen.rs`
 
-### Variable Naming Improvements (Dec 21, 2025) - Better than JADX
+### Variable Naming Improvements (Dec 21, 2025)
 
 - **OBJ_ALIAS exact matching:** Changed from contains() to exact FQN matching (e.g., "java.lang.String" => "str")
 - **GOOD_VAR_NAMES set:** 13 mappings (JADX has 5): size, length, list, map, next, prev, current, key, value, entries, keys, values

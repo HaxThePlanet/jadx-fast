@@ -20,7 +20,7 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** 1:1 identical decompilation output with JADX
-**Status:** 0 P0, 9 P1, 2 P2 open | Kotlin 100% | P1-S11 Throws Fixed (Dec 21, 2025) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** 0 P0, 4 P1, 2 P2 open | Grade: B+ | Kotlin 100% | Resources 100% - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
 ## Performance
 
@@ -96,14 +96,14 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 |-------|---------|--------|
 | dexterity-dex | DEX binary parsing | 100% |
 | dexterity-ir | Intermediate representation | 90% |
-| dexterity-passes | Decompilation passes | 85% |
-| dexterity-codegen | Java source generation | 85% |
+| dexterity-passes | Decompilation passes | 80% |
+| dexterity-codegen | Java source generation | 80% |
 | dexterity-resources | Resource decoding | 100% |
-| dexterity-deobf | Deobfuscation | 90% |
+| dexterity-deobf | Deobfuscation | 85% |
 | dexterity-kotlin | Kotlin metadata | 100% |
 | dexterity-cli | CLI application | 95% |
 
-*Feature completeness vs JADX. See [Quality Status](docs/QUALITY_STATUS.md) for APK-specific grades (75-90%).*
+*Feature completeness vs JADX. Overall grade: **B+**. Variable naming: JADX slightly better (0.93 vs 0.70-0.81). See [Quality Status](docs/QUALITY_STATUS.md).*
 
 ## Sample Output
 

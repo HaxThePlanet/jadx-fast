@@ -129,15 +129,15 @@ If you made significant improvements, update:
 | Metric | Value |
 |--------|-------|
 | JADX CLI Parity | 98%+ (all major flags supported) |
-| Variable Naming | 99.96% (27,794 → 11 arg0/arg1) |
+| Variable Naming | arg0/arg1: 99.96% fixed; overall quality: JADX better (0.93 vs 0.70-0.81) |
 | Class-Level Generics | 736 classes with `<T>` |
 | Interface Generics | DONE - `interface OnSubscribe<T>` includes type parameter |
 | Undefined Variables | FIXED - Type-aware grouping + Move propagation |
 | Resource Field Resolution | DONE - R.* enabled by default |
 | Lambda Body Decompilation | DONE - Full body + inlining |
 | Integration Tests | 687/687 passing |
-| Unit Tests | 490/490 passing |
-| Total Tests | 1,177 passing |
+| Unit Tests | 530/530 passing |
+| Total Tests | 1,217 passing |
 | Speed Advantage | 3.6-81x faster than JADX |
 | Memory Efficiency | 14.6x better (574MB vs 8.4GB) |
 

@@ -430,10 +430,13 @@ impl BodyGenContext {
                 && !self.is_parameter(reg.reg_num, reg.ssa_version)
                 && self.should_inline(reg.reg_num, reg.ssa_version)
             {
+                let use_count = self.use_counts.get(&(reg.reg_num, reg.ssa_version)).copied().unwrap_or(0);
                 tracing::warn!(
                     reg = reg.reg_num,
                     version = reg.ssa_version,
                     name = %var_name,
+                    use_count = use_count,
+                    has_stored_exprs = self.inlined_exprs.len(),
                     "BUG: Variable should have been inlined but expression is not available"
                 );
             }
@@ -7430,6 +7433,12 @@ fn generate_insn<W: CodeWriter>(
                     .map(|f| f.field_name.to_string())
                     .unwrap_or_else(|| format!("field#{}", field_idx));
                 let field_expr = format!("{}.{}", obj_str, field_name);
+                tracing::debug!(
+                    reg = reg,
+                    version = version,
+                    field_expr = %field_expr,
+                    "InstanceGet: storing inline expression for single-use field access"
+                );
                 ctx.store_inline_expr(reg, version, field_expr);
                 true // Don't emit anything, will be inlined at use site
             } else {

@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 4 P1, 2 P2 | P1-S02 fixed, P1-S03 merged with P1-S05, P1-S05 partial (Dec 21, 2025)
+**Status:** Open: 0 P0, 4 P1, 2 P2 | P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 partial, P1-S07 fixed (Dec 21, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -24,10 +24,10 @@
 | ID | Issue | Example | Location |
 |----|-------|---------|----------|
 | ~~P1-S01~~ | ~~Empty if blocks missing return~~ | **FIXED** - is_empty_region() fix | body_gen.rs |
-| ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns + method args | body_gen.rs |
+| ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns (59.6% reduction) + method args (27 additional fixes) | body_gen.rs |
 | ~~P1-S03~~ | ~~Wrong return value~~ | **MERGED with P1-S05** - Same root cause (control flow reconstruction) | body_gen.rs |
 | P1-S04 | Wrong method signature call | **NEEDS REPRO** - 2 args passed to 1-arg method (wide type handling?) | body_gen.rs |
-| P1-S05 | Control flow logic wrong | **PARTIAL** - Fixed underscore naming + boolean returns; remaining: undefined vars, ternary extraction | var_naming.rs, body_gen.rs |
+| P1-S05 | Control flow logic wrong | **PARTIAL** - Fixed underscore naming (87.6% reduction: j_2->j2) + boolean returns; remaining: undefined vars, ternary extraction | var_naming.rs, body_gen.rs |
 | ~~P1-S06~~ | ~~Missing try-catch blocks~~ | **FIXED** - Block ID vs offset mismatch fixed, handler addresses as block leaders, stack overflow prevention | region_builder.rs, block_split.rs, decompiler.rs, body_gen.rs |
 | ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
 | P1-S08 | Method calls before guard | **NEEDS REPRO** - `matcher.group()` before `matches()` | body_gen.rs |
@@ -101,7 +101,13 @@ private boolean D(long j) {
 
 **Partial Fix Applied (Dec 21, 2025):**
 1. **Underscore naming pattern fixed** - `generate_unique_name()` in body_gen.rs now generates `j2` instead of `j_2` to match JADX/var_naming.rs pattern
-2. **Remaining issues**: Undefined variable `l2` (field access not inlined), ternary extraction to separate statement, wrong return value
+2. **Field access inlining improved** - InstanceGet and StaticGet now check `should_inline()` and store expressions inline for single-use variables
+3. **Ternary sub-expressions now inline** - Ternary instruction uses `gen_arg_inline()` for condition, then, and else values
+
+**Remaining issues:**
+- Type inference: Ternary result typed as `Object` instead of `long` - needs fix in type_inference.rs
+- SSA variable naming: Variables like `l2` created but never defined - needs var_naming.rs investigation
+- Return value tracking: Returns wrong variable `j2` instead of comparison result
 
 #### P1-S06 + P1-S12: Try-Catch Block Fix (Dec 21, 2025)
 
@@ -188,19 +194,23 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizat
 
 ## Fixed Issues (Dec 21, 2025)
 
-### P1-S03: Boolean Return Value Fix (Dec 21 Night)
+### P1-S02: Boolean Return Value Fix (Dec 21 Night)
+
+**Note:** P1-S03 was merged with P1-S05 (same root cause). The boolean return fix is tracked as part of P1-S02.
 
 | ID | Bug | Fix |
 |----|-----|-----|
-| P1-S03 | Boolean methods returning int 0/1 variables | Added phi_constant_inits lookup and type-aware return formatting |
-| BOOL-003 | `return i;` where i=0 in boolean method | Check phi_constant_inits for "0"/"1" constants, convert to false/true |
+| P1-S02 | Boolean methods returning int 0/1 variables | Added const_values tracking and type-aware return formatting |
+| BOOL-003 | `return i;` where i=0 in boolean method | Check const_values for "0"/"1" constants, convert to false/true |
 | BOOL-004 | Type-aware return statement | Use write_arg_inline_typed with return type for all returns |
 
-**Progress:** Boolean return handling improved with constant lookup and type conversion
+**Progress:** 59.6% reduction in `return variable;` patterns (6241 -> 2521)
 **Files changed:** `body_gen.rs`
 **Implementation:**
-- Check `phi_constant_inits` for constant values of return registers
-- Convert 0→false, 1→true for boolean method returns
+- Added `const_values` HashMap to track all Const instruction values
+- Added `collect_const_values()` function to collect constant values
+- Check const_values for 0/1 constants in boolean return context
+- Convert 0->false, 1->true for boolean method returns
 - Use `write_arg_inline_typed` with return type for general type awareness
 
 ### P1-S09: For-Each Over Iterator Fix (Dec 21 Night)

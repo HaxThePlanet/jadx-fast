@@ -1,6 +1,6 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** 0 P0, 7 P1, 2 P2 Open | Kotlin 100% | P1-S06 Try-Catch Fixed (Dec 21, 2025)
+**Status:** 0 P0, 4 P1, 2 P2 Open | Kotlin 100% | P1-S02 Boolean Fix Complete (Dec 21, 2025)
 **Tests:** 1,217 passing (687 integration + 530 unit)
 **Benchmark:** 3.6-81x faster, 14.6x memory efficiency
 **Resources:** 1:1 JADX parity (103 directories, 152 files, zero differences)
@@ -14,7 +14,7 @@
 |----------|-------|-------|
 | **Codegen** | **B+** | All P0 + P1 bugs fixed, Phase 1 + Phase 2 complete |
 | **IR/Control Flow** | **B** | OR condition merging, synchronized blocks fixed |
-| **Variable Naming** | **A-** | 13 mappings (JADX has 5), GAP-002 fixed |
+| **Variable Naming** | **B** | 13 mappings, but JADX scores 0.93 vs Dexterity 0.70-0.81 on complex methods |
 | **Kotlin Support** | **A** | 100% parity - BitEncoding ported |
 | **Resources** | **A+** | 1:1 JADX parity - 103 dirs, 152 files, zero diff |
 | **Overall** | **B+** | Production ready for most APKs |

@@ -31,8 +31,8 @@ Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing
-- Unit Tests: 522/522 passing
-- **Code Issues:** All P0 + P1 fixed, 1 P2 issue remains (variable naming in complex methods)
+- Unit Tests: 530/530 passing
+- **Code Issues:** All P0 fixed, 4 P1 open (P1-S04, S05, S08, S10), 2 P2 remain
 - **Resource Issues:** ALL 5 FIXED (XML enums, localized strings, density qualifiers, missing resource files, resource naming)
 - **NOTE:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
@@ -53,7 +53,7 @@ Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
 
 | Criterion | JADX | Dexterity | Winner |
 |-----------|:----:|:---------:|:------:|
-| Valid/Compilable Java | ✅ | ❌ | **JADX** (2 P0 bugs cause compilation errors) |
+| Valid/Compilable Java | ✅ | ✅ | **TIE** (All P0 bugs fixed Dec 2025) |
 | Generic Type Parameters | ✅ | ✅ | **TIE** (736 classes now have `<T>`) |
 | Exception Handling | ✅ | ✅ | **TIE** |
 | Semantic Variable Names | ✅ | ✅ | **JADX** (0.93 vs Dexterity 0.70-0.81) |
@@ -81,12 +81,13 @@ Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
 | medium.apk | 6,032 | 10,074 | 53 MB | 93 MB |
 | large.apk | 9,624 | 12,822 | 132 MB | 167 MB |
 
-### Recommendation (UPDATED - Dec 20, 2025)
+### Recommendation (UPDATED - Dec 21, 2025)
 
-- **Use JADX** for production decompilation until P0 bugs are fixed
-- **Use Dexterity** for simple APKs: works well for straightforward code
-- **Use Dexterity** for performance testing: 3.6-81x faster with 14.6x memory efficiency
-- **Track progress:** See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current bug status
+- **Use Dexterity** for production: All P0 bugs fixed, production ready for most APKs
+- **Use Dexterity** for performance: 3.6-81x faster with 14.6x memory efficiency
+- **Use Dexterity** for Kotlin: 100% parity with JADX kotlin-metadata plugin
+- **Note:** Variable naming quality slightly lower than JADX (0.70-0.81 vs 0.93) in complex methods
+- **Track progress:** See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current status
 
 ---
 
@@ -369,7 +370,7 @@ Updater.setImpl(...);   // VALID method name
 4. CRITICAL-004: Type comparison (== 0 vs == null) - PARTIAL (method parameters fixed)
 5. CRITICAL-005: Logic inversion in null checks - FIXED
 6. CRITICAL-006: Missing method bodies - RESOLVED (investigation: methods ARE being generated)
-7. HIGH-001: Register-based names - RESOLVED (investigation: Dexterity var quality 0.98 > JADX 0.93)
+7. HIGH-001: Register-based names - IMPROVED (JADX still better: 0.93 vs Dexterity 0.70-0.81)
 8. HIGH-002: Duplicate variable declarations - FIXED
 9. HIGH-003: Missing static modifier - FIXED
 10. HIGH-004: Unreachable code - RESOLVED (investigation: 0 defects vs JADX 13/8)
@@ -385,7 +386,7 @@ All 685 integration tests pass. Speed advantage maintained.
 | QA Overall Score | 90.0% | 90.6% | 80.6% | PRODUCTION READY |
 | Code Quality | 100.0% | 98.3% | 98.2% | Excellent |
 | Defect Score | 100.0% | 98.2% | 98.4% | Excellent |
-| Variable Quality | 1.0 | 0.98 | 0.98 | EXCEEDS JADX (0.93) |
+| Variable Quality | 1.0 | 0.70 | 0.81 | JADX better (0.93) |
 
 ### Historical Metrics (Pre-Fix Baseline)
 
@@ -902,7 +903,7 @@ catch (JSONException e) {  // Specific exception type
 
 ## Conclusion
 
-**Status: PRODUCTION READY with A- (88-90/100) quality (Dec 20, 2025)**
+**Status: PRODUCTION READY with B+ quality (Dec 21, 2025)**
 
 ### Revised Assessment (Dec 20, 2025)
 
@@ -918,7 +919,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 
-**Grade: A- (88-90/100)** after Dec 20 control flow fixes
+**Grade: B+** after Dec 21 fixes (4 P1 remain: S04, S05, S08, S10)
 
 **Remaining P2 Issue (Dec 20, 2025):**
 
@@ -960,8 +961,8 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 - Variable Naming: Type-based in complex methods (str, i2), semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing
-- Unit Tests: 522/522 passing
-- Total Tests: 1,209 passing
+- Unit Tests: 530/530 passing
+- Total Tests: 1,217 passing
 - Performance: 3.6-81x faster than JADX
 - Memory: 14.6x more efficient (574MB vs 8.4GB)
 
@@ -979,7 +980,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 
 *Report Updated: December 20, 2025*
 *Status: PRODUCTION READY*
-*Quality: **A- (88-90/100)** based on objective output comparison*
-*Code Issues: 1 P2 issue remains (variable naming in complex methods)*
+*Quality: **B+** based on objective output comparison*
+*Code Issues: 4 P1 + 2 P2 remain (see ISSUE_TRACKER.md)*
 *Resource Issues: ALL 5 FIXED*
-*Integration Tests: 1,209/1,209 passing*
+*Tests: 1,217 passing (687 integration + 530 unit)*

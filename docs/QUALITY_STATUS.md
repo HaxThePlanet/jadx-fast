@@ -1,6 +1,6 @@
 # Quality Status
 
-**Status:** 0 P0, 7 P1, 2 P2 Open | Kotlin 100% | P1-S06 Try-Catch Fixed (Dec 21, 2025)
+**Status:** 0 P0, 4 P1, 2 P2 Open | Kotlin 100% | P1-S02 Boolean Fix Complete (Dec 21, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 **Output Refresh:** Dec 21, 2025 - All 5 APK samples refreshed (~8,858 Java files)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
@@ -11,7 +11,7 @@
 |----------|-------|-------|
 | **Codegen** | **B+** | All P0 + P1 bugs fixed, Phase 1 + Phase 2 complete |
 | **IR/Control Flow** | **B** | OR condition merging, synchronized blocks fixed |
-| **Variable Naming** | **A-** | 13 mappings vs JADX 5, GAP-002 fixed |
+| **Variable Naming** | **B** | 13 mappings, but JADX scores 0.93 vs Dexterity 0.70-0.81 on complex methods |
 | **Kotlin Support** | **A** | 100% parity - BitEncoding ported |
 | **Resources** | **A+** | 1:1 JADX parity - 103 dirs, 152 files, zero diff |
 | **Overall** | **B+** | Production ready for most APKs |
@@ -21,7 +21,7 @@
 | Priority | Status |
 |----------|--------|
 | P0 Bugs | **ALL FIXED** (7 fixed) |
-| P1 Bugs | **7 Open** (P1-S01, P1-S06, P1-S09, P1-S11, P1-S12 fixed; P1-S02 to P1-S05, P1-S07, P1-S08, P1-S10 remain) |
+| P1 Bugs | **4 Open** (P1-S01, P1-S02, P1-S06, P1-S07, P1-S09, P1-S11, P1-S12 fixed; P1-S04, P1-S05 partial, P1-S08, P1-S10 remain) |
 | P2 Bugs | **2 Open** (P2-Q01, P2-Q03) |
 | P3 Polish | 2 open (POL-001, POL-002) |
 
