@@ -326,6 +326,18 @@ pub struct MethodData {
     /// Used to determine if @Override annotation should be emitted
     pub override_attr: Option<MethodOverrideAttr>,
 
+    // === Kotlin Function Modifiers ===
+    /// Kotlin suspend function (coroutine)
+    pub is_suspend: bool,
+    /// Kotlin inline function
+    pub is_inline_function: bool,
+    /// Kotlin infix function
+    pub is_infix: bool,
+    /// Kotlin operator function
+    pub is_operator: bool,
+    /// Kotlin extension function receiver type (e.g., "String" for String.myFunc())
+    pub receiver_type: Option<ArgType>,
+
     // === JADX Parity: Method Analysis Fields ===
     /// 'this' argument register for instance methods (like JADX's MethodNode.thisArg)
     /// Format: (register_number, ssa_version)
@@ -368,6 +380,12 @@ impl MethodData {
             inline_attr: None,
             annotation_default: None,
             override_attr: None,
+            // Kotlin function modifiers
+            is_suspend: false,
+            is_inline_function: false,
+            is_infix: false,
+            is_operator: false,
+            receiver_type: None,
             // JADX parity fields
             this_arg: None,
             args_list: Vec::new(),
@@ -409,6 +427,12 @@ impl MethodData {
             inline_attr: None,
             annotation_default: None,
             override_attr: None,
+            // Kotlin function modifiers
+            is_suspend: false,
+            is_inline_function: false,
+            is_infix: false,
+            is_operator: false,
+            receiver_type: None,
             // JADX parity fields
             this_arg: None,
             args_list: Vec::new(),

@@ -74,12 +74,40 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
                 }
             }
 
-            // Log suspend/inline function detection
+            // Apply Kotlin function modifiers to IR
             if kotlin_func.flags.is_suspend {
-                tracing::debug!("Found suspend function: {}", kotlin_func.name);
+                method.is_suspend = true;
+                tracing::debug!("Applied suspend modifier to: {}", kotlin_func.name);
             }
             if kotlin_func.flags.is_inline {
-                tracing::debug!("Found inline function: {}", kotlin_func.name);
+                method.is_inline_function = true;
+                tracing::debug!("Applied inline modifier to: {}", kotlin_func.name);
+            }
+            if kotlin_func.flags.is_infix {
+                method.is_infix = true;
+                tracing::debug!("Applied infix modifier to: {}", kotlin_func.name);
+            }
+            if kotlin_func.flags.is_operator {
+                method.is_operator = true;
+                tracing::debug!("Applied operator modifier to: {}", kotlin_func.name);
+            }
+
+            // Apply extension function receiver type
+            if let Some(ref receiver) = kotlin_func.receiver_type {
+                // Convert Kotlin type name to ArgType
+                use dexterity_ir::ArgType;
+                let arg_type = if receiver.starts_with('[') {
+                    // Array type
+                    ArgType::Array(Box::new(ArgType::Object(receiver.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';').replace('/', ".").into())))
+                } else if receiver.contains('/') || receiver.contains('.') {
+                    // Object type
+                    ArgType::Object(receiver.replace('/', ".").into())
+                } else {
+                    // Simple class name - treat as object
+                    ArgType::Object(receiver.clone().into())
+                };
+                method.receiver_type = Some(arg_type);
+                tracing::debug!("Applied receiver type {} to: {}", receiver, kotlin_func.name);
             }
         }
     }

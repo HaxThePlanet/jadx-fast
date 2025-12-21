@@ -371,6 +371,25 @@ pub fn generate_method_with_dex<W: CodeWriter>(
 
     code.start_line();
 
+    // Kotlin function modifiers (emitted as comments for Java output)
+    // These appear before Java modifiers to mirror Kotlin syntax order
+    let mut kotlin_mods = Vec::new();
+    if method.is_suspend {
+        kotlin_mods.push("suspend");
+    }
+    if method.is_inline_function {
+        kotlin_mods.push("inline");
+    }
+    if method.is_infix {
+        kotlin_mods.push("infix");
+    }
+    if method.is_operator {
+        kotlin_mods.push("operator");
+    }
+    if !kotlin_mods.is_empty() {
+        code.add("/* ").add(&kotlin_mods.join(" ")).add(" */ ");
+    }
+
     // Method modifiers (skip for static initializers since we handle them specially)
     if !method.is_class_init() {
         let mods = access_flags::access_flags_to_string(method.access_flags, AccessContext::Method);
