@@ -168,10 +168,14 @@ fn split_and_check_cls_name(origin_cls: &ClassData, full_cls_name: &str) -> Opti
         return None;
     }
 
-    // TODO: Implement check for package part count and class existence in root node
-    // For now, these checks are omitted for simplicity, but are crucial for full JADX parity.
-    // origin_cls.root().resolveClass(fullClsName) equivalent is needed here.
-    // countPkgParts(originClsInfo.getPackage()) != countPkgParts(pkg) equivalent is needed here.
+    // Check package depth matches - prevent moving classes across package hierarchies
+    let origin_pkg = origin_cls.package().unwrap_or("");
+    if count_pkg_parts(origin_pkg) != count_pkg_parts(&pkg) {
+        return None;
+    }
+
+    // TODO: Add class existence check (origin_cls.root().resolveClass(fullClsName) equivalent)
+    // This requires access to all_class_names from the DexInfo provider
 
     Some(ClassAlias::new(pkg, name))
 }
@@ -222,4 +226,13 @@ fn is_valid_identifier(name: &str) -> bool {
         }
     }
     true
+}
+
+/// Counts the number of parts in a package name (dot-separated segments).
+/// Empty package = 0, "com" = 1, "com.example" = 2, etc.
+fn count_pkg_parts(pkg: &str) -> usize {
+    if pkg.is_empty() {
+        return 0;
+    }
+    pkg.chars().filter(|&c| c == '.').count() + 1
 }
