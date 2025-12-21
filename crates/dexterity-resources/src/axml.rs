@@ -83,8 +83,19 @@ impl AxmlParser {
 
     /// Parse binary XML from bytes
     pub fn parse(&mut self, data: &[u8]) -> Result<String> {
-        self.reset();
+        // Use 4x heuristic for output buffer (binary XML expands to ~3-4x in text)
+        self.reset_with_capacity(data.len() * 4);
+        self.parse_internal(data)
+    }
 
+    /// Parse binary XML with pre-allocated output buffer
+    pub fn parse_with_capacity(&mut self, data: &[u8], capacity: usize) -> Result<String> {
+        self.reset_with_capacity(capacity);
+        self.parse_internal(data)
+    }
+
+    /// Internal parse implementation
+    fn parse_internal(&mut self, data: &[u8]) -> Result<String> {
         let mut cursor = Cursor::new(data);
 
         // Check if this is binary XML
@@ -148,6 +159,11 @@ impl AxmlParser {
 
     /// Reset parser state for reuse
     fn reset(&mut self) {
+        self.reset_with_capacity(0);
+    }
+
+    /// Reset parser state with pre-allocated output buffer
+    fn reset_with_capacity(&mut self, capacity: usize) {
         self.strings = StringPool::empty();
         self.resource_ids.clear();
         self.ns_map.clear();
@@ -158,7 +174,11 @@ impl AxmlParser {
         self.is_one_line = true;
         self.namespace_depth = 0;
         self.app_package_name = None;
-        self.output.clear();
+        if capacity > 0 {
+            self.output = String::with_capacity(capacity);
+        } else {
+            self.output.clear();
+        }
         self.indent = 0;
         self.first_element = true;
     }
@@ -312,19 +332,27 @@ impl AxmlParser {
         let _style_index = cursor.read_u16::<LittleEndian>()?;
 
         // Output namespace declarations on manifest element or if we have new ones
+        // Sort to ensure android namespace comes first (JADX compatibility)
         if self.current_tag == "manifest" || self.defined_namespaces.len() != self.ns_map.len() {
-            for (uri, prefix) in &self.ns_map {
-                if !self.defined_namespaces.contains(uri) {
-                    self.defined_namespaces.insert(uri.clone());
-                    self.output.push_str(" xmlns");
-                    if !prefix.is_empty() {
-                        self.output.push(':');
-                        self.output.push_str(prefix);
-                    }
-                    self.output.push_str("=\"");
-                    self.output.push_str(&escape_xml(uri));
-                    self.output.push('"');
+            let mut ns_entries: Vec<_> = self.ns_map.iter()
+                .filter(|(uri, _)| !self.defined_namespaces.contains(*uri))
+                .collect();
+            // Sort: android first, then alphabetically by prefix
+            ns_entries.sort_by(|(_, a), (_, b)| {
+                if *a == "android" { std::cmp::Ordering::Less }
+                else if *b == "android" { std::cmp::Ordering::Greater }
+                else { a.cmp(b) }
+            });
+            for (uri, prefix) in ns_entries {
+                self.defined_namespaces.insert(uri.clone());
+                self.output.push_str(" xmlns");
+                if !prefix.is_empty() {
+                    self.output.push(':');
+                    self.output.push_str(prefix);
                 }
+                self.output.push_str("=\"");
+                self.output.push_str(&escape_xml(uri));
+                self.output.push('"');
             }
         }
 
@@ -748,25 +776,9 @@ fn decode_enum_value(attr_name: &str, data: i32) -> Option<String> {
                 _ => None,
             }
         }
-        // Gravity (flags - return None for complex combos, let it show as int)
-        "gravity" | "layout_gravity" => {
-            // Only handle simple single-flag values
-            match data {
-                0 => None, // Usually means default, show as "0"
-                0x01 => Some("top".to_string()),
-                0x10 => Some("bottom".to_string()),
-                0x03 => Some("left".to_string()),
-                0x05 => Some("right".to_string()),
-                0x11 => Some("center_vertical".to_string()),
-                0x07 => Some("center_horizontal".to_string()),
-                0x17 => Some("center".to_string()),
-                0x30 => Some("fill_vertical".to_string()),
-                0x70 => Some("fill_horizontal".to_string()),
-                0x77 => Some("fill".to_string()),
-                0x800003 => Some("start".to_string()),
-                0x800005 => Some("end".to_string()),
-                _ => None,
-            }
+        // Gravity (flags - decompose compound values like JADX)
+        "gravity" | "layout_gravity" | "foregroundGravity" => {
+            decode_gravity_flags(data)
         }
         // Scale type for ImageView
         "scaleType" => {
@@ -931,7 +943,110 @@ fn decode_enum_value(attr_name: &str, data: i32) -> Option<String> {
                 _ => None,
             }
         }
+        // Tile mode for bitmap drawables
+        "tileMode" => {
+            match data {
+                0 => Some("disabled".to_string()),
+                1 => Some("repeat".to_string()),
+                2 => Some("mirror".to_string()),
+                3 => Some("clamp".to_string()),
+                _ => None,
+            }
+        }
+        // Tile mode X/Y
+        "tileModeX" | "tileModeY" => {
+            match data {
+                0 => Some("disabled".to_string()),
+                1 => Some("repeat".to_string()),
+                2 => Some("mirror".to_string()),
+                3 => Some("clamp".to_string()),
+                _ => None,
+            }
+        }
         _ => None,
+    }
+}
+
+/// Decode gravity flags into pipe-separated string like JADX
+/// Example: 0x800013 -> "start|center_vertical"
+fn decode_gravity_flags(data: i32) -> Option<String> {
+    if data == 0 {
+        return None; // Default, show as "0"
+    }
+
+    let data = data as u32;
+    let mut parts = Vec::new();
+
+    // Check for relative direction flag
+    let relative = (data & 0x00800000) != 0;
+
+    // Horizontal axis (lower 4 bits masked with 0x07 for positioning)
+    let h_axis = data & 0x07;
+    // Vertical axis (bits 4-7 masked with 0x70 for positioning)
+    let v_axis = data & 0x70;
+
+    // Handle horizontal component
+    match h_axis {
+        0x03 => {
+            if relative {
+                parts.push("start");
+            } else {
+                parts.push("left");
+            }
+        }
+        0x05 => {
+            if relative {
+                parts.push("end");
+            } else {
+                parts.push("right");
+            }
+        }
+        0x01 => parts.push("center_horizontal"),
+        0x07 => parts.push("fill_horizontal"),
+        _ => {}
+    }
+
+    // Handle vertical component
+    match v_axis {
+        0x30 => parts.push("top"),
+        0x50 => parts.push("bottom"),
+        0x10 => parts.push("center_vertical"),
+        0x70 => parts.push("fill_vertical"),
+        _ => {}
+    }
+
+    // Handle clip flags
+    if (data & 0x08) != 0 {
+        parts.push("clip_horizontal");
+    }
+    if (data & 0x80) != 0 {
+        parts.push("clip_vertical");
+    }
+
+    // Handle display cutout mode (bits in higher bytes)
+    // 0x100 = always, 0x200 = shortEdges, 0x300 = never
+    let cutout = (data >> 8) & 0x03;
+    match cutout {
+        1 => parts.push("display_cutout_always"),
+        2 => parts.push("display_cutout_shortEdges"),
+        3 => parts.push("display_cutout_never"),
+        _ => {}
+    }
+
+    if parts.is_empty() {
+        None
+    } else {
+        // Check for combined values that JADX outputs as single name
+        let result = parts.join("|");
+
+        // JADX uses "center" instead of "center_horizontal|center_vertical"
+        if result == "center_horizontal|center_vertical" {
+            Some("center".to_string())
+        } else if result == "fill_horizontal|fill_vertical" {
+            Some("fill".to_string())
+        } else {
+            Some(result)
+        }
     }
 }
 
@@ -958,5 +1073,28 @@ mod tests {
     fn test_is_res_internal() {
         assert!(!is_res_internal_id(0x7f010001));
         assert!(is_res_internal_id(0x01000001));
+    }
+
+    #[test]
+    fn test_decode_gravity_flags() {
+        // Simple values
+        assert_eq!(decode_gravity_flags(0x11), Some("center".to_string()));
+        assert_eq!(decode_gravity_flags(0x10), Some("center_vertical".to_string()));
+        assert_eq!(decode_gravity_flags(0x01), Some("center_horizontal".to_string()));
+        assert_eq!(decode_gravity_flags(0x30), Some("top".to_string()));
+        assert_eq!(decode_gravity_flags(0x50), Some("bottom".to_string()));
+        assert_eq!(decode_gravity_flags(0x03), Some("left".to_string()));
+        assert_eq!(decode_gravity_flags(0x05), Some("right".to_string()));
+        assert_eq!(decode_gravity_flags(0x77), Some("fill".to_string()));
+
+        // Compound values
+        assert_eq!(decode_gravity_flags(0x800013), Some("start|center_vertical".to_string()));
+        assert_eq!(decode_gravity_flags(0x800003), Some("start".to_string()));
+        assert_eq!(decode_gravity_flags(0x800005), Some("end".to_string()));
+        assert_eq!(decode_gravity_flags(0x33), Some("left|top".to_string()));
+        assert_eq!(decode_gravity_flags(0x55), Some("right|bottom".to_string()));
+
+        // Zero returns None
+        assert_eq!(decode_gravity_flags(0), None);
     }
 }

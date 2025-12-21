@@ -5,8 +5,10 @@
 
 use std::collections::HashMap;
 use std::io::{Cursor, Read, Seek, SeekFrom};
+use std::sync::Mutex;
 
 use byteorder::{LittleEndian, ReadBytesExt};
+use rayon::prelude::*;
 
 use crate::constants::*;
 use crate::android_res_map::{ANDROID_ATTR_MAP, ANDROID_RES_MAP};
@@ -463,6 +465,8 @@ pub struct ResourceEntry {
     pub parent: Option<u32>,
     /// Configuration qualifier (e.g., "default", "hdpi", "v21")
     pub config: String,
+    /// Pre-decoded string value (for thread-safe parallel access)
+    pub decoded_value: Option<String>,
 }
 
 impl ResourceEntry {
@@ -484,6 +488,8 @@ pub struct ArscParser {
     seen_names: HashMap<String, u32>,
     /// Original APK path to normalized path mapping (for file extraction)
     path_mappings: HashMap<String, String>,
+    /// Pre-partitioned entries by type name for O(1) lookup (parallel generation)
+    entries_by_type: HashMap<String, Vec<ResourceEntry>>,
 }
 
 impl ArscParser {
@@ -495,6 +501,7 @@ impl ArscParser {
             res_names: HashMap::new(),
             seen_names: HashMap::new(),
             path_mappings: HashMap::new(),
+            entries_by_type: HashMap::new(),
         }
     }
 
@@ -504,6 +511,7 @@ impl ArscParser {
         self.res_names.clear();
         self.seen_names.clear();
         self.path_mappings.clear();
+        self.entries_by_type.clear();
 
         let mut cursor = Cursor::new(data);
 
@@ -904,32 +912,40 @@ impl ArscParser {
         let (sanitized_name, name_changed) = sanitize_resource_name(&original_key_name);
 
         // Check for duplicates and add _res_0x{id} suffix if needed
+        // Key: same resource ID can have multiple configs (e.g., drawable/foo and drawable-v21/foo)
+        // These are NOT duplicates - they have the same res_id
         let full_name_key = format!("{}/{}", type_name, sanitized_name);
         let final_key_name = if let Some(&prev_id) = self.seen_names.get(&full_name_key) {
-            // Duplicate found! Rename both entries with _res_0x{id} suffix
-            // First, rename the previous entry if not already renamed
-            let prev_full_name = format!("{}/{}", type_name, sanitized_name);
-            if self.res_names.get(&prev_id) == Some(&prev_full_name) {
-                let prev_new_name = format!("{}_res_0x{:08x}", sanitized_name, prev_id);
-                self.res_names.insert(prev_id, format!("{}/{}", type_name, prev_new_name));
-                // Update the entry's key_name
-                for entry in &mut self.entries {
-                    if entry.id == prev_id {
-                        // Build path mapping for the previous entry
-                        let orig_path = format!("res/{}{}/{}", type_name, entry.config.replace("default", ""), original_key_name);
-                        let new_path = format!("res/{}{}/{}", type_name, entry.config.replace("default", ""), prev_new_name);
-                        if orig_path != new_path {
-                            self.path_mappings.insert(orig_path, new_path);
+            if prev_id == res_id {
+                // Same resource ID, different config - NOT a duplicate, use clean name
+                sanitized_name
+            } else {
+                // Actually different resource IDs with same name - IS a duplicate
+                // Rename both entries with _res_0x{id} suffix
+                // First, rename the previous entry if not already renamed
+                let prev_full_name = format!("{}/{}", type_name, sanitized_name);
+                if self.res_names.get(&prev_id) == Some(&prev_full_name) {
+                    let prev_new_name = format!("{}_res_0x{:08x}", sanitized_name, prev_id);
+                    self.res_names.insert(prev_id, format!("{}/{}", type_name, prev_new_name));
+                    // Update the entry's key_name
+                    for entry in &mut self.entries {
+                        if entry.id == prev_id {
+                            // Build path mapping for the previous entry
+                            let orig_path = format!("res/{}{}/{}", type_name, entry.config.replace("default", ""), original_key_name);
+                            let new_path = format!("res/{}{}/{}", type_name, entry.config.replace("default", ""), prev_new_name);
+                            if orig_path != new_path {
+                                self.path_mappings.insert(orig_path, new_path);
+                            }
+                            entry.key_name = prev_new_name;
+                            break;
                         }
-                        entry.key_name = prev_new_name;
-                        break;
                     }
                 }
+                // Now rename the current entry
+                format!("{}_res_0x{:08x}", sanitized_name, res_id)
             }
-            // Now rename the current entry
-            format!("{}_res_0x{:08x}", sanitized_name, res_id)
         } else if name_changed {
-            // Name was sanitized, add the suffix
+            // Name was sanitized, add the suffix to avoid collisions with unsanitized versions
             format!("{}_res_0x{:08x}", sanitized_name, res_id)
         } else {
             // No duplicate, no sanitization needed
@@ -946,6 +962,17 @@ impl ArscParser {
             self.path_mappings.insert(orig_path, new_path);
         }
 
+        // Pre-decode string values for thread-safe parallel access later
+        let decoded_value = if let Some(ref val) = value {
+            if val.data_type == TYPE_STRING {
+                self.strings.get(val.data)
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+
         // Add entry
         let entry = ResourceEntry {
             id: res_id,
@@ -956,10 +983,17 @@ impl ArscParser {
             bag_items,
             parent,
             config: config.to_string(),
+            decoded_value,
         };
 
         self.res_names.insert(res_id, entry.full_name());
-        self.entries.push(entry);
+        self.entries.push(entry.clone());
+
+        // Also partition by type for O(1) lookup during parallel generation
+        self.entries_by_type
+            .entry(type_name.to_string())
+            .or_default()
+            .push(entry);
 
         cursor.seek(SeekFrom::Start(saved_pos))?;
         Ok(())
@@ -1002,6 +1036,52 @@ impl ArscParser {
                     Some(format!("?android:{}", name))
                 } else if let Some(name) = ANDROID_ATTR_MAP.get(&value.data) {
                     // Android framework attribute from attr map
+                    Some(format!("?android:attr/{}", name))
+                } else {
+                    Some(format!("?0x{:08x}", value.data))
+                }
+            }
+            TYPE_DIMENSION => Some(decode_dimension(value.data)),
+            TYPE_FRACTION => Some(decode_fraction(value.data)),
+            _ => Some(format!("0x{:08x}", value.data)),
+        }
+    }
+
+    /// Decode a value to string without requiring mutable access (thread-safe)
+    /// Uses pre-decoded strings from ResourceEntry where available
+    pub fn decode_value_readonly(&self, entry: &ResourceEntry, value: &RawValue) -> Option<String> {
+        match value.data_type {
+            TYPE_NULL => None,
+            TYPE_STRING => entry.decoded_value.clone(), // Use pre-decoded string
+            TYPE_INT_DEC => Some(value.data.to_string()),
+            TYPE_INT_HEX => Some(format!("0x{:x}", value.data)),
+            TYPE_INT_BOOLEAN => Some(if value.data == 0 { "false" } else { "true" }.to_string()),
+            TYPE_FLOAT => Some(format!("{}", f32::from_bits(value.data))),
+            TYPE_INT_COLOR_ARGB8 => Some(format!("#{:08x}", value.data)),
+            TYPE_INT_COLOR_RGB8 => Some(format!("#{:06x}", value.data & 0xFFFFFF)),
+            TYPE_INT_COLOR_ARGB4 => Some(format!("#{:04x}", value.data & 0xFFFF)),
+            TYPE_INT_COLOR_RGB4 => Some(format!("#{:03x}", value.data & 0xFFF)),
+            TYPE_REFERENCE => {
+                if value.data == 0 {
+                    Some("@null".to_string())
+                } else if let Some(name) = self.res_names.get(&value.data) {
+                    Some(format!("@{}", name))
+                } else if (value.data >> 24) == 0x01 {
+                    if let Some(name) = ANDROID_RES_MAP.get(&value.data) {
+                        Some(format!("@android:{}", name))
+                    } else {
+                        Some(format!("@android:0x{:08x}", value.data))
+                    }
+                } else {
+                    Some(format!("@0x{:08x}", value.data))
+                }
+            }
+            TYPE_ATTRIBUTE => {
+                if let Some(name) = self.res_names.get(&value.data) {
+                    Some(format!("?{}", name))
+                } else if let Some(name) = ANDROID_RES_MAP.get(&value.data) {
+                    Some(format!("?android:{}", name))
+                } else if let Some(name) = ANDROID_ATTR_MAP.get(&value.data) {
                     Some(format!("?android:attr/{}", name))
                 } else {
                     Some(format!("?0x{:08x}", value.data))
@@ -1524,125 +1604,449 @@ impl ArscParser {
         xml
     }
 
-    /// Generate all values XML files as a map of filename -> content
-    pub fn generate_values_xml(&mut self) -> HashMap<String, String> {
-        let mut files = HashMap::new();
+    // ========== READONLY GENERATORS (Thread-safe for parallel use) ==========
 
-        // Collect all unique configs for string resources
-        let string_configs: std::collections::HashSet<String> = self
-            .entries
-            .iter()
-            .filter(|e| e.type_name == "string")
-            .map(|e| e.config.clone())
-            .collect();
+    /// Generate strings.xml for a config (readonly, uses pre-decoded values)
+    fn generate_strings_xml_readonly(&self, config: &str) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
 
-        // Generate strings.xml for each config
-        for config in string_configs {
-            let strings_xml = self.generate_strings_xml_for_config(&config);
-            if strings_xml.contains("<string") {
-                let filename = if config == "default" {
-                    "strings.xml".to_string()
-                } else {
-                    format!("values-{}/strings.xml", config)
-                };
-                files.insert(filename, strings_xml);
+        if let Some(entries) = self.entries_by_type.get("string") {
+            for entry in entries.iter().filter(|e| e.config == config) {
+                if let Some(ref value) = entry.value {
+                    match value.data_type {
+                        TYPE_STRING => {
+                            if let Some(ref decoded) = entry.decoded_value {
+                                let escaped = escape_string_resource(decoded);
+                                xml.push_str(&format!(
+                                    "    <string name=\"{}\">{}</string>\n",
+                                    entry.key_name, escaped
+                                ));
+                            }
+                        }
+                        TYPE_REFERENCE => {
+                            let ref_str = self.decode_value_readonly(entry, value)
+                                .unwrap_or_else(|| format!("@0x{:08x}", value.data));
+                            xml.push_str(&format!(
+                                "    <string name=\"{}\">{}</string>\n",
+                                entry.key_name, ref_str
+                            ));
+                        }
+                        _ => {}
+                    }
+                }
             }
         }
 
-        // Generate colors.xml (default config only for now)
-        let colors_xml = self.generate_colors_xml();
-        if colors_xml.contains("<color") {
-            files.insert("colors.xml".to_string(), colors_xml);
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate colors.xml (readonly)
+    fn generate_colors_xml_readonly(&self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        if let Some(entries) = self.entries_by_type.get("color") {
+            for entry in entries.iter().filter(|e| e.config == "default") {
+                if let Some(ref value) = entry.value {
+                    if Self::is_color_type(value.data_type)
+                        || value.data_type == TYPE_REFERENCE
+                        || value.data_type == TYPE_ATTRIBUTE
+                    {
+                        if let Some(decoded) = self.decode_value_readonly(entry, value) {
+                            xml.push_str(&format!(
+                                "    <color name=\"{}\">{}</color>\n",
+                                entry.key_name, decoded
+                            ));
+                        }
+                    }
+                }
+            }
         }
 
-        // Generate drawables.xml for all drawable configs (handles values-hdpi/, etc.)
-        // JADX generates drawables.xml for density configs even if empty
-        let drawable_configs: std::collections::HashSet<String> = self
-            .entries
-            .iter()
-            .filter(|e| e.type_name == "drawable")
-            .map(|e| e.config.clone())
-            .collect();
+        xml.push_str("</resources>\n");
+        xml
+    }
 
-        for config in drawable_configs {
-            let drawables_xml = self.generate_drawables_xml_for_config(&config);
-            let filename = if config == "default" {
-                "drawables.xml".to_string()
-            } else {
-                format!("values-{}/drawables.xml", config)
+    /// Generate drawables.xml for a config (readonly)
+    fn generate_drawables_xml_readonly(&self, config: &str) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        if let Some(entries) = self.entries_by_type.get("drawable") {
+            for entry in entries.iter().filter(|e| {
+                e.config == config && e.value.as_ref().map(|v| Self::is_color_type(v.data_type)).unwrap_or(false)
+            }) {
+                if let Some(ref value) = entry.value {
+                    if let Some(decoded) = self.decode_value_readonly(entry, value) {
+                        xml.push_str(&format!(
+                            "    <drawable name=\"{}\">{}</drawable>\n",
+                            entry.key_name, decoded
+                        ));
+                    }
+                }
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate integers.xml for a config (readonly)
+    fn generate_integers_xml_readonly(&self, config: &str) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        if let Some(entries) = self.entries_by_type.get("integer") {
+            for entry in entries.iter().filter(|e| e.config == config) {
+                if let Some(ref value) = entry.value {
+                    let decoded = self.decode_value_readonly(entry, value)
+                        .unwrap_or_else(|| format!("{}", value.data));
+                    xml.push_str(&format!(
+                        "    <integer name=\"{}\">{}</integer>\n",
+                        entry.key_name, decoded
+                    ));
+                }
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate dimens.xml (readonly)
+    fn generate_dimens_xml_readonly(&self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        if let Some(entries) = self.entries_by_type.get("dimen") {
+            for entry in entries.iter().filter(|e| e.config == "default") {
+                if let Some(ref value) = entry.value {
+                    let decoded = match value.data_type {
+                        TYPE_DIMENSION => decode_dimension(value.data),
+                        TYPE_FLOAT => format!("{}", f32::from_bits(value.data)),
+                        _ => self.decode_value_readonly(entry, value)
+                            .unwrap_or_else(|| format!("0x{:x}", value.data)),
+                    };
+                    xml.push_str(&format!(
+                        "    <dimen name=\"{}\">{}</dimen>\n",
+                        entry.key_name, decoded
+                    ));
+                }
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate bools.xml (readonly)
+    fn generate_bools_xml_readonly(&self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        if let Some(entries) = self.entries_by_type.get("bool") {
+            for entry in entries.iter().filter(|e| e.config == "default") {
+                if let Some(ref value) = entry.value {
+                    let decoded = if value.data == 0 { "false" } else { "true" };
+                    xml.push_str(&format!(
+                        "    <bool name=\"{}\">{}</bool>\n",
+                        entry.key_name, decoded
+                    ));
+                }
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate styles.xml (readonly) - complex because of bag items
+    fn generate_styles_xml_readonly(&self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        if let Some(entries) = self.entries_by_type.get("style") {
+            for entry in entries.iter().filter(|e| e.config == "default" && e.bag_items.is_some()) {
+                xml.push_str("    <style name=\"");
+                xml.push_str(&escape_xml_text(&entry.key_name));
+                xml.push('"');
+
+                if let Some(parent_id) = entry.parent {
+                    if let Some(parent_name) = self.res_names.get(&parent_id) {
+                        xml.push_str(" parent=\"@");
+                        xml.push_str(parent_name);
+                        xml.push('"');
+                    } else if (parent_id >> 24) == 0x01 {
+                        if let Some(android_name) = ANDROID_RES_MAP.get(&parent_id) {
+                            xml.push_str(" parent=\"@android:");
+                            xml.push_str(android_name);
+                            xml.push('"');
+                        } else {
+                            xml.push_str(&format!(" parent=\"@android:style/0x{:08x}\"", parent_id));
+                        }
+                    } else {
+                        xml.push_str(&format!(" parent=\"@0x{:08x}\"", parent_id));
+                    }
+                } else {
+                    xml.push_str(" parent=\"\"");
+                }
+
+                if let Some(ref items) = entry.bag_items {
+                    if items.is_empty() {
+                        xml.push_str(">\n    </style>\n");
+                    } else {
+                        xml.push_str(">\n");
+                        for item in items {
+                            let attr_name = self.get_attr_name(item.name);
+                            let value_str = self.decode_value_readonly(entry, &item.value)
+                                .unwrap_or_else(|| format!("0x{:08x}", item.value.data));
+                            xml.push_str("        <item name=\"");
+                            xml.push_str(&attr_name);
+                            xml.push_str("\">");
+                            xml.push_str(&escape_xml_text(&value_str));
+                            xml.push_str("</item>\n");
+                        }
+                        xml.push_str("    </style>\n");
+                    }
+                } else {
+                    xml.push_str(">\n    </style>\n");
+                }
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate arrays.xml (readonly)
+    fn generate_arrays_xml_readonly(&self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        if let Some(entries) = self.entries_by_type.get("array") {
+            for entry in entries.iter().filter(|e| e.config == "default" && e.bag_items.is_some()) {
+                let array_type = if let Some(ref items) = entry.bag_items {
+                    if let Some(first) = items.first() {
+                        match first.value.data_type {
+                            TYPE_STRING => "string-array",
+                            TYPE_INT_DEC | TYPE_INT_HEX => "integer-array",
+                            _ => "array",
+                        }
+                    } else { "array" }
+                } else { "array" };
+
+                xml.push_str(&format!("    <{} name=\"{}\">\n", array_type, entry.key_name));
+                if let Some(ref items) = entry.bag_items {
+                    for item in items {
+                        let value_str = self.decode_value_readonly(entry, &item.value)
+                            .unwrap_or_else(|| format!("0x{:08x}", item.value.data));
+                        xml.push_str("        <item>");
+                        xml.push_str(&escape_xml_text(&value_str));
+                        xml.push_str("</item>\n");
+                    }
+                }
+                xml.push_str(&format!("    </{}>\n", array_type));
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate plurals.xml (readonly)
+    fn generate_plurals_xml_readonly(&self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        if let Some(entries) = self.entries_by_type.get("plurals") {
+            for entry in entries.iter().filter(|e| e.config == "default" && e.bag_items.is_some()) {
+                xml.push_str(&format!("    <plurals name=\"{}\">\n", entry.key_name));
+                if let Some(ref items) = entry.bag_items {
+                    for item in items {
+                        let quantity = self.get_attr_name(item.name);
+                        let value_str = self.decode_value_readonly(entry, &item.value)
+                            .unwrap_or_else(|| format!("0x{:08x}", item.value.data));
+                        xml.push_str(&format!(
+                            "        <item quantity=\"{}\">{}</item>\n",
+                            quantity, escape_xml_text(&value_str)
+                        ));
+                    }
+                }
+                xml.push_str("    </plurals>\n");
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate attrs.xml (readonly)
+    fn generate_attrs_xml_readonly(&self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        if let Some(entries) = self.entries_by_type.get("attr") {
+            for entry in entries.iter().filter(|e| e.config == "default" && e.bag_items.is_some()) {
+                if let Some(ref items) = entry.bag_items {
+                    if items.is_empty() { continue; }
+
+                    let first_item = &items[0];
+                    let format_type = first_item.value.data;
+                    let item_tag = if (format_type & ATTR_TYPE_ENUM) != 0 { "enum" }
+                        else if (format_type & ATTR_TYPE_FLAGS) != 0 { "flag" }
+                        else { "item" };
+
+                    let format_str = get_attr_type_string(format_type);
+
+                    xml.push_str("    <attr name=\"");
+                    xml.push_str(&escape_xml_text(&entry.key_name));
+                    xml.push('"');
+
+                    if let Some(fmt) = format_str {
+                        xml.push_str(" format=\"");
+                        xml.push_str(&fmt);
+                        xml.push('"');
+                    }
+
+                    let has_values = items.len() > 1 && (item_tag == "enum" || item_tag == "flag");
+
+                    if has_values {
+                        xml.push_str(">\n");
+                        for item in items.iter().skip(1) {
+                            if item.name == ATTR_MIN || item.name == ATTR_MAX || item.name == ATTR_L10N {
+                                continue;
+                            }
+                            let name = self.get_attr_name(item.name);
+                            let value = item.value.data as i32;
+                            xml.push_str(&format!(
+                                "        <{} name=\"{}\" value=\"{}\" />\n",
+                                item_tag, escape_xml_text(&name), value
+                            ));
+                        }
+                        xml.push_str("    </attr>\n");
+                    } else {
+                        xml.push_str(">\n    </attr>\n");
+                    }
+                }
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    // ========== PARALLEL GENERATION ==========
+
+    /// Generate all values XML files in parallel
+    pub fn generate_values_xml(&self) -> HashMap<String, String> {
+        // Collect unique configs from pre-partitioned entries (O(1) type lookup)
+        let string_configs: Vec<String> = self.entries_by_type.get("string")
+            .map(|e| e.iter().map(|x| x.config.clone()).collect::<std::collections::HashSet<_>>())
+            .unwrap_or_default()
+            .into_iter().collect();
+
+        let drawable_configs: Vec<String> = self.entries_by_type.get("drawable")
+            .map(|e| e.iter().map(|x| x.config.clone()).collect::<std::collections::HashSet<_>>())
+            .unwrap_or_default()
+            .into_iter().collect();
+
+        let integer_configs: Vec<String> = self.entries_by_type.get("integer")
+            .map(|e| e.iter().map(|x| x.config.clone()).collect::<std::collections::HashSet<_>>())
+            .unwrap_or_default()
+            .into_iter().collect();
+
+        // Build task list
+        enum Task {
+            Strings(String),
+            Drawables(String),
+            Integers(String),
+            Colors,
+            Styles,
+            Arrays,
+            Plurals,
+            Dimens,
+            Bools,
+            Attrs,
+            Public,
+        }
+
+        let mut tasks: Vec<Task> = Vec::new();
+        for c in string_configs { tasks.push(Task::Strings(c)); }
+        for c in drawable_configs { tasks.push(Task::Drawables(c)); }
+        for c in integer_configs { tasks.push(Task::Integers(c)); }
+        tasks.push(Task::Colors);
+        tasks.push(Task::Styles);
+        tasks.push(Task::Arrays);
+        tasks.push(Task::Plurals);
+        tasks.push(Task::Dimens);
+        tasks.push(Task::Bools);
+        tasks.push(Task::Attrs);
+        tasks.push(Task::Public);
+
+        // Execute tasks in parallel
+        let files = Mutex::new(HashMap::new());
+        tasks.into_par_iter().for_each(|task| {
+            let (filename, content, check) = match task {
+                Task::Strings(config) => {
+                    let xml = self.generate_strings_xml_readonly(&config);
+                    let fname = if config == "default" { "strings.xml".to_string() }
+                        else { format!("values-{}/strings.xml", config) };
+                    (fname, xml, Some("<string"))
+                }
+                Task::Drawables(config) => {
+                    let xml = self.generate_drawables_xml_readonly(&config);
+                    let fname = if config == "default" { "drawables.xml".to_string() }
+                        else { format!("values-{}/drawables.xml", config) };
+                    (fname, xml, None) // Always include drawables
+                }
+                Task::Integers(config) => {
+                    let xml = self.generate_integers_xml_readonly(&config);
+                    let fname = if config == "default" { "integers.xml".to_string() }
+                        else { format!("values-{}/integers.xml", config) };
+                    (fname, xml, Some("<integer"))
+                }
+                Task::Colors => {
+                    let xml = self.generate_colors_xml_readonly();
+                    ("colors.xml".to_string(), xml, Some("<color"))
+                }
+                Task::Styles => {
+                    let xml = self.generate_styles_xml_readonly();
+                    ("styles.xml".to_string(), xml, Some("<style"))
+                }
+                Task::Arrays => {
+                    let xml = self.generate_arrays_xml_readonly();
+                    ("arrays.xml".to_string(), xml, Some("<"))
+                }
+                Task::Plurals => {
+                    let xml = self.generate_plurals_xml_readonly();
+                    ("plurals.xml".to_string(), xml, Some("<plurals"))
+                }
+                Task::Dimens => {
+                    let xml = self.generate_dimens_xml_readonly();
+                    ("dimens.xml".to_string(), xml, Some("<dimen"))
+                }
+                Task::Bools => {
+                    let xml = self.generate_bools_xml_readonly();
+                    ("bools.xml".to_string(), xml, Some("<bool"))
+                }
+                Task::Attrs => {
+                    let xml = self.generate_attrs_xml_readonly();
+                    ("attrs.xml".to_string(), xml, Some("<attr"))
+                }
+                Task::Public => {
+                    let xml = self.generate_public_xml();
+                    ("public.xml".to_string(), xml, None) // Always include
+                }
             };
-            // Always insert for default, but only insert non-default if not empty
-            // (JADX creates empty files for density configs)
-            files.insert(filename, drawables_xml);
-        }
 
-        // Ensure default drawables.xml exists even if no default drawable entries
-        if !files.contains_key("drawables.xml") {
-            files.insert("drawables.xml".to_string(),
+            // Only include if content check passes (or no check needed)
+            let should_include = check.map(|c| content.contains(c)).unwrap_or(true);
+            if should_include {
+                files.lock().unwrap().insert(filename, content);
+            }
+        });
+
+        let mut result = files.into_inner().unwrap();
+
+        // Ensure default drawables.xml exists
+        if !result.contains_key("drawables.xml") {
+            result.insert("drawables.xml".to_string(),
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n</resources>\n".to_string());
         }
 
-        // Generate styles.xml
-        let styles_xml = self.generate_styles_xml();
-        if styles_xml.contains("<style") {
-            files.insert("styles.xml".to_string(), styles_xml);
-        }
-
-        // Generate arrays.xml
-        let arrays_xml = self.generate_arrays_xml();
-        if arrays_xml.contains("<array") || arrays_xml.contains("-array") {
-            files.insert("arrays.xml".to_string(), arrays_xml);
-        }
-
-        // Generate plurals.xml
-        let plurals_xml = self.generate_plurals_xml();
-        if plurals_xml.contains("<plurals") {
-            files.insert("plurals.xml".to_string(), plurals_xml);
-        }
-
-        // Generate dimens.xml
-        let dimens_xml = self.generate_dimens_xml();
-        if dimens_xml.contains("<dimen") {
-            files.insert("dimens.xml".to_string(), dimens_xml);
-        }
-
-        // Generate integers.xml for all configs (handles values-v30/, etc.)
-        let integer_configs: std::collections::HashSet<String> = self
-            .entries
-            .iter()
-            .filter(|e| e.type_name == "integer")
-            .map(|e| e.config.clone())
-            .collect();
-
-        for config in integer_configs {
-            let integers_xml = self.generate_integers_xml_for_config(&config);
-            if integers_xml.contains("<integer") {
-                let filename = if config == "default" {
-                    "integers.xml".to_string()
-                } else {
-                    format!("values-{}/integers.xml", config)
-                };
-                files.insert(filename, integers_xml);
-            }
-        }
-
-        // Generate bools.xml
-        let bools_xml = self.generate_bools_xml();
-        if bools_xml.contains("<bool") {
-            files.insert("bools.xml".to_string(), bools_xml);
-        }
-
-        // Generate attrs.xml
-        let attrs_xml = self.generate_attrs_xml();
-        if attrs_xml.contains("<attr") {
-            files.insert("attrs.xml".to_string(), attrs_xml);
-        }
-
-        // Generate public.xml
-        let public_xml = self.generate_public_xml();
-        files.insert("public.xml".to_string(), public_xml);
-
-        files
+        result
     }
 }
 
@@ -1810,6 +2214,7 @@ mod tests {
             bag_items: None,
             parent: None,
             config: "default".to_string(),
+            decoded_value: None,
         };
         assert_eq!(entry.full_name(), "string/app_name");
     }

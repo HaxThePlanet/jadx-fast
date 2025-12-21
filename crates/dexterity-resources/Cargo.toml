@@ -8,6 +8,7 @@ license.workspace = true
 [dependencies]
 byteorder.workspace = true
 thiserror.workspace = true
+rayon.workspace = true
 
 [dev-dependencies]
 pretty_assertions.workspace = true

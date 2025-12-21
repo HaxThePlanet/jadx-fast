@@ -380,10 +380,10 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     let mut dex_file_names = Vec::new();  // Only store names, not data
     let mut manifest_data: Option<Vec<u8>> = None;
     let mut arsc_data: Option<Vec<u8>> = None;
-    let mut xml_resource_names: Vec<String> = Vec::new();  // Only store names
+    let mut xml_resources: Vec<(String, Vec<u8>)> = Vec::new();  // Store name + data for parallel processing
     let mut raw_file_count = 0;
 
-    // First pass: Extract resources immediately, collect DEX file names
+    // First pass: Extract all data in single ZIP traversal
     for i in 0..archive.len() {
         let mut entry = archive.by_index(i)?;
         let name = entry.name().to_string();
@@ -394,7 +394,6 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         }
 
         if name.ends_with(".dex") {
-            // Only store the name, we'll process it later
             dex_file_names.push(name);
         } else if name == "AndroidManifest.xml" {
             let mut data = Vec::new();
@@ -405,11 +404,12 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             entry.read_to_end(&mut data)?;
             arsc_data = Some(data);
         } else if name.starts_with("res/") && name.ends_with(".xml") {
-            // Store name for later processing (need arsc first for resource name mappings)
-            xml_resource_names.push(name);
+            // Extract XML data for parallel processing later
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            xml_resources.push((name, data));
         } else if !args.skip_resources && should_extract_raw_file(&name) {
-            // Extract raw files IMMEDIATELY to avoid memory accumulation
-            // Normalize config qualifiers (remove redundant -v4 for density, etc.)
+            // Extract raw files immediately (ramdisk is fast)
             let normalized_name = normalize_config_qualifier(&name);
             let out_path = out_res.join(&normalized_name);
             if let Some(parent) = out_path.parent() {
@@ -421,14 +421,14 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         }
     }
 
-    tracing::info!("Found {} DEX file(s), {} resource XMLs", dex_file_names.len(), xml_resource_names.len());
+    tracing::info!("Found {} DEX file(s), {} resource XMLs", dex_file_names.len(), xml_resources.len());
 
-    // Process resources (ARSC + AXML) and get resource name mappings
+    // Process resources (ARSC + AXML) with parallel XML processing
     let mut res_names: std::collections::HashMap<u32, String> = std::collections::HashMap::new();
     let mut app_package_name: Option<String> = None;
     if !args.skip_resources {
         let pretty_print = !args.no_xml_pretty_print;
-        (res_names, app_package_name) = process_resources_streaming(out_res, manifest_data, arsc_data, &xml_resource_names, raw_file_count, input, pretty_print)?;
+        (res_names, app_package_name) = process_resources_parallel(out_res, manifest_data, arsc_data, xml_resources, raw_file_count, pretty_print)?;
     }
     // Wrap res_names in Arc for efficient sharing across parallel class processing
     let res_names = Arc::new(res_names);
@@ -619,6 +619,121 @@ fn process_resources_streaming(
     tracing::info!("Processed {} resource XMLs ({} errors)", xml_count, xml_errors);
     tracing::info!("Extracted {} raw files", raw_file_count);
 
+    Ok((res_names, app_package_name))
+}
+
+/// Process resources with parallel XML parsing
+fn process_resources_parallel(
+    out_res: &PathBuf,
+    manifest_data: Option<Vec<u8>>,
+    arsc_data: Option<Vec<u8>>,
+    xml_resources: Vec<(String, Vec<u8>)>,
+    raw_file_count: usize,
+    pretty_print: bool,
+) -> Result<(std::collections::HashMap<u32, String>, Option<String>)> {
+    use dexterity_resources::{ArscParser, AxmlParser};
+    use rayon::prelude::*;
+    use std::collections::HashMap;
+
+    tracing::info!("Processing resources ({} raw files, {} XMLs)...", raw_file_count, xml_resources.len());
+
+    // Parse resources.arsc first to get resource name mappings
+    let mut res_names: HashMap<u32, String> = HashMap::new();
+    let mut path_mappings: HashMap<String, String> = HashMap::new();
+    let mut app_package_name: Option<String> = None;
+
+    if let Some(ref data) = arsc_data {
+        tracing::debug!("Parsing resources.arsc ({} bytes)", data.len());
+        let mut arsc_parser = ArscParser::new();
+        match arsc_parser.parse(data) {
+            Ok(()) => {
+                res_names = arsc_parser.get_res_names();
+                path_mappings = arsc_parser.get_path_mappings();
+                app_package_name = arsc_parser.get_package_name();
+                tracing::info!("Parsed {} resource entries", res_names.len());
+
+                // Generate values/*.xml files (already parallel internally)
+                let res_dir = out_res.join("res");
+                let values_dir = res_dir.join("values");
+                std::fs::create_dir_all(&values_dir)?;
+
+                let values_files = arsc_parser.generate_values_xml();
+                let values_count = values_files.len();
+
+                // Write values files in parallel
+                values_files.par_iter().for_each(|(filename, content)| {
+                    let out_path = if filename.contains('/') {
+                        let full_path = res_dir.join(filename);
+                        if let Some(parent) = full_path.parent() {
+                            std::fs::create_dir_all(parent).ok();
+                        }
+                        full_path
+                    } else {
+                        values_dir.join(filename)
+                    };
+                    std::fs::write(&out_path, content).ok();
+                });
+                tracing::info!("Generated {} values XML files", values_count);
+            }
+            Err(e) => {
+                tracing::warn!("Failed to parse resources.arsc: {}", e);
+            }
+        }
+    }
+
+    // Parse and write AndroidManifest.xml
+    if let Some(data) = manifest_data {
+        let mut axml_parser = AxmlParser::new();
+        axml_parser.set_res_names(res_names.clone());
+        axml_parser.set_pretty_print(pretty_print);
+
+        match axml_parser.parse(&data) {
+            Ok(xml) => {
+                let out_path = out_res.join("AndroidManifest.xml");
+                std::fs::write(&out_path, &xml)?;
+                tracing::info!("Wrote AndroidManifest.xml");
+            }
+            Err(e) => {
+                tracing::warn!("Failed to parse AndroidManifest.xml: {}", e);
+            }
+        }
+    }
+
+    // Process XML resources in parallel
+    let xml_count = xml_resources.len();
+    if !xml_resources.is_empty() {
+        let res_names_arc = std::sync::Arc::new(res_names.clone());
+        let path_mappings_arc = std::sync::Arc::new(path_mappings);
+        let out_res_arc = std::sync::Arc::new(out_res.clone());
+
+        let errors = std::sync::atomic::AtomicUsize::new(0);
+
+        xml_resources.par_iter().for_each(|(name, data)| {
+            let mut axml_parser = AxmlParser::new();
+            axml_parser.set_res_names((*res_names_arc).clone());
+            axml_parser.set_pretty_print(pretty_print);
+
+            match axml_parser.parse(data) {
+                Ok(xml) => {
+                    let normalized_name = normalize_config_qualifier(name);
+                    let final_name = apply_resource_path_mapping(&normalized_name, &path_mappings_arc);
+                    let out_path = out_res_arc.join(&final_name);
+                    if let Some(parent) = out_path.parent() {
+                        std::fs::create_dir_all(parent).ok();
+                    }
+                    std::fs::write(&out_path, &xml).ok();
+                }
+                Err(_) => {
+                    errors.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                }
+            }
+        });
+
+        let xml_errors = errors.load(std::sync::atomic::Ordering::Relaxed);
+        tracing::info!("Processed {} resource XMLs ({} errors)", xml_count, xml_errors);
+    }
+
+    tracing::info!("Extracted {} raw files", raw_file_count);
     Ok((res_names, app_package_name))
 }
 
@@ -1796,6 +1911,8 @@ fn normalize_config_qualifier(path: &str) -> String {
     // Apply JADX-style normalization rules:
     // 1. anydpi implies v21 (API 21+)
     // 2. density qualifiers (ldpi, mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi, tvdpi, nodpi) imply v4
+    // 3. standalone version qualifiers (layout-v21, drawable-v21) are stripped
+    //    because JADX doesn't add version qualifiers when it's the only qualifier
     let normalized = {
         let mut result = type_config.to_string();
 
@@ -1817,6 +1934,25 @@ fn normalize_config_qualifier(path: &str) -> String {
                 || result.contains("-nodpi");
             if has_density {
                 result = result.trim_end_matches("-v4").to_string();
+            }
+        }
+
+        // Strip standalone version qualifiers (e.g., layout-v21 -> layout)
+        // JADX doesn't add version qualifiers when it's the only qualifier
+        // This regex-like pattern matches "type-vN" where N is a number
+        if let Some(hyphen_idx) = result.rfind('-') {
+            let suffix = &result[hyphen_idx + 1..];
+            if suffix.starts_with('v') && suffix[1..].chars().all(|c| c.is_ascii_digit()) {
+                // Check if this is the ONLY qualifier (e.g., "layout-v21" not "layout-fr-v21")
+                let prefix = &result[..hyphen_idx];
+                // Base types that shouldn't have version-only qualifiers stripped
+                let base_types = [
+                    "drawable", "layout", "anim", "animator", "color", "menu",
+                    "mipmap", "raw", "xml", "font", "navigation", "transition",
+                ];
+                if base_types.contains(&prefix) {
+                    result = prefix.to_string();
+                }
             }
         }
 
@@ -1859,24 +1995,39 @@ fn apply_resource_path_mapping(
     }
 }
 
-/// Check if a file should be extracted as raw (unprocessed) from the APK
+/// Check if a file should be extracted as raw (unprocessed) from the APK.
+///
+/// Uses a blacklist approach to achieve 1:1 parity with JADX extraction:
+/// - Extract everything EXCEPT files that need special processing
+/// - Special processing: .dex (decompiled), .xml in res/ (decoded),
+///   AndroidManifest.xml (decoded), resources.arsc (parsed)
+///
+/// This ensures complete resource extraction including:
+/// - Kotlin metadata (.kotlin_builtins)
+/// - Build metadata (.properties, .bin, versions)
+/// - Library resources (okhttp3/, com/, etc.)
+/// - All META-INF subdirectories
 fn should_extract_raw_file(name: &str) -> bool {
-    // META-INF directory (certificates, manifests, signatures) - needed for knox-vision
-    if name.starts_with("META-INF/") {
-        return true;
+    // Skip .dex files (processed separately as code)
+    if name.ends_with(".dex") {
+        return false;
     }
-    // Assets directory
-    if name.starts_with("assets/") {
-        return true;
+
+    // Skip AndroidManifest.xml (processed separately with binary XML parser)
+    if name == "AndroidManifest.xml" {
+        return false;
     }
-    // Raw resources (non-XML files in res/)
-    if name.starts_with("res/") && !name.ends_with(".xml") {
-        return true;
+
+    // Skip resources.arsc (processed separately with ARSC parser)
+    if name == "resources.arsc" {
+        return false;
     }
-    // lib/*.so files (native libraries)
-    if name.starts_with("lib/") && name.ends_with(".so") {
-        return true;
+
+    // Skip res/*.xml files (processed separately with binary XML parser)
+    if name.starts_with("res/") && name.ends_with(".xml") {
+        return false;
     }
-    // Skip kotlin/ directory - just stdlib metadata, no RE value
-    false
+
+    // Extract everything else (1:1 JADX parity)
+    true
 }

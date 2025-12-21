@@ -597,6 +597,7 @@ version = "1.0.0"
 dependencies = [
  "byteorder",
  "pretty_assertions",
+ "rayon",
  "thiserror",
 ]
 
