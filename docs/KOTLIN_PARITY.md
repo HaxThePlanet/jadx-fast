@@ -6,7 +6,7 @@
 
 | Metric | Value |
 |--------|-------|
-| **Overall Parity** | **100%** (all JADX features implemented + Kotlin-exclusive extras) |
+| **Overall Parity** | **95%** (type parameter bounds not parsed - see TODO in extractor.rs:47) |
 | **Proto Parsing** | 100% (complete metadata schema with JVM extensions) |
 | **IR Extraction** | 100% (all modifiers applied to IR) |
 | **Production Impact** | Full - all class/method/field names restored, all modifiers applied |
@@ -175,7 +175,7 @@ Function modifiers are emitted as comments before Java modifiers:
 |------|--------|--------|-------|
 | SMAP debug extension support | LOW | Not planned | Requires separate attribute parser |
 
-**Current Parity:** 100% (all JADX features implemented)
+**Current Parity:** 95% (type parameter bounds parsing incomplete)
 
 #### Completed: BitEncoding Port (Dec 20, 2025)
 
@@ -210,7 +210,7 @@ interface Consumer<in T> { ... }  // Contravariant
 interface Producer<out E> { ... } // Covariant
 ```
 
-**Parity Status:** 100% achieved
+**Parity Status:** 95% achieved
 
 #### Completed: toString() Bytecode Parsing (Dec 19, 2025)
 

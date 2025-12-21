@@ -87,14 +87,16 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 
 | Crate | Purpose | Parity |
 |-------|---------|--------|
-| dexterity-dex | DEX binary parsing | 100% |
-| dexterity-ir | Intermediate representation | 98% |
-| dexterity-passes | Decompilation passes | 95% |
-| dexterity-codegen | Java source generation | 95% |
-| dexterity-resources | Resource decoding | 100% |
-| dexterity-deobf | Deobfuscation | 100% |
-| dexterity-kotlin | Kotlin metadata | 100% |
-| dexterity-cli | CLI application | 98% |
+| dexterity-dex | DEX binary parsing | 95% |
+| dexterity-ir | Intermediate representation | 90% |
+| dexterity-passes | Decompilation passes | 85% |
+| dexterity-codegen | Java source generation | 85% |
+| dexterity-resources | Resource decoding | 98% |
+| dexterity-deobf | Deobfuscation | 90% |
+| dexterity-kotlin | Kotlin metadata | 95% |
+| dexterity-cli | CLI application | 95% |
+
+*Feature completeness vs JADX. See [Quality Status](docs/QUALITY_STATUS.md) for APK-specific grades (75-90%).*
 
 ## Sample Output
 

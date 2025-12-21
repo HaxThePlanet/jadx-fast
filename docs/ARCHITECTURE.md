@@ -148,14 +148,16 @@ Command-line interface and decompilation orchestration.
 
 | Crate | Parity |
 |-------|--------|
-| dexterity-dex | **100%** |
-| dexterity-ir | **98%** |
-| dexterity-passes | **95%** |
-| dexterity-codegen | **95%** |
-| dexterity-resources | **100%** |
-| dexterity-deobf | **100%** |
-| dexterity-kotlin | **100%** |
-| dexterity-cli | **98%** |
+| dexterity-dex | **95%** |
+| dexterity-ir | **90%** |
+| dexterity-passes | **85%** |
+| dexterity-codegen | **85%** |
+| dexterity-resources | **98%** |
+| dexterity-deobf | **90%** |
+| dexterity-kotlin | **95%** |
+| dexterity-cli | **95%** |
+
+*Feature completeness vs JADX. See [QUALITY_STATUS.md](QUALITY_STATUS.md) for APK-specific grades.*
 
 ## Build Commands
 

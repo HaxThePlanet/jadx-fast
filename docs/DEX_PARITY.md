@@ -1,13 +1,13 @@
 # DEX Binary Parsing Parity: dexterity-dex vs jadx-dex
 
-**Last Updated**: 2025-12-17
-**Overall Parity**: **100%**
+**Last Updated**: 2025-12-21
+**Overall Parity**: **95%** (debug opcodes 0x07-0x09 skipped, placeholder fallbacks)
 
 ---
 
 ## Executive Summary
 
-The `dexterity-dex` crate achieves **100% feature parity** with JADX's `jadx-dex-input` plugin for DEX binary parsing. All DEX file format elements, Dalvik opcodes, instruction formats, and debug information are fully implemented.
+The `dexterity-dex` crate achieves **95% feature parity** with JADX's `jadx-dex-input` plugin for DEX binary parsing. Most DEX file format elements, Dalvik opcodes, instruction formats, and debug information are implemented. Debug opcodes 0x07-0x09 (DBG_SET_PROLOGUE_END, DBG_SET_EPILOGUE_BEGIN, DBG_SET_FILE) are skipped without processing.
 
 | Component | Parity | dexterity-dex | jadx-dex |
 |-----------|--------|---------------|----------|
@@ -512,10 +512,10 @@ jadx-plugins/jadx-dex-input/src/main/java/jadx/plugins/input/dex/
 
 ## Conclusion
 
-**dexterity-dex achieves 100% functional parity with jadx-dex** for DEX binary parsing while providing:
+**dexterity-dex achieves 95% functional parity with jadx-dex** for DEX binary parsing while providing:
 - 4-13x performance improvement via memory-mapped parsing
 - Full concurrency support via lock-free data structures
 - Zero-copy parsing where possible
 - Identical feature coverage across all DEX versions (035-041)
 
-No gaps remain in DEX binary parsing functionality.
+Minor gaps remain: debug opcodes 0x07-0x09 are skipped, and some placeholder fallbacks are used for edge cases.
