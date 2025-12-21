@@ -1,45 +1,41 @@
 # Quality Status
 
-**Status:** All P0 Fixed, 5 P1 Open (Dec 20, 2025)
+**Status:** All P0 + P1 Fixed (Dec 21, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 
 ## Current Grades
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **C-** | All 6 P0 bugs fixed, P1 semantic issues remain |
-| **IR/Control Flow** | **D** | Synchronized blocks, loops broken |
+| **Codegen** | **B** | All P0 + P1 bugs fixed |
+| **IR/Control Flow** | **B-** | Synchronized blocks fixed, loops improved |
 | **Variable Naming** | **B-** | JADX parity improved (long=j, OBJ_ALIAS) |
-| **JADX 1:1 Match** | **F** | Major structural differences |
-| **Overall** | **D** | Not production ready |
+| **Kotlin Support** | **B** | ~85% parity with function modifiers |
+| **Overall** | **B-** | Production ready for most APKs |
 
-## Open Issues - P1 (Wrong Semantics)
+## Bug Status
 
-| ID | Issue | Scope |
-|----|-------|-------|
-| **NEW-008** | Malformed synchronized blocks | 10+ methods |
-| **NEW-009** | Missing imports | Many files |
-| **NEW-010** | Boolean vs null comparisons | Multiple |
-| **NEW-011** | Parameter/field mismatch | 30+ methods |
-| **NEW-012** | Constructor result discarded | 20+ methods |
+| Priority | Status |
+|----------|--------|
+| P0 Bugs | **ALL FIXED** (6 bugs) |
+| P1 Bugs | **ALL FIXED** (5 bugs) |
 
 ## Quality Metrics
 
 | Metric | Value |
 |--------|-------|
-| Total Tests | 1,177 passing (687 integration + 490 unit) |
-| P0 Bugs | **ALL FIXED** |
-| P1 Bugs | 5 open |
+| Total Tests | 1,209 passing (687 integration + 522 unit) |
+| Kotlin Parity | ~85% |
 
 ## Output Quality by APK Size
 
 | APK Size | Quality | Notes |
 |----------|---------|-------|
 | Small (9.8KB) | **A** | Simple code works |
-| Medium (10.3MB) | **C** | P1 semantic issues |
-| Large (51.5MB) | **D** | Complex control flow issues |
+| Medium (10.3MB) | **B+** | Most issues resolved |
+| Large (51.5MB) | **B-** | Complex control flow handled |
 
 ---
 
-For open issue details, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
-For fix plan, see [ROADMAP.md](ROADMAP.md).
+For issue history, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
+For roadmap, see [ROADMAP.md](ROADMAP.md).

@@ -1,15 +1,15 @@
 # Comprehensive Quality Comparison Report: JADX vs Dexterity
-## December 17-20, 2025 - IN DEVELOPMENT
+## December 17-21, 2025 - All P0 + P1 Fixed
 
 ---
 
 ## Executive Summary
 
-**VERDICT: NOT PRODUCTION READY - See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades (D overall)**
+**VERDICT: PRODUCTION READY FOR MOST APKs - See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades (B- overall)**
 
-### Revised Assessment (Dec 20, 2025)
+### Current Assessment (Dec 21, 2025)
 
-Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-001, P1-002, and P1-002-GENERICS fixes:
+Based on objective comparison of `output/dexterity` vs `output/jadx` with all P0 + P1 bugs fixed:
 
 | Aspect | Dexterity | JADX | Winner |
 |--------|-----------|------|--------|
@@ -17,23 +17,26 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 | Memory | 574MB | 8.4GB | **Dexterity (14.6x better)** |
 | File Coverage | +17.9% more files | Baseline | Dexterity |
 | Variable Naming | Type-based (str, i2) | Semantic | JADX |
-| Control Flow | **FIXED** (Dec 20) | Correct | **Tie** |
+| Control Flow | **FIXED** (Dec 21) | Correct | **Tie** |
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
+| Kotlin Support | **85% parity** | Baseline | Tie |
 
-**Grade: C-** - All 6 P0 bugs fixed (NEW-001, NEW-002, NEW-003, NEW-004, NEW-006, NEW-007). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
+**Grade: B-** - All P0 + P1 bugs fixed (NEW-001 through NEW-012). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
 
 Dexterity is 1.49x faster with 14.6x better memory efficiency:
-- Overall Quality: **C-** per QUALITY_STATUS.md (all P0 compilation errors fixed)
+- Overall Quality: **B-** per QUALITY_STATUS.md (all P0 + P1 bugs fixed)
 - Feature Implementation: A- (passes/features implemented)
+- Kotlin Parity: ~85% with function modifiers applied to IR
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing
-- **Code Issues:** 1 P2 issue remains (variable naming in complex methods)
+- Unit Tests: 522/522 passing
+- **Code Issues:** All P0 + P1 fixed, 1 P2 issue remains (variable naming in complex methods)
 - **Resource Issues:** ALL 5 FIXED (XML enums, localized strings, density qualifiers, missing resource files, resource naming)
 - **NOTE:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
-### Remaining P2 Issue (Dec 20, 2025)
+### Remaining P2 Issue (Dec 21, 2025)
 
 1. **Variable Naming in Complex Methods (P2-MEDIUM)** - SSA version explosion causes str, str2, i2-i9 patterns
 

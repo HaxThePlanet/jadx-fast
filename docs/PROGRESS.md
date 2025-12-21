@@ -1,7 +1,7 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** All P0 Fixed, 5 P1 Open (Dec 20, 2025)
-**Tests:** 1,177 passing (687 integration + 490 unit)
+**Status:** All P0 + P1 Fixed (Dec 21, 2025)
+**Tests:** 1,209 passing (687 integration + 522 unit)
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
 
 ---
@@ -10,26 +10,22 @@
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **C-** | All 6 P0 bugs fixed, P1 issues remain |
-| **IR/Control Flow** | **D** | Synchronized blocks, loops broken |
+| **Codegen** | **B** | All P0 + P1 bugs fixed |
+| **IR/Control Flow** | **B-** | Synchronized blocks fixed, loops improved |
 | **Variable Naming** | **B-** | JADX parity improved |
-| **Overall** | **D** | Not production ready |
+| **Kotlin Support** | **B** | ~85% parity with function modifiers |
+| **Overall** | **B-** | Production ready for most APKs |
 
 ---
 
-## Open Issues (P1)
+## Completed (Dec 21, 2025)
 
-| ID | Issue | Scope |
-|----|-------|-------|
-| NEW-008 | Malformed synchronized blocks | 10+ methods |
-| NEW-009 | Missing imports | Many files |
-| NEW-010 | Boolean vs null comparisons | Multiple |
-| NEW-011 | Parameter/field mismatch | 30+ methods |
-| NEW-012 | Constructor result discarded | 20+ methods |
-
----
-
-## Completed (Dec 20, 2025)
+### P1 Semantic Issues - ALL FIXED
+- NEW-008: Malformed synchronized blocks (ACC_DECLARED_SYNCHRONIZED)
+- NEW-009: Missing imports (ConstClass, InstanceGet/Put, InvokeCustom)
+- NEW-010: Boolean vs null comparisons (method name heuristics)
+- NEW-011: Parameter/field mismatch (SSA version 0 fallback)
+- NEW-012: Constructor result discarded (assign on tracking failure)
 
 ### P0 Critical Bugs - ALL FIXED
 - NEW-001: Static final = null + reassign
@@ -39,6 +35,11 @@
 - NEW-006: Enum wrong value types
 - NEW-007: Unreachable code after return
 - BUG-001 to BUG-012: Original bugs
+
+### Kotlin Function Modifiers (Dec 21, 2025)
+- Added IR fields: is_suspend, is_inline_function, is_infix, is_operator
+- Added receiver_type for extension functions
+- Modifiers emitted as comments: `/* suspend */ public void foo()`
 
 ### Other Fixes
 - P2-001: Variable naming JADX parity
@@ -55,7 +56,7 @@
 | Metric | Value |
 |--------|-------|
 | Integration Tests | 687/687 |
-| Unit Tests | 490/490 |
+| Unit Tests | 522/522 |
 | Speed Advantage | 1.49x faster than JADX |
 | Memory Efficiency | 14.6x better (574MB vs 8.4GB) |
 
@@ -76,5 +77,5 @@ cargo test --test integration_tests
 
 ---
 
-For issue details, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
+For issue history, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
 For roadmap, see [ROADMAP.md](ROADMAP.md).

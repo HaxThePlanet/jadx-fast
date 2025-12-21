@@ -1,7 +1,7 @@
 # LLM Agent Guide: Autonomous Development Toward JADX Parity
 
-**Status:** All P0 Fixed (Dec 20, 2025) - See QUALITY_STATUS.md
-**Issues:** 30+ total (30+ resolved), 0 P0 open, 5 P1 remain
+**Status:** All P0 + P1 Fixed (Dec 21, 2025) - See QUALITY_STATUS.md
+**Issues:** All P0 + P1 bugs fixed, Kotlin ~85% parity
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**
@@ -14,7 +14,7 @@
 2. **Pick a task from roadmap**: [ROADMAP.md](ROADMAP.md)
 3. **Find the JADX algorithm**: See [JADX Reference Documentation](#jadx-reference-documentation) below
 4. **Reference JADX source**: `jadx-fast/jadx-core/src/main/java/jadx/core/`
-5. **Implement and test**: Run `cargo test` (1,201 total tests)
+5. **Implement and test**: Run `cargo test` (1,209 total tests)
 
 ---
 

@@ -151,7 +151,7 @@ Command-line interface and decompilation orchestration.
 | dexterity-codegen | **94%** |
 | dexterity-resources | **100%** |
 | dexterity-deobf | **100%** |
-| dexterity-kotlin | **72%** |
+| dexterity-kotlin | **85%** |
 | dexterity-cli | **98%** |
 
 ## Build Commands

@@ -1,17 +1,17 @@
 # Kotlin Metadata Parity: Dexterity vs JADX
 
-**Last Updated:** December 19, 2025
+**Last Updated:** December 21, 2025
 
 ## Executive Summary
 
 | Metric | Value |
 |--------|-------|
-| **Overall Parity** | **72%** (13/18 JADX features implemented) |
+| **Overall Parity** | **~85%** (15/18 JADX features implemented) |
 | **Proto Parsing** | 95% (comprehensive metadata schema) |
-| **IR Extraction** | 72% (significantly improved feature usage) |
-| **Production Impact** | Medium - class/method/field names work, function modifiers tracked, **variance annotations + toString() parsing** |
+| **IR Extraction** | 85% (function modifiers applied to IR) |
+| **Production Impact** | High - class/method/field names work, function modifiers applied to IR, **variance annotations + toString() parsing** |
 
-Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lines total) and now implements **13 practical extraction features** including field names, data class detection, companion objects, function modifiers, **type parameter variance (in/out/reified)**, and **toString() bytecode parsing for obfuscated code**.
+Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lines total) and now implements **15 practical extraction features** including field names, data class detection, companion objects, **function modifiers applied to IR (suspend/inline/infix/operator)**, **extension function receiver_type**, **type parameter variance (in/out/reified)**, and **toString() bytecode parsing for obfuscated code**.
 
 ---
 
@@ -51,9 +51,10 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lin
 
 | Feature | JADX | Dexterity | Status | Notes |
 |---------|:----:|:---------:|:------:|-------|
-| Suspend functions | NO | YES | **DONE** | `KotlinFunctionFlags.is_suspend` parsed and logged |
-| Inline functions | NO | YES | **DONE** | `KotlinFunctionFlags.is_inline` parsed and logged |
-| Operator/infix markers | NO | YES | **DONE** | `is_operator`, `is_infix` flags extracted |
+| Suspend functions | NO | YES | **DONE** | `MethodData.is_suspend` applied to IR |
+| Inline functions | NO | YES | **DONE** | `MethodData.is_inline_function` applied to IR |
+| Operator/infix markers | NO | YES | **DONE** | `MethodData.is_operator`, `is_infix` applied to IR |
+| Extension receiver_type | NO | YES | **DONE** | `MethodData.receiver_type` applied to IR |
 | Tail recursion | NO | YES | **DONE** | `is_tailrec` flag extracted |
 
 ### Debug/Metadata Features
@@ -126,7 +127,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lin
 
 ## Roadmap to 100% Parity
 
-### P1: Completed (6 tasks)
+### P1: Completed (8 tasks)
 
 | Task | Status | Impact |
 |------|--------|--------|
@@ -136,8 +137,8 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lin
 | 4. Kotlin intrinsics extraction | **DONE** | Parameter names from runtime checks |
 | 5. Getter method recognition | **DONE** | Property accessor matching |
 | 6. Suspend/inline function markers | **DONE** | Function modifier extraction |
-
-**Current Parity:** 61%
+| 7. Apply function modifiers to IR | **DONE** | is_suspend, is_inline_function, is_infix, is_operator |
+| 8. Extension function receiver_type | **DONE** | receiver_type applied to MethodData |
 
 ### P2: Remaining Tasks (1 task)
 
@@ -147,7 +148,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (1,130+ lin
 | ~~8. Type variance annotations~~ | ~~LOW~~ | ~~MEDIUM~~ | **DONE** (Dec 19, 2025) |
 | 9. SMAP debug extension support | LOW | HIGH | New attribute parser |
 
-**Current Parity:** 72% (13/18 JADX features implemented)
+**Current Parity:** ~85% (15/18 JADX features implemented)
 
 #### Completed: Type Variance Annotations (Dec 19, 2025)
 
@@ -240,7 +241,10 @@ fn field_matches(field: &FieldData, property: &KotlinProperty) -> bool {
 | Data class detection | Comment added | **Flag stored** |
 | Companion object naming | Yes | **Yes** |
 | Variable names from intrinsics | Restored | **Restored** |
-| Suspend/inline function detection | No | **Yes** |
+| Suspend function detection | No | **Yes (applied to IR)** |
+| Inline function detection | No | **Yes (applied to IR)** |
+| Infix/operator detection | No | **Yes (applied to IR)** |
+| Extension receiver_type | No | **Yes (applied to IR)** |
 | Sealed class subclasses | Partial | **Yes** |
 
 ---

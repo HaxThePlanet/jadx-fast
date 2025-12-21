@@ -20,7 +20,7 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** 1:1 identical decompilation output with JADX
-**Status:** In Development - P1 semantic issues remain (see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md))
+**Status:** All P0 + P1 bugs fixed (Dec 21, 2025) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
 ## Performance
 
@@ -87,7 +87,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 | dexterity-codegen | Java source generation | 94% |
 | dexterity-resources | Resource decoding | 100% |
 | dexterity-deobf | Deobfuscation | 100% |
-| dexterity-kotlin | Kotlin metadata | 72% |
+| dexterity-kotlin | Kotlin metadata | 85% |
 | dexterity-cli | CLI application | 98% |
 
 ## Sample Output
