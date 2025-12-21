@@ -1,111 +1,82 @@
-Comparing JADX vs Dexterity decompilation quality...
-JADX dir:      output/large/jadx/sources
-Dexterity dir: output/large/dexterity/sources
-Test case:     large
-
-Analyzing JADX output...
-  Found 9874 files
-Analyzing Dexterity output...
-  Found 965 files
-
-Performing detailed comparison...
-
-Comparison Results:
-  Completeness:   9.8%
-  Code Quality:   74.5%
-  Defect Score:   91.5%
-  Overall Score:  70.0%
-
-  Missing Classes: 8977 (first 5:)
-    - android/support/customtabs/ICustomTabsCallback.java
-    - android/support/customtabs/ICustomTabsService.java
-    - android/support/customtabs/IPostMessageService.java
-    - android/support/customtabs/trusted/ITrustedWebActivityCallback.java
-    - android/support/customtabs/trusted/ITrustedWebActivityService.java
-    ... and 8972 more
-
-Generating markdown report...
-
 # Decompilation Quality Comparison Report: large
 
 ## Executive Summary
 
-**Overall Quality Score:** 70.0%
+**Overall Quality Score:** 88.2%
 
 | Metric | Score |
 |--------|-------|
-| Completeness | 9.8% |
-| Code Quality | 74.5% |
-| Defect Score | 91.5% |
+| Completeness | 86.9% |
+| Code Quality | 80.8% |
+| Defect Score | 93.1% |
 
 ## File Completeness
 
 | Tool | Files | LOC | Methods | Fields |
 |------|-------|-----|---------|--------|
-| JADX | 9874 | 619498 | 22526 | 73304 |
-| Dexterity | 965 | 73122 | 3680 | 16804 |
+| JADX | 8161 | 795713 | 47838 | 79234 |
+| Dexterity | 7093 | 669467 | 37929 | 79659 |
 
-### Missing Classes (8977)
+### Missing Classes (3003)
 
-1. android/support/customtabs/ICustomTabsCallback.java
-2. android/support/customtabs/ICustomTabsService.java
-3. android/support/customtabs/IPostMessageService.java
-4. android/support/customtabs/trusted/ITrustedWebActivityCallback.java
-5. android/support/customtabs/trusted/ITrustedWebActivityService.java
-6. android/support/v4/app/INotificationSideChannel.java
-7. android/support/v4/app/RemoteActionCompatParcelizer.java
-8. android/support/v4/graphics/drawable/IconCompatParcelizer.java
-9. android/support/v4/os/IResultReceiver.java
-10. android/support/v4/os/ResultReceiver.java
-11. androidx/annotation/AnimRes.java
-12. androidx/annotation/AnimatorRes.java
-13. androidx/annotation/AnyRes.java
-14. androidx/annotation/AnyThread.java
-15. androidx/annotation/ArrayRes.java
-16. androidx/annotation/AttrRes.java
-17. androidx/annotation/BinderThread.java
-18. androidx/annotation/BoolRes.java
-19. androidx/annotation/CallSuper.java
-20. androidx/annotation/CheckResult.java
+1. app/dogo/com/dogo_android/R.java
+2. app/dogo/com/dogo_android/camerax/RecordVideoFragment.java
+3. app/dogo/com/dogo_android/camerax/RecordVideoScreen.java
+4. app/dogo/com/dogo_android/camerax/RecordVideoViewModel.java
+5. app/dogo/com/dogo_android/clicker/ClickerFragment.java
+6. app/dogo/com/dogo_android/clicker/ClickerScreen.java
+7. app/dogo/com/dogo_android/clicker/ClickerSelectAdapter.java
+8. app/dogo/com/dogo_android/clicker/ClickerSelectDialog.java
+9. app/dogo/com/dogo_android/clicker/ClickerSelectScreen.java
+10. app/dogo/com/dogo_android/clicker/ClickerSelectViewModel.java
+11. app/dogo/com/dogo_android/clicker/ClickerSoundChanged.java
+12. app/dogo/com/dogo_android/clicker/ClickerUserHelpFragment.java
+13. app/dogo/com/dogo_android/clicker/ClickerUserHelpScreen.java
+14. app/dogo/com/dogo_android/clicker/ClickerViewModel.java
+15. app/dogo/com/dogo_android/d/challengefanlist/ChallengeFanListAdapter.java
+16. app/dogo/com/dogo_android/d/challengefanlist/ChallengeFanListDialog.java
+17. app/dogo/com/dogo_android/d/challengefanlist/ChallengeFanListDialogViewModel.java
+18. app/dogo/com/dogo_android/d/challengefanlist/fanlist/ChallengeFanListEntryItem.java
+19. app/dogo/com/dogo_android/d/challengefanlist/fanlist/ChallengeFanListItemObservable.java
+20. app/dogo/com/dogo_android/d/challengefanlist/fanlist/ChallengeFanListSimpleItem.java
 
-... and 8957 more
+... and 2983 more
 
 
 ## Quality Metrics
 
 | Metric | JADX | Dexterity | Diff |
 |--------|------|-----------|------|
-| Avg Variable Quality | 0.93 | 0.74 | -0.18 |
-| Avg Method Quality | 1.00 | 1.00 | 0.00 |
+| Avg Variable Quality | 0.93 | 0.81 | -0.12 |
+| Avg Method Quality | 0.99 | 0.99 | -0.01 |
 | Avg Package Quality | 1.00 | 1.00 | 0.00 |
 
 ## Defect Analysis
 
 |  Defect Type | JADX | Dexterity |
 |--------------|------|------------|
-| MultipleDeclaration | 3703 | 624 |
-| UnreachableCode | 8 | 0 |
+| UnreachableCode | 9 | 16 |
+| MultipleDeclaration | 4280 | 4606 |
 
 **Total Defects:**
-- JADX: 3711
-- Dexterity: 624
+- JADX: 4289
+- Dexterity: 4622
 
 ## Notable Differences (Top 10 Classes)
 
 |Class|LOC Diff|Quality Diff|
 |-----|--------|------------|
-|com/unity3d/services/banners/BannerErrorInfo.java|-21|0.33|
-|com/unity3d/services/core/configuration/ErrorState.java|43|-0.33|
-|com/unity3d/services/core/domain/task/InitializeStateLoadWeb.java|6|-0.33|
-|okhttp3/internal/http/HttpMethod.java|27|-0.33|
-|com/unity3d/services/core/device/reader/builder/DeviceInfoReaderBuilder.java|22|-0.33|
-|com/unity3d/services/ads/adunit/PermissionsEvent.java|13|-0.33|
-|okhttp3/Route.java|21|-0.33|
-|com/google/ads/mediation/unity/eventadapters/UnityBannerEventAdapter.java|-36|0.33|
-|com/unity3d/services/ads/token/TokenEvent.java|17|-0.33|
-|com/unity3d/player/I.java|22|-0.33|
+|com/bumptech/glide/load/m/m.java|3|-0.34|
+|d/h/l/l.java|-49|-0.33|
+|com/zendesk/service/c.java|19|-0.33|
+|io/grpc/j1/f0.java|7|-0.33|
+|io/grpc/j1/i2.java|45|-0.33|
+|f/c/a/d/b/j/m.java|15|-0.33|
+|m/a/a/b/b/b.java|-7|-0.33|
+|com/googlecode/mp4parser/boxes/mp4/samplegrouping/f.java|23|-0.33|
+|app/dogo/com/dogo_android/repository/domain/DashboardProgram.java|55|-0.33|
+|app/dogo/externalmodel/model/responses/CreateDogInviteResponse.java|22|-0.33|
 
 ---
 
 *Report generated by dexterity-qa quality comparison tool*
-

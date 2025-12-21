@@ -1,113 +1,82 @@
-> **Note:** Report generated Dec 16 10:40. Variable naming metrics may be stale - actual arg0/arg1 count is now ~12 (99.96% reduction from 27,794).
-
-Comparing JADX vs Dexterity decompilation quality...
-JADX dir:      output/medium/jadx/sources
-Dexterity dir: output/medium/dexterity/sources
-Test case:     medium
-
-Analyzing JADX output...
-  Found 10073 files
-Analyzing Dexterity output...
-  Found 6032 files
-
-Performing detailed comparison...
-
-Comparison Results:
-  Completeness:   59.9%
-  Code Quality:   66.6%
-  Defect Score:   90.3%
-  Overall Score:  77.1%
-
-  Missing Classes: 4105 (first 5:)
-    - android/support/customtabs/ICustomTabsCallback.java
-    - android/support/customtabs/ICustomTabsService.java
-    - android/support/customtabs/IPostMessageService.java
-    - android/support/v4/app/INotificationSideChannel.java
-    - android/support/v4/app/RemoteActionCompatParcelizer.java
-    ... and 4100 more
-
-Generating markdown report...
-
 # Decompilation Quality Comparison Report: medium
 
 ## Executive Summary
 
-**Overall Quality Score:** 77.1%
+**Overall Quality Score:** 76.5%
 
 | Metric | Score |
 |--------|-------|
-| Completeness | 59.9% |
-| Code Quality | 66.6% |
+| Completeness | 51.8% |
+| Code Quality | 70.0% |
 | Defect Score | 90.3% |
 
 ## File Completeness
 
 | Tool | Files | LOC | Methods | Fields |
 |------|-------|-----|---------|--------|
-| JADX | 10073 | 1100367 | 53880 | 115738 |
-| Dexterity | 6032 | 730128 | 30338 | 170367 |
+| JADX | 5933 | 657795 | 34889 | 71498 |
+| Dexterity | 3072 | 317568 | 13978 | 48794 |
 
-### Missing Classes (4105)
+### Missing Classes (2972)
 
-1. android/support/customtabs/ICustomTabsCallback.java
-2. android/support/customtabs/ICustomTabsService.java
-3. android/support/customtabs/IPostMessageService.java
-4. android/support/v4/app/INotificationSideChannel.java
-5. android/support/v4/app/RemoteActionCompatParcelizer.java
-6. android/support/v4/graphics/drawable/IconCompatParcelizer.java
-7. android/support/v4/media/MediaBrowserCompat.java
-8. android/support/v4/media/MediaBrowserCompatApi21.java
-9. android/support/v4/media/MediaBrowserCompatApi23.java
-10. android/support/v4/media/MediaBrowserCompatApi26.java
-11. android/support/v4/media/MediaDescriptionCompat.java
-12. android/support/v4/media/MediaDescriptionCompatApi21.java
-13. android/support/v4/media/MediaDescriptionCompatApi23.java
-14. android/support/v4/media/MediaMetadataCompat.java
-15. android/support/v4/media/MediaMetadataCompatApi21.java
-16. android/support/v4/media/ParceledListSliceAdapterApi21.java
-17. android/support/v4/media/RatingCompat.java
-18. android/support/v4/media/session/IMediaControllerCallback.java
-19. android/support/v4/media/session/IMediaSession.java
-20. android/support/v4/media/session/MediaControllerCompat.java
+1. com/HoYoverse/hkrpgoversea/R.java
+2. com/appsflyer/CreateOneLinkHttpTask.java
+3. com/appsflyer/internal/AFa1bSDK.java
+4. com/appsflyer/internal/AFa1fSDK.java
+5. com/appsflyer/internal/AFa1iSDK.java
+6. com/appsflyer/internal/AFa1jSDK.java
+7. com/appsflyer/internal/AFa1nSDK$24079$1.java
+8. com/appsflyer/internal/AFa1pSDK$5743$AFa1ySDK.java
+9. com/appsflyer/internal/AFa1xSDK$23740$1.java
+10. com/appsflyer/internal/AFa1xSDK$23740$AFa1wSDK.java
+11. com/appsflyer/internal/AFa1xSDK$23740$AFa1xSDK.java
+12. com/appsflyer/internal/AFb1eSDK.java
+13. com/appsflyer/internal/AFb1iSDK.java
+14. com/appsflyer/internal/AFb1jSDK.java
+15. com/appsflyer/internal/AFb1kSDK.java
+16. com/appsflyer/internal/AFb1nSDK.java
+17. com/appsflyer/internal/AFb1tSDK.java
+18. com/appsflyer/internal/AFb1vSDK.java
+19. com/appsflyer/internal/AFc1aSDK.java
+20. com/appsflyer/internal/AFc1dSDK.java
 
-... and 4085 more
+... and 2952 more
 
 
 ## Quality Metrics
 
 | Metric | JADX | Dexterity | Diff |
 |--------|------|-----------|------|
-| Avg Variable Quality | 0.93 | 0.67 | -0.26 |
-| Avg Method Quality | 1.00 | 1.00 | 0.00 |
+| Avg Variable Quality | 0.93 | 0.70 | -0.23 |
+| Avg Method Quality | 1.00 | 1.00 | -0.00 |
 | Avg Package Quality | 1.00 | 1.00 | 0.00 |
 
 ## Defect Analysis
 
 |  Defect Type | JADX | Dexterity |
 |--------------|------|------------|
-| UnreachableCode | 13 | 0 |
-| MultipleDeclaration | 6642 | 7085 |
+| UnreachableCode | 7 | 33 |
+| MultipleDeclaration | 4065 | 3042 |
 
 **Total Defects:**
-- JADX: 6655
-- Dexterity: 7085
+- JADX: 4072
+- Dexterity: 3075
 
 ## Notable Differences (Top 10 Classes)
 
 |Class|LOC Diff|Quality Diff|
 |-----|--------|------------|
-|com/google/crypto/tink/shaded/protobuf/StructuralMessageInfo.java|11|-0.33|
-|com/combosdk/forMDKOS/module/implementation/CommonConfigModule.java|-22|-0.33|
-|com/combosdk/support/basewebview/FileChooserView.java|17|-0.33|
-|okio/Okio__JvmOkioKt.java|31|-0.33|
-|com/bumptech/glide/load/engine/prefill/PreFillType.java|18|-0.33|
-|rx/internal/operators/OperatorDistinctUntilChanged.java|-17|-0.33|
-|com/facebook/share/model/CameraEffectArguments.java|44|-0.33|
-|com/mihoyo/platform/utilities/JsonHelper.java|-4|-0.33|
-|com/bumptech/glide/load/MultiTransformation.java|12|-0.33|
-|rx/internal/operators/OnSubscribeOnAssembly.java|75|-0.33|
+|com/mihoyoos/sdk/platform/entity/ListDevicesEntity.java|28|-0.33|
+|com/combosdk/lib/third/rx/subjects/TestSubject.java|-4|-0.33|
+|com/combosdk/support/localhttp/LocalHttpManager.java|-11|-0.33|
+|com/bumptech/glide/load/resource/bitmap/DownsampleStrategy.java|-2|-0.33|
+|com/mihoyoos/sdk/platform/module/other/view/MovableImageViewUtils.java|-62|-0.33|
+|com/combosdk/lib/third/rx/internal/operators/CompletableOnSubscribeMergeIterable.java|-67|-0.33|
+|com/miHoYo/support/view/ViewUtils.java|33|-0.33|
+|com/combosdk/module/ua/ProtocolActivity.java|5|-0.33|
+|com/squareup/picasso/MemoryPolicy.java|1|-0.33|
+|com/miHoYo/support/http/SafeSubscriber.java|2|-0.33|
 
 ---
 
 *Report generated by dexterity-qa quality comparison tool*
-

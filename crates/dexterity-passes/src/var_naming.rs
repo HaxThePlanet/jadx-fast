@@ -780,6 +780,11 @@ impl<'a> VarNaming<'a> {
                         if let Some(base) = Self::extract_name_from_method(&info.method_name) {
                             return Some(self.make_unique(&base));
                         }
+                        // Fallback: combine class name + method name (JADX's type+method combination)
+                        // e.g., Pattern.compile() -> "patternCompile", Foo.bar() -> "fooBar"
+                        if let Some(combined) = Self::make_type_method_name(&info.class_name, &info.method_name) {
+                            return Some(self.make_unique(&combined));
+                        }
                     }
                 }
                 None
@@ -959,6 +964,59 @@ impl<'a> VarNaming<'a> {
             };
         }
         None
+    }
+
+    /// Combine type name and method name as a fallback variable name
+    /// e.g., Pattern.compile() -> "patternCompile", Foo.bar() -> "fooBar"
+    /// This is used when prefix stripping fails
+    fn make_type_method_name(class_name: &str, method_name: &str) -> Option<String> {
+        // Skip constructors and special methods
+        if method_name.starts_with('<') || method_name.starts_with('$') || method_name.starts_with("access$") {
+            return None;
+        }
+
+        // Skip very short method names
+        if method_name.len() < 3 {
+            return None;
+        }
+
+        // Get the simple class name (last part after '/', '$', or '.')
+        let simple_class = class_name
+            .rsplit('/')
+            .next()
+            .unwrap_or(class_name)
+            .rsplit('$')
+            .next()
+            .unwrap_or(class_name)
+            .rsplit('.')
+            .next()
+            .unwrap_or(class_name);
+
+        // Skip if class name is empty or too short
+        if simple_class.is_empty() || simple_class.len() < 2 {
+            return None;
+        }
+
+        // Convert class name to lowercase start (already should be lowercase via extract_class_name_base style)
+        let class_base = Self::extract_class_name_base(class_name);
+
+        // Capitalize first letter of method name
+        let mut method_chars = method_name.chars();
+        let capitalized_method = if let Some(first) = method_chars.next() {
+            format!("{}{}", first.to_uppercase(), method_chars.collect::<String>())
+        } else {
+            return None;
+        };
+
+        // Combine: typeName + CapitalizedMethodName
+        let combined = format!("{}{}", class_base, capitalized_method);
+
+        // Validate the combined name isn't too long or problematic
+        if combined.len() > 30 {
+            return None; // Too long, not helpful
+        }
+
+        sanitize_identifier(&combined)
     }
 
     /// Extract a variable name from a method name by stripping common prefixes
@@ -1658,13 +1716,14 @@ mod tests {
             VarNaming::base_name_for_type(&ArgType::Object("java/lang/Integer".to_string())),
             "num"
         );
+        // JADX OBJ_ALIAS: Long → "l", Double → "d" (not "num")
         assert_eq!(
             VarNaming::base_name_for_type(&ArgType::Object("java/lang/Long".to_string())),
-            "num"
+            "l"
         );
         assert_eq!(
             VarNaming::base_name_for_type(&ArgType::Object("java/lang/Double".to_string())),
-            "num"
+            "d"
         );
         assert_eq!(
             VarNaming::base_name_for_type(&ArgType::Object("java/lang/Boolean".to_string())),
@@ -1686,14 +1745,22 @@ mod tests {
 
         // When multiple variables have the same base type, they get numeric suffixes
         let th1 = naming.name_for_type(&ArgType::Object("java/lang/Throwable".to_string()));
-        let th2 = naming.name_for_type(&ArgType::Object("java/lang/Error".to_string()));
+        let th2 = naming.name_for_type(&ArgType::Object("java/lang/Throwable".to_string()));
         let num1 = naming.name_for_type(&ArgType::Object("java/lang/Integer".to_string()));
-        let num2 = naming.name_for_type(&ArgType::Object("java/lang/Long".to_string()));
+        let num2 = naming.name_for_type(&ArgType::Object("java/lang/Integer".to_string()));
 
         assert_eq!(th1, "th");
-        assert_eq!(th2, "th2"); // Second throwable-type gets suffix
+        assert_eq!(th2, "th2"); // Second same-type gets numeric suffix
         assert_eq!(num1, "num");
-        assert_eq!(num2, "num2"); // Second numeric-type gets suffix
+        assert_eq!(num2, "num2"); // Second same-type gets numeric suffix
+
+        // JADX OBJ_ALIAS: Error is NOT in OBJ_ALIAS, so it gets class name "error"
+        let error = naming.name_for_type(&ArgType::Object("java/lang/Error".to_string()));
+        assert_eq!(error, "error");
+
+        // JADX OBJ_ALIAS: Long → "l", separate from Integer's "num"
+        let l1 = naming.name_for_type(&ArgType::Object("java/lang/Long".to_string()));
+        assert_eq!(l1, "l");
     }
 
     #[test]
@@ -1816,6 +1883,38 @@ mod tests {
 
         // Test non-camelCase (should not match)
         assert_eq!(VarNaming::extract_name_from_method("getuser"), None); // lowercase after prefix
+    }
+
+    #[test]
+    fn test_make_type_method_name() {
+        // Basic combination: Pattern.compile() -> "patternCompile"
+        assert_eq!(
+            VarNaming::make_type_method_name("java/util/regex/Pattern", "compile"),
+            Some("patternCompile".to_string())
+        );
+
+        // Foo.bar() -> "fooBar"
+        assert_eq!(
+            VarNaming::make_type_method_name("com/example/Foo", "bar"),
+            Some("fooBar".to_string())
+        );
+
+        // Inner class: Outer$Inner.doSomething() -> "innerDoSomething"
+        assert_eq!(
+            VarNaming::make_type_method_name("com/example/Outer$Inner", "doSomething"),
+            Some("innerDoSomething".to_string())
+        );
+
+        // Skip constructors
+        assert_eq!(VarNaming::make_type_method_name("Foo", "<init>"), None);
+        assert_eq!(VarNaming::make_type_method_name("Foo", "<clinit>"), None);
+
+        // Skip synthetic methods
+        assert_eq!(VarNaming::make_type_method_name("Foo", "$lambda"), None);
+        assert_eq!(VarNaming::make_type_method_name("Foo", "access$000"), None);
+
+        // Skip very short method names
+        assert_eq!(VarNaming::make_type_method_name("Foo", "ab"), None);
     }
 
     #[test]

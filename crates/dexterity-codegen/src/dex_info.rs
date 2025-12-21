@@ -990,6 +990,28 @@ impl AliasAwareDexInfo {
     fn internal_to_descriptor(internal: &str) -> String {
         format!("L{};", internal)
     }
+
+    /// Get aliased class name (Java format) for an internal class type
+    /// Checks class alias first, then package alias
+    fn get_aliased_class_name(&self, class_internal: &str, class_desc: &str) -> Option<String> {
+        // First check for a direct class alias
+        if let Some(alias) = self.registry.get_class_alias(class_desc) {
+            return Some(alias);
+        }
+
+        // Check for package alias (Kotlin deobfuscation)
+        if let Some((pkg, simple)) = class_internal.rsplit_once('/') {
+            if let Some(pkg_alias) = self.registry.get_package_alias(pkg) {
+                // Apply the package alias to the type name
+                // Convert from internal format (a/b/c) to Java format (a.b.c)
+                let aliased_pkg = pkg_alias.replace('/', ".");
+                let simple_with_inner = simple.replace('$', ".");
+                return Some(format!("{}.{}", aliased_pkg, simple_with_inner));
+            }
+        }
+
+        None
+    }
 }
 
 impl DexInfoProvider for AliasAwareDexInfo {
@@ -1000,10 +1022,14 @@ impl DexInfoProvider for AliasAwareDexInfo {
     fn get_type_name(&self, idx: u32) -> Option<String> {
         let name = self.inner.get_type_name(idx)?;
 
-        // Try to get alias for the type
+        // Try to get alias for the type (class alias or package alias)
         if let Some(desc) = self.inner.get_type_descriptor(idx) {
-            if let Some(alias) = self.registry.get_class_alias(&desc) {
-                return Some(alias);
+            // Only process object types (Lpackage/Class;)
+            if desc.starts_with('L') && desc.ends_with(';') {
+                let internal = &desc[1..desc.len() - 1]; // Remove L and ;
+                if let Some(aliased) = self.get_aliased_class_name(internal, &desc) {
+                    return Some(aliased);
+                }
             }
         }
 
@@ -1017,9 +1043,9 @@ impl DexInfoProvider for AliasAwareDexInfo {
     fn get_field(&self, idx: u32) -> Option<FieldInfo> {
         let mut info = self.inner.get_field(idx)?;
 
-        // Apply class alias
+        // Apply class alias (or package alias)
         let class_desc = Self::internal_to_descriptor(&info.class_type);
-        if let Some(class_alias) = self.registry.get_class_alias(&class_desc) {
+        if let Some(class_alias) = self.get_aliased_class_name(&info.class_type, &class_desc) {
             info.class_name = class_alias.into();
         }
 
@@ -1036,7 +1062,7 @@ impl DexInfoProvider for AliasAwareDexInfo {
 
         // Check if we need to apply any aliases
         let class_desc = Self::internal_to_descriptor(&info.class_type);
-        let class_alias = self.registry.get_class_alias(&class_desc);
+        let class_alias = self.get_aliased_class_name(&info.class_type, &class_desc);
         let proto_desc = dexterity_deobf::method_proto_to_descriptor(&info.param_types, &info.return_type);
         let method_alias = self.registry.get_method_alias(&class_desc, &*info.method_name, &proto_desc);
 

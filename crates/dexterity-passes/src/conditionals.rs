@@ -137,15 +137,20 @@ fn find_branch_blocks(
     if else_target_throws && !then_target_throws {
         // For the throw block, use u32::MAX as merge so we don't stop early
         // (the throw block itself might be the ipdom, but we want to include it)
-        let then_blocks = collect_branch_blocks(cfg, else_target, u32::MAX, condition, loops);
+        let then_blocks = collect_branch_blocks_with_barrier(cfg, else_target, u32::MAX, condition, loops, None);
         // The else blocks (normal code) should stop at the original merge if it exists
-        let else_blocks = collect_branch_blocks(cfg, then_target, merge_block, condition, loops);
+        let else_blocks = collect_branch_blocks_with_barrier(cfg, then_target, merge_block, condition, loops, None);
         return (then_blocks, else_blocks, false);
     }
 
     // Normal case: collect blocks in standard order
-    let then_blocks = collect_branch_blocks(cfg, then_target, merge_block, condition, loops);
-    let else_blocks = collect_branch_blocks(cfg, else_target, merge_block, condition, loops);
+    // IMPORTANT: When collecting then_blocks, we must NOT include else_target.
+    // This handles short-circuit patterns like `a || b` where both conditions
+    // branch to the same "true" block. Without this barrier, the true block
+    // would be included in then_blocks (via the inner condition's path),
+    // causing the else branch to be skipped during region building.
+    let then_blocks = collect_branch_blocks_with_barrier(cfg, then_target, merge_block, condition, loops, Some(else_target));
+    let else_blocks = collect_branch_blocks_with_barrier(cfg, else_target, merge_block, condition, loops, None);
 
     // Default: negate condition (normal case where fall-through is then)
     let mut negate_condition = true;
@@ -169,13 +174,28 @@ fn find_branch_blocks(
     (then_blocks, else_blocks, negate_condition)
 }
 
-/// Collect all blocks in a branch until merge point
+/// Collect all blocks in a branch until merge point (legacy wrapper)
 fn collect_branch_blocks(
     cfg: &CFG,
     start: u32,
     merge: u32,
     condition: u32,
     loops: &[LoopInfo],
+) -> Vec<u32> {
+    collect_branch_blocks_with_barrier(cfg, start, merge, condition, loops, None)
+}
+
+/// Collect all blocks in a branch until merge point, with optional barrier
+/// The barrier is used to prevent including the other branch's target in this branch's blocks.
+/// This is critical for short-circuit patterns like `a || b` where both conditions branch
+/// to the same "true" block.
+fn collect_branch_blocks_with_barrier(
+    cfg: &CFG,
+    start: u32,
+    merge: u32,
+    condition: u32,
+    loops: &[LoopInfo],
+    barrier: Option<u32>,
 ) -> Vec<u32> {
     let mut blocks = Vec::new();
     let mut visited = BTreeSet::new();
@@ -194,6 +214,11 @@ fn collect_branch_blocks(
 
         // Don't go back to condition
         if block == condition {
+            continue;
+        }
+
+        // Stop at barrier block (prevents including other branch's target)
+        if Some(block) == barrier {
             continue;
         }
 

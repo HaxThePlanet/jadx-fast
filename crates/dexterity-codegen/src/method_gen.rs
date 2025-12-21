@@ -1083,13 +1083,44 @@ mod tests {
 
     #[test]
     fn test_static_initializer() {
+        use dexterity_ir::instructions::{InsnNode, InsnType};
+
         let class = make_class();
-        let method = make_method("<clinit>", ArgType::Void, ACC_STATIC);
+        let mut method = make_method("<clinit>", ArgType::Void, ACC_STATIC);
+        // Add instructions so clinit isn't considered "empty" (JADX skips empty clinits)
+        method.set_instructions(vec![
+            InsnNode::new(InsnType::Nop, 0),
+            InsnNode::new(InsnType::Nop, 1),
+        ]);
         let mut writer = SimpleCodeWriter::new();
         generate_method(&method, &class, false, &mut writer);
         let code = writer.finish();
 
         assert!(code.contains("static {"));
+    }
+
+    #[test]
+    fn test_empty_clinit_is_skipped() {
+        use dexterity_ir::instructions::{InsnNode, InsnType};
+
+        let class = make_class();
+
+        // Case 1: No instructions at all
+        let method = make_method("<clinit>", ArgType::Void, ACC_STATIC);
+        let mut writer = SimpleCodeWriter::new();
+        generate_method(&method, &class, false, &mut writer);
+        let code = writer.finish();
+        assert!(!code.contains("static"), "Empty clinit (no instructions) should not generate output");
+
+        // Case 2: Only return-void
+        let mut method2 = make_method("<clinit>", ArgType::Void, ACC_STATIC);
+        method2.set_instructions(vec![
+            InsnNode::new(InsnType::Return { value: None }, 0),
+        ]);
+        let mut writer2 = SimpleCodeWriter::new();
+        generate_method(&method2, &class, false, &mut writer2);
+        let code2 = writer2.finish();
+        assert!(!code2.contains("static"), "Empty clinit (only return-void) should not generate output");
     }
 
     #[test]

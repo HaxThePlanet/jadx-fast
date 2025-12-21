@@ -159,6 +159,20 @@ All critical and high-priority issues have been **resolved** to achieve A- (88-9
 - Commit: `d7f3daf7b`
 - Files: `type_inference.rs`, `type_bound.rs`, `type_update.rs`, `fix_types.rs`
 
+### RESOLVED: Kotlin Class and Function Modifiers (Dec 21, 2025)
+- **100% parity with JADX's kotlin-metadata plugin**
+- Class modifiers emitted after Java modifiers, before `class` keyword:
+  - `public final /* data */ class User { ... }`
+  - `public abstract /* sealed */ class Result { ... }`
+  - `public final /* value */ class Color { ... }`
+- Function modifiers emitted before Java modifiers:
+  - `/* suspend */ public Object fetchData(Continuation $completion) { ... }`
+  - `/* inline */ public final void repeat(int times, Function1 action) { ... }`
+  - `/* operator */`, `/* infix */`, `/* tailrec */` also supported
+- Type variance preserved: `<out R>`, `<in T>` from Kotlin metadata
+- Class aliases correctly use simple names instead of full paths
+- Files: `method_gen.rs`, `class_gen.rs`, `extractor.rs`
+
 ---
 
 ## Remaining Minor Issues (P3 - Cosmetic Polish for 100%)

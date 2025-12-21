@@ -1,32 +1,69 @@
 # Issue Tracker
 
-**Status:** All P0 + P1 Fixed (Dec 21, 2025) | Open: 1 Investigation, 2 Gaps, 2 Polish
+**Status:** Open: 7 P0, 12 P1, 5 P2 (Dec 21, 2025)
+**Reference Files:**
+- `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
+- `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
 
 ## Open Issues
+
+### P0 Critical (Won't Compile)
+
+| ID | Issue | Example | Location |
+|----|-------|---------|----------|
+| P0-C01 | Duplicate import names | `import f.a.a.a; import f.a.b.a;` | class_gen.rs |
+| P0-C02 | Undefined variables in constructors | `this.c = obj5;` (obj5 undefined) | body_gen.rs |
+| P0-C03 | Assignment in parentheses | `(this.c.F = i3);` invalid syntax | body_gen.rs |
+| P0-C04 | Unreachable code after return | Code after `return this;` | body_gen.rs |
+| P0-C05 | Variable shadows parameter | `String str;` shadows param `str` | body_gen.rs |
+| P0-C06 | Wrong constructor chain | `super(null)` instead of `this(null)` | method_gen.rs |
+| P0-C07 | Undefined variable references | `fVar5.f = str2;` (fVar5 undefined) | body_gen.rs |
+
+### P1 Semantic (Wrong Behavior)
+
+| ID | Issue | Example | Location |
+|----|-------|---------|----------|
+| P1-S01 | Empty if blocks missing return | `if (cond) {}` should have `return;` | body_gen.rs |
+| P1-S02 | Boolean vs int confusion | `set(0)` instead of `set(false)` | type_inference.rs |
+| P1-S03 | Wrong return value | Returns `i` ignoring ternary result | body_gen.rs |
+| P1-S04 | Wrong method signature call | 2 args passed to 1-arg method | body_gen.rs |
+| P1-S05 | Control flow logic wrong | `j -= l2; j = j < l` garbled | conditions.rs |
+| P1-S06 | Missing try-catch blocks | JSONException catch missing | body_gen.rs |
+| P1-S07 | Truncated loop body | While loop body incomplete | body_gen.rs |
+| P1-S08 | Method calls before guard | `matcher.group()` before `matches()` | body_gen.rs |
+| P1-S09 | For-each over Iterator | `for (x : iterator)` illegal Java | body_gen.rs |
+| P1-S10 | Code after loop ends | `it.next()` after while loop | body_gen.rs |
+| P1-S11 | Missing throws declaration | `throws IOException` omitted | method_gen.rs |
+| P1-S12 | Empty catch block | `catch (E e) {}` loses exception | body_gen.rs |
+
+### P2 Quality Issues
+
+| ID | Issue | Impact |
+|----|-------|--------|
+| P2-Q01 | Missing field rename comments | No `/* renamed from */` comments |
+| P2-Q02 | Synthetic accessor methods visible | Should be hidden |
+| P2-Q03 | Wrong import classes | `BitmapFactory.Options` instead of app classes |
+| P2-Q04 | JADX WARNING comments | `Object /* JADX WARNING */` in output |
+| P2-Q05 | Unused variable declarations | `int cmp = Long.compare(...)` never used |
 
 ### Investigation (Blocked)
 
 | ID | Issue | Status | Details |
 |----|-------|--------|---------|
-| INV-001 | Zara APK hang | APK unavailable for testing | [KNOWN_ISSUES.md](KNOWN_ISSUES.md#hanging-apk-zara-android-app) |
+| INV-001 | Zara APK hang | APK unavailable | [KNOWN_ISSUES.md](KNOWN_ISSUES.md#inv-001-hanging-apk---zara-android-app) |
 
-### P2 Quality Gaps
+### Previously Tracked (Superseded)
 
-| ID | Issue | Impact | Details |
-|----|-------|--------|---------|
-| GAP-001 | Kotlin package deobfuscation | ~854 files appear "missing" due to obfuscated paths | [GRADE_SUMMARY.md](../qa_reports/GRADE_SUMMARY.md#large-apk-854-missing---actually-path-differences) |
-| GAP-002 | Variable naming quality | 0.70-0.81 vs JADX 0.93 | Type-based naming gap |
-
-### P3 Polish
-
-| ID | Issue | Action |
+| ID | Issue | Status |
 |----|-------|--------|
-| POL-001 | Add library skip filters | appsflyer, revenuecat, zendesk SDKs |
-| POL-002 | Cosmetic formatting | Whitespace, parentheses, FQN vs simple names (~5%) |
+| GAP-001 | Kotlin package deobfuscation | Superseded by P0/P1 bugs |
+| GAP-002 | Variable naming quality | Superseded by P0/P1 bugs |
+| POL-001 | Library skip filters | Low priority |
+| POL-002 | Cosmetic formatting | Low priority |
 
 ### Performance TODOs
 
-See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizations (P0-3 remaining, P1-2/P1-4 open).
+See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizations.
 
 ---
 

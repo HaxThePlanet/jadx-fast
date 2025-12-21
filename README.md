@@ -56,7 +56,11 @@ cargo build --release -p dexterity-cli
 
 - **Input formats:** APK, DEX, JAR, AAR, AAB, XAPK, APKM (APKS not yet supported)
 - **Deobfuscation:** ProGuard mappings, JOBF files
-- **Kotlin support:** Metadata parsing, name restoration
+- **Kotlin support:** Full metadata parsing (100% parity with JADX's kotlin-metadata plugin)
+  - Class modifiers: `/* data */`, `/* sealed */`, `/* value */`
+  - Function modifiers: `/* suspend */`, `/* inline */`, `/* operator */`, `/* infix */`, `/* tailrec */`
+  - Type variance: `<out R>`, `<in T>` from Kotlin metadata
+  - Name restoration from obfuscated code
 - **Resource resolution:** `R.layout.activity_main` (enabled by default)
 - **Drop-in JADX replacement:** Same CLI arguments
 
@@ -84,7 +88,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 | dexterity-dex | DEX binary parsing | 100% |
 | dexterity-ir | Intermediate representation | 98% |
 | dexterity-passes | Decompilation passes | 95% |
-| dexterity-codegen | Java source generation | 94% |
+| dexterity-codegen | Java source generation | 95% |
 | dexterity-resources | Resource decoding | 100% |
 | dexterity-deobf | Deobfuscation | 100% |
 | dexterity-kotlin | Kotlin metadata | 100% |
