@@ -1,6 +1,6 @@
 # Quality Status
 
-**Status:** 0 P0, 4 P1, 2 P2 Open | Kotlin 100% | P1-S02 Boolean Fix Complete (Dec 21, 2025)
+**Status:** 0 P0, 3 P1, 2 P2 Open | Kotlin 100% | P0-C08 instanceof fix, P1-S02 Boolean Fix Complete (Dec 21, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 **Output Refresh:** Dec 21, 2025 - All 5 APK samples refreshed (~8,858 Java files)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
@@ -20,8 +20,8 @@
 
 | Priority | Status |
 |----------|--------|
-| P0 Bugs | **ALL FIXED** (7 fixed) |
-| P1 Bugs | **4 Open** (P1-S01, P1-S02, P1-S06, P1-S07, P1-S09, P1-S11, P1-S12 fixed; P1-S04, P1-S05 partial, P1-S08, P1-S10 remain) |
+| P0 Bugs | **ALL FIXED** (8 fixed) |
+| P1 Bugs | **3 Open** (P1-S01, P1-S02, P1-S06, P1-S07, P1-S08, P1-S09, P1-S11, P1-S12 fixed; P1-S04, P1-S05 partial, P1-S10 remain) |
 | P2 Bugs | **2 Open** (P2-Q01, P2-Q03) |
 | P3 Polish | 2 open (POL-001, POL-002) |
 

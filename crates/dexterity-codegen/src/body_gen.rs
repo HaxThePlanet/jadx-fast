@@ -423,23 +423,10 @@ impl BodyGenContext {
             if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
                 return expr;
             }
-
-            // DEBUG: Check if this variable was supposed to be inlined but isn't available
-            let var_name = self.expr_gen.get_var_name(reg);
-            if !self.is_declared(reg.reg_num, reg.ssa_version)
-                && !self.is_parameter(reg.reg_num, reg.ssa_version)
-                && self.should_inline(reg.reg_num, reg.ssa_version)
-            {
-                let use_count = self.use_counts.get(&(reg.reg_num, reg.ssa_version)).copied().unwrap_or(0);
-                tracing::warn!(
-                    reg = reg.reg_num,
-                    version = reg.ssa_version,
-                    name = %var_name,
-                    use_count = use_count,
-                    has_stored_exprs = self.inlined_exprs.len(),
-                    "BUG: Variable should have been inlined but expression is not available"
-                );
-            }
+            // Note: If we reach here for a variable that should_inline=true, it means
+            // the defining instruction was processed in a different order than expected.
+            // This can happen with nested ternary patterns (P1-S05 issue).
+            // The fallback to expr_gen.gen_arg will use the variable name.
         }
         // Fall back to normal expression generation
         self.expr_gen.gen_arg(arg)
@@ -1333,12 +1320,6 @@ fn emit_assignment_insn<W: CodeWriter>(
         // Previously we returned false, leaving the variable undeclared and unused.
         // This caused "undefined variable" bugs like P1-S05 where l2 was never declared.
         // Instead, fall through to the normal declaration path below.
-        tracing::debug!(
-            reg = reg,
-            version = version,
-            insn_type = ?std::mem::discriminant(insn),
-            "should_inline=true but gen_insn_inline returned None, falling through to declaration"
-        );
         // Don't return - fall through to normal declaration
     }
 
@@ -3682,10 +3663,14 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                         // Check if name suggests a boolean method (e.g., isClosed(), hasPermission())
                         // This takes priority over object type heuristics to avoid "isClosed() == null"
                         let name_looks_boolean = name_suggests_boolean_method(&left_str);
+                        // Check if expression is an instanceof check - these always return boolean
+                        // Must detect this to avoid generating "x instanceof Y == null" (invalid Java)
+                        let is_instanceof = left_str.contains(" instanceof ");
                         let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)) | Some(ArgType::Generic { .. }))
-                            || (type_is_ambiguous && name_suggests_object_type(&left_str) && !name_looks_boolean);
+                            || (type_is_ambiguous && name_suggests_object_type(&left_str) && !name_looks_boolean && !is_instanceof);
                         let is_boolean = matches!(left_type, Some(ArgType::Boolean))
-                            || (type_is_ambiguous && name_looks_boolean);
+                            || (type_is_ambiguous && name_looks_boolean)
+                            || is_instanceof;
 
                         // Check if this is a comparison against 1 (true) for boolean types
                         let is_one_compare = matches!(right, Some(r) if is_one_literal(r));
@@ -3937,7 +3922,11 @@ fn negate_op(op: &IfCondition) -> IfCondition {
 
 /// Wrap string in parentheses if it contains operators
 fn wrap_if_complex(s: &str) -> String {
-    if s.contains(" && ") || s.contains(" || ") || s.contains(" ? ") {
+    // Wrap expressions that need parentheses when negated with !
+    // - Boolean operators: && || (lower precedence than !)
+    // - Ternary: ? : (lower precedence than !)
+    // - instanceof: `!x instanceof Y` is invalid, must be `!(x instanceof Y)`
+    if s.contains(" && ") || s.contains(" || ") || s.contains(" ? ") || s.contains(" instanceof ") {
         format!("({})", s)
     } else {
         s.to_string()
@@ -5727,18 +5716,55 @@ fn get_handler_entry_block(region: &Region) -> Option<u32> {
     }
 }
 
+/// Get the first/leftmost block from a condition.
+/// For compound conditions (AND, OR), only the first block's prelude should be emitted
+/// because subsequent blocks are protected by short-circuit evaluation.
+///
+/// For example, in `a && b`:
+/// - Block A executes unconditionally (its prelude should be emitted)
+/// - Block B only executes if A's condition is true (its prelude is protected)
+///
+/// This fixes P1-S08: method calls like matcher.group() being hoisted before
+/// the guard condition matcher.matches().
+fn get_first_condition_block(condition: &Condition) -> Option<u32> {
+    match condition {
+        Condition::Simple { block, .. } => Some(*block),
+        // For AND/OR: only the left (first) block runs unconditionally
+        Condition::And(left, _) | Condition::Or(left, _) => get_first_condition_block(left),
+        // NOT doesn't affect execution order
+        Condition::Not(inner) => get_first_condition_block(inner),
+        // For ternary conditions, only the condition part runs unconditionally
+        Condition::Ternary { condition, .. } => get_first_condition_block(condition),
+        Condition::Unknown => None,
+    }
+}
+
 /// Emit pre-condition instructions from a condition block
 /// These are the setup instructions that define variables used in the condition
 /// (e.g., array.length() call before `i < length` comparison)
 /// Excludes the final If instruction which is handled by generate_condition
+///
+/// IMPORTANT: For compound conditions (AND, OR), only emit prelude for the first block.
+/// Subsequent blocks in the chain are protected by short-circuit evaluation - their
+/// prelude instructions should NOT be hoisted before the if statement.
 fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut BodyGenContext, code: &mut W) {
-    // Collect all block IDs from the condition
-    let block_ids = condition.get_blocks();
-
-    tracing::debug!(
-        block_count = block_ids.len(),
-        "emit_condition_block_prelude: processing condition blocks"
-    );
+    // For compound conditions (AND, OR), only emit prelude for the first block.
+    // This is because short-circuit evaluation means subsequent blocks are only
+    // reached if prior conditions are true/false, so their prelude is protected.
+    //
+    // Example: if (matcher.matches() && hashMap.get(matcher.group()) == null)
+    // - Block A: contains matches() call -> prelude emitted
+    // - Block B: contains group() call -> prelude NOT emitted (protected by matches())
+    let block_ids = match condition {
+        Condition::And(_, _) | Condition::Or(_, _) | Condition::Ternary { .. } => {
+            // Only emit prelude for the first (leftmost) block
+            get_first_condition_block(condition).into_iter().collect::<Vec<_>>()
+        }
+        _ => {
+            // For simple conditions, emit all blocks (usually just one)
+            condition.get_blocks()
+        }
+    };
 
     for block_id in block_ids {
         // Clone the instructions to avoid borrow conflict with ctx
@@ -5747,44 +5773,16 @@ fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut 
             None => continue,
         };
 
-        tracing::debug!(
-            block_id = block_id,
-            num_insns = instructions.len(),
-            "emit_condition_block_prelude: processing block"
-        );
-
         let num_insns = instructions.len();
         for (i, insn) in instructions.iter().enumerate() {
             // Skip control flow instructions (If, Goto, Switch)
             if is_control_flow(&insn.insn_type) {
-                tracing::trace!(
-                    block_id = block_id,
-                    insn_idx = i,
-                    "Skipping control flow instruction"
-                );
                 continue;
             }
 
             // Skip instructions marked with DONT_GENERATE
             if insn.has_flag(AFlag::DontGenerate) {
-                tracing::trace!(
-                    block_id = block_id,
-                    insn_idx = i,
-                    "Skipping DONT_GENERATE instruction"
-                );
                 continue;
-            }
-
-            // Log the instruction being processed
-            if let Some((reg, ver)) = get_insn_dest(&insn.insn_type) {
-                tracing::debug!(
-                    block_id = block_id,
-                    insn_idx = i,
-                    dest_reg = reg,
-                    dest_ver = ver,
-                    insn_type = ?std::mem::discriminant(&insn.insn_type),
-                    "Processing prelude instruction"
-                );
             }
 
             // Peek at next instruction for MoveResult handling
@@ -7117,6 +7115,18 @@ fn generate_insn<W: CodeWriter>(
                 LiteralArg::Null => None, // null can be any object type
             });
 
+            // DEAD CODE ELIMINATION: For boolean constants (0/1), always inline them
+            // This prevents unused declarations like `final int i = 1;` when all uses
+            // get converted to `true` in boolean contexts (method args, returns)
+            // Store as "0" or "1" - write_arg_inline_typed will convert to false/true
+            // based on target type context
+            if let LiteralArg::Int(v) = value {
+                if *v == 0 || *v == 1 {
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, v.to_string());
+                    return true;
+                }
+            }
+
             // Generate literal using type-aware function for proper boolean/char handling
             let val_str = if let (Some(ref ty), LiteralArg::Int(v)) = (&type_hint, value) {
                 literal_to_string(*v, ty)
@@ -7427,18 +7437,12 @@ fn generate_insn<W: CodeWriter>(
             let version = dest.ssa_version;
 
             if ctx.should_inline(reg, version) {
-                // Build field access expression
+                // Build field access expression and store for inlining at use site
                 let obj_str = ctx.gen_arg_inline(object);
                 let field_name = ctx.expr_gen.get_field_value(*field_idx)
                     .map(|f| f.field_name.to_string())
                     .unwrap_or_else(|| format!("field#{}", field_idx));
                 let field_expr = format!("{}.{}", obj_str, field_name);
-                tracing::debug!(
-                    reg = reg,
-                    version = version,
-                    field_expr = %field_expr,
-                    "InstanceGet: storing inline expression for single-use field access"
-                );
                 ctx.store_inline_expr(reg, version, field_expr);
                 true // Don't emit anything, will be inlined at use site
             } else {

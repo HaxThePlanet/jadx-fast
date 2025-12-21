@@ -2,6 +2,34 @@
 
 ## December 2025
 
+### Dec 21, 2025 - P1-S02 Dead Code Elimination for Boolean Constants
+
+**Eliminated unused `final int i = 1;` declarations**
+
+Boolean constant values (0/1) are now always inlined, preventing dead code declarations.
+
+**Problem:**
+```java
+public static String[] tokenizeToStringArray(String str, String str2) {
+    final int i = 1;  // DEAD CODE - never used after boolean conversion
+    return Strings.tokenizeToStringArray(str, str2, true, true);
+}
+```
+
+**Fix Applied:**
+- In `InsnType::Const` handler, always inline values 0 or 1 via `store_inline_expr()`
+- The inline expression is used by `write_arg_inline_typed()` which converts to `true`/`false` in boolean context
+- Prevents declaration emission since the value is inlined at all use sites
+
+**Result:**
+```java
+public static String[] tokenizeToStringArray(String str, String str2) {
+    return Strings.tokenizeToStringArray(str, str2, true, true);  // Matches JADX
+}
+```
+
+**Files changed:** `body_gen.rs`
+
 ### Dec 21, 2025 - P1-S02 Boolean Method Argument Fix (Extension)
 
 **Extended boolean literal conversion to method arguments**

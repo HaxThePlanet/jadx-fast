@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 4 P1, 2 P2 Open | Kotlin 100% | P1-S02 Boolean Fix Complete (Dec 21, 2025)
+**Status:** 0 P0, 3 P1, 2 P2 Open | Kotlin 100% | P0-C08 instanceof, P1-S08 short-circuit Fix Complete (Dec 21, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -26,6 +26,15 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2/P1-4 op
 ---
 
 ## Completed
+
+### P0-C08: Invalid instanceof Syntax Fix (Dec 21, 2025)
+
+- **Fixed `instanceof X == null` pattern** - instanceof results incorrectly classified as object types
+- **Fixed `!x instanceof X` pattern** - negation not properly parenthesized
+- **Added `is_instanceof` detection** - expressions containing ` instanceof ` now treated as boolean
+- **Updated `wrap_if_complex()`** - wraps instanceof expressions before applying negation
+- **Results:** All tests pass, no more invalid instanceof syntax in decompiled output
+- **Files changed:** `body_gen.rs`
 
 ### P1-S06 + P1-S12: Try-Catch Block Fix (Dec 21, 2025)
 

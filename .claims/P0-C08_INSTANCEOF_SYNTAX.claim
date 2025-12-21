@@ -1,0 +1,36 @@
+# P0-C08: Invalid instanceof Syntax
+Claimed: 2025-12-21
+Agent: Claude Opus 4.5 (claude-opus-4-5-20251101)
+
+## Task
+Fix invalid Java syntax when instanceof checks are negated or compared.
+
+## Bug Description
+Two related issues:
+1. `object instanceof X == null` - instanceof results compared to null instead of using boolean negation
+2. `!object instanceof X` - negation not properly parenthesized
+
+Both are invalid Java syntax that would cause compilation errors.
+
+## Root Cause
+1. The `name_suggests_object_type()` heuristic was matching class names in instanceof expressions
+   (e.g., "JSONObject" in "obj instanceof JSONObject"), causing instanceof results to be treated as objects
+2. The `wrap_if_complex()` function didn't wrap instanceof expressions before applying negation
+
+## Fix Applied
+1. Added `is_instanceof` check in `generate_condition()` to detect expressions containing ` instanceof `
+2. Excluded instanceof expressions from `is_object` classification
+3. Added instanceof expressions to `is_boolean` classification
+4. Updated `wrap_if_complex()` to wrap expressions containing ` instanceof `
+
+## Files Changed
+- `crates/dexterity-codegen/src/body_gen.rs`
+
+## Status
+FIXED
+
+## Validation
+- All tests pass
+- Verified no more `instanceof X == null` patterns in decompiled output
+- Verified no more `!x instanceof X` patterns in decompiled output
+- Correct output now: `!(object instanceof JSONObject)`

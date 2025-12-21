@@ -256,6 +256,9 @@ pub struct TypeInference {
     /// Registers assigned from 0 or 1 constants (boolean literal candidates)
     /// Maps (reg_num, ssa_version) -> true if register is assigned from 0 or 1
     boolean_literal_candidates: FxHashMap<(u16, u32), bool>,
+    /// Field access type cache: (reg_num, ssa_version) -> field_type
+    /// Populated during InstanceGet/StaticGet, used by Ternary
+    field_access_types: FxHashMap<(u16, u32), ArgType>,
 }
 
 impl Default for TypeInference {
@@ -286,6 +289,7 @@ impl TypeInference {
             cast_refinements: FxHashMap::default(),
             pending_type_var_resolutions: Vec::new(),
             boolean_literal_candidates: FxHashMap::default(),
+            field_access_types: FxHashMap::default(),
         }
     }
 
@@ -407,6 +411,39 @@ impl TypeInference {
                 Some(self.get_or_create_var(reg))
             },
             InsnArg::Literal(_) => None, // Literals have known types
+            _ => None,
+        }
+    }
+
+    /// Get concrete type for an instruction argument
+    /// This tries to resolve the actual ArgType for ternary branches, literals, etc.
+    /// Used during constraint collection, before types are resolved.
+    fn get_arg_type(&self, arg: &InsnArg) -> Option<ArgType> {
+        match arg {
+            InsnArg::Register(reg) => {
+                // Look up cached field access type (populated during InstanceGet/StaticGet)
+                let key = (reg.reg_num, reg.ssa_version);
+                if let Some(field_ty) = self.field_access_types.get(&key) {
+                    return Some(field_ty.clone());
+                }
+                None
+            }
+            InsnArg::Literal(lit) => {
+                // Get literal type
+                if let InferredType::Concrete(ty) = Self::type_for_literal(lit) {
+                    Some(ty)
+                } else {
+                    None
+                }
+            }
+            InsnArg::Type(type_idx) => {
+                // Type constant
+                if let Some(ref lookup) = self.type_lookup {
+                    lookup(*type_idx)
+                } else {
+                    None
+                }
+            }
             _ => None,
         }
     }
@@ -856,6 +893,10 @@ impl TypeInference {
                 // Field type determines dest type - use AssignBound (assignment target)
                 if let Some(ref lookup) = self.field_lookup {
                     if let Some(field_ty) = lookup(*field_idx) {
+                        // Cache field type for ternary type inference
+                        self.field_access_types.insert((dest.reg_num, dest.ssa_version), field_ty.clone());
+                        eprintln!("CACHE FIELD: r{}v{} = {:?}", dest.reg_num, dest.ssa_version, field_ty);
+
                         // NEW: Add assign bound using new TypeInfo system
                         self.add_assign_bound(dest_var, field_ty.clone());
                         // AssignBound for field reads - the destination receives this type
@@ -920,6 +961,9 @@ impl TypeInference {
                 let dest_var = self.get_or_create_var(dest);
                 if let Some(ref lookup) = self.field_lookup {
                     if let Some(field_ty) = lookup(*field_idx) {
+                        // Cache field type for ternary type inference
+                        self.field_access_types.insert((dest.reg_num, dest.ssa_version), field_ty.clone());
+
                         // NEW: Add assign bound using new TypeInfo system
                         self.add_assign_bound(dest_var, field_ty.clone());
                         // AssignBound for static field reads
@@ -1255,12 +1299,39 @@ impl TypeInference {
             // Ternary: result = cond ? then_value : else_value
             // The dest type should be the common type of then_value and else_value
             InsnType::Ternary { dest, then_value, else_value, .. } => {
+                eprintln!("TERNARY: dest={:?}, then={:?}, else={:?}", dest, then_value, else_value);
                 let dest_var = self.get_or_create_var(dest);
-                if let Some(then_var) = self.var_for_arg(then_value) {
-                    self.add_constraint(Constraint::Same(dest_var, then_var));
+
+                // Try to get concrete types for both branches
+                let then_type = self.get_arg_type(then_value);
+                let else_type = self.get_arg_type(else_value);
+                eprintln!("  then_type={:?}, else_type={:?}", then_type, else_type);
+
+                // DEBUG: Log ternary type inference
+                if let (Some(ref t1), Some(ref t2)) = (&then_type, &else_type) {
+                    if t1 == t2 && !matches!(t1, ArgType::Unknown) {
+                        eprintln!("TERNARY FIX: Both branches have type {:?}, applying to dest {:?}", t1, dest);
+                    }
                 }
-                if let Some(else_var) = self.var_for_arg(else_value) {
-                    self.add_constraint(Constraint::Same(dest_var, else_var));
+
+                // If both branches have the same concrete type, use it for dest
+                match (then_type, else_type) {
+                    (Some(ref t1), Some(ref t2)) if t1 == t2 && !matches!(t1, ArgType::Unknown) => {
+                        // Both branches have same concrete type - use it
+                        self.add_constraint(Constraint::Equals(
+                            dest_var,
+                            InferredType::Concrete(t1.clone()),
+                        ));
+                    }
+                    _ => {
+                        // Fall back to Same constraints for type unification
+                        if let Some(then_var) = self.var_for_arg(then_value) {
+                            self.add_constraint(Constraint::Same(dest_var, then_var));
+                        }
+                        if let Some(else_var) = self.var_for_arg(else_value) {
+                            self.add_constraint(Constraint::Same(dest_var, else_var));
+                        }
+                    }
                 }
             }
 

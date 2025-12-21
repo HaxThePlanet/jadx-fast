@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 4 P1, 2 P2 | P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 partial, P1-S07 fixed (Dec 21, 2025)
+**Status:** Open: 0 P0, 3 P1, 2 P2 | P0-C08 fixed (instanceof syntax), P1-S08 fixed (short-circuit prelude), P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 partial, P1-S07 fixed (Dec 21, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -18,19 +18,20 @@
 | ~~P0-C05~~ | ~~Variable shadows parameter~~ | **FIXED** - Register param names | body_gen.rs |
 | ~~P0-C06~~ | ~~Wrong constructor chain~~ | **FIXED** - Normalize class type format | body_gen.rs |
 | ~~P0-C07~~ | ~~Undefined variable references~~ | **FIXED** - Use write_arg_inline() for inlined exprs | body_gen.rs |
+| ~~P0-C08~~ | ~~Invalid instanceof syntax~~ | **FIXED** - `instanceof X == null` and `!x instanceof Y` patterns | body_gen.rs |
 
 ### P1 Semantic (Wrong Behavior)
 
 | ID | Issue | Example | Location |
 |----|-------|---------|----------|
 | ~~P1-S01~~ | ~~Empty if blocks missing return~~ | **FIXED** - is_empty_region() fix | body_gen.rs |
-| ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns (59.6% reduction) + method args (27 additional fixes) | body_gen.rs |
+| ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns (59.6% reduction) + method args (27 fixes) + dead code elimination for 0/1 constants | body_gen.rs |
 | ~~P1-S03~~ | ~~Wrong return value~~ | **MERGED with P1-S05** - Same root cause (control flow reconstruction) | body_gen.rs |
 | P1-S04 | Wrong method signature call | **NEEDS REPRO** - 2 args passed to 1-arg method (wide type handling?) | body_gen.rs |
 | P1-S05 | Control flow logic wrong | **PARTIAL** - Fixed underscore naming (87.6% reduction: j_2->j2) + boolean returns; remaining: undefined vars, ternary extraction | var_naming.rs, body_gen.rs |
 | ~~P1-S06~~ | ~~Missing try-catch blocks~~ | **FIXED** - Block ID vs offset mismatch fixed, handler addresses as block leaders, stack overflow prevention | region_builder.rs, block_split.rs, decompiler.rs, body_gen.rs |
 | ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
-| P1-S08 | Method calls before guard | **NEEDS REPRO** - `matcher.group()` before `matches()` | body_gen.rs |
+| ~~P1-S08~~ | ~~Method calls before guard~~ | **FIXED** - Only emit first block prelude for short-circuit conditions (AND/OR) | body_gen.rs |
 | ~~P1-S09~~ | ~~For-each over Iterator~~ | **FIXED** - Validate collection expr or fall back to while | body_gen.rs |
 | P1-S10 | Code after loop ends | **NEEDS REPRO** - `it.next()` after while loop (related to P1-S07) | body_gen.rs |
 | ~~P1-S11~~ | ~~Missing throws declaration~~ | **FIXED** - Parse dalvik/annotation/Throws | method_gen.rs |
@@ -103,11 +104,36 @@ private boolean D(long j) {
 1. **Underscore naming pattern fixed** - `generate_unique_name()` in body_gen.rs now generates `j2` instead of `j_2` to match JADX/var_naming.rs pattern
 2. **Field access inlining improved** - InstanceGet and StaticGet now check `should_inline()` and store expressions inline for single-use variables
 3. **Ternary sub-expressions now inline** - Ternary instruction uses `gen_arg_inline()` for condition, then, and else values
+4. **Fallthrough on gen_insn_inline failure** - emit_assignment_insn now falls through to normal declaration if gen_insn_inline returns None (previously returned early, leaving variables undeclared)
+
+**Deep Investigation (Dec 21, 2025):**
+
+Root cause identified: **Block/instruction processing order in nested ternary patterns**
+
+The issue occurs because:
+1. When TernaryAssignment/TernaryReturn regions are detected, blocks are processed via specialized handlers
+2. The `extract_block_value_expression()` and `emit_condition_block_prelude()` functions process blocks differently than `generate_block()`
+3. For nested ternaries (like `D(long j)` with inner ternary `this.H ? this.D : this.E` and outer comparison), the instruction processing order becomes incorrect:
+   - Inner ternary blocks (0, 1, 2) are consumed by TernaryAssignment
+   - Merge block (3) with `iget-wide this.w`, `sub-long`, `cmp-long` should be processed as prelude
+   - But when `gen_arg_inline(v2)` is called for `sub-long`, the inline expression for `v2` (this.w) hasn't been stored yet
+   - This happens because the block containing `iget-wide v2` is either not in `condition.get_blocks()` or is processed in the wrong order
+
+4. Evidence: Variables with `insn_use_count=1` (should be inlined) are triggering "expression not available" because their defining instruction wasn't processed before the use site
 
 **Remaining issues:**
-- Type inference: Ternary result typed as `Object` instead of `long` - needs fix in type_inference.rs
-- SSA variable naming: Variables like `l2` created but never defined - needs var_naming.rs investigation
-- Return value tracking: Returns wrong variable `j2` instead of comparison result
+- Type inference: Ternary result typed as `Object` instead of `long` - **INVESTIGATED** (Dec 21 PM)
+  - Investigation: Ternary instructions created in region_builder.rs AFTER type_inference runs on SSA
+  - Partial fix: Added field_access_types cache in type_inference.rs to track InstanceGet/StaticGet types
+  - Pipeline issue: Ternary extraction (region_builder) happens after type inference completes
+  - Potential solutions: (1) Post-ternary type resolution pass, (2) Type propagation in ternary codegen
+- Block ordering: Blocks in nested ternary patterns need to be processed in correct order - likely needs region_builder.rs changes
+- Return value tracking: Returns wrong variable `j2` instead of comparison result - related to block ordering
+
+**Proposed Solution Path:**
+1. Add prelude processing for then/else blocks in `extract_block_return_expression()` (similar to `emit_condition_block_prelude()`)
+2. Ensure blocks are added to condition's block list in topological order (definitions before uses)
+3. Consider decomposing complex nested ternaries into separate statements (matching JADX's approach)
 
 #### P1-S06 + P1-S12: Try-Catch Block Fix (Dec 21, 2025)
 
@@ -194,6 +220,74 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizat
 
 ## Fixed Issues (Dec 21, 2025)
 
+### P0-C08: Invalid instanceof Syntax Fix (Dec 21 Night)
+
+**Problem:** Two invalid Java syntax patterns were generated:
+1. `object instanceof X == null` - instanceof results compared to null
+2. `!object instanceof X` - negation not properly parenthesized
+
+Both cause compilation errors (P0 bug).
+
+**Root Cause:**
+1. The `name_suggests_object_type()` heuristic matched class names in instanceof expressions
+   (e.g., "JSONObject" in "obj instanceof JSONObject"), causing instanceof results to be
+   incorrectly classified as object types
+2. The `wrap_if_complex()` function didn't wrap instanceof expressions before applying negation
+
+**Fix Applied:**
+1. Added `is_instanceof` check in `generate_condition()` to detect expressions containing ` instanceof `
+2. Excluded instanceof expressions from `is_object` classification
+3. Added instanceof expressions to `is_boolean` classification
+4. Updated `wrap_if_complex()` to wrap expressions containing ` instanceof `
+
+**Before Fix:**
+```java
+if (object instanceof JSONObject == null && ...)  // Invalid!
+if (!object instanceof Enum)  // Invalid!
+```
+
+**After Fix:**
+```java
+if (!(object instanceof JSONObject) && ...)  // Correct
+if (!(object instanceof Enum))  // Correct
+```
+
+**Results:**
+- All tests pass
+- No more `instanceof X == null` patterns in output
+- No more `!x instanceof X` patterns in output
+
+**Files Changed:** `body_gen.rs`
+
+### P1-S08: Method Calls Before Guard Fix (Dec 21 Night)
+
+**Problem:** In compound conditions like `matcher.matches() && hashMap.get(matcher.group()) == null`,
+the `matcher.group()` call was being hoisted before the `if` statement, causing it to execute
+before `matcher.matches()`. This violates short-circuit semantics and can cause runtime errors.
+
+**Root Cause:** `emit_condition_block_prelude()` was emitting prelude instructions from ALL blocks
+in a compound condition (AND/OR), but for short-circuit evaluation, blocks after the first are
+only executed if prior conditions are true/false.
+
+**Fix Applied:**
+1. Added `get_first_condition_block()` helper to get only the leftmost block in a compound condition
+2. Modified `emit_condition_block_prelude()` to only emit prelude for the first block when
+   processing AND, OR, or Ternary conditions
+3. Subsequent blocks' prelude instructions are now protected by the short-circuit evaluation
+
+**Before Fix:**
+```java
+String group = matcher.group(1);  // Called BEFORE matches()!
+if (matcher.matches() && hashMap.get(group) == null) { ... }
+```
+
+**After Fix:**
+```java
+if (matcher.matches() && obj == null) { ... }
+```
+
+**Files Changed:** `body_gen.rs`
+
 ### P1-S02: Boolean Return Value Fix (Dec 21 Night)
 
 **Note:** P1-S03 was merged with P1-S05 (same root cause). The boolean return fix is tracked as part of P1-S02.
@@ -212,6 +306,7 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizat
 - Check const_values for 0/1 constants in boolean return context
 - Convert 0->false, 1->true for boolean method returns
 - Use `write_arg_inline_typed` with return type for general type awareness
+- **Dead code elimination:** Always inline Const 0/1 values to prevent unused `final int i = 1;` declarations
 
 ### P1-S09: For-Each Over Iterator Fix (Dec 21 Night)
 

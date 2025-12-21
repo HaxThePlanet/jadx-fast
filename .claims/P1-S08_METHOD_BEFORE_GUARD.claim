@@ -1,0 +1,38 @@
+# P1-S08: Method Calls Before Guard
+Claimed: 2025-12-21
+Agent: Claude Opus 4.5
+
+## Task
+Fix method calls being hoisted before guard conditions (e.g., matcher.group() before matches())
+
+## Reproduction
+File: output/dexterity/large/sources/f/c/a/f/a/d/n.java (method e())
+
+Dexterity (WRONG):
+```java
+Matcher matcher = n.b.matcher(nextElement.getName());
+String group2 = matcher.group(i3);  // Called BEFORE matches()!
+String group = matcher.group(i);     // Called BEFORE matches()!
+...
+if (matcher.matches() && hashMap.get(group2) == null) {
+```
+
+JADX (CORRECT):
+```java
+Matcher matcher = b.matcher(zipEntryNextElement.getName());
+if (matcher.matches()) {  // Check matches() FIRST
+    String strGroup = matcher.group(1);  // Only call group() AFTER matches()
+```
+
+## Root Cause
+`emit_condition_block_prelude()` was emitting prelude instructions from ALL blocks in compound
+conditions (AND/OR), but for short-circuit evaluation, blocks after the first are only executed
+if prior conditions are true/false.
+
+## Fix Applied
+1. Added `get_first_condition_block()` helper in body_gen.rs to get leftmost block
+2. Modified `emit_condition_block_prelude()` to only emit first block's prelude for AND/OR/Ternary
+3. Subsequent blocks' prelude is now protected by short-circuit evaluation
+
+## Status
+FIXED (Dec 21, 2025)

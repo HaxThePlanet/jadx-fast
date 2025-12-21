@@ -1,0 +1,9 @@
+# P1-S04: Wrong Method Signature Call
+Claimed: 2025-12-21
+Agent: External LLM
+
+## Task
+Fix wrong method signature where 2 args passed to 1-arg method (wide type handling?)
+
+## Status
+IN_PROGRESS
