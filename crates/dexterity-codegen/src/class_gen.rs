@@ -518,6 +518,31 @@ impl ImportCollector {
                             self.add_internal_name(&type_name);
                         }
                     }
+                    // ConstClass - extract the class being referenced (e.g., Foo.class)
+                    InsnType::ConstClass { type_idx, .. } => {
+                        if let Some(type_name) = dex.get_type_name(*type_idx) {
+                            self.add_internal_name(&type_name);
+                        }
+                    }
+                    // Instance field access - extract field's declaring class
+                    InsnType::InstanceGet { field_idx, .. } | InsnType::InstancePut { field_idx, .. } => {
+                        if let Some(field_info) = dex.get_field(*field_idx) {
+                            self.add_internal_name(&field_info.class_type);
+                        }
+                    }
+                    // InvokeCustom (lambdas) - extract types from lambda info
+                    InsnType::InvokeCustom { lambda_info, .. } => {
+                        if let Some(info) = lambda_info {
+                            // Import the implementation class (for method references)
+                            self.add_internal_name(&info.impl_class);
+                            // Import lambda parameter types
+                            for param_type in &info.lambda_param_types {
+                                self.add_type(param_type);
+                            }
+                            // Import lambda return type
+                            self.add_type(&info.lambda_return_type);
+                        }
+                    }
                     _ => {}
                 }
             }
