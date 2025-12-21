@@ -1,45 +1,33 @@
 # Roadmap
 
-**Status:** All P0 Fixed, 5 P1 Open (Dec 20, 2025)
+**Status:** All P0 + P1 Fixed (Dec 21, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 
-## Current Priority: Fix P1 Semantic Issues
+## Current Priority: Kotlin Parity (72% → 100%)
 
-### NEW-008: Malformed Synchronized Blocks
-**Problem:** Statements outside sync that should be inside
-**Scope:** 10+ methods
-**Root Cause:** `region_builder.rs` - Synchronized block boundaries wrong
-**Files:** `crates/dexterity-passes/src/region_builder.rs`
+### Quick Wins (LOW effort)
+1. Apply suspend modifier to IR method signatures
+2. Apply inline modifier to IR method signatures
+3. Populate extension function receiver_type
+4. Extract inline_class_underlying_property_name
 
-### NEW-009: Missing Imports
-**Problem:** `Function1`, `List` used without import
-**Scope:** Many files
-**Root Cause:** Import collector misses some type references
-**Files:** `crates/dexterity-codegen/src/class_gen.rs`
-
-### NEW-010: Boolean vs Null Comparisons
-**Problem:** `isClosed() == null` where boolean method
-**Scope:** Multiple
-**Root Cause:** Type inference not propagating boolean type
-**Files:** `crates/dexterity-passes/src/type_inference.rs`
-
-### NEW-011: Parameter/Field Mismatch
-**Problem:** Wrong parameter assigned to field
-**Scope:** 30+ methods
-**Root Cause:** Parameter/field matching logic
-**Files:** `crates/dexterity-codegen/src/body_gen.rs`
-
-### NEW-012: Constructor Result Discarded
-**Problem:** `new Foo(...)` result not assigned
-**Scope:** 20+ methods
-**Root Cause:** Constructor synthesis not tracking result usage
-**Files:** `crates/dexterity-codegen/src/body_gen.rs`
+### Harder (HIGH effort)
+5. SMAP/SourceDebugExtension parsing for Kotlin source mapping
 
 ---
 
-## Previously Completed (Dec 20, 2025)
+## Recently Fixed (Dec 21, 2025)
 
-All P0 compilation errors fixed:
+All P0 compilation errors + P1 semantic issues fixed:
+
+### P1 Semantic Issues (Fixed)
+- NEW-008: Malformed synchronized blocks - ACC_DECLARED_SYNCHRONIZED flag
+- NEW-009: Missing imports - ConstClass, InstanceGet/Put, InvokeCustom collection
+- NEW-010: Boolean vs null comparisons - Method name heuristics
+- NEW-011: Parameter/field mismatch - SSA version 0 fallback
+- NEW-012: Constructor result discarded - Assign on tracking failure
+
+### P0 Compilation Errors (Fixed)
 - NEW-001: Static final = null + reassign
 - NEW-002: Undefined/uninitialized variables
 - NEW-003: throw non-Throwable validation
@@ -49,7 +37,7 @@ All P0 compilation errors fixed:
 
 ---
 
-## Future (After P1 Fixed)
+## Future Work
 
 ### Input Format Support
 - APKS (App Bundle split) - Not implemented

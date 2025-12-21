@@ -2,6 +2,28 @@
 
 ## December 2025
 
+### Dec 21, 2025 - All P1 Semantic Issues Fixed
+
+**NEW-008: Malformed Synchronized Blocks**
+- Check ACC_DECLARED_SYNCHRONIZED (0x20000) flag instead of sync instruction count
+- File: `crates/dexterity-codegen/src/body_gen.rs`
+
+**NEW-009: Missing Imports**
+- Added import collection for ConstClass, InstanceGet/Put, InvokeCustom instructions
+- File: `crates/dexterity-codegen/src/class_gen.rs`
+
+**NEW-010: Boolean vs Null Comparisons**
+- Added `name_suggests_boolean_method()` heuristic (is*, has*, can*, should*, etc.)
+- File: `crates/dexterity-codegen/src/body_gen.rs`
+
+**NEW-011: Parameter/Field Mismatch**
+- Added fallback to SSA version 0 name for parameter registers
+- File: `crates/dexterity-codegen/src/expr_gen.rs`
+
+**NEW-012: Constructor Result Discarded**
+- Assign constructor result to receiver register's variable when tracking fails
+- File: `crates/dexterity-codegen/src/body_gen.rs`
+
 ### Dec 20, 2025 - Iterative Pass Execution (JADX Parity)
 
 **Iterative Simplification + Code Shrinking**
