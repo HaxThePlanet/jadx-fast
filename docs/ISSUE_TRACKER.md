@@ -1,10 +1,32 @@
 # Issue Tracker
 
-**Status:** All P0 + P1 Issues Fixed (Dec 21, 2025)
+**Status:** All P0 + P1 Fixed (Dec 21, 2025) | Open: 1 Investigation, 2 Gaps, 2 Polish
 
 ## Open Issues
 
-*No blocking issues currently open.*
+### Investigation (Blocked)
+
+| ID | Issue | Status | Details |
+|----|-------|--------|---------|
+| INV-001 | Zara APK hang | APK unavailable for testing | [KNOWN_ISSUES.md](KNOWN_ISSUES.md#hanging-apk-zara-android-app) |
+
+### P2 Quality Gaps
+
+| ID | Issue | Impact | Details |
+|----|-------|--------|---------|
+| GAP-001 | Kotlin package deobfuscation | ~854 files appear "missing" due to obfuscated paths | [GRADE_SUMMARY.md](../qa_reports/GRADE_SUMMARY.md#large-apk-854-missing---actually-path-differences) |
+| GAP-002 | Variable naming quality | 0.70-0.81 vs JADX 0.93 | Type-based naming gap |
+
+### P3 Polish
+
+| ID | Issue | Action |
+|----|-------|--------|
+| POL-001 | Add library skip filters | appsflyer, revenuecat, zendesk SDKs |
+| POL-002 | Cosmetic formatting | Whitespace, parentheses, FQN vs simple names (~5%) |
+
+### Performance TODOs
+
+See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizations (P0-3 remaining, P1-2/P1-4 open).
 
 ---
 

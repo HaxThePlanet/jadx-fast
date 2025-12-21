@@ -1,6 +1,6 @@
 # Quality Status
 
-**Status:** All P0 + P1 Fixed, Kotlin 100% (Dec 20, 2025)
+**Status:** All P0 + P1 Fixed, Kotlin 100% (Dec 21, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 
 ## Current Grades
@@ -9,8 +9,8 @@
 |----------|-------|-------|
 | **Codegen** | **B** | All P0 + P1 bugs fixed |
 | **IR/Control Flow** | **B-** | Synchronized blocks fixed, loops improved |
-| **Variable Naming** | **B-** | JADX parity improved (long=j, OBJ_ALIAS) |
-| **Kotlin Support** | **A** | 100% parity - BitEncoding ported, all modifiers work |
+| **Variable Naming** | **B-** | Type-based naming (GAP-002 open) |
+| **Kotlin Support** | **A** | 100% parity - BitEncoding ported |
 | **Overall** | **B** | Production ready for most APKs |
 
 ## Bug Status
@@ -19,6 +19,8 @@
 |----------|--------|
 | P0 Bugs | **ALL FIXED** (6 bugs) |
 | P1 Bugs | **ALL FIXED** (5 bugs) |
+| P2 Gaps | 2 open (GAP-001, GAP-002) |
+| P3 Polish | 2 open (POL-001, POL-002) |
 
 ## Quality Metrics
 
@@ -37,5 +39,6 @@
 
 ---
 
-For issue history, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
+For all issues, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
 For roadmap, see [ROADMAP.md](ROADMAP.md).
+For QA reports, see [qa_reports/GRADE_SUMMARY.md](../qa_reports/GRADE_SUMMARY.md).

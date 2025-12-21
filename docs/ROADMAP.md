@@ -1,63 +1,52 @@
 # Roadmap
 
-**Status:** All P0 + P1 Fixed, Kotlin 100% (Dec 20, 2025)
-**See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
-
-## Kotlin Metadata: COMPLETE
-
-### BitEncoding Port (Dec 20, 2025)
-- Ported Kotlin BitEncoding decoder from Java to Rust
-- UTF-8 mode (marker = '\0') and 8-to-7 bit mode (legacy) supported
-- Added StringTableTypes parsing via jvm_metadata.proto
-- 68 predefined Kotlin strings lookup implemented
-
-### All Kotlin Features (Complete)
-- BitEncoding decoder (UTF-8 + 8-to-7 modes)
-- StringTableTypes for proper d2 string resolution
-- 68 predefined Kotlin strings (kotlin/Any, kotlin/Function0-22, etc.)
-- suspend/inline/infix/operator function modifiers applied to IR
-- Extension function receiver_type populated
-- Type variance (`<in T>`, `<out T>`) applied to IR
-- Data/sealed/value class detection
-- Companion object handling
-- Method/field name extraction from Kotlin metadata
-- toString() bytecode parsing for obfuscated field names
+**Status:** All P0 + P1 Fixed, Kotlin 100% (Dec 21, 2025)
+**See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
 
-## Recently Fixed (Dec 21, 2025)
+## Open Work
 
-### Kotlin Function Modifiers
-- Added IR fields: is_suspend, is_inline_function, is_infix, is_operator
-- Added receiver_type for extension functions
-- Modifiers emitted as comments: `/* suspend */ public void foo()`
+### P2 Quality Gaps
 
-### P1 Semantic Issues (Fixed)
-- NEW-008: Malformed synchronized blocks - ACC_DECLARED_SYNCHRONIZED flag
-- NEW-009: Missing imports - ConstClass, InstanceGet/Put, InvokeCustom collection
-- NEW-010: Boolean vs null comparisons - Method name heuristics
-- NEW-011: Parameter/field mismatch - SSA version 0 fallback
-- NEW-012: Constructor result discarded - Assign on tracking failure
+| ID | Issue | Impact |
+|----|-------|--------|
+| GAP-001 | Kotlin package deobfuscation | ~854 files appear under obfuscated paths |
+| GAP-002 | Variable naming quality | 0.70-0.81 vs JADX 0.93 |
 
-### P0 Compilation Errors (Fixed)
-- NEW-001: Static final = null + reassign
-- NEW-002: Undefined/uninitialized variables
-- NEW-003: throw non-Throwable validation
-- NEW-004: Variable type confusion
-- NEW-006: Enum wrong value types
-- NEW-007: Unreachable code after return
+### P3 Polish
 
----
+| ID | Issue | Action |
+|----|-------|--------|
+| POL-001 | Library skip filters | appsflyer, revenuecat, zendesk |
+| POL-002 | Cosmetic formatting | Whitespace, parentheses (~5%) |
 
-## Future Work
+### Performance TODOs
 
-### Input Format Support
-- APKS (App Bundle split) - Not implemented
+See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2/P1-4 open items.
 
-### Performance
+### Future Features
+
+- APKS (App Bundle split) input format
 - Memory reduction, startup optimization
 
 ---
 
-For current status, see [QUALITY_STATUS.md](QUALITY_STATUS.md).
-For issue details, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
+## Completed
+
+### Kotlin Metadata (Dec 20-21, 2025) - 100% JADX Parity
+
+- BitEncoding decoder (UTF-8 + 8-to-7 modes)
+- StringTableTypes for d2 string resolution
+- 68 predefined Kotlin strings
+- All function modifiers: suspend/inline/infix/operator/tailrec
+- Extension function receiver_type
+- Type variance (`<in T>`, `<out T>`)
+- Data/sealed/value class detection
+
+### Bug Fixes (Dec 21, 2025)
+
+- **P0 (6):** Static final init, undefined vars, throw validation, type confusion, enum values, dead code
+- **P1 (5):** Synchronized blocks, imports, boolean comparisons, param/field, constructor result
+
+See [ISSUE_TRACKER.md](ISSUE_TRACKER.md#fixed-issues-dec-21-2025) for details.

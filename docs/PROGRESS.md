@@ -1,8 +1,8 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** All P0 + P1 Fixed, Kotlin 100% (Dec 20, 2025)
+**Status:** All P0 + P1 Fixed, Kotlin 100% (Dec 21, 2025)
 **Tests:** 1,209 passing (687 integration + 522 unit)
-**Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
+**Benchmark:** 1.49x faster, 14.6x memory efficiency
 
 ---
 
@@ -12,49 +12,35 @@
 |----------|-------|-------|
 | **Codegen** | **B** | All P0 + P1 bugs fixed |
 | **IR/Control Flow** | **B-** | Synchronized blocks fixed, loops improved |
-| **Variable Naming** | **B-** | JADX parity improved |
-| **Kotlin Support** | **A** | 100% parity - BitEncoding ported, all modifiers work |
+| **Variable Naming** | **B-** | Type-based naming (GAP-002 open) |
+| **Kotlin Support** | **A** | 100% parity - BitEncoding ported |
 | **Overall** | **B** | Production ready for most APKs |
+
+See [QUALITY_STATUS.md](QUALITY_STATUS.md) for details.
 
 ---
 
-## Completed (Dec 21, 2025)
+## Recent Work (Dec 21, 2025)
 
-### P1 Semantic Issues - ALL FIXED
-- NEW-008: Malformed synchronized blocks (ACC_DECLARED_SYNCHRONIZED)
-- NEW-009: Missing imports (ConstClass, InstanceGet/Put, InvokeCustom)
-- NEW-010: Boolean vs null comparisons (method name heuristics)
-- NEW-011: Parameter/field mismatch (SSA version 0 fallback)
-- NEW-012: Constructor result discarded (assign on tracking failure)
+- **P0/P1 Bugs:** All 11 compilation/semantic issues fixed
+- **Kotlin:** BitEncoding decoder ported, all modifiers work (suspend/inline/infix/operator/tailrec)
+- **Control Flow:** TernaryMod, synchronized blocks, PHI declarations
 
-### P0 Critical Bugs - ALL FIXED
-- NEW-001: Static final = null + reassign
-- NEW-002: Undefined/uninitialized variables
-- NEW-003: throw non-Throwable validation
-- NEW-004: Variable type confusion
-- NEW-006: Enum wrong value types
-- NEW-007: Unreachable code after return
-- BUG-001 to BUG-012: Original bugs
+See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for fixed bug details.
 
-### Kotlin BitEncoding Port (Dec 20, 2025)
-- Ported Kotlin BitEncoding decoder from Java to Rust
-- UTF-8 mode (marker = '\0') and 8-to-7 bit mode (legacy) supported
-- Added StringTableTypes parsing via jvm_metadata.proto
-- 68 predefined Kotlin strings lookup implemented
-- Kotlin metadata parsing now 100% functional
+---
 
-### Kotlin Function Modifiers (Dec 21, 2025)
-- Added IR fields: is_suspend, is_inline_function, is_infix, is_operator
-- Added receiver_type for extension functions
-- Modifiers emitted as comments: `/* suspend */ public void foo()`
+## Open Work
 
-### Other Fixes
-- P2-001: Variable naming JADX parity
-- TernaryMod + IfRegionVisitor control flow
-- Kotlin type variance annotations
-- Exception handler PHI declarations
-- Array/Object type compatibility
-- Compose UI complexity detection
+| ID | Issue | Priority |
+|----|-------|----------|
+| INV-001 | Zara APK hang | Investigation (blocked) |
+| GAP-001 | Kotlin package deobfuscation | P2 |
+| GAP-002 | Variable naming quality | P2 |
+| POL-001 | Library skip filters | P3 |
+| POL-002 | Cosmetic formatting | P3 |
+
+See [ISSUE_TRACKER.md](ISSUE_TRACKER.md#open-issues) for details.
 
 ---
 
@@ -84,5 +70,6 @@ cargo test --test integration_tests
 
 ---
 
-For issue history, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
+For issues, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
 For roadmap, see [ROADMAP.md](ROADMAP.md).
+For known issues, see [KNOWN_ISSUES.md](KNOWN_ISSUES.md).

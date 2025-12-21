@@ -1,6 +1,10 @@
 # Known Issues
 
-## Hanging APK: Zara Android App
+**See also:** [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for centralized issue tracking.
+
+---
+
+## INV-001: Hanging APK - Zara Android App
 
 **APK:** `419955240b7c62b61832a62f6e8c28650a19830f0f75ff3c2abe290ecb158484.apk`
 **Package:** `com.inditex.zara` v16.0.2 (versionCode 26001213)
@@ -174,15 +178,17 @@ This is the expected behavior - graceful failure with clear error messaging.
 
 ---
 
-## Variable Naming Gaps
+## GAP-002: Variable Naming Gaps
 
 ### Semantic Method Return Naming
 
-JADX assigns semantic names based on method call results (e.g., `iMin` for `Math.min()` result). Dexterity does not yet implement this. Variables from method calls use type-based naming instead.
+JADX assigns semantic names based on method call results (e.g., `iMin` for `Math.min()` result). Dexterity uses type-based naming instead. Quality: 0.70-0.81 vs JADX 0.93.
 
-### Undefined Variable References
+See [ISSUE_TRACKER.md](ISSUE_TRACKER.md#p2-quality-gaps) for tracking.
 
-Codegen variable tracking bugs could cause undefined variable references in method bodies. This was fixed as NEW-002 in [ISSUE_TRACKER.md](ISSUE_TRACKER.md) - PHI variables now get constant initializers.
+### Undefined Variable References (Fixed)
+
+Previously, codegen variable tracking bugs caused undefined variable references. Fixed as NEW-002 - PHI variables now get constant initializers.
 
 ---
 
