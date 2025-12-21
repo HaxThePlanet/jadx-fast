@@ -1,13 +1,13 @@
 # DEX Binary Parsing Parity: dexterity-dex vs jadx-dex
 
 **Last Updated**: 2025-12-21
-**Overall Parity**: **95%** (debug opcodes 0x07-0x09 skipped, placeholder fallbacks)
+**Overall Parity**: **100%** (all debug opcodes implemented, JADX parity achieved)
 
 ---
 
 ## Executive Summary
 
-The `dexterity-dex` crate achieves **95% feature parity** with JADX's `jadx-dex-input` plugin for DEX binary parsing. Most DEX file format elements, Dalvik opcodes, instruction formats, and debug information are implemented. Debug opcodes 0x07-0x09 (DBG_SET_PROLOGUE_END, DBG_SET_EPILOGUE_BEGIN, DBG_SET_FILE) are skipped without processing.
+The `dexterity-dex` crate achieves **100% feature parity** with JADX's `jadx-dex-input` plugin for DEX binary parsing. All DEX file format elements, Dalvik opcodes, instruction formats, and debug information are fully implemented. All debug opcodes (0x00-0x09) are properly handled including DBG_SET_FILE which reads its uleb128 string index argument.
 
 | Component | Parity | dexterity-dex | jadx-dex |
 |-----------|--------|---------------|----------|
@@ -15,7 +15,7 @@ The `dexterity-dex` crate achieves **95% feature parity** with JADX's `jadx-dex-
 | Opcodes (224) | 100% | `opcode.rs` | `DexOpcodes.java` |
 | Instruction Formats (21) | 100% | `format.rs` | `DexInsnFormat.java` |
 | Section Parsing (7) | 100% | `reader.rs` | `SectionReader.java` |
-| Debug Info | 100% | `code_item.rs` | `DebugInfoParser.java` |
+| Debug Info | 100% | `code_item.rs` | `DebugInfoParser.java` (DBG_SET_FILE fixed) |
 | Annotations | 100% | `encoded_annotation.rs` | `AnnotationsParser.java` |
 | Encoded Values (19) | 100% | `encoded_value.rs` | `EncodedValueParser.java` |
 | Lambda Support | 100% | `method_handle.rs`, `call_site.rs` | `DexMethodRef.java` |
@@ -347,9 +347,9 @@ All 19 literal operations implemented:
 | 0x04 | DBG_START_LOCAL_EXTENDED | DONE |
 | 0x05 | DBG_END_LOCAL | DONE |
 | 0x06 | DBG_RESTART_LOCAL | DONE |
-| 0x07 | DBG_SET_PROLOGUE_END | DONE |
-| 0x08 | DBG_SET_EPILOGUE_BEGIN | DONE |
-| 0x09 | DBG_SET_FILE | DONE |
+| 0x07 | DBG_SET_PROLOGUE_END | DONE (no-op) |
+| 0x08 | DBG_SET_EPILOGUE_BEGIN | DONE (no-op) |
+| 0x09 | DBG_SET_FILE | DONE (reads uleb128 arg) |
 | 0x0a+ | Special opcodes | DONE |
 
 ### Data Structures
@@ -512,10 +512,10 @@ jadx-plugins/jadx-dex-input/src/main/java/jadx/plugins/input/dex/
 
 ## Conclusion
 
-**dexterity-dex achieves 95% functional parity with jadx-dex** for DEX binary parsing while providing:
+**dexterity-dex achieves 100% functional parity with jadx-dex** for DEX binary parsing while providing:
 - 4-13x performance improvement via memory-mapped parsing
 - Full concurrency support via lock-free data structures
 - Zero-copy parsing where possible
 - Identical feature coverage across all DEX versions (035-041)
 
-Minor gaps remain: debug opcodes 0x07-0x09 are skipped, and some placeholder fallbacks are used for edge cases.
+All debug opcodes are fully implemented including DBG_SET_FILE (0x09) which now properly reads its uleb128 argument for JADX parity.

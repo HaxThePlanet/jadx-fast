@@ -5251,6 +5251,14 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             handlers,
             finally,
         } => {
+            // Skip invalid try-catch with no handlers and no finally
+            // This can happen when all handlers are filtered (monitor-exit, etc.)
+            if handlers.is_empty() && finally.is_none() {
+                // Just emit the try body as a sequence without the try wrapper
+                generate_region(try_region, ctx, code);
+                return;
+            }
+
             code.start_line().add("try {").newline();
             code.inc_indent();
             generate_region(try_region, ctx, code);

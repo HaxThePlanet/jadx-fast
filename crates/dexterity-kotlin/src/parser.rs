@@ -642,6 +642,125 @@ fn parse_type_parameter(tp: &proto::TypeParameter, strings: &[String]) -> Result
     })
 }
 
+/// Map Kotlin stdlib types to their Java equivalents for type bounds
+static KOTLIN_TO_JAVA_TYPES: &[(&str, &str)] = &[
+    ("kotlin/Any", "java/lang/Object"),
+    ("kotlin/String", "java/lang/String"),
+    ("kotlin/CharSequence", "java/lang/CharSequence"),
+    ("kotlin/Number", "java/lang/Number"),
+    ("kotlin/Int", "java/lang/Integer"),
+    ("kotlin/Long", "java/lang/Long"),
+    ("kotlin/Float", "java/lang/Float"),
+    ("kotlin/Double", "java/lang/Double"),
+    ("kotlin/Boolean", "java/lang/Boolean"),
+    ("kotlin/Byte", "java/lang/Byte"),
+    ("kotlin/Short", "java/lang/Short"),
+    ("kotlin/Char", "java/lang/Character"),
+    ("kotlin/collections/List", "java/util/List"),
+    ("kotlin/collections/Set", "java/util/Set"),
+    ("kotlin/collections/Map", "java/util/Map"),
+    ("kotlin/collections/Collection", "java/util/Collection"),
+    ("kotlin/collections/Iterable", "java/lang/Iterable"),
+    ("kotlin/collections/Iterator", "java/util/Iterator"),
+    ("kotlin/collections/MutableList", "java/util/List"),
+    ("kotlin/collections/MutableSet", "java/util/Set"),
+    ("kotlin/collections/MutableMap", "java/util/Map"),
+    ("kotlin/collections/MutableCollection", "java/util/Collection"),
+    ("kotlin/Comparable", "java/lang/Comparable"),
+    ("kotlin/Throwable", "java/lang/Throwable"),
+    ("kotlin/Exception", "java/lang/Exception"),
+    ("kotlin/Error", "java/lang/Error"),
+    ("kotlin/Enum", "java/lang/Enum"),
+    ("kotlin/Annotation", "java/lang/annotation/Annotation"),
+];
+
+/// Parse a Kotlin type name string into an ArgType
+/// Handles: kotlin/Any, kotlin/Comparable<T>, T, arrays
+pub fn parse_kotlin_type_name(type_name: &str) -> dexterity_ir::ArgType {
+    use dexterity_ir::ArgType;
+
+    let type_name = type_name.trim();
+    if type_name.is_empty() {
+        return ArgType::Object("java/lang/Object".to_string());
+    }
+
+    // 1. Check for exact Kotlin → Java type mappings
+    for (kotlin, java) in KOTLIN_TO_JAVA_TYPES.iter() {
+        if type_name == *kotlin {
+            return ArgType::Object((*java).to_string());
+        }
+    }
+
+    // 2. Handle parameterized types (contains '<')
+    if let Some(open_idx) = type_name.find('<') {
+        let base = &type_name[..open_idx];
+        let close_idx = type_name.rfind('>').unwrap_or(type_name.len());
+        let params_str = &type_name[open_idx + 1..close_idx];
+
+        // Map base type
+        let base_mapped = KOTLIN_TO_JAVA_TYPES.iter()
+            .find(|(k, _)| *k == base)
+            .map(|(_, j)| (*j).to_string())
+            .unwrap_or_else(|| base.to_string());
+
+        // Parse parameters - handle nested generics by tracking depth
+        let params: Vec<ArgType> = split_type_params(params_str)
+            .iter()
+            .map(|s| parse_kotlin_type_name(s))
+            .collect();
+
+        return ArgType::Generic {
+            base: base_mapped,
+            params,
+        };
+    }
+
+    // 3. Type variable (simple name without '/')
+    if !type_name.contains('/') && !type_name.starts_with('[') {
+        return ArgType::TypeVariable(type_name.to_string());
+    }
+
+    // 4. Handle array types (starts with '[')
+    if type_name.starts_with('[') {
+        let element = parse_kotlin_type_name(&type_name[1..]);
+        return ArgType::Array(Box::new(element));
+    }
+
+    // 5. Fallback: treat as Object type
+    ArgType::Object(type_name.to_string())
+}
+
+/// Split type parameters respecting nested generics
+/// e.g., "String, List<Int>" -> ["String", "List<Int>"]
+fn split_type_params(params: &str) -> Vec<&str> {
+    let mut result = Vec::new();
+    let mut depth = 0;
+    let mut start = 0;
+
+    for (i, c) in params.char_indices() {
+        match c {
+            '<' => depth += 1,
+            '>' => depth -= 1,
+            ',' if depth == 0 => {
+                let param = params[start..i].trim();
+                if !param.is_empty() {
+                    result.push(param);
+                }
+                start = i + 1;
+            }
+            _ => {}
+        }
+    }
+
+    // Add the last parameter
+    let last = params[start..].trim();
+    if !last.is_empty() {
+        result.push(last);
+    }
+
+    result
+}
+
 fn parse_function(func: &proto::Function, strings: &[String], _idx: u32) -> Result<KotlinFunction> {
     let name = strings
         .get(func.name as usize)

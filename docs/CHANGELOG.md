@@ -2,6 +2,25 @@
 
 ## December 2025
 
+### Dec 21, 2025 - DEX Debug Opcodes + Resource Qualifiers
+
+**dexterity-dex: Debug Opcode Fix**
+- Fixed DBG_SET_FILE (0x09) to properly read its uleb128 argument for JADX parity
+- Previously skipped without consuming the argument, causing parse offset drift
+- File: `crates/dexterity-dex/src/sections/code_item.rs`
+
+**dexterity-resources: BCP-47 Locale Support**
+- Implemented proper BCP-47 locale tag formatting (`b+language+script+region+variant`)
+- Added support for `locale_variant` field (e.g., POSIX variants)
+- Distinguishes between old-style (`pt-rBR`) and BCP-47 (`b+sr+Latn`) formats
+- Added 5 new unit tests for qualifier handling:
+  - `test_qualifier_string_old_style_locale`
+  - `test_qualifier_string_bcp47_with_script`
+  - `test_qualifier_string_bcp47_with_variant`
+  - `test_qualifier_string_default`
+  - `test_qualifier_string_with_density`
+- File: `crates/dexterity-resources/src/arsc.rs`
+
 ### Dec 21, 2025 - Phase 1 + Phase 2 Complete
 
 **Phase 2: Boolean Expression Simplification**

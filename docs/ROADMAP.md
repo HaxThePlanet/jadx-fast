@@ -27,6 +27,15 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2/P1-4 op
 
 ## Completed
 
+### DEX Debug Opcodes + Resource Qualifiers (Dec 21, 2025)
+
+- **DBG_SET_FILE (0x09) fix:** Now properly reads uleb128 argument for JADX parity
+- **BCP-47 locale tag formatting:** Proper `b+language+script+region+variant` format
+- **locale_variant field support:** Handles POSIX and other variants
+- **Old-style vs BCP-47 detection:** Distinguishes `pt-rBR` from `b+sr+Latn` formats
+- **5 new unit tests:** Comprehensive qualifier string testing
+- **Files changed:** `code_item.rs`, `arsc.rs`
+
 ### Phase 2: Boolean Expression Simplification (Dec 21, 2025)
 
 - **Short-circuit OR condition merging:** Combined nested if conditions into `a || b` patterns

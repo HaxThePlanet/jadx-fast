@@ -6,7 +6,7 @@
 
 | Metric | Value |
 |--------|-------|
-| **Overall Parity** | **95%** (type parameter bounds not parsed - see TODO in extractor.rs:47) |
+| **Overall Parity** | **100%** |
 | **Proto Parsing** | 100% (complete metadata schema with JVM extensions) |
 | **IR Extraction** | 100% (all modifiers applied to IR) |
 | **Production Impact** | Full - all class/method/field names restored, all modifiers applied |
@@ -175,7 +175,30 @@ Function modifiers are emitted as comments before Java modifiers:
 |------|--------|--------|-------|
 | SMAP debug extension support | LOW | Not planned | Requires separate attribute parser |
 
-**Current Parity:** 95% (type parameter bounds parsing incomplete)
+**Current Parity:** 100%
+
+#### Completed: Type Parameter Bounds Parsing (Dec 21, 2025)
+
+Implemented full support for Kotlin type parameter bounds:
+- Added `parse_kotlin_type_name()` function to convert Kotlin type strings to `ArgType`
+- Added `KOTLIN_TO_JAVA_TYPES` mapping table (28 common Kotlin→Java type mappings)
+- Supports parameterized types like `Comparable<T>`, `Map<K, V>`
+- Handles type variables, arrays, and nested generics
+- Filters implicit `kotlin/Any` → `java.lang.Object` bounds (Java's default)
+- Merges Kotlin bounds with Java signature bounds
+
+Example output:
+```kotlin
+// Before (95% parity)
+class Foo<T> { ... }  // Missing bounds
+
+// After (100% parity)
+class Foo<T extends Comparable<T>> { ... }  // Bounds preserved
+```
+
+**Files Modified:**
+- `crates/dexterity-kotlin/src/parser.rs` - Added `parse_kotlin_type_name()` and type mapping table
+- `crates/dexterity-kotlin/src/extractor.rs` - Updated type parameter conversion (was TODO at line 47)
 
 #### Completed: BitEncoding Port (Dec 20, 2025)
 

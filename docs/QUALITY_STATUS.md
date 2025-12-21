@@ -39,8 +39,10 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Tests | 1,209 passing (687 integration + 522 unit) |
+| Total Tests | 1,214+ passing (687 integration + 527+ unit) |
 | Kotlin Parity | 100% (BitEncoding ported, all modifiers work) |
+| DEX Debug Info | 100% (DBG_SET_FILE uleb128 fix) |
+| Resource Qualifiers | 100% (BCP-47 locale tags) |
 
 ## Output Quality by APK Size
 

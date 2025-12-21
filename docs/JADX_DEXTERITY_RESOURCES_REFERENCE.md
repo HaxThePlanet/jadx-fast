@@ -634,13 +634,20 @@ impl ResConfig {
 
 ### Configuration Qualifier Generation
 
-Both implementations generate Android-compatible folder qualifiers:
+Both implementations generate Android-compatible folder qualifiers with proper BCP-47 support:
+
+**Locale Format Selection:**
+- Old-style format (`xx-rXX`): Used when no script or variant is present (e.g., `pt-rBR`, `en-rUS`)
+- BCP-47 format (`b+xx+Script+RR+Variant`): Used when script or variant is present (e.g., `b+sr+Latn`, `b+zh+Hans+CN`, `b+en+POSIX`)
 
 | Config Field | Qualifier Example |
 |--------------|-------------------|
 | mcc | `-mcc310` |
 | mnc | `-mnc004` |
-| language + country | `-en-rUS` |
+| language + country (old-style) | `-en-rUS`, `-pt-rBR` |
+| language + script (BCP-47) | `b+sr+Latn` |
+| language + script + region (BCP-47) | `b+zh+Hans+CN` |
+| language + variant (BCP-47) | `b+en+POSIX` |
 | screen orientation | `-port`, `-land` |
 | touchscreen | `-notouch`, `-finger` |
 | density | `-ldpi`, `-mdpi`, `-hdpi`, `-xhdpi`, `-xxhdpi` |
@@ -1256,4 +1263,47 @@ After these fixes, resource output is **1:1 identical** with JADX for:
 
 ---
 
-**Last Updated:** December 17, 2025
+## Recent Fixes (Dec 21, 2025)
+
+### Fix 4: BCP-47 Locale Tag Formatting
+
+**Problem:** Locale qualifiers did not properly distinguish between old-style and BCP-47 formats.
+
+**Root Cause:** The `to_qualifier_string()` method lacked proper logic to detect when BCP-47 format (b+language+script+region+variant) should be used vs old-style (xx-rXX).
+
+**Solution:** Added comprehensive locale formatting in `ResConfig::to_qualifier_string()`:
+```rust
+// Determine if we should use BCP47 format
+let use_bcp47 = has_script || has_variant;
+
+if use_bcp47 {
+    // BCP47 style: b+language+script+region+variant
+    let mut locale_str = String::from("b+");
+    // Add language, script, region, variant as applicable
+} else {
+    // Old style: xx or xx-rXX (used when no script or variant)
+}
+```
+
+**Impact:** Resource folder qualifiers now correctly format as:
+- `pt-rBR` (old-style, language + region)
+- `b+sr+Latn` (BCP-47, language + script)
+- `b+zh+Hans+CN` (BCP-47, language + script + region)
+- `b+en+POSIX` (BCP-47, language + variant)
+
+### Fix 5: Locale Variant Support
+
+**Problem:** The `locale_variant` field was not being used in qualifier generation.
+
+**Solution:** Added support for 8-character locale variants (e.g., POSIX) with proper uppercase formatting in BCP-47 tags.
+
+**Unit Tests Added:** 5 new tests for qualifier handling:
+- `test_qualifier_string_old_style_locale`
+- `test_qualifier_string_bcp47_with_script`
+- `test_qualifier_string_bcp47_with_variant`
+- `test_qualifier_string_default`
+- `test_qualifier_string_with_density`
+
+---
+
+**Last Updated:** December 21, 2025

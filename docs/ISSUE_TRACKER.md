@@ -91,6 +91,17 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizat
 
 **Files changed:** `info.rs`, `extract_field_init.rs`, `class_gen.rs`, `method_gen.rs`
 
+### DEX + Resources Fixes (Dec 21 Late PM)
+
+| ID | Bug | Fix |
+|----|-----|-----|
+| DEX-001 | DBG_SET_FILE (0x09) not reading uleb128 | Added uleb128 read for file string index |
+| RES-001 | BCP-47 locale format missing | Implemented `b+language+script+region+variant` format |
+| RES-002 | locale_variant field unused | Added variant support with uppercase formatting |
+| RES-003 | Old-style vs BCP-47 confusion | Added detection logic based on script/variant presence |
+
+**Files changed:** `code_item.rs`, `arsc.rs`
+
 ### Latest Fixes (Dec 21 PM)
 
 | ID | Bug | Fix |

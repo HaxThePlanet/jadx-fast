@@ -878,9 +878,9 @@ pub struct CatchHandler {
 | 0x04 | DBG_START_LOCAL_EXTENDED | + signature |
 | 0x05 | DBG_END_LOCAL | Local var ends |
 | 0x06 | DBG_RESTART_LOCAL | Restart local at current PC |
-| 0x07 | DBG_SET_PROLOGUE_END | Prologue ends |
-| 0x08 | DBG_SET_EPILOGUE_BEGIN | Epilogue begins |
-| 0x09 | DBG_SET_FILE | Set source file |
+| 0x07 | DBG_SET_PROLOGUE_END | Prologue ends (no arguments) |
+| 0x08 | DBG_SET_EPILOGUE_BEGIN | Epilogue begins (no arguments) |
+| 0x09 | DBG_SET_FILE | Set source file (uleb128 string index) |
 | 0x0A-0xFF | Special | line_delta = (opcode - 10) % 15 - 4; addr_delta = (opcode - 10) / 15 |
 
 ### JADX Debug Info
