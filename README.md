@@ -117,6 +117,21 @@ public class MainActivity extends Activity {
 }
 ```
 
+## Reference Output Examples
+
+Comparison examples of Dexterity vs JADX decompilation output:
+
+- **Small APK Examples**
+  - [Dexterity output](output/dexterity/small/sources/) | [JADX output](output/jadx/small/sources/)
+
+- **Medium APK Examples**
+  - [Dexterity output](output/dexterity/medium/sources/) | [JADX output](output/jadx/medium/sources/)
+
+- **Large APK Examples**
+  - [Dexterity output](output/dexterity/large/sources/) | [JADX output](output/jadx/large/sources/)
+
+Notable reference file: [o/a/b.java](output/dexterity/large/sources/o/a/b.java) (Dexterity) vs [o/a/b.java](output/jadx/large/sources/o/a/b.java) (JADX)
+
 ## License
 
 Apache-2.0 (same as JADX)
