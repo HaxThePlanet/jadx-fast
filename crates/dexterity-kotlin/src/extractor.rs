@@ -10,8 +10,21 @@ use crate::tostring_parser::{self, TypeResolver};
 pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -> Result<()> {
     // 1. Set class name alias - only for actual classes (kind=1), not file facades
     // File facades (*Kt classes) store function names in d2, not class names
+    // Extract simple name from Kotlin metadata (e.g., "com/foo/Bar" -> "Bar")
     if cls.alias.is_none() && matches!(metadata.kind, KotlinKind::Class) {
-        cls.alias = Some(metadata.class_name.clone());
+        let simple_name = metadata.class_name
+            .rsplit('/')
+            .next()
+            .unwrap_or(&metadata.class_name);
+        // For inner classes, get the part after $ (e.g., "Outer$Inner" -> "Inner")
+        let simple_name = simple_name
+            .rsplit('$')
+            .next()
+            .unwrap_or(simple_name);
+        // Only set alias if it differs from the DEX simple name
+        if simple_name != cls.simple_name() {
+            cls.alias = Some(simple_name.to_string());
+        }
     }
 
     // 2. Set Kotlin class info (data class, sealed class, etc.)
@@ -90,6 +103,10 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
             if kotlin_func.flags.is_operator {
                 method.is_operator = true;
                 tracing::debug!("Applied operator modifier to: {}", kotlin_func.name);
+            }
+            if kotlin_func.flags.is_tailrec {
+                method.is_tailrec = true;
+                tracing::debug!("Applied tailrec modifier to: {}", kotlin_func.name);
             }
 
             // Apply extension function receiver type

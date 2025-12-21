@@ -335,6 +335,8 @@ pub struct MethodData {
     pub is_infix: bool,
     /// Kotlin operator function
     pub is_operator: bool,
+    /// Kotlin tailrec function (tail-recursive optimization)
+    pub is_tailrec: bool,
     /// Kotlin extension function receiver type (e.g., "String" for String.myFunc())
     pub receiver_type: Option<ArgType>,
 
@@ -385,6 +387,7 @@ impl MethodData {
             is_inline_function: false,
             is_infix: false,
             is_operator: false,
+            is_tailrec: false,
             receiver_type: None,
             // JADX parity fields
             this_arg: None,
@@ -432,6 +435,7 @@ impl MethodData {
             is_inline_function: false,
             is_infix: false,
             is_operator: false,
+            is_tailrec: false,
             receiver_type: None,
             // JADX parity fields
             this_arg: None,

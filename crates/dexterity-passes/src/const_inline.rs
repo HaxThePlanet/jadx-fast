@@ -23,6 +23,8 @@ pub struct ConstInlineResult {
 
 /// Inline constants in SSA form
 pub fn inline_constants(ssa: &mut SsaResult) -> ConstInlineResult {
+    use std::collections::HashSet;
+
     // Phase 1: Count uses for each (reg, version) pair
     let use_counts = count_uses(ssa);
 
@@ -30,20 +32,31 @@ pub fn inline_constants(ssa: &mut SsaResult) -> ConstInlineResult {
     let const_defs = find_const_defs(ssa);
 
     // Phase 3: Inline constants where appropriate
+    // Track which constants were ACTUALLY inlined (not just candidates)
+    let mut actually_inlined: HashSet<(u16, u32)> = HashSet::new();
     let mut inlined_count = 0;
     let mut removed_count = 0;
 
     for block in &mut ssa.blocks {
         for insn in &mut block.instructions {
+            // Get args BEFORE any replacement (for tracking which constants are inlined)
+            let args_before = get_insn_args_owned(insn);
+
             // Replace uses of single-use constants with their literal values
             let replacements = find_replacements(insn, &const_defs, &use_counts);
             for (arg_idx, literal) in replacements {
+                // Track which constant was actually inlined (using pre-replacement args)
+                if let Some(Some(reg)) = args_before.get(arg_idx) {
+                    actually_inlined.insert((reg.reg_num, reg.ssa_version));
+                }
                 replace_arg(insn, arg_idx, literal);
                 inlined_count += 1;
             }
         }
 
-        // Mark unused or single-use constants for removal
+        // Mark unused or ACTUALLY inlined constants for removal
+        // FIX: Only mark DontGenerate if the constant was truly inlined,
+        // not just because it had a single use (can_inline_at may have blocked it)
         for insn in &mut block.instructions {
             if let InsnType::Const { dest, .. } = &insn.insn_type {
                 let key = (dest.reg_num, dest.ssa_version);
@@ -53,11 +66,14 @@ pub fn inline_constants(ssa: &mut SsaResult) -> ConstInlineResult {
                     // Unused constant - mark for removal
                     insn.add_flag(AFlag::DontGenerate);
                     removed_count += 1;
-                } else if use_count == 1 && const_defs.contains_key(&key) {
-                    // Single use, already inlined - mark for removal
+                } else if actually_inlined.contains(&key) {
+                    // This constant was actually inlined - mark for removal
                     insn.add_flag(AFlag::DontGenerate);
                     removed_count += 1;
                 }
+                // NOTE: Constants with use_count == 1 that were NOT inlined
+                // (because can_inline_at returned false) are NOT marked DontGenerate
+                // - they will be declared as variables
             }
         }
     }
@@ -66,6 +82,21 @@ pub fn inline_constants(ssa: &mut SsaResult) -> ConstInlineResult {
         inlined_count,
         removed_count,
     }
+}
+
+/// Get args as optional RegisterArgs for tracking (before replacement)
+/// Returns None for non-register args to preserve index mapping
+fn get_insn_args_owned(insn: &InsnNode) -> Vec<Option<dexterity_ir::instructions::RegisterArg>> {
+    get_insn_args(insn)
+        .into_iter()
+        .map(|arg| {
+            if let InsnArg::Register(reg) = arg {
+                Some(reg.clone())
+            } else {
+                None
+            }
+        })
+        .collect()
 }
 
 /// Count how many times each SSA variable is used

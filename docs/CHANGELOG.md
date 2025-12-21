@@ -13,13 +13,18 @@
 - Kotlin metadata parsing now 100% functional
 - Files: `parser.rs`, `proto/jvm_metadata.proto`
 
-### Dec 21, 2025 - Kotlin Function Modifiers
+### Dec 21, 2025 - Kotlin Class and Function Modifiers
 
-**Kotlin Modifier Support**
-- Added IR fields: is_suspend, is_inline_function, is_infix, is_operator, receiver_type
+**Kotlin Modifier Support (JADX kotlin-metadata plugin parity)**
+- **Class modifiers:** `/* data */`, `/* sealed */`, `/* value */` emitted after Java modifiers, before `class` keyword
+  - Example: `public final /* data */ class User { ... }`
+- **Function modifiers:** `/* operator */`, `/* suspend */`, `/* inline */`, `/* infix */`, `/* tailrec */` emitted before Java modifiers
+  - Example: `/* suspend */ public Object fetchData(Continuation $completion) { ... }`
+- Added IR fields: is_suspend, is_inline_function, is_infix, is_operator, is_tailrec, receiver_type
 - Extractor applies modifiers from Kotlin metadata to MethodData
-- Method generator emits modifiers as Java comments: `/* suspend */ public void foo()`
-- Files: `info.rs`, `extractor.rs`, `method_gen.rs`
+- **Type variance:** `<out R>`, `<in T>` preserved from Kotlin metadata
+- **Class aliases:** Now correctly use simple names instead of full paths
+- Files: `info.rs`, `extractor.rs`, `method_gen.rs`, `class_gen.rs`
 
 ### Dec 21, 2025 - All P1 Semantic Issues Fixed
 

@@ -542,6 +542,18 @@ pub fn apply_aliases_from_registry(class: &mut ClassData, registry: &AliasRegist
 
 /// Build the output relative path for a class, using deobfuscated package and class aliases.
 pub fn class_output_rel_path(class_desc: &str, registry: &AliasRegistry) -> PathBuf {
+    class_output_rel_path_with_kotlin(class_desc, registry, None, None)
+}
+
+/// Build the output relative path for a class, with optional Kotlin metadata overrides.
+/// If `kotlin_pkg_alias` is provided (from Kotlin metadata), it takes precedence over registry.
+/// If `kotlin_class_alias` is provided, it's used for the file name.
+pub fn class_output_rel_path_with_kotlin(
+    class_desc: &str,
+    registry: &AliasRegistry,
+    kotlin_pkg_alias: Option<&str>,
+    kotlin_class_alias: Option<&str>,
+) -> PathBuf {
     let stripped = class_desc
         .strip_prefix('L')
         .unwrap_or(class_desc)
@@ -553,16 +565,24 @@ pub fn class_output_rel_path(class_desc: &str, registry: &AliasRegistry) -> Path
         None => (None, stripped),
     };
 
-    let file_stem = registry
-        .get_class_alias(class_desc)
+    // Use Kotlin class alias if provided, else registry, else original
+    let file_stem = kotlin_class_alias
+        .map(|s| s.to_string())
+        .or_else(|| registry.get_class_alias(class_desc))
         .unwrap_or_else(|| simple.to_string());
 
     let mut rel = PathBuf::new();
-    if let Some(pkg_internal) = pkg {
-        // Apply package aliases to output path
+
+    // Use Kotlin package alias if provided (from metadata), else use registry
+    if let Some(kotlin_pkg) = kotlin_pkg_alias {
+        // Kotlin pkg_alias is in dot notation (e.g., "com.example.app"), convert to path
+        rel.push(kotlin_pkg.replace('.', std::path::MAIN_SEPARATOR_STR));
+    } else if let Some(pkg_internal) = pkg {
+        // Apply package aliases from deobfuscation registry
         let aliased_pkg = apply_package_aliases(pkg_internal, registry);
         rel.push(aliased_pkg.replace('/', std::path::MAIN_SEPARATOR_STR));
     }
+
     rel.push(format!("{}.java", file_stem));
     rel
 }

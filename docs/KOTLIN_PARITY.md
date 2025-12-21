@@ -41,6 +41,14 @@ Dexterity has **complete Kotlin metadata parsing** with the **BitEncoding decode
 | Sealed class subclasses | PARTIAL | YES | **DONE** | `sealed_subclasses` stored in `KotlinClassInfo` |
 | Inline/Value classes | NO | YES | **DONE** | `is_inline` flag parsed and stored |
 
+**Class Modifier Output Format:**
+Class modifiers are emitted as comments after Java modifiers, before the `class` keyword:
+```java
+public final /* data */ class User { ... }
+public abstract /* sealed */ class Result { ... }
+public final /* value */ class Color { ... }
+```
+
 ### Type System Features
 
 | Feature | JADX | Dexterity | Status | Notes |
@@ -60,6 +68,17 @@ Dexterity has **complete Kotlin metadata parsing** with the **BitEncoding decode
 | Operator/infix markers | NO | YES | **DONE** | `MethodData.is_operator`, `is_infix` applied to IR |
 | Extension receiver_type | NO | YES | **DONE** | `MethodData.receiver_type` applied to IR |
 | Tail recursion | NO | YES | **DONE** | `is_tailrec` flag extracted |
+
+**Function Modifier Output Format:**
+Function modifiers are emitted as comments before Java modifiers:
+```java
+/* suspend */ public Object fetchData(Continuation $completion) { ... }
+/* inline */ public final void repeat(int times, Function1 action) { ... }
+/* operator */ public String plus(String other) { ... }
+/* infix */ public boolean contains(String element) { ... }
+/* tailrec */ public int factorial(int n, int acc) { ... }
+/* suspend inline */ public Object withContext(CoroutineContext context, Function2 block, Continuation $completion) { ... }
+```
 
 ### Debug/Metadata Features
 

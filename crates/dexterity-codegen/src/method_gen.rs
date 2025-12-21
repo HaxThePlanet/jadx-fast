@@ -18,40 +18,21 @@ fn sanitize_method_name(name: &str) -> String {
 /// Check if a method is too complex to decompile cleanly
 /// Returns Some(reason) if method should be skipped, None if it should be decompiled normally
 ///
-/// This matches JADX's behavior of skipping extremely complex methods (typically Kotlin Compose UI)
-/// rather than producing thousands of lines of unreadable code.
+/// NOTE: This is more conservative than before - we only skip methods with extreme
+/// instruction counts. JADX handles Compose UI code and long methods fine, so we do too.
 fn should_skip_complex_method(method: &MethodData) -> Option<String> {
-    // Check instruction count threshold (JADX uses similar threshold)
+    // Only skip methods with extremely high instruction counts (10000+)
+    // JADX handles most methods regardless of size, so we should too
     if let Some(ref bytecode_ref) = method.bytecode_ref {
-        if bytecode_ref.insns_count > 2000 {
+        if bytecode_ref.insns_count > 10000 {
             return Some(format!("instructions count: {}", bytecode_ref.insns_count));
         }
     }
 
-    // Check for Compose patterns - Jetpack Compose methods are notoriously complex
-    // Composer parameter indicates Compose UI code
-    for arg_type in &method.arg_types {
-        match arg_type {
-            ArgType::Object(type_name) => {
-                if type_name.contains("Composer") && (type_name.starts_with("androidx/compose/") || type_name.starts_with("androidx.compose.")) {
-                    return Some("Kotlin Compose UI code with Composer parameter".to_string());
-                }
-            }
-            ArgType::Generic { base, .. } => {
-                if base.contains("Composer") && (base.starts_with("androidx/compose/") || base.starts_with("androidx.compose.")) {
-                    return Some("Kotlin Compose UI code with Composer parameter".to_string());
-                }
-            }
-            _ => {}
-        }
-    }
-
-    // Check for @Composable annotation
-    for annotation in &method.annotations {
-        if annotation.annotation_type.ends_with("/Composable;") || annotation.annotation_type.ends_with(".Composable;") {
-            return Some("@Composable annotation detected".to_string());
-        }
-    }
+    // NOTE: We no longer skip methods based on:
+    // - Composer parameter (Compose UI code) - JADX handles these fine
+    // - @Composable annotation - JADX handles these fine
+    // The previous checks were too aggressive and caused unnecessary skipping
 
     None
 }
@@ -386,6 +367,9 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     if method.is_operator {
         kotlin_mods.push("operator");
     }
+    if method.is_tailrec {
+        kotlin_mods.push("tailrec");
+    }
     if !kotlin_mods.is_empty() {
         code.add("/* ").add(&kotlin_mods.join(" ")).add(" */ ");
     }
@@ -507,6 +491,28 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     }
 
     code.start_line();
+
+    // Kotlin function modifiers (emitted as comments for Java output)
+    // These appear before Java modifiers to mirror Kotlin syntax order
+    let mut kotlin_mods = Vec::new();
+    if method.is_suspend {
+        kotlin_mods.push("suspend");
+    }
+    if method.is_inline_function {
+        kotlin_mods.push("inline");
+    }
+    if method.is_infix {
+        kotlin_mods.push("infix");
+    }
+    if method.is_operator {
+        kotlin_mods.push("operator");
+    }
+    if method.is_tailrec {
+        kotlin_mods.push("tailrec");
+    }
+    if !kotlin_mods.is_empty() {
+        code.add("/* ").add(&kotlin_mods.join(" ")).add(" */ ");
+    }
 
     // Method modifiers (skip for static initializers since we handle them specially)
     if !method.is_class_init() {

@@ -716,9 +716,12 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
     let is_nested = is_inner_class(&class.class_type);
 
     // Package declaration (only for top-level classes)
+    // Use pkg_alias from Kotlin metadata if available, otherwise extract from class_type
     if !is_nested {
-        if let Some(pkg) = get_package(&class.class_type) {
-            code.add("package ").add(&pkg).add(";").newline().newline();
+        let pkg: Option<String> = class.pkg_alias.clone()
+            .or_else(|| get_package(&class.class_type));
+        if let Some(ref pkg) = pkg {
+            code.add("package ").add(pkg).add(";").newline().newline();
         }
     }
 
@@ -996,10 +999,27 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
         flags &= !(access_flags::flags::ACC_FINAL | access_flags::flags::ACC_ABSTRACT | access_flags::flags::ACC_STATIC);
     }
 
-    // Modifiers
+    // Java access modifiers (public, final, etc.)
     let mods = access_flags::access_flags_to_string(flags, AccessContext::Class);
     if !mods.is_empty() {
         code.add(&mods);
+    }
+
+    // Kotlin class modifiers (emitted as comments for Java output)
+    // These appear after Java modifiers, like JADX's kotlin-metadata plugin
+    // Format: "public final /* data */ class ClassName"
+    let mut kotlin_class_mods = Vec::new();
+    if class.is_data_class() {
+        kotlin_class_mods.push("data");
+    }
+    if class.is_sealed_class() {
+        kotlin_class_mods.push("sealed");
+    }
+    if class.is_inline_class() {
+        kotlin_class_mods.push("value");
+    }
+    if !kotlin_class_mods.is_empty() {
+        code.add("/* ").add(&kotlin_class_mods.join(" ")).add(" */ ");
     }
 
     // Class type keyword

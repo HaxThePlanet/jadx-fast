@@ -6085,6 +6085,10 @@ fn should_heuristic_expand_varargs(
 ///
 /// When the method is varargs and the last argument is an inlined filled array,
 /// expands `foo(new String[]{"a", "b"})` to `foo("a", "b")`
+///
+/// IMPORTANT: Handles wide types (Long/Double) correctly. In Dalvik invoke instructions,
+/// wide types use TWO consecutive registers for one parameter. This function advances
+/// through the args array by 2 for wide types and by 1 for narrow types.
 fn write_typed_args_with_varargs<W: CodeWriter>(
     args: &[InsnArg],
     param_types: &[ArgType],
@@ -6100,53 +6104,77 @@ fn write_typed_args_with_varargs<W: CodeWriter>(
         return;
     }
 
-    // Limit arguments to method parameter count when we have type info
-    // This filters out Kotlin default parameter markers (extra args beyond declared params)
-    // Only apply when: param_types is non-empty AND not varargs AND args exceed params
-    let effective_arg_count = if !param_types.is_empty()
-        && !is_varargs.unwrap_or(false)
-        && arg_count > param_types.len()
-    {
-        param_types.len()
-    } else {
-        arg_count
-    };
-
     // Check if we should attempt varargs expansion:
     // 1. Method is known to be varargs, OR
     // 2. Method varargs status unknown but heuristic suggests expansion
     let should_try_varargs = is_varargs.unwrap_or(false)
         || (is_varargs.is_none() && should_heuristic_expand_varargs(param_types, &args_to_process, ctx));
 
-    for (i, a) in args_to_process.iter().take(effective_arg_count).enumerate() {
-        if i > 0 {
-            code.add(", ");
-        }
+    // If we have param_types, use them to properly handle wide types
+    // Wide types (Long, Double) use TWO consecutive registers for one parameter
+    if !param_types.is_empty() {
+        let mut arg_idx = 0; // Index into args_to_process
+        let mut first = true;
 
-        let is_last_arg = i == effective_arg_count - 1;
+        for (param_idx, param_type) in param_types.iter().enumerate() {
+            if arg_idx >= arg_count {
+                break;
+            }
 
-        // Try varargs expansion only for the last argument
-        if is_last_arg && should_try_varargs {
-            if let Some(expanded) = try_expand_vararg(a, ctx) {
-                // Handle empty varargs (expanded will be empty string)
-                if !expanded.is_empty() {
-                    code.add(&expanded);
+            if !first {
+                code.add(", ");
+            }
+            first = false;
+
+            let is_last_param = param_idx == param_types.len() - 1;
+
+            // Try varargs expansion only for the last argument
+            if is_last_param && should_try_varargs {
+                if let Some(expanded) = try_expand_vararg(args_to_process[arg_idx], ctx) {
+                    if !expanded.is_empty() {
+                        code.add(&expanded);
+                    }
+                    break; // Varargs consumed remaining args
                 }
-                // If empty, we don't add anything (no trailing comma needed)
-                // but we need to remove the extra ", " we added before this arg
-                // Actually, the logic handles this correctly - if expanded is empty,
-                // we just don't add anything, which is correct for empty varargs
-                continue;
+            }
+
+            // Write the argument with proper type handling
+            ctx.write_arg_inline_typed(code, args_to_process[arg_idx], param_type);
+
+            // Advance by 2 for wide types (Long, Double), 1 for others
+            if is_wide_type(param_type) {
+                arg_idx += 2;
+            } else {
+                arg_idx += 1;
             }
         }
+    } else {
+        // No param types - fall back to writing all args 1:1
+        for (i, a) in args_to_process.iter().enumerate() {
+            if i > 0 {
+                code.add(", ");
+            }
 
-        // Normal argument handling
-        if let Some(param_type) = param_types.get(i) {
-            ctx.write_arg_inline_typed(code, *a, param_type);
-        } else {
+            let is_last_arg = i == arg_count - 1;
+
+            // Try varargs expansion only for the last argument
+            if is_last_arg && should_try_varargs {
+                if let Some(expanded) = try_expand_vararg(a, ctx) {
+                    if !expanded.is_empty() {
+                        code.add(&expanded);
+                    }
+                    continue;
+                }
+            }
+
             ctx.write_arg_inline(code, *a);
         }
     }
+}
+
+/// Check if a type is a "wide" type (Long or Double) that uses 2 registers
+fn is_wide_type(ty: &ArgType) -> bool {
+    matches!(ty, ArgType::Long | ArgType::Double)
 }
 
 /// Generate code for invoke-polymorphic (MethodHandle/VarHandle API)

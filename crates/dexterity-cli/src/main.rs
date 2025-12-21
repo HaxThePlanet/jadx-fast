@@ -1469,8 +1469,21 @@ fn process_dex_bytes(
             .unwrap_or_default();
 
         // Generate code
-        let java_code = match ir_result {
+        let (java_code, final_out_path) = match ir_result {
             Ok(mut ir_class) => {
+                // Recalculate output path using Kotlin metadata pkg_alias if available
+                let actual_out_path = if ir_class.pkg_alias.is_some() || ir_class.alias.is_some() {
+                    let rel = deobf::class_output_rel_path_with_kotlin(
+                        &class_desc,
+                        &alias_registry,
+                        ir_class.pkg_alias.as_deref(),
+                        ir_class.alias.as_deref(),
+                    );
+                    out_src.join(&rel)
+                } else {
+                    out_path.clone()
+                };
+
                 // Load instructions before codegen
                 for method in &mut ir_class.methods {
                     let _ = converter::load_method_instructions(method, &dex);
@@ -1548,21 +1561,26 @@ fn process_dex_bytes(
 
                 // Unload immediately after codegen to free memory
                 ir_class.unload();
-                code
+                (code, actual_out_path)
             }
             Err(e) => {
                 error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-                format!(
+                (format!(
                     "// Failed to decompile: {}\nclass {} {{\n}}\n",
                     e,
                     class_desc.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown")
-                )
+                ), out_path.clone())
             }
         };
 
+        // Create parent directory if using Kotlin metadata path (may differ from pre-created dirs)
+        if let Some(parent) = final_out_path.parent() {
+            std::fs::create_dir_all(parent).ok();
+        }
+
         // Write to file
-        if let Err(e) = std::fs::write(&out_path, &java_code) {
-            tracing::warn!("Failed to write {}: {}", out_path.display(), e);
+        if let Err(e) = std::fs::write(&final_out_path, &java_code) {
+            tracing::warn!("Failed to write {}: {}", final_out_path.display(), e);
             error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
         }
 
@@ -1656,6 +1674,9 @@ fn should_skip_class_full(class_name: &str) -> bool {
         "Lrx/",
         "Lorg/intellij/",
         "Lorg/jetbrains/",
+        "Lcom/appsflyer/",   // AppsFlyer SDK
+        "Lcom/revenuecat/",  // RevenueCat SDK
+        "Lzendesk/",         // Zendesk SDK
     ];
 
     for prefix in SKIP_PREFIXES {

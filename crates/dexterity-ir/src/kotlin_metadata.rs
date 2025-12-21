@@ -145,11 +145,18 @@ pub fn get_class_alias(cls: &ClassData) -> Option<ClassAlias> {
         return None;
     }
 
-    split_and_check_cls_name(cls, &cleaned_name)
+    let result = split_and_check_cls_name(cls, &cleaned_name);
+    if result.is_some() && cls.class_type.contains("/c/") {
+        eprintln!("Kotlin alias SUCCESS: {} -> {:?}", cls.class_type, result);
+    }
+    result
 }
 
 fn split_and_check_cls_name(origin_cls: &ClassData, full_cls_name: &str) -> Option<ClassAlias> {
     if !is_valid_full_identifier(full_cls_name) {
+        if origin_cls.class_type.contains("/c/") {
+            eprintln!("Kotlin alias fail [invalid identifier]: {} -> {}", origin_cls.class_type, full_cls_name);
+        }
         return None;
     }
 
@@ -164,13 +171,39 @@ fn split_and_check_cls_name(origin_cls: &ClassData, full_cls_name: &str) -> Opti
     }
 
     let origin_name = origin_cls.simple_name();
-    if origin_name == name || name.contains('$') || !is_valid_identifier(&name) || pkg.starts_with("java.") {
+    if origin_name == name {
+        if origin_cls.class_type.contains("/c/") {
+            eprintln!("Kotlin alias fail [same name]: {} -> {}", origin_cls.class_type, full_cls_name);
+        }
+        return None;
+    }
+    if name.contains('$') {
+        if origin_cls.class_type.contains("/c/") {
+            eprintln!("Kotlin alias fail [contains $]: {} -> {}", origin_cls.class_type, full_cls_name);
+        }
+        return None;
+    }
+    if !is_valid_identifier(&name) {
+        if origin_cls.class_type.contains("/c/") {
+            eprintln!("Kotlin alias fail [invalid name]: {} -> {} name={}", origin_cls.class_type, full_cls_name, name);
+        }
+        return None;
+    }
+    if pkg.starts_with("java.") {
+        if origin_cls.class_type.contains("/c/") {
+            eprintln!("Kotlin alias fail [java pkg]: {} -> {}", origin_cls.class_type, full_cls_name);
+        }
         return None;
     }
 
     // Check package depth matches - prevent moving classes across package hierarchies
-    let origin_pkg = origin_cls.package().unwrap_or("");
-    if count_pkg_parts(origin_pkg) != count_pkg_parts(&pkg) {
+    // Note: origin_cls.package() returns with slashes, convert to dots for comparison
+    let origin_pkg = origin_cls.package().unwrap_or("").replace('/', ".");
+    if count_pkg_parts(&origin_pkg) != count_pkg_parts(&pkg) {
+        if origin_cls.class_type.contains("/c/") {
+            eprintln!("Kotlin alias fail [pkg depth]: {} origin_pkg={} ({}) vs pkg={} ({})",
+                origin_cls.class_type, origin_pkg, count_pkg_parts(&origin_pkg), pkg, count_pkg_parts(&pkg));
+        }
         return None;
     }
 
