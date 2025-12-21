@@ -126,15 +126,17 @@ Name deobfuscation and mapping support.
 - `visitor.rs` - Deobfuscation pass visitor
 - `signature.rs` - Method signature handling for deobfuscation
 
-### dexterity-kotlin (Kotlin Support)
+### dexterity-kotlin (Kotlin Support) - 100% Parity
 
-Kotlin metadata parsing and name restoration.
+Complete Kotlin metadata parsing with BitEncoding decoder ported from Java.
 
 **Key components:**
-- `parser.rs` - `@Metadata` annotation protobuf parsing
-- `extractor.rs` - Name extraction from Kotlin metadata
-- `types.rs` - Kotlin metadata types
-- `visitor.rs` - Kotlin name restoration pass
+- `parser.rs` - `@Metadata` annotation parsing, BitEncoding decoder (UTF-8 + 8-to-7 modes), 68 predefined strings
+- `extractor.rs` - Name extraction, modifier application to IR (suspend, inline, infix, operator, etc.)
+- `tostring_parser.rs` - toString() bytecode analysis for obfuscated field names
+- `types.rs` - Kotlin metadata types (KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags)
+- `proto/jvm_metadata.proto` - StringTableTypes message for d2 string resolution
+- `proto/metadata.proto` - Full Kotlin metadata protobuf schema
 
 ### dexterity-cli (CLI Application)
 

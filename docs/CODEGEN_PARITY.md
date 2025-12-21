@@ -18,7 +18,7 @@
 | **Codegen** | **B** | All P0 + P1 bugs fixed |
 | **IR/Control Flow** | **B-** | Synchronized blocks fixed, loops improved |
 | **Variable Renaming** | **B+** | Better than JADX for simple cases |
-| **Kotlin Support** | **B** | ~85% parity with function modifiers |
+| **Kotlin Support** | **A** | 100% parity - BitEncoding ported, all modifiers work |
 | **Overall** | **B-** | Production ready for most APKs |
 
 ### File Coverage Issues

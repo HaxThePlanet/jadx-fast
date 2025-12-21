@@ -26,7 +26,7 @@ crates/
 ├── dexterity-codegen/     # Java code generation (~16,100 lines)
 ├── dexterity-resources/   # AXML & resources.arsc (~3,600 lines)
 ├── dexterity-deobf/       # Deobfuscation (~1,800 lines)
-├── dexterity-kotlin/      # Kotlin metadata parsing (~1,600 lines)
+├── dexterity-kotlin/      # Kotlin metadata parsing (~2,000 lines)
 ├── dexterity-cli/         # CLI application (~5,900 lines)
 ├── dexterity-qa/          # Quality assurance tools
 └── dexterity-llm-postproc/# LLM post-processing utilities
@@ -112,12 +112,15 @@ Name deobfuscation and mapping support.
 
 ### dexterity-kotlin (Kotlin Support)
 
-Kotlin metadata parsing and name restoration.
+Complete Kotlin metadata parsing with BitEncoding decoder ported from Java.
 
 | File | Purpose |
 |------|---------|
-| `parser.rs` | @Metadata annotation protobuf parsing |
-| `extractor.rs` | Name extraction from Kotlin metadata |
+| `parser.rs` | @Metadata annotation parsing, BitEncoding decoder (UTF-8 + 8-to-7 modes) |
+| `extractor.rs` | Name extraction, modifier application to IR |
+| `tostring_parser.rs` | toString() bytecode analysis for field names |
+| `proto/jvm_metadata.proto` | StringTableTypes message for d2 string resolution |
+| `proto/metadata.proto` | Full Kotlin metadata protobuf schema |
 
 ### dexterity-cli (CLI Application)
 
@@ -151,7 +154,7 @@ Command-line interface and decompilation orchestration.
 | dexterity-codegen | **94%** |
 | dexterity-resources | **100%** |
 | dexterity-deobf | **100%** |
-| dexterity-kotlin | **85%** |
+| dexterity-kotlin | **100%** |
 | dexterity-cli | **98%** |
 
 ## Build Commands

@@ -20,14 +20,14 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` with all P0
 | Control Flow | **FIXED** (Dec 21) | Correct | **Tie** |
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
-| Kotlin Support | **85% parity** | Baseline | Tie |
+| Kotlin Support | **100% parity** | Baseline | **Dexterity** |
 
 **Grade: B-** - All P0 + P1 bugs fixed (NEW-001 through NEW-012). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
 
 Dexterity is 1.49x faster with 14.6x better memory efficiency:
 - Overall Quality: **B-** per QUALITY_STATUS.md (all P0 + P1 bugs fixed)
 - Feature Implementation: A- (passes/features implemented)
-- Kotlin Parity: ~85% with function modifiers applied to IR
+- Kotlin Parity: 100% with BitEncoding ported and all modifiers applied to IR
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing

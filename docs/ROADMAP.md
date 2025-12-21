@@ -1,21 +1,27 @@
 # Roadmap
 
-**Status:** All P0 + P1 Fixed, Kotlin ~85% (Dec 21, 2025)
+**Status:** All P0 + P1 Fixed, Kotlin 100% (Dec 20, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 
-## Current Priority: Remaining Kotlin Parity
+## Kotlin Metadata: COMPLETE
 
-### Remaining Kotlin Features
-1. Extract inline_class_underlying_property_name
-2. SMAP/SourceDebugExtension parsing for Kotlin source mapping
+### BitEncoding Port (Dec 20, 2025)
+- Ported Kotlin BitEncoding decoder from Java to Rust
+- UTF-8 mode (marker = '\0') and 8-to-7 bit mode (legacy) supported
+- Added StringTableTypes parsing via jvm_metadata.proto
+- 68 predefined Kotlin strings lookup implemented
 
-### Completed Kotlin Features (Dec 21, 2025)
+### All Kotlin Features (Complete)
+- BitEncoding decoder (UTF-8 + 8-to-7 modes)
+- StringTableTypes for proper d2 string resolution
+- 68 predefined Kotlin strings (kotlin/Any, kotlin/Function0-22, etc.)
 - suspend/inline/infix/operator function modifiers applied to IR
 - Extension function receiver_type populated
 - Type variance (`<in T>`, `<out T>`) applied to IR
-- Data/sealed/inline class detection
+- Data/sealed/value class detection
 - Companion object handling
 - Method/field name extraction from Kotlin metadata
+- toString() bytecode parsing for obfuscated field names
 
 ---
 

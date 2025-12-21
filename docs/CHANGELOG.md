@@ -2,6 +2,17 @@
 
 ## December 2025
 
+### Dec 20, 2025 - Kotlin BitEncoding Port (100% Parity)
+
+**BitEncoding Decoder Ported from Java**
+- Implemented `bit_encoding_decode()` in Rust with two encoding modes:
+  - UTF-8 mode (marker = '\0'): Each char is directly a byte (modern format)
+  - 8-to-7 bit mode (marker = '\u0001'): Legacy 7-bit byte packing
+- Added `jvm_metadata.proto` with `StringTableTypes` message for proper d2 string resolution
+- Implemented 68 predefined Kotlin string lookups (kotlin/Any, kotlin/collections/*, kotlin/Function0-22, etc.)
+- Kotlin metadata parsing now 100% functional
+- Files: `parser.rs`, `proto/jvm_metadata.proto`
+
 ### Dec 21, 2025 - Kotlin Function Modifiers
 
 **Kotlin Modifier Support**
