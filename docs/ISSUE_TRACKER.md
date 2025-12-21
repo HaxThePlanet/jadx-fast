@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 6 P0, 11 P1, 3 P2 | Phase 1 + Phase 2 Complete (Dec 21, 2025)
+**Status:** Open: 0 P0, 11 P1, 3 P2 | Phase 1 + Phase 2 + Phase 3 Complete (Dec 21, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -11,13 +11,13 @@
 
 | ID | Issue | Example | Location |
 |----|-------|---------|----------|
-| P0-C01 | Duplicate import names | `import f.a.a.a; import f.a.b.a;` | class_gen.rs |
-| P0-C02 | Undefined variables in constructors | `this.c = obj5;` (obj5 undefined) | body_gen.rs |
-| P0-C03 | Assignment in parentheses | `(this.c.F = i3);` invalid syntax | body_gen.rs |
+| ~~P0-C01~~ | ~~Duplicate import names~~ | **FIXED** - Filter conflicting simple names | class_gen.rs |
+| ~~P0-C02~~ | ~~Undefined variables in constructors~~ | **FIXED** - Wide type register offset | body_gen.rs |
+| ~~P0-C03~~ | ~~Assignment in parentheses~~ | **FIXED** - Remove unnecessary parens | body_gen.rs |
 | ~~P0-C04~~ | ~~Unreachable code after return~~ | **FIXED** - Skip code after throw/return | body_gen.rs |
-| P0-C05 | Variable shadows parameter | `String str;` shadows param `str` | body_gen.rs |
-| P0-C06 | Wrong constructor chain | `super(null)` instead of `this(null)` | method_gen.rs |
-| P0-C07 | Undefined variable references | `fVar5.f = str2;` (fVar5 undefined) | body_gen.rs |
+| ~~P0-C05~~ | ~~Variable shadows parameter~~ | **FIXED** - Register param names | body_gen.rs |
+| ~~P0-C06~~ | ~~Wrong constructor chain~~ | **FIXED** - Normalize class type format | body_gen.rs |
+| ~~P0-C07~~ | ~~Undefined variable references~~ | **FIXED** - Use write_arg_inline() for inlined exprs | body_gen.rs |
 
 ### P1 Semantic (Wrong Behavior)
 

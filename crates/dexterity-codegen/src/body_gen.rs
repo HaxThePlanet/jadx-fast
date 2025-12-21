@@ -223,17 +223,27 @@ impl BodyGenContext {
         // Generate all parameter names with collision detection (JADX parity)
         let param_names = generate_param_names(&method.arg_types, &method.arg_names);
 
+        // P0-C02 fix: Track actual register offset accounting for wide types (Long, Double take 2 registers)
+        // P0-C05 fix: Track parameter names for shadowing detection
+        let mut declared_name_types_initial: HashMap<String, dexterity_ir::ArgType> = HashMap::new();
+        let mut reg_offset = param_offset as u16;
         for (i, param_type) in method.arg_types.iter().enumerate() {
-            let reg = first_param_reg + param_offset as u16 + i as u16;
+            let reg = first_param_reg + reg_offset;
             // Use collision-detected name
             let name = param_names[i].clone();
-            expr_gen.set_var_name(reg, 0, name);
+            expr_gen.set_var_name(reg, 0, name.clone());
             expr_gen.set_var_type(reg, 0, param_type.clone());
+            // Register parameter name as "already declared" to prevent shadowing
+            declared_name_types_initial.insert(name, param_type.clone());
+            // Advance register by 2 for wide types (Long, Double)
+            reg_offset += if matches!(param_type, dexterity_ir::ArgType::Long | dexterity_ir::ArgType::Double) { 2 } else { 1 };
         }
 
         // Set up 'this' if instance method
         if !is_static && method.ins_count > 0 {
             expr_gen.set_var_name(first_param_reg, 0, "this".to_string());
+            // Also register 'this' to prevent shadowing (use Object as generic type)
+            declared_name_types_initial.insert("this".to_string(), dexterity_ir::ArgType::Object("java/lang/Object".to_string()));
         }
 
         // Set first_param_reg for fallback name resolution (NEW-011 fix)
@@ -259,7 +269,8 @@ impl BodyGenContext {
             ins_count: method.ins_count,
             type_info: None,
             declared_vars: HashSet::new(),
-            declared_name_types: HashMap::new(),
+            // P0-C05 fix: Initialize with parameter names to prevent shadowing
+            declared_name_types: declared_name_types_initial,
             first_param_reg,
             last_invoke_expr: None,
             pending_new_instances: HashMap::new(),
@@ -6313,9 +6324,9 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                     }
                 }
                 MethodInlineAttr::FieldSet { field_idx, is_instance } => {
-                    // Replace access$XXX(obj, value) with (obj.field = value) or (Class.field = value)
+                    // Replace access$XXX(obj, value) with obj.field = value or Class.field = value
+                    // P0-C03 fix: Don't wrap assignment in parentheses - unnecessary and looks unusual
                     if let Some(field_info) = ctx.expr_gen.get_field_value(field_idx) {
-                        code.add("(");
                         if is_instance {
                             // Instance field: obj.field = value
                             if let Some(receiver) = args.first() {
@@ -6334,7 +6345,6 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                                 ctx.write_arg_inline(code, value);
                             }
                         }
-                        code.add(")");
                         return;
                     }
                 }
@@ -6484,8 +6494,16 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                     if is_this {
                         // Constructor call on 'this' - could be super() or this()
                         // Compare target class with current class to determine which
+                        // P0-C06 fix: Normalize class type formats before comparing
+                        // current_class_type may have L; wrapper (e.g., "Lcom/example/MyClass;")
+                        // while info.class_type is internal format (e.g., "com/example/MyClass")
                         let is_same_class = ctx.current_class_type.as_ref()
-                            .map(|current| current.as_str() == &*info.class_type)
+                            .map(|current| {
+                                let normalized = current
+                                    .strip_prefix('L').unwrap_or(current)
+                                    .strip_suffix(';').unwrap_or(current);
+                                normalized == &*info.class_type
+                            })
                             .unwrap_or(false);
 
                         if is_same_class {
@@ -7276,7 +7294,7 @@ fn generate_insn<W: CodeWriter>(
                 .map(|f| f.field_type)
                 .unwrap_or(ArgType::Unknown);
             code.start_line();
-            ctx.expr_gen.write_arg(code, object);
+            ctx.write_arg_inline(code, object);
             code.add(".").add(&field_name).add(" = ");
             // Use typed writer with inlining support for proper variable resolution
             ctx.write_arg_inline_typed(code, value, &field_type);
@@ -7514,7 +7532,7 @@ fn generate_insn<W: CodeWriter>(
                 }
 
                 code.start_line();
-                ctx.expr_gen.write_arg(code, array);
+                ctx.write_arg_inline(code, array);
                 code.add(" = new ").add(elem_type).add("[]{");
 
                 if data.len() <= 16 {
@@ -7594,7 +7612,7 @@ fn generate_insn<W: CodeWriter>(
                 code.start_line();
                 code.add(&ctx.expr_gen.get_var_name(dest));
                 code.add(" = ");
-                ctx.expr_gen.write_arg(code, src);
+                ctx.write_arg_inline(code, src);
                 code.add(";").newline();
             }
             true
@@ -7606,7 +7624,7 @@ fn generate_insn<W: CodeWriter>(
             code.add(" = ");
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 { code.add(" + "); }
-                ctx.expr_gen.write_arg(code, arg);
+                ctx.write_arg_inline(code, arg);
             }
             code.add(";").newline();
             true
@@ -7615,7 +7633,7 @@ fn generate_insn<W: CodeWriter>(
         InsnType::OneArg { arg } => {
             // Just emit the argument as an expression statement
             code.start_line();
-            ctx.expr_gen.write_arg(code, arg);
+            ctx.write_arg_inline(code, arg);
             code.add(";").newline();
             true
         }

@@ -249,6 +249,9 @@ pub struct ImportCollector {
     imports: BTreeSet<String>,
     /// Current class package (types in same package don't need imports)
     current_package: Option<String>,
+    /// Maps simple names to list of fully qualified names (for conflict detection)
+    /// P0-C01 fix: When multiple FQNs have the same simple name, none are imported
+    simple_name_map: HashMap<String, Vec<String>>,
 }
 
 impl ImportCollector {
@@ -257,6 +260,7 @@ impl ImportCollector {
         ImportCollector {
             imports: BTreeSet::new(),
             current_package: get_package(class_type),
+            simple_name_map: HashMap::new(),
         }
     }
 
@@ -364,6 +368,13 @@ impl ImportCollector {
         if !stripped.contains('/') {
             return;
         }
+
+        // P0-C01 fix: Track simple name -> FQN mapping for conflict detection
+        let simple_name = stripped.rsplit('/').next().unwrap_or(stripped).to_string();
+        self.simple_name_map
+            .entry(simple_name)
+            .or_default()
+            .push(stripped.to_string());
 
         self.imports.insert(stripped.to_string());
     }
@@ -550,21 +561,66 @@ impl ImportCollector {
     }
 
     /// Get sorted import statements
+    /// P0-C01 fix: Excludes types with conflicting simple names (e.g., f.a.a.a and f.a.b.a)
     pub fn get_imports(&self) -> Vec<String> {
+        // Build set of conflicting FQNs (types whose simple names conflict with others)
+        let conflicting_fqns: BTreeSet<&str> = self.simple_name_map
+            .values()
+            .filter(|fqns| {
+                // A simple name has a conflict if there are multiple unique FQNs
+                let unique: BTreeSet<&str> = fqns.iter().map(String::as_str).collect();
+                unique.len() > 1
+            })
+            .flat_map(|fqns| fqns.iter().map(String::as_str))
+            .collect();
+
         self.imports
             .iter()
+            .filter(|name| !conflicting_fqns.contains(name.as_str()))
             .map(|name| replace_inner_class_separator(&name.replace('/', ".")))
             .collect()
     }
 
     /// Check if a type is imported (can use simple name)
+    /// P0-C01 fix: Returns false for types with conflicting simple names
     pub fn is_imported(&self, internal_name: &str) -> bool {
         let stripped = internal_name
             .strip_prefix('L')
             .unwrap_or(internal_name)
             .strip_suffix(';')
             .unwrap_or(internal_name);
-        self.imports.contains(stripped)
+        if !self.imports.contains(stripped) {
+            return false;
+        }
+        // Check if this type has a conflicting simple name
+        let simple_name = stripped.rsplit('/').next().unwrap_or(stripped);
+        if let Some(fqns) = self.simple_name_map.get(simple_name) {
+            let unique: BTreeSet<&str> = fqns.iter().map(String::as_str).collect();
+            if unique.len() > 1 {
+                return false; // Conflict - can't use simple name
+            }
+        }
+        true
+    }
+
+    /// Get the set of non-conflicting imports for type resolution
+    /// P0-C01 fix: Excludes types with conflicting simple names
+    pub fn get_non_conflicting_imports(&self) -> BTreeSet<String> {
+        // Build set of conflicting FQNs
+        let conflicting_fqns: BTreeSet<&str> = self.simple_name_map
+            .values()
+            .filter(|fqns| {
+                let unique: BTreeSet<&str> = fqns.iter().map(String::as_str).collect();
+                unique.len() > 1
+            })
+            .flat_map(|fqns| fqns.iter().map(String::as_str))
+            .collect();
+
+        self.imports
+            .iter()
+            .filter(|name| !conflicting_fqns.contains(name.as_str()))
+            .cloned()
+            .collect()
     }
 }
 
@@ -736,7 +792,8 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
                 collector.collect_from_class_with_dex(inner, dex_info.as_ref());
             }
         }
-        (Some(collector.imports.clone()), collector.current_package.clone())
+        // P0-C01 fix: Use non-conflicting imports for type resolution
+        (Some(collector.get_non_conflicting_imports()), collector.current_package.clone())
     } else {
         (None, None)
     };
@@ -1782,6 +1839,37 @@ mod tests {
                 "RetentionPolicy should be imported (from @Retention argument)");
         assert!(imports.contains(&"java.lang.annotation.ElementType".to_string()),
                 "ElementType should be imported (from @Target argument)");
+    }
+
+    #[test]
+    fn test_import_collector_conflicting_simple_names() {
+        // Test P0-C01 fix: Duplicate import names
+        // When two types have the same simple name (e.g., f.a.a.a and f.a.b.a),
+        // neither should be imported - use FQN instead
+        let mut collector = ImportCollector::new("Lcom/example/Test;");
+
+        // Add two types with conflicting simple name 'a'
+        collector.add_internal_name("f/a/a/a");
+        collector.add_internal_name("f/a/b/a");
+
+        // Neither should be in the import list
+        let imports = collector.get_imports();
+        assert!(!imports.contains(&"f.a.a.a".to_string()),
+                "f.a.a.a should NOT be imported (conflicts with f.a.b.a)");
+        assert!(!imports.contains(&"f.a.b.a".to_string()),
+                "f.a.b.a should NOT be imported (conflicts with f.a.a.a)");
+
+        // The is_imported check should also return false
+        assert!(!collector.is_imported("f/a/a/a"),
+                "is_imported should return false for conflicting type");
+        assert!(!collector.is_imported("f/a/b/a"),
+                "is_imported should return false for conflicting type");
+
+        // But non-conflicting types should still work
+        collector.add_internal_name("f/a/c/unique");
+        let imports = collector.get_imports();
+        assert!(imports.contains(&"f.a.c.unique".to_string()),
+                "unique should be imported (no conflicts)");
     }
 
     #[test]
