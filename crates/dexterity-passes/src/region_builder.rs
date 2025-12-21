@@ -1896,6 +1896,21 @@ impl<'a> RegionBuilder<'a> {
             .copied()
             .collect();
 
+        // CRITICAL: Add else_blocks as exits when building then_region.
+        // This prevents nested conditionals from including else_blocks in their
+        // then branches, which would cause them to be marked as processed and
+        // skipped when building the else region.
+        // Example: `if (a || b) { x=1 } else { x=0 }` compiles to:
+        //   if (a) goto true_block;  // outer if
+        //   if (b) goto true_block;  // inner if (in outer's then branch)
+        //   x=0; goto merge;         // false case
+        //   true_block: x=1;         // shared by both conditions
+        // Without this fix, true_block would be processed as part of the inner
+        // if's then branch, and the outer else would be empty.
+        for &else_block in &cond.else_blocks {
+            self.stack.add_exit(Some(else_block));
+        }
+
         // Build then region
         // Note: Don't pre-mark blocks as processed - let traverse() discover
         // nested control structures (switches, ifs, loops) properly
@@ -1904,6 +1919,12 @@ impl<'a> RegionBuilder<'a> {
         } else {
             self.build_branch_region(&filtered_then_blocks)
         };
+
+        // Clear the else_blocks exits before building else region
+        // (they were temporary barriers for then_region building)
+        self.stack.pop();
+        self.stack.push();
+        self.stack.add_exit(cond.merge_block);
 
         // Build else region
         let else_region = if cond.else_blocks.is_empty() {

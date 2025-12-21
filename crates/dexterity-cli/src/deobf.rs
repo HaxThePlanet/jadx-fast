@@ -400,11 +400,15 @@ pub fn precompute_kotlin_aliases(
                     if let Some(EncodedValue::String(str_idx)) = arr.first() {
                         // String variant stores the string index, resolve it
                         if let Ok(first_str) = dex.get_string(*str_idx) {
-                            // Extract alias from the full class name
+                            // Extract class alias from the full class name
                             if let Some(alias) = extract_class_alias(&class_desc, &first_str) {
                                 registry.set_class_alias(&class_desc, &alias);
                                 alias_count += 1;
                             }
+
+                            // Also extract and register package alias
+                            // This enables type references to use the deobfuscated package
+                            extract_and_register_package_alias(&class_desc, &first_str, registry);
                         }
                     }
                 }
@@ -418,6 +422,45 @@ pub fn precompute_kotlin_aliases(
             kotlin_class_count,
             alias_count
         );
+    }
+}
+
+/// Extract and register a package alias from Kotlin metadata.
+/// If the Kotlin metadata shows the class is in package "com/example/app" but
+/// the obfuscated descriptor is "La/Foo;", we register: "a" → "com/example/app"
+fn extract_and_register_package_alias(original_desc: &str, kotlin_name: &str, registry: &AliasRegistry) {
+    // Clean up the kotlin name (strip L prefix and ; suffix if present)
+    let kotlin_internal = kotlin_name
+        .trim()
+        .strip_prefix('L')
+        .unwrap_or(kotlin_name)
+        .strip_suffix(';')
+        .unwrap_or(kotlin_name);
+
+    // Extract package from Kotlin metadata (everything before last /)
+    let kotlin_pkg = kotlin_internal.rsplit_once('/').map(|(pkg, _)| pkg);
+
+    // Extract package from original descriptor
+    let original_internal = original_desc
+        .strip_prefix('L')
+        .unwrap_or(original_desc)
+        .strip_suffix(';')
+        .unwrap_or(original_desc);
+    let original_pkg = original_internal.rsplit_once('/').map(|(pkg, _)| pkg);
+
+    // Only register if packages differ and both are present
+    if let (Some(orig_pkg), Some(kt_pkg)) = (original_pkg, kotlin_pkg) {
+        if orig_pkg != kt_pkg {
+            // Skip java.* and kotlin.* packages (framework shouldn't be aliased)
+            let kt_pkg_dotted = kt_pkg.replace('/', ".");
+            if !kt_pkg_dotted.starts_with("java.")
+                && !kt_pkg_dotted.starts_with("kotlin.")
+                && !kt_pkg_dotted.starts_with("android.")
+                && !kt_pkg_dotted.starts_with("androidx.")
+            {
+                registry.set_package_alias(orig_pkg, kt_pkg);
+            }
+        }
     }
 }
 
