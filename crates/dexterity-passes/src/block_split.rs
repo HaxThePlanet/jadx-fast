@@ -115,6 +115,17 @@ impl BlockSplitResult {
 /// Split instructions into basic blocks
 /// Takes a reference to avoid unnecessary Vec cloning - instructions are only cloned when moved into blocks
 pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
+    split_blocks_impl(instructions, &[])
+}
+
+/// Split instructions into basic blocks with exception handler addresses as additional leaders
+/// Handler addresses must be block leaders to ensure proper try-catch region detection
+pub fn split_blocks_with_handlers(instructions: &[InsnNode], handler_addrs: &[u32]) -> BlockSplitResult {
+    split_blocks_impl(instructions, handler_addrs)
+}
+
+/// Internal implementation of block splitting
+fn split_blocks_impl(instructions: &[InsnNode], handler_addrs: &[u32]) -> BlockSplitResult {
     if instructions.is_empty() {
         return BlockSplitResult {
             blocks: Vec::new(),
@@ -127,6 +138,12 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     // Use FxHashSet for O(1) insertions instead of BTreeSet's O(log N)
     let mut leaders = FxHashSet::default();
     leaders.insert(0u32); // First instruction is always a leader
+
+    // Add exception handler addresses as block leaders
+    // This ensures handler blocks start at the correct instruction address
+    for &addr in handler_addrs {
+        leaders.insert(addr);
+    }
 
     for insn in instructions {
         match &insn.insn_type {

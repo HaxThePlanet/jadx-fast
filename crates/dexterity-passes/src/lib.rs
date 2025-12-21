@@ -36,7 +36,7 @@ pub mod visitor;
 
 // Re-exports
 pub use algorithms::{compute_dominators, DominatorInfo, LiveVarAnalysis, LivenessInfo};
-pub use block_split::{split_blocks, BasicBlock, BlockSplitResult};
+pub use block_split::{split_blocks, split_blocks_with_handlers, BasicBlock, BlockSplitResult};
 pub use cfg::CFG;
 pub use conditionals::{
     detect_conditionals, detect_ternary_assignment, find_condition_chains, is_ternary_candidate,

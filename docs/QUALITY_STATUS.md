@@ -1,8 +1,9 @@
 # Quality Status
 
-**Status:** 0 P0, 9 P1, 2 P2 Open | Kotlin 100% | P1-S11 Throws Fixed (Dec 21, 2025)
+**Status:** 0 P0, 7 P1, 2 P2 Open | Kotlin 100% | P1-S06 Try-Catch Fixed (Dec 21, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 **Output Refresh:** Dec 21, 2025 - All 5 APK samples refreshed (~8,858 Java files)
+**Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
 
 ## Current Grades
 
@@ -12,6 +13,7 @@
 | **IR/Control Flow** | **B** | OR condition merging, synchronized blocks fixed |
 | **Variable Naming** | **A-** | 13 mappings vs JADX 5, GAP-002 fixed |
 | **Kotlin Support** | **A** | 100% parity - BitEncoding ported |
+| **Resources** | **A+** | 1:1 JADX parity - 103 dirs, 152 files, zero diff |
 | **Overall** | **B+** | Production ready for most APKs |
 
 ## Bug Status
@@ -19,13 +21,29 @@
 | Priority | Status |
 |----------|--------|
 | P0 Bugs | **ALL FIXED** (7 fixed) |
-| P1 Bugs | **9 Open** (P1-S01, P1-S09, P1-S11 fixed; P1-S02 to P1-S08, P1-S10, P1-S12 remain) |
+| P1 Bugs | **7 Open** (P1-S01, P1-S06, P1-S09, P1-S11, P1-S12 fixed; P1-S02 to P1-S05, P1-S07, P1-S08, P1-S10 remain) |
 | P2 Bugs | **2 Open** (P2-Q01, P2-Q03) |
 | P3 Polish | 2 open (POL-001, POL-002) |
 
 See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 
 ## Recent Improvements (Dec 21, 2025)
+
+### P1-S06 + P1-S12: Try-Catch Block Fix
+- **Block ID vs offset mismatch fixed** - `detect_try_catch_regions()` now uses `block.start_offset` instead of `block_id`
+- **Handler address mapping** - Added `addr_to_block` map to convert handler addresses to block IDs
+- **New function `split_blocks_with_handlers()`** - Handler addresses are now block leaders
+- **Stack overflow prevention** - Added `recursion_depth` limit (100) in `RegionBuilder` and `region_depth` limit (100) in `BodyGenContext`
+- **Results:** All tests pass, large APK completes in 6.5s with 0 errors (previously caused stack overflow)
+- **Files:** `region_builder.rs`, `block_split.rs`, `lib.rs`, `decompiler.rs`, `body_gen.rs`
+
+### Resources 1:1 JADX Parity Achieved
+- **Complete parity:** 103 directories, 152 files, zero differences with JADX output
+- **Gravity flag decoding:** `decode_gravity_flags()` in axml.rs decomposes compound values (e.g., `0x800013` to `start|center_vertical`)
+- **Resource name suffix fix:** Only adds `_res_0x{id}` suffix for actual name collisions, not config variants
+- **Version qualifier stripping:** `normalize_config_qualifier()` strips standalone version qualifiers (`layout-v21` to `layout`)
+- **xmlns attribute order:** Namespace declarations sorted with `android` first
+- **tileMode enum:** Added enum decoding (`1` to `repeat`)
 
 ### P1-S11: Throws Declaration Fix
 - **Throws parity improved from ~13.7% to 41.7%** (3x improvement)
@@ -64,6 +82,7 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 | Throws Parity | 41.7% (up from ~13.7%, 3x improvement) |
 | Kotlin Parity | 100% (BitEncoding ported, all modifiers work) |
 | DEX Debug Info | 100% (DBG_SET_FILE uleb128 fix) |
+| Resources Parity | **100% (1:1 JADX - 103 dirs, 152 files, zero diff)** |
 | Resource Qualifiers | 100% (BCP-47 locale tags - **VALIDATED**) |
 | Total Java Files | ~8,858 (across 5 APK samples) |
 

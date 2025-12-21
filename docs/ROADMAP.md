@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** All P0 + P1 Fixed, Kotlin 100%, Phase 1 + Phase 2 Complete (Dec 21, 2025)
+**Status:** 0 P0, 7 P1, 2 P2 Open | Kotlin 100% | P1-S06 Try-Catch Fixed (Dec 21, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -27,14 +27,72 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2/P1-4 op
 
 ## Completed
 
+### P1-S06 + P1-S12: Try-Catch Block Fix (Dec 21, 2025)
+
+- **Block ID vs offset mismatch fixed** - `detect_try_catch_regions()` now uses `block.start_offset` instead of `block_id` for try block range matching
+- **Handler address mapping** - Added `addr_to_block` map to convert handler addresses to block IDs
+- **New function `split_blocks_with_handlers()`** - Handler addresses are now block leaders for correct block boundaries
+- **Decompiler integration** - `decompiler.rs` now passes handler addresses to block splitting
+- **Stack overflow prevention** - Added `recursion_depth` limit (100) in `RegionBuilder` and `region_depth` limit (100) in `BodyGenContext`
+- **Results:** All tests pass, large APK completes in 6.5s with 0 errors
+- **Files changed:** `region_builder.rs`, `block_split.rs`, `lib.rs`, `decompiler.rs`, `body_gen.rs`
+
+### Resources 1:1 JADX Parity (Dec 21, 2025)
+
+- **Complete parity achieved:** 103 directories, 152 files, zero differences with JADX
+- **Gravity flag decoding:** Added `decode_gravity_flags()` in axml.rs to decompose compound values (`0x800013` to `start|center_vertical`)
+- **Resource name suffix fix:** Fixed duplicate detection in arsc.rs - only adds `_res_0x{id}` suffix for actual name collisions
+- **Version qualifier stripping:** Updated `normalize_config_qualifier()` to strip standalone version qualifiers from binary XML paths
+- **xmlns attribute order:** Sort namespace declarations to put `android` first for JADX compatibility
+- **tileMode enum:** Added tileMode enum decoding (`1` to `repeat`)
+- **Files changed:** `axml.rs`, `arsc.rs`, `main.rs`
+
+### P1-S09: For-Each Over Iterator Fix (Dec 21, 2025)
+
+- **Illegal syntax eliminated** - `for (x : iterator)` is invalid Java, now correctly handled
+- Added `find_iterator_source_collection()` to trace from iterator register to collection
+- Finds `.iterator()` call and extracts the collection receiver
+- Falls back to `while (it.hasNext())` when collection cannot be determined
+- All 60 loop tests pass
+- **Files changed:** `body_gen.rs`
+
+### P1-S11: Throws Declaration Fix (Dec 21, 2025)
+
+- **Throws parity improved from ~13.7% to 41.7%** (3x improvement)
+- Parse `dalvik/annotation/Throws` from DEX annotations
+- Added `get_throws_from_annotations()` to extract exception types
+- `collect_throws_from_instructions()` scans for known library method throws
+- Checked exceptions filtered against caught types
+- All 1,217 tests pass
+- **Files changed:** `method_gen.rs`
+
+### Output Refresh (Dec 21, 2025)
+
+- **All 5 APK samples refreshed:** small, medium, large, badboy, badboy-x86
+- **Total Java files:** ~8,858 files
+- **Debug opcode fix verified:** DBG_SET_FILE working correctly in decompiled output
+- **Config qualifier fix verified:** BCP-47 locale tags in resource directories
+- **Output location consolidated:** `output/dexterity/`
+- **Root-level directories cleaned up:** Removed old extraction directories
+
 ### DEX Debug Opcodes + Resource Qualifiers (Dec 21, 2025)
 
 - **DBG_SET_FILE (0x09) fix:** Now properly reads uleb128 argument for JADX parity
-- **BCP-47 locale tag formatting:** Proper `b+language+script+region+variant` format
+- **BCP-47 locale tag formatting (RES-001):** Proper `b+language+script+region+variant` format
+  - **Validation Status:** COMPLETE AND WORKING
+  - **Fix Location:** `crates/dexterity-resources/src/arsc.rs:205-274`
+  - **Unit Tests:** 5/5 passing (old-style, BCP-47 script, BCP-47 variant, default, density)
+  - **JADX Comparison:** Identical output verified
 - **locale_variant field support:** Handles POSIX and other variants
 - **Old-style vs BCP-47 detection:** Distinguishes `pt-rBR` from `b+sr+Latn` formats
-- **5 new unit tests:** Comprehensive qualifier string testing
 - **Files changed:** `code_item.rs`, `arsc.rs`
+
+### Phase 3: Dead CMP Elimination (Dec 21, 2025)
+
+- **P2-Q05 fix:** Unused Compare variable declarations (e.g., `int compare = ...;`) eliminated
+- **SimplifyResult.dead_cmp_count:** New field tracks CMP instructions marked for removal
+- **DontGenerate flag:** Compare instructions whose results are inlined into If conditions get marked
+- **Files changed:** `simplify.rs`
 
 ### Phase 2: Boolean Expression Simplification (Dec 21, 2025)
 

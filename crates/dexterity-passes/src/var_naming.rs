@@ -277,6 +277,99 @@ pub fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
     }
 }
 
+/// Semantic origin of a variable - used to prevent incompatible groupings
+/// even when types match (e.g., array length vs loop counter are both int)
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum SemanticOrigin {
+    /// From ArrayLength instruction - represents an array bound
+    ArrayBound,
+    /// From Const 0 or 1 - typically a loop counter initialization
+    LoopCounter,
+    /// Any other origin
+    Other,
+}
+
+/// Build a map of semantic origins for all SSA variables.
+/// This is used to prevent grouping variables that have the same type but
+/// semantically different purposes (e.g., array.length vs loop counter `i = 0`).
+///
+/// This also propagates origins through PHI nodes. If a PHI has sources with
+/// conflicting strong origins (ArrayBound + LoopCounter), the PHI destination
+/// is marked as ArrayBound to prevent it from merging with loop counters.
+fn build_semantic_origins(ssa: &SsaResult) -> HashMap<(u16, u32), SemanticOrigin> {
+    use dexterity_ir::instructions::{InsnType, LiteralArg};
+
+    let mut origins = HashMap::new();
+
+    // Phase 1: Collect origins from instructions
+    for block in &ssa.blocks {
+        for insn in &block.instructions {
+            match &insn.insn_type {
+                InsnType::ArrayLength { dest, .. } => {
+                    origins.insert((dest.reg_num, dest.ssa_version), SemanticOrigin::ArrayBound);
+                }
+                InsnType::Const { dest, value } => {
+                    // Only Const 0 or 1 are typical loop counter initializations
+                    let origin = match value {
+                        LiteralArg::Int(v) if *v == 0 || *v == 1 => SemanticOrigin::LoopCounter,
+                        _ => SemanticOrigin::Other,
+                    };
+                    origins.insert((dest.reg_num, dest.ssa_version), origin);
+                }
+                _ => {}
+            }
+        }
+    }
+
+    // Phase 2: Propagate origins through PHI nodes
+    // If a PHI has conflicting origins in its sources (ArrayBound + LoopCounter),
+    // mark the PHI dest as ArrayBound to prevent merging with loop counters.
+    // This is key to keeping array bounds and loop counters separate.
+    for block in &ssa.blocks {
+        for phi in &block.phi_nodes {
+            let dest = (phi.dest.reg_num, phi.dest.ssa_version);
+
+            // Check if any source is ArrayBound or LoopCounter
+            let mut has_array_bound = false;
+            let mut has_loop_counter = false;
+
+            for (_, src) in &phi.sources {
+                let src_key = (src.reg_num, src.ssa_version);
+                match origins.get(&src_key) {
+                    Some(SemanticOrigin::ArrayBound) => has_array_bound = true,
+                    Some(SemanticOrigin::LoopCounter) => has_loop_counter = true,
+                    _ => {}
+                }
+            }
+
+            // If PHI has conflicting sources, mark dest as ArrayBound
+            // (to keep it separate from loop counters)
+            if has_array_bound && has_loop_counter {
+                origins.insert(dest, SemanticOrigin::ArrayBound);
+            } else if has_array_bound {
+                // Propagate ArrayBound if only that origin is present
+                origins.insert(dest, SemanticOrigin::ArrayBound);
+            } else if has_loop_counter {
+                // Propagate LoopCounter if only that origin is present
+                origins.insert(dest, SemanticOrigin::LoopCounter);
+            }
+        }
+    }
+
+    origins
+}
+
+/// Check if two semantic origins are compatible for variable grouping.
+/// Array bounds and loop counters should NEVER share the same variable name,
+/// even if they're both int and connected via PHI nodes.
+fn origins_compatible(o1: SemanticOrigin, o2: SemanticOrigin) -> bool {
+    match (o1, o2) {
+        (SemanticOrigin::ArrayBound, SemanticOrigin::LoopCounter) => false,
+        (SemanticOrigin::LoopCounter, SemanticOrigin::ArrayBound) => false,
+        _ => true,
+    }
+}
+
 /// Build CodeVar groups from SSA result by following PHI node and Move instruction connections.
 /// This mirrors JADX's InitCodeVariables.collectConnectedVars() - all SSA variables
 /// connected through PHI nodes should share the same name.
@@ -289,6 +382,10 @@ pub fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
 /// TYPE-AWARE: Variables with incompatible types are NOT grouped together,
 /// even if they're PHI/Move connected. This prevents assigning boolean values to int variables.
 ///
+/// SEMANTIC-ORIGIN-AWARE (Dec 2025 - P1-S07 fix): Variables with incompatible semantic
+/// origins (ArrayBound vs LoopCounter) are NOT grouped, even if types match.
+/// This prevents `length` (array bound) from collapsing with `i` (loop counter).
+///
 /// Returns a map: (reg, version) -> code_var_index
 /// Variables with the same index should get the same name.
 fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<(u16, u32), usize> {
@@ -297,11 +394,22 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
     let mut ssa_to_code_var: HashMap<(u16, u32), usize> = HashMap::new();
     let mut next_code_var_idx = 0usize;
 
+    // Pre-compute semantic origins for all variables (P1-S07 fix)
+    let semantic_origins = build_semantic_origins(ssa);
+
     // Build complete adjacency graph from PHI nodes and Move instructions
     let mut connections: HashMap<(u16, u32), HashSet<(u16, u32)>> = HashMap::new();
 
-    // Helper to check type compatibility
+    // Helper to check type AND semantic origin compatibility
     let check_compatible = |v1: (u16, u32), v2: (u16, u32)| -> bool {
+        // Check semantic origins first (P1-S07 fix)
+        let o1 = semantic_origins.get(&v1).copied().unwrap_or(SemanticOrigin::Other);
+        let o2 = semantic_origins.get(&v2).copied().unwrap_or(SemanticOrigin::Other);
+        if !origins_compatible(o1, o2) {
+            return false;
+        }
+
+        // Then check type compatibility
         let t1 = type_info.types.get(&v1);
         let t2 = type_info.types.get(&v2);
         match (t1, t2) {
@@ -316,8 +424,16 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
         }
     };
 
-    // Helper to add bidirectional connection if types are compatible
+    // Helper to add bidirectional connection if types AND semantic origins are compatible
     let mut add_connection = |v1: (u16, u32), v2: (u16, u32), connections: &mut HashMap<(u16, u32), HashSet<(u16, u32)>>| {
+        // Check semantic origins first (P1-S07 fix)
+        let o1 = semantic_origins.get(&v1).copied().unwrap_or(SemanticOrigin::Other);
+        let o2 = semantic_origins.get(&v2).copied().unwrap_or(SemanticOrigin::Other);
+        if !origins_compatible(o1, o2) {
+            return;
+        }
+
+        // Then check type compatibility
         let t1 = type_info.types.get(&v1);
         let t2 = type_info.types.get(&v2);
         let compatible = match (t1, t2) {

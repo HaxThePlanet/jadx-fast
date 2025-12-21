@@ -324,7 +324,7 @@ Unknown
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
 | `ModVisitor.java` (633 lines) | `mod_visitor.rs` (831 lines) | PARTIAL | Missing patterns |
-| `SimplifyVisitor.java` (637 lines) | `simplify.rs` (1,646 lines) | PARTIAL | Basic simplification |
+| `SimplifyVisitor.java` (637 lines) | `simplify.rs` (1,687 lines) | PARTIAL | CMP unwrapping, Phase 3 dead CMP elimination |
 | `CodeShrinkVisitor.java` | `code_shrink.rs` (1,052 lines) | DONE | Variable inlining |
 | `ConstInlineVisitor.java` (307 lines) | `const_inline.rs` (427 lines) | DONE | Constant inlining |
 | `ReplaceNewArray.java` | `mod_visitor.rs` | DONE | Array init patterns |

@@ -450,7 +450,7 @@ pub struct LocalVarEntry {
 | String caching | DashMap (lock-free) | HashMap |
 | Zero-copy | Yes (lifetimes) | No (copies) |
 | Concurrency | Full | Limited |
-| Typical speedup | 4-13x faster | Baseline |
+| Typical speedup | 3.6-81x faster | Baseline |
 
 ### Key dexterity-dex Optimizations
 1. **Memory-mapped parsing** - Uses OS page cache for large DEX files

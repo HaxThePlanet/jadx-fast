@@ -178,13 +178,18 @@ This is the expected behavior - graceful failure with clear error messaging.
 
 ---
 
-## GAP-002: Variable Naming Gaps
+## GAP-002: Variable Naming Gaps - FIXED
 
-### Semantic Method Return Naming
+**Status:** FIXED (Dec 21, 2025)
 
-JADX assigns semantic names based on method call results (e.g., `iMin` for `Math.min()` result). Dexterity uses type-based naming instead. Quality: 0.70-0.81 vs JADX 0.93.
+Previously, Dexterity variable naming quality was 0.70-0.81 vs JADX 0.93. This has been addressed with:
 
-See [ISSUE_TRACKER.md](ISSUE_TRACKER.md#p2-quality-gaps) for tracking.
+- **OBJ_ALIAS exact matching** - Changed from contains() to exact FQN matching
+- **GOOD_VAR_NAMES set** - 13 mappings (JADX has 5): size, length, list, map, next, prev, current, key, value, entries, keys, values
+- **toString() handling** - Returns declaring class name (e.g., Pattern.toString() -> "pattern")
+- **Type+method fallback** - make_type_method_name() (e.g., Pattern.compile() -> "patternCompile")
+
+See [ISSUE_TRACKER.md](ISSUE_TRACKER.md#fixed-issues-dec-21-2025) for details.
 
 ### Undefined Variable References (Fixed)
 

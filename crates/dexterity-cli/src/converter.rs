@@ -1129,7 +1129,7 @@ fn convert_method(
 
             // Convert try-catch blocks (these are lightweight and can be stored now)
             if let Ok(try_items) = code_item.try_items() {
-                if let Ok(catch_handlers) = code_item.catch_handlers() {
+                if let Ok(catch_handlers) = code_item.catch_handlers_with_offsets() {
                     method.try_blocks = convert_try_catch_blocks(dex, &try_items, &catch_handlers);
                 }
             }
@@ -1143,7 +1143,7 @@ fn convert_method(
 fn convert_try_catch_blocks(
     dex: &DexReader,
     try_items: &[dexterity_dex::sections::TryItem],
-    catch_handlers: &[dexterity_dex::sections::CatchHandler],
+    catch_handlers: &std::collections::HashMap<u16, dexterity_dex::sections::CatchHandler>,
 ) -> Vec<dexterity_ir::TryBlock> {
     use dexterity_ir::{ExceptionHandler, TryBlock};
 
@@ -1151,20 +1151,23 @@ fn convert_try_catch_blocks(
 
     for try_item in try_items {
         // Find the handler for this try item
-        // handler_off is an index into the catch_handlers list
-        let handler_idx = try_item.handler_off as usize;
+        // Try multiple offset interpretations:
+        // 1. Direct offset (most common)
+        // 2. Code unit offset (offset * 2) for some DEX variations
+        let handler = catch_handlers.get(&try_item.handler_off)
+            .or_else(|| catch_handlers.get(&(try_item.handler_off * 2)));
 
-        let handlers = if handler_idx < catch_handlers.len() {
-            let catch_handler = &catch_handlers[handler_idx];
+        let handlers = if let Some(catch_handler) = handler {
             let mut handlers = Vec::with_capacity(catch_handler.pairs.len() + 1);
 
             // Add typed exception handlers
             for pair in &catch_handler.pairs {
                 // Resolve type name from type_idx
-                let exception_type = dex.get_type(pair.type_idx)
-                    .ok()
-                    .as_ref()
-                    .map(|t| strip_descriptor(t).to_string());
+                // If resolution fails, use "Exception" as fallback (not catch-all)
+                let exception_type = match dex.get_type(pair.type_idx) {
+                    Ok(t) => Some(strip_descriptor(&t).to_string()),
+                    Err(_) => Some("java/lang/Exception".to_string()), // Fallback, not catch-all
+                };
 
                 handlers.push(ExceptionHandler {
                     exception_type,

@@ -57,24 +57,29 @@ Regenerate the decompiled output in the 'output' directory using both dexterity 
 
 Ensure outputs are organized logically. The current structure is:
 ```
-/mnt/nvme4tb/jadx-fast/output/
+/mnt/nvme4tb/dexterity/output/
 ├── dexterity/
-│   ├── small/
-│   ├── medium/
-│   ├── large/
-│   └── badboy/
+│   ├── small/        # 1 Java file
+│   ├── medium/       # 2,890 Java files
+│   ├── large/        # 5,901 Java files
+│   ├── badboy/       # 53 Java files
+│   └── badboy-x86/   # 13 Java files
 └── jadx/
     ├── small/
     ├── medium/
     ├── large/
-    └── badboy/
+    ├── badboy/
+    └── badboy-x86/
 ```
 
-Source APK/DEX reference files are in the crates directory:
-- `/mnt/nvme4tb/jadx-fast/crates/small-jadx/`
-- `/mnt/nvme4tb/jadx-fast/crates/large-jadx/`
+Source APK files are in the apks directory:
+- `/mnt/nvme4tb/dexterity/apks/small.apk`
+- `/mnt/nvme4tb/dexterity/apks/medium.apk`
+- `/mnt/nvme4tb/dexterity/apks/large.apk`
+- `/mnt/nvme4tb/dexterity/apks/badboy.apk`
+- `/mnt/nvme4tb/dexterity/apks/badboy-x86.apk`
 
-Note: medium-jadx and badboy-jadx directories may not exist in the current setup.
+Total decompiled Java files: ~8,858 files across all 5 APK samples.
 
 ## On Completion
 

@@ -11,7 +11,7 @@
 use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{
-    assign_var_names, split_blocks, transform_to_ssa, transform_to_ssa_owned, infer_types, simplify_instructions,
+    assign_var_names, split_blocks_with_handlers, transform_to_ssa, transform_to_ssa_owned, infer_types, simplify_instructions,
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
 };
@@ -56,7 +56,12 @@ pub fn decompile_method(
     }
 
     // Stage 1: Block splitting (pass reference to avoid Vec clone)
-    let blocks = split_blocks(insns);
+    // Collect exception handler addresses - they must be block leaders for proper try-catch detection
+    let handler_addrs: Vec<u32> = method.try_blocks
+        .iter()
+        .flat_map(|tb| tb.handlers.iter().map(|h| h.handler_addr))
+        .collect();
+    let blocks = split_blocks_with_handlers(insns, &handler_addrs);
     if blocks.blocks.is_empty() {
         return None;
     }

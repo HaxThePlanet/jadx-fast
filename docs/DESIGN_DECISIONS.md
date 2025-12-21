@@ -6,7 +6,7 @@ By default, Dexterity **skips framework and common library classes** for faster 
 
 ### Why Filter?
 
-1. **Performance:** 2-10x faster decompilation
+1. **Performance:** 3.6-81x faster decompilation
 2. **Output Size:** 50-95% smaller output
 3. **Focus:** App code is what you usually want to analyze
 4. **Stability:** Framework classes are well-documented and rarely need decompilation

@@ -44,7 +44,7 @@ High-performance Android decompiler written in Rust, targeting 1:1 JADX parity.
 | Document | Description |
 |----------|-------------|
 | [DEX Parity](DEX_PARITY.md) | 100% - Binary parsing |
-| [Codegen Parity](CODEGEN_PARITY.md) | 94% - Java generation |
+| [Codegen Parity](CODEGEN_PARITY.md) | B+ Grade - Java generation |
 | [Kotlin Parity](KOTLIN_PARITY.md) | 100% - Complete metadata parsing |
 | [Passes Comparison](PASSES_COMPARISON.md) | 95% - Optimization passes |
 

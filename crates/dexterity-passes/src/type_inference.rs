@@ -881,20 +881,36 @@ impl TypeInference {
                 if let Some(obj_var) = self.var_for_arg(object) {
                     self.add_constraint(Constraint::ObjectType(obj_var));
                 }
-                if let Some(val_var) = self.var_for_arg(value) {
-                    if let Some(ref lookup) = self.field_lookup {
-                        if let Some(field_ty) = lookup(*field_idx) {
-                            // Use UseBound - the value must be assignable to the field type
-                            if !matches!(field_ty, ArgType::Unknown) {
-                                self.add_constraint(Constraint::UseBound(
+                if let Some(ref lookup) = self.field_lookup {
+                    if let Some(field_ty) = lookup(*field_idx) {
+                        // NEW: Handle boolean context for literals (P1-S02 fix)
+                        let handled_as_boolean = if matches!(field_ty, ArgType::Boolean) {
+                            if let InsnArg::Register(reg) = value {
+                                if self.boolean_literal_candidates.contains_key(&(reg.reg_num, reg.ssa_version)) {
+                                    let val_var = self.get_or_create_var(reg);
+                                    self.add_constraint(Constraint::Equals(
+                                        val_var,
+                                        InferredType::Concrete(ArgType::Boolean),
+                                    ));
+                                    true
+                                } else { false }
+                            } else { false }
+                        } else { false };
+
+                        if !handled_as_boolean {
+                            if let Some(val_var) = self.var_for_arg(value) {
+                                // Use UseBound - the value must be assignable to the field type
+                                if !matches!(field_ty, ArgType::Unknown) {
+                                    self.add_constraint(Constraint::UseBound(
+                                        val_var,
+                                        field_ty.clone(),
+                                    ));
+                                }
+                                self.add_constraint(Constraint::Subtype(
                                     val_var,
-                                    field_ty.clone(),
+                                    InferredType::Concrete(field_ty),
                                 ));
                             }
-                            self.add_constraint(Constraint::Subtype(
-                                val_var,
-                                InferredType::Concrete(field_ty),
-                            ));
                         }
                     }
                 }
@@ -922,20 +938,36 @@ impl TypeInference {
             }
 
             InsnType::StaticPut { field_idx, value } => {
-                if let Some(val_var) = self.var_for_arg(value) {
-                    if let Some(ref lookup) = self.field_lookup {
-                        if let Some(field_ty) = lookup(*field_idx) {
-                            // UseBound - the value must be assignable to the field type
-                            if !matches!(field_ty, ArgType::Unknown) {
-                                self.add_constraint(Constraint::UseBound(
+                if let Some(ref lookup) = self.field_lookup {
+                    if let Some(field_ty) = lookup(*field_idx) {
+                        // NEW: Handle boolean context for literals (P1-S02 fix)
+                        let handled_as_boolean = if matches!(field_ty, ArgType::Boolean) {
+                            if let InsnArg::Register(reg) = value {
+                                if self.boolean_literal_candidates.contains_key(&(reg.reg_num, reg.ssa_version)) {
+                                    let val_var = self.get_or_create_var(reg);
+                                    self.add_constraint(Constraint::Equals(
+                                        val_var,
+                                        InferredType::Concrete(ArgType::Boolean),
+                                    ));
+                                    true
+                                } else { false }
+                            } else { false }
+                        } else { false };
+
+                        if !handled_as_boolean {
+                            if let Some(val_var) = self.var_for_arg(value) {
+                                // UseBound - the value must be assignable to the field type
+                                if !matches!(field_ty, ArgType::Unknown) {
+                                    self.add_constraint(Constraint::UseBound(
+                                        val_var,
+                                        field_ty.clone(),
+                                    ));
+                                }
+                                self.add_constraint(Constraint::Subtype(
                                     val_var,
-                                    field_ty.clone(),
+                                    InferredType::Concrete(field_ty),
                                 ));
                             }
-                            self.add_constraint(Constraint::Subtype(
-                                val_var,
-                                InferredType::Concrete(field_ty),
-                            ));
                         }
                     }
                 }

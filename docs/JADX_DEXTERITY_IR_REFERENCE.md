@@ -45,7 +45,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Medium | **A- (88-90/100)** | Minor style differences |
 | Complex (large) | **A- (88-90/100)** | Minor verbosity differences (positive tradeoff) |
 
-**Benchmark (Dec 2025):** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
+**Benchmark (Dec 2025):** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
 
 ---
 

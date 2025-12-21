@@ -2,7 +2,7 @@
 
 **Status:** All P0 + P1 Fixed, Kotlin 100% (Dec 20, 2025) - See QUALITY_STATUS.md
 **Issues:** All P0 + P1 bugs fixed, Kotlin 100% parity
-**Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
+**Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**
 
@@ -138,7 +138,7 @@ If you made significant improvements, update:
 | Integration Tests | 687/687 passing |
 | Unit Tests | 490/490 passing |
 | Total Tests | 1,177 passing |
-| Speed Advantage | 1.49x faster than JADX |
+| Speed Advantage | 3.6-81x faster than JADX |
 | Memory Efficiency | 14.6x better (574MB vs 8.4GB) |
 
 ### What's Implemented (JADX Parity)

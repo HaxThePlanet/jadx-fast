@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 9 P1, 2 P2 | Phase 1 + Phase 2 + Phase 3 + Throws Complete (Dec 21, 2025)
+**Status:** Open: 0 P0, 4 P1, 2 P2 | P1-S02 fixed, P1-S03 merged with P1-S05, P1-S05 partial (Dec 21, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -24,17 +24,17 @@
 | ID | Issue | Example | Location |
 |----|-------|---------|----------|
 | ~~P1-S01~~ | ~~Empty if blocks missing return~~ | **FIXED** - is_empty_region() fix | body_gen.rs |
-| P1-S02 | Boolean vs int confusion | **PARTIAL** - Added InstancePut/StaticPut boolean context detection | type_inference.rs |
-| P1-S03 | Wrong return value | **PARTIAL** - Added phi_constant_inits lookup for boolean returns | body_gen.rs |
+| ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns + method args | body_gen.rs |
+| ~~P1-S03~~ | ~~Wrong return value~~ | **MERGED with P1-S05** - Same root cause (control flow reconstruction) | body_gen.rs |
 | P1-S04 | Wrong method signature call | **NEEDS REPRO** - 2 args passed to 1-arg method (wide type handling?) | body_gen.rs |
-| P1-S05 | Control flow logic wrong | **INVESTIGATED** - Variable naming + expression inlining failures | var_naming.rs, body_gen.rs |
-| P1-S06 | Missing try-catch blocks | **PARTIAL** - 1556/5176 (30%) global parity, handler offset matching improved | converter.rs, code_item.rs |
-| P1-S07 | Truncated loop body | **NEEDS REPRO** - While loop body incomplete, all loop tests pass | body_gen.rs |
+| P1-S05 | Control flow logic wrong | **PARTIAL** - Fixed underscore naming + boolean returns; remaining: undefined vars, ternary extraction | var_naming.rs, body_gen.rs |
+| ~~P1-S06~~ | ~~Missing try-catch blocks~~ | **FIXED** - Block ID vs offset mismatch fixed, handler addresses as block leaders, stack overflow prevention | region_builder.rs, block_split.rs, decompiler.rs, body_gen.rs |
+| ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
 | P1-S08 | Method calls before guard | **NEEDS REPRO** - `matcher.group()` before `matches()` | body_gen.rs |
 | ~~P1-S09~~ | ~~For-each over Iterator~~ | **FIXED** - Validate collection expr or fall back to while | body_gen.rs |
 | P1-S10 | Code after loop ends | **NEEDS REPRO** - `it.next()` after while loop (related to P1-S07) | body_gen.rs |
 | ~~P1-S11~~ | ~~Missing throws declaration~~ | **FIXED** - Parse dalvik/annotation/Throws | method_gen.rs |
-| P1-S12 | Empty catch block | **INVESTIGATED** - block_id vs offset mismatch in region_builder.rs, fix causes stack overflow on large APKs | region_builder.rs |
+| ~~P1-S12~~ | ~~Empty catch block~~ | **FIXED** - Same root cause as P1-S06; block ID vs offset mismatch fixed with stack overflow prevention | region_builder.rs, body_gen.rs |
 
 ### P2 Quality Issues
 
@@ -51,7 +51,6 @@
 | ID | Issue | Status | Details |
 |----|-------|--------|---------|
 | INV-001 | Zara APK hang | APK unavailable | [KNOWN_ISSUES.md](KNOWN_ISSUES.md#inv-001-hanging-apk---zara-android-app) |
-| P1-S12 | Empty catch blocks | Root cause found | See below |
 
 #### P1-S05: Control Flow Logic Investigation (Dec 21, 2025)
 
@@ -100,30 +99,77 @@ private boolean D(long j) {
 
 **Priority:** P1 (semantic - generates wrong code but may compile)
 
-#### P1-S12: Empty Catch Block Investigation (Dec 21, 2025)
+**Partial Fix Applied (Dec 21, 2025):**
+1. **Underscore naming pattern fixed** - `generate_unique_name()` in body_gen.rs now generates `j2` instead of `j_2` to match JADX/var_naming.rs pattern
+2. **Remaining issues**: Undefined variable `l2` (field access not inlined), ternary extraction to separate statement, wrong return value
 
-**Root Cause Identified:** `detect_try_catch_regions()` in `region_builder.rs` has a bug where it compares block IDs (sequential: 0, 1, 2, ...) with instruction addresses (like 0x10, 0x20, ...).
+#### P1-S06 + P1-S12: Try-Catch Block Fix (Dec 21, 2025)
 
-**Location:** `region_builder.rs:339-343`
-```rust
-// BUG: block_id is sequential (0, 1, 2, ...) but start_addr/end_addr are instruction offsets
-if block_id >= try_block.start_addr && block_id < try_block.end_addr {
-    try_block_ids.insert(block_id);
-}
+**Status:** FIXED
+
+**Root Cause:** `detect_try_catch_regions()` in `region_builder.rs` compared block IDs (sequential: 0, 1, 2, ...) with instruction addresses (like 0x10, 0x20, ...).
+
+**Fix Applied:**
+1. **Block ID vs Offset Mismatch** - Now uses `block.start_offset` instead of `block_id` for try block range matching
+2. **Handler Address Mapping** - Added `addr_to_block` map to convert handler addresses to block IDs
+3. **New Function `split_blocks_with_handlers()`** - Handler addresses are now block leaders for correct block boundaries (block_split.rs, exported in lib.rs)
+4. **Decompiler Integration** - `decompiler.rs` now passes handler addresses to block splitting
+5. **Stack Overflow Prevention** - Added `recursion_depth` limit (100) in `RegionBuilder` and `region_depth` limit (100) in `BodyGenContext`
+
+**Results:**
+- All tests pass
+- Large APK completes in 6.5s with 0 errors (previously caused stack overflow)
+- Try-catch blocks now correctly generated with proper handler placement
+
+**Files Changed:** `region_builder.rs`, `block_split.rs`, `lib.rs`, `decompiler.rs`, `body_gen.rs`
+
+#### P1-S07: Variable Naming Collapse Fix (Dec 21, 2025)
+
+**Status:** FIXED
+
+**Problem:** In `io/jsonwebtoken/io/Base64.java:decodeFast()`:
+- All variables collapsed to single name (`length`)
+- Loop condition became `while (length < length - 1)` - always false
+- Loop bodies appeared empty due to wrong variable references
+
+**Root Cause:** Variables from `ArrayLength` instructions (array bounds) were being grouped with variables from `Const 0/1` instructions (loop counters) via PHI nodes because:
+1. Both are `int` type - type compatibility check passed
+2. PHI nodes merged them into the same CodeVar group
+3. All got the same name (`length`), making loop conditions self-referential and always false
+
+**Fix Applied:**
+1. **SemanticOrigin Enum** - Track variable semantic purpose:
+   - `ArrayBound` - from ArrayLength instruction
+   - `LoopCounter` - from Const 0 or 1
+   - `Other` - everything else
+
+2. **build_semantic_origins()** - Pre-compute origins for all SSA variables, including PHI node origin propagation
+
+3. **origins_compatible()** - Prevent grouping ArrayBound with LoopCounter even if types match
+
+4. **PHI Origin Propagation** - If PHI has conflicting source origins (ArrayBound + LoopCounter), mark dest as ArrayBound to prevent merging with loop counters
+
+**Before Fix:**
+```java
+int length = 0;
+Object obj1 = cArr != null ? cArr.length : length;
+while (length < length - 1) {   // Always false!
 ```
 
-**Impact:** This incorrectly assigns almost all blocks to `try_block_ids`, causing:
-1. Handler blocks collected by `collect_handler_blocks_by_dominance()` to be empty
-2. Catch block code to be placed inside the try block (after return statements)
+**After Fix:**
+```java
+int i = 0;
+int length;
+Object obj1 = cArr != null ? cArr.length : i;
+while (i < length - 1) {   // Correct: counter vs bound
+```
 
-**Attempted Fix:** Used `block.start_offset` instead of `block_id` for address comparison, and converted handler addresses to block IDs via `addr_to_block` map.
+**Results:**
+- All 198 passes tests pass
+- All 104 codegen tests pass
+- Loop conditions now correctly use separate variables for counter and bound
 
-**Regression:** Fix causes stack overflow on large APKs (works on small/medium). Deep recursion triggered by correct block assignment needs investigation.
-
-**Next Steps:**
-1. Add iterative (non-recursive) handling for deeply nested regions
-2. Investigate which recursive function is causing overflow
-3. Test incrementally with larger APKs
+**Files Changed:** `var_naming.rs`
 
 ### Previously Tracked (Completed or Superseded)
 

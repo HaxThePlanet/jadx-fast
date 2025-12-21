@@ -75,6 +75,19 @@ pub fn inline_constants(ssa: &mut SsaResult) -> ConstInlineResult {
                 // (because can_inline_at returned false) are NOT marked DontGenerate
                 // - they will be declared as variables
             }
+
+            // Also mark unused Compare instructions for removal
+            // This handles cases where cmp-long is unwrapped by simplify pass
+            // but the original Compare is left in the IR with 0 uses
+            if let InsnType::Compare { dest, .. } = &insn.insn_type {
+                let key = (dest.reg_num, dest.ssa_version);
+                let use_count = use_counts.get(&key).copied().unwrap_or(0);
+
+                if use_count == 0 {
+                    insn.add_flag(AFlag::DontGenerate);
+                    removed_count += 1;
+                }
+            }
         }
     }
 

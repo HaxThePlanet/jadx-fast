@@ -54,7 +54,8 @@
 //!
 //! Based on JADX's SimplifyVisitor patterns.
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
+use dexterity_ir::attributes::AFlag;
 use dexterity_ir::instructions::{BinaryOp, CastType, CompareOp, IfCondition, InsnArg, InsnNode, InsnType, LiteralArg, UnaryOp, RegisterArg};
 use dexterity_ir::types::ArgType;
 use crate::ssa::SsaResult;
@@ -64,6 +65,8 @@ use crate::ssa::SsaResult;
 pub struct SimplifyResult {
     /// Number of instructions simplified
     pub simplified_count: usize,
+    /// Number of Compare instructions marked for removal (after CMP unwrapping)
+    pub dead_cmp_count: usize,
 }
 
 /// Simplify instructions in SSA form
@@ -105,9 +108,31 @@ pub fn simplify_instructions(ssa: &mut SsaResult, types: Option<&HashMap<(u16, u
         }
     }
 
-    // Phase 2: Apply simplifications
+    // Phase 2: Apply simplifications and track which CMP instructions were unwrapped
+    // When an If instruction uses a CMP result and we simplify it, the CMP becomes dead
+    let mut unwrapped_cmps: HashSet<(u16, u32)> = HashSet::new();
+
     for block in &mut ssa.blocks {
         for insn in &mut block.instructions {
+            // Check if this is an If instruction that uses a CMP result
+            if let InsnType::If { left, right, .. } = &insn.insn_type {
+                // Check if we're comparing a CMP result to zero (the pattern we unwrap)
+                if let InsnArg::Register(reg) = left {
+                    let key = (reg.reg_num, reg.ssa_version);
+                    if cmp_defs.contains_key(&key) {
+                        let comparing_to_zero = match right {
+                            Some(InsnArg::Literal(LiteralArg::Int(0))) => true,
+                            None => true, // *z variants implicitly compare to 0
+                            _ => false,
+                        };
+                        if comparing_to_zero {
+                            // This CMP will be unwrapped, track it as dead
+                            unwrapped_cmps.insert(key);
+                        }
+                    }
+                }
+            }
+
             if let Some(new_insn) = simplify_insn(insn, types, &unary_defs, &cmp_defs, &cast_defs, &check_cast_defs) {
                 *insn = new_insn;
                 simplified_count += 1;
@@ -115,7 +140,22 @@ pub fn simplify_instructions(ssa: &mut SsaResult, types: Option<&HashMap<(u16, u
         }
     }
 
-    SimplifyResult { simplified_count }
+    // Phase 3: Mark unwrapped Compare instructions with DontGenerate flag
+    // These CMP instructions had their results inlined into If conditions and are now dead
+    let mut dead_cmp_count = 0;
+    for block in &mut ssa.blocks {
+        for insn in &mut block.instructions {
+            if let InsnType::Compare { dest, .. } = &insn.insn_type {
+                let key = (dest.reg_num, dest.ssa_version);
+                if unwrapped_cmps.contains(&key) && !insn.has_flag(AFlag::DontGenerate) {
+                    insn.add_flag(AFlag::DontGenerate);
+                    dead_cmp_count += 1;
+                }
+            }
+        }
+    }
+
+    SimplifyResult { simplified_count, dead_cmp_count }
 }
 
 /// Try to simplify a single instruction

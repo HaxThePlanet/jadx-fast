@@ -24,14 +24,20 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 ## Performance
 
-Benchmarked on 24 APKs (977 MB total):
+Benchmarked on 5 APKs (110 MB total) on 100GB RAM disk:
 
-| Metric | Dexterity | JADX | Advantage |
-|--------|-----------|------|-----------|
-| Wall Clock | 101s | 107s | **6% faster** |
-| Peak Memory | 758 MB | 21 GB | **28x less** |
-| Errors | 0 | 143 | **Zero errors** |
+| APK | Size | JADX | Dexterity | Speedup |
+|-----|------|------|-----------|---------|
+| small.apk | 9.7 KB | 1.465s | 0.018s | **81.4x** |
+| badboy.apk | 24 MB | 2.814s | 0.239s | **11.8x** |
+| badboy-x86.apk | 24 MB | 2.505s | 0.233s | **10.8x** |
+| medium.apk | 11 MB | 12.673s | 1.457s | **8.7x** |
+| large.apk | 52 MB | 16.559s | 4.587s | **3.6x** |
 
+**Key advantages:**
+- **3.6-81x faster** than JADX on real-world APKs
+- **28x less memory** (758 MB vs 21 GB on 24 APK benchmark)
+- **Zero errors** (0 vs 143 on 24 APK benchmark)
 - Scales to 56+ CPU cores (92% efficiency at 16 cores)
 - See [PERFORMANCE.md](docs/PERFORMANCE.md) for detailed benchmarks
 

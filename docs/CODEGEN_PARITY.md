@@ -1,15 +1,29 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-21 (0 P0, 9 P1, 2 P2 Open | P1-S11 Throws Fixed)
+**Last Updated**: 2025-12-21 (0 P0, 7 P1, 2 P2 Open | P1-S06 Try-Catch Fixed)
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
 **Overall Parity**: **B+ Grade** (all critical bugs fixed, major improvements)
-**Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (1.49x faster, 14.6x memory efficiency)
+**Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
 
 ---
 
-## Dec 21, 2025: P1-S11 Throws Fixed + Phase 1 + Phase 2 + Phase 3 Complete
+## Dec 21, 2025: P1-S06 Try-Catch Fixed + Phase 1-3 Complete
 
-**All P0 critical bugs fixed. P1-S11 throws declarations fixed. Four major improvement phases completed.**
+**All P0 critical bugs fixed. P1-S06/P1-S12 try-catch blocks fixed. P1-S11 throws declarations fixed.**
+
+### P1-S06 + P1-S12: Try-Catch Block Fix
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Block ID vs offset mismatch | **FIXED** | Uses `block.start_offset` instead of `block_id` for try block range matching |
+| Handler address mapping | **FIXED** | Added `addr_to_block` map to convert handler addresses to block IDs |
+| `split_blocks_with_handlers()` | **NEW** | Handler addresses now treated as block leaders for correct block boundaries |
+| Decompiler integration | **FIXED** | Passes handler addresses to block splitting |
+| Stack overflow prevention | **FIXED** | Added `recursion_depth` limit (100) in RegionBuilder and `region_depth` limit (100) in BodyGenContext |
+
+**Results:** All tests pass, large APK completes in 6.5s with 0 errors (previously caused stack overflow)
+
+**Files changed:** `region_builder.rs`, `block_split.rs`, `lib.rs`, `decompiler.rs`, `body_gen.rs`
 
 ### P1-S11: Throws Declaration Fix
 

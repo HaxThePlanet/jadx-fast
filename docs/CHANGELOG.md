@@ -2,6 +2,147 @@
 
 ## December 2025
 
+### Dec 21, 2025 - P1-S02 Boolean Method Argument Fix (Extension)
+
+**Extended boolean literal conversion to method arguments**
+
+Method calls with boolean parameters now receive `true`/`false` instead of int variables.
+
+**Problem:**
+```java
+final int i = 1;
+return tokenizeToStringArray(str, str2, i, i);  // Wrong: passes int
+```
+
+**Fix Applied:**
+- Extended `write_arg_inline_typed()` to check `const_values` for boolean parameters
+- When target type is Boolean and register holds constant 0/1, emit `false`/`true`
+
+**Results:**
+- 27 additional boolean argument fixes
+- All 687 tests pass
+
+**Files changed:** `body_gen.rs`
+
+### Dec 21, 2025 - P1-S02 Boolean Return Value Fix
+
+**Fixed boolean return statements returning int constants**
+
+Boolean methods that returned int variables (set to 0 or 1) now correctly return `true`/`false`.
+
+**Problem:**
+```java
+public boolean equals(Object obj) {
+    final int i = 1;
+    if (obj == this) {
+        return i;  // Wrong: returns int variable
+    }
+    ...
+}
+```
+
+**Fix Applied:**
+1. Added `const_values` HashMap to track all Const instruction values
+2. Added `collect_const_values()` function in `body_gen.rs`
+3. Updated return statement handler to check const_values for boolean context
+
+**Results:**
+- 59.6% reduction in `return variable;` patterns (6241 → 2521)
+- Boolean methods now return `true`/`false` instead of int variables
+- All 687 tests pass
+
+**Files changed:** `body_gen.rs`
+
+### Dec 21, 2025 - P1-S05 Variable Naming Underscore Fix (Partial)
+
+**Fixed variable naming pattern to match JADX**
+
+The `generate_unique_name()` function in `body_gen.rs` was generating names like `j_2`, `factory_2` with underscores, while JADX generates `j2`, `factory2` without underscores.
+
+**Fix Applied:**
+- Changed `format!("{}_{}", base_name, suffix)` to `format!("{}{}", base_name, suffix)` in `body_gen.rs:707`
+- Now matches the `make_unique()` pattern in `var_naming.rs`
+
+**Results:**
+- 87.6% reduction in underscore naming patterns (25,251 → 3,122)
+- Remaining patterns are intentional loop labels like `loop_23`
+- All 687 tests pass
+
+**Files changed:** `body_gen.rs`
+
+**Remaining P1-S05 issues:** Undefined variable references (`l2`), ternary extraction to separate statements, wrong return values - these require deeper control flow fixes.
+
+### Dec 21, 2025 - P1-S06 + P1-S12 Try-Catch Block Fix
+
+**Try-Catch Region Detection Fixed**
+
+Root cause: `detect_try_catch_regions()` in `region_builder.rs` compared block IDs (sequential: 0, 1, 2, ...) with instruction addresses (like 0x10, 0x20, ...), causing incorrect block assignment.
+
+**Fixes Applied:**
+
+1. **Block ID vs Offset Mismatch** - Now uses `block.start_offset` instead of `block_id` for try block range matching in `region_builder.rs`
+
+2. **Handler Address Mapping** - Added `addr_to_block` map to convert handler addresses to block IDs for correct handler block identification
+
+3. **New Function `split_blocks_with_handlers()`** - Handler addresses are now treated as block leaders for correct block boundaries. Added to `block_split.rs` and exported in `lib.rs`
+
+4. **Decompiler Integration** - Updated `decompiler.rs` to pass handler addresses to block splitting
+
+5. **Stack Overflow Prevention** - Added recursion depth limits to prevent infinite recursion on complex control flow:
+   - `recursion_depth` limit (100) in `RegionBuilder` (`region_builder.rs`)
+   - `region_depth` limit (100) in `BodyGenContext` (`body_gen.rs`)
+
+**Results:**
+- All tests pass
+- Large APK completes in 6.5s with 0 errors (previously caused stack overflow)
+- Try-catch blocks now correctly generated with proper handler placement
+
+**Files changed:** `region_builder.rs`, `block_split.rs`, `lib.rs`, `decompiler.rs`, `body_gen.rs`
+
+### Dec 21, 2025 - Resources 1:1 JADX Parity Achieved
+
+**Resources Output Now Identical to JADX (103 directories, 152 files, zero differences)**
+
+Five key fixes achieved complete resource extraction parity:
+
+1. **Gravity Flag Decoding** - Added `decode_gravity_flags()` in axml.rs that properly decomposes compound values like `0x800013` into `start|center_vertical`
+
+2. **Resource Name Suffix Fix** - Fixed duplicate detection in arsc.rs so same resource ID with different configs (drawable + drawable-v21) are no longer treated as duplicates. Only adds `_res_0x{id}` suffix for actual name collisions.
+
+3. **Version Qualifier Stripping** - Updated `normalize_config_qualifier()` in main.rs to strip standalone version qualifiers from binary XML paths (`layout-v21` becomes `layout`)
+
+4. **xmlns Attribute Order** - Sort namespace declarations to put `android` first for JADX compatibility
+
+5. **tileMode Enum** - Added tileMode enum decoding (`1` becomes `repeat`)
+
+**Files changed:** `axml.rs`, `arsc.rs`, `main.rs`
+
+### Dec 21, 2025 - Output Refresh Completed
+
+**All 5 APK Samples Refreshed**
+- Total Java files decompiled: ~8,858 files
+  - small: 1 file
+  - medium: 2,890 files
+  - large: 5,901 files
+  - badboy: 53 files
+  - badboy-x86: 13 files
+- Output location consolidated: `output/dexterity/`
+- Root-level extraction directories cleaned up
+
+**Fixes Verified in Output**
+- Debug opcode fix (DBG_SET_FILE): Working correctly in decompiled output
+- Config qualifier fix (BCP-47 locale tags): Verified in resource directories
+
+### Dec 21, 2025 - P1-S11 Throws Declaration Fix
+
+**Throws Clause Support (P1-S11)**
+- Parse `dalvik/annotation/Throws` from DEX annotations to extract declared exceptions
+- Added `get_throws_from_annotations()` to extract exception types from annotation array
+- Added `collect_throws_from_instructions()` for static mapping of common exception-throwing methods
+- Caught exception filtering: skip exceptions already handled in try-catch blocks
+- Throws parity improved from ~13.7% to 41.7% (3x improvement)
+- File: `crates/dexterity-codegen/src/method_gen.rs`
+
 ### Dec 21, 2025 - DEX Debug Opcodes + Resource Qualifiers
 
 **dexterity-dex: Debug Opcode Fix**
@@ -9,19 +150,28 @@
 - Previously skipped without consuming the argument, causing parse offset drift
 - File: `crates/dexterity-dex/src/sections/code_item.rs`
 
-**dexterity-resources: BCP-47 Locale Support**
+**dexterity-resources: BCP-47 Locale Support (RES-001)**
 - Implemented proper BCP-47 locale tag formatting (`b+language+script+region+variant`)
 - Added support for `locale_variant` field (e.g., POSIX variants)
 - Distinguishes between old-style (`pt-rBR`) and BCP-47 (`b+sr+Latn`) formats
+- Fix location: `crates/dexterity-resources/src/arsc.rs:205-274`
 - Added 5 new unit tests for qualifier handling:
   - `test_qualifier_string_old_style_locale`
   - `test_qualifier_string_bcp47_with_script`
   - `test_qualifier_string_bcp47_with_variant`
   - `test_qualifier_string_default`
   - `test_qualifier_string_with_density`
-- File: `crates/dexterity-resources/src/arsc.rs`
+- **Validation Status:** COMPLETE AND WORKING (5/5 tests passing)
+- **JADX Comparison:** Identical output for BCP-47, old-style locales, density, and API level qualifiers
 
-### Dec 21, 2025 - Phase 1 + Phase 2 Complete
+### Dec 21, 2025 - Phase 1 + Phase 2 + Phase 3 Complete
+
+**Phase 3: Dead CMP Elimination (P2-Q05 Fix)**
+- Fixed unused Compare variable declarations (e.g., `int compare = cmp_long(a, b);`)
+- Added `SimplifyResult.dead_cmp_count` field to track CMP instructions marked for removal
+- When CMP results are unwrapped into If conditions, the original CMP is marked with `DontGenerate`
+- Three-phase simplify pass: 1) build maps, 2) apply simplifications and track unwrapped CMPs, 3) mark dead CMPs
+- File: `crates/dexterity-passes/src/simplify.rs`
 
 **Phase 2: Boolean Expression Simplification**
 - Short-circuit OR condition merging: Combined nested if conditions into `a || b` patterns

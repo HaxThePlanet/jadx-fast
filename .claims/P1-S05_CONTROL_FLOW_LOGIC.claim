@@ -1,0 +1,24 @@
+# P1-S05: Control Flow Logic Wrong
+Claimed: 2025-12-21
+Agent: Claude Opus 4.5 (claude-opus-4-5-20251101)
+
+## Task
+Fix control flow logic issues where variables become undefined and expressions aren't inlined properly.
+
+## Example Method
+`com/amplitude/api/f.java:D(long j)`
+
+## Root Causes (from investigation)
+1. Variable Naming Corruption - `l2` and `j_2` malformed
+2. Undefined Variable `l2` - field access not inlined
+3. Ternary Extraction - extracted to separate statement instead of inline
+4. SSA Version Mismatch - returns wrong variable
+5. Expression Not Inlined - `return a - b < ternary` decomposed into multiple statements
+
+## Files to Modify
+- var_naming.rs
+- body_gen.rs
+- simplify.rs
+
+## Status
+IN PROGRESS

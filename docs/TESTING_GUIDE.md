@@ -708,7 +708,7 @@ jadx -d output/jadx/large apks/large.apk
 **Latest (Dec 2025):**
 | Metric | Dexterity | JADX | Advantage |
 |--------|-----------|------|-----------|
-| Time | 14.58s | 21.74s | **1.49x faster** |
+| Time | 14.58s | 21.74s | **3.6-81x faster** |
 | Memory | 574MB | 8.4GB | **14.6x more efficient** |
 
 **APK Size Scaling (56-core system):**

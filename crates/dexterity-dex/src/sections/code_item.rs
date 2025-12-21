@@ -144,8 +144,15 @@ impl<'a> CodeItem<'a> {
 
     /// Get catch handlers for this code
     pub fn catch_handlers(&self) -> Result<Vec<CatchHandler>> {
+        Ok(self.catch_handlers_with_offsets()?.into_values().collect())
+    }
+
+    /// Get catch handlers with their byte offsets (for matching with TryItem.handler_off)
+    pub fn catch_handlers_with_offsets(&self) -> Result<std::collections::HashMap<u16, CatchHandler>> {
+        use std::collections::HashMap;
+
         if self.tries_size == 0 {
-            return Ok(Vec::new());
+            return Ok(HashMap::new());
         }
 
         let data = self.reader.data();
@@ -155,9 +162,16 @@ impl<'a> CodeItem<'a> {
         let (handler_count, mut pos) = read_uleb128(&data[handlers_offset..])?;
         pos += handlers_offset;
 
-        let mut handlers = Vec::with_capacity(handler_count as usize);
+        // Double capacity to store both index-based and offset-based entries
+        let mut handlers = HashMap::with_capacity(handler_count as usize * 2);
 
-        for _ in 0..handler_count {
+        // Track the first handler separately in case handler_off=0 is used
+        let mut first_handler: Option<CatchHandler> = None;
+
+        for idx in 0..handler_count {
+            // Record offset from start of handler list (before reading this handler's data)
+            let handler_byte_offset = (pos - handlers_offset) as u16;
+
             let (size, len) = read_sleb128(&data[pos..])?;
             pos += len;
 
@@ -181,10 +195,30 @@ impl<'a> CodeItem<'a> {
                 None
             };
 
-            handlers.push(CatchHandler {
+            let handler = CatchHandler {
                 pairs,
                 catch_all_addr,
-            });
+            };
+
+            // Track first handler for offset 0 lookup
+            if idx == 0 {
+                first_handler = Some(handler.clone());
+            }
+
+            // Insert by index first (fallback for some DEX files)
+            let idx_as_offset = idx as u16;
+            handlers.insert(idx_as_offset, handler.clone());
+
+            // Then insert by offset (proper DEX format) - overwrites if same key
+            handlers.insert(handler_byte_offset, handler);
+        }
+
+        // Some DEX files use handler_off=0 to mean "first handler"
+        // Store at offset 0 if not already present
+        if !handlers.contains_key(&0) {
+            if let Some(first) = first_handler {
+                handlers.insert(0, first);
+            }
         }
 
         Ok(handlers)

@@ -1,16 +1,23 @@
 [workspace]
 resolver = "2"
+# Pipeline order: APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codegen -> Java Source
 members = [
-    "dexterity-dex",
-    "dexterity-ir",
-    "dexterity-passes",
-    "dexterity-codegen",
-    "dexterity-cli",
-    "dexterity-resources",
-    "dexterity-deobf",
-    "dexterity-kotlin",
-    "dexterity-qa",
-    "dexterity-llm-postproc",
+    # Core decompilation pipeline
+    "dexterity-dex",           # DEX file format parser (APK/DEX → binary structures)
+    "dexterity-ir",            # Intermediate representation (binary → IR)
+    "dexterity-passes",        # Analysis & optimization passes (IR → optimized IR)
+    "dexterity-codegen",       # Java code generator (IR → Java source)
+
+    # CLI application
+    "dexterity-cli",           # Command-line interface (orchestrates pipeline)
+
+    # Supporting modules
+    "dexterity-resources",     # AXML & ARSC resource parsing
+    "dexterity-deobf",         # Class/method/field name deobfuscation
+    "dexterity-kotlin",        # Kotlin metadata parsing
+    "dexterity-qa",            # Quality assurance & testing tools
+    "dexterity-llm-postproc",  # LLM-based post-processing utilities
+    "dexterity-py",            # Python bindings via PyO3
 ]
 
 [workspace.package]
@@ -72,6 +79,10 @@ criterion = "0.5"
 # Regex
 regex = "1"
 lazy_static = "1.4"
+
+# Python bindings
+pyo3 = { version = "0.22", features = ["extension-module", "abi3-py38"] }
+pyo3-build-config = "0.22"
 
 # Internal crates
 dexterity-dex = { path = "dexterity-dex" }

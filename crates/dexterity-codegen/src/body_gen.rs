@@ -120,6 +120,9 @@ pub struct BodyGenContext {
     /// Maps (reg, version) of PHI destination to its constant initializer string
     /// This fixes: `int i;` -> `int i = 0;` when PHI has a constant source
     pub phi_constant_inits: HashMap<(u16, u32), String>,
+    /// All constant values from Const instructions: (reg, version) -> value string
+    /// Used for boolean return conversion (P1-S02 fix)
+    pub const_values: HashMap<(u16, u32), String>,
     /// Instructions to skip in for-each loops (block_id -> set of instruction indices)
     pub skip_foreach_insns: HashMap<u32, HashSet<usize>>,
     /// StringBuilder chain tracking for optimization
@@ -150,6 +153,8 @@ pub struct BodyGenContext {
     /// Set of blocks that are exception handler entry points
     /// PHI nodes with sources from these blocks need special handling
     pub exception_handler_blocks: HashSet<u32>,
+    /// Current recursion depth for region generation (stack overflow prevention)
+    pub region_depth: usize,
 }
 
 /// Tracks a StringBuilder chain for optimization to string concatenation
@@ -284,6 +289,7 @@ impl BodyGenContext {
             current_package: None,
             phi_declarations: HashSet::new(),
             phi_constant_inits: HashMap::new(),
+            const_values: HashMap::new(),
             skip_foreach_insns: HashMap::new(),
             stringbuilder_chains: HashMap::new(),
             last_stringbuilder_reg: None,
@@ -295,6 +301,7 @@ impl BodyGenContext {
             loop_patterns: dexterity_passes::LoopPatternResult::default(),
             exception_handler_block: None,
             exception_handler_blocks: HashSet::new(),
+            region_depth: 0,
         }
     }
 
@@ -345,6 +352,12 @@ impl BodyGenContext {
 
     /// Store an expression for potential inlining
     pub fn store_inline_expr(&mut self, reg: u16, version: u32, expr: String) {
+        tracing::debug!(
+            reg = reg,
+            version = version,
+            expr = %expr,
+            "Storing inline expression"
+        );
         self.inlined_exprs.insert((reg, version), expr);
     }
 
@@ -361,7 +374,16 @@ impl BodyGenContext {
 
     /// Get inlined expression if available, removing it from storage
     pub fn take_inline_expr(&mut self, reg: u16, version: u32) -> Option<String> {
-        self.inlined_exprs.remove(&(reg, version))
+        let result = self.inlined_exprs.remove(&(reg, version));
+        if result.is_some() {
+            tracing::debug!(
+                reg = reg,
+                version = version,
+                expr = %result.as_ref().unwrap(),
+                "Taking inline expression"
+            );
+        }
+        result
     }
 
     /// Peek at inlined expression without removing it (for checking if it's a constant)
@@ -400,6 +422,20 @@ impl BodyGenContext {
             // Check if we have an inlined expression for this register
             if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
                 return expr;
+            }
+
+            // DEBUG: Check if this variable was supposed to be inlined but isn't available
+            let var_name = self.expr_gen.get_var_name(reg);
+            if !self.is_declared(reg.reg_num, reg.ssa_version)
+                && !self.is_parameter(reg.reg_num, reg.ssa_version)
+                && self.should_inline(reg.reg_num, reg.ssa_version)
+            {
+                tracing::warn!(
+                    reg = reg.reg_num,
+                    version = reg.ssa_version,
+                    name = %var_name,
+                    "BUG: Variable should have been inlined but expression is not available"
+                );
             }
         }
         // Fall back to normal expression generation
@@ -506,6 +542,20 @@ impl BodyGenContext {
                 // Not a convertible literal, use as-is
                 writer.add(&expr);
                 return;
+            }
+
+            // P1-S02 extension: Check const_values for non-inlined constants
+            // This handles: `int i = 1; foo(i)` where i is boolean -> `foo(true)`
+            if matches!(target_type, ArgType::Boolean) {
+                if let Some(const_val) = self.const_values.get(&(reg.reg_num, reg.ssa_version)) {
+                    if const_val == "0" {
+                        writer.add("false");
+                        return;
+                    } else if const_val == "1" {
+                        writer.add("true");
+                        return;
+                    }
+                }
             }
         }
         // Use type-aware formatting for the argument
@@ -697,10 +747,11 @@ impl BodyGenContext {
 
     /// Generate a unique name by adding numeric suffix
     /// Used when incompatible types need separate variable names
+    /// Matches JADX naming pattern: `l2`, `l3`, etc. (no underscore)
     fn generate_unique_name(&self, base_name: &str) -> String {
         let mut suffix = 2;
         loop {
-            let candidate = format!("{}_{}", base_name, suffix);
+            let candidate = format!("{}{}", base_name, suffix);
             if !self.declared_name_types.contains_key(&candidate) {
                 return candidate;
             }
@@ -1007,6 +1058,23 @@ fn collect_phi_constant_inits(
     inits
 }
 
+/// Collect ALL constant values from Const instructions (P1-S02 fix)
+/// Used for boolean return conversion: `return i;` where i=1 -> `return true;`
+fn collect_const_values(
+    ssa_result: &dexterity_passes::ssa::SsaResult,
+) -> HashMap<(u16, u32), String> {
+    let mut const_values: HashMap<(u16, u32), String> = HashMap::new();
+    for block in &ssa_result.blocks {
+        for insn in &block.instructions {
+            if let InsnType::Const { dest, value } = &insn.insn_type {
+                let value_str = format_literal_for_init(value);
+                const_values.insert((dest.reg_num, dest.ssa_version), value_str);
+            }
+        }
+    }
+    const_values
+}
+
 /// Format a literal value for use in variable initialization
 fn format_literal_for_init(lit: &LiteralArg) -> String {
     match lit {
@@ -1258,7 +1326,17 @@ fn emit_assignment_insn<W: CodeWriter>(
             ctx.store_inline_expr(reg, version, expr_str);
             return true;
         }
-        return false;
+        // FIX: When gen_insn_inline fails (returns None), we must NOT return early.
+        // Previously we returned false, leaving the variable undeclared and unused.
+        // This caused "undefined variable" bugs like P1-S05 where l2 was never declared.
+        // Instead, fall through to the normal declaration path below.
+        tracing::debug!(
+            reg = reg,
+            version = version,
+            insn_type = ?std::mem::discriminant(insn),
+            "should_inline=true but gen_insn_inline returned None, falling through to declaration"
+        );
+        // Don't return - fall through to normal declaration
     }
 
     // Check for increment/decrement pattern: i = i + 1 -> i++ or i = i - 1 -> i--
@@ -1711,6 +1789,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
+    ctx.const_values = collect_const_values(&ssa_result);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -1914,6 +1993,7 @@ fn generate_body_impl<W: CodeWriter>(
     // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
+    ctx.const_values = collect_const_values(&ssa_result);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -2240,6 +2320,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
+    ctx.const_values = collect_const_values(&ssa_result);
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -4808,7 +4889,23 @@ fn generate_merged_string_switch<W: CodeWriter>(
 }
 
 /// Generate code from a region
+/// Maximum region nesting depth for stack overflow prevention
+const MAX_REGION_DEPTH: usize = 100;
+
 fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
+    // Prevent stack overflow from deeply nested regions
+    if ctx.region_depth > MAX_REGION_DEPTH {
+        code.start_line().add("/* DEPTH_LIMIT_EXCEEDED: Region nesting too deep */").newline();
+        return;
+    }
+    ctx.region_depth += 1;
+
+    generate_region_impl(region, ctx, code);
+
+    ctx.region_depth -= 1;
+}
+
+fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
     match region {
         Region::Sequence(contents) => {
             // Check for two-switch pattern (switch-over-string merge)
@@ -5635,6 +5732,11 @@ fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut 
     // Collect all block IDs from the condition
     let block_ids = condition.get_blocks();
 
+    tracing::debug!(
+        block_count = block_ids.len(),
+        "emit_condition_block_prelude: processing condition blocks"
+    );
+
     for block_id in block_ids {
         // Clone the instructions to avoid borrow conflict with ctx
         let instructions: Vec<_> = match ctx.blocks.get(&block_id) {
@@ -5642,16 +5744,44 @@ fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut 
             None => continue,
         };
 
+        tracing::debug!(
+            block_id = block_id,
+            num_insns = instructions.len(),
+            "emit_condition_block_prelude: processing block"
+        );
+
         let num_insns = instructions.len();
         for (i, insn) in instructions.iter().enumerate() {
             // Skip control flow instructions (If, Goto, Switch)
             if is_control_flow(&insn.insn_type) {
+                tracing::trace!(
+                    block_id = block_id,
+                    insn_idx = i,
+                    "Skipping control flow instruction"
+                );
                 continue;
             }
 
             // Skip instructions marked with DONT_GENERATE
             if insn.has_flag(AFlag::DontGenerate) {
+                tracing::trace!(
+                    block_id = block_id,
+                    insn_idx = i,
+                    "Skipping DONT_GENERATE instruction"
+                );
                 continue;
+            }
+
+            // Log the instruction being processed
+            if let Some((reg, ver)) = get_insn_dest(&insn.insn_type) {
+                tracing::debug!(
+                    block_id = block_id,
+                    insn_idx = i,
+                    dest_reg = reg,
+                    dest_ver = ver,
+                    insn_type = ?std::mem::discriminant(&insn.insn_type),
+                    "Processing prelude instruction"
+                );
             }
 
             // Peek at next instruction for MoveResult handling
@@ -6914,8 +7044,17 @@ fn generate_insn<W: CodeWriter>(
                                 code.add("true");
                                 ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
                             } else {
-                                // Not a constant 0/1 - could be boolean expression, emit as-is
-                                ctx.write_arg_inline(code, v);
+                                // P1-S02 fix: Check const_values for non-inlined constant
+                                // This handles: `int i = 1; return i;` -> `return true;`
+                                let const_val = ctx.const_values.get(&(reg.reg_num, reg.ssa_version));
+                                if const_val.as_ref().map(|s| s.as_str()) == Some("0") {
+                                    code.add("false");
+                                } else if const_val.as_ref().map(|s| s.as_str()) == Some("1") {
+                                    code.add("true");
+                                } else {
+                                    // Not a constant 0/1 - could be boolean expression, emit as-is
+                                    ctx.write_arg_inline(code, v);
+                                }
                             }
                         }
                         _ => {
@@ -7279,10 +7418,25 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::InstanceGet { dest, .. } => {
-            // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
-            true
+        InsnType::InstanceGet { dest, object, field_idx } => {
+            // Check if this field access should be inlined (used only once)
+            let reg = dest.reg_num;
+            let version = dest.ssa_version;
+
+            if ctx.should_inline(reg, version) {
+                // Build field access expression
+                let obj_str = ctx.gen_arg_inline(object);
+                let field_name = ctx.expr_gen.get_field_value(*field_idx)
+                    .map(|f| f.field_name.to_string())
+                    .unwrap_or_else(|| format!("field#{}", field_idx));
+                let field_expr = format!("{}.{}", obj_str, field_name);
+                ctx.store_inline_expr(reg, version, field_expr);
+                true // Don't emit anything, will be inlined at use site
+            } else {
+                // Multi-use variable - emit normal assignment
+                emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+                true
+            }
         }
 
         InsnType::InstancePut { object, field_idx, value } => {
@@ -7310,10 +7464,35 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::StaticGet { dest, .. } => {
-            // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
-            true
+        InsnType::StaticGet { dest, field_idx } => {
+            // Check if this field access should be inlined (used only once)
+            let reg = dest.reg_num;
+            let version = dest.ssa_version;
+
+            if ctx.should_inline(reg, version) {
+                // Build static field access expression
+                let field_expr = if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
+                    // Check if this is a field of the current class - use simple name
+                    if let Some(ref current_class) = ctx.current_class_type {
+                        let current_class_dotted = current_class.trim_start_matches("L").trim_end_matches(";").replace("/", ".");
+                        if field_info.class_name.as_ref() == current_class_dotted {
+                            field_info.field_name.to_string()
+                        } else {
+                            format!("{}.{}", field_info.class_name, field_info.field_name)
+                        }
+                    } else {
+                        format!("{}.{}", field_info.class_name, field_info.field_name)
+                    }
+                } else {
+                    format!("field#{}", field_idx)
+                };
+                ctx.store_inline_expr(reg, version, field_expr);
+                true // Don't emit anything, will be inlined at use site
+            } else {
+                // Multi-use variable - emit normal assignment
+                emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+                true
+            }
         }
 
         InsnType::StaticPut { field_idx, value } => {
@@ -7591,10 +7770,11 @@ fn generate_insn<W: CodeWriter>(
         }
 
         // Ternary expressions: dest = cond ? then : else
+        // Use gen_arg_inline to properly resolve field accesses and nested expressions
         InsnType::Ternary { dest, condition, left, right, then_value, else_value } => {
             let cond_str = format!(
                 "{}{}{}",
-                ctx.expr_gen.gen_arg(left),
+                ctx.gen_arg_inline(left),
                 match condition {
                     IfCondition::Eq => " == ",
                     IfCondition::Ne => " != ",
@@ -7603,10 +7783,10 @@ fn generate_insn<W: CodeWriter>(
                     IfCondition::Gt => " > ",
                     IfCondition::Le => " <= ",
                 },
-                right.as_ref().map(|r| ctx.expr_gen.gen_arg(r)).unwrap_or_else(|| "0".to_string())
+                right.as_ref().map(|r| ctx.gen_arg_inline(r)).unwrap_or_else(|| "0".to_string())
             );
-            let then_str = ctx.expr_gen.gen_arg(then_value);
-            let else_str = ctx.expr_gen.gen_arg(else_value);
+            let then_str = ctx.gen_arg_inline(then_value);
+            let else_str = ctx.gen_arg_inline(else_value);
 
             let ternary_expr = format!("{} ? {} : {}", cond_str, then_str, else_str);
             ctx.store_inline_expr(dest.reg_num, dest.ssa_version, ternary_expr);

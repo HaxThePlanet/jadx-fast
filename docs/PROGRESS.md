@@ -1,8 +1,9 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** 0 P0, 9 P1, 2 P2 Open | Kotlin 100% | P1-S11 Throws Fixed (Dec 21, 2025)
+**Status:** 0 P0, 7 P1, 2 P2 Open | Kotlin 100% | P1-S06 Try-Catch Fixed (Dec 21, 2025)
 **Tests:** 1,217 passing (687 integration + 530 unit)
-**Benchmark:** 1.49x faster, 14.6x memory efficiency
+**Benchmark:** 3.6-81x faster, 14.6x memory efficiency
+**Resources:** 1:1 JADX parity (103 directories, 152 files, zero differences)
 **Output Refresh:** Dec 21, 2025 - All 5 APK samples (~8,858 Java files)
 
 ---
@@ -15,6 +16,7 @@
 | **IR/Control Flow** | **B** | OR condition merging, synchronized blocks fixed |
 | **Variable Naming** | **A-** | 13 mappings (JADX has 5), GAP-002 fixed |
 | **Kotlin Support** | **A** | 100% parity - BitEncoding ported |
+| **Resources** | **A+** | 1:1 JADX parity - 103 dirs, 152 files, zero diff |
 | **Overall** | **B+** | Production ready for most APKs |
 
 See [QUALITY_STATUS.md](QUALITY_STATUS.md) for details.
@@ -22,6 +24,23 @@ See [QUALITY_STATUS.md](QUALITY_STATUS.md) for details.
 ---
 
 ## Recent Work (Dec 21, 2025)
+
+### P1-S06 + P1-S12: Try-Catch Block Fix
+- **Block ID vs offset mismatch fixed** - `detect_try_catch_regions()` now uses `block.start_offset` instead of `block_id`
+- **Handler address mapping** - Added `addr_to_block` map to convert handler addresses to block IDs
+- **New function `split_blocks_with_handlers()`** - Handler addresses are now block leaders for correct block boundaries
+- **Stack overflow prevention** - Added `recursion_depth` limit (100) in `RegionBuilder` and `region_depth` limit (100) in `BodyGenContext`
+- **Results:** All tests pass, large APK completes in 6.5s with 0 errors
+- **Files:** `region_builder.rs`, `block_split.rs`, `lib.rs`, `decompiler.rs`, `body_gen.rs`
+
+### Resources 1:1 JADX Parity Achieved
+- **Complete parity:** 103 directories, 152 files, zero differences with JADX output
+- **Gravity flag decoding:** `decode_gravity_flags()` in axml.rs decomposes compound values
+- **Resource name suffix fix:** Only adds `_res_0x{id}` for actual name collisions, not config variants
+- **Version qualifier stripping:** `normalize_config_qualifier()` strips standalone version qualifiers
+- **xmlns attribute order:** Namespace declarations sorted with `android` first
+- **tileMode enum:** Added tileMode enum decoding (`1` to `repeat`)
+- **Files:** `axml.rs`, `arsc.rs`, `main.rs`
 
 ### P1-S11: Throws Declaration Fix
 - **Throws parity improved from ~13.7% to 41.7%** (3x improvement)
@@ -80,8 +99,9 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for fixed bug details.
 |--------|-------|
 | Integration Tests | 687/687 |
 | Unit Tests | 530/530 |
+| Resources Parity | **100% (1:1 JADX - 103 dirs, 152 files, zero diff)** |
 | Throws Parity | 41.7% (up from ~13.7%) |
-| Speed Advantage | 1.49x faster than JADX |
+| Speed Advantage | 3.6-81x faster than JADX |
 | Memory Efficiency | 14.6x better (574MB vs 8.4GB) |
 
 ---

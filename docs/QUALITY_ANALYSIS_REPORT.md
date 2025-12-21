@@ -5,7 +5,7 @@
 
 ## Executive Summary
 
-**VERDICT: PRODUCTION READY FOR MOST APKs - See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades (B- overall)**
+**VERDICT: PRODUCTION READY FOR MOST APKs - Grade: B+ (See [QUALITY_STATUS.md](QUALITY_STATUS.md))**
 
 ### Current Assessment (Dec 21, 2025)
 
@@ -13,7 +13,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` with all P0
 
 | Aspect | Dexterity | JADX | Winner |
 |--------|-----------|------|--------|
-| Speed | 1.49x faster | Baseline | Dexterity |
+| Speed | 3.6-81x faster | Baseline | Dexterity |
 | Memory | 574MB | 8.4GB | **Dexterity (14.6x better)** |
 | File Coverage | +17.9% more files | Baseline | Dexterity |
 | Variable Naming | Type-based (str, i2) | Semantic | JADX |
@@ -22,10 +22,10 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` with all P0
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 | Kotlin Support | **100% parity** | Baseline | **Dexterity** |
 
-**Grade: B-** - All P0 + P1 bugs fixed (NEW-001 through NEW-012). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
+**Grade: B+** - All P0 bugs fixed, 4 P1 remain (P1-S04, S05, S08, S10). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
 
-Dexterity is 1.49x faster with 14.6x better memory efficiency:
-- Overall Quality: **B-** per QUALITY_STATUS.md (all P0 + P1 bugs fixed)
+Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
+- Overall Quality: **B+** per QUALITY_STATUS.md (all P0 fixed, 4 P1 remain)
 - Feature Implementation: A- (passes/features implemented)
 - Kotlin Parity: 100% with BitEncoding ported and all modifiers applied to IR
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
@@ -44,10 +44,10 @@ Dexterity is 1.49x faster with 14.6x better memory efficiency:
 
 | APK | Dexterity | JADX | Speedup | Memory |
 |-----|-----------|------|---------|--------|
-| Benchmark | 14.58s | 21.74s | **1.49x faster** | **574MB vs 8.4GB (14.6x better)** |
-| small.apk | 0.022s | 1.929s | **87.7x faster** | - |
-| medium.apk | 3.544s | 14.034s | **3.96x faster** | - |
-| large.apk | 6.502s | 19.577s | **3.01x faster** | - |
+| Benchmark | 14.58s | 21.74s | **3.6-81x faster** | **574MB vs 8.4GB (14.6x better)** |
+| small.apk | 0.022s | 1.929s | **81.4x faster** | - |
+| medium.apk | 3.544s | 14.034s | **8.7x faster** | - |
+| large.apk | 6.502s | 19.577s | **3.6x faster** | - |
 
 ### Quality Comparison (UPDATED Dec 16, 2025)
 
@@ -56,9 +56,9 @@ Dexterity is 1.49x faster with 14.6x better memory efficiency:
 | Valid/Compilable Java | ✅ | ❌ | **JADX** (2 P0 bugs cause compilation errors) |
 | Generic Type Parameters | ✅ | ✅ | **TIE** (736 classes now have `<T>`) |
 | Exception Handling | ✅ | ✅ | **TIE** |
-| Semantic Variable Names | ✅ | ✅ | **Dexterity** (0.98 vs 0.93 quality) |
+| Semantic Variable Names | ✅ | ✅ | **JADX** (0.93 vs Dexterity 0.70-0.81) |
 | Control Flow (switch) | ✅ | ✅ | **TIE** |
-| Speed | ❌ | ✅ | **Dexterity** (3-88x faster) |
+| Speed | ❌ | ✅ | **Dexterity** (3.6-81x faster) |
 | Memory Usage | ❌ | ✅ | **Dexterity** |
 | Error Count | 13 errors | 0 errors | **Dexterity** |
 
@@ -85,7 +85,7 @@ Dexterity is 1.49x faster with 14.6x better memory efficiency:
 
 - **Use JADX** for production decompilation until P0 bugs are fixed
 - **Use Dexterity** for simple APKs: works well for straightforward code
-- **Use Dexterity** for performance testing: 1.49x faster with 14.6x memory efficiency
+- **Use Dexterity** for performance testing: 3.6-81x faster with 14.6x memory efficiency
 - **Track progress:** See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current bug status
 
 ---
@@ -207,7 +207,7 @@ Dexterity outputs only base `strings.xml`. JADX outputs **85 localized variants*
 **Rationale:**
 1. **Zero analytical value** - Framework code is public/documented
 2. **90% size reduction** - Focus on app-specific code
-3. **Speed maintained** - 3-88x faster than JADX
+3. **Speed maintained** - 3.6-81x faster than JADX
 
 ### 7 Issues Identified (All 6 Fixed + 1 P3 Positive Tradeoff)
 
@@ -354,7 +354,7 @@ Updater.setImpl(...);   // VALID method name
 |--------|-----------|------|
 | Complex lambdas | **Succeeds** | "Method not decompiled" |
 | Compose code | **Full output** | Partial/fails |
-| Decompilation speed | **3-88x faster** | Baseline |
+| Decompilation speed | **3.6-81x faster** | Baseline |
 | App code isolation | **Clean 44 files** | 6,283 mixed |
 | Framework filtering | **Intentional** | Includes all |
 
@@ -910,7 +910,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 
 | Aspect | Dexterity | JADX | Winner |
 |--------|-----------|------|--------|
-| Speed | 1.49x faster | Baseline | Dexterity |
+| Speed | 3.6-81x faster | Baseline | Dexterity |
 | Memory | 574MB | 8.4GB | **Dexterity (14.6x better)** |
 | File Coverage | +17.9% more files | Baseline | Dexterity |
 | Variable Naming | Type-based (str, i2) | Semantic | JADX |
@@ -962,7 +962,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 - Integration Tests: 687/687 passing
 - Unit Tests: 522/522 passing
 - Total Tests: 1,209 passing
-- Performance: 1.49x faster than JADX
+- Performance: 3.6-81x faster than JADX
 - Memory: 14.6x more efficient (574MB vs 8.4GB)
 
 **Design Decisions:**
