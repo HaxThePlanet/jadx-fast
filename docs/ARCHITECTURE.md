@@ -21,18 +21,18 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 ```
 crates/
 ├── dexterity-dex/         # DEX parsing (~4,400 lines)
-├── dexterity-ir/          # IR types & class hierarchy (~9,200 lines)
-├── dexterity-passes/      # Decompilation passes (~24,600 lines)
-├── dexterity-codegen/     # Java code generation (~13,900 lines)
-├── dexterity-resources/   # AXML & resources.arsc (~3,400 lines)
+├── dexterity-ir/          # IR types & class hierarchy (~9,300 lines)
+├── dexterity-passes/      # Decompilation passes (~26,800 lines)
+├── dexterity-codegen/     # Java code generation (~16,100 lines)
+├── dexterity-resources/   # AXML & resources.arsc (~3,600 lines)
 ├── dexterity-deobf/       # Deobfuscation (~1,800 lines)
-├── dexterity-kotlin/      # Kotlin metadata parsing (~992 lines)
-├── dexterity-cli/         # CLI application (~5,800 lines)
+├── dexterity-kotlin/      # Kotlin metadata parsing (~1,600 lines)
+├── dexterity-cli/         # CLI application (~5,900 lines)
 ├── dexterity-qa/          # Quality assurance tools
 └── dexterity-llm-postproc/# LLM post-processing utilities
 ```
 
-Total: ~89,000 lines of Rust
+Total: ~95,000 lines of Rust
 
 ## Crate Details
 

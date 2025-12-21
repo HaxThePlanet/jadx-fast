@@ -137,7 +137,7 @@ limit is `5 × block_count`, same as JADX's `DepthRegionTraversal.java:13`.
 **Dexterity Implementation:**
 - `block_split.rs`: 437 lines, splits bytecode into basic blocks
 - `cfg.rs`: 831 lines, builds CFG and computes dominators
-- Block storage uses `BTreeMap<u32, BasicBlock>` for both structures. A future optimization could change to `Vec<BasicBlock>` for O(1) direct index access since block IDs are dense sequential integers (0,1,2...).
+- Block storage uses `Vec<BasicBlock>` for O(1) direct index access since block IDs are dense sequential integers (0,1,2...). Changed from BTreeMap in Dec 2025 optimization pass.
 
 **Missing from Dexterity:**
 - `FixMultiEntryLoops` - Restructure loops with multiple entry points

@@ -960,8 +960,8 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 - Variable Naming: Type-based in complex methods (str, i2), semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing
-- Unit Tests: 490/490 passing
-- Total Tests: 1,177 passing
+- Unit Tests: 522/522 passing
+- Total Tests: 1,209 passing
 - Performance: 1.49x faster than JADX
 - Memory: 14.6x more efficient (574MB vs 8.4GB)
 
@@ -970,7 +970,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 - BADBOY-P3-001 (code verbosity) is a **positive tradeoff** - Dexterity succeeds where JADX fails
 
 **Verification:**
-- All 1,177 tests pass
+- All 1,209 tests pass
 - Verified on badboy APK
 - Framework filtering confirmed as intentional
 - Quality grade revised based on objective output comparison after Dec 20 fixes
@@ -982,4 +982,4 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 *Quality: **A- (88-90/100)** based on objective output comparison*
 *Code Issues: 1 P2 issue remains (variable naming in complex methods)*
 *Resource Issues: ALL 5 FIXED*
-*Integration Tests: 1,177/1,177 passing*
+*Integration Tests: 1,209/1,209 passing*

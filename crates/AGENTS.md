@@ -5,9 +5,9 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 1,147 tests passing (685 integration + 462 unit tests)
-**Integration Tests:** 685 passing (100%)
-**Lines:** ~83,500 lines of Rust
+**Tests:** 1,209 tests passing (687 integration + 522 unit tests)
+**Integration Tests:** 687 passing (100%)
+**Lines:** ~95,000 lines of Rust
 **Completion:** 98%+ JADX CLI parity (Dec 17, 2025)
 **Issues:** 22 total (20 resolved, 2 remaining from badboy APK comparison)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is intentional
@@ -17,13 +17,13 @@
 ```
 crates/
 ├── dexterity-dex/         # DEX parsing (~4,400 lines)
-├── dexterity-ir/          # IR types & class hierarchy (~9,200 lines)
-├── dexterity-passes/      # Decompilation passes (~24,600 lines)
-├── dexterity-codegen/     # Java code generation (~13,900 lines)
-├── dexterity-resources/   # AXML & resources.arsc (~3,400 lines)
+├── dexterity-ir/          # IR types & class hierarchy (~9,300 lines)
+├── dexterity-passes/      # Decompilation passes (~26,800 lines)
+├── dexterity-codegen/     # Java code generation (~16,100 lines)
+├── dexterity-resources/   # AXML & resources.arsc (~3,600 lines)
 ├── dexterity-deobf/       # Deobfuscation (~1,800 lines)
-├── dexterity-kotlin/      # Kotlin metadata parsing (~992 lines)
-├── dexterity-cli/         # CLI application (~5,800 lines)
+├── dexterity-kotlin/      # Kotlin metadata parsing (~1,600 lines)
+├── dexterity-cli/         # CLI application (~5,900 lines)
 ├── dexterity-qa/          # Quality assurance tools
 └── dexterity-llm-postproc/# LLM post-processing utilities
 ```
