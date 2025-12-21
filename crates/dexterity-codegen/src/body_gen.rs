@@ -38,7 +38,7 @@ use dexterity_ir::types::ArgType;
 use dexterity_ir::{MethodData, MethodInlineAttr, TryBlock};
 use dexterity_passes::block_split::{split_blocks, BasicBlock};
 use dexterity_passes::cfg::CFG;
-use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
+use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_duplicated_finally};
 use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 use dexterity_passes::var_naming::types_compatible_for_naming;
@@ -1664,7 +1664,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
-    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
+    let region = build_regions_with_method_flags(&cfg, &method.try_blocks, method.access_flags);
 
     let block_result = cfg.into_blocks();
 
@@ -1806,7 +1806,7 @@ fn generate_body_impl<W: CodeWriter>(
 
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
-    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
+    let region = build_regions_with_method_flags(&cfg, &method.try_blocks, method.access_flags);
 
     let block_result = cfg.into_blocks();
 
@@ -2086,7 +2086,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
 
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
-    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
+    let region = build_regions_with_method_flags(&cfg, &method.try_blocks, method.access_flags);
     
     let block_result = cfg.into_blocks();
 

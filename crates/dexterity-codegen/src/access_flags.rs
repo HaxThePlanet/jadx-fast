@@ -77,8 +77,9 @@ pub fn access_flags_to_string(flags: u32, context: AccessContext) -> String {
             if flags & ACC_FINAL != 0 {
                 parts.push("final");
             }
-            // synchronized
-            if flags & ACC_SYNCHRONIZED != 0 {
+            // synchronized - DEX uses ACC_DECLARED_SYNCHRONIZED (0x20000), NOT ACC_SYNCHRONIZED (0x0020)
+            // The 0x0020 flag in DEX means something different for methods.
+            if flags & ACC_DECLARED_SYNCHRONIZED != 0 {
                 parts.push("synchronized");
             }
             // native

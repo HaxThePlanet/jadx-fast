@@ -51,7 +51,8 @@ pub use method_inline::{
     analyze_method_for_inline, mark_methods_for_inline, should_skip_method,
 };
 pub use region_builder::{
-    build_regions, build_regions_with_try_catch, detect_all_loop_edges, detect_loop_edge_insns,
+    build_regions, build_regions_with_try_catch, build_regions_with_method_flags,
+    detect_all_loop_edges, detect_loop_edge_insns,
     mark_duplicated_finally, refine_loops_with_patterns,
     EdgeInsn, EdgeInsnKind, LoopEdgeInsns,
 };

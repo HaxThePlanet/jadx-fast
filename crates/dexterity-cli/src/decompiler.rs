@@ -15,7 +15,7 @@ use dexterity_passes::{
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
 };
-use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally, refine_loops_with_patterns};
+use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_duplicated_finally, refine_loops_with_patterns};
 
 /// Result of decompiling a method
 #[derive(Debug)]
@@ -69,7 +69,7 @@ pub fn decompile_method(
 
     // Stage 3: Region reconstruction (preliminary - will be refined after SSA)
     // Build initial regions from CFG structure
-    let mut regions = dexterity_passes::region_builder::build_regions_with_try_catch(&cfg, &method.try_blocks);
+    let mut regions = build_regions_with_method_flags(&cfg, &method.try_blocks, method.access_flags);
 
     // Take blocks from CFG after dominance analysis (avoids clone)
     let blocks = cfg.take_blocks();
