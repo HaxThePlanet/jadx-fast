@@ -562,6 +562,13 @@ impl ArscParser {
         self.path_mappings.clone()
     }
 
+    /// Get the app package name extracted from ARSC
+    /// Returns the package name from the first parsed resource entry
+    /// Returns None if no resources were parsed
+    pub fn get_package_name(&self) -> Option<String> {
+        self.entries.first().map(|e| e.package_name.clone())
+    }
+
     /// Parse string pool chunk
     fn parse_string_pool(&mut self, cursor: &mut Cursor<&[u8]>) -> Result<()> {
         let start = cursor.position() - 2;
