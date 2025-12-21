@@ -253,6 +253,9 @@ pub struct TypeInference {
     /// These are populated during MoveResult handling when the return type contains TypeVariable
     /// and resolved post-solve when instance types are known
     pending_type_var_resolutions: Vec<(TypeVar, TypeVar, ArgType)>,
+    /// Registers assigned from 0 or 1 constants (boolean literal candidates)
+    /// Maps (reg_num, ssa_version) -> true if register is assigned from 0 or 1
+    boolean_literal_candidates: FxHashMap<(u16, u32), bool>,
 }
 
 impl Default for TypeInference {
@@ -282,6 +285,7 @@ impl TypeInference {
             instanceof_refinements: FxHashMap::default(),
             cast_refinements: FxHashMap::default(),
             pending_type_var_resolutions: Vec::new(),
+            boolean_literal_candidates: FxHashMap::default(),
         }
     }
 
@@ -560,6 +564,11 @@ impl TypeInference {
                 let dest_var = self.get_or_create_var(dest);
                 let ty = Self::type_for_literal(value);
                 self.add_constraint(Constraint::Equals(dest_var, ty));
+
+                // NEW: Track boolean literal candidates (0 or 1)
+                if matches!(value, LiteralArg::Int(0) | LiteralArg::Int(1)) {
+                    self.boolean_literal_candidates.insert((dest.reg_num, dest.ssa_version), true);
+                }
             }
 
             InsnType::ConstString { dest, .. } => {
@@ -960,8 +969,25 @@ impl TypeInference {
                         // Process arguments (skip first for instance methods)
                         let args_iter = if is_instance_method { &args[1..] } else { args.as_slice() };
                         for (arg, expected_ty) in args_iter.iter().zip(param_types.iter()) {
+                            // NEW: Handle boolean context for literals (P1-S02 fix)
+                            if matches!(expected_ty, ArgType::Boolean) {
+                                if let InsnArg::Register(reg) = arg {
+                                    // Check if this register was assigned from 0/1 literal
+                                    if self.boolean_literal_candidates.contains_key(&(reg.reg_num, reg.ssa_version)) {
+                                        let arg_var = self.get_or_create_var(reg);
+                                        // Use Equals constraint (stronger than UseBound)
+                                        // This ensures the variable is typed as Boolean
+                                        self.add_constraint(Constraint::Equals(
+                                            arg_var,
+                                            InferredType::Concrete(ArgType::Boolean),
+                                        ));
+                                        continue;
+                                    }
+                                }
+                            }
+
                             if let Some(arg_var) = self.var_for_arg(arg) {
-                                // NEW: Add use bound using new TypeInfo system
+                                // Existing logic for other cases
                                 self.add_use_bound(arg_var, expected_ty.clone());
                                 // Use UseBound for method arguments - they must be compatible
                                 // with the parameter type (variable is used as this type)
