@@ -20,7 +20,7 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** 1:1 identical decompilation output with JADX
-**Status:** All P0 + P1 + P2 bugs fixed, Kotlin 100%, Phase 1 + Phase 2 complete (Dec 21, 2025) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** 0 P0, 10 P1, 2 P2 open | Kotlin 100% | P1-S11 Throws Fixed (Dec 21, 2025) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
 ## Performance
 
@@ -63,6 +63,7 @@ cargo build --release -p dexterity-cli
   - Name restoration from obfuscated code
   - Static field inline initialization (`INSTANCE = new ClassName()`)
 - **Control flow:** OR condition merging (`a || b` patterns), short-circuit evaluation
+- **Throws declarations:** Parse `dalvik/annotation/Throws` (41.7% parity, 3x improvement)
 - **Resource resolution:** `R.layout.activity_main` (enabled by default)
 - **Drop-in JADX replacement:** Same CLI arguments
 
@@ -119,16 +120,22 @@ public class MainActivity extends Activity {
 
 ## Reference Output Examples
 
-Comparison examples of Dexterity vs JADX decompilation output:
+Comparison examples of Dexterity vs JADX decompilation output (~8,858 Java files total):
 
-- **Small APK Examples**
+- **Small APK** (1 file)
   - [Dexterity output](output/dexterity/small/sources/) | [JADX output](output/jadx/small/sources/)
 
-- **Medium APK Examples**
+- **Medium APK** (2,890 files)
   - [Dexterity output](output/dexterity/medium/sources/) | [JADX output](output/jadx/medium/sources/)
 
-- **Large APK Examples**
+- **Large APK** (5,901 files)
   - [Dexterity output](output/dexterity/large/sources/) | [JADX output](output/jadx/large/sources/)
+
+- **Badboy APK** (53 files)
+  - [Dexterity output](output/dexterity/badboy/sources/) | [JADX output](output/jadx/badboy/sources/)
+
+- **Badboy-x86 APK** (13 files)
+  - [Dexterity output](output/dexterity/badboy-x86/sources/) | [JADX output](output/jadx/badboy-x86/sources/)
 
 Notable reference file: [o/a/b.java](output/dexterity/large/sources/o/a/b.java) (Dexterity) vs [o/a/b.java](output/jadx/large/sources/o/a/b.java) (JADX)
 
