@@ -2,6 +2,14 @@
 
 ## December 2025
 
+### Dec 21, 2025 - Kotlin Function Modifiers
+
+**Kotlin Modifier Support**
+- Added IR fields: is_suspend, is_inline_function, is_infix, is_operator, receiver_type
+- Extractor applies modifiers from Kotlin metadata to MethodData
+- Method generator emits modifiers as Java comments: `/* suspend */ public void foo()`
+- Files: `info.rs`, `extractor.rs`, `method_gen.rs`
+
 ### Dec 21, 2025 - All P1 Semantic Issues Fixed
 
 **NEW-008: Malformed Synchronized Blocks**

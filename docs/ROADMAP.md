@@ -1,24 +1,30 @@
 # Roadmap
 
-**Status:** All P0 + P1 Fixed (Dec 21, 2025)
+**Status:** All P0 + P1 Fixed, Kotlin ~85% (Dec 21, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 
-## Current Priority: Kotlin Parity (72% → 100%)
+## Current Priority: Remaining Kotlin Parity
 
-### Quick Wins (LOW effort)
-1. Apply suspend modifier to IR method signatures
-2. Apply inline modifier to IR method signatures
-3. Populate extension function receiver_type
-4. Extract inline_class_underlying_property_name
+### Remaining Kotlin Features
+1. Extract inline_class_underlying_property_name
+2. SMAP/SourceDebugExtension parsing for Kotlin source mapping
 
-### Harder (HIGH effort)
-5. SMAP/SourceDebugExtension parsing for Kotlin source mapping
+### Completed Kotlin Features (Dec 21, 2025)
+- suspend/inline/infix/operator function modifiers applied to IR
+- Extension function receiver_type populated
+- Type variance (`<in T>`, `<out T>`) applied to IR
+- Data/sealed/inline class detection
+- Companion object handling
+- Method/field name extraction from Kotlin metadata
 
 ---
 
 ## Recently Fixed (Dec 21, 2025)
 
-All P0 compilation errors + P1 semantic issues fixed:
+### Kotlin Function Modifiers
+- Added IR fields: is_suspend, is_inline_function, is_infix, is_operator
+- Added receiver_type for extension functions
+- Modifiers emitted as comments: `/* suspend */ public void foo()`
 
 ### P1 Semantic Issues (Fixed)
 - NEW-008: Malformed synchronized blocks - ACC_DECLARED_SYNCHRONIZED flag
@@ -41,9 +47,6 @@ All P0 compilation errors + P1 semantic issues fixed:
 
 ### Input Format Support
 - APKS (App Bundle split) - Not implemented
-
-### Kotlin Parity (72%)
-- Type variance, suspend functions, inline classes
 
 ### Performance
 - Memory reduction, startup optimization
