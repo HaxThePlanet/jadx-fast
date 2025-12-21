@@ -3396,6 +3396,78 @@ fn name_suggests_object_type(name: &str) -> bool {
     false
 }
 
+/// Check if a name suggests a boolean return type (common method naming conventions)
+/// This is used to disambiguate between null checks and boolean checks when type info is ambiguous.
+/// For example: isClosed(), hasPermission(), canWrite(), shouldRetry()
+fn name_suggests_boolean_method(name: &str) -> bool {
+    // Extract method name from method call expression (e.g., "this.isClosed()" -> "isClosed")
+    let method_name = if let Some(paren_pos) = name.rfind('(') {
+        // It's a method call - extract the method name
+        let before_paren = &name[..paren_pos];
+        // Handle "obj.method" or "this.method" by taking the part after the last '.'
+        if let Some(dot_pos) = before_paren.rfind('.') {
+            &before_paren[dot_pos + 1..]
+        } else {
+            before_paren
+        }
+    } else {
+        // Not a method call, might be a variable - less likely to be boolean-named
+        name
+    };
+
+    let lower = method_name.to_lowercase();
+
+    // Common boolean method prefixes (most common first)
+    let boolean_prefixes = [
+        "is",       // isEnabled, isClosed, isEmpty, isValid
+        "has",      // hasPermission, hasNext, hasError
+        "can",      // canWrite, canRead, canExecute
+        "should",   // shouldRetry, shouldUpdate, shouldContinue
+        "was",      // wasSuccessful, wasCalled, wasInitialized
+        "will",     // willRetry, willContinue
+        "are",      // areEqual, areAllowed
+        "contains", // containsKey, containsValue
+        "exists",   // exists() - common for file checks
+        "matches",  // matches() - regex/pattern matching
+        "equals",   // equals() - object equality
+        "starts",   // startsWith
+        "ends",     // endsWith
+        "needs",    // needsUpdate, needsRefresh
+        "allows",   // allowsNullValue
+        "accepts",  // acceptsInput
+        "supports", // supportsFeature
+        "requires", // requiresAuth
+    ];
+
+    for prefix in boolean_prefixes {
+        if lower.starts_with(prefix) {
+            // Make sure it's not just the prefix (e.g., "is" alone is too short)
+            // and that the next char after prefix is uppercase or the prefix is the whole word
+            let suffix = &method_name[prefix.len()..];
+            if suffix.is_empty() {
+                // Exact match like "exists()" or "equals()"
+                return true;
+            }
+            // Check that it follows naming convention: prefix + UpperCase (e.g., isEnabled)
+            if suffix.chars().next().map(|c| c.is_uppercase()).unwrap_or(false) {
+                return true;
+            }
+            // Also accept prefix + underscore (e.g., is_enabled for some styles)
+            if suffix.starts_with('_') {
+                return true;
+            }
+        }
+    }
+
+    // Also check for common exact boolean method names
+    let exact_matches = ["equals", "matches", "contains", "exists", "test", "check"];
+    if exact_matches.contains(&lower.as_str()) {
+        return true;
+    }
+
+    false
+}
+
 /// Generate condition expression string from a Condition
 /// Uses gen_arg_with_inline_peek to support inlined expressions (e.g., loop bounds)
 fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
@@ -3455,9 +3527,13 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                             || matches!(left_type, Some(ArgType::Unknown))
                             || matches!(left_type, Some(ArgType::Int))
                             || matches!(left_type, Some(ArgType::Boolean));
+                        // Check if name suggests a boolean method (e.g., isClosed(), hasPermission())
+                        // This takes priority over object type heuristics to avoid "isClosed() == null"
+                        let name_looks_boolean = name_suggests_boolean_method(&left_str);
                         let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)) | Some(ArgType::Generic { .. }))
-                            || (type_is_ambiguous && name_suggests_object_type(&left_str));
-                        let is_boolean = matches!(left_type, Some(ArgType::Boolean));
+                            || (type_is_ambiguous && name_suggests_object_type(&left_str) && !name_looks_boolean);
+                        let is_boolean = matches!(left_type, Some(ArgType::Boolean))
+                            || (type_is_ambiguous && name_looks_boolean);
 
                         // Check if this is a comparison against 1 (true) for boolean types
                         let is_one_compare = matches!(right, Some(r) if is_one_literal(r));
