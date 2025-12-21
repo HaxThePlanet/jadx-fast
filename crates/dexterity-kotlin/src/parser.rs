@@ -1,7 +1,6 @@
 //! Kotlin metadata annotation parsing
 
 use anyhow::{anyhow, Result};
-use base64::Engine;
 use dexterity_ir::{Annotation, AnnotationValue};
 use prost::Message;
 use crate::types::{
@@ -9,6 +8,7 @@ use crate::types::{
     KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags, KotlinTypeParameter, KotlinVariance,
 };
 use crate::proto;
+use crate::jvm_proto;
 
 // Class flag bit positions (from Kotlin metadata spec)
 const CLASS_FLAG_HAS_ANNOTATIONS: i32 = 0x0001;
@@ -175,19 +175,293 @@ fn parse_property_flags(raw_flags: i32) -> KotlinPropertyFlags {
     }
 }
 
+/// Decode Kotlin BitEncoding format back to protobuf bytes
+///
+/// The d1 field in @kotlin.Metadata uses BitEncoding with two modes:
+/// 1. UTF-8 mode (marker = '\0'): each char is directly a byte (drop the marker)
+/// 2. 8-to-7 mode: complex bit manipulation (legacy, less common)
+///
+/// See: org.jetbrains.kotlin.metadata.jvm.deserialization.BitEncoding
+fn bit_encoding_decode(data: &[String]) -> Result<Vec<u8>> {
+    if data.is_empty() || data[0].is_empty() {
+        return Ok(vec![]);
+    }
+
+    let first_char = data[0].chars().next().unwrap();
+
+    // UTF-8 mode marker = '\0' (0x00)
+    if first_char == '\0' {
+        // UTF-8 mode: drop the marker and treat each remaining char as a byte
+        return utf8_mode_decode(data);
+    }
+
+    // 8-to-7 mode marker = '\u0001' (legacy mode)
+    const _8TO7_MODE_MARKER: char = '\u{0001}';
+    if first_char == _8TO7_MODE_MARKER {
+        // Has marker, decode with 7-to-8 bit expansion
+        return decode_8to7_mode(data, true);
+    }
+
+    // No marker - assume 8-to-7 mode (very old format)
+    decode_8to7_mode(data, false)
+}
+
+/// UTF-8 mode: each char is directly a byte (after dropping the '\0' marker)
+fn utf8_mode_decode(data: &[String]) -> Result<Vec<u8>> {
+    let mut bytes = Vec::new();
+    let mut first_string = true;
+
+    for s in data {
+        let start_idx = if first_string {
+            first_string = false;
+            1 // Skip the '\0' marker in first string
+        } else {
+            0
+        };
+
+        for c in s.chars().skip(start_idx) {
+            let byte = c as u32;
+            if byte > 0xFF {
+                return Err(anyhow!("Invalid BitEncoding UTF-8 char: U+{:04X}", byte));
+            }
+            bytes.push(byte as u8);
+        }
+    }
+    Ok(bytes)
+}
+
+/// 8-to-7 mode: decode bytes where each char holds 7 bits
+fn decode_8to7_mode(data: &[String], has_marker: bool) -> Result<Vec<u8>> {
+    // First, combine all strings into bytes
+    let mut input_bytes = Vec::new();
+
+    for (i, s) in data.iter().enumerate() {
+        let start_idx = if i == 0 && has_marker { 1 } else { 0 };
+        for c in s.chars().skip(start_idx) {
+            let byte = c as u32;
+            if byte > 0xFF {
+                return Err(anyhow!("Invalid BitEncoding 8to7 char: U+{:04X}", byte));
+            }
+            input_bytes.push(byte as u8);
+        }
+    }
+
+    // Apply modulo byte correction (reverse of addModuloByte)
+    add_modulo_byte(&mut input_bytes, 0x7f);
+
+    // Decode 7-to-8: every 8 input bytes (7 bits each) become 7 output bytes (8 bits each)
+    decode_7_to_8(&input_bytes)
+}
+
+/// Reverse the modulo byte transformation used in 8-to-7 encoding
+fn add_modulo_byte(bytes: &mut [u8], modulus: u8) {
+    let mut sum = 0u8;
+    for i in 0..bytes.len() {
+        let old = bytes[i];
+        bytes[i] = (bytes[i].wrapping_add(sum)) % modulus;
+        sum = sum.wrapping_add(old);
+    }
+}
+
+/// Decode 7-to-8 bit encoding: expand 7-bit values to 8-bit bytes
+fn decode_7_to_8(input: &[u8]) -> Result<Vec<u8>> {
+    // Every 8 input bytes (56 bits = 8 * 7) produce 7 output bytes (56 bits = 7 * 8)
+    let output_size = input.len() * 7 / 8;
+    let mut output = vec![0u8; output_size];
+
+    // Bit manipulation: extract 8 bits at a time from the 7-bit input stream
+    let mut bit_offset = 0usize;
+
+    for out_idx in 0..output_size {
+        let byte_offset = bit_offset / 7;
+        let bit_in_byte = bit_offset % 7;
+
+        if byte_offset >= input.len() {
+            break;
+        }
+
+        // Get the current byte and possibly the next one
+        let current = input[byte_offset] as u16;
+        let next = if byte_offset + 1 < input.len() {
+            input[byte_offset + 1] as u16
+        } else {
+            0
+        };
+
+        // Combine and extract 8 bits
+        let combined = (current << (7 - bit_in_byte)) | (next >> (bit_in_byte + 1));
+        output[out_idx] = (combined >> (7 - bit_in_byte - 1)) as u8 & 0xFF;
+
+        bit_offset += 8;
+    }
+
+    Ok(output)
+}
+
+/// Build string resolver from StringTableTypes + d2 array
+///
+/// The StringTableTypes message describes how to interpret d2 strings:
+/// - `record`: describes each string entry (range, predefined, literal, operation)
+/// - `range`: number of times to repeat this record (for consecutive identical entries)
+/// - `predefined_index`: index into predefined Kotlin strings (common names)
+/// - `string`: literal string value (overrides d2 lookup)
+/// - `operation`: transformation to apply (INTERNAL_TO_CLASS_ID, DESC_TO_CLASS_ID)
+fn build_string_resolver(
+    types: &jvm_proto::StringTableTypes,
+    d2: &[String],
+) -> Result<Vec<String>> {
+    let mut strings = Vec::new();
+    let mut d2_idx = 0;
+
+    for record in &types.record {
+        let range = record.range.unwrap_or(1) as usize;
+
+        for _ in 0..range {
+            // Determine the base string: literal > predefined > d2
+            let base_string = if let Some(ref literal) = record.string {
+                // Literal string specified in the record
+                literal.clone()
+            } else if let Some(predef_idx) = record.predefined_index {
+                // Predefined Kotlin string (common names)
+                get_predefined_string(predef_idx as usize)
+            } else if d2_idx < d2.len() {
+                // Use next d2 string
+                let s = d2[d2_idx].clone();
+                d2_idx += 1;
+                s
+            } else {
+                // d2 exhausted - shouldn't happen with valid metadata
+                tracing::warn!("d2 index {} out of bounds (len={})", d2_idx, d2.len());
+                String::new()
+            };
+
+            // Apply operation if specified
+            let final_string = match record.operation() {
+                jvm_proto::string_table_types::record::Operation::InternalToClassId => {
+                    // Convert internal name: java/util/Map$Entry -> java/util/Map.Entry
+                    base_string.replace('$', ".")
+                }
+                jvm_proto::string_table_types::record::Operation::DescToClassId => {
+                    // Convert descriptor to class ID: Ljava/lang/String; -> java/lang/String
+                    desc_to_class_id(&base_string)
+                }
+                _ => base_string,
+            };
+
+            strings.push(final_string);
+        }
+    }
+
+    // If no records, fall back to using d2 directly
+    if strings.is_empty() && !d2.is_empty() {
+        return Ok(d2.to_vec());
+    }
+
+    Ok(strings)
+}
+
+/// Get predefined Kotlin string by index
+/// These are common strings used in Kotlin metadata to save space
+fn get_predefined_string(idx: usize) -> String {
+    // Predefined strings from Kotlin metadata spec
+    // See: kotlin/core/metadata/src/ProtoBuf.java PREDEFINED_STRINGS
+    const PREDEFINED_STRINGS: &[&str] = &[
+        "kotlin/Any",
+        "kotlin/Nothing",
+        "kotlin/Unit",
+        "kotlin/Throwable",
+        "kotlin/Annotation",
+        "kotlin/CharSequence",
+        "kotlin/String",
+        "kotlin/Number",
+        "kotlin/Byte",
+        "kotlin/Short",
+        "kotlin/Int",
+        "kotlin/Long",
+        "kotlin/Float",
+        "kotlin/Double",
+        "kotlin/Boolean",
+        "kotlin/Char",
+        "kotlin/Enum",
+        "kotlin/Array",
+        "kotlin/Cloneable",
+        "kotlin/Comparable",
+        "kotlin/collections/Iterable",
+        "kotlin/collections/Collection",
+        "kotlin/collections/List",
+        "kotlin/collections/Set",
+        "kotlin/collections/Map",
+        "kotlin/collections/MutableIterable",
+        "kotlin/collections/MutableCollection",
+        "kotlin/collections/MutableList",
+        "kotlin/collections/MutableSet",
+        "kotlin/collections/MutableMap",
+        "kotlin/collections/Iterator",
+        "kotlin/collections/ListIterator",
+        "kotlin/collections/MutableIterator",
+        "kotlin/collections/MutableListIterator",
+        "kotlin/collections/Map.Entry",
+        "kotlin/collections/MutableMap.MutableEntry",
+        "kotlin/Function",
+        "kotlin/Function0",
+        "kotlin/Function1",
+        "kotlin/Function2",
+        "kotlin/Function3",
+        "kotlin/Function4",
+        "kotlin/Function5",
+        "kotlin/Function6",
+        "kotlin/Function7",
+        "kotlin/Function8",
+        "kotlin/Function9",
+        "kotlin/Function10",
+        "kotlin/Function11",
+        "kotlin/Function12",
+        "kotlin/Function13",
+        "kotlin/Function14",
+        "kotlin/Function15",
+        "kotlin/Function16",
+        "kotlin/Function17",
+        "kotlin/Function18",
+        "kotlin/Function19",
+        "kotlin/Function20",
+        "kotlin/Function21",
+        "kotlin/Function22",
+        "kotlin/IntArray",
+        "kotlin/LongArray",
+        "kotlin/ShortArray",
+        "kotlin/ByteArray",
+        "kotlin/CharArray",
+        "kotlin/BooleanArray",
+        "kotlin/FloatArray",
+        "kotlin/DoubleArray",
+    ];
+
+    PREDEFINED_STRINGS.get(idx).map(|s| s.to_string()).unwrap_or_else(|| {
+        tracing::warn!("Unknown predefined string index: {}", idx);
+        format!("predefined_{}", idx)
+    })
+}
+
+/// Convert type descriptor to class ID
+/// e.g., "Ljava/lang/String;" -> "java/lang/String"
+fn desc_to_class_id(desc: &str) -> String {
+    let trimmed = desc.trim();
+    if trimmed.starts_with('L') && trimmed.ends_with(';') {
+        trimmed[1..trimmed.len() - 1].to_string()
+    } else {
+        trimmed.to_string()
+    }
+}
+
 /// Parse d1 protobuf field to extract Kotlin metadata
 pub fn parse_d1_protobuf(annot: &KotlinMetadataAnnotation) -> Result<KotlinClassMetadata> {
-    // d1 contains base64-encoded protobuf data
+    // d1 contains BitEncoding-encoded protobuf data (NOT base64!)
     if annot.data1.is_empty() {
         return Err(anyhow!("d1 field is empty"));
     }
 
-    // Join d1 strings (can span multiple parts)
-    let encoded = annot.data1.join("");
-
-    // Decode base64
-    let engine = base64::engine::general_purpose::STANDARD;
-    let bytes = engine.decode(&encoded)?;
+    // Decode using BitEncoding (each char = one byte)
+    let bytes = bit_encoding_decode(&annot.data1)?;
 
     // Parse based on kind
     match annot.kind {
@@ -200,10 +474,20 @@ pub fn parse_d1_protobuf(annot: &KotlinMetadataAnnotation) -> Result<KotlinClass
 
 /// Parse Class metadata (kind = 1)
 fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Result<KotlinClassMetadata> {
-    let proto_class = proto::Class::decode(bytes)?;
+    // The stream contains: StringTableTypes (length-delimited) + Class message
+    // Use a mutable slice reference which implements Buf
+    let mut remaining = bytes;
 
-    // Build string table from d2 or get empty one
-    let strings = build_string_table(&proto_class, annot)?;
+    // First, read StringTableTypes (describes how to interpret d2 strings)
+    let string_table_types = jvm_proto::StringTableTypes::decode_length_delimited(&mut remaining)
+        .map_err(|e| anyhow!("Failed to decode StringTableTypes: {}", e))?;
+
+    // Build string resolver using StringTableTypes + d2 array
+    let strings = build_string_resolver(&string_table_types, &annot.data2)?;
+
+    // remaining now points to the Class message (after StringTableTypes was consumed)
+    let proto_class = proto::Class::decode(remaining)
+        .map_err(|e| anyhow!("Failed to decode Class: {}", e))?;
 
     // Extract class name
     let class_name = strings
@@ -215,6 +499,10 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
     let raw_flags = proto_class.flags.unwrap_or(6); // default: public final class
     let flags = parse_class_flags(raw_flags);
     let is_data_class = flags.is_data;
+
+    if is_data_class {
+        tracing::debug!("Parser detected data class: {} (flags=0x{:x})", class_name, raw_flags);
+    }
 
     // Extract functions with flags
     let functions = proto_class
@@ -266,10 +554,20 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
 
 /// Parse Package (file facade) metadata (kind = 2)
 fn parse_package_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Result<KotlinClassMetadata> {
-    let proto_pkg = proto::Package::decode(bytes)?;
+    // The stream contains: StringTableTypes (length-delimited) + Package message
+    // Use a mutable slice reference which implements Buf
+    let mut remaining = bytes;
 
-    // Build string table from d2
-    let strings = build_string_table_from_d2(annot)?;
+    // First, read StringTableTypes (describes how to interpret d2 strings)
+    let string_table_types = jvm_proto::StringTableTypes::decode_length_delimited(&mut remaining)
+        .map_err(|e| anyhow!("Failed to decode StringTableTypes for package: {}", e))?;
+
+    // Build string resolver using StringTableTypes + d2 array
+    let strings = build_string_resolver(&string_table_types, &annot.data2)?;
+
+    // remaining now points to the Package message (after StringTableTypes was consumed)
+    let proto_pkg = proto::Package::decode(remaining)
+        .map_err(|e| anyhow!("Failed to decode Package: {}", e))?;
 
     // For packages, extract top-level functions
     let functions = proto_pkg
@@ -279,11 +577,19 @@ fn parse_package_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Res
         .map(|(idx, f)| parse_function(f, &strings, idx as u32))
         .collect::<Result<Vec<_>>>()?;
 
+    // Extract top-level properties
+    let properties = proto_pkg
+        .property
+        .iter()
+        .enumerate()
+        .map(|(idx, p)| parse_property(p, &strings, idx as u32))
+        .collect::<Result<Vec<_>>>()?;
+
     Ok(KotlinClassMetadata {
         kind: KotlinKind::FileFacade,
         class_name: annot.package_name.clone().unwrap_or_default(),
         functions,
-        properties: vec![],
+        properties,
         companion_object: None,
         is_data_class: false,
         flags: crate::types::KotlinClassFlags::default(),
@@ -408,24 +714,6 @@ fn capitalize_first(s: &str) -> String {
         None => String::new(),
         Some(c) => c.to_uppercase().chain(chars).collect(),
     }
-}
-
-fn build_string_table(_proto_class: &proto::Class, annot: &KotlinMetadataAnnotation) -> Result<Vec<String>> {
-    // Use d2 array (fallback human-readable names from toString)
-    // The actual string table in protobuf is typically empty or minimal
-    // d2 contains the human-readable representation
-    if !annot.data2.is_empty() {
-        return Ok(annot.data2.clone());
-    }
-
-    Err(anyhow!("No string table (d2) found in metadata"))
-}
-
-fn build_string_table_from_d2(annot: &KotlinMetadataAnnotation) -> Result<Vec<String>> {
-    if annot.data2.is_empty() {
-        return Err(anyhow!("d2 field is empty"));
-    }
-    Ok(annot.data2.clone())
 }
 
 /// Fallback parser using d2 array (toString format)

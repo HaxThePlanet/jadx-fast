@@ -7,11 +7,12 @@ fn main() {
     // Compile the proto files
     config
         .compile_protos(
-            &["proto/metadata.proto"],
+            &["proto/metadata.proto", "proto/jvm_metadata.proto"],
             &["proto/"],
         )
         .unwrap();
 
     println!("cargo:rerun-if-changed=proto/metadata.proto");
     println!("cargo:rerun-if-changed=proto/ext_options.proto");
+    println!("cargo:rerun-if-changed=proto/jvm_metadata.proto");
 }

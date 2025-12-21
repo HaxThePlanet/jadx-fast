@@ -21,6 +21,11 @@ pub mod proto {
     include!(concat!(env!("OUT_DIR"), "/org.jetbrains.kotlin.metadata.rs"));
 }
 
+// JVM-specific Kotlin metadata protobuf types
+pub mod jvm_proto {
+    include!(concat!(env!("OUT_DIR"), "/org.jetbrains.kotlin.metadata.jvm.rs"));
+}
+
 use anyhow::Result;
 use dexterity_dex::DexReader;
 use dexterity_ir::ClassData;
@@ -31,6 +36,7 @@ use dexterity_ir::kotlin_metadata::get_class_alias;
 /// If `dex` is provided, also applies toString() bytecode analysis as a fallback
 /// for extracting field names when protobuf metadata is unavailable.
 pub fn process_kotlin_metadata(cls: &mut ClassData, dex: Option<&DexReader>) -> Result<()> {
+
     // Attempt to extract class alias from Kotlin metadata (d2 array)
     // This runs before protobuf parsing to ensure we have the correct class name
     // even if protobuf parsing fails or is incomplete.
@@ -45,8 +51,22 @@ pub fn process_kotlin_metadata(cls: &mut ClassData, dex: Option<&DexReader>) -> 
 
     // Find @kotlin.Metadata annotation
     let metadata_annot = match parser::find_kotlin_metadata(&cls.annotations) {
-        Some(a) => a,
-        None => return Ok(()), // Not Kotlin code, skip silently
+        Some(a) => {
+            tracing::debug!("Found Kotlin metadata annotation in {}", cls.class_type);
+            a
+        }
+        None => {
+            // Not Kotlin code - log at debug level for debugging
+            if !cls.annotations.is_empty() {
+                tracing::debug!(
+                    "No Kotlin metadata in {} (has {} annotations: {:?})",
+                    cls.class_type,
+                    cls.annotations.len(),
+                    cls.annotations.iter().map(|a| &a.annotation_type).collect::<Vec<_>>()
+                );
+            }
+            return Ok(());
+        }
     };
 
     // Parse the annotation into structured form
@@ -54,7 +74,13 @@ pub fn process_kotlin_metadata(cls: &mut ClassData, dex: Option<&DexReader>) -> 
 
     // Attempt to parse protobuf (d1 field)
     let kotlin_metadata = match parser::parse_d1_protobuf(&kotlin_meta_annot) {
-        Ok(meta) => meta,
+        Ok(meta) => {
+            tracing::debug!(
+                "Parsed Kotlin metadata for {}: kind={:?}, is_data={}, functions={}",
+                cls.class_type, meta.kind, meta.is_data_class, meta.functions.len()
+            );
+            meta
+        }
         Err(e) => {
             tracing::debug!(
                 "Failed to parse Kotlin metadata d1 for {}: {}",

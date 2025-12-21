@@ -1,0 +1,45 @@
+// JVM-specific Kotlin metadata extensions
+// Extracted from https://github.com/JetBrains/kotlin/blob/master/core/metadata.jvm/src/jvm_metadata.proto
+
+syntax = "proto2";
+package org.jetbrains.kotlin.metadata.jvm;
+
+option java_outer_classname = "JvmProtoBuf";
+option optimize_for = LITE_RUNTIME;
+
+// String table types that describe how to interpret d2 strings
+message StringTableTypes {
+  message Record {
+    // Number of times this record should be repeated (collapses identical subsequent records)
+    optional int32 range = 1 [default = 1];
+
+    // Index of a predefined constant. If present, the associated d2 string is ignored
+    optional int32 predefined_index = 2;
+
+    // Literal string value. If present, both d2 string and predefined index are ignored
+    optional string string = 6;
+
+    // Operation to apply to the string
+    enum Operation {
+      NONE = 0;
+      // Convert internal name to class ID: replaceAll('$', '.')
+      // e.g., java/util/Map$Entry -> java/util/Map.Entry
+      INTERNAL_TO_CLASS_ID = 1;
+      // Convert descriptor to class ID
+      DESC_TO_CLASS_ID = 2;
+    }
+    optional Operation operation = 3 [default = NONE];
+
+    // Substring extraction indices
+    repeated int32 substring_index = 4 [packed = true];
+
+    // Character replacement indices
+    repeated int32 replace_char = 5 [packed = true];
+  }
+
+  // Repeated records describing string table entries
+  repeated Record record = 1;
+
+  // Indices of local class and anonymous object names
+  repeated int32 local_name = 5 [packed = true];
+}
