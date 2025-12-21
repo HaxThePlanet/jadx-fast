@@ -74,8 +74,10 @@ struct FieldInitInfo {
     field_idx: usize,
     /// The value being assigned
     value: FieldValue,
-    /// Index of the instruction in the method
+    /// Index of the SPUT instruction in the method
     insn_idx: usize,
+    /// Additional instruction indices to remove (for NewInstance patterns: new-instance, invoke-direct)
+    additional_remove_indices: Vec<usize>,
 }
 
 /// Extract static field initializations from `<clinit>` method
@@ -309,10 +311,19 @@ fn collect_field_inits(
             if let Some(mut field_value) = extract_constant_value(value, method, insn_idx, dex) {
                 // Convert value to correct type based on field declaration
                 field_value = convert_value_to_field_type(&field_value, &fields[array_idx].field_type);
+
+                // For NewInstance patterns, find the related instructions to remove
+                let additional_indices = if let FieldValue::NewInstance(_) = &field_value {
+                    find_new_instance_instructions(value, method, insn_idx)
+                } else {
+                    Vec::new()
+                };
+
                 inits.push(FieldInitInfo {
                     field_idx: array_idx,
                     value: field_value,
                     insn_idx,
+                    additional_remove_indices: additional_indices,
                 });
             }
         }
@@ -361,7 +372,7 @@ fn is_safe_init(field: &FieldData, value: &FieldValue) -> bool {
         return false;
     }
 
-    // Only extract simple constant values
+    // Only extract simple constant values and new instance patterns (Kotlin objects)
     matches!(
         value,
         FieldValue::Null
@@ -375,6 +386,7 @@ fn is_safe_init(field: &FieldData, value: &FieldValue) -> bool {
             | FieldValue::Double(_)
             | FieldValue::String(_)
             | FieldValue::Type(_)
+            | FieldValue::NewInstance(_) // Kotlin object INSTANCE pattern
     )
 }
 
@@ -491,6 +503,22 @@ fn trace_register_constant_impl(
                     });
                 }
             }
+            InsnType::NewInstance { dest, type_idx } if dest.reg_num == reg_num as u16 => {
+                // Found a new-instance instruction that creates our object
+                // Check if there's a corresponding <init> call between here and up_to_idx
+                // Pattern: new-instance vN, Type; invoke-direct {vN}, Type.<init>
+                if let Some(dex) = dex {
+                    // Check if constructor is called on this object before SPUT
+                    if has_constructor_call(reg_num, idx, up_to_idx, instructions) {
+                        // Resolve the class name from type_idx
+                        if let Ok(type_desc) = dex.get_type(*type_idx) {
+                            return Some(FieldValue::NewInstance(type_desc.to_string()));
+                        }
+                    }
+                }
+                // NewInstance without confirmed <init> - not safe to extract
+                return None;
+            }
             _ => {
                 // Check if this instruction writes to our register
                 // If so, it's not a simple constant, bail out
@@ -521,10 +549,92 @@ fn insn_writes_to_register(insn: &InsnType, reg_num: usize) -> bool {
     }
 }
 
+/// Check if there's a constructor call (invoke-direct on <init>) between new_instance_idx and sput_idx
+/// This validates that the new-instance pattern is complete before the static-put
+fn has_constructor_call(
+    reg_num: usize,
+    new_instance_idx: usize,
+    sput_idx: usize,
+    instructions: &[dexterity_ir::instructions::InsnNode],
+) -> bool {
+    use dexterity_ir::instructions::InvokeKind;
+
+    // Scan instructions between new-instance and sput
+    for insn in instructions.iter().skip(new_instance_idx + 1).take(sput_idx - new_instance_idx - 1) {
+        if let InsnType::Invoke { kind: InvokeKind::Direct, args, .. } = &insn.insn_type {
+            // Check if first argument is our register (the 'this' for the constructor)
+            if let Some(first_arg) = args.first() {
+                if let InsnArg::Register(arg_reg) = first_arg {
+                    if arg_reg.reg_num == reg_num as u16 {
+                        // Found an invoke-direct with our object as first arg
+                        // This is the <init> call for our new-instance
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    false
+}
+
+/// Find the new-instance and invoke-direct instruction indices for a NewInstance pattern
+/// Returns indices that should be removed along with the SPUT
+fn find_new_instance_instructions(
+    sput_value: &InsnArg,
+    method: &MethodData,
+    sput_idx: usize,
+) -> Vec<usize> {
+    use dexterity_ir::instructions::InvokeKind;
+
+    let mut indices = Vec::new();
+
+    // Get the register that holds the new instance
+    let reg_num = match sput_value {
+        InsnArg::Register(reg) => reg.reg_num as usize,
+        _ => return indices,
+    };
+
+    let instructions = match method.instructions() {
+        Some(insns) => insns,
+        None => return indices,
+    };
+
+    // Scan backwards from SPUT to find new-instance
+    for (idx, insn) in instructions.iter().enumerate().take(sput_idx).rev() {
+        if let InsnType::NewInstance { dest, .. } = &insn.insn_type {
+            if dest.reg_num == reg_num as u16 {
+                indices.push(idx);
+                // Now find the invoke-direct between here and sput_idx
+                for (invoke_idx, invoke_insn) in instructions.iter().enumerate().skip(idx + 1).take(sput_idx - idx - 1) {
+                    if let InsnType::Invoke { kind: InvokeKind::Direct, args, .. } = &invoke_insn.insn_type {
+                        if let Some(first_arg) = args.first() {
+                            if let InsnArg::Register(arg_reg) = first_arg {
+                                if arg_reg.reg_num == reg_num as u16 {
+                                    indices.push(invoke_idx);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    indices
+}
+
 /// Apply field initializations by updating field values and removing SPUT instructions
 fn apply_field_inits(class: &mut ClassData, inits: &[FieldInitInfo], clinit_idx: usize) {
-    // Build a set of instruction indices to remove
-    let remove_indices: HashSet<usize> = inits.iter().map(|i| i.insn_idx).collect();
+    // Build a set of instruction indices to remove (SPUT + any additional for NewInstance patterns)
+    let mut remove_indices: HashSet<usize> = HashSet::new();
+    for init in inits {
+        remove_indices.insert(init.insn_idx);
+        for &idx in &init.additional_remove_indices {
+            remove_indices.insert(idx);
+        }
+    }
 
     // Update fields with their initial values
     for init in inits {
@@ -533,13 +643,13 @@ fn apply_field_inits(class: &mut ClassData, inits: &[FieldInitInfo], clinit_idx:
         }
     }
 
-    // Remove the SPUT instructions from the method (in reverse order to maintain indices)
+    // Remove the instructions from the method (in reverse order to maintain indices)
     let method = &mut class.methods[clinit_idx];
 
     // Get mutable access to instructions using the proper getter
     let instructions = method.get_instructions_mut();
     let mut indices_to_remove: Vec<usize> = remove_indices.into_iter().collect();
-    indices_to_remove.sort_by(|a, b| b.cmp(a)); // Sort in reverse
+    indices_to_remove.sort_by(|a, b| b.cmp(a)); // Sort in reverse (important for removal)
 
     for idx in indices_to_remove {
         if idx < instructions.len() {

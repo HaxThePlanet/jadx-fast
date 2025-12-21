@@ -575,159 +575,70 @@ impl<'a> VarNaming<'a> {
             ArgType::Float => "f",
             ArgType::Double => "d",
             ArgType::Object(name) => {
-                // OBJ_ALIAS mappings from JADX for 1:1 compatibility
-                // IMPORTANT: More specific patterns must come before general ones
-                // (e.g., StringBuilder before String, StringBuffer before Buffer)
-                // Extended with additional common Java types
+                // JADX OBJ_ALIAS: Exact full-qualified name matching (not contains!)
+                // This matches JADX's ApplyVariableNames.OBJ_ALIAS exactly
+                // Names come in internal format (java/lang/String), convert to Java format
+                let java_name = name.replace('/', ".");
 
-                // String types (most common, check first)
-                if name.contains("StringBuilder") || name.contains("StringBuffer") {
-                    "sb"
-                } else if name.contains("String") {
-                    "str"
-                }
-                // Throwable types
-                else if name.contains("Throwable") || name.contains("Error") {
-                    "th"
-                } else if name.contains("Exception") {
-                    "exc"  // More specific than "th"
-                }
-                // Numeric wrapper types
-                else if name.contains("Integer") {
-                    "num"
-                } else if name.contains("Long") && !name.contains("LongSparseArray") {
-                    "num"
-                } else if name.contains("Double") && !name.contains("DoubleArray") {
-                    "num"
-                } else if name.contains("Float") && !name.contains("FloatArray") {
-                    "num"
-                } else if name.contains("Number") {
-                    "num"
-                } else if name.contains("BigDecimal") || name.contains("BigInteger") {
-                    "num"
-                } else if name.contains("Boolean") && !name.contains("BooleanArray") {
-                    "bool"
-                }
-                // Collection types
-                else if name.contains("ArrayList") || name.contains("LinkedList") {
-                    "list"
-                } else if name.contains("List") {
-                    "list"
-                } else if name.contains("HashMap") || name.contains("LinkedHashMap") || name.contains("TreeMap") {
-                    "map"
-                } else if name.contains("Map") {
-                    "map"
-                } else if name.contains("HashSet") || name.contains("LinkedHashSet") || name.contains("TreeSet") {
-                    "set"
-                } else if name.contains("Set") {
-                    "set"
-                } else if name.contains("Queue") || name.contains("Deque") {
-                    "queue"
-                } else if name.contains("Stack") {
-                    "stack"
-                } else if name.contains("Collection") {
-                    "collection"
-                }
-                // Iterator/Enumeration
-                else if name.contains("Iterator") {
-                    "it"
-                } else if name.contains("Enumeration") {
-                    "enumeration"
-                }
-                // Stream types
-                else if name.contains("InputStream") {
-                    "inputStream"
-                } else if name.contains("OutputStream") {
-                    "outputStream"
-                } else if name.contains("Stream") {
-                    "stream"
-                }
-                // Reader/Writer
-                else if name.contains("Reader") {
-                    "reader"
-                } else if name.contains("Writer") {
-                    "writer"
-                }
-                // Reflection types
-                else if name.contains("Class") {
-                    "cls"
-                } else if name.contains("Method") {
-                    "method"
-                } else if name.contains("Field") {
-                    "field"
-                } else if name.contains("Constructor") {
-                    "constructor"
-                }
-                // Pattern/Matcher
-                else if name.contains("Pattern") {
-                    "pattern"
-                } else if name.contains("Matcher") {
-                    "matcher"
-                }
-                // Date/Time
-                else if name.contains("Date") {
-                    "date"
-                } else if name.contains("Calendar") {
-                    "calendar"
-                } else if name.contains("Time") {
-                    "time"
-                }
-                // Builder/Factory patterns
-                else if name.contains("Builder") {
-                    "builder"
-                } else if name.contains("Factory") {
-                    "factory"
-                }
-                // Buffer types
-                else if name.contains("ByteBuffer") {
-                    "byteBuffer"
-                } else if name.contains("Buffer") {
-                    "buf"
-                }
-                // Context types (Android)
-                else if name.contains("Context") {
-                    "context"
-                } else if name.contains("Activity") {
-                    "activity"
-                } else if name.contains("Service") {
-                    "service"
-                } else if name.contains("Intent") {
-                    "intent"
-                } else if name.contains("Bundle") {
-                    "bundle"
-                } else if name.contains("View") {
-                    "view"
-                } else if name.contains("Handler") {
-                    "handler"
-                } else if name.contains("Runnable") {
-                    "runnable"
-                } else if name.contains("Callable") {
-                    "callable"
-                } else if name.contains("Future") {
-                    "future"
-                } else if name.contains("Promise") {
-                    "promise"
-                } else if name.contains("Task") {
-                    "task"
-                }
-                // Network types
-                else if name.contains("Socket") {
-                    "socket"
-                } else if name.contains("Connection") {
-                    "connection"
-                } else if name.contains("Request") {
-                    "request"
-                } else if name.contains("Response") {
-                    "response"
-                } else if name.contains("Client") {
-                    "client"
-                }
-                // Generic Object
-                else if name.contains("Object") && name.ends_with("/Object") {
-                    "obj"
-                } else {
-                    // Extract simple class name and use lowercase first char
-                    return Self::extract_class_name_base(name);
+                // Core JADX OBJ_ALIAS mappings - exact matches only
+                match java_name.as_str() {
+                    "java.lang.String" => "str",
+                    "java.lang.Class" => "cls",
+                    "java.lang.Throwable" => "th",
+                    "java.lang.Object" => "obj",
+                    "java.util.Iterator" => "it",
+                    "java.util.HashMap" => "map",
+                    "java.lang.Boolean" => "bool",
+                    "java.lang.Short" => "sh",
+                    "java.lang.Integer" => "num",
+                    "java.lang.Character" => "ch",
+                    "java.lang.Byte" => "b",
+                    "java.lang.Float" => "f",
+                    "java.lang.Long" => "l",
+                    "java.lang.Double" => "d",
+                    "java.lang.StringBuilder" => "sb",
+                    "java.lang.Exception" => "exc",
+                    // Additional common types (exact matches)
+                    "java.lang.StringBuffer" => "sb",
+                    "java.lang.Number" => "num",
+                    "java.math.BigDecimal" => "num",
+                    "java.math.BigInteger" => "num",
+                    "java.util.List" => "list",
+                    "java.util.ArrayList" => "list",
+                    "java.util.LinkedList" => "list",
+                    "java.util.Map" => "map",
+                    "java.util.LinkedHashMap" => "map",
+                    "java.util.TreeMap" => "map",
+                    "java.util.Set" => "set",
+                    "java.util.HashSet" => "set",
+                    "java.util.LinkedHashSet" => "set",
+                    "java.util.TreeSet" => "set",
+                    "java.io.InputStream" => "inputStream",
+                    "java.io.OutputStream" => "outputStream",
+                    "java.io.Reader" => "reader",
+                    "java.io.Writer" => "writer",
+                    "java.lang.reflect.Method" => "method",
+                    "java.lang.reflect.Field" => "field",
+                    "java.lang.reflect.Constructor" => "constructor",
+                    "java.util.regex.Pattern" => "pattern",
+                    "java.util.regex.Matcher" => "matcher",
+                    "java.util.Date" => "date",
+                    "java.util.Calendar" => "calendar",
+                    "java.nio.ByteBuffer" => "byteBuffer",
+                    "java.nio.Buffer" => "buf",
+                    // Android common types (exact matches)
+                    "android.content.Context" => "context",
+                    "android.app.Activity" => "activity",
+                    "android.app.Service" => "service",
+                    "android.content.Intent" => "intent",
+                    "android.os.Bundle" => "bundle",
+                    "android.view.View" => "view",
+                    "android.os.Handler" => "handler",
+                    "java.lang.Runnable" => "runnable",
+                    "java.util.concurrent.Callable" => "callable",
+                    "java.util.concurrent.Future" => "future",
+                    // Not found in OBJ_ALIAS - fall back to class name extraction
+                    _ => return Self::extract_class_name_base(name),
                 }
             }
             ArgType::Array(elem) => {
@@ -1160,11 +1071,21 @@ impl<'a> VarNaming<'a> {
             "forName" | "getClass" | "getComponentType" | "getSuperclass" => {
                 Some("cls".to_string())
             }
-            // String conversion
-            "toString" | "valueOf" => Some("str".to_string()),
-            // Common getters with well-known names
-            "size" | "length" => Some("size".to_string()),
+            // toString: JADX returns the declaring class name, not "str"
+            // e.g., Pattern.toString() -> "pattern", not "str"
+            "toString" => {
+                class_name.map(|c| Self::extract_class_name_base(c).to_string())
+            }
+            // valueOf still returns "str" for String.valueOf() etc.
+            "valueOf" => Some("str".to_string()),
+            // JADX GOOD_VAR_NAMES - use these method names directly as variable names
+            // These are common, descriptive names that don't need prefix stripping
+            "size" => Some("size".to_string()),
+            "length" => Some("length".to_string()),
+            "list" => Some("list".to_string()),
+            "map" => Some("map".to_string()),
             "next" => Some("next".to_string()),
+            // Additional common getters with well-known names
             "previous" => Some("prev".to_string()),
             "current" => Some("current".to_string()),
             "key" => Some("key".to_string()),

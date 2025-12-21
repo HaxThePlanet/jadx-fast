@@ -32,9 +32,9 @@ pub enum CommentsLevel {
     None,
     /// Only user-provided comments
     UserOnly,
-    /// Include error comments (/* JADX ERROR: ... */)
+    /// Include error comments (/* Dexterity ERROR: ... */)
     Error,
-    /// Include warning comments (/* JADX WARNING: ... */)
+    /// Include warning comments (/* Dexterity WARNING: ... */)
     Warn,
     /// Include info comments (/* loaded from: ... */, /* renamed from: ... */)
     #[default]
@@ -1330,6 +1330,16 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &dexterity_ir:
             code.add(simple_name);
             code.add(".");
             code.add(field_name)
+        }
+        FieldValue::NewInstance(class_name) => {
+            // Format: new ClassName() - for Kotlin object INSTANCE fields
+            let simple_name = class_name.rsplit('/').next().unwrap_or(class_name);
+            // Strip L prefix and ; suffix if present
+            let simple_name = simple_name.strip_prefix('L').unwrap_or(simple_name);
+            let simple_name = simple_name.strip_suffix(';').unwrap_or(simple_name);
+            code.add("new ");
+            code.add(simple_name);
+            code.add("()")
         }
     };
 }

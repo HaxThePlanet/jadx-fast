@@ -1370,6 +1370,9 @@ pub enum FieldValue {
     Enum(String, String),
     /// Field reference (class name, field name)
     Field(String, String),
+    /// New instance creation (class name) - for `new ClassName()` pattern
+    /// Used for Kotlin object INSTANCE fields and similar singleton patterns
+    NewInstance(String),
 }
 
 #[cfg(test)]

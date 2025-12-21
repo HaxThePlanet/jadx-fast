@@ -37,6 +37,26 @@ fn should_skip_complex_method(method: &MethodData) -> Option<String> {
     None
 }
 
+/// Check if a static initializer (clinit) is empty and should be skipped
+/// A clinit is considered empty if it has no instructions or only a return-void
+fn is_empty_clinit(method: &MethodData) -> bool {
+    if let Some(insns) = method.instructions() {
+        // Empty or only return-void
+        if insns.is_empty() {
+            return true;
+        }
+        if insns.len() == 1 {
+            if let dexterity_ir::InsnType::Return { value: None } = &insns[0].insn_type {
+                return true;
+            }
+        }
+    } else {
+        // No instructions at all (native or abstract - unusual for clinit)
+        return true;
+    }
+    false
+}
+
 use dexterity_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData, TypeParameter};
 
 use crate::access_flags::{self, flags::*, AccessContext};
@@ -324,6 +344,12 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     code: &mut W,
 ) {
+    // Skip empty static initializers (JADX behavior)
+    // A clinit is considered empty if it has no instructions or only a return-void
+    if method.is_class_init() && is_empty_clinit(method) {
+        return;
+    }
+
     // Get current package for simple type names
     let current_package = get_package(&class.class_type);
     let pkg = current_package.as_deref();
@@ -462,6 +488,12 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     add_debug_lines: bool,
     code: &mut W,
 ) {
+    // Skip empty static initializers (JADX behavior)
+    // A clinit is considered empty if it has no instructions or only a return-void
+    if method.is_class_init() && is_empty_clinit(method) {
+        return;
+    }
+
     // Get current package for simple type names
     let current_package = get_package(&class.class_type);
     let pkg = current_package.as_deref();

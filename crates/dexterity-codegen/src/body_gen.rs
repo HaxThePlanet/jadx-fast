@@ -1778,7 +1778,7 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         let warning_msg = msg.trim_start_matches("SKIP:").trim();
 
         code.start_line()
-            .add("/* JADX WARN: ")
+            .add("/* Dexterity WARN: ")
             .add(warning_msg)
             .add(" */")
             .newline();
@@ -2011,7 +2011,7 @@ pub fn generate_body_with_inner_classes_and_lambdas<W: CodeWriter>(
     }));
 
     if let Err(_payload) = result {
-         code.start_line().add("/* JADX WARNING: Method generation error */").newline();
+         code.start_line().add("/* Dexterity WARNING: Method generation error */").newline();
          if let Some(insns) = method.instructions() {
              crate::fallback_gen::generate_fallback_body(insns, code);
          }
@@ -3296,7 +3296,7 @@ fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenCon
         _ => {
             // Not an If region - generate regular else
             // Skip empty else blocks for JADX parity (BUG-008)
-            if !is_empty_region(else_region) {
+            if !is_empty_region_with_ctx(else_region, ctx) {
                 gen_else(code);
                 generate_region(else_region, ctx, code);
             }
@@ -3306,10 +3306,63 @@ fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenCon
 
 /// Check if a region is empty (no meaningful content)
 /// Used to skip generating empty else blocks for JADX parity (BUG-008)
+/// This matches JADX's RegionUtils.notEmpty() behavior:
+/// - For Sequence: checks if all contents are empty (recursively)
+/// - For Block: checks if all instructions have DONT_GENERATE flag
+/// - For If: checks if both branches are empty
+/// - Loops, switches, try-catch are never "empty" (have structural meaning)
 fn is_empty_region(region: &Region) -> bool {
+    is_empty_region_impl(region, None)
+}
+
+/// Check if a region is empty, with optional context for block content checking
+fn is_empty_region_with_ctx(region: &Region, ctx: &BodyGenContext) -> bool {
+    is_empty_region_impl(region, Some(ctx))
+}
+
+/// Implementation of empty region check
+fn is_empty_region_impl(region: &Region, ctx: Option<&BodyGenContext>) -> bool {
+    use dexterity_ir::attributes::AFlag;
+    use dexterity_ir::regions::RegionContent;
+
     match region {
-        Region::Sequence(contents) => contents.is_empty(),
-        _ => false,
+        Region::Sequence(contents) => {
+            // Sequence is empty if it has no contents OR all contents are empty
+            if contents.is_empty() {
+                return true;
+            }
+            // Check each content item
+            contents.iter().all(|content| match content {
+                RegionContent::Block(block_id) => {
+                    // Block is empty if all its instructions have DONT_GENERATE
+                    if let Some(ctx) = ctx {
+                        if let Some(block) = ctx.blocks.get(block_id) {
+                            block.instructions.iter().all(|insn| {
+                                insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove)
+                            })
+                        } else {
+                            false // Unknown block - assume not empty
+                        }
+                    } else {
+                        false // No context - assume not empty
+                    }
+                }
+                RegionContent::Region(nested) => is_empty_region_impl(nested, ctx),
+            })
+        }
+        Region::If { then_region, else_region, .. } => {
+            // If is empty only if both branches are empty
+            is_empty_region_impl(then_region, ctx)
+                && else_region.as_ref().map_or(true, |e| is_empty_region_impl(e, ctx))
+        }
+        // Loops, switches, try-catch, synchronized blocks are never "empty"
+        // They have structural meaning even with empty bodies
+        Region::Loop { .. } | Region::Switch { .. } | Region::TryCatch { .. }
+            | Region::Synchronized { .. } => false,
+        // Break/Continue are statements, not empty
+        Region::Break { .. } | Region::Continue { .. } => false,
+        // Ternary regions have values, not empty
+        Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => false,
     }
 }
 
@@ -4814,7 +4867,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             if let Some(else_reg) = else_region {
                 // Skip empty else blocks for JADX parity (BUG-008)
-                if !is_empty_region(else_reg) {
+                if !is_empty_region_with_ctx(else_reg, ctx) {
                     // Check if the else region is another If - chain as else-if
                     generate_else_chain(else_reg, ctx, code);
                 }
@@ -5462,8 +5515,18 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
     // Check if this block has instructions to skip (for-each iterator calls)
     let skip_insns = ctx.skip_foreach_insns.get(&block.id).cloned();
 
+    // Track if we've emitted an exit instruction (return/throw)
+    // After an exit instruction, all remaining code in the block is unreachable
+    let mut emitted_exit = false;
+
     // Iterate directly without Arc/Mutex overhead
     for (i, insn) in block.instructions.iter().enumerate() {
+        // Skip all instructions after an exit (return/throw) - they're unreachable
+        // This fixes UnreachableCode defects (33 -> should match JADX's 7)
+        if emitted_exit {
+            continue;
+        }
+
         // Skip instructions marked for for-each suppression
         if let Some(ref skip_set) = skip_insns {
             if skip_set.contains(&i) {
@@ -5504,6 +5567,12 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
                 .add(&format!("{:?}", insn.insn_type))
                 .add(" */")
                 .newline();
+        }
+
+        // Check if we just emitted an exit instruction
+        // Note: Return { value: None } at last_idx was already skipped above
+        if matches!(&insn.insn_type, InsnType::Return { value: Some(_) } | InsnType::Throw { .. }) {
+            emitted_exit = true;
         }
     }
 }
@@ -6854,11 +6923,13 @@ fn generate_insn<W: CodeWriter>(
                 ctx.write_arg_inline(code, exception);
                 code.add(";").newline();
             } else {
-                // Invalid throw - emit null throw with warning comment
+                // Invalid throw - emit with cast to Throwable (bytecode attempted this throw)
                 code.start_line()
-                    .add("/* JADX WARN: Attempted to throw non-Throwable value */")
+                    .add("/* Dexterity WARN: Type inference failed for thrown value */")
                     .newline();
-                code.start_line().add("throw null;").newline();
+                code.start_line().add("throw (Throwable) ");
+                ctx.write_arg_inline(code, exception);
+                code.add(";").newline();
             }
             true
         }

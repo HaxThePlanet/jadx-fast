@@ -1386,13 +1386,14 @@ impl TypeInference {
             }
         }
 
-        // BOUNDS-BASED PHI RESOLUTION: Compute LCA for incompatible PHI types
-        // This happens AFTER constraint solving to find the least common ancestor of
-        // incompatible types (e.g., PHI(Cursor, String) -> Object)
-        self.compute_phi_lcas();
-
-        // Second pass: resolve bounds to concrete types
+        // First resolve bounds to concrete types - this gives PHI LCA better information
+        // about what types are actually needed (from UseBound constraints)
         self.resolve_bounds();
+
+        // BOUNDS-BASED PHI RESOLUTION: Compute LCA for incompatible PHI types
+        // This happens AFTER bounds resolution so we have more specific type info
+        // for computing the least common ancestor (e.g., PHI(Cursor, String) -> Object)
+        self.compute_phi_lcas();
 
         // Phase 2: TypeSearch multi-variable solver for remaining unresolved variables
         // This implements JADX's fallback algorithm for complex type dependencies
@@ -1783,12 +1784,15 @@ impl TypeInference {
             return;
         }
 
-        // For single variable, just pick first candidate
+        // For single variable, pick best candidate (prefer specific types over Object)
         if group.len() == 1 {
             let var = group[0];
             if let Some(candidates) = var_candidates.get(&var) {
                 if !candidates.is_empty() {
-                    self.resolved.insert(var, InferredType::Concrete(candidates[0].clone()));
+                    let best = candidates.iter()
+                        .find(|c| !matches!(c, ArgType::Object(n) if n == "java/lang/Object"))
+                        .unwrap_or(&candidates[0]);
+                    self.resolved.insert(var, InferredType::Concrete(best.clone()));
                 }
             }
             return;
@@ -1860,10 +1864,15 @@ impl TypeInference {
             }
         }
 
-        // No valid assignment found - use first candidates as fallback
+        // No valid assignment found - use best candidates as fallback
+        // Prefer specific types over java/lang/Object
         for (var, candidates) in &group_candidates {
             if !candidates.is_empty() {
-                self.resolved.insert(**var, InferredType::Concrete(candidates[0].clone()));
+                // Find best candidate: prefer non-Object types
+                let best = candidates.iter()
+                    .find(|c| !matches!(c, ArgType::Object(n) if n == "java/lang/Object"))
+                    .unwrap_or(&candidates[0]);
+                self.resolved.insert(**var, InferredType::Concrete(best.clone()));
             }
         }
     }
@@ -2040,12 +2049,11 @@ impl TypeInference {
                 }
             }
 
-            // Special case: all nulls -> Object
+            // Special case: all nulls -> don't resolve yet, let bounds/TypeSearch determine type
+            // Previously defaulted to Object which is too conservative
             if all_resolved && has_null && object_types.is_empty() && !has_primitive {
-                self.resolved.insert(
-                    *dest_var,
-                    InferredType::Concrete(ArgType::Object("java/lang/Object".to_string())),
-                );
+                // Skip - let later phases (bounds, TypeSearch) determine the actual type
+                // This allows UseBound constraints to provide more specific types
                 continue;
             }
 
