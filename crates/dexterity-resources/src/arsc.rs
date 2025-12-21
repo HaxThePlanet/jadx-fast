@@ -202,34 +202,74 @@ impl ResConfig {
             parts.push(format!("mnc{}", self.mnc));
         }
 
-        // Language/locale
-        if self.language[0] != 0 {
-            let lang = String::from_utf8_lossy(&self.language)
-                .trim_end_matches('\0')
-                .to_string();
-            if !lang.is_empty() {
-                if self.country[0] != 0 {
-                    let country = String::from_utf8_lossy(&self.country)
+        // Language/locale handling
+        // JADX distinguishes between old-style (xx-rXX) and BCP47 (b+xx+Script+RR+Variant)
+        let has_script = self.locale_script[0] != 0;
+        let has_variant = self.locale_variant[0] != 0;
+        let has_language = self.language[0] != 0;
+        let has_country = self.country[0] != 0;
+
+        // Determine if we should use BCP47 format
+        let use_bcp47 = has_script || has_variant;
+
+        if use_bcp47 {
+            // BCP47 style: b+language+script+region+variant
+            if has_language || has_country {
+                let mut locale_str = String::from("b+");
+
+                // Add language
+                if has_language {
+                    locale_str.push_str(&String::from_utf8_lossy(&self.language)
+                        .trim_end_matches('\0'));
+                }
+
+                // Add script (4 chars)
+                if has_script {
+                    locale_str.push('+');
+                    locale_str.push_str(&String::from_utf8_lossy(&self.locale_script)
+                        .trim_end_matches('\0'));
+                }
+
+                // Add region
+                if has_country {
+                    locale_str.push('+');
+                    locale_str.push_str(&String::from_utf8_lossy(&self.country)
+                        .trim_end_matches('\0'));
+                }
+
+                // Add variant (uppercase, min 5 chars like POSIX)
+                if has_variant {
+                    let variant_str = String::from_utf8_lossy(&self.locale_variant)
                         .trim_end_matches('\0')
                         .to_string();
-                    if !country.is_empty() {
-                        parts.push(format!("{}-r{}", lang, country));
+                    if variant_str.len() >= 5 {
+                        locale_str.push('+');
+                        locale_str.push_str(&variant_str.to_uppercase());
+                    }
+                }
+
+                parts.push(locale_str);
+            }
+        } else {
+            // Old style: xx or xx-rXX (used when no script or variant)
+            if has_language {
+                let lang = String::from_utf8_lossy(&self.language)
+                    .trim_end_matches('\0')
+                    .to_string();
+                if !lang.is_empty() {
+                    if has_country {
+                        let country = String::from_utf8_lossy(&self.country)
+                            .trim_end_matches('\0')
+                            .to_string();
+                        if !country.is_empty() {
+                            parts.push(format!("{}-r{}", lang, country));
+                        } else {
+                            parts.push(lang);
+                        }
                     } else {
                         parts.push(lang);
                     }
-                } else {
-                    parts.push(lang);
                 }
-            }
-        }
-
-        // Locale script (BCP 47)
-        if self.locale_script[0] != 0 {
-            let script = String::from_utf8_lossy(&self.locale_script)
-                .trim_end_matches('\0')
-                .to_string();
-            if !script.is_empty() {
-                parts.push(format!("b+{}", script));
             }
         }
 
@@ -1854,5 +1894,65 @@ mod tests {
         assert_eq!(normalize_resource_name("0name", 0x7f040001), "_0name_res_0x7f040001");
         assert_eq!(normalize_resource_name("valid_name", 0x7f040002), "valid_name");
         assert_eq!(normalize_resource_name("", 0x7f040003), "__res_0x7f040003");
+    }
+
+    #[test]
+    fn test_qualifier_string_old_style_locale() {
+        // Old style: language-rRegion (no script, no variant)
+        let mut config = ResConfig::default();
+        config.language = [b'p', b't'];
+        config.country = [b'B', b'R'];
+        assert_eq!(config.to_qualifier_string(), "pt-rBR");
+
+        // Language only
+        let mut config = ResConfig::default();
+        config.language = [b'd', b'e'];
+        assert_eq!(config.to_qualifier_string(), "de");
+    }
+
+    #[test]
+    fn test_qualifier_string_bcp47_with_script() {
+        // BCP47: b+language+script (Serbian with Latin script)
+        let mut config = ResConfig::default();
+        config.language = [b's', b'r'];
+        config.locale_script = [b'L', b'a', b't', b'n'];
+        assert_eq!(config.to_qualifier_string(), "b+sr+Latn");
+
+        // BCP47: b+language+script+region
+        let mut config = ResConfig::default();
+        config.language = [b'z', b'h'];
+        config.country = [b'C', b'N'];
+        config.locale_script = [b'H', b'a', b'n', b's'];
+        assert_eq!(config.to_qualifier_string(), "b+zh+Hans+CN");
+    }
+
+    #[test]
+    fn test_qualifier_string_bcp47_with_variant() {
+        // BCP47: b+language+variant (uppercase)
+        let mut config = ResConfig::default();
+        config.language = [b'e', b'n'];
+        config.locale_variant = [b'P', b'O', b'S', b'I', b'X', 0, 0, 0];
+        assert_eq!(config.to_qualifier_string(), "b+en+POSIX");
+    }
+
+    #[test]
+    fn test_qualifier_string_default() {
+        // Default config (all zeros) should return "default"
+        let config = ResConfig::default();
+        assert_eq!(config.to_qualifier_string(), "default");
+    }
+
+    #[test]
+    fn test_qualifier_string_with_density() {
+        // Qualifier with density
+        let mut config = ResConfig::default();
+        config.density = 320; // xhdpi
+        assert_eq!(config.to_qualifier_string(), "xhdpi");
+
+        // Language + density
+        let mut config = ResConfig::default();
+        config.language = [b'f', b'r'];
+        config.density = 240; // hdpi
+        assert_eq!(config.to_qualifier_string(), "fr-hdpi");
     }
 }

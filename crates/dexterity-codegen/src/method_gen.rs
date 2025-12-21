@@ -438,7 +438,17 @@ pub fn generate_method_with_dex<W: CodeWriter>(
 
     // Throws clause (except for static initializer)
     if !method.is_class_init() {
-        let throws = get_throws_from_annotations(&method.annotations);
+        // Get throws from both annotations and instruction scanning
+        let mut throws = get_throws_from_annotations(&method.annotations);
+        let insn_throws = collect_throws_from_instructions(method, dex_info.as_ref().map(|d| d.as_ref()));
+
+        // Merge instruction-based throws (avoid duplicates)
+        for exc in insn_throws {
+            if !throws.contains(&exc) {
+                throws.push(exc);
+            }
+        }
+
         add_throws_clause(&throws, imports, pkg, code);
     }
 
@@ -583,7 +593,17 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
 
     // Throws clause (except for static initializer)
     if !method.is_class_init() {
-        let throws = get_throws_from_annotations(&method.annotations);
+        // Get throws from both annotations and instruction scanning
+        let mut throws = get_throws_from_annotations(&method.annotations);
+        let insn_throws = collect_throws_from_instructions(method, dex_info.as_ref().map(|d| d.as_ref()));
+
+        // Merge instruction-based throws (avoid duplicates)
+        for exc in insn_throws {
+            if !throws.contains(&exc) {
+                throws.push(exc);
+            }
+        }
+
         add_throws_clause(&throws, imports, pkg, code);
     }
 
@@ -675,6 +695,229 @@ fn get_throws_from_annotations(annotations: &[Annotation]) -> Vec<String> {
         }
     }
     Vec::new()
+}
+
+/// Static mapping of library methods that throw checked exceptions
+/// Format: "class_internal_name->method_name" => ["exception_internal_name", ...]
+fn get_library_method_throws(class: &str, method: &str) -> Option<&'static [&'static str]> {
+    // Common exception-throwing library methods
+    // This is a simplified version - JADX uses a full classpath database
+    match (class, method) {
+        // org.json
+        ("org/json/JSONObject", "put") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONObject", "get") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONObject", "getString") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONObject", "getInt") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONObject", "getLong") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONObject", "getDouble") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONObject", "getBoolean") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONObject", "getJSONObject") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONObject", "getJSONArray") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONArray", "put") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONArray", "get") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONArray", "getString") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONArray", "getInt") => Some(&["org/json/JSONException"]),
+        ("org/json/JSONArray", "getJSONObject") => Some(&["org/json/JSONException"]),
+
+        // java.io
+        ("java/io/InputStream", "read") => Some(&["java/io/IOException"]),
+        ("java/io/InputStream", "close") => Some(&["java/io/IOException"]),
+        ("java/io/OutputStream", "write") => Some(&["java/io/IOException"]),
+        ("java/io/OutputStream", "flush") => Some(&["java/io/IOException"]),
+        ("java/io/OutputStream", "close") => Some(&["java/io/IOException"]),
+        ("java/io/Reader", "read") => Some(&["java/io/IOException"]),
+        ("java/io/Reader", "close") => Some(&["java/io/IOException"]),
+        ("java/io/Writer", "write") => Some(&["java/io/IOException"]),
+        ("java/io/Writer", "flush") => Some(&["java/io/IOException"]),
+        ("java/io/Writer", "close") => Some(&["java/io/IOException"]),
+        ("java/io/File", "createNewFile") => Some(&["java/io/IOException"]),
+        ("java/io/File", "createTempFile") => Some(&["java/io/IOException"]),
+        ("java/io/FileInputStream", "<init>") => Some(&["java/io/FileNotFoundException"]),
+        ("java/io/FileOutputStream", "<init>") => Some(&["java/io/FileNotFoundException"]),
+        ("java/io/FileReader", "<init>") => Some(&["java/io/FileNotFoundException"]),
+        ("java/io/FileWriter", "<init>") => Some(&["java/io/IOException"]),
+        ("java/io/RandomAccessFile", "<init>") => Some(&["java/io/FileNotFoundException"]),
+        ("java/io/RandomAccessFile", "read") => Some(&["java/io/IOException"]),
+        ("java/io/RandomAccessFile", "write") => Some(&["java/io/IOException"]),
+        ("java/io/RandomAccessFile", "seek") => Some(&["java/io/IOException"]),
+        ("java/io/RandomAccessFile", "close") => Some(&["java/io/IOException"]),
+        ("java/io/ObjectInputStream", "<init>") => Some(&["java/io/IOException"]),
+        ("java/io/ObjectInputStream", "readObject") => Some(&["java/io/IOException", "java/lang/ClassNotFoundException"]),
+        ("java/io/ObjectOutputStream", "<init>") => Some(&["java/io/IOException"]),
+        ("java/io/ObjectOutputStream", "writeObject") => Some(&["java/io/IOException"]),
+
+        // java.net
+        ("java/net/URL", "<init>") => Some(&["java/net/MalformedURLException"]),
+        ("java/net/URL", "openConnection") => Some(&["java/io/IOException"]),
+        ("java/net/URL", "openStream") => Some(&["java/io/IOException"]),
+        ("java/net/URLConnection", "connect") => Some(&["java/io/IOException"]),
+        ("java/net/URLConnection", "getInputStream") => Some(&["java/io/IOException"]),
+        ("java/net/URLConnection", "getOutputStream") => Some(&["java/io/IOException"]),
+        ("java/net/HttpURLConnection", "getResponseCode") => Some(&["java/io/IOException"]),
+        ("java/net/Socket", "<init>") => Some(&["java/io/IOException"]),
+        ("java/net/Socket", "connect") => Some(&["java/io/IOException"]),
+        ("java/net/Socket", "getInputStream") => Some(&["java/io/IOException"]),
+        ("java/net/Socket", "getOutputStream") => Some(&["java/io/IOException"]),
+        ("java/net/Socket", "close") => Some(&["java/io/IOException"]),
+        ("java/net/ServerSocket", "<init>") => Some(&["java/io/IOException"]),
+        ("java/net/ServerSocket", "accept") => Some(&["java/io/IOException"]),
+        ("java/net/ServerSocket", "close") => Some(&["java/io/IOException"]),
+
+        // java.security
+        ("java/security/MessageDigest", "getInstance") => Some(&["java/security/NoSuchAlgorithmException"]),
+        ("java/security/Signature", "getInstance") => Some(&["java/security/NoSuchAlgorithmException"]),
+        ("java/security/Signature", "initSign") => Some(&["java/security/InvalidKeyException"]),
+        ("java/security/Signature", "initVerify") => Some(&["java/security/InvalidKeyException"]),
+        ("java/security/Signature", "sign") => Some(&["java/security/SignatureException"]),
+        ("java/security/Signature", "verify") => Some(&["java/security/SignatureException"]),
+        ("java/security/KeyFactory", "getInstance") => Some(&["java/security/NoSuchAlgorithmException"]),
+        ("java/security/KeyFactory", "generatePublic") => Some(&["java/security/spec/InvalidKeySpecException"]),
+        ("java/security/KeyFactory", "generatePrivate") => Some(&["java/security/spec/InvalidKeySpecException"]),
+        ("java/security/KeyPairGenerator", "getInstance") => Some(&["java/security/NoSuchAlgorithmException"]),
+        ("java/security/SecureRandom", "getInstance") => Some(&["java/security/NoSuchAlgorithmException"]),
+
+        // javax.crypto
+        ("javax/crypto/Cipher", "getInstance") => Some(&["java/security/NoSuchAlgorithmException", "javax/crypto/NoSuchPaddingException"]),
+        ("javax/crypto/Cipher", "init") => Some(&["java/security/InvalidKeyException"]),
+        ("javax/crypto/Cipher", "doFinal") => Some(&["javax/crypto/IllegalBlockSizeException", "javax/crypto/BadPaddingException"]),
+        ("javax/crypto/Mac", "getInstance") => Some(&["java/security/NoSuchAlgorithmException"]),
+        ("javax/crypto/Mac", "init") => Some(&["java/security/InvalidKeyException"]),
+        ("javax/crypto/SecretKeyFactory", "getInstance") => Some(&["java/security/NoSuchAlgorithmException"]),
+
+        // java.lang
+        ("java/lang/Class", "forName") => Some(&["java/lang/ClassNotFoundException"]),
+        ("java/lang/Class", "newInstance") => Some(&["java/lang/InstantiationException", "java/lang/IllegalAccessException"]),
+        ("java/lang/Class", "getMethod") => Some(&["java/lang/NoSuchMethodException"]),
+        ("java/lang/Class", "getDeclaredMethod") => Some(&["java/lang/NoSuchMethodException"]),
+        ("java/lang/Class", "getField") => Some(&["java/lang/NoSuchFieldException"]),
+        ("java/lang/Class", "getDeclaredField") => Some(&["java/lang/NoSuchFieldException"]),
+        ("java/lang/Class", "getConstructor") => Some(&["java/lang/NoSuchMethodException"]),
+        ("java/lang/Class", "getDeclaredConstructor") => Some(&["java/lang/NoSuchMethodException"]),
+        ("java/lang/reflect/Method", "invoke") => Some(&["java/lang/IllegalAccessException", "java/lang/reflect/InvocationTargetException"]),
+        ("java/lang/reflect/Constructor", "newInstance") => Some(&["java/lang/InstantiationException", "java/lang/IllegalAccessException", "java/lang/reflect/InvocationTargetException"]),
+        ("java/lang/reflect/Field", "get") => Some(&["java/lang/IllegalAccessException"]),
+        ("java/lang/reflect/Field", "set") => Some(&["java/lang/IllegalAccessException"]),
+        ("java/lang/Thread", "sleep") => Some(&["java/lang/InterruptedException"]),
+        ("java/lang/Thread", "join") => Some(&["java/lang/InterruptedException"]),
+        ("java/lang/Object", "wait") => Some(&["java/lang/InterruptedException"]),
+        ("java/lang/Object", "clone") => Some(&["java/lang/CloneNotSupportedException"]),
+
+        // java.util.concurrent
+        ("java/util/concurrent/Future", "get") => Some(&["java/lang/InterruptedException", "java/util/concurrent/ExecutionException"]),
+        ("java/util/concurrent/BlockingQueue", "put") => Some(&["java/lang/InterruptedException"]),
+        ("java/util/concurrent/BlockingQueue", "take") => Some(&["java/lang/InterruptedException"]),
+        ("java/util/concurrent/Semaphore", "acquire") => Some(&["java/lang/InterruptedException"]),
+        ("java/util/concurrent/CountDownLatch", "await") => Some(&["java/lang/InterruptedException"]),
+        ("java/util/concurrent/CyclicBarrier", "await") => Some(&["java/lang/InterruptedException", "java/util/concurrent/BrokenBarrierException"]),
+
+        // java.sql
+        ("java/sql/Connection", "createStatement") => Some(&["java/sql/SQLException"]),
+        ("java/sql/Connection", "prepareStatement") => Some(&["java/sql/SQLException"]),
+        ("java/sql/Connection", "prepareCall") => Some(&["java/sql/SQLException"]),
+        ("java/sql/Connection", "commit") => Some(&["java/sql/SQLException"]),
+        ("java/sql/Connection", "rollback") => Some(&["java/sql/SQLException"]),
+        ("java/sql/Connection", "close") => Some(&["java/sql/SQLException"]),
+        ("java/sql/Statement", "executeQuery") => Some(&["java/sql/SQLException"]),
+        ("java/sql/Statement", "executeUpdate") => Some(&["java/sql/SQLException"]),
+        ("java/sql/Statement", "execute") => Some(&["java/sql/SQLException"]),
+        ("java/sql/Statement", "close") => Some(&["java/sql/SQLException"]),
+        ("java/sql/PreparedStatement", "executeQuery") => Some(&["java/sql/SQLException"]),
+        ("java/sql/PreparedStatement", "executeUpdate") => Some(&["java/sql/SQLException"]),
+        ("java/sql/PreparedStatement", "setString") => Some(&["java/sql/SQLException"]),
+        ("java/sql/PreparedStatement", "setInt") => Some(&["java/sql/SQLException"]),
+        ("java/sql/ResultSet", "next") => Some(&["java/sql/SQLException"]),
+        ("java/sql/ResultSet", "getString") => Some(&["java/sql/SQLException"]),
+        ("java/sql/ResultSet", "getInt") => Some(&["java/sql/SQLException"]),
+        ("java/sql/ResultSet", "close") => Some(&["java/sql/SQLException"]),
+        ("java/sql/DriverManager", "getConnection") => Some(&["java/sql/SQLException"]),
+
+        _ => None,
+    }
+}
+
+/// Check if an exception type is a checked exception (requires throws declaration)
+/// RuntimeException and Error subclasses are unchecked
+fn is_checked_exception(exception_type: &str) -> bool {
+    // Common unchecked exception types
+    let unchecked = [
+        "java/lang/RuntimeException",
+        "java/lang/NullPointerException",
+        "java/lang/IllegalArgumentException",
+        "java/lang/IllegalStateException",
+        "java/lang/IndexOutOfBoundsException",
+        "java/lang/ArrayIndexOutOfBoundsException",
+        "java/lang/StringIndexOutOfBoundsException",
+        "java/lang/ClassCastException",
+        "java/lang/ArithmeticException",
+        "java/lang/NumberFormatException",
+        "java/lang/UnsupportedOperationException",
+        "java/lang/SecurityException",
+        "java/lang/Error",
+        "java/lang/AssertionError",
+        "java/lang/OutOfMemoryError",
+        "java/lang/StackOverflowError",
+        "java/lang/NoClassDefFoundError",
+        "java/lang/LinkageError",
+        "java/lang/VirtualMachineError",
+    ];
+    !unchecked.contains(&exception_type)
+}
+
+/// Collect throws from method instructions by scanning for INVOKE calls
+/// to known exception-throwing library methods
+fn collect_throws_from_instructions(
+    method: &MethodData,
+    dex_info: Option<&dyn DexInfoProvider>,
+) -> Vec<String> {
+    use dexterity_ir::InsnType;
+    use std::collections::HashSet;
+
+    let mut throws: HashSet<String> = HashSet::new();
+
+    // Get method instructions
+    let Some(insns) = method.instructions() else {
+        return Vec::new();
+    };
+
+    // Need dex_info to look up method details
+    let Some(dex_info) = dex_info else {
+        return Vec::new();
+    };
+
+    // Collect caught exception types from try-catch blocks
+    let mut caught_types: HashSet<String> = HashSet::new();
+    for try_block in &method.try_blocks {
+        for handler in &try_block.handlers {
+            // exception_type is None for catch-all
+            if let Some(ref exc_type) = handler.exception_type {
+                caught_types.insert(exc_type.clone());
+            }
+        }
+    }
+
+    // Scan instructions for INVOKE calls
+    for insn in insns {
+        if let InsnType::Invoke { method_idx, args: _, kind: _, proto_idx: _ } = &insn.insn_type {
+            // Get method info from dex_info
+            if let Some(method_info) = dex_info.get_method(*method_idx) {
+                // class_type is in internal format (e.g., "org/json/JSONObject")
+                let class = &*method_info.class_type;
+                let name = &*method_info.method_name;
+
+                // Check if this method throws checked exceptions
+                if let Some(exceptions) = get_library_method_throws(class, name) {
+                    for exc in exceptions {
+                        // Skip if this exception is caught
+                        if !caught_types.contains(*exc) && is_checked_exception(exc) {
+                            throws.insert(exc.to_string());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    throws.into_iter().collect()
 }
 
 /// Add throws clause to method signature

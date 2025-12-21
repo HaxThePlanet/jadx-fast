@@ -280,9 +280,9 @@ impl<'a> CodeItem<'a> {
         const DBG_START_LOCAL_EXTENDED: u8 = 0x04;
         const DBG_END_LOCAL: u8 = 0x05;
         const DBG_RESTART_LOCAL: u8 = 0x06;
-        // const DBG_SET_PROLOGUE_END: u8 = 0x07;
-        // const DBG_SET_EPILOGUE_BEGIN: u8 = 0x08;
-        // const DBG_SET_FILE: u8 = 0x09;
+        const DBG_SET_PROLOGUE_END: u8 = 0x07;
+        const DBG_SET_EPILOGUE_BEGIN: u8 = 0x08;
+        const DBG_SET_FILE: u8 = 0x09;
         const DBG_FIRST_SPECIAL: u8 = 0x0a;
         const DBG_LINE_BASE: i32 = -4;
         const DBG_LINE_RANGE: i32 = 15;
@@ -456,6 +456,22 @@ impl<'a> CodeItem<'a> {
                     }
                 }
 
+                DBG_SET_PROLOGUE_END => {
+                    // Marks end of prologue - no arguments, just skip
+                }
+
+                DBG_SET_EPILOGUE_BEGIN => {
+                    // Marks start of epilogue - no arguments, just skip
+                }
+
+                DBG_SET_FILE => {
+                    // Changes the current source file (for multi-file scenarios)
+                    // Requires reading a uleb128 string index (like JADX does)
+                    let (_file_idx, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+                    // TODO: Store source file if needed for output parity with JADX
+                }
+
                 op if op >= DBG_FIRST_SPECIAL => {
                     // Special opcode: encodes line and address delta
                     let adjusted = (op - DBG_FIRST_SPECIAL) as i32;
@@ -465,8 +481,8 @@ impl<'a> CodeItem<'a> {
                 }
 
                 _ => {
-                    // Unknown opcode (0x07, 0x08, 0x09) - just skip
-                    // These don't have arguments
+                    // Unknown opcode - skip without arguments
+                    // This should not happen with well-formed DEX files
                 }
             }
         }
