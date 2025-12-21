@@ -389,7 +389,7 @@ impl MergedCondition {
             }
         }
 
-        // Check for OR pattern: this.else leads directly to other.condition
+        // Check for OR pattern (type 1): this.else leads directly to other.condition
         if let Some(else_block) = self.else_block {
             if else_block == other.condition_block {
                 // Check if then blocks point to the same place
@@ -397,6 +397,28 @@ impl MergedCondition {
                 let other_then = other.then_blocks.first().copied();
                 if self_then == other_then {
                     return Some(MergeMode::Or);
+                }
+            }
+        }
+
+        // Check for OR pattern (type 2): Short-circuit OR where both conditions
+        // branch to the same "true" target. Pattern:
+        //   if-nez a, :true  // first condition - branch to true when a is true
+        //   if-nez b, :true  // second condition - branch to true when b is true
+        //   x = 0            // false case
+        //   :true
+        //   x = 1            // true case
+        // Here, the first condition's else_block (branch target) is the same as
+        // a block reachable from the second condition's then path.
+        if let Some(then_block) = self.then_block {
+            if then_block == other.condition_block {
+                // The second condition is nested in the first's then (fall-through) path
+                if let Some(else_block) = self.else_block {
+                    // Check if the first condition's else_block (the "true" target)
+                    // is reachable from the second condition's then path
+                    if other.then_blocks.contains(&else_block) {
+                        return Some(MergeMode::Or);
+                    }
                 }
             }
         }
@@ -416,9 +438,27 @@ impl MergedCondition {
                 // else_block stays the same (shared exit for false)
             }
             MergeMode::Or => {
-                // In OR, the else is the inner else, then is the shared then
-                self.else_block = other.else_blocks.first().copied();
-                // then_block stays the same (shared exit for true)
+                // In OR (short-circuit), we need to be careful about semantics.
+                // In Dalvik bytecode:
+                //   - Branch is taken when condition is TRUE -> else_blocks is TRUE case
+                //   - Fall-through when condition is FALSE -> then_blocks is FALSE case
+                //
+                // For short-circuit OR `a || b`:
+                //   - When a is TRUE: branch to shared true_result (self.else_block)
+                //   - When a is FALSE: fall through to check b
+                //   - When b is TRUE: branch/fall to true_result
+                //   - When b is FALSE: go to false_result (other.else_blocks)
+                //
+                // After merge:
+                //   - then_block = shared TRUE result (currently in self.else_block)
+                //   - else_block = inner FALSE result (other.else_blocks)
+                //
+                // For OR type 2 (short-circuit): the TRUE result is self.else_block
+                // and the FALSE result is other.else_blocks[0]
+                let true_result = self.else_block;
+                let false_result = other.else_blocks.first().copied();
+                self.then_block = true_result;
+                self.else_block = false_result;
             }
             MergeMode::Single => {}
         }
