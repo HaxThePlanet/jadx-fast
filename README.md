@@ -20,7 +20,7 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** 1:1 identical decompilation output with JADX
-**Status:** 0 P0, 10 P1, 2 P2 open | Kotlin 100% | P1-S11 Throws Fixed (Dec 21, 2025) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** 0 P0, 9 P1, 2 P2 open | Kotlin 100% | P1-S11 Throws Fixed (Dec 21, 2025) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
 ## Performance
 

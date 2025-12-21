@@ -14,7 +14,7 @@
 2. **Pick a task from roadmap**: [ROADMAP.md](ROADMAP.md)
 3. **Find the JADX algorithm**: See [JADX Reference Documentation](#jadx-reference-documentation) below
 4. **Reference JADX source**: `jadx-fast/jadx-core/src/main/java/jadx/core/`
-5. **Implement and test**: Run `cargo test` (1,209 total tests)
+5. **Implement and test**: Run `cargo test` (1,217 total tests)
 
 ---
 
@@ -186,7 +186,7 @@ If you made significant improvements, update:
 - Test edge cases (empty, single item, large input)
 
 ### When Testing
-- All 1,177 tests must pass (687 integration + 490 unit)
+- All 1,217 tests must pass (687 integration + 530 unit)
 - Add tests for new functionality
 - Test with real APKs, not just simple examples
 

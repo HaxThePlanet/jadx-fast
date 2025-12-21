@@ -14,7 +14,7 @@ Test specific functions in isolation.
 
 **Run all unit tests:**
 ```bash
-cd /mnt/nvme4tb/jadx-fast
+cd /mnt/nvme4tb/dexterity/crates
 cargo test --lib
 ```
 
@@ -40,7 +40,7 @@ cargo test -- --nocapture --test-threads=1
 
 Test Java source → bytecode → decompilation → Java output.
 
-**Location:** `/mnt/nvme4tb/jadx-fast/crates/dexterity-cli/tests/integration/`
+**Location:** `/mnt/nvme4tb/dexterity/crates/dexterity-cli/tests/integration/`
 
 **Test Categories:**
 - `android_tests.rs` - Android-specific features
@@ -98,7 +98,7 @@ cargo test
 test result: ok. X passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
-All integration tests should pass (687 integration tests, 1,209 total with unit tests).
+All integration tests should pass (687 integration tests, 1,217 total with unit tests).
 
 ### 4. Reference APKs for Manual Testing
 
@@ -115,27 +115,34 @@ Reference APKs are provided for benchmarking and manual testing.
 
 **Output Directory:** `output/` (project root)
 
-Decompiled output should be placed in the project's `output/` directory:
+Decompiled output is organized in the project's `output/` directory:
 
 ```
 output/
-├── badboy-dexterity/   # Dexterity output
-├── badboy-jadx/        # JADX output for comparison
-├── large-dexterity/
-├── large-jadx/
-├── medium-dexterity/
-├── medium-jadx/
-├── small-dexterity/
-└── small-jadx/
+├── dexterity/           # Dexterity (Rust) output
+│   ├── small/
+│   │   ├── sources/     # Decompiled Java source files
+│   │   └── resources/   # Extracted resources
+│   ├── medium/
+│   ├── large/
+│   ├── badboy/
+│   └── badboy-x86/
+│
+└── jadx/                # JADX (Java) output - reference implementation
+    ├── small/
+    ├── medium/
+    ├── large/
+    ├── badboy/
+    └── badboy-x86/
 ```
 
 **Manual decompilation commands:**
 ```bash
 # Dexterity
-./target/release/dexterity -d output/small-dexterity apks/small.apk
+./target/release/dexterity -d output/dexterity/small apks/small.apk
 
 # JADX (for comparison)
-./build/jadx/bin/jadx -d output/small-jadx apks/small.apk
+./build/jadx/bin/jadx -d output/jadx/small apks/small.apk
 ```
 
 ---
@@ -489,7 +496,7 @@ For future CI/CD setup:
 
 ### Current Test Status
 
-**Expected passing:** 687+ integration tests + 522+ unit tests across all crates (1,209+ total)
+**Expected passing:** 687+ integration tests + 530+ unit tests across all crates (1,217+ total)
 
 **Test files:**
 - `crates/dexterity-cli/tests/integration/android_tests.rs` - Android-specific features
@@ -553,7 +560,7 @@ Your fix is successful when:
 ✅ **Test Coverage**
 - [ ] New test written and passing
 - [ ] Related tests still passing
-- [ ] Full test suite still passes (687 integration tests + 522 unit tests = 1,209 total)
+- [ ] Full test suite still passes (687 integration tests + 530 unit tests = 1,217 total)
 
 ✅ **Quality Metrics**
 - [ ] Overall quality improved
@@ -678,7 +685,7 @@ output/
 
 **Build Dexterity (56 cores):**
 ```bash
-cd /mnt/nvme4tb/jadx-fast/crates
+cd /mnt/nvme4tb/dexterity/crates
 cargo build --release -j 56
 ```
 

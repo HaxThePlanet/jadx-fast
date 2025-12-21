@@ -25,14 +25,14 @@
 |----|-------|---------|----------|
 | ~~P1-S01~~ | ~~Empty if blocks missing return~~ | **FIXED** - is_empty_region() fix | body_gen.rs |
 | P1-S02 | Boolean vs int confusion | **PARTIAL** - Added InstancePut/StaticPut boolean context detection | type_inference.rs |
-| P1-S03 | Wrong return value | Returns `i` ignoring ternary result | body_gen.rs |
-| P1-S04 | Wrong method signature call | **IN PROGRESS** - 2 args passed to 1-arg method | body_gen.rs |
-| P1-S05 | Control flow logic wrong | `j -= l2; j = j < l` garbled | conditions.rs |
+| P1-S03 | Wrong return value | **PARTIAL** - Added phi_constant_inits lookup for boolean returns | body_gen.rs |
+| P1-S04 | Wrong method signature call | **NEEDS REPRO** - 2 args passed to 1-arg method (wide type handling?) | body_gen.rs |
+| P1-S05 | Control flow logic wrong | **INVESTIGATED** - Variable naming + expression inlining failures | var_naming.rs, body_gen.rs |
 | P1-S06 | Missing try-catch blocks | **PARTIAL** - 1556/5176 (30%) global parity, handler offset matching improved | converter.rs, code_item.rs |
-| P1-S07 | Truncated loop body | While loop body incomplete | body_gen.rs |
-| P1-S08 | Method calls before guard | `matcher.group()` before `matches()` | body_gen.rs |
+| P1-S07 | Truncated loop body | **NEEDS REPRO** - While loop body incomplete, all loop tests pass | body_gen.rs |
+| P1-S08 | Method calls before guard | **NEEDS REPRO** - `matcher.group()` before `matches()` | body_gen.rs |
 | ~~P1-S09~~ | ~~For-each over Iterator~~ | **FIXED** - Validate collection expr or fall back to while | body_gen.rs |
-| P1-S10 | Code after loop ends | `it.next()` after while loop | body_gen.rs |
+| P1-S10 | Code after loop ends | **NEEDS REPRO** - `it.next()` after while loop (related to P1-S07) | body_gen.rs |
 | ~~P1-S11~~ | ~~Missing throws declaration~~ | **FIXED** - Parse dalvik/annotation/Throws | method_gen.rs |
 | P1-S12 | Empty catch block | **INVESTIGATED** - block_id vs offset mismatch in region_builder.rs, fix causes stack overflow on large APKs | region_builder.rs |
 
@@ -40,9 +40,9 @@
 
 | ID | Issue | Impact |
 |----|-------|--------|
-| P2-Q01 | Missing field rename comments | No `/* renamed from */` comments |
-| P2-Q02 | Synthetic accessor methods visible | Should be hidden |
-| P2-Q03 | Wrong import classes | `BitmapFactory.Options` instead of app classes |
+| P2-Q01 | Missing field rename comments | **VERIFIED** - Implemented, requires `--deobf` flag |
+| P2-Q02 | Synthetic accessor methods visible | **VERIFIED** - Implemented with inline_attr, all tests pass |
+| P2-Q03 | Wrong import classes | **VERIFIED** - Conflict detection via simple_name_map, needs specific repro |
 | ~~P2-Q04~~ | ~~JADX WARNING comments~~ | **FIXED** - Changed to Dexterity branding |
 | ~~P2-Q05~~ | ~~Unused variable declarations~~ | **FIXED** - Mark unwrapped CMP with DontGenerate in simplify.rs |
 
@@ -52,6 +52,53 @@
 |----|-------|--------|---------|
 | INV-001 | Zara APK hang | APK unavailable | [KNOWN_ISSUES.md](KNOWN_ISSUES.md#inv-001-hanging-apk---zara-android-app) |
 | P1-S12 | Empty catch blocks | Root cause found | See below |
+
+#### P1-S05: Control Flow Logic Investigation (Dec 21, 2025)
+
+**Example Method:** `com/amplitude/api/f.java:D(long j)`
+
+**JADX (correct):**
+```java
+private boolean D(long j2) {
+    return j2 - this.w < (this.H ? this.D : this.E);
+}
+```
+
+**Dexterity (wrong):**
+```java
+private boolean D(long j) {
+    long l;
+    int j_2 = 0;
+    Object obj0 = this.H ? this.D : this.E;
+    j -= l2;  // l2 is UNDEFINED!
+    j = j < l ? 1 : 0;  // l is uninitialized
+    return j_2;  // returns wrong variable
+}
+```
+
+**Root Causes Identified:**
+
+1. **Variable Naming Corruption:** Variables `l2` and `j_2` are malformed. The underscore suffix pattern is wrong - should be `l`, `l2` without underscore.
+
+2. **Undefined Variable `l2`:** The field access `this.w` is being assigned to a local variable with name `l2`, but that variable is never declared. The field access should be inlined.
+
+3. **Ternary Extraction:** The ternary `this.H ? this.D : this.E` is being generated as a separate statement (`obj0 = ...`) instead of being inlined in the comparison expression.
+
+4. **SSA Version Mismatch:** Returns `j_2` (version 2 of j?) instead of the actual comparison result.
+
+5. **Expression Not Inlined:** The pattern `return a - b < ternary` is not being recognized as a single return expression. Instead, it's decomposed into multiple statements with intermediate variables.
+
+**Technical Details:**
+- The simplify.rs CMP unwrapping only handles `If` conditions, not return expressions
+- The ternary detection in ternary_mod.rs may not be recognizing this nested pattern
+- Variable naming in var_naming.rs uses `l` for Long but collision handling creates `l2`, `l3`, etc.
+
+**Proposed Fixes:**
+1. Fix variable naming to avoid orphan/undeclared variables
+2. Extend expression inlining to handle `return (expr < ternary)` patterns
+3. Ensure field accesses are inlined when used once in an expression
+
+**Priority:** P1 (semantic - generates wrong code but may compile)
 
 #### P1-S12: Empty Catch Block Investigation (Dec 21, 2025)
 
@@ -94,6 +141,21 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizat
 ---
 
 ## Fixed Issues (Dec 21, 2025)
+
+### P1-S03: Boolean Return Value Fix (Dec 21 Night)
+
+| ID | Bug | Fix |
+|----|-----|-----|
+| P1-S03 | Boolean methods returning int 0/1 variables | Added phi_constant_inits lookup and type-aware return formatting |
+| BOOL-003 | `return i;` where i=0 in boolean method | Check phi_constant_inits for "0"/"1" constants, convert to false/true |
+| BOOL-004 | Type-aware return statement | Use write_arg_inline_typed with return type for all returns |
+
+**Progress:** Boolean return handling improved with constant lookup and type conversion
+**Files changed:** `body_gen.rs`
+**Implementation:**
+- Check `phi_constant_inits` for constant values of return registers
+- Convert 0→false, 1→true for boolean method returns
+- Use `write_arg_inline_typed` with return type for general type awareness
 
 ### P1-S09: For-Each Over Iterator Fix (Dec 21 Night)
 
