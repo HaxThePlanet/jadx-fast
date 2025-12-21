@@ -270,14 +270,28 @@ Unknown
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
 | `RegionMakerVisitor.java` | `region_builder.rs` | DONE | Full region building with ternary integration |
-| `IfRegionMaker.java` (525 lines) | `conditionals.rs` | DONE | AND/OR merge implemented |
+| `IfRegionMaker.java` (525 lines) | `conditionals.rs` | DONE | AND/OR merge implemented, Phase 2 OR merging |
 | `LoopRegionMaker.java` (200+ lines) | `loop_analysis.rs` | DONE | All loop patterns |
 | `SwitchRegionMaker.java` | `region_builder.rs` | DONE | Switch regions |
 | `TryCatchRegionMaker.java` | `finally_extract.rs` | DONE | Finally extraction |
 | `TernaryMod.java` | `ternary_mod.rs` | **DONE Dec 19** | TernaryTransformResult, try_transform_to_ternary() |
 | `IfRegionVisitor.java` | `if_region_visitor.rs` | **DONE Dec 19** | 9 branch reordering rules, CFG integration |
 
-#### Recently Implemented Features (Dec 19, 2025)
+#### Recently Implemented Features (Dec 21, 2025 - Phase 2)
+
+1. **Short-circuit OR Condition Merging** (`conditionals.rs`)
+   - `MergeMode` enum with And/Or/Single variants for tracking merge type
+   - `MergedCondition::can_merge()` detects OR type 1 (else leads to condition) and OR type 2 (same-target branching)
+   - `MergedCondition::merge()` correctly assigns then/else blocks for OR patterns
+   - `collect_branch_blocks_with_barrier()` prevents cross-branch block inclusion
+   - Patterns: `if (a) goto then; if (b) goto then;` -> `if (a || b) { then }`
+
+2. **Barrier-based Branch Collection** (`conditionals.rs`)
+   - Added `barrier` parameter to `collect_branch_blocks_with_barrier()`
+   - Prevents including the other branch's target in this branch's blocks
+   - Critical for short-circuit patterns where both conditions branch to same "true" block
+
+#### Previously Implemented Features (Dec 19, 2025)
 
 1. **TernaryMod Transformation** (`ternary_mod.rs`)
    - `TernaryTransformResult` enum with Assignment, Return, NotTernary variants

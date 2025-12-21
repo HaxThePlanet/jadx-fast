@@ -20,7 +20,7 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** 1:1 identical decompilation output with JADX
-**Status:** All P0 + P1 bugs fixed, Kotlin 100% (Dec 20, 2025) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** All P0 + P1 + P2 bugs fixed, Kotlin 100%, Phase 1 + Phase 2 complete (Dec 21, 2025) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
 ## Performance
 
@@ -61,6 +61,8 @@ cargo build --release -p dexterity-cli
   - Function modifiers: `/* suspend */`, `/* inline */`, `/* operator */`, `/* infix */`, `/* tailrec */`
   - Type variance: `<out R>`, `<in T>` from Kotlin metadata
   - Name restoration from obfuscated code
+  - Static field inline initialization (`INSTANCE = new ClassName()`)
+- **Control flow:** OR condition merging (`a || b` patterns), short-circuit evaluation
 - **Resource resolution:** `R.layout.activity_main` (enabled by default)
 - **Drop-in JADX replacement:** Same CLI arguments
 

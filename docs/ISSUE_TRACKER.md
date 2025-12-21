@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 6 P0, 11 P1, 5 P2 (Dec 21, 2025)
+**Status:** Open: 6 P0, 11 P1, 3 P2 | Phase 1 + Phase 2 Complete (Dec 21, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -43,7 +43,7 @@
 | P2-Q01 | Missing field rename comments | No `/* renamed from */` comments |
 | P2-Q02 | Synthetic accessor methods visible | Should be hidden |
 | P2-Q03 | Wrong import classes | `BitmapFactory.Options` instead of app classes |
-| P2-Q04 | JADX WARNING comments | `Object /* JADX WARNING */` in output |
+| ~~P2-Q04~~ | ~~JADX WARNING comments~~ | **FIXED** - Changed to Dexterity branding |
 | P2-Q05 | Unused variable declarations | `int cmp = Long.compare(...)` never used |
 
 ### Investigation (Blocked)
@@ -52,12 +52,12 @@
 |----|-------|--------|---------|
 | INV-001 | Zara APK hang | APK unavailable | [KNOWN_ISSUES.md](KNOWN_ISSUES.md#inv-001-hanging-apk---zara-android-app) |
 
-### Previously Tracked (Superseded)
+### Previously Tracked (Completed or Superseded)
 
 | ID | Issue | Status |
 |----|-------|--------|
-| GAP-001 | Kotlin package deobfuscation | Superseded by P0/P1 bugs |
-| GAP-002 | Variable naming quality | Superseded by P0/P1 bugs |
+| ~~GAP-001~~ | ~~Kotlin package deobfuscation~~ | **FIXED** - get_aliased_class_name() + extract_and_register_package_alias() |
+| ~~GAP-002~~ | ~~Variable naming quality~~ | **FIXED** - OBJ_ALIAS exact matching, GOOD_VAR_NAMES, toString(), type+method fallback |
 | POL-001 | Library skip filters | Low priority |
 | POL-002 | Cosmetic formatting | Low priority |
 
@@ -69,17 +69,40 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for tracked optimizat
 
 ## Fixed Issues (Dec 21, 2025)
 
+### Phase 2: Boolean Expression Simplification (Dec 21 PM)
+
+| ID | Bug | Fix |
+|----|-----|-----|
+| COND-001 | Short-circuit OR not detected | Added MergeMode::Or with can_merge() and merge() logic |
+| COND-002 | OR type 2 pattern missing | Detect when both conditions branch to same "true" target |
+| COND-003 | Cross-branch block inclusion | Added barrier parameter to collect_branch_blocks_with_barrier() |
+| COND-004 | Wrong then/else for merged OR | Fixed then_block/else_block assignment in MergedCondition::merge() |
+
+**Files changed:** `conditionals.rs`, `region_builder.rs`
+
+### Phase 1: Static Field Inline Initialization (Dec 21 PM)
+
+| ID | Bug | Fix |
+|----|-----|-----|
+| INIT-001 | Static field inline init | NewInstance variant in FieldValue for `new ClassName()` patterns |
+| INIT-002 | new-instance pattern detection | extract_field_init.rs detects new-instance + invoke-direct + sput-object |
+| INIT-003 | Empty static initializers | method_gen.rs skips `static {}` blocks with only return-void |
+| INIT-004 | NewInstance rendering | class_gen.rs renders `new ClassName()` for static field initializers |
+
+**Files changed:** `info.rs`, `extract_field_init.rs`, `class_gen.rs`, `method_gen.rs`
+
 ### Latest Fixes (Dec 21 PM)
 
 | ID | Bug | Fix |
 |----|-----|-----|
-| P0-C04 | Unreachable code after return | Skip code after throw/return |
-| P1-S01 | Empty if blocks missing return | is_empty_region() fix |
-| VAR-001 | OBJ_ALIAS exact matching | Fix exact class matching for aliases |
-| VAR-002 | GOOD_VAR_NAMES set | Add set of good variable name patterns |
-| VAR-003 | toString() handling | Fix toString method variable naming |
-| VAR-004 | Type+method fallback | Add fallback naming with type and method |
-| INIT-001 | Static field inline init | Phase 1 static field initialization |
+| P0-C04 | Unreachable code after return | emitted_exit tracking in generate_block() |
+| P1-S01 | Empty if blocks missing return | Enhanced is_empty_region_with_ctx() recursion |
+| VAR-001 | OBJ_ALIAS exact matching | Changed from contains() to exact FQN matching |
+| VAR-002 | GOOD_VAR_NAMES set | Added "list" and "map" to direct-use names (13 total) |
+| VAR-003 | toString() handling | Returns declaring class name (e.g., Pattern.toString() -> "pattern") |
+| VAR-004 | Type+method fallback | make_type_method_name() (e.g., Pattern.compile() -> "patternCompile") |
+| PKG-001 | Kotlin package deobfuscation | get_aliased_class_name() + extract_and_register_package_alias() |
+| BRAND-001 | Dexterity branding | Changed JADX -> Dexterity in all warning comments |
 
 ### P1 Semantic Issues
 

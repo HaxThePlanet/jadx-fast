@@ -2,6 +2,23 @@
 
 ## December 2025
 
+### Dec 21, 2025 - Phase 1 + Phase 2 Complete
+
+**Phase 2: Boolean Expression Simplification**
+- Short-circuit OR condition merging: Combined nested if conditions into `a || b` patterns
+- Added `collect_branch_blocks_with_barrier()` with barrier parameter to prevent cross-branch block inclusion
+- OR type 2 detection: Detect when both conditions branch to same "true" target
+- Fixed `MergedCondition::merge()` then/else block assignment for OR patterns
+- Added `MergeMode` enum (And/Or/Single) for tracking merge type
+- Files: `conditionals.rs`, `region_builder.rs`
+
+**Phase 1: Static Field Inline Initialization**
+- Added `NewInstance` variant to `FieldValue` enum in `info.rs`
+- Extended `extract_field_init.rs` to detect `new-instance` + `invoke-direct <init>` + `sput-object` pattern
+- Empty clinit suppression in `method_gen.rs`: Skip generating `static {}` blocks with only `return-void`
+- Added `NewInstance` rendering in `class_gen.rs` for static field initializers
+- Files: `info.rs`, `extract_field_init.rs`, `class_gen.rs`, `method_gen.rs`
+
 ### Dec 20, 2025 - Kotlin BitEncoding Port (100% Parity)
 
 **BitEncoding Decoder Ported from Java**
