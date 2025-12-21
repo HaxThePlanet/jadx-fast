@@ -236,6 +236,10 @@ impl BodyGenContext {
             expr_gen.set_var_name(first_param_reg, 0, "this".to_string());
         }
 
+        // Set first_param_reg for fallback name resolution (NEW-011 fix)
+        // When a parameter is reassigned (version 1+), we can fall back to version 0's name
+        expr_gen.set_first_param_reg(first_param_reg);
+
         // Register anonymous inner classes for inline generation
         // Using Arc avoids expensive deep cloning - just increment reference count
         let mut anonymous_classes = HashMap::new();

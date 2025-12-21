@@ -69,6 +69,9 @@ pub struct ExprGen {
     pub res_names: HashMap<u32, String>,
     /// Whether to replace resource IDs with R.* field references
     pub replace_consts: bool,
+    /// First parameter register (for fallback to version 0 name when SSA version not found)
+    /// Registers >= this value are parameters (version 0 has the parameter name)
+    first_param_reg: Option<u16>,
 }
 
 /// Field information
@@ -317,6 +320,7 @@ impl ExprGen {
             deobf_max_length: 64,
             res_names: HashMap::new(),
             replace_consts: false,
+            first_param_reg: None,
         }
     }
 
@@ -335,6 +339,7 @@ impl ExprGen {
             deobf_max_length: 64,
             res_names: HashMap::new(),
             replace_consts: false,
+            first_param_reg: None,
         }
     }
 
@@ -358,6 +363,13 @@ impl ExprGen {
     pub fn set_resources(&mut self, res_names: HashMap<u32, String>, replace_consts: bool) {
         self.res_names = res_names;
         self.replace_consts = replace_consts;
+    }
+
+    /// Set the first parameter register for fallback name resolution
+    /// When a register >= first_param_reg has no name for a specific SSA version,
+    /// we fall back to version 0's name (the original parameter name)
+    pub fn set_first_param_reg(&mut self, reg: u16) {
+        self.first_param_reg = Some(reg);
     }
 
     /// Reset for reuse - CRITICAL: Must shrink oversized HashMaps
@@ -436,6 +448,7 @@ impl ExprGen {
         }
 
         self.dex_provider = None;
+        self.first_param_reg = None;
     }
 
     /// Get an ExprGen from the thread-local pool (or create new)
@@ -528,11 +541,27 @@ impl ExprGen {
     /// Variable names from our var_naming pass (JADX-compatible) are used as-is.
     /// These include valid short names like "i", "s", "sb", "str", "th" following Java conventions.
     /// Deobfuscation filtering is only applied to unknown/default names, not to our generated names.
+    ///
+    /// For parameter registers, if the specific SSA version isn't found, we fall back to
+    /// version 0's name (the original parameter name). This handles cases where parameters
+    /// are reassigned and the new version doesn't have a name registered.
     pub fn get_var_name(&self, reg: &RegisterArg) -> String {
         // First, try to use named variable from debug info or type inference
         // Trust names from var_naming pass - they are already JADX-compatible
         if let Some(name) = self.var_names.get(&(reg.reg_num, reg.ssa_version)) {
             return name.clone();
+        }
+
+        // For parameter registers, fall back to version 0's name
+        // This handles reassigned parameters where version 1+ doesn't have a name
+        if reg.ssa_version > 0 {
+            if let Some(first_param) = self.first_param_reg {
+                if reg.reg_num >= first_param {
+                    if let Some(name) = self.var_names.get(&(reg.reg_num, 0)) {
+                        return name.clone();
+                    }
+                }
+            }
         }
 
         // No name from var_naming - use fallback
@@ -542,10 +571,25 @@ impl ExprGen {
 
     /// Get variable name by register number and SSA version
     /// Convenience method for when you don't have a RegisterArg
+    ///
+    /// For parameter registers, if the specific SSA version isn't found, we fall back to
+    /// version 0's name (the original parameter name).
     pub fn get_var_name_by_ids(&self, reg_num: u16, ssa_version: u32) -> String {
         if let Some(name) = self.var_names.get(&(reg_num, ssa_version)) {
             return name.clone();
         }
+
+        // For parameter registers, fall back to version 0's name
+        if ssa_version > 0 {
+            if let Some(first_param) = self.first_param_reg {
+                if reg_num >= first_param {
+                    if let Some(name) = self.var_names.get(&(reg_num, 0)) {
+                        return name.clone();
+                    }
+                }
+            }
+        }
+
         format!("obj{}", reg_num)
     }
 
