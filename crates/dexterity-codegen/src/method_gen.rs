@@ -885,14 +885,22 @@ fn collect_throws_from_instructions(
     };
 
     // Collect caught exception types from try-catch blocks
+    // For catch-all handlers, we add a marker to skip all exceptions in that try block
     let mut caught_types: HashSet<String> = HashSet::new();
+    let mut has_catch_all = false;
     for try_block in &method.try_blocks {
         for handler in &try_block.handlers {
-            // exception_type is None for catch-all
-            if let Some(ref exc_type) = handler.exception_type {
+            if handler.exception_type.is_none() {
+                has_catch_all = true;
+            } else if let Some(ref exc_type) = handler.exception_type {
                 caught_types.insert(exc_type.clone());
             }
         }
+    }
+
+    // If there's a catch-all in the method, no throws needed (all caught)
+    if has_catch_all {
+        return Vec::new();
     }
 
     // Scan instructions for INVOKE calls
@@ -904,7 +912,7 @@ fn collect_throws_from_instructions(
                 let class = &*method_info.class_type;
                 let name = &*method_info.method_name;
 
-                // Check if this method throws checked exceptions
+                // Check if this method throws checked exceptions from our static mapping
                 if let Some(exceptions) = get_library_method_throws(class, name) {
                     for exc in exceptions {
                         // Skip if this exception is caught
@@ -913,6 +921,10 @@ fn collect_throws_from_instructions(
                         }
                     }
                 }
+
+                // TODO: Also check if called method has Throws annotation in DEX
+                // This requires adding get_method_throws() to DexInfoProvider trait
+                // For now, we rely on the KNOWN_THROWING_METHODS list above
             }
         }
     }
