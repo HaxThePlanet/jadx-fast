@@ -536,6 +536,24 @@ impl ExprGen {
         })
     }
 
+    /// Get static method prefix, omitting class name if same as current class
+    /// Returns "" for same-class calls, "ClassName." for other classes
+    /// e.g., within Adjust class: getDefaultInstance() instead of Adjust.getDefaultInstance()
+    pub fn get_static_method_prefix_in_class(&self, idx: u32, current_class_type: Option<&str>) -> String {
+        if let Some(m) = self.get_method_value(idx) {
+            let is_same_class = current_class_type
+                .map(|current| current == &*m.class_type)
+                .unwrap_or(false);
+            if is_same_class {
+                String::new()
+            } else {
+                format!("{}.", m.class_name)
+            }
+        } else {
+            String::new()
+        }
+    }
+
     /// Get variable name (or generate default)
     ///
     /// Variable names from our var_naming pass (JADX-compatible) are used as-is.

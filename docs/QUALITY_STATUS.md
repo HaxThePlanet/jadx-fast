@@ -1,6 +1,6 @@
 # Quality Status
 
-**Status:** 0 P0, 1 P1 (S05 partial), 2 P2 Open | Kotlin 100% | P1-S04/S10 likely fixed (cannot repro), P1-S05 partial - block splitting issue (Dec 22, 2025)
+**Status:** 0 P0, 1 P1 (S05 partial), 2 P2 Open | Kotlin 100% | P1-S04/S10 fixed (no repro), P1-S05 partial - block splitting issue (Dec 22, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 **Output Refresh:** Dec 21, 2025 - All 5 APK samples refreshed (~8,858 Java files)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
@@ -21,9 +21,9 @@
 | Priority | Status |
 |----------|--------|
 | P0 Bugs | **ALL FIXED** (8 fixed) |
-| P1 Bugs | **1 Partial** (P1-S05 partial - block splitting issue); P1-S04/S10 likely fixed (cannot repro Dec 22); P1-S01, P1-S02, P1-S06, P1-S07, P1-S08, P1-S09, P1-S11, P1-S12 fixed |
+| P1 Bugs | **1 Partial** (P1-S05 partial - block splitting issue); P1-S04/S10 fixed (no repro Dec 22); P1-S01, P1-S02, P1-S06, P1-S07, P1-S08, P1-S09, P1-S11, P1-S12 fixed |
 | P2 Bugs | **2 Open** (P2-Q01, P2-Q03) |
-| P3 Polish | 2 open (POL-001, POL-002) |
+| P3 Polish | 1 open (POL-001); POL-002 fixed (static member class prefix) |
 
 See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 

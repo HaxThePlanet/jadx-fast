@@ -624,11 +624,9 @@ impl BodyGenContext {
                 }
             }
             InsnType::StaticGet { field_idx, .. } => {
-                if let Some(info) = self.expr_gen.get_field_value(*field_idx) {
-                    Some(format!("{}.{}", info.class_name, info.field_name))
-                } else {
-                    Some(format!("field#{}", field_idx))
-                }
+                // Omit class prefix for same-class static field access (JADX parity)
+                Some(self.expr_gen.get_static_field_ref_in_class(*field_idx, self.current_class_type.as_deref())
+                    .unwrap_or_else(|| format!("field#{}", field_idx)))
             }
             InsnType::InstanceOf { object, type_idx, .. } => {
                 let name = self.expr_gen.get_type_value(*type_idx)
@@ -674,7 +672,8 @@ impl BodyGenContext {
                     .collect();
                 if let Some(info) = self.expr_gen.get_method_value(*method_idx) {
                     let prefix = match kind {
-                        InvokeKind::Static => format!("{}.", info.class_name),
+                        // Omit class prefix for same-class static method calls (JADX parity)
+                        InvokeKind::Static => self.expr_gen.get_static_method_prefix_in_class(*method_idx, self.current_class_type.as_deref()),
                         _ => {
                             if let Some(first) = args.first() {
                                 let recv = self.gen_arg_inline(first);
@@ -1614,9 +1613,8 @@ fn detect_field_increment(
             .unwrap_or_else(|| format!("field#{}", field_idx));
         format!("{}.{}", obj_str, field_name)
     } else {
-        let field_info = ctx.expr_gen.get_field_value(field_idx);
-        field_info.as_ref()
-            .map(|f| format!("{}.{}", f.class_name, f.field_name))
+        // Static field: omit class prefix for same-class access (JADX parity)
+        ctx.expr_gen.get_static_field_ref_in_class(field_idx, ctx.current_class_type.as_deref())
             .unwrap_or_else(|| format!("field#{}", field_idx))
     };
 
@@ -2183,18 +2181,21 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     // - With hierarchy only: LCA for phi nodes but no field/method type lookups
     // - With dex_info only: field/method/type lookups but no LCA
     // - Neither: basic constraint-based inference only
+    // P1-S02 enhancement: Pass method return type for boolean constraint propagation
+    let method_return_type = Some(method.return_type.clone());
     let type_result = match (hierarchy, &dex_info) {
         (Some(h), Some(dex)) => {
-            // Best precision: both hierarchy (for LCA) and DEX lookups
+            // Best precision: both hierarchy (for LCA) and DEX lookups + method return type
             let dex_clone = dex.clone();
             let dex_clone2 = dex.clone();
             let dex_clone3 = dex.clone();
-            dexterity_passes::infer_types_with_context_and_hierarchy(
+            dexterity_passes::infer_types_with_full_context(
                 &ssa_result,
                 move |idx| dex_clone.get_type_as_argtype(idx),
                 move |idx| dex_clone2.get_field_type(idx),
                 move |idx| dex_clone3.get_method_return_type(idx),
                 h,
+                method_return_type,
             )
         }
         (Some(h), None) => {
@@ -2202,15 +2203,16 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
             dexterity_passes::infer_types_with_hierarchy(&ssa_result, h)
         }
         (None, Some(dex)) => {
-            // DEX lookups only
+            // DEX lookups only + method return type
             let dex_clone = dex.clone();
             let dex_clone2 = dex.clone();
             let dex_clone3 = dex.clone();
-            dexterity_passes::infer_types_with_context(
+            dexterity_passes::infer_types_with_context_and_return_type(
                 &ssa_result,
                 move |idx| dex_clone.get_type_as_argtype(idx),
                 move |idx| dex_clone2.get_field_type(idx),
                 move |idx| dex_clone3.get_method_return_type(idx),
+                method_return_type,
             )
         }
         (None, None) => {
@@ -4354,8 +4356,10 @@ fn get_insn_value_expr(insn: &InsnType, ctx: &BodyGenContext) -> Option<String> 
 /// Simplify ternary-to-boolean patterns:
 /// - `cond ? true : false` -> `cond`
 /// - `cond ? false : true` -> `!cond`
+/// - P1-S02: `cond ? 1 : 0` -> `cond` (when target_type is Boolean)
+/// - P1-S02: `cond ? 0 : 1` -> `!cond` (when target_type is Boolean)
 /// Returns the simplified expression or None if no simplification possible
-fn simplify_ternary_to_boolean(condition_str: &str, then_value: &str, else_value: &str) -> Option<String> {
+fn simplify_ternary_to_boolean(condition_str: &str, then_value: &str, else_value: &str, target_type: Option<&ArgType>) -> Option<String> {
     let then_trimmed = then_value.trim();
     let else_trimmed = else_value.trim();
 
@@ -4366,34 +4370,40 @@ fn simplify_ternary_to_boolean(condition_str: &str, then_value: &str, else_value
 
     // Pattern: cond ? false : true -> !cond
     if then_trimmed == "false" && else_trimmed == "true" {
-        // Need to negate the condition
-        // If condition already has !, remove it (double negation)
-        let cond = condition_str.trim();
-        if cond.starts_with("!(") && cond.ends_with(")") {
-            // !(...) -> extract inner
-            return Some(cond[2..cond.len()-1].to_string());
-        } else if cond.starts_with("!") && !cond[1..].contains(" ") {
-            // !x -> x (simple variable negation)
-            return Some(cond[1..].to_string());
-        } else {
-            // Wrap in negation
-            if cond.contains(" ") && !cond.starts_with("(") {
-                return Some(format!("!({})", cond));
-            } else {
-                return Some(format!("!{}", cond));
-            }
+        return Some(negate_condition(condition_str));
+    }
+
+    // P1-S02: Pattern: cond ? 1 : 0 in boolean context -> cond
+    // In DEX bytecode, boolean comparisons often result in 1/0 literals
+    if matches!(target_type, Some(ArgType::Boolean)) {
+        if then_trimmed == "1" && else_trimmed == "0" {
+            return Some(condition_str.to_string());
+        }
+        if then_trimmed == "0" && else_trimmed == "1" {
+            return Some(negate_condition(condition_str));
         }
     }
 
-    // Pattern: cond ? 1 : 0 with boolean context (also represents true/false)
-    // This is more conservative - only simplify if we know it's boolean context
-    if then_trimmed == "1" && else_trimmed == "0" {
-        // Check if condition itself suggests boolean context
-        // For now, don't simplify - the 1/0 might be intentional integers
-        return None;
-    }
-
     None
+}
+
+/// Negate a condition expression, removing double negations where possible
+fn negate_condition(condition_str: &str) -> String {
+    let cond = condition_str.trim();
+    if cond.starts_with("!(") && cond.ends_with(")") {
+        // !(...) -> extract inner
+        cond[2..cond.len()-1].to_string()
+    } else if cond.starts_with("!") && !cond[1..].contains(" ") {
+        // !x -> x (simple variable negation)
+        cond[1..].to_string()
+    } else {
+        // Wrap in negation
+        if cond.contains(" ") && !cond.starts_with("(") {
+            format!("!({})", cond)
+        } else {
+            format!("!{}", cond)
+        }
+    }
 }
 
 /// Emit a ternary assignment: dest = cond ? then_val : else_val
@@ -4440,7 +4450,7 @@ fn emit_ternary_assignment<W: CodeWriter>(
     }
 
     // Try to simplify ternary-to-boolean patterns first
-    if let Some(simplified) = simplify_ternary_to_boolean(condition_str, &ternary.then_value, &ternary.else_value) {
+    if let Some(simplified) = simplify_ternary_to_boolean(condition_str, &ternary.then_value, &ternary.else_value, Some(&decl_type)) {
         // Simplified to just a boolean expression
         code.add(&var_name)
             .add(" = ")
@@ -4471,7 +4481,7 @@ fn emit_return_ternary<W: CodeWriter>(
     code: &mut W,
 ) {
     // Try to simplify ternary-to-boolean patterns first
-    if let Some(simplified) = simplify_ternary_to_boolean(condition_str, &ternary.then_value, &ternary.else_value) {
+    if let Some(simplified) = simplify_ternary_to_boolean(condition_str, &ternary.then_value, &ternary.else_value, Some(return_type)) {
         // Simplified to just a boolean expression
         code.start_line()
             .add("return ")
@@ -5931,11 +5941,9 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
             }
             InsnType::StaticGet { dest, field_idx } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let expr = if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
-                        format!("{}.{}", field_info.class_name, field_info.field_name)
-                    } else {
-                        format!("field#{}", field_idx)
-                    };
+                    // Omit class prefix for same-class static field access (JADX parity)
+                    let expr = ctx.expr_gen.get_static_field_ref_in_class(*field_idx, ctx.current_class_type.as_deref())
+                        .unwrap_or_else(|| format!("field#{}", field_idx));
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
                 }
             }
@@ -6173,11 +6181,9 @@ fn extract_block_value_expression(block_id: u32, ctx: &mut BodyGenContext) -> St
                 format!("{}.{}", obj_str, field_name)
             }
             InsnType::StaticGet { field_idx, .. } => {
-                if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
-                    format!("{}.{}", field_info.class_name, field_info.field_name)
-                } else {
-                    format!("field#{}", field_idx)
-                }
+                // Omit class prefix for same-class static field access (JADX parity)
+                ctx.expr_gen.get_static_field_ref_in_class(*field_idx, ctx.current_class_type.as_deref())
+                    .unwrap_or_else(|| format!("field#{}", field_idx))
             }
 
             // Array access
@@ -6783,8 +6789,10 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                             }
                             code.add(&field_info.field_name);
                         } else {
-                            // Static field: Class.field
-                            code.add(&field_info.class_name).add(".").add(&field_info.field_name);
+                            // Static field: omit class prefix for same-class access (JADX parity)
+                            let field_ref = ctx.expr_gen.get_static_field_ref_in_class(field_idx, ctx.current_class_type.as_deref())
+                                .unwrap_or_else(|| format!("{}.{}", field_info.class_name, field_info.field_name));
+                            code.add(&field_ref);
                         }
                         return;
                     }
@@ -6805,8 +6813,10 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                                 ctx.write_arg_inline(code, &args[1]);
                             }
                         } else {
-                            // Static field: Class.field = value
-                            code.add(&field_info.class_name).add(".").add(&field_info.field_name).add(" = ");
+                            // Static field: omit class prefix for same-class access (JADX parity)
+                            let field_ref = ctx.expr_gen.get_static_field_ref_in_class(field_idx, ctx.current_class_type.as_deref())
+                                .unwrap_or_else(|| format!("{}.{}", field_info.class_name, field_info.field_name));
+                            code.add(&field_ref).add(" = ");
                             if let Some(value) = args.first() {
                                 ctx.write_arg_inline(code, value);
                             }
@@ -6825,8 +6835,9 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                             (target_info.param_types.len() == args.len());
 
                         if is_static {
-                            // Static method call
-                            code.add(&target_info.class_name).add(".").add(&sanitize_method_name(&target_info.method_name)).add("(");
+                            // Static method call: omit class prefix for same-class access (JADX parity)
+                            let prefix = ctx.expr_gen.get_static_method_prefix_in_class(target_method_idx, ctx.current_class_type.as_deref());
+                            code.add(&prefix).add(&sanitize_method_name(&target_info.method_name)).add("(");
                             for (i, arg) in args.iter().enumerate() {
                                 if i > 0 { code.add(", "); }
                                 ctx.write_arg_inline(code, arg);
@@ -7843,11 +7854,10 @@ fn generate_insn<W: CodeWriter>(
                 return true;
             }
 
-            // OPTIMIZED: Direct write without String allocation
             // Get field info for both name and type (for proper boolean literal formatting)
+            // Omit class prefix for same-class static field access (JADX parity)
             let field_info = ctx.expr_gen.get_field_value(*field_idx);
-            let field_ref = field_info.as_ref()
-                .map(|f| format!("{}.{}", f.class_name, f.field_name))
+            let field_ref = ctx.expr_gen.get_static_field_ref_in_class(*field_idx, ctx.current_class_type.as_deref())
                 .unwrap_or_else(|| format!("field#{}", field_idx));
             let field_type = field_info
                 .map(|f| f.field_type)
@@ -9017,32 +9027,48 @@ mod tests {
     #[test]
     fn test_simplify_ternary_to_boolean() {
         // Test cond ? true : false -> cond
-        let result = simplify_ternary_to_boolean("x > 0", "true", "false");
+        let result = simplify_ternary_to_boolean("x > 0", "true", "false", None);
         assert_eq!(result, Some("x > 0".to_string()), "cond ? true : false should simplify to cond");
 
         // Test cond ? false : true -> !cond
-        let result = simplify_ternary_to_boolean("x > 0", "false", "true");
+        let result = simplify_ternary_to_boolean("x > 0", "false", "true", None);
         assert_eq!(result, Some("!(x > 0)".to_string()), "cond ? false : true should simplify to !(cond)");
 
         // Test simple condition with negation: !x ? false : true -> x
-        let result = simplify_ternary_to_boolean("!x", "false", "true");
+        let result = simplify_ternary_to_boolean("!x", "false", "true", None);
         assert_eq!(result, Some("x".to_string()), "!x ? false : true should simplify to x (double negation)");
 
         // Test !(expr) ? false : true -> expr
-        let result = simplify_ternary_to_boolean("!(a && b)", "false", "true");
+        let result = simplify_ternary_to_boolean("!(a && b)", "false", "true", None);
         assert_eq!(result, Some("a && b".to_string()), "!(a && b) ? false : true should simplify to (a && b)");
 
         // Test non-boolean ternary - should not simplify
-        let result = simplify_ternary_to_boolean("x > 0", "1", "2");
+        let result = simplify_ternary_to_boolean("x > 0", "1", "2", None);
         assert_eq!(result, None, "Non-boolean ternary should not simplify");
 
         // Test partial boolean - should not simplify
-        let result = simplify_ternary_to_boolean("x > 0", "true", "null");
+        let result = simplify_ternary_to_boolean("x > 0", "true", "null", None);
         assert_eq!(result, None, "Mixed boolean/null should not simplify");
 
         // Test with whitespace
-        let result = simplify_ternary_to_boolean("a == b", " true ", " false ");
+        let result = simplify_ternary_to_boolean("a == b", " true ", " false ", None);
         assert_eq!(result, Some("a == b".to_string()), "Should handle whitespace in values");
+
+        // P1-S02: Test cond ? 1 : 0 in boolean context -> cond
+        let result = simplify_ternary_to_boolean("x > 0", "1", "0", Some(&ArgType::Boolean));
+        assert_eq!(result, Some("x > 0".to_string()), "cond ? 1 : 0 in boolean context should simplify to cond");
+
+        // P1-S02: Test cond ? 0 : 1 in boolean context -> !cond
+        let result = simplify_ternary_to_boolean("x > 0", "0", "1", Some(&ArgType::Boolean));
+        assert_eq!(result, Some("!(x > 0)".to_string()), "cond ? 0 : 1 in boolean context should simplify to !(cond)");
+
+        // P1-S02: Test cond ? 1 : 0 without boolean context -> None (should NOT simplify)
+        let result = simplify_ternary_to_boolean("x > 0", "1", "0", Some(&ArgType::Int));
+        assert_eq!(result, None, "cond ? 1 : 0 without boolean context should NOT simplify");
+
+        // P1-S02: Test cond ? 1 : 0 with None context -> None
+        let result = simplify_ternary_to_boolean("x > 0", "1", "0", None);
+        assert_eq!(result, None, "cond ? 1 : 0 with None context should NOT simplify");
     }
 
     // StringBuilder chain optimization tests

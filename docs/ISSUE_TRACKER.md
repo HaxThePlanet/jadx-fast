@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 1 P1 (S05 partial), 2 P2 | IR 100% Complete | P1-S04/S10 likely fixed (cannot repro), P1-S05 partial (nested ternaries) (Dec 22, 2025)
+**Status:** Open: 0 P0, 1 P1 (S10 open), 2 P2 | IR 100% Complete | P1-S02 enhanced (return type propagation), P1-S05 fixed, P1-S10 open (~60-70% JADX parity) (Dec 22, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -25,15 +25,15 @@
 | ID | Issue | Example | Location |
 |----|-------|---------|----------|
 | ~~P1-S01~~ | ~~Empty if blocks missing return~~ | **FIXED** - is_empty_region() fix | body_gen.rs |
-| ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns (59.6% reduction) + method args (27 fixes) + dead code elimination for 0/1 constants | body_gen.rs |
+| ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **ENHANCED** (Dec 22) - Added: (1) Return type constraint propagation in type_inference, (2) Ternary `? 1 : 0` simplification in boolean context. Previous: const_values tracking (59.6% reduction) + method args (27 fixes). **Remaining:** Multi-SSA-version vars where v1=int before boolean constraint propagates | type_inference.rs, body_gen.rs |
 | ~~P1-S03~~ | ~~Wrong return value~~ | **MERGED with P1-S05** - Same root cause (control flow reconstruction) | body_gen.rs |
 | P1-S04 | Wrong method signature call | **CANNOT REPRO** - 2 args passed to 1-arg method; no examples found in test APKs (Dec 22) | body_gen.rs |
-| P1-S05 | Control flow logic wrong | **PARTIAL** - Merge block prelude processing for simple ternaries; complex nested ternary patterns (like `D(long j)`) still broken - **root cause: block splitting** puts iget-wide in wrong block, resulting in then_meaningful=0 | ternary_mod.rs, conditionals.rs, body_gen.rs |
+| ~~P1-S05~~ | ~~Control flow logic wrong~~ | **FIXED** - Ported JADX's `removeInsns()` to remove GOTO/NOP from blocks after splitting (JADX parity). Ternary detection now uses exact instruction count match. All 16 ternary tests pass including `nested_ternary_in_comparison_test`. | block_split.rs, ternary_mod.rs |
 | ~~P1-S06~~ | ~~Missing try-catch blocks~~ | **FIXED** - Block ID vs offset mismatch fixed, handler addresses as block leaders, stack overflow prevention | region_builder.rs, block_split.rs, decompiler.rs, body_gen.rs |
 | ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
 | ~~P1-S08~~ | ~~Method calls before guard~~ | **FIXED** - Only emit first block prelude for short-circuit conditions (AND/OR) | body_gen.rs |
 | ~~P1-S09~~ | ~~For-each over Iterator~~ | **FIXED** - Validate collection expr or fall back to while | body_gen.rs |
-| P1-S10 | Code after loop ends | **LIKELY FIXED** - Related to P1-S07 (loop counter fix); no examples found in test APKs (Dec 22) | body_gen.rs |
+| P1-S10 | Code after loop ends | **OPEN** - P1-S07 fix works in unit tests but real APK output shows ~60-70% JADX parity. Issues: undefined variables, broken loop syntax, corrupted control flow. See **P1-S10 Quality Gap** below. | body_gen.rs, var_naming.rs, type_inference.rs |
 | ~~P1-S11~~ | ~~Missing throws declaration~~ | **FIXED** - Parse dalvik/annotation/Throws | method_gen.rs |
 | ~~P1-S12~~ | ~~Empty catch block~~ | **FIXED** - Same root cause as P1-S06; block ID vs offset mismatch fixed with stack overflow prevention | region_builder.rs, body_gen.rs |
 
@@ -55,103 +55,56 @@
 
 #### P1-S05: Control Flow Logic Fix (Dec 22, 2025)
 
-**Status:** IMPROVED (Additional JADX-parity fixes applied)
+**Status:** ✅ FIXED
 
-**Example Method:** `com/amplitude/api/f.java:D(long j)`
+**Root Cause:** JADX's `BlockSplitter.removeInsns()` removes GOTO and NOP instructions from blocks after splitting. Dexterity was checking for "meaningful instructions" (filtering out control flow) but this caused misalignment when blocks contained GOTO instructions alongside meaningful code.
 
-**Expected (JADX):**
-```java
-private boolean D(long j2) {
-    return j2 - this.w < (this.H ? this.D : this.E);
-}
-```
+**Solution:** Ported JADX's approach to Dexterity:
+1. Added `remove_goto_nop()` in `block_split.rs` - removes GOTO/NOP after block splitting (mirrors JADX's `BlockSplitter.removeInsns()`)
+2. Simplified ternary detection to use `block.instructions.len() == 1` (matches JADX's `getTernaryInsnBlock()`)
+3. Removed `get_meaningful_instructions()` helper (no longer needed with cleaned blocks)
 
-**Current (Dexterity):**
-```java
-private boolean D(long j) {
-    long l;
-    int j2 = 0;
-    j -= l2;
-    return j < l ? 1 : 0;
-}
-```
+**Test Results:** All 16 ternary-related integration tests pass:
+- `nested_ternary_in_comparison_test` ✅
+- `chained_ternary_test` ✅
+- `ternary_in_arithmetic_test` ✅
+- Plus 13 additional ternary tests
 
-**Root Cause Analysis (Dec 22, 2025):**
+**Files Changed:** `block_split.rs`, `ternary_mod.rs`
 
-The bytecode structure is:
-```smali
-iget-boolean v0, this.H     ; Block 0: condition
-if-eqz v0, :else
-iget-wide v0, this.D        ; Block 1: then (ternary value)
-goto :merge
-:else
-iget-wide v0, this.E        ; Block 2: else (ternary value)
-:merge
-iget-wide v2, this.w        ; Block 3: merge block
-sub-long p1, v2
-cmp-long p1, p1, v0
-if-gez p1, :false           ; Block 3 continued: outer ternary
-const 1
-goto :ret
-:false
-const 0
-:ret
-return p1
-```
+#### P1-S10: Quality Gap Investigation (Dec 22, 2025)
 
-The issue is that the **inner ternary** (`this.H ? this.D : this.E` for v0) is not being detected as a TernaryAssignment region, even though it should satisfy all criteria:
-- Both branches are single blocks (blocks 1, 2)
-- Both have single meaningful instructions (iget-wide)
-- Both assign to the same register (v0)
+**Status:** INVESTIGATION COMPLETE - Broader quality issues identified
 
-**Investigation Results (Dec 22, 2025):**
+**Summary:** The P1-S07 fix (SemanticOrigin tracking) works correctly in integration tests (60+ loop tests pass). However, real APK output shows significant quality gaps compared to JADX.
 
-Debug tracing revealed the **root cause is block splitting, not ternary detection**. When `try_transform_to_ternary()` is called for this pattern in `ternary_mod.rs`, the blocks have the WRONG number of meaningful instructions:
-- `then_meaningful=0` (expected 1) - the then block contains only control flow (goto), not the expected iget-wide instruction
-- `else_meaningful=1` (correct)
+**Test Results:**
+- All 690 integration tests pass
+- 60+ loop-specific tests pass
+- Synthetic source code decompiles correctly
 
-The ternary detection logic in `try_transform_to_ternary()` (lines 501-509) correctly rejects this because it requires exactly one meaningful instruction per block:
-```rust
-if then_meaningful.len() != 1 || else_meaningful.len() != 1 {
-    debug!(
-        then_meaningful_count = then_meaningful.len(),
-        else_meaningful_count = else_meaningful.len(),
-        "Ternary rejected: not exactly one meaningful instruction per block"
-    );
-    return TernaryTransformResult::NotTernary;
-}
-```
+**Real APK Comparison (medium.apk):**
 
-This indicates the **block splitting is incorrect** for this method. The iget-wide instruction that should be in the then block is either:
-1. Merged into the condition block (most likely)
-2. Placed in a different block due to split boundary issues
-3. The CFG structure is fundamentally different than expected
+| File | JADX | Dexterity | Issue |
+|------|------|-----------|-------|
+| `FileManager.java:72` | `File file = new File(str)` | `i = new File(str)` | Type confusion - File assigned to int |
+| `FileManager.java:80` | `for (File file2 : fileArrListFiles)` | `while (i3 < str3.length)` | Undefined `str3`, wrong loop type |
+| `FileManager.java:88` | Proper condition with named vars | `if (i72 <= i3 && ...)` | Undefined `i72` |
+| `Base64.java:68` | `while (i7 < i2)` | `while (i < i20 *= 3)` | Invalid Java syntax |
+| `Strings.java:61-67` | For loop with `sb.append(str)` | For-each missing `sb.append(str)` | Missing loop body statements |
 
-**Next Steps:**
-1. Trace the actual bytecode instruction flow for this specific method
-2. Verify block splitting creates correct boundaries at goto/branch targets
-3. Compare with JADX's block structure for the same method
-4. Fix block splitting to ensure iget-wide is in its own block
+**Root Cause Analysis:**
+1. **Integration test gap** - Tests use synthetic Java source that compiles to simpler bytecode. Real APKs have complex optimization patterns (ProGuard/R8, multi-DEX) not covered by tests.
+2. **Type inference failures** - Variables losing type information during IR transformation
+3. **SSA reconstruction issues** - PHI nodes not properly resolving in complex control flow
+4. **Variable definition tracking** - Some variables defined but not tracked through all paths
 
-**JADX-Parity Fixes Applied (Dec 22, 2025):**
-- `verify_phi_merge()` - JADX-style PHI node verification (both branches must feed same PHI)
-- Improved SSA version tracking - Now uses PHI version when PHI verification succeeds
-- `find_phi_output_version_for_ternary()` - Find PHI output version in merge block for ternary inlining (body_gen.rs)
-- Enhanced TernaryAssignment handling - Store inline expr at PHI output version for proper SSA tracking
-- Debug logging - Comprehensive tracing in `ternary_mod.rs` and `conditionals.rs`
-- Integration tests - `nested_ternary_in_comparison_test`, `chained_ternary_test`, `ternary_in_arithmetic_test`
+**Impact:** While P1-S10 (loop counter separation) is technically fixed, real APK decompilation quality is ~60-70% of JADX parity due to broader IR issues.
 
-**Partial Fix Applied (Dec 22, 2025):**
-- `find_merge_block_for_ternary()` - Finds common successor of then/else value blocks
-- `process_merge_block_prelude_for_ternary()` - Processes merge block prelude
-- `uses_register()` helper - Checks register references
-
-**Previous fixes (Dec 21, 2025):**
-- Underscore naming pattern (`j2` instead of `j_2`)
-- Field access inlining improvements
-- Ternary sub-expressions inline
-
-**Files Changed:** `ternary_mod.rs`, `conditionals.rs`, `body_gen.rs`, `var_naming.rs`, `conditions_tests.rs`
+**Recommended Actions:**
+1. Add integration tests using real APK bytecode patterns (not just synthetic source)
+2. Investigate type inference failures in complex methods
+3. Add comparison tests against JADX output for key files
 
 #### P1-S06 + P1-S12: Try-Catch Block Fix (Dec 21, 2025)
 
@@ -227,7 +180,7 @@ while (i < length - 1) {   // Correct: counter vs bound
 |----|-------|--------|
 | ~~GAP-001~~ | ~~Kotlin package deobfuscation~~ | **FIXED** - get_aliased_class_name() + extract_and_register_package_alias() |
 | ~~GAP-002~~ | ~~Variable naming quality~~ | **FIXED** - OBJ_ALIAS exact matching, GOOD_VAR_NAMES, toString(), type+method fallback |
-| POL-002 | Cosmetic formatting | Low priority |
+| ~~POL-002~~ | ~~Cosmetic formatting~~ | **FIXED** - Omit class prefix for same-class static field/method access (JADX parity) |
 
 ### Performance TODOs
 
@@ -324,6 +277,27 @@ if (matcher.matches() && obj == null) { ... }
 - Convert 0->false, 1->true for boolean method returns
 - Use `write_arg_inline_typed` with return type for general type awareness
 - **Dead code elimination:** Always inline Const 0/1 values to prevent unused `final int i = 1;` declarations
+
+### P1-S02: Return Type Constraint Propagation (Dec 22)
+
+| ID | Bug | Fix |
+|----|-----|-----|
+| P1-S02 | Ternary `? 1 : 0` not simplified | Pass method return type to type inference |
+| BOOL-005 | Return instruction not typed | Handle `Return` in type_inference.rs to add boolean constraint |
+| BOOL-006 | Ternary 1/0 literals | Extend `simplify_ternary_to_boolean()` to handle 1/0 in boolean context |
+
+**Progress:** Enhanced type inference for boolean returns
+**Files changed:** `type_inference.rs`, `body_gen.rs`
+**Implementation:**
+- Added `method_return_type` field to `TypeInference` struct
+- New builder method `with_method_return_type()`
+- Handle `Return { value: Some(arg) }` to add `UseBound(Boolean)` constraint
+- New public APIs: `infer_types_with_full_context()`, `infer_types_with_context_and_return_type()`
+- Updated `simplify_ternary_to_boolean()` to accept optional target type parameter
+- Simplify `? 1 : 0` → condition when target type is `Boolean`
+- Added helper `negate_condition()` for double-negation elimination
+
+**Remaining:** Multi-SSA-version vars where early version gets `int` type before boolean constraint propagates.
 
 ### P1-S09: For-Each Over Iterator Fix (Dec 21 Night)
 

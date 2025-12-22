@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 1 P1 (S05 partial - block splitting issue), 2 P2 Open | IR 100% | Kotlin 100% | P1-S04/S10 likely fixed (cannot repro) (Dec 22, 2025)
+**Status:** 0 P0, 1 P1 (S10 open), 2 P2 Open | IR 100% | Kotlin 100% | P1-S02 enhanced, P1-S05 fixed, P1-S10 open: ~60-70% JADX parity on real APKs (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -9,9 +9,7 @@
 
 ### P3 Polish
 
-| ID | Issue | Action |
-|----|-------|--------|
-| POL-002 | Cosmetic formatting | Whitespace, parentheses (~5%) |
+All P3 polish items completed.
 
 ### Performance TODOs
 
@@ -26,19 +24,21 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open it
 
 ## Completed
 
-### P1-S05: Merge Block Prelude Processing for Ternaries (Dec 22, 2025) - PARTIAL
+### POL-002: Cosmetic Formatting - Static Member Class Prefix (Dec 22, 2025)
 
-- **Partial fix for nested ternary patterns** - Simple cases improved, complex nested patterns still broken
-- **Root cause identified: block splitting issue** - The then block has only control flow (goto) with `then_meaningful=0` instead of the expected iget-wide instruction. The iget-wide instruction is likely merged into the condition block.
-- **Added `find_merge_block_for_ternary()`** - Finds common successor of then/else value blocks
-- **Added `process_merge_block_prelude_for_ternary()`** - Processes merge block instructions before ternary use
-- **Added `uses_register()` helper** - Checks if InsnArg references specific register
-- **Added PHI node verification (`verify_phi_merge()`)** - JADX-style verification that both branches feed into same PHI node
-- **Improved SSA version tracking** - Now uses PHI version when PHI verification succeeds
-- **Added debug logging** - Comprehensive tracing for ternary detection and conditional analysis
-- **Added integration tests** - `nested_ternary_in_comparison_test`, `chained_ternary_test`, `ternary_in_arithmetic_test`
-- **Next steps:** Fix block splitting to ensure iget-wide is in its own block (not merged with condition block)
-- **Files changed:** `ternary_mod.rs`, `conditionals.rs`, `body_gen.rs`, `conditions_tests.rs`
+- **JADX parity for same-class static access** - Omit class prefix when accessing static fields/methods in same class
+- **Added `get_static_method_prefix_in_class()`** - Helper to get empty/class prefix based on current class
+- **Updated all static field/method access sites** - gen_expr_inline, StaticPut, FieldGet/FieldSet/MethodCall inline attrs
+- **Example:** `Adjust.getDefaultInstance()` → `getDefaultInstance()` within Adjust class
+- **Files changed:** `expr_gen.rs`, `body_gen.rs`
+
+### P1-S05: Ternary Detection JADX Parity (Dec 22, 2025) - ✅ FIXED
+
+- **Ported JADX's `removeInsns()` to Dexterity** - Removes GOTO/NOP from blocks after splitting (mirrors JADX's `BlockSplitter.removeInsns()`)
+- **Simplified ternary detection** - Now uses `block.instructions.len() == 1` to match JADX's `getTernaryInsnBlock()` exactly
+- **Removed `get_meaningful_instructions()`** - No longer needed with cleaned blocks
+- **All 16 ternary tests pass** including `nested_ternary_in_comparison_test`, `chained_ternary_test`, `ternary_in_arithmetic_test`
+- **Files changed:** `block_split.rs`, `ternary_mod.rs`
 
 ### P0-C08: Invalid instanceof Syntax Fix (Dec 21, 2025)
 

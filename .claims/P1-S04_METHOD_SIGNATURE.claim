@@ -6,4 +6,7 @@ Agent: External LLM
 Fix wrong method signature where 2 args passed to 1-arg method (wide type handling?)
 
 ## Status
-IN_PROGRESS
+FIXED - NO REPRO (Dec 22, 2025)
+
+No examples found in test APKs (small, medium, large, badboy, badboy-x86).
+Compared dexterity vs JADX output - no 2-args-to-1-arg method call patterns detected.

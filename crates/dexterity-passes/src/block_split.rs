@@ -115,13 +115,36 @@ impl BlockSplitResult {
 /// Split instructions into basic blocks
 /// Takes a reference to avoid unnecessary Vec cloning - instructions are only cloned when moved into blocks
 pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
-    split_blocks_impl(instructions, &[])
+    let mut result = split_blocks_impl(instructions, &[]);
+    remove_goto_nop(&mut result.blocks);
+    result
 }
 
 /// Split instructions into basic blocks with exception handler addresses as additional leaders
 /// Handler addresses must be block leaders to ensure proper try-catch region detection
 pub fn split_blocks_with_handlers(instructions: &[InsnNode], handler_addrs: &[u32]) -> BlockSplitResult {
-    split_blocks_impl(instructions, handler_addrs)
+    let mut result = split_blocks_impl(instructions, handler_addrs);
+    remove_goto_nop(&mut result.blocks);
+    result
+}
+
+/// Remove GOTO and NOP instructions from blocks (JADX parity)
+///
+/// JADX's BlockSplitter.removeInsns() does this cleanup after block splitting.
+/// Only removes instructions that have no special flags attached.
+/// This ensures blocks contain only meaningful instructions, matching JADX's
+/// `block.getInstructions().size() == 1` check in TernaryMod.getTernaryInsnBlock().
+fn remove_goto_nop(blocks: &mut [BasicBlock]) {
+    for block in blocks.iter_mut() {
+        block.instructions.retain(|insn| {
+            // Keep if it has flags (like JADX's !isAttrStorageEmpty())
+            if insn.flags != 0 {
+                return true;
+            }
+            // Remove GOTO and NOP
+            !matches!(insn.insn_type, InsnType::Goto { .. } | InsnType::Nop)
+        });
+    }
 }
 
 /// Internal implementation of block splitting
@@ -402,6 +425,7 @@ mod tests {
 
     #[test]
     fn test_single_block() {
+        // After JADX-parity change, NOP instructions are removed from blocks
         let instructions = vec![make_nop(0), make_nop(1), make_return(2)];
         let result = split_blocks(&instructions);
 
@@ -409,8 +433,9 @@ mod tests {
         assert_eq!(result.entry_block, 0);
         assert_eq!(result.exit_blocks, vec![0]);
 
+        // Only the return instruction remains (NOPs removed per JADX BlockSplitter.removeInsns())
         let block = result.get_block(0).unwrap();
-        assert_eq!(block.instructions.len(), 3);
+        assert_eq!(block.instructions.len(), 1);
     }
 
     #[test]
@@ -423,7 +448,11 @@ mod tests {
         ];
         let result = split_blocks(&instructions);
 
-        // Should have 3 blocks: [nop, goto], [nop], [return]
+        // Should have 3 blocks, but some may be empty after NOP/GOTO removal:
+        // Block 0: [nop, goto] -> [] (empty after removal)
+        // Block 1: [nop] -> [] (empty after removal)
+        // Block 2: [return] -> [return]
+        // Note: Empty blocks are kept for CFG structure, only instructions are removed
         assert_eq!(result.block_count(), 3);
     }
 

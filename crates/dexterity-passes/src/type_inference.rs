@@ -259,6 +259,9 @@ pub struct TypeInference {
     /// Field access type cache: (reg_num, ssa_version) -> field_type
     /// Populated during InstanceGet/StaticGet, used by Ternary
     field_access_types: FxHashMap<(u16, u32), ArgType>,
+    /// Method's own return type (for Return instruction constraint propagation)
+    /// P1-S02 enhancement: propagate boolean constraint to returned values
+    method_return_type: Option<ArgType>,
 }
 
 impl Default for TypeInference {
@@ -290,7 +293,14 @@ impl TypeInference {
             pending_type_var_resolutions: Vec::new(),
             boolean_literal_candidates: FxHashMap::default(),
             field_access_types: FxHashMap::default(),
+            method_return_type: None,
         }
+    }
+
+    /// Set method's own return type for constraint propagation (P1-S02 enhancement)
+    pub fn with_method_return_type(mut self, return_type: ArgType) -> Self {
+        self.method_return_type = Some(return_type);
+        self
     }
 
     /// Set class hierarchy for advanced type inference
@@ -1334,9 +1344,28 @@ impl TypeInference {
                 }
             }
 
+            // P1-S02 enhancement: Handle Return instruction to propagate method return type
+            // If the method returns boolean, the returned value should be typed as boolean
+            InsnType::Return { value: Some(arg) } => {
+                if let Some(ref return_type) = self.method_return_type {
+                    if matches!(return_type, ArgType::Boolean) {
+                        if let Some(var) = self.var_for_arg(arg) {
+                            // Add use bound: the returned value is used as boolean
+                            self.add_use_bound(var, ArgType::Boolean);
+                            // If this is a boolean literal candidate (0 or 1 constant), mark it
+                            if let InsnArg::Register(reg) = arg {
+                                if self.boolean_literal_candidates.contains_key(&(reg.reg_num, reg.ssa_version)) {
+                                    // Already marked, constraint will help resolve it
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // Other control flow instructions don't produce types
             InsnType::Nop
-            | InsnType::Return { .. }
+            | InsnType::Return { value: None }
             | InsnType::Throw { .. }
             | InsnType::MonitorEnter { .. }
             | InsnType::MonitorExit { .. }
@@ -2574,6 +2603,98 @@ where
     inference.solve();
     // Post-solve: compute LCA for phi nodes with conflicting object types
     inference.compute_phi_lcas();
+    let num_resolved = inference.resolved.len();
+    let types = inference.get_all_types();
+
+    TypeInferenceResult {
+        types,
+        num_constraints,
+        num_type_vars,
+        num_resolved,
+    }
+}
+
+/// Run type inference with custom lookups, hierarchy, AND method return type (P1-S02 enhancement)
+///
+/// This is the most complete type inference variant with boolean return type propagation:
+/// - type_lookup: Resolve DEX type indices to ArgType
+/// - field_lookup: Resolve field indices to field types
+/// - method_lookup: Resolve method indices to (param_types, return_type)
+/// - hierarchy: Class hierarchy for subtype checking and LCA computation
+/// - method_return_type: The method's own return type for constraint propagation
+///
+/// When method_return_type is Boolean, this ensures returned values are typed as boolean,
+/// which enables proper simplification of `? 1 : 0` patterns to boolean expressions.
+pub fn infer_types_with_full_context<F, G, H>(
+    ssa: &SsaResult,
+    type_lookup: F,
+    field_lookup: G,
+    method_lookup: H,
+    hierarchy: &dexterity_ir::ClassHierarchy,
+    method_return_type: Option<ArgType>,
+) -> TypeInferenceResult
+where
+    F: Fn(u32) -> Option<ArgType> + Send + Sync + 'static,
+    G: Fn(u32) -> Option<ArgType> + Send + Sync + 'static,
+    H: Fn(u32) -> Option<(Vec<ArgType>, ArgType)> + Send + Sync + 'static,
+{
+    let mut inference = TypeInference::new()
+        .with_type_lookup(type_lookup)
+        .with_field_lookup(field_lookup)
+        .with_method_lookup(method_lookup)
+        .with_hierarchy(hierarchy.clone());
+
+    // P1-S02: Add method return type for constraint propagation
+    if let Some(ret_type) = method_return_type {
+        inference = inference.with_method_return_type(ret_type);
+    }
+
+    inference.collect_constraints(ssa);
+    let num_constraints = inference.constraints.len();
+    let num_type_vars = inference.next_var as usize;
+    inference.solve();
+    // Post-solve: compute LCA for phi nodes with conflicting object types
+    inference.compute_phi_lcas();
+    let num_resolved = inference.resolved.len();
+    let types = inference.get_all_types();
+
+    TypeInferenceResult {
+        types,
+        num_constraints,
+        num_type_vars,
+        num_resolved,
+    }
+}
+
+/// Run type inference with custom lookups AND method return type (P1-S02 enhancement)
+/// Use this when you don't have a class hierarchy but want boolean return type propagation.
+pub fn infer_types_with_context_and_return_type<F, G, H>(
+    ssa: &SsaResult,
+    type_lookup: F,
+    field_lookup: G,
+    method_lookup: H,
+    method_return_type: Option<ArgType>,
+) -> TypeInferenceResult
+where
+    F: Fn(u32) -> Option<ArgType> + Send + Sync + 'static,
+    G: Fn(u32) -> Option<ArgType> + Send + Sync + 'static,
+    H: Fn(u32) -> Option<(Vec<ArgType>, ArgType)> + Send + Sync + 'static,
+{
+    let mut inference = TypeInference::new()
+        .with_type_lookup(type_lookup)
+        .with_field_lookup(field_lookup)
+        .with_method_lookup(method_lookup);
+
+    // P1-S02: Add method return type for constraint propagation
+    if let Some(ret_type) = method_return_type {
+        inference = inference.with_method_return_type(ret_type);
+    }
+
+    inference.collect_constraints(ssa);
+    let num_constraints = inference.constraints.len();
+    let num_type_vars = inference.next_var as usize;
+    inference.solve();
+    inference.propagate_partial_phi_types();
     let num_resolved = inference.resolved.len();
     let types = inference.get_all_types();
 

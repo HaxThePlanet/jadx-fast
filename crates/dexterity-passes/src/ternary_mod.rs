@@ -220,13 +220,9 @@ fn detect_single_branch_pattern(
     let then_block = blocks.get(then_block_id as usize)?;
 
     // Check if it's a single assignment
-    if let Some(dest) = get_last_assignment_dest(then_block) {
-        // Only applies if there's just one instruction (the assignment)
-        let non_control_count = then_block.instructions.iter()
-            .filter(|insn| !is_control_flow(&insn.insn_type))
-            .count();
-
-        if non_control_count == 1 {
+    // After GOTO/NOP removal (JADX parity), blocks contain only meaningful instructions
+    if then_block.instructions.len() == 1 {
+        if let Some(dest) = get_assignment_dest(&then_block.instructions[0].insn_type) {
             return Some(TernaryPattern {
                 kind: TernaryKind::SingleBranchAssignment,
                 dest_reg: Some(dest),
@@ -252,13 +248,12 @@ fn get_single_block_id(region: &Region) -> Option<u32> {
     }
 }
 
-/// Get the destination register of the last assignment instruction in a block
+/// Get the destination register of the last instruction in a block (if it's an assignment)
+/// After GOTO/NOP removal (JADX parity), the last instruction is the meaningful one
 fn get_last_assignment_dest(block: &BasicBlock) -> Option<u16> {
     block
         .instructions
-        .iter()
-        .rev()
-        .find(|insn| !is_control_flow(&insn.insn_type))
+        .last()
         .and_then(|insn| get_assignment_dest(&insn.insn_type))
 }
 
@@ -493,24 +488,22 @@ pub fn try_transform_to_ternary(
         }
     };
 
-    // JADX TernaryMod.java line 90-91: Each block must have exactly one meaningful instruction
-    // (excluding control flow like goto)
-    let then_meaningful = get_meaningful_instructions(then_block);
-    let else_meaningful = get_meaningful_instructions(else_block);
-
-    if then_meaningful.len() != 1 || else_meaningful.len() != 1 {
+    // JADX TernaryMod.java lines 195-209: getTernaryInsnBlock() requires exactly 1 instruction
+    // After block splitting, JADX removes GOTO/NOP via removeInsns() (BlockSplitter.java:375-385)
+    // Our block_split.rs now does the same with remove_goto_nop(), so we check total count.
+    if then_block.instructions.len() != 1 || else_block.instructions.len() != 1 {
         debug!(
             then_block_id,
             else_block_id,
-            then_meaningful_count = then_meaningful.len(),
-            else_meaningful_count = else_meaningful.len(),
-            "Ternary rejected: not exactly one meaningful instruction per block"
+            then_insn_count = then_block.instructions.len(),
+            else_insn_count = else_block.instructions.len(),
+            "Ternary rejected: blocks must have exactly 1 instruction (JADX parity)"
         );
         return TernaryTransformResult::NotTernary;
     }
 
-    let then_insn = &then_block.instructions[then_meaningful[0]];
-    let else_insn = &else_block.instructions[else_meaningful[0]];
+    let then_insn = &then_block.instructions[0];
+    let else_insn = &else_block.instructions[0];
 
     // Try Pattern 1: Assignment in both branches (lines 97-135)
     if let (Some(then_dest), Some(else_dest)) = (
@@ -606,17 +599,6 @@ pub fn try_transform_to_ternary(
     }
 
     TernaryTransformResult::NotTernary
-}
-
-/// Get indices of meaningful (non-control-flow) instructions in a block
-fn get_meaningful_instructions(block: &BasicBlock) -> Vec<usize> {
-    block
-        .instructions
-        .iter()
-        .enumerate()
-        .filter(|(_, insn)| !is_control_flow(&insn.insn_type))
-        .map(|(i, _)| i)
-        .collect()
 }
 
 /// Get the destination register and SSA version from an assignment instruction
