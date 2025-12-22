@@ -895,7 +895,6 @@ impl TypeInference {
                     if let Some(field_ty) = lookup(*field_idx) {
                         // Cache field type for ternary type inference
                         self.field_access_types.insert((dest.reg_num, dest.ssa_version), field_ty.clone());
-                        eprintln!("CACHE FIELD: r{}v{} = {:?}", dest.reg_num, dest.ssa_version, field_ty);
 
                         // NEW: Add assign bound using new TypeInfo system
                         self.add_assign_bound(dest_var, field_ty.clone());

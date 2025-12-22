@@ -291,6 +291,13 @@ impl ResConfig {
             _ => {}
         }
 
+        // Layout direction (ldltr/ldrtl) - bits 6-7 of screen_layout
+        match (self.screen_layout >> 6) & 0x03 {
+            1 => parts.push("ldltr".to_string()),
+            2 => parts.push("ldrtl".to_string()),
+            _ => {}
+        }
+
         // Screen round (from screenLayout2)
         match self.screen_layout2 & 0x03 {
             1 => parts.push("notround".to_string()),
