@@ -5507,8 +5507,6 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             then_value_block,
             else_value_block,
         } => {
-            // Generate: type varName = cond ? thenExpr : elseExpr;
-
             // First emit any prelude instructions from the condition block
             emit_condition_block_prelude(condition, ctx, code);
 
@@ -5519,7 +5517,31 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             let then_expr = extract_block_value_expression(*then_value_block, ctx);
             let else_expr = extract_block_value_expression(*else_value_block, ctx);
 
-            // Get variable name and type
+            // Build the ternary expression
+            let ternary_expr = format!("{} ? {} : {}", cond_str, then_expr, else_expr);
+
+            // P1-S05 FIX: Check if the ternary result should be inlined.
+            //
+            // The TernaryAssignment dest_version comes from the then block, but the actual
+            // use in the merge block references the PHI output (different SSA version).
+            // We need to store the ternary expression for ALL single-use versions of this
+            // register so it can be found at the use site regardless of which version is used.
+            //
+            // This handles the common case: return x - y < (cond ? a : b);
+            let single_use_versions: Vec<u32> = ctx.insn_use_counts.iter()
+                .filter(|((reg, _), count)| *reg == *dest_reg && **count == 1)
+                .map(|((_, version), _)| *version)
+                .collect();
+
+            if !single_use_versions.is_empty() {
+                // Store for inlining at ALL single-use versions
+                for version in single_use_versions {
+                    ctx.store_inline_expr(*dest_reg, version, ternary_expr.clone());
+                }
+                return; // Don't emit a statement
+            }
+
+            // Multi-use: Generate: type varName = cond ? thenExpr : elseExpr;
             let var_name = ctx.expr_gen.get_var_name_by_ids(*dest_reg, *dest_version);
             let var_type = ctx.expr_gen.get_var_type(*dest_reg, *dest_version)
                 .unwrap_or(ArgType::Unknown);
@@ -5537,11 +5559,7 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
             code.add(&var_name)
                 .add(" = ")
-                .add(&cond_str)
-                .add(" ? ")
-                .add(&then_expr)
-                .add(" : ")
-                .add(&else_expr)
+                .add(&ternary_expr)
                 .add(";")
                 .newline();
         }
@@ -5798,6 +5816,132 @@ fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut 
     }
 }
 
+/// Process prelude instructions in a block to store inline expressions.
+/// This must be called BEFORE extracting values from ternary value blocks to ensure
+/// inline expressions are available for single-use variables.
+///
+/// P1-S05 FIX: For nested ternary patterns, the defining instructions for operands
+/// may be in the then/else blocks. Without this prelude processing, gen_arg_inline()
+/// would fail to find the inline expressions and fall back to variable names that
+/// may be undefined.
+fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usize>, ctx: &mut BodyGenContext) {
+    let instructions = match ctx.blocks.get(&block_id) {
+        Some(block) => block.instructions.clone(),
+        None => return,
+    };
+
+    // Process all instructions except the final meaningful one
+    // Store inline expressions for single-use variables
+    for (idx, insn) in instructions.iter().enumerate() {
+        // Skip the final instruction (the one we're extracting the value from)
+        if let Some(final_idx) = final_insn_idx {
+            if idx >= final_idx {
+                break;
+            }
+        }
+
+        // Skip control flow and marked instructions
+        if is_control_flow(&insn.insn_type) || insn.has_flag(AFlag::DontGenerate) {
+            continue;
+        }
+
+        // Process assignment instructions to store inline expressions
+        match &insn.insn_type {
+            InsnType::Const { dest, value } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let expr = ctx.expr_gen.gen_literal(value);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::ConstString { dest, string_idx } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let expr = ctx.expr_gen.get_string_value(*string_idx)
+                        .map(|s| format!("\"{}\"", s.replace('\\', "\\\\").replace('"', "\\\"")))
+                        .unwrap_or_else(|| format!("string#{}", string_idx));
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::Move { dest, src } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let expr = ctx.gen_arg_inline(src);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::InstanceGet { dest, object, field_idx } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let obj_str = ctx.gen_arg_inline(object);
+                    let field_name = ctx.expr_gen.get_field_value(*field_idx)
+                        .map(|f| f.field_name.to_string())
+                        .unwrap_or_else(|| format!("field#{}", field_idx));
+                    let expr = format!("{}.{}", obj_str, field_name);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::StaticGet { dest, field_idx } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let expr = if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
+                        format!("{}.{}", field_info.class_name, field_info.field_name)
+                    } else {
+                        format!("field#{}", field_idx)
+                    };
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::Binary { dest, op, left, right } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let left_str = ctx.gen_arg_inline(left);
+                    let right_str = ctx.gen_arg_inline(right);
+                    let op_str = binary_op_to_string(op);
+                    let expr = format!("{} {} {}", left_str, op_str, right_str);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::Unary { dest, op, arg } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let arg_str = ctx.gen_arg_inline(arg);
+                    let op_str = unary_op_to_string(op);
+                    let expr = format!("{}{}", op_str, arg_str);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::Cast { dest, cast_type, arg } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let arg_str = ctx.gen_arg_inline(arg);
+                    let type_str = cast_type_to_string(cast_type);
+                    let expr = format!("({}){}", type_str, arg_str);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::Compare { dest, left, right, .. } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let left_str = ctx.gen_arg_inline(left);
+                    let right_str = ctx.gen_arg_inline(right);
+                    let expr = format!("Long.compare({}, {})", left_str, right_str);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::ArrayGet { dest, array, index, elem_type: _ } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let arr_str = ctx.gen_arg_inline(array);
+                    let idx_str = ctx.gen_arg_inline(index);
+                    let expr = format!("{}[{}]", arr_str, idx_str);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            InsnType::ArrayLength { dest, array } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let arr_str = ctx.gen_arg_inline(array);
+                    let expr = format!("{}.length", arr_str);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            _ => {
+                // Other instructions don't need prelude processing
+            }
+        }
+    }
+}
+
 /// Extract the value expression from a block for ternary assignment
 /// The block should contain a single meaningful assignment instruction.
 /// Returns the RHS expression as a string.
@@ -5806,6 +5950,15 @@ fn extract_block_value_expression(block_id: u32, ctx: &mut BodyGenContext) -> St
         Some(block) => block.instructions.clone(),
         None => return "/* unknown */".to_string(),
     };
+
+    // Find the index of the final meaningful instruction
+    let final_idx = instructions.iter().enumerate().rev()
+        .find(|(_, insn)| !is_control_flow(&insn.insn_type))
+        .map(|(idx, _)| idx);
+
+    // P1-S05 FIX: Process prelude instructions to store inline expressions
+    // This ensures operands in the final instruction can find their inline values
+    process_block_prelude_for_inlining(block_id, final_idx, ctx);
 
     // Find the meaningful instruction (skip control flow like goto)
     for insn in instructions.iter().rev() {
@@ -5942,6 +6095,15 @@ fn extract_block_return_expression(block_id: u32, ctx: &mut BodyGenContext) -> S
         Some(block) => block.instructions.clone(),
         None => return "/* unknown */".to_string(),
     };
+
+    // Find the index of the return instruction
+    let return_idx = instructions.iter().enumerate()
+        .find(|(_, insn)| matches!(insn.insn_type, InsnType::Return { value: Some(_) }))
+        .map(|(idx, _)| idx);
+
+    // P1-S05 FIX: Process prelude instructions to store inline expressions
+    // This ensures operands in the return instruction can find their inline values
+    process_block_prelude_for_inlining(block_id, return_idx, ctx);
 
     // Find the return instruction
     for insn in instructions.iter() {
