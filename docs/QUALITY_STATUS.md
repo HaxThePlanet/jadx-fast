@@ -1,6 +1,6 @@
 # Quality Status
 
-**Status:** 0 P0, 1 P1 (S10 open), 0 P2 | Kotlin 100% | Type Inference ~85% JADX parity | P1-S02 enhanced, P1-S05 fixed, P2 all fixed (Dec 22, 2025)
+**Status:** 0 P0, 0 P1, 0 P2 | Kotlin 100% | Type Inference ~90% JADX parity | P1-S10 fixed (Dec 22, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 **Output Refresh:** Dec 21, 2025 - All 5 APK samples refreshed (~8,858 Java files)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
@@ -22,7 +22,7 @@
 | Priority | Status |
 |----------|--------|
 | P0 Bugs | **ALL FIXED** (8 fixed) |
-| P1 Bugs | **1 Open** (P1-S10 ~60-70% JADX parity on real APKs); P1-S04 cannot repro; P1-S02 enhanced (Dec 22), P1-S05 fixed (Dec 22), P1-S01, P1-S06, P1-S07, P1-S08, P1-S09, P1-S11, P1-S12 fixed |
+| P1 Bugs | **ALL FIXED** (P1-S10 fixed Dec 22 - JADX invoke/MoveResult parity); P1-S04 cannot repro; all others fixed |
 | P2 Bugs | **ALL FIXED** (P2-Q01, P2-Q02, P2-Q03, P2-Q04, P2-Q05 fixed) |
 | P3 Polish | **ALL DONE** - POL-001 by design (library filtering intentional), POL-002 fixed |
 
@@ -121,7 +121,7 @@ Type inference has been significantly enhanced from ~60% to ~85% JADX parity. De
 | Metric | Value |
 |--------|-------|
 | Total Tests | 1,217 passing (687 integration + 530 unit) |
-| Type Inference Parity | **~85%** (up from ~60%, 7 files / ~7,100 lines, 58 type tests) |
+| Type Inference Parity | **~90%** (up from ~85%, 7 files / ~7,100 lines, 58 type tests) |
 | Throws Parity | 41.7% (up from ~13.7%, 3x improvement) |
 | Kotlin Parity | 100% (BitEncoding ported, all modifiers work) |
 | DEX Debug Info | 100% (DBG_SET_FILE uleb128 fix) |

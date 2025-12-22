@@ -53,6 +53,7 @@
 | ID | Issue | Status | Details |
 |----|-------|--------|---------|
 | INV-001 | Zara APK hang | APK unavailable | [KNOWN_ISSUES.md](KNOWN_ISSUES.md#inv-001-hanging-apk---zara-android-app) |
+| INV-002 | StringBuilder chain optimization | BLOCKED - needs IR refactor | SSA register renaming breaks NewInstance + `<init>` pairing. Must move detection to IR level before SSA (like JADX's ModVisitor). Output is valid Java, just verbose. |
 
 #### P1-S05: Control Flow Logic Fix (Dec 22, 2025)
 

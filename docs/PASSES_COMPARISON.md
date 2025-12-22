@@ -367,9 +367,22 @@ Dexterity patterns handled:
 ```
 
 **Missing Dexterity Patterns:**
-- Full StringBuilder chain detection
+- Full StringBuilder chain detection (BLOCKED - see note below)
 - Field arithmetic conversion (`a += 2` - PrepareForCodeGen in JADX)
 - Boolean negation propagation
+
+**StringBuilder Chain Optimization - BLOCKED:**
+Investigation (Dec 22, 2025) found that SSA register renaming breaks the NewInstance + `<init>` pairing
+required for StringBuilder chain detection. After SSA transformation, the register holding the
+new StringBuilder instance gets renamed (e.g., `v0` -> `v0_1`), making it impossible to reliably
+match the constructor call with subsequent `.append()` chains at the codegen level.
+
+JADX handles this at the IR level BEFORE SSA transformation (`ModVisitor.java`), where the original
+register assignments are still intact. The recommended fix is to move StringBuilder detection to
+an IR-level pass before SSA, similar to how `process_instructions.rs` handles Invoke/MoveResult merging.
+
+Current output is valid Java (explicit StringBuilder calls), just more verbose than JADX's
+concatenation syntax (`"a" + b + "c"`).
 
 ---
 

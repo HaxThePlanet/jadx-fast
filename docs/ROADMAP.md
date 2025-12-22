@@ -15,6 +15,12 @@ All P3 polish items completed.
 
 See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open items.
 
+### Blocked Work Items
+
+| Item | Status | Details |
+|------|--------|---------|
+| StringBuilder chain optimization | BLOCKED - needs IR refactor | SSA register renaming breaks NewInstance + `<init>` pairing. Detection must move to IR level before SSA (like JADX's ModVisitor). Current output is valid Java, just verbose. |
+
 ### Future Features
 
 - APKS (App Bundle split) input format
