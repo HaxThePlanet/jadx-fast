@@ -176,11 +176,28 @@ fn find_branch_blocks(
         else_blocks
     };
 
+    // Check if then_target is an exit block (ends with return or throw)
+    // If so, we should NOT swap branches even if then_target == merge_block
+    // because the then-branch genuinely contains a return/throw statement that
+    // should be in the if-body, not treated as "goes directly to merge".
+    // Note: We already handle throw-pattern specially above (lines 139-158),
+    // but this check prevents swapping when then_target is any exit block.
+    let then_target_is_exit = cfg.get_block(then_target)
+        .and_then(|block| block.instructions.last())
+        .map(|insn| matches!(insn.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }))
+        .unwrap_or(false);
+
     // Check if then branch goes directly to merge (inverted condition)
-    let (then_blocks, else_blocks) = if then_target == merge_block {
+    // BUT: Don't swap if then_target is an exit (return) block - that's a real then-branch!
+    let (then_blocks, else_blocks) = if then_target == merge_block && !then_target_is_exit {
         // Swap: else becomes then, don't negate
         negate_condition = false;
         (else_blocks, Vec::new())
+    } else if then_target_is_exit && then_blocks.is_empty() {
+        // Special case: then_target is a return block but wasn't collected
+        // (because it equals merge_block and collect_branch_blocks stops at merge).
+        // Include it explicitly in then_blocks.
+        (vec![then_target], else_blocks)
     } else {
         (then_blocks, else_blocks)
     };
