@@ -641,6 +641,7 @@ fn simplify_binary(
                         op: BinaryOp::Sub,
                         left,
                         right: InsnArg::Literal(LiteralArg::Int(neg_val)),
+                        arg_type: None,
                     },
                     offset,
                 );
@@ -663,6 +664,7 @@ fn simplify_binary(
                         op: BinaryOp::Add,
                         left,
                         right: InsnArg::Literal(LiteralArg::Int(neg_val)),
+                        arg_type: None,
                     },
                     offset,
                 ));
@@ -889,6 +891,7 @@ mod tests {
                 op: BinaryOp::Add,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(-5)),
+                arg_type: None,
             },
             0,
         );
@@ -914,6 +917,7 @@ mod tests {
                 op: BinaryOp::Add,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(5)),
+                arg_type: None,
             },
             0,
         );
@@ -931,6 +935,7 @@ mod tests {
                 op: BinaryOp::Xor,
                 left: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
                 right: InsnArg::Literal(LiteralArg::Int(1)),
+                arg_type: None,
             },
             0,
         );
@@ -960,6 +965,7 @@ mod tests {
                 op: BinaryOp::Xor,
                 left: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
                 right: InsnArg::Literal(LiteralArg::Int(0)),
+                arg_type: None,
             },
             0,
         );
@@ -984,6 +990,7 @@ mod tests {
                 op: BinaryOp::Xor,
                 left: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
                 right: InsnArg::Literal(LiteralArg::Int(1)),
+                arg_type: None,
             },
             0,
         );

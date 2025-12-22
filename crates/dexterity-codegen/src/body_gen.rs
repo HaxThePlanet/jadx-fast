@@ -614,7 +614,18 @@ impl BodyGenContext {
     /// BUG-002 FIX: Uses gen_arg_inline for arguments to properly chain inline expressions.
     pub fn gen_insn_inline(&mut self, insn: &InsnType) -> Option<String> {
         match insn {
-            InsnType::Const { value, .. } => Some(self.expr_gen.gen_literal(value)),
+            InsnType::Const { dest, value } => {
+                // Use inferred type to properly format literals (e.g., long bits as double)
+                // Use get_inferred_type_any_version to search across all SSA versions for
+                // const-wide disambiguation (a const may be v0, but type inferred on later version)
+                if let Some(inferred_type) = self.get_inferred_type_any_version(dest.reg_num, dest.ssa_version) {
+                    return Some(match value {
+                        LiteralArg::Int(v) => crate::type_gen::literal_to_string(*v, inferred_type),
+                        _ => self.expr_gen.gen_literal(value),
+                    });
+                }
+                Some(self.expr_gen.gen_literal(value))
+            }
             InsnType::ConstString { string_idx, .. } => {
                 Some(self.expr_gen.get_string_value(*string_idx)
                     .map(|s| format!("\"{}\"", escape_string_inner(&s, self.expr_gen.escape_unicode)))
@@ -752,6 +763,24 @@ impl BodyGenContext {
     /// Get the inferred type for a register with specific SSA version
     pub fn get_inferred_type_versioned(&self, reg: u16, version: u32) -> Option<&ArgType> {
         self.type_info.as_ref().and_then(|ti| ti.types.get(&(reg, version)))
+    }
+
+    /// Get inferred type for a register, searching across all SSA versions if exact version not found.
+    /// Used for const-wide disambiguation: if any version has Double/Float/Long type, use it.
+    pub fn get_inferred_type_any_version(&self, reg: u16, version: u32) -> Option<&ArgType> {
+        // First, try exact SSA version
+        if let Some(ty) = self.get_inferred_type_versioned(reg, version) {
+            return Some(ty);
+        }
+        // If not found, search for any version with Double/Float/Long type
+        self.type_info.as_ref().and_then(|ti| {
+            for ((r, _v), ty) in &ti.types {
+                if *r == reg && matches!(ty, ArgType::Double | ArgType::Float | ArgType::Long) {
+                    return Some(ty);
+                }
+            }
+            None
+        })
     }
 
     /// Check if a variable has been declared (by SSA version)
@@ -1097,12 +1126,42 @@ fn collect_phi_constant_inits(
 /// Used for boolean return conversion: `return i;` where i=1 -> `return true;`
 fn collect_const_values(
     ssa_result: &dexterity_passes::ssa::SsaResult,
+    type_info: Option<&dexterity_passes::TypeInferenceResult>,
 ) -> HashMap<(u16, u32), String> {
     let mut const_values: HashMap<(u16, u32), String> = HashMap::new();
     for block in &ssa_result.blocks {
         for insn in &block.instructions {
             if let InsnType::Const { dest, value } = &insn.insn_type {
-                let value_str = format_literal_for_init(value);
+                // Use inferred type to properly format literals (e.g., long bits as double)
+                let value_str = if let Some(ti) = type_info {
+                    // First, try exact SSA version
+                    let inferred_type = ti.types.get(&(dest.reg_num, dest.ssa_version))
+                        .or_else(|| {
+                            // If not found, search for any SSA version of the same register
+                            // that has a Double/Float/Long type (for const-wide disambiguation)
+                            let max_ver = ssa_result.max_versions.get(&dest.reg_num).copied().unwrap_or(0);
+                            for ver in 0..=max_ver {
+                                if let Some(ty) = ti.types.get(&(dest.reg_num, ver)) {
+                                    // Only use Double/Float/Long types for disambiguation
+                                    if matches!(ty, ArgType::Double | ArgType::Float | ArgType::Long) {
+                                        return Some(ty);
+                                    }
+                                }
+                            }
+                            None
+                        });
+
+                    if let Some(inferred_type) = inferred_type {
+                        match value {
+                            LiteralArg::Int(v) => crate::type_gen::literal_to_string(*v, inferred_type),
+                            _ => format_literal_for_init(value),
+                        }
+                    } else {
+                        format_literal_for_init(value)
+                    }
+                } else {
+                    format_literal_for_init(value)
+                };
                 const_values.insert((dest.reg_num, dest.ssa_version), value_str);
             }
         }
@@ -1821,7 +1880,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
-    ctx.const_values = collect_const_values(&ssa_result);
+    ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -2029,7 +2088,7 @@ fn generate_body_impl<W: CodeWriter>(
     // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
-    ctx.const_values = collect_const_values(&ssa_result);
+    ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -2364,7 +2423,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
-    ctx.const_values = collect_const_values(&ssa_result);
+    ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
@@ -3468,6 +3527,9 @@ fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenCon
                 }
             }
 
+            // P0-CFG04 FIX: Process ALL condition blocks for inlining before generating
+            process_all_condition_blocks_for_inlining(condition, ctx);
+
             // Generate else-if
             let condition_str = generate_condition(condition, ctx);
             gen_else_if(&condition_str, code);
@@ -4520,6 +4582,49 @@ fn negate_condition(condition_str: &str) -> String {
     }
 }
 
+/// Simplify a ternary expression string for boolean context
+/// Takes a complete expression like "x == y ? 1 : 0" and returns the simplified form "x == y"
+/// Returns None if the expression doesn't match the pattern or can't be simplified
+fn simplify_ternary_expr_for_boolean(expr: &str) -> Option<String> {
+    let expr = expr.trim();
+
+    // Find the last ` ? ` and ` : ` to parse the ternary
+    // Need to handle nested ternaries by finding the rightmost `? ... : ...` pattern
+    let question_pos = expr.rfind(" ? ")?;
+    let colon_pos = expr.rfind(" : ")?;
+
+    // Colon must come after question mark
+    if colon_pos <= question_pos {
+        return None;
+    }
+
+    let condition = expr[..question_pos].trim();
+    let then_value = expr[question_pos + 3..colon_pos].trim();
+    let else_value = expr[colon_pos + 3..].trim();
+
+    // Pattern: cond ? 1 : 0 -> cond
+    if then_value == "1" && else_value == "0" {
+        return Some(condition.to_string());
+    }
+
+    // Pattern: cond ? 0 : 1 -> !cond
+    if then_value == "0" && else_value == "1" {
+        return Some(negate_condition(condition));
+    }
+
+    // Pattern: cond ? true : false -> cond
+    if then_value == "true" && else_value == "false" {
+        return Some(condition.to_string());
+    }
+
+    // Pattern: cond ? false : true -> !cond
+    if then_value == "false" && else_value == "true" {
+        return Some(negate_condition(condition));
+    }
+
+    None
+}
+
 /// Emit a ternary assignment: dest = cond ? then_val : else_val
 fn emit_ternary_assignment<W: CodeWriter>(
     ternary: &TernaryExprInfo,
@@ -4564,7 +4669,13 @@ fn emit_ternary_assignment<W: CodeWriter>(
     }
 
     // Try to simplify ternary-to-boolean patterns first
-    if let Some(simplified) = simplify_ternary_to_boolean(condition_str, &ternary.then_value, &ternary.else_value, Some(&decl_type)) {
+    // Check both decl_type AND return_type - if method returns boolean, `? 1 : 0` should simplify
+    let effective_type = if matches!(ctx.return_type, ArgType::Boolean) {
+        &ctx.return_type
+    } else {
+        &decl_type
+    };
+    if let Some(simplified) = simplify_ternary_to_boolean(condition_str, &ternary.then_value, &ternary.else_value, Some(effective_type)) {
         // Simplified to just a boolean expression
         code.add(&var_name)
             .add(" = ")
@@ -5068,6 +5179,11 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             // of the condition itself (like "length = arr.length" before "if (length == 0)")
             emit_condition_block_prelude(condition, ctx, code);
 
+            // P0-CFG04 FIX: Process ALL condition blocks for inlining before generating
+            // the condition string. For compound conditions (a && b), this ensures invoke
+            // expressions from ALL blocks are available, not just the first.
+            process_all_condition_blocks_for_inlining(condition, ctx);
+
             // Check if this if/else can be converted to a ternary expression
             if let Some(else_reg) = else_region {
                 // Pattern 1: Assignment in both branches -> dest = cond ? a : b
@@ -5130,6 +5246,8 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             // of the condition itself (like "i2 = jSONArray.length()" before "i < i2")
             if let Some(cond) = condition {
                 emit_condition_block_prelude(cond, ctx, code);
+                // P0-CFG04 FIX: Process ALL condition blocks for inlining
+                process_all_condition_blocks_for_inlining(cond, ctx);
             }
 
             // Generate condition expression if available
@@ -5658,6 +5776,9 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             // First emit any prelude instructions from the condition block
             emit_condition_block_prelude(condition, ctx, code);
 
+            // P0-CFG04 FIX: Process ALL condition blocks for inlining
+            process_all_condition_blocks_for_inlining(condition, ctx);
+
             // Find the merge block for this ternary
             let merge_block = find_merge_block_for_ternary(*then_value_block, *else_value_block, ctx);
 
@@ -5758,6 +5879,9 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
             // First emit any prelude instructions from the condition block
             emit_condition_block_prelude(condition, ctx, code);
+
+            // P0-CFG04 FIX: Process ALL condition blocks for inlining
+            process_all_condition_blocks_for_inlining(condition, ctx);
 
             // Generate condition expression
             let cond_str = generate_condition(condition, ctx);
@@ -5955,6 +6079,42 @@ fn get_first_condition_block(condition: &Condition) -> Option<u32> {
     }
 }
 
+/// P0-CFG04 FIX: Process all condition blocks for inlining before generating condition string
+///
+/// For compound conditions like `a && b`, each condition block may contain invoke
+/// expressions that need to be inlined. Unlike `emit_condition_block_prelude` which
+/// only EMITS the first block's prelude to output, this function STORES inline
+/// expressions from ALL blocks so they're available during condition generation.
+///
+/// This fixes: `isValidDimension(i) && i` -> `isValidDimension(i) && isValidDimension(i2)`
+fn process_all_condition_blocks_for_inlining(condition: &Condition, ctx: &mut BodyGenContext) {
+    match condition {
+        Condition::Simple { block, .. } => {
+            // Find the If instruction index to process everything before it
+            let final_idx = ctx.blocks.get(block).and_then(|b| {
+                b.instructions.iter().enumerate().rev()
+                    .find(|(_, insn)| matches!(insn.insn_type, InsnType::If { .. }))
+                    .map(|(idx, _)| idx)
+            });
+            process_block_prelude_for_inlining(*block, final_idx, ctx);
+        }
+        Condition::And(left, right) | Condition::Or(left, right) => {
+            // Process BOTH left and right condition blocks
+            process_all_condition_blocks_for_inlining(left, ctx);
+            process_all_condition_blocks_for_inlining(right, ctx);
+        }
+        Condition::Not(inner) => {
+            process_all_condition_blocks_for_inlining(inner, ctx);
+        }
+        Condition::Ternary { condition: cond, if_true, if_false } => {
+            process_all_condition_blocks_for_inlining(cond, ctx);
+            process_all_condition_blocks_for_inlining(if_true, ctx);
+            process_all_condition_blocks_for_inlining(if_false, ctx);
+        }
+        Condition::Unknown => {}
+    }
+}
+
 /// Emit pre-condition instructions from a condition block
 /// These are the setup instructions that define variables used in the condition
 /// (e.g., array.length() call before `i < length` comparison)
@@ -6047,7 +6207,19 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
         match &insn.insn_type {
             InsnType::Const { dest, value } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let expr = ctx.expr_gen.gen_literal(value);
+                    // Use inferred type to properly format literals (e.g., long bits as double)
+                    let expr = if let Some(ref ti) = ctx.type_info {
+                        if let Some(inferred_type) = ti.types.get(&(dest.reg_num, dest.ssa_version)) {
+                            match value {
+                                LiteralArg::Int(v) => crate::type_gen::literal_to_string(*v, inferred_type),
+                                _ => ctx.expr_gen.gen_literal(value),
+                            }
+                        } else {
+                            ctx.expr_gen.gen_literal(value)
+                        }
+                    } else {
+                        ctx.expr_gen.gen_literal(value)
+                    };
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
                 }
             }
@@ -7632,8 +7804,15 @@ fn generate_insn<W: CodeWriter>(
                                 } else if const_val.as_ref().map(|s| s.as_str()) == Some("1") {
                                     code.add("true");
                                 } else {
-                                    // Not a constant 0/1 - could be boolean expression, emit as-is
-                                    ctx.write_arg_inline(code, v);
+                                    // P0-CFG04: Check for ternary pattern `cond ? 1 : 0` and simplify
+                                    // This handles: `return x == y ? 1 : 0;` -> `return x == y;`
+                                    let expr = ctx.take_inline_expr(reg.reg_num, reg.ssa_version)
+                                        .unwrap_or_else(|| ctx.expr_gen.gen_arg(v));
+                                    if let Some(simplified) = simplify_ternary_expr_for_boolean(&expr) {
+                                        code.add(&simplified);
+                                    } else {
+                                        code.add(&expr);
+                                    }
                                 }
                             }
                         }

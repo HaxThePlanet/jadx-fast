@@ -431,6 +431,7 @@ mod tests {
                 op: dexterity_ir::instructions::BinaryOp::Add,
                 left: InsnArg::reg(1),
                 right: InsnArg::reg(2),
+                arg_type: None,
             },
             0,
         );

@@ -331,6 +331,7 @@ mod tests {
                     op: BinaryOp::Add,
                     left: InsnArg::Register(RegisterArg { reg_num: 1, ssa_version: 0 }),
                     right: InsnArg::Register(RegisterArg { reg_num: 2, ssa_version: 0 }),
+                    arg_type: None,
                 }),
                 // result = inner + c (r4 = r3 + c)
                 make_insn(1, InsnType::Binary {
@@ -338,6 +339,7 @@ mod tests {
                     op: BinaryOp::Add,
                     left: InsnArg::Register(RegisterArg { reg_num: 3, ssa_version: 0 }),
                     right: InsnArg::Register(RegisterArg { reg_num: 5, ssa_version: 0 }),
+                    arg_type: None,
                 }),
             ],
             phi_nodes: vec![],
@@ -366,6 +368,7 @@ mod tests {
                     op: BinaryOp::Sub,
                     left: InsnArg::Register(RegisterArg { reg_num: 1, ssa_version: 0 }),
                     right: InsnArg::Register(RegisterArg { reg_num: 2, ssa_version: 0 }),
+                    arg_type: None,
                 }),
                 // result = inner - c (r4 = r3 - c)
                 make_insn(1, InsnType::Binary {
@@ -373,6 +376,7 @@ mod tests {
                     op: BinaryOp::Sub,
                     left: InsnArg::Register(RegisterArg { reg_num: 3, ssa_version: 0 }),
                     right: InsnArg::Register(RegisterArg { reg_num: 5, ssa_version: 0 }),
+                    arg_type: None,
                 }),
             ],
             phi_nodes: vec![],

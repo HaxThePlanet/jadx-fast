@@ -947,6 +947,7 @@ mod tests {
                 op: BinaryOp::Add,
                 left: InsnArg::reg(1),
                 right: InsnArg::reg(2),
+                arg_type: None,
             },
             0,
         );
@@ -1036,6 +1037,7 @@ mod tests {
                     op: BinaryOp::Add,
                     left: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
                     right: InsnArg::Literal(LiteralArg::Int(5)),
+                    arg_type: None,
                 },
                 1,
             ),
