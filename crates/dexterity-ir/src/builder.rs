@@ -6,6 +6,7 @@ use crate::instructions::{
     ArrayElemType, BinaryOp, CastType, CompareOp, IfCondition, InsnArg, InsnArgs, InsnNode, InsnType,
     InvokeKind, LiteralArg, RegisterArg, UnaryOp,
 };
+use crate::types::ArgType;
 
 /// Convert a decoded DEX instruction to an IR instruction
 pub fn build_ir_insn(
@@ -611,37 +612,37 @@ pub fn build_ir_insn(
         0x9a => build_binary_3reg(regs, BinaryOp::Ushr),
 
         // Long binary operations
-        0x9b => build_binary_3reg(regs, BinaryOp::Add),
-        0x9c => build_binary_3reg(regs, BinaryOp::Sub),
-        0x9d => build_binary_3reg(regs, BinaryOp::Mul),
-        0x9e => build_binary_3reg(regs, BinaryOp::Div),
-        0x9f => build_binary_3reg(regs, BinaryOp::Rem),
-        0xa0 => build_binary_3reg(regs, BinaryOp::And),
-        0xa1 => build_binary_3reg(regs, BinaryOp::Or),
-        0xa2 => build_binary_3reg(regs, BinaryOp::Xor),
-        0xa3 => build_binary_3reg(regs, BinaryOp::Shl),
-        0xa4 => build_binary_3reg(regs, BinaryOp::Shr),
-        0xa5 => build_binary_3reg(regs, BinaryOp::Ushr),
+        0x9b => build_binary_3reg_typed(regs, BinaryOp::Add, ArgType::Long),
+        0x9c => build_binary_3reg_typed(regs, BinaryOp::Sub, ArgType::Long),
+        0x9d => build_binary_3reg_typed(regs, BinaryOp::Mul, ArgType::Long),
+        0x9e => build_binary_3reg_typed(regs, BinaryOp::Div, ArgType::Long),
+        0x9f => build_binary_3reg_typed(regs, BinaryOp::Rem, ArgType::Long),
+        0xa0 => build_binary_3reg_typed(regs, BinaryOp::And, ArgType::Long),
+        0xa1 => build_binary_3reg_typed(regs, BinaryOp::Or, ArgType::Long),
+        0xa2 => build_binary_3reg_typed(regs, BinaryOp::Xor, ArgType::Long),
+        0xa3 => build_binary_3reg_typed(regs, BinaryOp::Shl, ArgType::Long),
+        0xa4 => build_binary_3reg_typed(regs, BinaryOp::Shr, ArgType::Long),
+        0xa5 => build_binary_3reg_typed(regs, BinaryOp::Ushr, ArgType::Long),
 
         // Float binary operations
-        0xa6 => build_binary_3reg(regs, BinaryOp::Add),
-        0xa7 => build_binary_3reg(regs, BinaryOp::Sub),
-        0xa8 => build_binary_3reg(regs, BinaryOp::Mul),
-        0xa9 => build_binary_3reg(regs, BinaryOp::Div),
-        0xaa => build_binary_3reg(regs, BinaryOp::Rem),
+        0xa6 => build_binary_3reg_typed(regs, BinaryOp::Add, ArgType::Float),
+        0xa7 => build_binary_3reg_typed(regs, BinaryOp::Sub, ArgType::Float),
+        0xa8 => build_binary_3reg_typed(regs, BinaryOp::Mul, ArgType::Float),
+        0xa9 => build_binary_3reg_typed(regs, BinaryOp::Div, ArgType::Float),
+        0xaa => build_binary_3reg_typed(regs, BinaryOp::Rem, ArgType::Float),
 
         // Double binary operations
-        0xab => build_binary_3reg(regs, BinaryOp::Add),
-        0xac => build_binary_3reg(regs, BinaryOp::Sub),
-        0xad => build_binary_3reg(regs, BinaryOp::Mul),
-        0xae => build_binary_3reg(regs, BinaryOp::Div),
-        0xaf => build_binary_3reg(regs, BinaryOp::Rem),
+        0xab => build_binary_3reg_typed(regs, BinaryOp::Add, ArgType::Double),
+        0xac => build_binary_3reg_typed(regs, BinaryOp::Sub, ArgType::Double),
+        0xad => build_binary_3reg_typed(regs, BinaryOp::Mul, ArgType::Double),
+        0xae => build_binary_3reg_typed(regs, BinaryOp::Div, ArgType::Double),
+        0xaf => build_binary_3reg_typed(regs, BinaryOp::Rem, ArgType::Double),
 
         // Binary operations 2addr (dest = dest op src)
         0xb0..=0xba => build_binary_2addr(regs, int_binop(opcode - 0xb0)),
-        0xbb..=0xc5 => build_binary_2addr(regs, long_binop(opcode - 0xbb)),
-        0xc6..=0xca => build_binary_2addr(regs, float_binop(opcode - 0xc6)),
-        0xcb..=0xcf => build_binary_2addr(regs, double_binop(opcode - 0xcb)),
+        0xbb..=0xc5 => build_binary_2addr_typed(regs, long_binop(opcode - 0xbb), ArgType::Long),
+        0xc6..=0xca => build_binary_2addr_typed(regs, float_binop(opcode - 0xc6), ArgType::Float),
+        0xcb..=0xcf => build_binary_2addr_typed(regs, double_binop(opcode - 0xcb), ArgType::Double),
 
         // Binary operations lit16
         0xd0 => build_binary_lit(regs, literal, BinaryOp::Add),
@@ -733,6 +734,18 @@ fn build_binary_3reg(regs: &[u16; 5], op: BinaryOp) -> InsnType {
         op,
         left: InsnArg::reg(regs[1]),
         right: InsnArg::reg(regs[2]),
+        arg_type: None,
+    }
+}
+
+/// Build binary instruction with 3 registers and explicit type
+fn build_binary_3reg_typed(regs: &[u16; 5], op: BinaryOp, ty: ArgType) -> InsnType {
+    InsnType::Binary {
+        dest: RegisterArg::new(regs[0]),
+        op,
+        left: InsnArg::reg(regs[1]),
+        right: InsnArg::reg(regs[2]),
+        arg_type: Some(ty),
     }
 }
 
@@ -743,6 +756,18 @@ fn build_binary_2addr(regs: &[u16; 5], op: BinaryOp) -> InsnType {
         op,
         left: InsnArg::reg(regs[0]),
         right: InsnArg::reg(regs[1]),
+        arg_type: None,
+    }
+}
+
+/// Build binary instruction with 2addr format and explicit type
+fn build_binary_2addr_typed(regs: &[u16; 5], op: BinaryOp, ty: ArgType) -> InsnType {
+    InsnType::Binary {
+        dest: RegisterArg::new(regs[0]),
+        op,
+        left: InsnArg::reg(regs[0]),
+        right: InsnArg::reg(regs[1]),
+        arg_type: Some(ty),
     }
 }
 
@@ -753,6 +778,7 @@ fn build_binary_lit(regs: &[u16; 5], literal: i64, op: BinaryOp) -> InsnType {
         op,
         left: InsnArg::reg(regs[1]),
         right: InsnArg::lit(literal),
+        arg_type: None,
     }
 }
 

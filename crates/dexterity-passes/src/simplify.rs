@@ -249,7 +249,7 @@ fn simplify_insn(
     check_cast_defs: &HashMap<(u16, u32), u32>,
 ) -> Option<InsnNode> {
     match &insn.insn_type {
-        InsnType::Binary { dest, op, left, right } => {
+        InsnType::Binary { dest, op, left, right, .. } => {
             simplify_binary(*dest, *op, left.clone(), right.clone(), insn.offset, types)
         }
         InsnType::Unary { dest, op, arg } => {

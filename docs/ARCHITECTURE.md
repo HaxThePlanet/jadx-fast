@@ -78,6 +78,7 @@ Transform IR through analysis passes.
 | `var_naming.rs` | JADX-style variable naming |
 | `code_shrink.rs` | Single-use variable inlining |
 | `deboxing.rs` | Primitive boxing/unboxing optimization |
+| `needed_vars.rs` | Compute variables needed for output (lazy inference support) |
 
 ### dexterity-codegen (Code Generation)
 
@@ -90,6 +91,7 @@ Emit Java source from IR.
 | `body_gen.rs` | Statement and expression generation (~9,400 lines) |
 | `type_gen.rs` | Type name generation with import handling |
 | `writer.rs` | Java source code writer with formatting |
+| `stdlib_signatures.rs` | Pre-computed library method signatures (~150 methods) |
 
 ### dexterity-resources (Resource Decoding)
 
@@ -144,6 +146,8 @@ Command-line interface and decompilation orchestration.
 | Arc<str> strings | Zero-copy sharing across threads |
 | jemalloc allocator | Better performance under contention |
 | Lazy instruction loading | Bounded memory for huge APKs |
+| Library signature cache | O(1) lookup for ~150 common Java/Android methods |
+| Lazy type inference | Only infer types for variables used in output |
 
 ## JADX Parity
 

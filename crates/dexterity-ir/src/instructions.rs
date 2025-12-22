@@ -338,6 +338,8 @@ pub enum InsnType {
         op: BinaryOp,
         left: InsnArg,
         right: InsnArg,
+        /// Type hint from DEX opcode (e.g., Double from div-double, Float from add-float)
+        arg_type: Option<ArgType>,
     },
 
     /// Type conversion: result = (type)arg

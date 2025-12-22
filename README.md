@@ -24,21 +24,22 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 ## Performance
 
-Benchmarked on 5 APKs (110 MB total) on 100GB RAM disk:
+Benchmarked on 5 APKs (110 MB total) on 100GB RAM disk (Dec 22, 2025):
 
-| APK | Size | JADX | Dexterity | Speedup |
-|-----|------|------|-----------|---------|
-| small.apk | 9.7 KB | 1.465s | 0.018s | **81.4x** |
-| badboy.apk | 24 MB | 2.814s | 0.239s | **11.8x** |
-| badboy-x86.apk | 24 MB | 2.505s | 0.233s | **10.8x** |
-| medium.apk | 11 MB | 12.673s | 1.457s | **8.7x** |
-| large.apk | 52 MB | 16.559s | 4.587s | **3.6x** |
+| APK | Dexterity (112t) | JADX (56t) | Speedup |
+|-----|------------------|------------|---------|
+| small.apk | 0.022s | 1.85s | **84x** |
+| medium.apk | 1.26s | 14.81s | **11.8x** |
+| large.apk | 2.60s | 17.08s | **6.6x** |
+| badboy.apk | 0.23s | 14.07s | **61x** |
+| badboy-x86.apk | 0.21s | 13.71s | **65x** |
+| **Total** | **4.32s** | **61.52s** | **14.2x** |
 
 **Key advantages:**
-- **3.6-81x faster** than JADX on real-world APKs
+- **14x faster** than JADX overall (up to 84x on small APKs)
 - **28x less memory** (758 MB vs 21 GB on 24 APK benchmark)
-- **Zero errors** (0 vs 143 on 24 APK benchmark)
-- Scales to 56+ CPU cores (92% efficiency at 16 cores)
+- **Zero errors** (0 vs 54 JADX errors on 5 APK benchmark)
+- Scales to 112 threads (56 cores + hyperthreading)
 - See [PERFORMANCE.md](docs/PERFORMANCE.md) for detailed benchmarks
 
 ## Quick Start
@@ -89,7 +90,24 @@ cargo build --release -p dexterity-cli
 ## Architecture
 
 ```
-APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codegen -> Java Source
+                    ┌─────────────────── DEXTERITY ───────────────────┐
+                    │                                                 │
+   ┌─────────┐      │  ┌─────┐   ┌────┐   ┌────────┐   ┌─────────┐   │   ┌──────────┐
+   │ APK/DEX │─────▶│  │ dex │──▶│ ir │──▶│ passes │──▶│ codegen │───│──▶│   .java  │
+   └─────────┘      │  └─────┘   └────┘   └────────┘   └─────────┘   │   └──────────┘
+                    │   parse    build     optimize     emit java    │
+                    └─────────────────────────────────────────────────┘
+
+   ╔═══════════════════════════════════════════════════════════════════════════════╗
+   ║  JADX (Java)                         Dexterity (Rust)                         ║
+   ╠═══════════════════════════════════════════════════════════════════════════════╣
+   ║  InputFile.java          ─────▶      dexterity-dex     (DEX parsing)          ║
+   ║  MethodNode.java         ─────▶      dexterity-ir      (SSA, CFG)             ║
+   ║  RegionMaker.java        ─────▶      dexterity-passes  (20+ transforms)       ║
+   ║  InsnGen.java            ─────▶      dexterity-codegen (Java emission)        ║
+   ║  ResourcesLoader.java    ─────▶      dexterity-resources                      ║
+   ║  kotlin-metadata plugin  ─────▶      dexterity-kotlin  (100% parity)          ║
+   ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
 | Crate | Purpose | Parity |

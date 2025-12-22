@@ -301,7 +301,7 @@ fn find_increment_insn<'a>(
         if let Some(block) = ssa.blocks.iter().find(|b| b.id == *block_id) {
             for insn in &block.instructions {
                 // Look for ADD instruction: v = loop_var + 1
-                if let InsnType::Binary { dest, op: BinaryOp::Add, left, right } = &insn.insn_type {
+                if let InsnType::Binary { dest, op: BinaryOp::Add, left, right, .. } = &insn.insn_type {
                     // Check if result is assigned to the same register (different SSA version)
                     if dest.reg_num == loop_var.0 {
                         // Check if left operand is the loop variable

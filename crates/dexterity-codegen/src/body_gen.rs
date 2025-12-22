@@ -478,6 +478,52 @@ impl BodyGenContext {
         self.expr_gen.gen_arg(arg)
     }
 
+    /// Generate an invoke expression as a string
+    /// Used for inlining method calls in short-circuit conditions (&& chains)
+    ///
+    /// P0-CFG04 FIX: This method enables invoke expressions to be inlined in conditions.
+    /// Without this, the second+ blocks in && chains would have missing invoke expressions,
+    /// causing conditions like `isValid(a) && isValid(b)` to become `isValid(a) && b`.
+    pub fn gen_invoke_expr(
+        &self,
+        kind: InvokeKind,
+        method_idx: u32,
+        args: &dexterity_ir::instructions::InsnArgs,
+        _proto_idx: u32,
+    ) -> Option<String> {
+        let info = self.expr_gen.get_method_value(method_idx)?;
+        let mut expr = String::new();
+        let skip_count = if matches!(kind, InvokeKind::Static) { 0 } else { 1 };
+
+        match kind {
+            InvokeKind::Static => {
+                // For static methods, use class.method() format
+                expr.push_str(&info.class_name);
+                expr.push('.');
+            }
+            InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
+                // For instance methods, use receiver.method() format
+                if let Some(receiver) = args.first() {
+                    expr.push_str(&self.expr_gen.gen_arg(receiver));
+                    expr.push('.');
+                }
+            }
+            _ => {}
+        }
+
+        expr.push_str(&sanitize_method_name(&info.method_name));
+        expr.push('(');
+
+        let arg_strs: Vec<String> = args.iter()
+            .skip(skip_count)
+            .map(|arg| self.expr_gen.gen_arg(arg))
+            .collect();
+        expr.push_str(&arg_strs.join(", "));
+        expr.push(')');
+
+        Some(expr)
+    }
+
     /// OPTIMIZED: Write arg directly to CodeWriter without String allocation
     /// This is the zero-allocation pattern following Java JADX design
     pub fn write_arg_inline<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg) {
@@ -2916,7 +2962,7 @@ fn detect_array_foreach_pattern(
                                     }
 
                                     // Look for increment: i = i + 1
-                                    if let InsnType::Binary { dest, op, left, right } = &insn.insn_type {
+                                    if let InsnType::Binary { dest, op, left, right, .. } = &insn.insn_type {
                                         if *op == BinaryOp::Add && dest.reg_num == idx_reg {
                                             if let InsnArg::Register(left_reg) = left {
                                                 if left_reg.reg_num == idx_reg {
@@ -3930,7 +3976,7 @@ fn find_bitwise_boolean_op(
     // Search all blocks for the instruction that defines this register
     for block in ctx.blocks.values() {
         for insn in &block.instructions {
-            if let InsnType::Binary { dest, op, left, right } = &insn.insn_type {
+            if let InsnType::Binary { dest, op, left, right, .. } = &insn.insn_type {
                 // Check if this instruction defines the register we're looking for
                 if dest.reg_num == reg_num && dest.ssa_version == ssa_version {
                     // Only interested in bitwise AND/OR
@@ -6037,7 +6083,7 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
                 }
             }
-            InsnType::Binary { dest, op, left, right } => {
+            InsnType::Binary { dest, op, left, right, .. } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
                     let left_str = ctx.gen_arg_inline(left);
                     let right_str = ctx.gen_arg_inline(right);
@@ -6083,6 +6129,31 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
                     let arr_str = ctx.gen_arg_inline(array);
                     let expr = format!("{}.length", arr_str);
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            // P0-CFG04 FIX: Handle Invoke patterns for short-circuit conditions
+            // Without this, the second+ blocks in && chains would have missing invoke expressions,
+            // causing conditions like `isValid(a) && isValid(b)` to become `isValid(a) && b`.
+            //
+            // NOTE: Unlike other instruction types, we DON'T check should_inline here.
+            // For short-circuit conditions, the second+ blocks' preludes are NOT emitted
+            // (they're protected by short-circuit evaluation). So even if the variable is
+            // multi-use, we need the invoke expression available for condition generation
+            // via gen_arg_with_inline_peek.
+            InsnType::Invoke { kind, method_idx, args, proto_idx, dest } => {
+                // Case 1: Invoke with merged dest (dest is Some)
+                if let Some(dest_reg) = dest {
+                    if let Some(expr) = ctx.gen_invoke_expr(*kind, *method_idx, args, proto_idx.unwrap_or(0)) {
+                        ctx.store_inline_expr(dest_reg.reg_num, dest_reg.ssa_version, expr);
+                    }
+                }
+                // Case 2: Invoke followed by separate MoveResult - check next instruction
+                else if idx + 1 < instructions.len() {
+                    if let InsnType::MoveResult { dest: move_dest } = &instructions[idx + 1].insn_type {
+                        if let Some(expr) = ctx.gen_invoke_expr(*kind, *method_idx, args, proto_idx.unwrap_or(0)) {
+                            ctx.store_inline_expr(move_dest.reg_num, move_dest.ssa_version, expr);
+                        }
+                    }
                 }
             }
             _ => {

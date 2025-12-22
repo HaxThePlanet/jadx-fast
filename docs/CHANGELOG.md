@@ -2,6 +2,53 @@
 
 ## December 2025
 
+### Dec 22, 2025 - Type Inference Performance Optimization (14x faster than JADX)
+
+**Implemented two high-impact optimizations for type inference speedup**
+
+#### 1. Library Method Signature Cache
+
+**File Created:** `crates/dexterity-codegen/src/stdlib_signatures.rs` (423 lines)
+
+- Pre-computes ~150 common method signatures for Android/Java/Kotlin stdlib
+- Uses `LazyLock<FxHashMap<RuntimeKey, MethodSignature>>` for O(1) lookups
+- Key is `(class_name, method_name, proto_shorty)` tuple
+- Covers: `java.lang.String`, `StringBuilder`, `Object`, `List`, `Map`, `android.util.Log`, `kotlin.jvm.internal.Intrinsics`
+- Integration: `LazyDexInfo.get_method_return_type_cached()` checks cache before DEX parsing
+
+#### 2. Needed Variables Collection (Lazy Type Inference Support)
+
+**File Created:** `crates/dexterity-passes/src/needed_vars.rs` (339 lines)
+
+- Computes transitive closure of variables needed in output via backward dataflow analysis
+- Seeds worklist with variables used in side-effect instructions (Return, Throw, Invoke, Put)
+- Propagates needs backwards through definitions
+- Returns `FxHashSet<(u16, u32)>` of (register, ssa_version) pairs
+- Exported: `pub use needed_vars::collect_needed_variables;` in `lib.rs`
+
+#### 3. Binary IR Type Hint Field
+
+**File Modified:** `crates/dexterity-ir/src/instructions.rs`
+
+- Added `arg_type: Option<ArgType>` field to `InsnType::Binary`
+- Preserves type info from typed DEX opcodes (div-double, add-float, etc.)
+- Updated all pattern matches in: `builder.rs`, `loop_analysis.rs`, `simplify.rs`, `type_inference.rs`, `body_gen.rs`
+
+**Benchmark Results (100GB RAM disk):**
+
+| APK | Dexterity (112t) | JADX (56t) | Speedup |
+|-----|------------------|------------|---------|
+| small.apk | 0.022s | 1.85s | **84x** |
+| medium.apk | 1.26s | 14.81s | **11.8x** |
+| large.apk | 2.60s | 17.08s | **6.6x** |
+| badboy.apk | 0.23s | 14.07s | **61x** |
+| badboy-x86.apk | 0.21s | 13.71s | **65x** |
+| **Total** | **4.32s** | **61.52s** | **14.2x** |
+
+**Files changed:** `stdlib_signatures.rs` (NEW), `needed_vars.rs` (NEW), `instructions.rs`, `builder.rs`, `loop_analysis.rs`, `simplify.rs`, `type_inference.rs`, `body_gen.rs`, `lib.rs`
+
+---
+
 ### Dec 22, 2025 - P0-CFG04 Complex Boolean Expressions Fix (BUG-5)
 
 **Fixed garbled bitwise conditions in boolean expressions**
