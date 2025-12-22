@@ -26,7 +26,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                         ⚡ SPEED COMPARISON (5 APKs)                            │
+│                            SPEED COMPARISON (5 APKs)                            │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │  small.apk     Dexterity ▓ 0.02s                                                │
@@ -51,14 +51,14 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 └─────────────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                         💾 MEMORY COMPARISON (24 APKs)                          │
+│                           MEMORY COMPARISON (24 APKs)                           │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │  Dexterity     ▓▓▓ 758 MB                                                       │
 │  JADX          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 21 GB  │
 │                                                                         28x    │
 ├─────────────────────────────────────────────────────────────────────────────────┤
-│                          ✅ ERROR COMPARISON (5 APKs)                           │
+│                            ERROR COMPARISON (5 APKs)                            │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │  Dexterity     0 errors                                                         │
@@ -74,7 +74,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 - Scales to 112 threads (56 cores + HT)
 
 <details>
-<summary>📊 Detailed benchmark table</summary>
+<summary>Detailed benchmark table</summary>
 
 | APK | Dexterity (112t) | JADX (56t) | Speedup |
 |-----|------------------|------------|---------|

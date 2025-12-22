@@ -1,158 +1,165 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
   <defs>
     <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#1a1a2e"/>
-      <stop offset="100%" style="stop-color:#16213e"/>
+      <stop offset="0%" style="stop-color:#1428A0"/>
+      <stop offset="100%" style="stop-color:#0b1a5c"/>
     </linearGradient>
     <linearGradient id="stageGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#0f3460"/>
-      <stop offset="100%" style="stop-color:#1a1a2e"/>
+      <stop offset="0%" style="stop-color:#1428A0"/>
+      <stop offset="100%" style="stop-color:#0b1a5c"/>
     </linearGradient>
     <linearGradient id="passGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#533483"/>
-      <stop offset="100%" style="stop-color:#1a1a2e"/>
+      <stop offset="0%" style="stop-color:#0381FE"/>
+      <stop offset="100%" style="stop-color:#1428A0"/>
     </linearGradient>
     <linearGradient id="moduleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#e94560"/>
-      <stop offset="100%" style="stop-color:#1a1a2e"/>
+      <stop offset="0%" style="stop-color:#00A9E0"/>
+      <stop offset="100%" style="stop-color:#1428A0"/>
     </linearGradient>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.4"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
   </defs>
 
   <!-- Background -->
-  <rect width="900" height="520" fill="#0a0a0f"/>
+  <rect width="900" height="520" fill="#000000"/>
 
   <!-- Header -->
   <rect x="10" y="10" width="880" height="45" rx="8" fill="url(#headerGrad)" filter="url(#shadow)"/>
-  <text x="450" y="40" text-anchor="middle" fill="#e94560" font-family="monospace" font-size="22" font-weight="bold">DEXTERITY PIPELINE</text>
+  <text x="450" y="40" text-anchor="middle" fill="#FFFFFF" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="bold" filter="url(#glow)">DEXTERITY PIPELINE</text>
 
   <!-- Main Pipeline Stages -->
   <g transform="translate(30, 75)">
     <!-- INPUT -->
     <rect x="0" y="0" width="140" height="100" rx="6" fill="url(#stageGrad)" filter="url(#shadow)"/>
-    <text x="70" y="25" text-anchor="middle" fill="#e94560" font-family="monospace" font-size="12" font-weight="bold">INPUT</text>
-    <text x="70" y="45" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="10">APK / DEX</text>
-    <text x="70" y="60" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="10">AAR / AAB</text>
-    <text x="70" y="75" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="10">JAR / XAPK</text>
+    <text x="70" y="25" text-anchor="middle" fill="#FFFFFF" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold">INPUT</text>
+    <text x="70" y="45" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="10">APK / DEX</text>
+    <text x="70" y="60" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="10">AAR / AAB</text>
+    <text x="70" y="75" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="10">JAR / XAPK</text>
 
     <!-- Arrow 1 -->
-    <path d="M 150 50 L 190 50" stroke="#e94560" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-    <polygon points="190,45 200,50 190,55" fill="#e94560"/>
+    <path d="M 150 50 L 190 50" stroke="#0381FE" stroke-width="3" fill="none"/>
+    <polygon points="190,45 200,50 190,55" fill="#0381FE"/>
 
     <!-- PARSE -->
     <rect x="200" y="0" width="140" height="100" rx="6" fill="url(#stageGrad)" filter="url(#shadow)"/>
-    <text x="270" y="25" text-anchor="middle" fill="#e94560" font-family="monospace" font-size="12" font-weight="bold">PARSE</text>
-    <text x="270" y="50" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="11">dexterity-dex</text>
-    <text x="270" y="70" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">DEX binary parsing</text>
-    <text x="270" y="85" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">Multi-DEX support</text>
+    <text x="270" y="25" text-anchor="middle" fill="#FFFFFF" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold">PARSE</text>
+    <text x="270" y="50" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold">dexterity-dex</text>
+    <text x="270" y="70" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">DEX binary parsing</text>
+    <text x="270" y="85" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">Multi-DEX support</text>
 
     <!-- Arrow 2 -->
-    <path d="M 350 50 L 390 50" stroke="#e94560" stroke-width="3" fill="none"/>
-    <polygon points="390,45 400,50 390,55" fill="#e94560"/>
+    <path d="M 350 50 L 390 50" stroke="#0381FE" stroke-width="3" fill="none"/>
+    <polygon points="390,45 400,50 390,55" fill="#0381FE"/>
 
     <!-- ANALYZE -->
     <rect x="400" y="0" width="140" height="100" rx="6" fill="url(#stageGrad)" filter="url(#shadow)"/>
-    <text x="470" y="25" text-anchor="middle" fill="#e94560" font-family="monospace" font-size="12" font-weight="bold">ANALYZE</text>
-    <text x="470" y="50" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="11">dexterity-ir</text>
-    <text x="470" y="70" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">SSA + CFG + Passes</text>
-    <text x="470" y="85" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">30+ transforms</text>
+    <text x="470" y="25" text-anchor="middle" fill="#FFFFFF" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold">ANALYZE</text>
+    <text x="470" y="50" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold">dexterity-ir</text>
+    <text x="470" y="70" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">SSA + CFG + Passes</text>
+    <text x="470" y="85" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">30+ transforms</text>
 
     <!-- Arrow 3 -->
-    <path d="M 550 50 L 590 50" stroke="#e94560" stroke-width="3" fill="none"/>
-    <polygon points="590,45 600,50 590,55" fill="#e94560"/>
+    <path d="M 550 50 L 590 50" stroke="#0381FE" stroke-width="3" fill="none"/>
+    <polygon points="590,45 600,50 590,55" fill="#0381FE"/>
 
     <!-- OUTPUT -->
     <rect x="600" y="0" width="140" height="100" rx="6" fill="url(#stageGrad)" filter="url(#shadow)"/>
-    <text x="670" y="25" text-anchor="middle" fill="#e94560" font-family="monospace" font-size="12" font-weight="bold">OUTPUT</text>
-    <text x="670" y="50" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="11">dexterity-codegen</text>
-    <text x="670" y="70" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">Java emission</text>
-    <text x="670" y="85" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">Formatting</text>
+    <text x="670" y="25" text-anchor="middle" fill="#FFFFFF" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold">OUTPUT</text>
+    <text x="670" y="50" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold">dexterity-codegen</text>
+    <text x="670" y="70" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">Java emission</text>
+    <text x="670" y="85" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">Formatting</text>
 
     <!-- Arrow 4 -->
-    <path d="M 750 50 L 790 50" stroke="#e94560" stroke-width="3" fill="none"/>
-    <polygon points="790,45 800,50 790,55" fill="#e94560"/>
+    <path d="M 750 50 L 790 50" stroke="#0381FE" stroke-width="3" fill="none"/>
+    <polygon points="790,45 800,50 790,55" fill="#0381FE"/>
 
     <!-- .java -->
-    <rect x="800" y="15" width="60" height="70" rx="6" fill="#1a1a2e" stroke="#64ffda" stroke-width="2"/>
-    <text x="830" y="45" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="11">.java</text>
-    <text x="830" y="65" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">source</text>
+    <rect x="800" y="15" width="60" height="70" rx="6" fill="#0b1a5c" stroke="#00A9E0" stroke-width="2"/>
+    <text x="830" y="45" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold">.java</text>
+    <text x="830" y="65" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">source</text>
   </g>
 
   <!-- Connector to passes -->
-  <path d="M 500 175 L 500 200" stroke="#533483" stroke-width="2" stroke-dasharray="5,3"/>
+  <path d="M 500 175 L 500 200" stroke="#0381FE" stroke-width="2" stroke-dasharray="5,3"/>
 
   <!-- Passes Section -->
   <g transform="translate(80, 210)">
     <rect x="0" y="0" width="740" height="130" rx="8" fill="url(#passGrad)" filter="url(#shadow)"/>
-    <text x="370" y="25" text-anchor="middle" fill="#e94560" font-family="monospace" font-size="14" font-weight="bold">DECOMPILATION PASSES</text>
+    <text x="370" y="25" text-anchor="middle" fill="#FFFFFF" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="bold">DECOMPILATION PASSES</text>
 
     <!-- Control Flow -->
-    <rect x="20" y="40" width="220" height="80" rx="4" fill="#1a1a2e" stroke="#533483" stroke-width="1"/>
-    <text x="130" y="58" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="11" font-weight="bold">CONTROL FLOW</text>
-    <text x="130" y="75" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">ssa | cfg | loops</text>
-    <text x="130" y="90" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">conditionals | regions</text>
-    <text x="130" y="105" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">finally_extract</text>
+    <rect x="20" y="40" width="220" height="80" rx="4" fill="#0b1a5c" stroke="#0381FE" stroke-width="1"/>
+    <text x="130" y="58" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold">CONTROL FLOW</text>
+    <text x="130" y="75" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">ssa | cfg | loops</text>
+    <text x="130" y="90" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">conditionals | regions</text>
+    <text x="130" y="105" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">finally_extract</text>
 
     <!-- Types -->
-    <rect x="260" y="40" width="220" height="80" rx="4" fill="#1a1a2e" stroke="#533483" stroke-width="1"/>
-    <text x="370" y="58" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="11" font-weight="bold">TYPE SYSTEM</text>
-    <text x="370" y="75" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">type_inference | generics</text>
-    <text x="370" y="90" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">fix_types | type_bounds</text>
-    <text x="370" y="105" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">deboxing</text>
+    <rect x="260" y="40" width="220" height="80" rx="4" fill="#0b1a5c" stroke="#0381FE" stroke-width="1"/>
+    <text x="370" y="58" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold">TYPE SYSTEM</text>
+    <text x="370" y="75" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">type_inference | generics</text>
+    <text x="370" y="90" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">fix_types | type_bounds</text>
+    <text x="370" y="105" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">deboxing</text>
 
     <!-- Cleanup -->
-    <rect x="500" y="40" width="220" height="80" rx="4" fill="#1a1a2e" stroke="#533483" stroke-width="1"/>
-    <text x="610" y="58" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="11" font-weight="bold">CLEANUP</text>
-    <text x="610" y="75" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">simplify | code_shrink</text>
-    <text x="610" y="90" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">const_inline | var_naming</text>
-    <text x="610" y="105" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="9">prepare_for_codegen</text>
+    <rect x="500" y="40" width="220" height="80" rx="4" fill="#0b1a5c" stroke="#0381FE" stroke-width="1"/>
+    <text x="610" y="58" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold">CLEANUP</text>
+    <text x="610" y="75" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">simplify | code_shrink</text>
+    <text x="610" y="90" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">const_inline | var_naming</text>
+    <text x="610" y="105" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="9">prepare_for_codegen</text>
   </g>
 
   <!-- Supporting Modules -->
   <g transform="translate(30, 360)">
     <rect x="0" y="0" width="840" height="90" rx="8" fill="url(#moduleGrad)" filter="url(#shadow)"/>
-    <text x="420" y="22" text-anchor="middle" fill="#fff" font-family="monospace" font-size="12" font-weight="bold">SUPPORTING MODULES</text>
+    <text x="420" y="22" text-anchor="middle" fill="#FFFFFF" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold">SUPPORTING MODULES</text>
 
     <!-- Module boxes -->
-    <rect x="15" y="35" width="150" height="45" rx="4" fill="#1a1a2e"/>
-    <text x="90" y="52" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="10" font-weight="bold">resources</text>
-    <text x="90" y="68" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="8">ARSC + binary XML</text>
+    <rect x="15" y="35" width="150" height="45" rx="4" fill="#0b1a5c" stroke="#00A9E0" stroke-width="1"/>
+    <text x="90" y="52" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="bold">resources</text>
+    <text x="90" y="68" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="8">ARSC + binary XML</text>
 
-    <rect x="180" y="35" width="150" height="45" rx="4" fill="#1a1a2e"/>
-    <text x="255" y="52" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="10" font-weight="bold">deobf</text>
-    <text x="255" y="68" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="8">ProGuard + JOBF</text>
+    <rect x="180" y="35" width="150" height="45" rx="4" fill="#0b1a5c" stroke="#00A9E0" stroke-width="1"/>
+    <text x="255" y="52" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="bold">deobf</text>
+    <text x="255" y="68" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="8">ProGuard + JOBF</text>
 
-    <rect x="345" y="35" width="150" height="45" rx="4" fill="#1a1a2e"/>
-    <text x="420" y="52" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="10" font-weight="bold">kotlin</text>
-    <text x="420" y="68" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="8">metadata (100%)</text>
+    <rect x="345" y="35" width="150" height="45" rx="4" fill="#0b1a5c" stroke="#00A9E0" stroke-width="1"/>
+    <text x="420" y="52" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="bold">kotlin</text>
+    <text x="420" y="68" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="8">metadata (100%)</text>
 
-    <rect x="510" y="35" width="150" height="45" rx="4" fill="#1a1a2e"/>
-    <text x="585" y="52" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="10" font-weight="bold">llm-postproc</text>
-    <text x="585" y="68" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="8">AI refinement</text>
+    <rect x="510" y="35" width="150" height="45" rx="4" fill="#0b1a5c" stroke="#00A9E0" stroke-width="1"/>
+    <text x="585" y="52" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="bold">llm-postproc</text>
+    <text x="585" y="68" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="8">AI refinement</text>
 
-    <rect x="675" y="35" width="150" height="45" rx="4" fill="#1a1a2e"/>
-    <text x="750" y="52" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="10" font-weight="bold">qa</text>
-    <text x="750" y="68" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="8">JADX comparison</text>
+    <rect x="675" y="35" width="150" height="45" rx="4" fill="#0b1a5c" stroke="#00A9E0" stroke-width="1"/>
+    <text x="750" y="52" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="bold">qa</text>
+    <text x="750" y="68" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="8">JADX comparison</text>
   </g>
 
   <!-- JADX Mapping -->
   <g transform="translate(30, 465)">
-    <rect x="0" y="0" width="840" height="45" rx="6" fill="#1a1a2e" stroke="#0f3460" stroke-width="1"/>
-    <text x="140" y="28" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="10">JADX: InputFile.java</text>
-    <text x="140" y="40" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="8">dexterity-dex</text>
+    <rect x="0" y="0" width="840" height="45" rx="6" fill="#0b1a5c" stroke="#1428A0" stroke-width="2"/>
+    <text x="140" y="28" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="10">JADX: InputFile.java</text>
+    <text x="140" y="40" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="8" font-weight="bold">dexterity-dex</text>
 
-    <text x="310" y="28" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="10">MethodNode.java</text>
-    <text x="310" y="40" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="8">dexterity-ir</text>
+    <text x="310" y="28" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="10">MethodNode.java</text>
+    <text x="310" y="40" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="8" font-weight="bold">dexterity-ir</text>
 
-    <text x="480" y="28" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="10">RegionMaker.java</text>
-    <text x="480" y="40" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="8">dexterity-passes</text>
+    <text x="480" y="28" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="10">RegionMaker.java</text>
+    <text x="480" y="40" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="8" font-weight="bold">dexterity-passes</text>
 
-    <text x="650" y="28" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="10">InsnGen.java</text>
-    <text x="650" y="40" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="8">dexterity-codegen</text>
+    <text x="650" y="28" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="10">InsnGen.java</text>
+    <text x="650" y="40" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="8" font-weight="bold">dexterity-codegen</text>
 
-    <text x="790" y="28" text-anchor="middle" fill="#8892b0" font-family="monospace" font-size="10">kotlin-metadata</text>
-    <text x="790" y="40" text-anchor="middle" fill="#64ffda" font-family="monospace" font-size="8">dexterity-kotlin</text>
+    <text x="790" y="28" text-anchor="middle" fill="#A0C4FF" font-family="'Segoe UI', Arial, sans-serif" font-size="10">kotlin-metadata</text>
+    <text x="790" y="40" text-anchor="middle" fill="#00A9E0" font-family="'Segoe UI', Arial, sans-serif" font-size="8" font-weight="bold">dexterity-kotlin</text>
   </g>
 </svg>
