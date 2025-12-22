@@ -1660,11 +1660,13 @@ fn get_base_name_from_instruction<'a>(
         }
 
         // Instance field get
+        // Allow single-character field names (e.g., this.w, this.H) since they may be
+        // inlined as field accesses and the name helps with type inference
         InsnType::InstanceGet { field_idx, .. } => {
             if let Some(lookup) = field_lookup {
                 if let Some(info) = lookup(*field_idx) {
                     let base = VarNaming::sanitize_field_name(&info.field_name);
-                    if !base.is_empty() && base.len() >= 2 {
+                    if !base.is_empty() {
                         return Some(base);
                     }
                 }
@@ -1673,11 +1675,12 @@ fn get_base_name_from_instruction<'a>(
         }
 
         // Static field get
+        // Allow single-character field names (e.g., X.A, Foo.B) for consistency
         InsnType::StaticGet { field_idx, .. } => {
             if let Some(lookup) = field_lookup {
                 if let Some(info) = lookup(*field_idx) {
                     let base = VarNaming::sanitize_field_name(&info.field_name);
-                    if !base.is_empty() && base.len() >= 2 {
+                    if !base.is_empty() {
                         return Some(base);
                     }
                 }
