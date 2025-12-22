@@ -1,6 +1,6 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** 0 P0, 1 P1 (S05 partial), 2 P2 Open | IR 100% | Kotlin 100% | P1-S04/S10 fixed (no repro), P1-S05 partial - block splitting issue (Dec 22, 2025)
+**Status:** 0 P0, 1 P1 (S10 open), 0 P2 | IR 100% | Kotlin 100% | P1-S02 enhanced, P1-S05 fixed, P2 all fixed, P1-S10 open (~60-70% JADX parity) (Dec 22, 2025)
 **Tests:** 1,217 passing (687 integration + 530 unit)
 **Benchmark:** 3.6-81x faster, 14.6x memory efficiency
 **Resources:** 1:1 JADX parity (103 directories, 152 files, zero differences)
@@ -25,7 +25,27 @@ See [QUALITY_STATUS.md](QUALITY_STATUS.md) for details.
 
 ---
 
-## Recent Work (Dec 21, 2025)
+## Recent Work (Dec 22, 2025)
+
+### P1-S02: Return Type Constraint Propagation Enhancement
+- **Return type constraint propagation** - Added `method_return_type` field to `TypeInference` struct
+- **New builder method** - `with_method_return_type()` to set method's return type for constraint propagation
+- **Return instruction handling** - Handle `Return { value: Some(arg) }` to add `UseBound(Boolean)` constraint when method returns boolean
+- **New public APIs** - `infer_types_with_full_context()`, `infer_types_with_context_and_return_type()` exported in lib.rs
+- **Ternary simplification enhancement** - Extended `simplify_ternary_to_boolean()` to accept optional target type parameter
+- **Integer to boolean simplification** - Simplify `? 1 : 0` to condition and `? 0 : 1` to `!condition` when target type is Boolean
+- **New helper function** - `negate_condition()` for double-negation elimination
+- **Files:** `type_inference.rs`, `lib.rs`, `body_gen.rs`
+
+### P1-S05: Ternary Detection JADX Parity - FIXED
+- **Ported JADX's `removeInsns()`** - Added `remove_goto_nop()` to remove GOTO/NOP from blocks after splitting
+- **Simplified ternary detection** - Now uses `block.instructions.len() == 1` matching JADX's `getTernaryInsnBlock()`
+- **All 16 ternary tests pass** including `nested_ternary_in_comparison_test`, `chained_ternary_test`, `ternary_in_arithmetic_test`
+- **Files:** `block_split.rs`, `ternary_mod.rs`
+
+---
+
+## Previous Work (Dec 21, 2025)
 
 ### Dexterity-IR 100% Completion
 - **Lazy Loading (info.rs):** Implemented actual lazy bytecode decoding with `lazy-loading` feature flag
@@ -105,10 +125,10 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for fixed bug details.
 | ID | Issue | Priority |
 |----|-------|----------|
 | INV-001 | Zara APK hang | Investigation (blocked) |
-| POL-001 | Library skip filters | P3 |
+| ~~POL-001~~ | ~~Library skip filters~~ | **BY DESIGN** (framework filtering intentional) |
 | ~~POL-002~~ | ~~Cosmetic formatting~~ | **FIXED** (static member class prefix) |
 
-**Completed:** GAP-001 (Kotlin package deobf), GAP-002 (variable naming), POL-002 (static member class prefix) - see [ISSUE_TRACKER.md](ISSUE_TRACKER.md#fixed-issues-dec-21-2025).
+**Completed:** GAP-001 (Kotlin package deobf), GAP-002 (variable naming), POL-001 (by design), POL-002 (static member class prefix) - see [ISSUE_TRACKER.md](ISSUE_TRACKER.md#previously-tracked-completed-or-superseded).
 
 ---
 

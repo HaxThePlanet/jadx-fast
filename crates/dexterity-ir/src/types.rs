@@ -913,8 +913,108 @@ pub fn compare_types(
             if base == name {
                 TypeCompare::NarrowByGeneric
             } else {
-                TypeCompare::Conflict
+                // Check hierarchy for base type
+                if let Some(h) = hierarchy {
+                    if h.is_subtype_of(base, name) {
+                        TypeCompare::Narrow
+                    } else if h.is_subtype_of(name, base) {
+                        TypeCompare::Wider
+                    } else {
+                        TypeCompare::Conflict
+                    }
+                } else {
+                    TypeCompare::Conflict
+                }
             }
+        }
+
+        // TypeVariable comparisons (JADX parity for generic type variables like T, E, K, V)
+        (
+            TypeVariable { name: n1, extend_types: e1 },
+            TypeVariable { name: n2, extend_types: e2 },
+        ) => {
+            // Same type variable name = equal
+            if n1 == n2 {
+                TypeCompare::Equal
+            } else if e1.is_empty() && e2.is_empty() {
+                // Both unbounded - can't determine relationship
+                TypeCompare::Unknown
+            } else {
+                // Compare based on extend bounds
+                // A type var with more restrictive bounds is narrower
+                let e1_has_bounds = !e1.is_empty();
+                let e2_has_bounds = !e2.is_empty();
+
+                match (e1_has_bounds, e2_has_bounds) {
+                    (true, false) => TypeCompare::Narrow, // T extends X is narrower than unbounded U
+                    (false, true) => TypeCompare::Wider,
+                    (true, true) => {
+                        // Both have bounds - compare first bound (simplified)
+                        if let (Some(b1), Some(b2)) = (e1.first(), e2.first()) {
+                            compare_types(b1, b2, hierarchy)
+                        } else {
+                            TypeCompare::Unknown
+                        }
+                    }
+                    (false, false) => TypeCompare::Unknown,
+                }
+            }
+        }
+
+        // TypeVariable vs concrete type
+        (TypeVariable { extend_types, .. }, other) | (other, TypeVariable { extend_types, .. }) => {
+            // If type var has extend bounds, check if other satisfies them
+            if extend_types.is_empty() {
+                // Unbounded type variable - compatible with any object type
+                if other.is_object() {
+                    TypeCompare::WiderByGeneric
+                } else {
+                    TypeCompare::Conflict
+                }
+            } else {
+                // Type var with bounds - other must be subtype of all bounds
+                for bound in extend_types {
+                    let cmp = compare_types(other, bound, hierarchy);
+                    if cmp.is_conflict() {
+                        return TypeCompare::ConflictByGeneric;
+                    }
+                }
+                TypeCompare::NarrowByGeneric
+            }
+        }
+
+        // OuterGeneric comparisons (Outer<T>.Inner types)
+        (
+            OuterGeneric { outer: o1, inner: i1 },
+            OuterGeneric { outer: o2, inner: i2 },
+        ) => {
+            // Both outer and inner must be compatible
+            let outer_cmp = compare_types(o1, o2, hierarchy);
+            if outer_cmp.is_conflict() {
+                return outer_cmp;
+            }
+
+            let inner_cmp = compare_types(i1, i2, hierarchy);
+            if inner_cmp.is_conflict() {
+                return inner_cmp;
+            }
+
+            // Return the more restrictive result
+            if outer_cmp.is_equal() {
+                inner_cmp
+            } else if inner_cmp.is_equal() {
+                outer_cmp
+            } else if outer_cmp.is_narrow() || inner_cmp.is_narrow() {
+                TypeCompare::NarrowByGeneric
+            } else {
+                TypeCompare::WiderByGeneric
+            }
+        }
+
+        // OuterGeneric vs simple type
+        (OuterGeneric { inner, .. }, other) | (other, OuterGeneric { inner, .. }) => {
+            // Compare inner type with other
+            compare_types(inner, other, hierarchy)
         }
 
         // Wildcard comparisons with proper variance handling (JADX parity)

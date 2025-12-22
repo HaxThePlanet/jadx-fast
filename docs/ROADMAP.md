@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 1 P1 (S10 open), 2 P2 Open | IR 100% | Kotlin 100% | P1-S02 enhanced, P1-S05 fixed, P1-S10 open: ~60-70% JADX parity on real APKs (Dec 22, 2025)
+**Status:** 0 P0, 1 P1 (S10 open), 0 P2 | IR 100% | Kotlin 100% | P1-S02 enhanced, P1-S05 fixed, P2 all fixed, P1-S10 open: ~60-70% JADX parity on real APKs (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -24,6 +24,17 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open it
 
 ## Completed
 
+### P1-S02: Return Type Constraint Propagation Enhancement (Dec 22, 2025)
+
+- **Return type constraint propagation** - Added `method_return_type` field to `TypeInference` struct
+- **New builder method** - `with_method_return_type()` to set method's return type for constraint propagation
+- **Return instruction handling** - Handle `Return { value: Some(arg) }` to add `UseBound(Boolean)` constraint when method returns boolean
+- **New public APIs** - `infer_types_with_full_context()`, `infer_types_with_context_and_return_type()` (exported in lib.rs)
+- **Ternary simplification enhancement** - Extended `simplify_ternary_to_boolean()` to accept target type parameter
+- **Integer to boolean simplification** - Simplify `? 1 : 0` to condition and `? 0 : 1` to `!condition` when target type is Boolean
+- **New helper function** - `negate_condition()` for double-negation elimination
+- **Files changed:** `type_inference.rs`, `lib.rs`, `body_gen.rs`
+
 ### POL-002: Cosmetic Formatting - Static Member Class Prefix (Dec 22, 2025)
 
 - **JADX parity for same-class static access** - Omit class prefix when accessing static fields/methods in same class
@@ -32,7 +43,7 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open it
 - **Example:** `Adjust.getDefaultInstance()` → `getDefaultInstance()` within Adjust class
 - **Files changed:** `expr_gen.rs`, `body_gen.rs`
 
-### P1-S05: Ternary Detection JADX Parity (Dec 22, 2025) - ✅ FIXED
+### P1-S05: Ternary Detection JADX Parity (Dec 22, 2025) - FIXED
 
 - **Ported JADX's `removeInsns()` to Dexterity** - Removes GOTO/NOP from blocks after splitting (mirrors JADX's `BlockSplitter.removeInsns()`)
 - **Simplified ternary detection** - Now uses `block.instructions.len() == 1` to match JADX's `getTernaryInsnBlock()` exactly

@@ -7,7 +7,7 @@ This document provides a detailed comparison between JADX's visitor passes and D
 | Metric | JADX | Dexterity | Status |
 |--------|------|-----------|--------|
 | Total Passes | 63+ | 24+ | ~38% |
-| Type Inference Files | 26 | 3 | Enhanced |
+| Type Inference Files | 26 | 7 | **~85% Parity** |
 | Region Analysis Files | 8 | 3 | Partial |
 | Code Optimization Passes | 15+ | 10 | Enhanced |
 

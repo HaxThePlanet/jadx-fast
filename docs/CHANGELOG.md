@@ -2,6 +2,47 @@
 
 ## December 2025
 
+### Dec 22, 2025 - P1-S02 Return Type Constraint Propagation Enhancement
+
+**Enhanced type inference for boolean method returns and ternary simplification**
+
+1. **Return Type Constraint Propagation (type_inference.rs)**
+   - Added `method_return_type` field to `TypeInference` struct
+   - New builder method: `with_method_return_type(return_type: ArgType)`
+   - Handle `Return { value: Some(arg) }` instruction to add `UseBound(Boolean)` constraint when method returns boolean
+   - Ensures returned values are typed as boolean, enabling proper ternary simplification
+
+2. **New Public APIs (type_inference.rs, lib.rs)**
+   - `infer_types_with_full_context()` - Includes hierarchy and method return type
+   - `infer_types_with_context_and_return_type()` - For use without class hierarchy
+   - Both exported in `lib.rs` for public use
+
+3. **Ternary Simplification Enhancement (body_gen.rs)**
+   - Extended `simplify_ternary_to_boolean()` to accept optional `target_type: Option<&ArgType>` parameter
+   - New simplification: `cond ? 1 : 0` simplifies to `cond` when target type is Boolean
+   - New simplification: `cond ? 0 : 1` simplifies to `!cond` when target type is Boolean
+   - Added `negate_condition()` helper function for double-negation elimination
+
+**Impact:** Boolean methods returning ternary expressions like `return x > 0 ? 1 : 0;` now correctly simplify to `return x > 0;`
+
+**Files changed:** `type_inference.rs`, `lib.rs`, `body_gen.rs`
+
+### Dec 22, 2025 - P1-S05 Ternary Detection JADX Parity - FIXED
+
+**Ported JADX's block cleaning approach for correct ternary detection**
+
+1. **Block Cleaning (block_split.rs)**
+   - Added `remove_goto_nop()` function that removes GOTO and NOP instructions from blocks after splitting
+   - Mirrors JADX's `BlockSplitter.removeInsns()` behavior exactly
+
+2. **Simplified Ternary Detection (ternary_mod.rs)**
+   - Now uses `block.instructions.len() == 1` to match JADX's `getTernaryInsnBlock()` exactly
+   - Removed `get_meaningful_instructions()` helper (no longer needed with cleaned blocks)
+
+**Test Results:** All 16 ternary-related integration tests pass including `nested_ternary_in_comparison_test`, `chained_ternary_test`, `ternary_in_arithmetic_test`
+
+**Files changed:** `block_split.rs`, `ternary_mod.rs`
+
 ### Dec 21, 2025 - IR Type System and SSA Parity Complete
 
 **Type system and SSA infrastructure now at 100% JADX parity**

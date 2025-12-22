@@ -1,9 +1,39 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-22 (0 P0, 1 P1 partial, 2 P2 Open | P1-S05 partial - block splitting issue)
+**Last Updated**: 2025-12-22 (0 P0, 1 P1 open, 0 P2 | P1-S02 enhanced, P1-S05 fixed, P2 all fixed, P1-S10 open)
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
 **Overall Parity**: **B+ Grade** (all critical bugs fixed, major improvements)
 **Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
+
+---
+
+## Dec 22, 2025: P1-S02 Enhanced + P1-S05 Fixed
+
+**P1-S02 return type constraint propagation. P1-S05 ternary detection JADX parity achieved.**
+
+### P1-S02: Return Type Constraint Propagation Enhancement
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| `method_return_type` field | **NEW** | Added to `TypeInference` struct for constraint propagation |
+| `with_method_return_type()` builder | **NEW** | Sets method's return type for type inference |
+| Return instruction handling | **DONE** | `Return { value: Some(arg) }` adds `UseBound(Boolean)` constraint |
+| New public APIs | **NEW** | `infer_types_with_full_context()`, `infer_types_with_context_and_return_type()` |
+| Ternary simplification | **ENHANCED** | `simplify_ternary_to_boolean()` accepts target type parameter |
+| Integer to boolean | **DONE** | `? 1 : 0` simplifies to condition when target is Boolean |
+| `negate_condition()` helper | **NEW** | Double-negation elimination |
+
+**Files changed:** `type_inference.rs`, `lib.rs`, `body_gen.rs`
+
+### P1-S05: Ternary Detection JADX Parity - FIXED
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| `remove_goto_nop()` | **NEW** | Removes GOTO/NOP from blocks after splitting (mirrors JADX `removeInsns()`) |
+| Simplified ternary detection | **FIXED** | Uses `block.instructions.len() == 1` matching JADX `getTernaryInsnBlock()` |
+| All ternary tests | **PASS** | 16 tests including `nested_ternary_in_comparison_test` |
+
+**Files changed:** `block_split.rs`, `ternary_mod.rs`
 
 ---
 

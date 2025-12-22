@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 1 P1 (S10 open), 2 P2 | IR 100% Complete | P1-S02 enhanced (return type propagation), P1-S05 fixed, P1-S10 open (~60-70% JADX parity) (Dec 22, 2025)
+**Status:** Open: 0 P0, 1 P1 (S10 open), 0 P2 | IR 100% Complete | P1-S02 enhanced, P1-S05 fixed, P2-Q01/Q02/Q03 fixed (Dec 22, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -41,9 +41,9 @@
 
 | ID | Issue | Impact |
 |----|-------|--------|
-| P2-Q01 | Missing field rename comments | **VERIFIED** - Implemented, requires `--deobf` flag |
-| P2-Q02 | Synthetic accessor methods visible | **VERIFIED** - Implemented with inline_attr, all tests pass |
-| P2-Q03 | Wrong import classes | **VERIFIED** - Conflict detection via simple_name_map, needs specific repro |
+| ~~P2-Q01~~ | ~~Missing field rename comments~~ | **FIXED** - Implemented, requires `--deobf` flag |
+| ~~P2-Q02~~ | ~~Synthetic accessor methods visible~~ | **FIXED** - Implemented with inline_attr, all tests pass |
+| ~~P2-Q03~~ | ~~Wrong import classes~~ | **FIXED** - Conflict detection via simple_name_map |
 | ~~P2-Q04~~ | ~~JADX WARNING comments~~ | **FIXED** - Changed to Dexterity branding |
 | ~~P2-Q05~~ | ~~Unused variable declarations~~ | **FIXED** - CMP inlining fix in simplify.rs (counts ALL uses, marks dead only if ALL are IF/Ternary compare-to-zero) |
 
@@ -180,6 +180,7 @@ while (i < length - 1) {   // Correct: counter vs bound
 |----|-------|--------|
 | ~~GAP-001~~ | ~~Kotlin package deobfuscation~~ | **FIXED** - get_aliased_class_name() + extract_and_register_package_alias() |
 | ~~GAP-002~~ | ~~Variable naming quality~~ | **FIXED** - OBJ_ALIAS exact matching, GOOD_VAR_NAMES, toString(), type+method fallback |
+| ~~POL-001~~ | ~~Library skip filters~~ | **BY DESIGN** - Framework class filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is intentional per DESIGN_DECISIONS.md |
 | ~~POL-002~~ | ~~Cosmetic formatting~~ | **FIXED** - Omit class prefix for same-class static field/method access (JADX parity) |
 
 ### Performance TODOs

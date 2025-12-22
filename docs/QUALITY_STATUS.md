@@ -1,6 +1,6 @@
 # Quality Status
 
-**Status:** 0 P0, 1 P1 (S05 partial), 2 P2 Open | Kotlin 100% | P1-S04/S10 fixed (no repro), P1-S05 partial - block splitting issue (Dec 22, 2025)
+**Status:** 0 P0, 1 P1 (S10 open), 0 P2 | Kotlin 100% | P1-S02 enhanced (return type propagation), P1-S05 fixed, P2 all fixed, P1-S10 open (~60-70% JADX parity) (Dec 22, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 **Output Refresh:** Dec 21, 2025 - All 5 APK samples refreshed (~8,858 Java files)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
@@ -21,13 +21,31 @@
 | Priority | Status |
 |----------|--------|
 | P0 Bugs | **ALL FIXED** (8 fixed) |
-| P1 Bugs | **1 Partial** (P1-S05 partial - block splitting issue); P1-S04/S10 fixed (no repro Dec 22); P1-S01, P1-S02, P1-S06, P1-S07, P1-S08, P1-S09, P1-S11, P1-S12 fixed |
-| P2 Bugs | **2 Open** (P2-Q01, P2-Q03) |
-| P3 Polish | 1 open (POL-001); POL-002 fixed (static member class prefix) |
+| P1 Bugs | **1 Open** (P1-S10 ~60-70% JADX parity on real APKs); P1-S04 cannot repro; P1-S02 enhanced (Dec 22), P1-S05 fixed (Dec 22), P1-S01, P1-S06, P1-S07, P1-S08, P1-S09, P1-S11, P1-S12 fixed |
+| P2 Bugs | **ALL FIXED** (P2-Q01, P2-Q02, P2-Q03, P2-Q04, P2-Q05 fixed) |
+| P3 Polish | **ALL DONE** - POL-001 by design (library filtering intentional), POL-002 fixed |
 
 See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 
-## Recent Improvements (Dec 21, 2025)
+## Recent Improvements (Dec 22, 2025)
+
+### P1-S02: Return Type Constraint Propagation Enhancement
+- **Return type constraint propagation** - Added `method_return_type` field to `TypeInference` struct
+- **New builder method** - `with_method_return_type()` to set method's return type
+- **Return instruction handling** - Handle `Return { value: Some(arg) }` to add `UseBound(Boolean)` constraint
+- **New public APIs** - `infer_types_with_full_context()`, `infer_types_with_context_and_return_type()`
+- **Ternary simplification enhancement** - Extended `simplify_ternary_to_boolean()` to accept target type parameter
+- **Integer to boolean simplification** - Simplify `? 1 : 0` to condition when target type is Boolean
+- **New helper function** - `negate_condition()` for double-negation elimination
+- **Files:** `type_inference.rs`, `lib.rs`, `body_gen.rs`
+
+### P1-S05: Ternary Detection JADX Parity - FIXED
+- **Ported JADX's `removeInsns()`** - Removes GOTO/NOP from blocks after splitting
+- **Simplified ternary detection** - Now uses `block.instructions.len() == 1` matching JADX's `getTernaryInsnBlock()`
+- **All 16 ternary tests pass** including `nested_ternary_in_comparison_test`
+- **Files:** `block_split.rs`, `ternary_mod.rs`
+
+## Previous Improvements (Dec 21, 2025)
 
 ### P1-S06 + P1-S12: Try-Catch Block Fix
 - **Block ID vs offset mismatch fixed** - `detect_try_catch_regions()` now uses `block.start_offset` instead of `block_id`

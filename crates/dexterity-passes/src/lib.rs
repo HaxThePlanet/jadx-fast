@@ -31,6 +31,7 @@ pub mod ssa;
 pub mod ternary_mod;
 pub mod type_bound;
 pub mod type_inference;
+pub mod type_search;
 pub mod type_update;
 pub mod var_naming;
 pub mod visitor;
@@ -86,6 +87,10 @@ pub use type_bound::{
 pub use type_update::{
     InsnKind, TypeListener, TypeUpdateEngine, TypeUpdateEntry, TypeUpdateFlags,
     TypeUpdateInfo, TypeUpdateResult,
+};
+pub use type_search::{
+    collect_constraints, TypeSearch, TypeSearchConstraint, TypeSearchResult,
+    TypeSearchState, TypeSearchVarInfo,
 };
 pub use finish_type_inference::{
     finish_type_inference, finish_type_inference_with_names, FinishTypeInferenceResult,
