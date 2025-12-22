@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1428A0"/>
+      <stop offset="100%" style="stop-color:#0b1a5c"/>
+    </linearGradient>
+    <linearGradient id="dexGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00A9E0"/>
+      <stop offset="100%" style="stop-color:#0381FE"/>
+    </linearGradient>
+    <linearGradient id="jadxGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#666"/>
+      <stop offset="100%" style="stop-color:#444"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="480" fill="#000"/>
+
+  <!-- SPEED COMPARISON -->
+  <g transform="translate(20, 15)">
+    <rect x="0" y="0" width="760" height="200" rx="8" fill="#0b1a5c" filter="url(#shadow)"/>
+    <rect x="0" y="0" width="760" height="32" rx="8" fill="url(#headerGrad)"/>
+    <text x="380" y="22" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="14" font-weight="bold">SPEED COMPARISON (5 APKs)</text>
+
+    <!-- Bars -->
+    <g transform="translate(20, 45)">
+      <!-- small.apk -->
+      <text x="0" y="12" fill="#A0C4FF" font-family="Arial" font-size="11">small.apk</text>
+      <text x="85" y="12" fill="#00A9E0" font-family="Arial" font-size="10">Dexterity</text>
+      <rect x="150" y="2" width="8" height="14" rx="2" fill="url(#dexGrad)"/>
+      <text x="165" y="12" fill="#A0C4FF" font-family="Arial" font-size="10">0.02s</text>
+      <text x="85" y="28" fill="#888" font-family="Arial" font-size="10">JADX</text>
+      <rect x="150" y="18" width="320" height="14" rx="2" fill="url(#jadxGrad)"/>
+      <text x="480" y="28" fill="#A0C4FF" font-family="Arial" font-size="10">1.85s</text>
+      <text x="700" y="20" fill="#00A9E0" font-family="Arial" font-size="12" font-weight="bold">84x</text>
+
+      <!-- medium.apk -->
+      <text x="0" y="52" fill="#A0C4FF" font-family="Arial" font-size="11">medium.apk</text>
+      <text x="85" y="52" fill="#00A9E0" font-family="Arial" font-size="10">Dexterity</text>
+      <rect x="150" y="42" width="28" height="14" rx="2" fill="url(#dexGrad)"/>
+      <text x="185" y="52" fill="#A0C4FF" font-family="Arial" font-size="10">1.26s</text>
+      <text x="85" y="68" fill="#888" font-family="Arial" font-size="10">JADX</text>
+      <rect x="150" y="58" width="256" height="14" rx="2" fill="url(#jadxGrad)"/>
+      <text x="415" y="68" fill="#A0C4FF" font-family="Arial" font-size="10">14.81s</text>
+      <text x="700" y="60" fill="#00A9E0" font-family="Arial" font-size="12" font-weight="bold">12x</text>
+
+      <!-- large.apk -->
+      <text x="0" y="92" fill="#A0C4FF" font-family="Arial" font-size="11">large.apk</text>
+      <text x="85" y="92" fill="#00A9E0" font-family="Arial" font-size="10">Dexterity</text>
+      <rect x="150" y="82" width="45" height="14" rx="2" fill="url(#dexGrad)"/>
+      <text x="202" y="92" fill="#A0C4FF" font-family="Arial" font-size="10">2.60s</text>
+      <text x="85" y="108" fill="#888" font-family="Arial" font-size="10">JADX</text>
+      <rect x="150" y="98" width="296" height="14" rx="2" fill="url(#jadxGrad)"/>
+      <text x="455" y="108" fill="#A0C4FF" font-family="Arial" font-size="10">17.08s</text>
+      <text x="700" y="100" fill="#00A9E0" font-family="Arial" font-size="12" font-weight="bold">6.6x</text>
+
+      <!-- TOTAL -->
+      <line x1="0" y1="125" x2="720" y2="125" stroke="#1428A0" stroke-width="1"/>
+      <text x="0" y="145" fill="#fff" font-family="Arial" font-size="12" font-weight="bold">TOTAL</text>
+      <text x="85" y="145" fill="#00A9E0" font-family="Arial" font-size="10">Dexterity</text>
+      <rect x="150" y="135" width="75" height="14" rx="2" fill="url(#dexGrad)"/>
+      <text x="232" y="145" fill="#A0C4FF" font-family="Arial" font-size="10">4.32s</text>
+      <text x="85" y="161" fill="#888" font-family="Arial" font-size="10">JADX</text>
+      <rect x="150" y="151" width="520" height="14" rx="2" fill="url(#jadxGrad)"/>
+      <text x="678" y="161" fill="#A0C4FF" font-family="Arial" font-size="10">61.52s</text>
+      <text x="700" y="152" fill="#00A9E0" font-family="Arial" font-size="14" font-weight="bold">14x</text>
+    </g>
+  </g>
+
+  <!-- MEMORY COMPARISON -->
+  <g transform="translate(20, 230)">
+    <rect x="0" y="0" width="370" height="110" rx="8" fill="#0b1a5c" filter="url(#shadow)"/>
+    <rect x="0" y="0" width="370" height="32" rx="8" fill="url(#headerGrad)"/>
+    <text x="185" y="22" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="14" font-weight="bold">MEMORY (24 APKs)</text>
+
+    <g transform="translate(20, 45)">
+      <text x="0" y="15" fill="#00A9E0" font-family="Arial" font-size="11">Dexterity</text>
+      <rect x="80" y="5" width="30" height="16" rx="2" fill="url(#dexGrad)"/>
+      <text x="118" y="17" fill="#A0C4FF" font-family="Arial" font-size="11">758 MB</text>
+
+      <text x="0" y="45" fill="#888" font-family="Arial" font-size="11">JADX</text>
+      <rect x="80" y="35" width="220" height="16" rx="2" fill="url(#jadxGrad)"/>
+      <text x="308" y="47" fill="#A0C4FF" font-family="Arial" font-size="11">21 GB</text>
+
+      <text x="290" y="70" fill="#00A9E0" font-family="Arial" font-size="16" font-weight="bold">28x less</text>
+    </g>
+  </g>
+
+  <!-- ERROR COMPARISON -->
+  <g transform="translate(410, 230)">
+    <rect x="0" y="0" width="370" height="110" rx="8" fill="#0b1a5c" filter="url(#shadow)"/>
+    <rect x="0" y="0" width="370" height="32" rx="8" fill="url(#headerGrad)"/>
+    <text x="185" y="22" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="14" font-weight="bold">ERRORS (5 APKs)</text>
+
+    <g transform="translate(20, 45)">
+      <text x="0" y="15" fill="#00A9E0" font-family="Arial" font-size="11">Dexterity</text>
+      <rect x="80" y="5" width="60" height="16" rx="2" fill="#0a5" stroke="#0a5"/>
+      <text x="90" y="17" fill="#fff" font-family="Arial" font-size="11" font-weight="bold">0 errors</text>
+
+      <text x="0" y="45" fill="#888" font-family="Arial" font-size="11">JADX</text>
+      <rect x="80" y="35" width="180" height="16" rx="2" fill="#a33"/>
+      <text x="268" y="47" fill="#A0C4FF" font-family="Arial" font-size="11">54 errors</text>
+
+      <text x="280" y="70" fill="#0a5" font-family="Arial" font-size="16" font-weight="bold">Zero errors</text>
+    </g>
+  </g>
+
+  <!-- KEY STATS -->
+  <g transform="translate(20, 355)">
+    <rect x="0" y="0" width="760" height="110" rx="8" fill="#0b1a5c" filter="url(#shadow)"/>
+    <rect x="0" y="0" width="760" height="32" rx="8" fill="url(#headerGrad)"/>
+    <text x="380" y="22" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="14" font-weight="bold">KEY ADVANTAGES</text>
+
+    <g transform="translate(0, 50)">
+      <text x="95" y="20" text-anchor="middle" fill="#00A9E0" font-family="Arial" font-size="28" font-weight="bold">14x</text>
+      <text x="95" y="40" text-anchor="middle" fill="#A0C4FF" font-family="Arial" font-size="11">faster overall</text>
+
+      <text x="285" y="20" text-anchor="middle" fill="#00A9E0" font-family="Arial" font-size="28" font-weight="bold">84x</text>
+      <text x="285" y="40" text-anchor="middle" fill="#A0C4FF" font-family="Arial" font-size="11">on small APKs</text>
+
+      <text x="475" y="20" text-anchor="middle" fill="#00A9E0" font-family="Arial" font-size="28" font-weight="bold">28x</text>
+      <text x="475" y="40" text-anchor="middle" fill="#A0C4FF" font-family="Arial" font-size="11">less memory</text>
+
+      <text x="665" y="20" text-anchor="middle" fill="#00A9E0" font-family="Arial" font-size="28" font-weight="bold">112</text>
+      <text x="665" y="40" text-anchor="middle" fill="#A0C4FF" font-family="Arial" font-size="11">threads supported</text>
+    </g>
+  </g>
+</svg>
