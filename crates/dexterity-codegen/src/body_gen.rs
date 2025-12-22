@@ -5525,11 +5525,14 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             // First emit any prelude instructions from the condition block
             emit_condition_block_prelude(condition, ctx, code);
 
+            // Find the merge block for this ternary
+            let merge_block = find_merge_block_for_ternary(*then_value_block, *else_value_block, ctx);
+
             // P1-S05 FIX: Process merge block prelude BEFORE extracting ternary values.
             // This ensures inline expressions for operands (like field accesses) are available
             // when the merge block's comparison/return uses them alongside the ternary result.
-            if let Some(merge_block) = find_merge_block_for_ternary(*then_value_block, *else_value_block, ctx) {
-                process_merge_block_prelude_for_ternary(merge_block, *dest_reg, ctx);
+            if let Some(mb) = merge_block {
+                process_merge_block_prelude_for_ternary(mb, *dest_reg, ctx);
             }
 
             // Generate condition expression
@@ -5542,14 +5545,41 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             // Build the ternary expression
             let ternary_expr = format!("{} ? {} : {}", cond_str, then_expr, else_expr);
 
-            // P1-S05 FIX: Check if the ternary result should be inlined.
+            // P1-S05 FIX (ENHANCED): Check if the ternary result should be inlined.
             //
             // The TernaryAssignment dest_version comes from the then block, but the actual
-            // use in the merge block references the PHI output (different SSA version).
-            // We need to store the ternary expression for ALL single-use versions of this
-            // register so it can be found at the use site regardless of which version is used.
+            // use in the merge block often references the PHI output (different SSA version).
             //
-            // This handles the common case: return x - y < (cond ? a : b);
+            // Strategy:
+            // 1. Find the PHI output version in the merge block (most reliable)
+            // 2. Fall back to finding all single-use versions of this register
+            //
+            // This handles patterns like: return x - y < (cond ? a : b);
+
+            // First, try to find the PHI output version in the merge block
+            let phi_version = merge_block.and_then(|mb| {
+                find_phi_output_version_for_ternary(mb, *then_value_block, *else_value_block, *dest_reg, ctx)
+            });
+
+            if let Some(phi_ver) = phi_version {
+                // Store the ternary expression at the PHI output version
+                // This ensures the ternary can be inlined where it's actually used
+                ctx.store_inline_expr(*dest_reg, phi_ver, ternary_expr.clone());
+
+                // Also store at the original dest_version for cases where it's directly used
+                ctx.store_inline_expr(*dest_reg, *dest_version, ternary_expr.clone());
+
+                tracing::debug!(
+                    dest_reg = *dest_reg,
+                    dest_version = *dest_version,
+                    phi_version = phi_ver,
+                    ternary_expr = %ternary_expr,
+                    "P1-S05: Stored ternary for inlining at PHI version"
+                );
+                return; // Don't emit a statement
+            }
+
+            // Fallback: Find all single-use versions of this register
             let single_use_versions: Vec<u32> = ctx.insn_use_counts.iter()
                 .filter(|((reg, _), count)| *reg == *dest_reg && **count == 1)
                 .map(|((_, version), _)| *version)
@@ -6032,6 +6062,49 @@ fn uses_register(arg: &InsnArg, target_reg: u16) -> bool {
         InsnArg::Register(reg_arg) => reg_arg.reg_num == target_reg,
         _ => false,
     }
+}
+
+/// Find the PHI output version for a ternary result in the merge block.
+///
+/// When a ternary assigns to register Vn in both branches, the merge block typically
+/// contains a PHI node that combines these values:
+///   PHI Vn:output <- [then_block:then_version, else_block:else_version]
+///
+/// This function finds the PHI output version so we can store the ternary expression
+/// at the version that will actually be used in subsequent code.
+///
+/// Returns Some(phi_output_version) if a PHI node is found, None otherwise.
+fn find_phi_output_version_for_ternary(
+    merge_block_id: u32,
+    then_block_id: u32,
+    else_block_id: u32,
+    dest_reg: u16,
+    ctx: &BodyGenContext,
+) -> Option<u32> {
+    let instructions = ctx.blocks.get(&merge_block_id)?.instructions.clone();
+
+    for insn in &instructions {
+        if let InsnType::Phi { dest, sources } = &insn.insn_type {
+            // Check if this PHI is for our destination register
+            if dest.reg_num == dest_reg {
+                // Verify that sources come from our then/else blocks
+                let has_then_source = sources.iter().any(|(block, _)| *block == then_block_id);
+                let has_else_source = sources.iter().any(|(block, _)| *block == else_block_id);
+
+                if has_then_source && has_else_source {
+                    tracing::debug!(
+                        merge_block = merge_block_id,
+                        dest_reg = dest_reg,
+                        phi_version = dest.ssa_version,
+                        "Found PHI output version for ternary"
+                    );
+                    return Some(dest.ssa_version);
+                }
+            }
+        }
+    }
+
+    None
 }
 
 /// Extract the value expression from a block for ternary assignment

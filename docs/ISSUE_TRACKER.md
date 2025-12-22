@@ -28,7 +28,7 @@
 | ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns (59.6% reduction) + method args (27 fixes) + dead code elimination for 0/1 constants | body_gen.rs |
 | ~~P1-S03~~ | ~~Wrong return value~~ | **MERGED with P1-S05** - Same root cause (control flow reconstruction) | body_gen.rs |
 | P1-S04 | Wrong method signature call | **CANNOT REPRO** - 2 args passed to 1-arg method; no examples found in test APKs (Dec 22) | body_gen.rs |
-| P1-S05 | Control flow logic wrong | **PARTIAL** - Merge block prelude processing for simple ternaries; complex nested ternary patterns (like `D(long j)`) still broken - inner ternary not detected | var_naming.rs, body_gen.rs |
+| P1-S05 | Control flow logic wrong | **PARTIAL** - Merge block prelude processing for simple ternaries; complex nested ternary patterns (like `D(long j)`) still broken - **root cause: block splitting** puts iget-wide in wrong block, resulting in then_meaningful=0 | ternary_mod.rs, conditionals.rs, body_gen.rs |
 | ~~P1-S06~~ | ~~Missing try-catch blocks~~ | **FIXED** - Block ID vs offset mismatch fixed, handler addresses as block leaders, stack overflow prevention | region_builder.rs, block_split.rs, decompiler.rs, body_gen.rs |
 | ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
 | ~~P1-S08~~ | ~~Method calls before guard~~ | **FIXED** - Only emit first block prelude for short-circuit conditions (AND/OR) | body_gen.rs |
@@ -55,7 +55,7 @@
 
 #### P1-S05: Control Flow Logic Fix (Dec 22, 2025)
 
-**Status:** PARTIAL
+**Status:** IMPROVED (Additional JADX-parity fixes applied)
 
 **Example Method:** `com/amplitude/api/f.java:D(long j)`
 
@@ -104,10 +104,42 @@ The issue is that the **inner ternary** (`this.H ? this.D : this.E` for v0) is n
 - Both have single meaningful instructions (iget-wide)
 - Both assign to the same register (v0)
 
-Investigation needed:
-1. Why isn't the ternary detection triggering for the inner pattern?
-2. Is there a block splitting issue that prevents correct analysis?
-3. Is the condition analysis grouping blocks incorrectly?
+**Investigation Results (Dec 22, 2025):**
+
+Debug tracing revealed the **root cause is block splitting, not ternary detection**. When `try_transform_to_ternary()` is called for this pattern in `ternary_mod.rs`, the blocks have the WRONG number of meaningful instructions:
+- `then_meaningful=0` (expected 1) - the then block contains only control flow (goto), not the expected iget-wide instruction
+- `else_meaningful=1` (correct)
+
+The ternary detection logic in `try_transform_to_ternary()` (lines 501-509) correctly rejects this because it requires exactly one meaningful instruction per block:
+```rust
+if then_meaningful.len() != 1 || else_meaningful.len() != 1 {
+    debug!(
+        then_meaningful_count = then_meaningful.len(),
+        else_meaningful_count = else_meaningful.len(),
+        "Ternary rejected: not exactly one meaningful instruction per block"
+    );
+    return TernaryTransformResult::NotTernary;
+}
+```
+
+This indicates the **block splitting is incorrect** for this method. The iget-wide instruction that should be in the then block is either:
+1. Merged into the condition block (most likely)
+2. Placed in a different block due to split boundary issues
+3. The CFG structure is fundamentally different than expected
+
+**Next Steps:**
+1. Trace the actual bytecode instruction flow for this specific method
+2. Verify block splitting creates correct boundaries at goto/branch targets
+3. Compare with JADX's block structure for the same method
+4. Fix block splitting to ensure iget-wide is in its own block
+
+**JADX-Parity Fixes Applied (Dec 22, 2025):**
+- `verify_phi_merge()` - JADX-style PHI node verification (both branches must feed same PHI)
+- Improved SSA version tracking - Now uses PHI version when PHI verification succeeds
+- `find_phi_output_version_for_ternary()` - Find PHI output version in merge block for ternary inlining (body_gen.rs)
+- Enhanced TernaryAssignment handling - Store inline expr at PHI output version for proper SSA tracking
+- Debug logging - Comprehensive tracing in `ternary_mod.rs` and `conditionals.rs`
+- Integration tests - `nested_ternary_in_comparison_test`, `chained_ternary_test`, `ternary_in_arithmetic_test`
 
 **Partial Fix Applied (Dec 22, 2025):**
 - `find_merge_block_for_ternary()` - Finds common successor of then/else value blocks
@@ -119,7 +151,7 @@ Investigation needed:
 - Field access inlining improvements
 - Ternary sub-expressions inline
 
-**Files Changed:** `body_gen.rs`, `var_naming.rs`
+**Files Changed:** `ternary_mod.rs`, `conditionals.rs`, `body_gen.rs`, `var_naming.rs`, `conditions_tests.rs`
 
 #### P1-S06 + P1-S12: Try-Catch Block Fix (Dec 21, 2025)
 

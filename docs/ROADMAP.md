@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 1 P1 (partial), 2 P2 Open | IR 100% | Kotlin 100% | IR Type System + SSA Parity Complete (Dec 22, 2025)
+**Status:** 0 P0, 1 P1 (S05 partial - block splitting issue), 2 P2 Open | IR 100% | Kotlin 100% | P1-S04/S10 likely fixed (cannot repro) (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -28,13 +28,17 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open it
 
 ### P1-S05: Merge Block Prelude Processing for Ternaries (Dec 22, 2025) - PARTIAL
 
-- **Partial fix for nested ternary patterns** - Simple cases improved, complex nested ternaries still broken
+- **Partial fix for nested ternary patterns** - Simple cases improved, complex nested patterns still broken
+- **Root cause identified: block splitting issue** - The then block has only control flow (goto) with `then_meaningful=0` instead of the expected iget-wide instruction. The iget-wide instruction is likely merged into the condition block.
 - **Added `find_merge_block_for_ternary()`** - Finds common successor of then/else value blocks
 - **Added `process_merge_block_prelude_for_ternary()`** - Processes merge block instructions before ternary use
 - **Added `uses_register()` helper** - Checks if InsnArg references specific register
-- **Remaining issue:** Inner ternary not detected in `D(long j)` pattern despite meeting all criteria
-- **Investigation needed:** Block splitting, condition analysis, or region builder issue
-- **Files changed:** `body_gen.rs`
+- **Added PHI node verification (`verify_phi_merge()`)** - JADX-style verification that both branches feed into same PHI node
+- **Improved SSA version tracking** - Now uses PHI version when PHI verification succeeds
+- **Added debug logging** - Comprehensive tracing for ternary detection and conditional analysis
+- **Added integration tests** - `nested_ternary_in_comparison_test`, `chained_ternary_test`, `ternary_in_arithmetic_test`
+- **Next steps:** Fix block splitting to ensure iget-wide is in its own block (not merged with condition block)
+- **Files changed:** `ternary_mod.rs`, `conditionals.rs`, `body_gen.rs`, `conditions_tests.rs`
 
 ### P0-C08: Invalid instanceof Syntax Fix (Dec 21, 2025)
 

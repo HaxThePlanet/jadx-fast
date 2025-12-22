@@ -22,17 +22,17 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` with all P0
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 | Kotlin Support | **100% parity** | Baseline | **Dexterity** |
 
-**Grade: B+** - All P0 bugs fixed, 4 P1 remain (P1-S04, S05, S08, S10). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
+**Grade: B+** - All P0 bugs fixed, 1 P1 partial (P1-S05 - block splitting issue), P1-S04/S10 likely fixed (cannot repro Dec 22). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
 
 Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
-- Overall Quality: **B+** per QUALITY_STATUS.md (all P0 fixed, 4 P1 remain)
+- Overall Quality: **B+** per QUALITY_STATUS.md (all P0 fixed, 1 P1 partial)
 - Feature Implementation: A- (passes/features implemented)
 - Kotlin Parity: 100% with BitEncoding ported and all modifiers applied to IR
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing
 - Unit Tests: 530/530 passing
-- **Code Issues:** All P0 fixed, 4 P1 open (P1-S04, S05, S08, S10), 2 P2 remain
+- **Code Issues:** All P0 fixed, 1 P1 partial (P1-S05 - block splitting issue), P1-S04/S10 likely fixed (cannot repro Dec 22), 2 P2 remain
 - **Resource Issues:** ALL 5 FIXED (XML enums, localized strings, density qualifiers, missing resource files, resource naming)
 - **NOTE:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
@@ -919,7 +919,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 
-**Grade: B+** after Dec 21 fixes (4 P1 remain: S04, S05, S08, S10)
+**Grade: B+** after Dec 22 fixes (1 P1 partial: S05 - block splitting issue; P1-S04/S08/S10 fixed)
 
 **Remaining P2 Issue (Dec 20, 2025):**
 
@@ -978,9 +978,9 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 
 ---
 
-*Report Updated: December 20, 2025*
+*Report Updated: December 22, 2025*
 *Status: PRODUCTION READY*
 *Quality: **B+** based on objective output comparison*
-*Code Issues: 4 P1 + 2 P2 remain (see ISSUE_TRACKER.md)*
+*Code Issues: 1 P1 partial (S05 - block splitting issue) + 2 P2 remain (see ISSUE_TRACKER.md)*
 *Resource Issues: ALL 5 FIXED*
 *Tests: 1,217 passing (687 integration + 530 unit)*

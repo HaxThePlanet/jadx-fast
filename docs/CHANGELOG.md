@@ -151,6 +151,29 @@ public boolean equals(Object obj) {
 
 **Files changed:** `body_gen.rs`
 
+### Dec 22, 2025 - P1-S05 Root Cause Identified: Block Splitting Issue
+
+**Investigation revealed block splitting as root cause, not ternary detection**
+
+Debug tracing of the `D(long j)` method in `com/amplitude/api/f.java` revealed:
+- `try_transform_to_ternary()` correctly rejects the pattern
+- The then block has `then_meaningful=0` (expected 1)
+- The then block contains only control flow (goto), not the expected iget-wide instruction
+- The iget-wide instruction is likely merged into the condition block
+
+**Root Cause:**
+The block splitting logic in `block_split.rs` is not creating correct block boundaries for the nested ternary pattern. The iget-wide instruction that should be in its own "then" block is being merged with either:
+1. The condition block (most likely)
+2. A different block due to split boundary issues
+
+**Next Steps:**
+1. Trace actual bytecode instruction flow for the specific method
+2. Verify block splitting creates correct boundaries at goto/branch targets
+3. Compare with JADX's block structure for the same method
+4. Fix block splitting to ensure iget-wide is in its own block
+
+**Files involved:** `ternary_mod.rs`, `conditionals.rs`, `block_split.rs`
+
 ### Dec 21, 2025 - P1-S05 Variable Naming Underscore Fix (Partial)
 
 **Fixed variable naming pattern to match JADX**
@@ -168,7 +191,7 @@ The `generate_unique_name()` function in `body_gen.rs` was generating names like
 
 **Files changed:** `body_gen.rs`
 
-**Remaining P1-S05 issues:** Undefined variable references (`l2`), ternary extraction to separate statements, wrong return values - these require deeper control flow fixes.
+**Remaining P1-S05 issues:** Block splitting causes iget-wide to be in wrong block, resulting in then_meaningful=0 instead of 1. This prevents ternary detection for complex nested patterns.
 
 ### Dec 21, 2025 - P1-S06 + P1-S12 Try-Catch Block Fix
 

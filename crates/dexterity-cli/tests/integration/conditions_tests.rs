@@ -2224,3 +2224,100 @@ public class TestCls {
 fn ternary_one_branch_in_constructor2_test() {
     eprintln!("SKIPPED: Test extends SmaliTest in Java - requires smali source");
 }
+
+/// P1-S05: Nested ternary in comparison
+/// Tests: return j - this.w < (this.H ? this.D : this.E);
+#[test]
+fn nested_ternary_in_comparison_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
+    let helper = IntegrationTestHelper::new("nested_ternary_comparison");
+    let source = r#"
+public class TestCls {
+    private boolean H;
+    private long D;
+    private long E;
+    private long w;
+
+    private boolean test(long j) {
+        return j - this.w < (this.H ? this.D : this.E);
+    }
+}
+"#;
+
+    let result = helper.test_decompilation(source)
+        .expect("Decompilation failed");
+
+    // P1-S05: Should produce clean nested ternary, not broken code
+    result
+        // Should NOT have undefined variables
+        .does_not_contain("l2")
+        // Should NOT have uninitialized declarations like "long l;"
+        .does_not_contain("long l;")
+        // Should NOT have "int j2 = 0" type initialization
+        .does_not_contain("= 0;")
+        // Should have the ternary inline in the comparison
+        .contains_one("? this.D : this.E")
+        // Should have the subtraction
+        .contains("j - this.w");
+}
+
+/// P1-S05: Chained ternary expressions
+/// Tests: a ? (b ? c : d) : e
+#[test]
+fn chained_ternary_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
+    let helper = IntegrationTestHelper::new("chained_ternary");
+    let source = r#"
+public class TestCls {
+    public int test(boolean a, boolean b, int c, int d, int e) {
+        return a ? (b ? c : d) : e;
+    }
+}
+"#;
+
+    let result = helper.test_decompilation(source)
+        .expect("Decompilation failed");
+
+    // Should produce nested ternary expression
+    result
+        .contains("?")
+        .contains(":");
+}
+
+/// P1-S05: Ternary in arithmetic expression
+/// Tests: x + (cond ? a : b) * y
+#[test]
+fn ternary_in_arithmetic_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
+    let helper = IntegrationTestHelper::new("ternary_arithmetic");
+    let source = r#"
+public class TestCls {
+    public int test(int x, int y, boolean cond, int a, int b) {
+        return x + (cond ? a : b) * y;
+    }
+}
+"#;
+
+    let result = helper.test_decompilation(source)
+        .expect("Decompilation failed");
+
+    // Should produce ternary inside arithmetic
+    result
+        .contains("?")
+        .contains(":");
+}

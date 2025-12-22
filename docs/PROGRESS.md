@@ -1,6 +1,6 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** 0 P0, 3 P1, 2 P2 Open | IR 100% | Kotlin 100% | IR Type System + SSA Parity Complete (Dec 21, 2025)
+**Status:** 0 P0, 1 P1 (S05 partial), 2 P2 Open | IR 100% | Kotlin 100% | P1-S04/S10 likely fixed (cannot repro), P1-S05 partial - block splitting issue (Dec 22, 2025)
 **Tests:** 1,217 passing (687 integration + 530 unit)
 **Benchmark:** 3.6-81x faster, 14.6x memory efficiency
 **Resources:** 1:1 JADX parity (103 directories, 152 files, zero differences)

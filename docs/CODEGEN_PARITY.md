@@ -1,6 +1,6 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-21 (0 P0, 4 P1, 2 P2 Open | P1-S02 Boolean Fix Complete)
+**Last Updated**: 2025-12-22 (0 P0, 1 P1 partial, 2 P2 Open | P1-S05 partial - block splitting issue)
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
 **Overall Parity**: **B+ Grade** (all critical bugs fixed, major improvements)
 **Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)

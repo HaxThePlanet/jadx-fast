@@ -28,6 +28,7 @@ use crate::CFG;
 use dexterity_ir::instructions::InsnType;
 use dexterity_ir::regions::{Region, RegionContent};
 use std::collections::HashSet;
+use tracing::{debug, trace};
 
 /// Result of ternary mod analysis
 #[derive(Debug, Default)]
@@ -343,6 +344,72 @@ pub fn process_ternary_mod(
 
 use dexterity_ir::regions::Condition;
 
+/// Verify that both then and else blocks flow into the SAME PHI node.
+/// This matches JADX TernaryMod.java lines 100-104.
+///
+/// Returns (merge_block_id, phi_version) if valid PHI merge exists.
+pub fn verify_phi_merge(
+    then_block_id: u32,
+    else_block_id: u32,
+    dest_reg: u16,
+    cfg: &CFG,
+) -> Option<(u32, u32)> {
+    // Find common successor (merge block)
+    let then_succs = cfg.successors(then_block_id);
+    let else_succs = cfg.successors(else_block_id);
+
+    // Find the common successor
+    let merge_block_id = then_succs.iter()
+        .find(|s| else_succs.contains(s))
+        .copied()?;
+
+    // Get the merge block
+    let merge_block = cfg.get_block(merge_block_id)?;
+
+    // Find PHI node for dest_reg in merge block
+    for insn in &merge_block.instructions {
+        if let InsnType::Phi { dest, sources } = &insn.insn_type {
+            if dest.reg_num == dest_reg {
+                // Check if both then and else blocks are sources
+                let has_then = sources.iter().any(|(block_id, _)| *block_id == then_block_id);
+                let has_else = sources.iter().any(|(block_id, _)| *block_id == else_block_id);
+
+                if has_then && has_else {
+                    debug!(
+                        then_block_id,
+                        else_block_id,
+                        merge_block_id,
+                        dest_reg,
+                        phi_version = dest.ssa_version,
+                        "PHI merge verified"
+                    );
+                    return Some((merge_block_id, dest.ssa_version));
+                } else {
+                    trace!(
+                        then_block_id,
+                        else_block_id,
+                        merge_block_id,
+                        dest_reg,
+                        has_then,
+                        has_else,
+                        sources_len = sources.len(),
+                        "PHI found but missing expected sources"
+                    );
+                }
+            }
+        }
+    }
+
+    debug!(
+        then_block_id,
+        else_block_id,
+        merge_block_id,
+        dest_reg,
+        "No matching PHI node found in merge block"
+    );
+    None
+}
+
 /// Result of ternary transformation attempt
 #[derive(Debug)]
 pub enum TernaryTransformResult {
@@ -391,8 +458,19 @@ pub fn try_transform_to_ternary(
     else_blocks: &[u32],
     cfg: &CFG,
 ) -> TernaryTransformResult {
+    trace!(
+        ?then_blocks,
+        ?else_blocks,
+        "try_transform_to_ternary: checking pattern"
+    );
+
     // JADX TernaryMod.java line 79-83: Both branches must be single blocks
     if then_blocks.len() != 1 || else_blocks.len() != 1 {
+        debug!(
+            then_len = then_blocks.len(),
+            else_len = else_blocks.len(),
+            "Ternary rejected: not single blocks"
+        );
         return TernaryTransformResult::NotTernary;
     }
 
@@ -402,11 +480,17 @@ pub fn try_transform_to_ternary(
     // Get the blocks
     let then_block = match cfg.get_block(then_block_id) {
         Some(b) => b,
-        None => return TernaryTransformResult::NotTernary,
+        None => {
+            debug!(then_block_id, "Ternary rejected: then block not found");
+            return TernaryTransformResult::NotTernary;
+        }
     };
     let else_block = match cfg.get_block(else_block_id) {
         Some(b) => b,
-        None => return TernaryTransformResult::NotTernary,
+        None => {
+            debug!(else_block_id, "Ternary rejected: else block not found");
+            return TernaryTransformResult::NotTernary;
+        }
     };
 
     // JADX TernaryMod.java line 90-91: Each block must have exactly one meaningful instruction
@@ -415,6 +499,13 @@ pub fn try_transform_to_ternary(
     let else_meaningful = get_meaningful_instructions(else_block);
 
     if then_meaningful.len() != 1 || else_meaningful.len() != 1 {
+        debug!(
+            then_block_id,
+            else_block_id,
+            then_meaningful_count = then_meaningful.len(),
+            else_meaningful_count = else_meaningful.len(),
+            "Ternary rejected: not exactly one meaningful instruction per block"
+        );
         return TernaryTransformResult::NotTernary;
     }
 
@@ -428,25 +519,89 @@ pub fn try_transform_to_ternary(
     ) {
         // Both must assign to the same register (they'll merge at a PHI node)
         if then_dest.0 == else_dest.0 {
-            return TernaryTransformResult::Assignment {
-                condition,
-                dest_reg: then_dest.0,
-                dest_version: then_dest.1,
-                then_block: then_block_id,
-                else_block: else_block_id,
-            };
+            // JADX TernaryMod.java lines 100-104: Verify PHI merge
+            // Both branches must feed into the SAME PHI node
+            if let Some((_merge_block, phi_version)) = verify_phi_merge(
+                then_block_id,
+                else_block_id,
+                then_dest.0,
+                cfg,
+            ) {
+                debug!(
+                    then_block_id,
+                    else_block_id,
+                    dest_reg = then_dest.0,
+                    phi_version,
+                    "Ternary ACCEPTED: assignment pattern with PHI verification"
+                );
+                return TernaryTransformResult::Assignment {
+                    condition,
+                    dest_reg: then_dest.0,
+                    dest_version: phi_version, // Use PHI version for proper SSA tracking
+                    then_block: then_block_id,
+                    else_block: else_block_id,
+                };
+            } else {
+                // Still accept without PHI verification for backwards compatibility
+                // (some cases may not have explicit PHI nodes in the IR)
+                debug!(
+                    then_block_id,
+                    else_block_id,
+                    dest_reg = then_dest.0,
+                    dest_version = then_dest.1,
+                    "Ternary ACCEPTED: assignment pattern (no PHI verification)"
+                );
+                return TernaryTransformResult::Assignment {
+                    condition,
+                    dest_reg: then_dest.0,
+                    dest_version: then_dest.1,
+                    then_block: then_block_id,
+                    else_block: else_block_id,
+                };
+            }
+        } else {
+            debug!(
+                then_block_id,
+                else_block_id,
+                then_dest_reg = then_dest.0,
+                else_dest_reg = else_dest.0,
+                "Ternary rejected: different destination registers"
+            );
         }
+    } else {
+        let then_has_dest = get_assignment_dest_with_version(&then_insn.insn_type).is_some();
+        let else_has_dest = get_assignment_dest_with_version(&else_insn.insn_type).is_some();
+        trace!(
+            then_block_id,
+            else_block_id,
+            then_has_dest,
+            else_has_dest,
+            then_insn_type = ?std::mem::discriminant(&then_insn.insn_type),
+            else_insn_type = ?std::mem::discriminant(&else_insn.insn_type),
+            "Ternary: not an assignment pattern"
+        );
     }
 
     // Try Pattern 2: Return from both branches (lines 137-168)
     if is_return_instruction(&then_insn.insn_type) && is_return_instruction(&else_insn.insn_type) {
         // Skip void returns (nothing to ternary-fy)
         if has_return_value(&then_insn.insn_type) && has_return_value(&else_insn.insn_type) {
+            debug!(
+                then_block_id,
+                else_block_id,
+                "Ternary ACCEPTED: return pattern"
+            );
             return TernaryTransformResult::Return {
                 condition,
                 then_block: then_block_id,
                 else_block: else_block_id,
             };
+        } else {
+            debug!(
+                then_block_id,
+                else_block_id,
+                "Ternary rejected: void return pattern"
+            );
         }
     }
 

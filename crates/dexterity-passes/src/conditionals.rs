@@ -6,6 +6,7 @@
 use std::collections::BTreeSet;
 
 use dexterity_ir::InsnType;
+use tracing::{debug, trace};
 
 use crate::cfg::CFG;
 use crate::loops::LoopInfo;
@@ -53,6 +54,10 @@ pub fn detect_conditionals(cfg: &CFG, loops: &[LoopInfo]) -> Vec<IfInfo> {
 
         // Skip if this is a loop header's condition (handled by loop detection)
         if is_loop_condition(block_id, loops) {
+            trace!(
+                block_id,
+                "Skipping conditional: is loop condition"
+            );
             continue;
         }
 
@@ -73,6 +78,15 @@ pub fn detect_conditionals(cfg: &CFG, loops: &[LoopInfo]) -> Vec<IfInfo> {
         );
 
         let is_simple_if = else_blocks.is_empty();
+
+        debug!(
+            condition_block = block_id,
+            ?then_blocks,
+            ?else_blocks,
+            ?merge,
+            is_simple_if,
+            "Detected conditional"
+        );
 
         conditionals.push(IfInfo {
             condition_block: block_id,
