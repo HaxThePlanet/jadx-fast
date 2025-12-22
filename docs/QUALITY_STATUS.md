@@ -1,32 +1,72 @@
 # Quality Status
 
-**Status:** 0 P0, 0 P1, 0 P2 | Kotlin 100% | Type Inference ~90% JADX parity | P1-S10 fixed (Dec 22, 2025)
+**Status:** 5 P0, 4 P1, 0 P2 | Kotlin 100% | Type Inference ~90% JADX parity | **f.java audit FAILED** (Dec 22, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 **Output Refresh:** Dec 21, 2025 - All 5 APK samples refreshed (~8,858 Java files)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
+
+## f.java Comparison Audit (Dec 22, 2025)
+
+**Result: NOT NEAR 1:1 PARITY**
+
+| Metric | Count |
+|--------|-------|
+| Total f.java files in JADX | 151 |
+| Identical | **7 (4.6%)** |
+| Different | 130 (86.1%) |
+| Missing (filtered by design) | 14 |
+
+Critical bugs produce **non-compilable code** that also loses semantic meaning.
 
 ## Current Grades
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **B+** | All P0 + P1 bugs fixed, Phase 1 + Phase 2 complete |
+| **Codegen** | **C** | 5 new P0 bugs found in f.java audit - code won't compile |
 | **Type Inference** | **B+** | ~85% JADX parity (up from ~60%), 7 files / ~7,100 lines |
-| **IR/Control Flow** | **B** | OR condition merging, synchronized blocks fixed |
+| **IR/Control Flow** | **D** | Critical CFG bugs: empty if-bodies, broken try-catch, missing branches |
 | **Variable Naming** | **B** | 13 mappings, but JADX scores 0.93 vs Dexterity 0.70-0.81 on complex methods |
 | **Kotlin Support** | **A** | 100% parity - BitEncoding ported |
 | **Resources** | **A+** | 1:1 JADX parity - 103 dirs, 152 files, zero diff |
-| **Overall** | **B+** | Production ready for most APKs |
+| **Overall** | **C+** | Major CFG/codegen issues blocking production use |
 
 ## Bug Status
 
 | Priority | Status |
 |----------|--------|
-| P0 Bugs | **ALL FIXED** (8 fixed) |
-| P1 Bugs | **ALL FIXED** (P1-S10 fixed Dec 22 - JADX invoke/MoveResult parity); P1-S04 cannot repro; all others fixed |
+| P0 Bugs | **5 OPEN** - CFG01-05 from f.java audit (code won't compile) |
+| P1 Bugs | **4 OPEN** - CFG06-08, ENUM01 from f.java audit |
 | P2 Bugs | **ALL FIXED** (P2-Q01, P2-Q02, P2-Q03, P2-Q04, P2-Q05 fixed) |
 | P3 Polish | **ALL DONE** - POL-001 by design (library filtering intentional), POL-002 fixed |
 
 See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
+
+## New Bugs from f.java Audit (Dec 22, 2025)
+
+### P0 Critical (Code Won't Compile) - 5 bugs
+
+| ID | Issue | Difficulty | Example File |
+|----|-------|------------|--------------|
+| **P0-CFG01** | Try-catch exception variable scope corruption | **HARD** | io/grpc/j1/f.java |
+| **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | io/grpc/j1/f.java |
+| **P0-CFG03** | Undefined variables in complex expressions | **HARD** | net/time4j/f.java |
+| **P0-TYPE01** | Double literals as raw long bits | **EASY** | net/time4j/f.java |
+| **P0-CFG04** | Complex boolean expressions garbled | **MEDIUM** | com/geetest/sdk/f.java |
+
+### P1 Semantic (Wrong Behavior) - 4 bugs
+
+| ID | Issue | Difficulty | Example File |
+|----|-------|------------|--------------|
+| **P1-CFG05** | Variables used outside exception scope | **MEDIUM** | com/geetest/sdk/f.java |
+| **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | com/geetest/sdk/f.java |
+| **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | net/time4j/f.java |
+| **P1-ENUM01** | Enum reconstruction failures | **MEDIUM** | net/time4j/f.java |
+
+### Difficulty Legend
+
+- **EASY**: Isolated fix, single module, clear root cause
+- **MEDIUM**: Multiple modules, requires CFG understanding
+- **HARD**: Deep SSA/CFG changes, may affect many passes
 
 ## Recent Improvements (Dec 22, 2025)
 

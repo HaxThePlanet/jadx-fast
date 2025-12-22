@@ -1,23 +1,40 @@
 # Roadmap
 
-**Status:** 0 P0, 0 P1, 0 P2 | IR 100% | Kotlin 100% | Type Inference ~90% | Phase 4 Code Optimization COMPLETE (Dec 22, 2025)
+**Status:** 5 P0, 4 P1, 0 P2 | IR 100% | Kotlin 100% | Type Inference ~90% | **f.java audit FAILED** (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
 
-## Open Work
+## Open Work (f.java Audit Dec 22, 2025)
 
-### P3 Polish
+### P0 Critical - Code Won't Compile (5 bugs)
 
-All P3 polish items completed.
+| ID | Issue | Difficulty | Recommended Order |
+|----|-------|------------|-------------------|
+| **P0-TYPE01** | Double literals as raw long bits | **EASY** | 1st - Quick win |
+| **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | 2nd - Related to CFG04 |
+| **P0-CFG04** | Complex boolean expressions garbled | **MEDIUM** | 3rd - Condition handling |
+| **P0-CFG01** | Try-catch exception variable scope | **HARD** | 4th - Deep CFG work |
+| **P0-CFG03** | Undefined variables in expressions | **HARD** | 5th - SSA/variable resolution |
+
+### P1 Semantic - Wrong Behavior (4 bugs)
+
+| ID | Issue | Difficulty | Notes |
+|----|-------|------------|-------|
+| **P1-CFG05** | Variables outside exception scope | **MEDIUM** | Same root cause as CFG01 |
+| **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | Region builder issue |
+| **P1-ENUM01** | Enum reconstruction failures | **MEDIUM** | Fall back to abstract class |
+| **P1-CFG07** | Switch case bodies undefined vars | **HARD** | Complex SSA in switch |
+
+### Work Order Recommendation
+
+1. **Start with EASY (P0-TYPE01)** - Double literal fix is isolated, gives quick confidence
+2. **Tackle MEDIUM CFG bugs together** - CFG02, CFG04, CFG05, CFG06, ENUM01 share control flow roots
+3. **Save HARD for last** - CFG01, CFG03, CFG07 require deep understanding of SSA/CFG
 
 ### Performance TODOs
 
 See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open items.
-
-### Blocked Work Items
-
-*None - all major optimization items completed (Dec 22, 2025)*
 
 ### Future Features
 

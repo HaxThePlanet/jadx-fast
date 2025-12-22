@@ -1,13 +1,252 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 0 P1, 0 P2 | IR 100% Complete | Phase 4 Code Optimization COMPLETE (Dec 22, 2025)
+**Status:** Open: 5 P0, 4 P1, 0 P2 | IR 100% Complete | **f.java audit FAILED** (Dec 22, 2025)
 **Reference Files:**
-- `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
-- `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
+- `io/grpc/j1/f.java` (ApplicationThreadDeframer - 185 lines) - try-catch/control flow bugs
+- `net/time4j/f.java` (CalendarUnit - 380 lines) - enum/switch/literal bugs
+- `com/geetest/sdk/f.java` (BaseScreenDialog - 56 lines) - boolean/branch bugs
 
-## Open Issues
+## Open Issues (from f.java Audit Dec 22, 2025)
 
-### P0 Critical (Won't Compile)
+### P0 Critical (Code Won't Compile) - 5 OPEN
+
+| ID | Issue | Difficulty | Example | Location |
+|----|-------|------------|---------|----------|
+| **P0-CFG01** | Try-catch exception variable scope corruption | **HARD** | `th` used before catch | region_builder.rs, body_gen.rs |
+| **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | `if (x) {}` missing return | region_builder.rs |
+| **P0-CFG03** | Undefined variables in complex expressions | **HARD** | `l -= l2` where l undefined | ssa.rs, var_naming.rs |
+| **P0-TYPE01** | Double literals as raw long bits | **EASY** | `3.15E10d` → `4764073672128331776L` | codegen/literals.rs |
+| **P0-CFG04** | Complex boolean expressions garbled | **MEDIUM** | Bitwise conditions broken | conditionals.rs |
+
+### P1 Semantic (Wrong Behavior) - 4 OPEN
+
+| ID | Issue | Difficulty | Example | Location |
+|----|-------|------------|---------|----------|
+| **P1-CFG05** | Variables used outside exception scope | **MEDIUM** | `th.printStackTrace()` outside catch | body_gen.rs |
+| **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | Entire else logic lost | region_builder.rs |
+| **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | `l4 /= i5` in switch | body_gen.rs, ssa.rs |
+| **P1-ENUM01** | Enum reconstruction failures | **MEDIUM** | Inner enums extend outer | class_gen.rs |
+
+---
+
+## Bug Details (f.java Audit Dec 22, 2025)
+
+### P0-CFG01: Try-catch exception variable scope corruption
+
+**Severity:** CRITICAL | **Difficulty:** HARD
+**Files:** `io/grpc/j1/f.java`, `i/b/m0/e/c/f.java`, `i/b/m0/e/d/f.java`
+
+**JADX (correct):**
+```java
+try {
+    f.this.f5575c.k(this.a);
+} catch (Throwable th) {
+    f.this.b.d(th);
+    f.this.f5575c.close();
+}
+```
+
+**Dexterity (broken):**
+```java
+try {
+    this.b.c.k(this.a);
+    io.grpc.j1.f fVar2 = this.b;
+    fVar2 = fVar2.b;
+    fVar2.d(th);        // ERROR: 'th' undefined
+    Throwable th = this.b;  // ERROR: wrong type
+    th = th.c;
+    th.close();
+} catch (Throwable th) {
+}
+```
+
+**Root Cause:** Exception handler variable scope resolution failure in CFG decompilation. Exception block code is being placed in try block instead of catch block.
+
+---
+
+### P0-CFG02: Empty if-body for early returns
+
+**Severity:** CRITICAL | **Difficulty:** MEDIUM
+**Files:** `io/grpc/j1/f.java`, `com/geetest/sdk/f.java`
+
+**JADX (correct):**
+```java
+if (f.this.f5575c.isClosed()) {
+    return;  // Critical early return
+}
+f.this.f5575c.e(this.a);
+```
+
+**Dexterity (broken):**
+```java
+if (this.b.c.isClosed()) {
+}  // EMPTY! Missing return
+this.b.c.e(this.a);  // Always executes
+```
+
+**Root Cause:** Return statements inside if blocks not being decompiled. Control flow reconstruction loses early return.
+
+---
+
+### P0-CFG03: Undefined variables in complex expressions
+
+**Severity:** CRITICAL | **Difficulty:** HARD
+**Files:** `net/time4j/f.java`, `com/geetest/sdk/f.java`
+
+**JADX (correct):**
+```java
+long jF0 = g0Var2.F0() - g0Var.F0();
+return g0Var.m() == g0Var2.m() ? g0Var2.D0() - g0Var.D0() : g0Var2.E0() - g0Var.E0();
+```
+
+**Dexterity (broken):**
+```java
+l -= l2;  // ERROR: l and l2 undefined
+return (long)(g0Var2 -= g0Var);  // ERROR: nonsensical
+return l -= g0Var;  // ERROR: l undefined
+```
+
+**Root Cause:** Register/variable resolution failure in complex expressions. SSA variable naming fails for switch/ternary/arithmetic expressions.
+
+---
+
+### P0-TYPE01: Double literals as raw long bits
+
+**Severity:** CRITICAL | **Difficulty:** EASY
+**Files:** `net/time4j/f.java` enum inner classes
+
+**JADX (correct):**
+```java
+public double getLength() {
+    return 3.1556952E10d;
+}
+```
+
+**Dexterity (broken):**
+```java
+public double getLength() {
+    return 4764073672128331776L;  // Raw IEEE 754 bits!
+}
+```
+
+**Root Cause:** Double literal decompilation treating raw IEEE 754 bits as long values. Constant pool handling bug.
+
+**Fix Hint:** Check `Double.longBitsToDouble()` conversion in literal emission.
+
+---
+
+### P0-CFG04: Complex boolean expressions garbled
+
+**Severity:** CRITICAL | **Difficulty:** MEDIUM
+**Files:** `com/geetest/sdk/f.java`
+
+**JADX (correct):**
+```java
+if ((window.getDecorView().getSystemUiVisibility() & 4) == 4 ||
+    (window.getAttributes().flags & 1024) == 1024) {
+    window.getDecorView().setSystemUiVisibility(...);
+}
+```
+
+**Dexterity (broken):**
+```java
+if (systemUiVisibility &= i2 == i2 || i == i2) {  // NONSENSICAL
+}
+```
+
+**Root Cause:** Complex boolean expression decompilation failure. Bitwise AND combined with equality check not reconstructed properly.
+
+---
+
+### P1-CFG05: Variables used outside exception scope
+
+**Severity:** HIGH | **Difficulty:** MEDIUM
+**Files:** `com/geetest/sdk/f.java`
+
+**JADX (correct):**
+```java
+} catch (Exception e) {
+    e.printStackTrace();
+}
+```
+
+**Dexterity (broken):**
+```java
+th.printStackTrace();  // ERROR: th used outside catch block
+} catch (Exception e) {
+}
+```
+
+**Root Cause:** Same as P0-CFG01 - exception handler code placement issue.
+
+---
+
+### P1-CFG06: Missing if-else branch bodies
+
+**Severity:** HIGH | **Difficulty:** MEDIUM
+**Files:** `com/geetest/sdk/f.java`, `net/time4j/f.java`
+
+**JADX (correct):**
+```java
+if (com.geetest.sdk.utils.d.f76a) {
+    attributes.width = -2;
+    attributes.height = -2;
+} else {
+    attributes.width = com.geetest.sdk.utils.g.b(this.e);
+    attributes.height = com.geetest.sdk.utils.g.a(this.e);
+}
+```
+
+**Dexterity (broken):**
+```java
+if (d.a) {
+}  // EMPTY - all logic lost
+```
+
+**Root Cause:** Entire if-else branches with critical logic being dropped. Region builder loses branch content.
+
+---
+
+### P1-CFG07: Switch case bodies with undefined variables
+
+**Severity:** HIGH | **Difficulty:** HARD
+**Files:** `net/time4j/f.java`
+
+**JADX (correct):**
+```java
+case 1: jE = e(g0Var, g0Var2) / 7; break;
+case 2: jE = e(g0Var, g0Var2); break;
+```
+
+**Dexterity (broken):**
+```java
+case 1: l4 /= i5; break;  // ERROR: l4, i5 undefined
+case 2: long l = f.j.e(obj2, obj); break;  // Partial
+```
+
+**Root Cause:** Switch statement decompilation has broken case body logic. SSA variables not resolved within switch scope.
+
+---
+
+### P1-ENUM01: Enum reconstruction failures
+
+**Severity:** HIGH | **Difficulty:** MEDIUM
+**Files:** `net/time4j/f.java`
+
+**JADX:** Recognizes enum as broken, emits abstract class with `/* JADX WARN: Failed to restore enum class */`
+
+**Dexterity:** Attempts `enum f` but creates invalid Java with inner enums extending outer enum:
+```java
+enum a extends f { ... }  // INVALID: enums can't extend
+```
+
+**Root Cause:** Enum reconstruction doesn't detect complex enum patterns. Should fall back to abstract class like JADX.
+
+---
+
+## Closed Issues
+
+### P0 Critical (Won't Compile) - ALL FIXED (Dec 21-22, 2025)
 
 | ID | Issue | Example | Location |
 |----|-------|---------|----------|
