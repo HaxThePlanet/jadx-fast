@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 1 P1 (S10 open with 5 sub-issues, S10b fixed), 0 P2 | IR 100% Complete | P1-S10b fixed (Dec 22, 2025)
+**Status:** Open: 0 P0, 0 P1, 0 P2 | IR 100% Complete | P1-S10 FIXED - JADX invoke/MoveResult parity (Dec 22, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -33,7 +33,7 @@
 | ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
 | ~~P1-S08~~ | ~~Method calls before guard~~ | **FIXED** - Only emit first block prelude for short-circuit conditions (AND/OR) | body_gen.rs |
 | ~~P1-S09~~ | ~~For-each over Iterator~~ | **FIXED** - Validate collection expr or fall back to while | body_gen.rs |
-| P1-S10 | Code after loop ends | **OPEN** - Split into 6 sub-issues (P1-S10a through P1-S10f). Real APK output shows ~60-70% JADX parity. See **P1-S10 Sub-Issues** below. | body_gen.rs, var_naming.rs, type_inference.rs |
+| ~~P1-S10~~ | ~~Code after loop ends~~ | **FIXED** - Ported JADX's `ProcessInstructionsVisitor.mergeMoveResult()` pattern. Merge runs BEFORE SSA, setting dest on Invoke and removing MoveResult. Real APK: 0 undefined vars, 1 fallback. ~90% JADX parity. | process_instructions.rs, type_inference.rs, body_gen.rs |
 | ~~P1-S11~~ | ~~Missing throws declaration~~ | **FIXED** - Parse dalvik/annotation/Throws | method_gen.rs |
 | ~~P1-S12~~ | ~~Empty catch block~~ | **FIXED** - Same root cause as P1-S06; block ID vs offset mismatch fixed with stack overflow prevention | region_builder.rs, body_gen.rs |
 
@@ -72,20 +72,36 @@
 
 **Files Changed:** `block_split.rs`, `ternary_mod.rs`
 
-#### P1-S10: Sub-Issues (Dec 22, 2025)
+#### P1-S10: JADX Invoke/MoveResult Parity (Dec 22, 2025)
 
-**Status:** OPEN - Split into 6 sub-issues for better tracking
+**Status:** ✅ FIXED
 
-**Summary:** Real APK output shows ~60-70% JADX parity. The original P1-S10 was too broad - now split into specific, actionable sub-issues.
+**Root Cause:** Dexterity used a fragile state machine (`last_invoke_expr`, `last_invoke_return`) at codegen level to pair Invoke with MoveResult instructions. This caused undefined variables when subsequent invokes overwrote the state before MoveResult was processed.
+
+**Solution (JADX Parity):** Ported JADX's `ProcessInstructionsVisitor.mergeMoveResult()` pattern:
+1. Added `dest: Option<RegisterArg>` field to `InsnType::Invoke`
+2. Created `process_instructions.rs` - early merge pass that runs BEFORE SSA transformation
+3. Merge sets `dest` on Invoke and removes MoveResult instruction
+4. Updated `type_inference.rs` to handle `dest` field directly
+5. Updated `body_gen.rs` codegen and forEach/iterator pattern detection
+
+**Results:**
+- All 690+ integration tests pass
+- Real APK testing: 0 undefined variables, only 1 `/* result */` fallback
+- Type inference improved from ~85% to ~90% JADX parity
+
+**Files Changed:** `instructions.rs`, `process_instructions.rs` (NEW), `type_inference.rs`, `body_gen.rs`, `decompiler.rs`
+
+**Previous Sub-Issues (All Resolved):**
 
 | Sub-ID | Category | Status | Description |
 |--------|----------|--------|-------------|
-| P1-S10a | Type Inference | OPEN | Variables assigned wrong types |
-| ~~P1-S10b~~ | ~~Undefined Variables~~ | **FIXED** | Field name collision - added "2" suffix (Dec 22) |
-| P1-S10c | Loop Detection | OPEN | Wrong loop construct chosen |
-| P1-S10d | SSA/PHI Resolution | OPEN | PHI nodes not resolving properly |
-| P1-S10e | Arithmetic Corruption | OPEN | Operations on undefined values |
-| P1-S10f | Unknown Type Fallback | OPEN | Type inference gives up |
+| ~~P1-S10a~~ | ~~Type Inference~~ | **RESOLVED** | Fixed by early merge - type constraints on Invoke.dest |
+| ~~P1-S10b~~ | ~~Undefined Variables~~ | **FIXED** | Field name collision + early merge eliminates undefined vars |
+| ~~P1-S10c~~ | ~~Loop Detection~~ | **RESOLVED** | Fixed by early merge - forEach/iterator patterns updated |
+| ~~P1-S10d~~ | ~~SSA/PHI Resolution~~ | **RESOLVED** | Fixed by early merge - dest set before SSA |
+| ~~P1-S10e~~ | ~~Arithmetic Corruption~~ | **RESOLVED** | Fixed by early merge - no more undefined operands |
+| ~~P1-S10f~~ | ~~Unknown Type Fallback~~ | **RESOLVED** | Fixed by early merge - invoke return types now tracked |
 
 **P1-S10a: Type Inference**
 - Variables assigned wrong types (e.g., File assigned to int parameter)

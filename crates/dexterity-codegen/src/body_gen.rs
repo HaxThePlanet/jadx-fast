@@ -2742,9 +2742,50 @@ fn body_has_meaningful_structure(body: &Region, skip_block: u32, ctx: &BodyGenCo
 /// This matches JADX's behavior which uses `len.getArg(0)` which can be either
 /// a register or a wrapped instruction containing a method call.
 fn generate_array_source_expr(arr_reg_arg: &dexterity_ir::instructions::RegisterArg, ctx: &BodyGenContext) -> String {
+    // Helper to generate invoke expression
+    fn gen_invoke_expr(kind: &InvokeKind, method_idx: u32, args: &dexterity_ir::instructions::InsnArgs, ctx: &BodyGenContext) -> Option<String> {
+        let info = ctx.expr_gen.get_method_value(method_idx)?;
+        let mut expr = String::new();
+        let skip_count = if matches!(kind, InvokeKind::Static) { 0 } else { 1 };
+
+        match kind {
+            InvokeKind::Static => {
+                expr.push_str(&info.class_name);
+                expr.push('.');
+            }
+            InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
+                if let Some(receiver) = args.first() {
+                    expr.push_str(&ctx.expr_gen.gen_arg(receiver));
+                    expr.push('.');
+                }
+            }
+            _ => {}
+        }
+
+        expr.push_str(&sanitize_method_name(&info.method_name));
+        expr.push('(');
+
+        // Generate arguments
+        let arg_strs: Vec<String> = args.iter()
+            .skip(skip_count)
+            .map(|arg| ctx.expr_gen.gen_arg(arg))
+            .collect();
+        expr.push_str(&arg_strs.join(", "));
+        expr.push(')');
+
+        Some(expr)
+    }
+
     // First, try to find the defining instruction for this array register
     if let Some(defining_insn) = find_defining_instruction(arr_reg_arg, ctx) {
-        // If the array is defined by a MoveResult, the actual source is the preceding invoke
+        // JADX parity: Check if it's an Invoke with merged dest first
+        if let InsnType::Invoke { kind, method_idx, args, dest: Some(_), .. } = &defining_insn.insn_type {
+            if let Some(expr) = gen_invoke_expr(kind, *method_idx, args, ctx) {
+                return expr;
+            }
+        }
+
+        // Legacy path: If the array is defined by a MoveResult, the actual source is the preceding invoke
         if matches!(defining_insn.insn_type, InsnType::MoveResult { .. }) {
             // Find the invoke instruction that precedes this MoveResult
             // We need to look in the same block, at the previous instruction
@@ -2755,36 +2796,7 @@ fn generate_array_source_expr(arr_reg_arg: &dexterity_ir::instructions::Register
                         if i > 0 {
                             let prev_insn = &block.instructions[i - 1];
                             if let InsnType::Invoke { kind, method_idx, args, .. } = &prev_insn.insn_type {
-                                // Generate the method call expression
-                                if let Some(info) = ctx.expr_gen.get_method_value(*method_idx) {
-                                    let mut expr = String::new();
-                                    let skip_count = if matches!(kind, InvokeKind::Static) { 0 } else { 1 };
-
-                                    match kind {
-                                        InvokeKind::Static => {
-                                            expr.push_str(&info.class_name);
-                                            expr.push('.');
-                                        }
-                                        InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
-                                            if let Some(receiver) = args.first() {
-                                                expr.push_str(&ctx.expr_gen.gen_arg(receiver));
-                                                expr.push('.');
-                                            }
-                                        }
-                                        _ => {}
-                                    }
-
-                                    expr.push_str(&sanitize_method_name(&info.method_name));
-                                    expr.push('(');
-
-                                    // Generate arguments
-                                    let arg_strs: Vec<String> = args.iter()
-                                        .skip(skip_count)
-                                        .map(|arg| ctx.expr_gen.gen_arg(arg))
-                                        .collect();
-                                    expr.push_str(&arg_strs.join(", "));
-                                    expr.push(')');
-
+                                if let Some(expr) = gen_invoke_expr(kind, *method_idx, args, ctx) {
                                     return expr;
                                 }
                             }

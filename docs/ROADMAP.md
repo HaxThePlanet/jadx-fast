@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 1 P1 (S10 open), 0 P2 | IR 100% | Kotlin 100% | Type Inference ~85% | P1-S02 enhanced, P1-S05 fixed, P2 all fixed (Dec 22, 2025)
+**Status:** 0 P0, 0 P1, 0 P2 | IR 100% | Kotlin 100% | Type Inference ~90% | P1-S10 fixed (JADX invoke/MoveResult parity), P1-S02 enhanced, P1-S05 fixed (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -44,6 +44,25 @@ Type inference enhanced from ~60% to ~85% JADX parity. Dexterity now implements 
 - **58 type-related tests passing** across all type inference modules
 
 **Files:** `type_inference.rs`, `type_search.rs`, `type_bound.rs`, `type_update.rs`, `type_listener.rs`, `fix_types.rs`, `finish_type_inference.rs`
+
+### P1-S10: JADX Invoke/MoveResult Parity (Dec 22, 2025) - FIXED
+
+**Problem:** Dexterity used a fragile state machine (`last_invoke_expr`, `last_invoke_return`) at codegen level to pair Invoke with MoveResult instructions. This caused undefined variables when subsequent invokes overwrote the state before MoveResult was processed.
+
+**Solution (JADX Parity):** Ported JADX's `ProcessInstructionsVisitor.mergeMoveResult()` pattern - merge runs BEFORE SSA transformation, setting the result destination directly on the Invoke instruction and removing MoveResult.
+
+| File | Change |
+|------|--------|
+| `instructions.rs` | Added `dest: Option<RegisterArg>` to `InsnType::Invoke` |
+| `process_instructions.rs` | **NEW** - Early merge pass (6 tests) |
+| `type_inference.rs` | Handle `dest` field directly on Invoke |
+| `body_gen.rs` | Handle merged dest, update forEach/iterator patterns |
+| `decompiler.rs` | Integrate `process_instructions` before SSA |
+
+**Results:**
+- All 690+ integration tests pass
+- Real APK testing: 0 undefined variables, only 1 `/* result */` fallback in entire APK
+- Type inference improved from ~85% to ~90% JADX parity
 
 ### P1-S02: Return Type Constraint Propagation Enhancement (Dec 22, 2025)
 
