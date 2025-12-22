@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 0 P1, 0 P2 | IR 100% | Kotlin 100% | Type Inference ~90% | P1-S10 fixed (JADX invoke/MoveResult parity), P1-S02 enhanced, P1-S05 fixed (Dec 22, 2025)
+**Status:** 0 P0, 0 P1, 0 P2 | IR 100% | Kotlin 100% | Type Inference ~90% | Phase 4 Code Optimization COMPLETE (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -17,9 +17,7 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open it
 
 ### Blocked Work Items
 
-| Item | Status | Details |
-|------|--------|---------|
-| StringBuilder chain optimization | BLOCKED - needs IR refactor | SSA register renaming breaks NewInstance + `<init>` pairing. Detection must move to IR level before SSA (like JADX's ModVisitor). Current output is valid Java, just verbose. |
+*None - all major optimization items completed (Dec 22, 2025)*
 
 ### Future Features
 
@@ -29,6 +27,20 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open it
 ---
 
 ## Completed
+
+### Phase 4 Code Optimization: COMPLETE (Dec 22, 2025)
+
+All code optimization patterns from JADX's ModVisitor have been implemented in Dexterity:
+
+| Feature | Implementation | Status |
+|---------|---------------|--------|
+| StringBuilder chain → concatenation | `body_gen.rs` parse_stringbuilder_chain() | ✅ DONE |
+| Field arithmetic (a += 2) | `body_gen.rs` try_convert_to_compound_assignment() | ✅ DONE |
+| CMP instruction inlining | `simplify.rs` | ✅ DONE |
+| Boolean negation propagation | `if_region_visitor.rs` invert_if_region() | ✅ DONE |
+| Array initialization | `mod_visitor.rs` | ✅ DONE |
+| Constant folding | `simplify.rs` | ✅ DONE |
+| Dead code elimination | `simplify.rs`, `code_shrink.rs` | ✅ DONE |
 
 ### Type Inference: ~85% JADX Parity (Dec 22, 2025)
 

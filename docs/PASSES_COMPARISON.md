@@ -335,7 +335,7 @@ Unknown
 
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
-| `ModVisitor.java` (633 lines) | `mod_visitor.rs` (831 lines) | PARTIAL | Missing: field arithmetic, boolean negation |
+| `ModVisitor.java` (633 lines) | `mod_visitor.rs` (831 lines) + `body_gen.rs` | DONE | StringBuilder chains, field arithmetic (Dec 22, 2025) |
 | `SimplifyVisitor.java` (637 lines) | `simplify.rs` (1,687 lines) | DONE | CMP unwrapping + ternary CMP support, dead CMP elimination |
 | `CodeShrinkVisitor.java` | `code_shrink.rs` (1,052 lines) | DONE | Variable inlining |
 | `ConstInlineVisitor.java` (307 lines) | `const_inline.rs` (427 lines) | DONE | Constant inlining |
@@ -362,27 +362,17 @@ Dexterity patterns handled:
 - Dead code elimination
 - Redundant cast removal (basic)
 - Array initialization
-- StringBuilder chain (partial)
+- StringBuilder chain (DONE Dec 22) - body_gen.rs parse_stringbuilder_chain()
 - CMP instruction inlining (in simplify.rs, not mod_visitor.rs)
+- Field arithmetic compound assignment (DONE) - body_gen.rs try_convert_to_compound_assignment()
+- Boolean negation (DONE) - if_region_visitor.rs invert_if_region()
 ```
 
-**Missing Dexterity Patterns:**
-- Full StringBuilder chain detection (BLOCKED - see note below)
-- Field arithmetic conversion (`a += 2` - PrepareForCodeGen in JADX)
-- Boolean negation propagation
+**All ModVisitor Patterns Now Implemented (Dec 22, 2025)**
 
-**StringBuilder Chain Optimization - BLOCKED:**
-Investigation (Dec 22, 2025) found that SSA register renaming breaks the NewInstance + `<init>` pairing
-required for StringBuilder chain detection. After SSA transformation, the register holding the
-new StringBuilder instance gets renamed (e.g., `v0` -> `v0_1`), making it impossible to reliably
-match the constructor call with subsequent `.append()` chains at the codegen level.
-
-JADX handles this at the IR level BEFORE SSA transformation (`ModVisitor.java`), where the original
-register assignments are still intact. The recommended fix is to move StringBuilder detection to
-an IR-level pass before SSA, similar to how `process_instructions.rs` handles Invoke/MoveResult merging.
-
-Current output is valid Java (explicit StringBuilder calls), just more verbose than JADX's
-concatenation syntax (`"a" + b + "c"`).
+StringBuilder chain optimization works at codegen level by parsing inlined expression strings
+(`parse_stringbuilder_chain()` in `body_gen.rs`). This approach bypasses SSA register renaming
+issues by operating on the final expression text.
 
 ---
 
@@ -474,16 +464,16 @@ Implemented passes:
 3. ✅ Add `TernaryDetection` - ternary expression recognition (ternary_mod.rs)
 4. ✅ Add `IfRegionVisitor` - 9 branch reordering rules (if_region_visitor.rs)
 
-### Phase 4: Code Optimization
-1. Full StringBuilder chain detection
-2. Field arithmetic conversion (`a += 2` - PrepareForCodeGen in JADX)
-3. ~~CMP instruction inlining~~ - **DONE** in simplify.rs (Dec 21, 2025)
-4. Boolean negation propagation
+### Phase 4: Code Optimization - **COMPLETED Dec 22, 2025**
+1. ✅ Full StringBuilder chain detection - body_gen.rs parse_stringbuilder_chain()
+2. ✅ Field arithmetic conversion (`a += 2`) - body_gen.rs try_convert_to_compound_assignment()
+3. ✅ CMP instruction inlining - simplify.rs (Dec 21, 2025)
+4. ✅ Boolean negation propagation - if_region_visitor.rs invert_if_region()
 
-### Phase 5: Specialized Passes
-1. `ConstructorVisitor` - constructor handling
-2. `MethodInvokeVisitor` - overload resolution
-3. `SignatureProcessor` - generic signatures
+### Phase 5: Specialized Passes - PARTIAL
+1. `ConstructorVisitor` - constructor handling (PARTIAL - basic handling in codegen)
+2. ✅ `MethodInvokeVisitor` - overload resolution - method_invoke.rs (441 lines)
+3. `SignatureProcessor` - generic signatures (NOT YET)
 
 ---
 
