@@ -2061,6 +2061,12 @@ fn get_insn_dest(insn: &dexterity_ir::instructions::InsnType) -> Option<(u16, u3
             dest.as_ref().map(|d| (d.reg_num, d.ssa_version))
         }
 
+        // CRITICAL FIX (P1-S10b): Handle Invoke/InvokeCustom dest field
+        // process_instructions merges invoke+move_result, setting dest on the invoke.
+        // Variables defined by invoke results need proper names!
+        InsnType::Invoke { dest: Some(d), .. } => Some((d.reg_num, d.ssa_version)),
+        InsnType::InvokeCustom { dest: Some(d), .. } => Some((d.reg_num, d.ssa_version)),
+
         _ => None,
     }
 }

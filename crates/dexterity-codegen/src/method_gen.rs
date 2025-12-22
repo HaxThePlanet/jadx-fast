@@ -125,10 +125,215 @@ pub fn generate_type_parameters<W: CodeWriter>(
     code.add(">");
 }
 
+/// Database of known interface/class methods for @Override detection
+/// Maps interface/class names to their known method names
+fn get_known_interface_methods() -> &'static std::collections::HashMap<&'static str, &'static [&'static str]> {
+    use std::collections::HashMap;
+    use std::sync::OnceLock;
+
+    static KNOWN_METHODS: OnceLock<HashMap<&'static str, &'static [&'static str]>> = OnceLock::new();
+
+    KNOWN_METHODS.get_or_init(|| {
+        let mut m = HashMap::new();
+
+        // java.lang.*
+        m.insert("java/lang/Object", &["equals", "hashCode", "toString", "clone", "finalize"][..]);
+        m.insert("java/lang/Runnable", &["run"][..]);
+        m.insert("java/lang/Comparable", &["compareTo"][..]);
+        m.insert("java/lang/CharSequence", &["length", "charAt", "subSequence", "toString"][..]);
+        m.insert("java/lang/Appendable", &["append"][..]);
+        m.insert("java/lang/Readable", &["read"][..]);
+        m.insert("java/lang/AutoCloseable", &["close"][..]);
+        m.insert("java/lang/Iterable", &["iterator", "forEach", "spliterator"][..]);
+        m.insert("java/lang/Thread$UncaughtExceptionHandler", &["uncaughtException"][..]);
+
+        // java.util.*
+        m.insert("java/util/Iterator", &["hasNext", "next", "remove", "forEachRemaining"][..]);
+        m.insert("java/util/ListIterator", &["hasNext", "next", "hasPrevious", "previous", "nextIndex", "previousIndex", "remove", "set", "add"][..]);
+        m.insert("java/util/Enumeration", &["hasMoreElements", "nextElement"][..]);
+        m.insert("java/util/Comparator", &["compare", "equals", "reversed", "thenComparing"][..]);
+        m.insert("java/util/Collection", &["size", "isEmpty", "contains", "iterator", "toArray", "add", "remove", "containsAll", "addAll", "removeAll", "retainAll", "clear"][..]);
+        m.insert("java/util/List", &["size", "isEmpty", "contains", "iterator", "toArray", "add", "remove", "containsAll", "addAll", "removeAll", "retainAll", "clear", "get", "set", "indexOf", "lastIndexOf", "listIterator", "subList"][..]);
+        m.insert("java/util/Set", &["size", "isEmpty", "contains", "iterator", "toArray", "add", "remove", "containsAll", "addAll", "removeAll", "retainAll", "clear"][..]);
+        m.insert("java/util/Map", &["size", "isEmpty", "containsKey", "containsValue", "get", "put", "remove", "putAll", "clear", "keySet", "values", "entrySet"][..]);
+        m.insert("java/util/Map$Entry", &["getKey", "getValue", "setValue", "equals", "hashCode"][..]);
+        m.insert("java/util/EventListener", &[][..]);
+        m.insert("java/util/Observer", &["update"][..]);
+
+        // java.util.concurrent.*
+        m.insert("java/util/concurrent/Callable", &["call"][..]);
+        m.insert("java/util/concurrent/Future", &["cancel", "isCancelled", "isDone", "get"][..]);
+        m.insert("java/util/concurrent/Executor", &["execute"][..]);
+        m.insert("java/util/concurrent/ThreadFactory", &["newThread"][..]);
+        m.insert("java/util/concurrent/RejectedExecutionHandler", &["rejectedExecution"][..]);
+
+        // java.util.function.*
+        m.insert("java/util/function/Function", &["apply", "andThen", "compose"][..]);
+        m.insert("java/util/function/Consumer", &["accept", "andThen"][..]);
+        m.insert("java/util/function/Supplier", &["get"][..]);
+        m.insert("java/util/function/Predicate", &["test", "and", "or", "negate"][..]);
+        m.insert("java/util/function/BiFunction", &["apply", "andThen"][..]);
+        m.insert("java/util/function/BiConsumer", &["accept", "andThen"][..]);
+        m.insert("java/util/function/BiPredicate", &["test", "and", "or", "negate"][..]);
+        m.insert("java/util/function/UnaryOperator", &["apply"][..]);
+        m.insert("java/util/function/BinaryOperator", &["apply"][..]);
+
+        // java.io.*
+        m.insert("java/io/Closeable", &["close"][..]);
+        m.insert("java/io/Flushable", &["flush"][..]);
+        m.insert("java/io/Serializable", &[][..]);
+        m.insert("java/io/Externalizable", &["writeExternal", "readExternal"][..]);
+        m.insert("java/io/ObjectInputValidation", &["validateObject"][..]);
+        m.insert("java/io/FilenameFilter", &["accept"][..]);
+        m.insert("java/io/FileFilter", &["accept"][..]);
+        m.insert("java/io/DataInput", &["readFully", "skipBytes", "readBoolean", "readByte", "readUnsignedByte", "readShort", "readUnsignedShort", "readChar", "readInt", "readLong", "readFloat", "readDouble", "readLine", "readUTF"][..]);
+        m.insert("java/io/DataOutput", &["write", "writeBoolean", "writeByte", "writeShort", "writeChar", "writeInt", "writeLong", "writeFloat", "writeDouble", "writeBytes", "writeChars", "writeUTF"][..]);
+
+        // java.io streams (inheritance-based, so methods may be overridden)
+        m.insert("java/io/InputStream", &["read", "skip", "available", "close", "mark", "reset", "markSupported"][..]);
+        m.insert("java/io/OutputStream", &["write", "flush", "close"][..]);
+        m.insert("java/io/Reader", &["read", "skip", "ready", "close", "mark", "reset", "markSupported"][..]);
+        m.insert("java/io/Writer", &["write", "append", "flush", "close"][..]);
+
+        // java.net.*
+        m.insert("java/net/URLStreamHandlerFactory", &["createURLStreamHandler"][..]);
+        m.insert("java/net/ContentHandlerFactory", &["createContentHandler"][..]);
+        m.insert("java/net/SocketImplFactory", &["createSocketImpl"][..]);
+
+        // Android core
+        m.insert("android/app/Activity", &["onCreate", "onStart", "onResume", "onPause", "onStop", "onDestroy", "onRestart", "onSaveInstanceState", "onRestoreInstanceState", "onNewIntent", "onActivityResult", "onRequestPermissionsResult", "onCreateOptionsMenu", "onOptionsItemSelected", "onBackPressed", "finish"][..]);
+        m.insert("android/app/Fragment", &["onAttach", "onCreate", "onCreateView", "onViewCreated", "onActivityCreated", "onStart", "onResume", "onPause", "onStop", "onDestroyView", "onDestroy", "onDetach", "onSaveInstanceState"][..]);
+        m.insert("android/app/Service", &["onCreate", "onStartCommand", "onBind", "onUnbind", "onRebind", "onDestroy"][..]);
+        m.insert("android/content/BroadcastReceiver", &["onReceive"][..]);
+        m.insert("android/content/ContentProvider", &["onCreate", "query", "getType", "insert", "delete", "update"][..]);
+        m.insert("android/app/Application", &["onCreate", "onTerminate", "onConfigurationChanged", "onLowMemory", "onTrimMemory"][..]);
+
+        // AndroidX/Support
+        m.insert("androidx/fragment/app/Fragment", &["onAttach", "onCreate", "onCreateView", "onViewCreated", "onActivityCreated", "onStart", "onResume", "onPause", "onStop", "onDestroyView", "onDestroy", "onDetach", "onSaveInstanceState"][..]);
+        m.insert("androidx/appcompat/app/AppCompatActivity", &["onCreate", "onStart", "onResume", "onPause", "onStop", "onDestroy"][..]);
+        m.insert("androidx/recyclerview/widget/RecyclerView$Adapter", &["onCreateViewHolder", "onBindViewHolder", "getItemCount", "getItemViewType", "getItemId", "onViewRecycled", "onViewAttachedToWindow", "onViewDetachedFromWindow"][..]);
+        m.insert("androidx/recyclerview/widget/RecyclerView$ViewHolder", &[][..]);
+        m.insert("androidx/lifecycle/LifecycleObserver", &[][..]);
+        m.insert("androidx/lifecycle/ViewModel", &["onCleared"][..]);
+
+        // Android View
+        m.insert("android/view/View", &["onDraw", "onMeasure", "onLayout", "onSizeChanged", "onAttachedToWindow", "onDetachedFromWindow", "onTouchEvent", "onClick", "onLongClick", "onFocusChanged"][..]);
+        m.insert("android/view/View$OnClickListener", &["onClick"][..]);
+        m.insert("android/view/View$OnLongClickListener", &["onLongClick"][..]);
+        m.insert("android/view/View$OnTouchListener", &["onTouch"][..]);
+        m.insert("android/view/View$OnFocusChangeListener", &["onFocusChange"][..]);
+        m.insert("android/view/ViewGroup", &["onLayout", "onMeasure", "onInterceptTouchEvent"][..]);
+
+        // Android TextWatcher and adapters
+        m.insert("android/text/TextWatcher", &["beforeTextChanged", "onTextChanged", "afterTextChanged"][..]);
+        m.insert("android/widget/AdapterView$OnItemClickListener", &["onItemClick"][..]);
+        m.insert("android/widget/AdapterView$OnItemSelectedListener", &["onItemSelected", "onNothingSelected"][..]);
+        m.insert("android/widget/BaseAdapter", &["getCount", "getItem", "getItemId", "getView"][..]);
+        m.insert("android/widget/ArrayAdapter", &["getCount", "getItem", "getItemId", "getView", "getDropDownView"][..]);
+
+        // Android Dialog
+        m.insert("android/content/DialogInterface$OnClickListener", &["onClick"][..]);
+        m.insert("android/content/DialogInterface$OnDismissListener", &["onDismiss"][..]);
+        m.insert("android/content/DialogInterface$OnCancelListener", &["onCancel"][..]);
+        m.insert("android/content/DialogInterface$OnShowListener", &["onShow"][..]);
+
+        // Android Handler/Looper
+        m.insert("android/os/Handler$Callback", &["handleMessage"][..]);
+        m.insert("android/os/Parcelable", &["describeContents", "writeToParcel"][..]);
+        m.insert("android/os/Parcelable$Creator", &["createFromParcel", "newArray"][..]);
+
+        // OkHttp (commonly used)
+        m.insert("okhttp3/Interceptor", &["intercept"][..]);
+        m.insert("okhttp3/Callback", &["onFailure", "onResponse"][..]);
+        m.insert("okhttp3/WebSocketListener", &["onOpen", "onMessage", "onClosing", "onClosed", "onFailure"][..]);
+        m.insert("okhttp3/RequestBody", &["contentType", "contentLength", "writeTo"][..]);
+        m.insert("okhttp3/ResponseBody", &["contentType", "contentLength", "source", "close"][..]);
+        m.insert("okhttp3/CookieJar", &["saveFromResponse", "loadForRequest"][..]);
+        m.insert("okhttp3/Dns", &["lookup"][..]);
+        m.insert("okhttp3/Authenticator", &["authenticate"][..]);
+        m.insert("okhttp3/Call$Factory", &["newCall"][..]);
+        m.insert("okhttp3/WebSocket$Factory", &["newWebSocket"][..]);
+
+        // Okio
+        m.insert("okio/Source", &["read", "timeout", "close"][..]);
+        m.insert("okio/Sink", &["write", "flush", "timeout", "close"][..]);
+        m.insert("okio/BufferedSource", &["buffer", "exhausted", "require", "request"][..]);
+        m.insert("okio/BufferedSink", &["buffer", "write", "writeUtf8", "emit", "emitCompleteSegments"][..]);
+
+        // RxJava
+        m.insert("io/reactivex/Observer", &["onSubscribe", "onNext", "onError", "onComplete"][..]);
+        m.insert("io/reactivex/SingleObserver", &["onSubscribe", "onSuccess", "onError"][..]);
+        m.insert("io/reactivex/CompletableObserver", &["onSubscribe", "onComplete", "onError"][..]);
+        m.insert("io/reactivex/MaybeObserver", &["onSubscribe", "onSuccess", "onError", "onComplete"][..]);
+        m.insert("io/reactivex/functions/Function", &["apply"][..]);
+        m.insert("io/reactivex/functions/Consumer", &["accept"][..]);
+        m.insert("io/reactivex/functions/Action", &["run"][..]);
+
+        // Glide
+        m.insert("com/bumptech/glide/load/Key", &["updateDiskCacheKey", "equals", "hashCode"][..]);
+        m.insert("com/bumptech/glide/load/Transformation", &["transform", "updateDiskCacheKey"][..]);
+        m.insert("com/bumptech/glide/module/GlideModule", &["applyOptions", "registerComponents"][..]);
+        m.insert("com/bumptech/glide/manager/Lifecycle", &["addListener", "removeListener"][..]);
+        m.insert("com/bumptech/glide/manager/LifecycleListener", &["onStart", "onStop", "onDestroy"][..]);
+        m.insert("com/bumptech/glide/manager/ConnectivityMonitor$ConnectivityListener", &["onConnectivityChanged"][..]);
+        m.insert("com/bumptech/glide/manager/ConnectivityMonitor", &["onStart", "onStop", "onDestroy"][..]);
+        m.insert("com/bumptech/glide/gifdecoder/GifDecoder", &["getWidth", "getHeight", "getData", "getStatus", "advance", "getDelay", "getNextDelay", "getFrameCount", "getCurrentFrameIndex", "resetFrameIndex", "getLoopCount", "getNetscapeLoopCount", "getTotalIterationCount", "getByteSize", "getNextFrame", "read", "clear", "setData"][..]);
+
+        m
+    })
+}
+
+/// Get the declaring class for an @Override annotation based on method name and class hierarchy
+fn find_override_source(method_name: &str, class: &ClassData) -> Option<String> {
+    let known_methods = get_known_interface_methods();
+
+    // Check superclass (skip java/lang/Object for common methods)
+    if let Some(superclass) = &class.superclass {
+        if superclass != "java/lang/Object" {
+            if let Some(methods) = known_methods.get(superclass.as_str()) {
+                if methods.contains(&method_name) {
+                    return Some(superclass.replace('/', "."));
+                }
+            }
+            // Even if not in known methods database, if we have a non-Object superclass,
+            // it's likely an override
+            return Some(superclass.replace('/', "."));
+        }
+    }
+
+    // Check interfaces
+    for iface in &class.interfaces {
+        let iface_name = match iface {
+            ArgType::Object(name) => name.as_str(),
+            ArgType::Generic { base, .. } => base.as_str(),
+            _ => continue,
+        };
+
+        if let Some(methods) = known_methods.get(iface_name) {
+            if methods.contains(&method_name) {
+                return Some(iface_name.replace('/', "."));
+            }
+        }
+    }
+
+    // Check for java.lang.Object methods (equals, hashCode, toString, clone, finalize)
+    // These are always overrideable if the class has any parent or interface
+    let object_methods = ["equals", "hashCode", "toString", "clone", "finalize"];
+    if object_methods.contains(&method_name) {
+        // If class has a superclass (not Object) or interfaces, this is likely an override
+        if class.superclass.as_ref().map(|s| s != "java/lang/Object").unwrap_or(false)
+            || !class.interfaces.is_empty() {
+            return Some("java.lang.Object".to_string());
+        }
+    }
+
+    None
+}
+
 /// Check if a method should have @Override annotation
 ///
 /// Uses the method's override_attr if set (from override analysis), otherwise
-/// falls back to heuristic for common override scenarios (superclass/interface methods).
+/// falls back to enhanced heuristic using known interface methods database.
 ///
 /// Returns Option<String> with the declaring class name for the comment
 fn should_add_override_heuristic(method: &MethodData, class: &ClassData) -> Option<String> {
@@ -144,9 +349,11 @@ fn should_add_override_heuristic(method: &MethodData, class: &ClassData) -> Opti
         return Some(declaring_class);
     }
 
-    // If method already has annotations (like @Override from DEX), let the annotation system handle it
-    if !method.annotations.is_empty() {
-        return None;
+    // If method already has @Override annotation from DEX, let the annotation system handle it
+    for ann in &method.annotations {
+        if ann.annotation_type.ends_with("/Override") || ann.annotation_type == "java/lang/Override" {
+            return None;
+        }
     }
 
     // Don't add @Override to constructors or static initializers
@@ -158,29 +365,8 @@ fn should_add_override_heuristic(method: &MethodData, class: &ClassData) -> Opti
         return None;
     }
 
-    // Fallback heuristic: check if class has a superclass (other than Object)
-    // This is a conservative heuristic - may add @Override even when not strictly needed
-    if let Some(superclass) = &class.superclass {
-        if superclass != "java/lang/Object" {
-            // Convert "android/app/Activity" to "android.app.Activity"
-            let declaring_class = superclass.replace('/', ".");
-            return Some(declaring_class);
-        }
-    }
-
-    // Check if class implements interfaces - use first interface as declaring class
-    if let Some(first_interface) = class.interfaces.first() {
-        // Extract class name from ArgType
-        let iface_str = match first_interface {
-            dexterity_ir::ArgType::Object(name) => name.as_str(),
-            dexterity_ir::ArgType::Generic { base, .. } => base.as_str(),
-            _ => return None,
-        };
-        let declaring_class = iface_str.replace('/', ".");
-        return Some(declaring_class);
-    }
-
-    None
+    // Enhanced heuristic: check known interface methods database
+    find_override_source(&method.name, class)
 }
 
 /// Generate annotation code for an annotation

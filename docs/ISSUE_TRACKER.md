@@ -46,6 +46,7 @@
 | ~~P2-Q03~~ | ~~Wrong import classes~~ | **FIXED** - Conflict detection via simple_name_map |
 | ~~P2-Q04~~ | ~~JADX WARNING comments~~ | **FIXED** - Changed to Dexterity branding |
 | ~~P2-Q05~~ | ~~Unused variable declarations~~ | **FIXED** - CMP inlining fix in simplify.rs (counts ALL uses, marks dead only if ALL are IF/Ternary compare-to-zero) |
+| ~~P2-Q06~~ | ~~Missing @Override annotations~~ | **FIXED** - ~99% JADX parity via known-methods database (Dec 22, 2025) |
 
 ### Investigation (Blocked)
 

@@ -282,6 +282,11 @@ fn get_def_register(insn_type: &InsnType) -> Option<u16> {
         InsnType::Cast { dest, .. } => Some(dest.reg_num),
         InsnType::Compare { dest, .. } => Some(dest.reg_num),
         InsnType::Phi { dest, .. } => Some(dest.reg_num),
+        // CRITICAL FIX (P1-S10b): Handle Invoke/InvokeCustom dest field
+        // process_instructions merges invoke+move_result, setting dest on the invoke.
+        // SSA transform must track this as a definition!
+        InsnType::Invoke { dest: Some(d), .. } => Some(d.reg_num),
+        InsnType::InvokeCustom { dest: Some(d), .. } => Some(d.reg_num),
         _ => None,
     }
 }
@@ -639,6 +644,11 @@ fn rename_def(insn_type: &mut InsnType, version: u32) {
         InsnType::Binary { dest, .. } => dest.ssa_version = version,
         InsnType::Cast { dest, .. } => dest.ssa_version = version,
         InsnType::Compare { dest, .. } => dest.ssa_version = version,
+        // CRITICAL FIX (P1-S10b): Handle Invoke/InvokeCustom dest field
+        // process_instructions merges invoke+move_result, setting dest on the invoke.
+        // SSA transform must assign version to this dest!
+        InsnType::Invoke { dest: Some(d), .. } => d.ssa_version = version,
+        InsnType::InvokeCustom { dest: Some(d), .. } => d.ssa_version = version,
         _ => {}
     }
 }

@@ -7095,6 +7095,75 @@ fn write_invoke_with_inlining<W: CodeWriter>(
     }
 }
 
+/// Emit invoke instruction with dest (merged invoke+move_result)
+/// CRITICAL FIX (P1-S10b): Handles the dest field set by process_instructions pass
+fn emit_invoke_with_dest<W: CodeWriter>(
+    dest: &RegisterArg,
+    kind: &InvokeKind,
+    method_idx: u32,
+    args: &[InsnArg],
+    proto_idx: Option<u32>,
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) {
+    let reg = dest.reg_num;
+    let version = dest.ssa_version;
+
+    // Check use count for dead code elimination
+    let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
+    if use_count == 0 {
+        // Variable is never used - just emit the call without assignment
+        code.start_line();
+        write_invoke_with_inlining(kind, method_idx, args, proto_idx, ctx, code);
+        code.add(";").newline();
+        return;
+    }
+
+    // Check if this should be inlined (used exactly once)
+    if ctx.should_inline(reg, version) {
+        // Generate expression and store for inlining at use site
+        let expr = gen_invoke_with_inlining(kind, method_idx, args, proto_idx, ctx);
+        ctx.store_inline_expr(reg, version, expr);
+        return;
+    }
+
+    // Multi-use variable - emit normal assignment
+    let var_name = ctx.expr_gen.get_var_name(dest);
+
+    // Determine type from method return type
+    let return_type = ctx.expr_gen.get_method_value(method_idx)
+        .map(|info| info.return_type.clone())
+        .unwrap_or(ArgType::Object("java/lang/Object".to_string()));
+
+    // Check if we need to declare this variable
+    let needs_decl = if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
+        false
+    } else if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
+        // Name exists - check type compatibility
+        if !types_compatible_for_naming(existing_type, &return_type) {
+            // Incompatible type - this shouldn't happen often, but handle it
+            true
+        } else {
+            false
+        }
+    } else {
+        true
+    };
+
+    code.start_line();
+
+    if needs_decl {
+        let type_str = type_to_string_with_imports_and_package(&return_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
+        code.add(&type_str).add(" ");
+        ctx.mark_declared(reg, version);
+        ctx.mark_name_declared(&var_name, &return_type);
+    }
+
+    code.add(&var_name).add(" = ");
+    write_invoke_with_inlining(kind, method_idx, args, proto_idx, ctx, code);
+    code.add(";").newline();
+}
+
 /// Helper writer that ignores formatting and writes to a single line string
 struct RawStringWriter {
     buf: String,
@@ -7166,7 +7235,10 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                 .unwrap_or_else(|| format!("Type#{}", type_idx));
 
                             // Check if this is StringBuilder/StringBuffer for chain optimization
-                            if is_stringbuilder_class(&type_name) {
+                            // Use simple name for matching since type_name is full path like "java/lang/StringBuilder"
+                            let simple_type_name = type_name.rsplit('/').next().unwrap_or(&type_name);
+                            eprintln!("DEBUG StringBuilder: type_name={} simple={} is_sb={}", type_name, simple_type_name, is_stringbuilder_class(simple_type_name));
+                            if is_stringbuilder_class(simple_type_name) {
                                 // Start tracking the chain with constructor arg (if any)
                                 let initial_arg = if args.len() > 1 {
                                     // Constructor has an argument (could be String or other type)
@@ -7352,6 +7424,71 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
 
                                     return true;
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // StringBuilder chain optimization for merged invoke/dest (P1-S10 parity)
+        // After process_instructions, MoveResult is merged into Invoke.dest field
+        // So we need to handle StringBuilder chain transfer here instead of MoveResult handler
+        if let Some(dest_reg) = dest {
+            if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
+                if is_stringbuilder_class(&method_info.class_name) {
+                    let method_name = &*method_info.method_name;
+
+                    if method_name == "append" && args.len() > 1 {
+                        // Get receiver register
+                        if let Some(InsnArg::Register(recv_reg)) = args.first() {
+                            // Check if we're tracking this StringBuilder chain
+                            let has_chain = ctx.stringbuilder_chains
+                                .get(&recv_reg.reg_num)
+                                .map(|c| c.valid)
+                                .unwrap_or(false);
+
+                            if has_chain {
+                                // Add the argument to the chain
+                                let arg_str = ctx.gen_arg_inline(&args[1]);
+
+                                // Remove chain from old register, add arg, put in new register
+                                if let Some(mut chain) = ctx.stringbuilder_chains.remove(&recv_reg.reg_num) {
+                                    chain.args.push(arg_str);
+                                    ctx.stringbuilder_chains.insert(dest_reg.reg_num, chain);
+                                    // Don't emit code - we'll emit at toString()
+                                    return true;
+                                }
+                            }
+                        }
+                    } else if method_name == "toString" {
+                        // Get receiver register
+                        if let Some(InsnArg::Register(recv_reg)) = args.first() {
+                            // Check if we have a tracked chain for this StringBuilder
+                            if let Some(chain) = ctx.stringbuilder_chains.remove(&recv_reg.reg_num) {
+                                if chain.valid && !chain.args.is_empty() {
+                                    // Optimize consecutive string literals
+                                    let optimized = concat_constant_strings(&chain.args);
+                                    let concat_expr = optimized.join(" + ");
+
+                                    // Handle the destination - either inline or assign
+                                    let reg = dest_reg.reg_num;
+                                    let version = dest_reg.ssa_version;
+
+                                    if ctx.should_inline(reg, version) {
+                                        ctx.store_inline_expr(reg, version, concat_expr);
+                                    } else {
+                                        emit_assignment(dest_reg, &concat_expr, ctx, code);
+                                    }
+                                    return true;
+                                }
+                            }
+                        }
+                    } else if method_name != "<init>" {
+                        // Non-append, non-toString, non-init method invalidates the chain
+                        if let Some(InsnArg::Register(recv_reg)) = args.first() {
+                            if let Some(chain) = ctx.stringbuilder_chains.get_mut(&recv_reg.reg_num) {
+                                chain.valid = false;
                             }
                         }
                     }
@@ -7932,11 +8069,20 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::Invoke { kind, method_idx, args, proto_idx, .. } => {
-            // Use write_invoke_with_inlining to properly inline constant arguments
-            code.start_line();
-            write_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx, code);
-            code.add(";").newline();
+        InsnType::Invoke { kind, method_idx, args, proto_idx, dest } => {
+            // CRITICAL FIX (P1-S10b): Handle merged invoke+move_result
+            // When dest is Some, we need to emit: var = method();
+            // When dest is None, we just emit: method();
+            if let Some(d) = dest {
+                // Emit as assignment: var = invoke(...)
+                let expr = gen_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx);
+                emit_assignment(d, &expr, ctx, code);
+            } else {
+                // No result used - just emit the call
+                code.start_line();
+                write_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx, code);
+                code.add(";").newline();
+            }
             true
         }
 

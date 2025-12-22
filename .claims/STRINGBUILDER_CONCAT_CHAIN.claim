@@ -1,0 +1,36 @@
+STRINGBUILDER_CONCAT: StringBuilder Chain to String Concatenation
+==================================================================
+
+Claimed: Dec 22, 2025
+Status: IN PROGRESS
+Agent: Claude Opus 4.5
+
+Issue Description:
+------------------
+Port JADX's SimplifyVisitor StringBuilder chain simplification to convert:
+  `new StringBuilder("a").append(b).append("c").toString()`  ->  `"a" + b + "c"`
+
+JADX Reference:
+- File: jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java
+- Function: convertInvoke(), convertStringBuilderChain() (lines 300-500)
+- Instruction: STRING_CONCAT
+
+Algorithm:
+1. Detect toString() call on StringBuilder
+2. Flatten the append() chain backwards to constructor
+3. Extract all appended arguments
+4. Create STRING_CONCAT instruction with all args
+5. Remove original StringBuilder instructions
+
+Files to Modify:
+- crates/dexterity-ir/src/instructions.rs (add STRING_CONCAT instruction type)
+- crates/dexterity-passes/src/simplify.rs (detect and transform chain)
+- crates/dexterity-codegen/src/body_gen.rs (render as + concatenation)
+
+Expected Output:
+Before: new StringBuilder().append("Hello ").append(name).append("!").toString()
+After:  "Hello " + name + "!"
+
+Progress Log:
+-------------
+Dec 22, 2025 - Claimed, studying JADX implementation
