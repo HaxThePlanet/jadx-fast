@@ -5525,6 +5525,13 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             // First emit any prelude instructions from the condition block
             emit_condition_block_prelude(condition, ctx, code);
 
+            // P1-S05 FIX: Process merge block prelude BEFORE extracting ternary values.
+            // This ensures inline expressions for operands (like field accesses) are available
+            // when the merge block's comparison/return uses them alongside the ternary result.
+            if let Some(merge_block) = find_merge_block_for_ternary(*then_value_block, *else_value_block, ctx) {
+                process_merge_block_prelude_for_ternary(merge_block, *dest_reg, ctx);
+            }
+
             // Generate condition expression
             let cond_str = generate_condition(condition, ctx);
 
@@ -5954,6 +5961,76 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
                 // Other instructions don't need prelude processing
             }
         }
+    }
+}
+
+/// Find the merge block for a ternary pattern.
+/// The merge block is the common successor of both the then and else value blocks.
+/// This is where the ternary result (PHI output) is used.
+fn find_merge_block_for_ternary(then_block: u32, else_block: u32, ctx: &BodyGenContext) -> Option<u32> {
+    let then_successors = ctx.blocks.get(&then_block)?.successors.clone();
+    let else_successors = ctx.blocks.get(&else_block)?.successors.clone();
+
+    // Find the common successor (merge block)
+    for succ in &then_successors {
+        if else_successors.contains(succ) {
+            return Some(*succ);
+        }
+    }
+
+    None
+}
+
+/// Process the merge block's prelude instructions to store inline expressions.
+///
+/// P1-S05 FIX: For nested ternary patterns like `return j - this.w < (cond ? a : b)`,
+/// the merge block contains instructions that:
+/// 1. Access fields/compute values (`iget-wide this.w -> v2`)
+/// 2. Use the ternary result (`cmp-long v4, ternary_result`)
+/// 3. Return the final result
+///
+/// We need to process the prelude instructions (those that define operands for the
+/// final comparison/return) BEFORE generating the ternary, so that inline expressions
+/// are available when the merge block is processed later.
+fn process_merge_block_prelude_for_ternary(merge_block_id: u32, ternary_dest_reg: u16, ctx: &mut BodyGenContext) {
+    let instructions = match ctx.blocks.get(&merge_block_id) {
+        Some(block) => block.instructions.clone(),
+        None => return,
+    };
+
+    // Find the first instruction that uses the ternary result
+    // Process all instructions BEFORE that point as prelude
+    let mut use_boundary = instructions.len();
+    for (idx, insn) in instructions.iter().enumerate() {
+        // Check if this instruction uses the ternary destination register
+        let uses_ternary = match &insn.insn_type {
+            InsnType::Binary { left, right, .. } => {
+                uses_register(left, ternary_dest_reg) || uses_register(right, ternary_dest_reg)
+            }
+            InsnType::Compare { left, right, .. } => {
+                uses_register(left, ternary_dest_reg) || uses_register(right, ternary_dest_reg)
+            }
+            InsnType::Return { value: Some(val) } => uses_register(val, ternary_dest_reg),
+            InsnType::Unary { arg, .. } => uses_register(arg, ternary_dest_reg),
+            InsnType::Cast { arg, .. } => uses_register(arg, ternary_dest_reg),
+            _ => false,
+        };
+
+        if uses_ternary {
+            use_boundary = idx;
+            break;
+        }
+    }
+
+    // Process all instructions before the use boundary
+    process_block_prelude_for_inlining(merge_block_id, Some(use_boundary), ctx);
+}
+
+/// Check if an InsnArg uses a specific register
+fn uses_register(arg: &InsnArg, target_reg: u16) -> bool {
+    match arg {
+        InsnArg::Register(reg_arg) => reg_arg.reg_num == target_reg,
+        _ => false,
     }
 }
 
