@@ -21,6 +21,7 @@ pub mod dex_info;
 pub mod expr_gen;
 pub mod fallback_gen;
 pub mod method_gen;
+pub mod stdlib_signatures;
 pub mod stmt_gen;
 pub mod type_gen;
 pub mod writer;

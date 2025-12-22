@@ -663,6 +663,27 @@ impl LazyDexInfo {
             let method_name = method.name().ok()?;
             let proto = method.proto().ok()?;
 
+            let class_internal = descriptor_to_internal_name(&class_type);
+
+            // Fast path: use pre-computed stdlib signatures for library classes
+            if crate::stdlib_signatures::is_library_class(&class_internal) {
+                if let Ok(shorty) = proto.shorty() {
+                    if let Some((param_types, return_type)) =
+                        crate::stdlib_signatures::lookup_library_signature(&class_internal, &method_name, &shorty)
+                    {
+                        return Some(Arc::new(MethodInfo {
+                            class_name: descriptor_to_simple_name(&class_type).into(),
+                            class_type: class_internal.into(),
+                            method_name: method_name.into(),
+                            return_type: return_type.clone(),
+                            param_types: param_types.clone(),
+                            is_varargs,
+                        }));
+                    }
+                }
+            }
+
+            // Slow path: parse proto from DEX
             let return_type = proto.return_type()
                 .as_ref()
                 .map(|d| parse_type_descriptor(d))
@@ -673,7 +694,7 @@ impl LazyDexInfo {
 
             Some(Arc::new(MethodInfo {
                 class_name: descriptor_to_simple_name(&class_type).into(),
-                class_type: descriptor_to_internal_name(&class_type).into(),
+                class_type: class_internal.into(),
                 method_name: method_name.into(),
                 return_type,
                 param_types,
@@ -698,11 +719,26 @@ impl LazyDexInfo {
     }
 
     /// Get method return type by index (for type inference)
-    /// Parses directly from DEX - avoids cache overhead for unique lookups
+    /// Uses stdlib cache for library classes, falls back to DEX parsing
     pub fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
         let method = self.dex.get_method(idx).ok()?;
         let proto = method.proto().ok()?;
 
+        // Fast path: use pre-computed stdlib signatures for library classes
+        if let (Ok(class_type), Ok(method_name)) = (method.class_type(), method.name()) {
+            let class_internal = descriptor_to_internal_name(&class_type);
+            if crate::stdlib_signatures::is_library_class(&class_internal) {
+                if let Ok(shorty) = proto.shorty() {
+                    if let Some(sig) =
+                        crate::stdlib_signatures::lookup_library_signature(&class_internal, &method_name, &shorty)
+                    {
+                        return Some(sig.clone());
+                    }
+                }
+            }
+        }
+
+        // Slow path: parse proto from DEX
         let return_type = proto.return_type()
             .as_ref()
             .map(|d| parse_type_descriptor(d))
