@@ -919,15 +919,17 @@ impl<'a> VarNaming<'a> {
             }
 
             // Instance field get - use field name for variable name (JADX's IGET case)
-            // e.g., obj.buffer -> "buffer", this.name -> "name", this.x -> "x"
+            // e.g., obj.buffer -> "buffer2", this.name -> "name2", this.x -> "x2"
+            // Note: Add "2" suffix to avoid collision with actual field name
+            // (e.g., `int iALPHABET = this.iALPHABET;` becomes `int iALPHABET2 = this.iALPHABET;`)
             InsnType::InstanceGet { field_idx, .. } => {
                 if let Some(lookup) = &self.field_lookup {
                     if let Some(info) = lookup(*field_idx) {
-                        // Use field name as variable name base
+                        // Use field name as variable name base with "2" suffix
                         // sanitize_field_name already filters obfuscated short names
                         let base = Self::sanitize_field_name(&info.field_name);
                         if !base.is_empty() {
-                            return Some(self.make_unique(&base));
+                            return Some(self.make_unique(&format!("{}2", base)));
                         }
                     }
                 }
@@ -935,14 +937,15 @@ impl<'a> VarNaming<'a> {
             }
 
             // Static field get - use field name for variable name (JADX's SGET case)
-            // e.g., Config.DEBUG -> "debug", System.out -> "out"
+            // e.g., Config.DEBUG -> "debug2", System.out -> "out2"
+            // Note: Add "2" suffix to avoid collision with actual field name
             InsnType::StaticGet { field_idx, .. } => {
                 if let Some(lookup) = &self.field_lookup {
                     if let Some(info) = lookup(*field_idx) {
                         // sanitize_field_name already filters obfuscated short names
                         let base = Self::sanitize_field_name(&info.field_name);
                         if !base.is_empty() {
-                            return Some(self.make_unique(&base));
+                            return Some(self.make_unique(&format!("{}2", base)));
                         }
                     }
                 }
@@ -1943,12 +1946,13 @@ fn get_base_name_from_instruction<'a>(
         // Instance field get
         // Allow single-character field names (e.g., this.w, this.H) since they may be
         // inlined as field accesses and the name helps with type inference
+        // Note: Add "2" suffix to avoid collision with actual field name
         InsnType::InstanceGet { field_idx, .. } => {
             if let Some(lookup) = field_lookup {
                 if let Some(info) = lookup(*field_idx) {
                     let base = VarNaming::sanitize_field_name(&info.field_name);
                     if !base.is_empty() {
-                        return Some(base);
+                        return Some(format!("{}2", base));
                     }
                 }
             }
@@ -1957,12 +1961,13 @@ fn get_base_name_from_instruction<'a>(
 
         // Static field get
         // Allow single-character field names (e.g., X.A, Foo.B) for consistency
+        // Note: Add "2" suffix to avoid collision with actual field name
         InsnType::StaticGet { field_idx, .. } => {
             if let Some(lookup) = field_lookup {
                 if let Some(info) = lookup(*field_idx) {
                     let base = VarNaming::sanitize_field_name(&info.field_name);
                     if !base.is_empty() {
-                        return Some(base);
+                        return Some(format!("{}2", base));
                     }
                 }
             }

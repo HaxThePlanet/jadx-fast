@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 1 P1 (S10 open with 6 sub-issues), 0 P2 | IR 100% Complete | P1-S10 split into sub-issues (Dec 22, 2025)
+**Status:** Open: 0 P0, 1 P1 (S10 open with 5 sub-issues, S10b fixed), 0 P2 | IR 100% Complete | P1-S10b fixed (Dec 22, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -81,7 +81,7 @@
 | Sub-ID | Category | Status | Description |
 |--------|----------|--------|-------------|
 | P1-S10a | Type Inference | OPEN | Variables assigned wrong types |
-| P1-S10b | Undefined Variables | OPEN | Variables used before declaration |
+| ~~P1-S10b~~ | ~~Undefined Variables~~ | **FIXED** | Field name collision - added "2" suffix (Dec 22) |
 | P1-S10c | Loop Detection | OPEN | Wrong loop construct chosen |
 | P1-S10d | SSA/PHI Resolution | OPEN | PHI nodes not resolving properly |
 | P1-S10e | Arithmetic Corruption | OPEN | Operations on undefined values |
@@ -93,15 +93,16 @@
 - Root cause: Type not propagated from RHS expression to variable
 - Location: `type_inference.rs`
 
-**P1-S10b: Undefined Variables**
-- Variables referenced but never declared in scope
-- Examples:
-  - `FileManager.java:87` - `i72` never declared
-  - `FileManager.java:79` - `str3` used from wrong scope
-  - `Base64.java:29` - `length3` never declared
-  - `Base64.java:53` - `iALPHABET` (missing `this.`)
-- Root cause: SSA version not mapped to CodeVar
-- Location: `var_naming.rs`, `body_gen.rs`
+**P1-S10b: Undefined Variables** ✅ FIXED (Dec 22, 2025)
+- **Problem:** Variables referenced but never declared in scope due to field name collision
+- **Example:** `Base64.java:53` - `iALPHABET` (missing `this.`)
+  - `int iALPHABET = this.iALPHABET;` created naming collision
+- **Root cause:** Field names extracted as variable names shadowed the actual field
+- **Fix:** Added "2" suffix to field-extracted variable names in 4 locations in `var_naming.rs`
+  - Lines 930, 948: `get_name_for_insn()` for InstanceGet/StaticGet
+  - Lines 1955, 1970: `get_base_name_from_instruction()` for InstanceGet/StaticGet
+- **Result:** `int iALPHABET2 = this.iALPHABET;` - no collision
+- **Tests:** All 20 var_naming tests pass, full test suite passes
 
 **P1-S10c: Loop Detection**
 - Wrong loop type chosen (while instead of for-each)
