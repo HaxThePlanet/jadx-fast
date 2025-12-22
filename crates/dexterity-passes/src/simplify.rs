@@ -1012,6 +1012,7 @@ mod tests {
                 op: BinaryOp::Add,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(0)),
+                arg_type: None,
             },
             0,
         );
@@ -1030,6 +1031,7 @@ mod tests {
                 op: BinaryOp::Sub,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(0)),
+                arg_type: None,
             },
             0,
         );
@@ -1048,6 +1050,7 @@ mod tests {
                 op: BinaryOp::Mul,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(1)),
+                arg_type: None,
             },
             0,
         );
@@ -1066,6 +1069,7 @@ mod tests {
                 op: BinaryOp::Mul,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(0)),
+                arg_type: None,
             },
             0,
         );
@@ -1088,6 +1092,7 @@ mod tests {
                 op: BinaryOp::Div,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(1)),
+                arg_type: None,
             },
             0,
         );
@@ -1106,6 +1111,7 @@ mod tests {
                 op: BinaryOp::Or,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(0)),
+                arg_type: None,
             },
             0,
         );
@@ -1124,6 +1130,7 @@ mod tests {
                 op: BinaryOp::And,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(-1)),
+                arg_type: None,
             },
             0,
         );
@@ -1142,6 +1149,7 @@ mod tests {
                 op: BinaryOp::And,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(0)),
+                arg_type: None,
             },
             0,
         );
@@ -1164,6 +1172,7 @@ mod tests {
                 op: BinaryOp::Shl,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(0)),
+                arg_type: None,
             },
             0,
         );
@@ -1182,6 +1191,7 @@ mod tests {
                 op: BinaryOp::Xor,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(0)),
+                arg_type: None,
             },
             0,
         );
@@ -1201,6 +1211,7 @@ mod tests {
                 op: BinaryOp::Rem,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(1)),
+                arg_type: None,
             },
             0,
         );
@@ -1223,6 +1234,7 @@ mod tests {
                 op: BinaryOp::Sub,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(-5)),
+                arg_type: None,
             },
             0,
         );
@@ -1249,6 +1261,7 @@ mod tests {
                 op: BinaryOp::Sub,
                 left: InsnArg::Literal(LiteralArg::Int(0)),
                 right: InsnArg::reg(1),
+                arg_type: None,
             },
             0,
         );
@@ -1274,6 +1287,7 @@ mod tests {
                 op: BinaryOp::Mul,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(-1)),
+                arg_type: None,
             },
             0,
         );
@@ -1300,6 +1314,7 @@ mod tests {
                 op: BinaryOp::Div,
                 left: InsnArg::reg(1),
                 right: InsnArg::Literal(LiteralArg::Int(-1)),
+                arg_type: None,
             },
             0,
         );
@@ -1326,6 +1341,7 @@ mod tests {
                 op: BinaryOp::Mul,
                 left: InsnArg::Literal(LiteralArg::Int(-1)),
                 right: InsnArg::reg(1),
+                arg_type: None,
             },
             0,
         );

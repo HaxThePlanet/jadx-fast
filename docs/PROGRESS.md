@@ -52,6 +52,20 @@ See [QUALITY_STATUS.md](QUALITY_STATUS.md) for details.
 - **All 16 ternary tests pass** including `nested_ternary_in_comparison_test`, `chained_ternary_test`, `ternary_in_arithmetic_test`
 - **Files:** `block_split.rs`, `ternary_mod.rs`
 
+### Double Literal Rendering Fix (P0-TYPE01) - FIXED
+- **Problem:** Wide constants (`const-wide`) were rendered as raw long bits instead of proper double/float values
+- **Root Cause:** No type information preserved from typed DEX opcodes (div-double, add-float, etc.)
+- **Fix 1:** Added `arg_type: Option<ArgType>` field to `InsnType::Binary` in `instructions.rs` (1,277 lines)
+- **Fix 2:** Added typed builder functions in `builder.rs` (880 lines):
+  - `build_binary_3reg_typed()` for Double (0xab-0xaf), Float (0xa6-0xaa), Long (0x9b-0xa5)
+  - `build_binary_2addr_typed()` for 2-address variants (0xbb-0xcf)
+- **Fix 3:** Enhanced `gen_arg_inline_typed()` in `body_gen.rs` (9,710 lines) for raw bits conversion:
+  - `f64::from_bits(value as u64)` for Double
+  - `f32::from_bits(value as u32)` for Float
+- **Fix 4:** Added `get_inferred_type_any_version()` helper to search all SSA versions for type hints
+- **Fix 5:** Updated `collect_const_values()` for type-aware literal formatting
+- **Files:** `instructions.rs`, `builder.rs`, `body_gen.rs`, `type_inference.rs`
+
 ---
 
 ## Previous Work (Dec 21, 2025)

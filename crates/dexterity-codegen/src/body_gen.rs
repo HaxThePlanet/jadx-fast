@@ -432,14 +432,38 @@ impl BodyGenContext {
         self.expr_gen.gen_arg(arg)
     }
 
-    /// Generate argument expression with type-aware formatting (0 -> null for Objects)
+    /// Generate argument expression with type-aware formatting (0 -> null for Objects, raw bits -> double, etc.)
     pub fn gen_arg_inline_typed(&mut self, arg: &InsnArg, target_type: &ArgType) -> String {
         if let InsnArg::Register(reg) = arg {
             // Check if we have an inlined expression for this register
             if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
                 // Check if this is a pure integer literal that needs type conversion
-                if let Ok(value) = expr.trim().parse::<i64>() {
+                // Handle both "12345" and "12345L" formats
+                let value_str = expr.trim();
+                let value_opt = if let Ok(v) = value_str.parse::<i64>() {
+                    Some(v)
+                } else if value_str.ends_with('L') || value_str.ends_with('l') {
+                    value_str[..value_str.len()-1].parse::<i64>().ok()
+                } else {
+                    None
+                };
+
+                if let Some(value) = value_opt {
                     match target_type {
+                        ArgType::Double => {
+                            // Convert raw bits to double representation
+                            let d = f64::from_bits(value as u64);
+                            return crate::type_gen::format_double_pub(d);
+                        }
+                        ArgType::Float => {
+                            // Convert raw bits to float representation
+                            let f = f32::from_bits(value as u32);
+                            return crate::type_gen::format_float_pub(f);
+                        }
+                        ArgType::Long => {
+                            // Already a long value, format properly
+                            return crate::type_gen::literal_to_string(value, target_type);
+                        }
                         ArgType::Char => {
                             let c = char::from_u32(value as u32).unwrap_or('\u{FFFD}');
                             return crate::type_gen::escape_char_pub(c);
@@ -650,9 +674,13 @@ impl BodyGenContext {
                     UnaryOp::BoolNot => format!("!{}", maybe_paren(&arg_str)),
                 })
             }
-            InsnType::Binary { op, left, right, .. } => {
-                let left_str = self.gen_arg_inline(left);
-                let right_str = self.gen_arg_inline(right);
+            InsnType::Binary { op, left, right, arg_type, .. } => {
+                // Use typed generation if arg_type is available (for Double/Float/Long disambiguation)
+                let (left_str, right_str) = if let Some(ref ty) = arg_type {
+                    (self.gen_arg_inline_typed(left, ty), self.gen_arg_inline_typed(right, ty))
+                } else {
+                    (self.gen_arg_inline(left), self.gen_arg_inline(right))
+                };
                 let op_str = binary_op_str(*op);
                 Some(format!("{} {} {}", maybe_paren(&left_str), op_str, maybe_paren(&right_str)))
             }
@@ -9348,6 +9376,7 @@ mod tests {
             op: BinaryOp::Add,
             left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
             right: InsnArg::Literal(LiteralArg::Int(1)),
+            arg_type: None,
         };
         let result = detect_increment_decrement(&dest, &insn, &ctx);
         assert!(result.is_some(), "Should detect i++ pattern");
@@ -9359,6 +9388,7 @@ mod tests {
             op: BinaryOp::Sub,
             left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
             right: InsnArg::Literal(LiteralArg::Int(1)),
+            arg_type: None,
         };
         let result_dec = detect_increment_decrement(&dest, &insn_dec, &ctx);
         assert!(result_dec.is_some(), "Should detect i-- pattern");
@@ -9370,6 +9400,7 @@ mod tests {
             op: BinaryOp::Add,
             left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
             right: InsnArg::Literal(LiteralArg::Int(5)),
+            arg_type: None,
         };
         let result_add5 = detect_increment_decrement(&dest, &insn_add5, &ctx);
         assert!(result_add5.is_some(), "Should detect i += 5 pattern");
@@ -9381,6 +9412,7 @@ mod tests {
             op: BinaryOp::Sub,
             left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
             right: InsnArg::Literal(LiteralArg::Int(3)),
+            arg_type: None,
         };
         let result_sub3 = detect_increment_decrement(&dest, &insn_sub3, &ctx);
         assert!(result_sub3.is_some(), "Should detect i -= 3 pattern");
@@ -9392,6 +9424,7 @@ mod tests {
             op: BinaryOp::Add,
             left: InsnArg::Register(RegisterArg::with_ssa(1, 0)), // Different register!
             right: InsnArg::Literal(LiteralArg::Int(1)),
+            arg_type: None,
         };
         let result_diff = detect_increment_decrement(&dest, &insn_diff_reg, &ctx);
         assert!(result_diff.is_none(), "Should not detect pattern with different registers");
@@ -9402,6 +9435,7 @@ mod tests {
             op: BinaryOp::Add,
             left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
             right: InsnArg::Register(RegisterArg::with_ssa(2, 0)), // Register, not literal
+            arg_type: None,
         };
         let result_non_lit = detect_increment_decrement(&dest, &insn_non_literal, &ctx);
         assert!(result_non_lit.is_some(), "Should detect compound assignment pattern with non-literal operand");
@@ -9413,6 +9447,7 @@ mod tests {
             op: BinaryOp::Mul,
             left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
             right: InsnArg::Literal(LiteralArg::Int(2)),
+            arg_type: None,
         };
         let result_mul = detect_increment_decrement(&dest, &insn_mul, &ctx);
         assert!(result_mul.is_some(), "Should detect *= pattern for multiplication");
@@ -9424,6 +9459,7 @@ mod tests {
             op: BinaryOp::Div,
             left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
             right: InsnArg::Literal(LiteralArg::Int(3)),
+            arg_type: None,
         };
         let result_div = detect_increment_decrement(&dest, &insn_div, &ctx);
         assert!(result_div.is_some(), "Should detect /= pattern for division");
@@ -9435,6 +9471,7 @@ mod tests {
             op: BinaryOp::And,
             left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
             right: InsnArg::Literal(LiteralArg::Int(0xFF)),
+            arg_type: None,
         };
         let result_and = detect_increment_decrement(&dest, &insn_and, &ctx);
         assert!(result_and.is_some(), "Should detect &= pattern for AND");
@@ -9446,6 +9483,7 @@ mod tests {
             op: BinaryOp::Shr,
             left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
             right: InsnArg::Literal(LiteralArg::Int(1)),
+            arg_type: None,
         };
         let result_shr = detect_increment_decrement(&dest, &insn_shr, &ctx);
         assert!(result_shr.is_some(), "Should detect >>= pattern for shift right");

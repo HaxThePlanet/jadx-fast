@@ -1421,6 +1421,7 @@ mod tests {
             op: BinaryOp::Add,
             left: InsnArg::reg(1),
             right: InsnArg::reg(2),
+            arg_type: None,
         };
         assert_eq!(gen.gen_insn(&insn), Some("obj1 + obj2".to_string()));
     }

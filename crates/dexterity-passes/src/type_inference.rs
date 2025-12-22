@@ -2818,6 +2818,7 @@ mod tests {
                         op: BinaryOp::Add,
                         left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
                         right: InsnArg::Literal(LiteralArg::Int(1)),
+                        arg_type: None,
                     },
                     1,
                 ),

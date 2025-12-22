@@ -44,6 +44,18 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 </details>
 
+### Batch Processing Optimization
+
+For processing many APKs, parallel workers outperform single-threaded max-core usage:
+
+| Config | Workers | Threads/Worker | Time (100 APKs, 1.4GB) |
+|--------|---------|----------------|------------------------|
+| Sequential | 1 | 112 | 3m31s |
+| **Optimal** | **7** | **16** | **2m0s** |
+| Over-parallel | 10 | 11 | 2m15s |
+
+**Recommendation:** On a 56-core system (112 threads), use **7 parallel workers with 16 threads each**. This is 76% faster than processing one APK at a time with all threads. Too many workers (10+) starves each APK of threads.
+
 See [PERFORMANCE.md](docs/PERFORMANCE.md) for detailed benchmarks
 
 ## Quick Start

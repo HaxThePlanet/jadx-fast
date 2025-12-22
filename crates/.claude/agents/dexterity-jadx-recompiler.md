@@ -44,24 +44,18 @@ You are an automated build and decompilation orchestrator specializing in APK re
 /mnt/nvme4tb/dexterity/output/
   ├── dexterity/
   │   ├── small/        # 1 Java file
-  │   ├── medium/       # 2,890 Java files
-  │   ├── large/        # 5,901 Java files
-  │   ├── badboy/       # 53 Java files
-  │   └── badboy-x86/   # 13 Java files
+  │   ├── medium/       # 2,891 Java files
+  │   └── large/        # 5,901 Java files
   └── jadx/
       ├── small/
       ├── medium/
-      ├── large/
-      ├── badboy/
-      └── badboy-x86/
+      └── large/
 
 Source APK files are in:
   /mnt/nvme4tb/dexterity/apks/small.apk
   /mnt/nvme4tb/dexterity/apks/medium.apk
   /mnt/nvme4tb/dexterity/apks/large.apk
-  /mnt/nvme4tb/dexterity/apks/badboy.apk
-  /mnt/nvme4tb/dexterity/apks/badboy-x86.apk
 
-Total decompiled Java files: ~8,858 files across all 5 APK samples.
+Total decompiled Java files: ~8,793 files across 3 APK samples.
 
 Execute this recompilation pipeline immediately upon activation. Treat this as a priority batch operation that must complete all three variants.

@@ -7,7 +7,7 @@
 **Build:** Passing
 **Tests:** 1,217 tests passing (687 integration + 530 unit tests)
 **Integration Tests:** 687 passing (100%)
-**Lines:** ~95,000 lines of Rust
+**Lines:** ~103,000 lines of Rust
 **IR Parity:** 100% JADX parity (Dec 21, 2025)
 **Kotlin:** 100% parity (BitEncoding ported)
 **Resources:** 1:1 JADX parity (103 dirs, 152 files, zero diff)
@@ -19,13 +19,13 @@
 ```
 crates/
 ├── dexterity-dex/         # DEX parsing (~4,400 lines)
-├── dexterity-ir/          # IR types & class hierarchy (~9,300 lines)
-├── dexterity-passes/      # Decompilation passes (~26,800 lines)
-├── dexterity-codegen/     # Java code generation (~16,100 lines)
-├── dexterity-resources/   # AXML & resources.arsc (~3,600 lines)
+├── dexterity-ir/          # IR types & class hierarchy (~10,700 lines)
+├── dexterity-passes/      # Decompilation passes (~30,100 lines)
+├── dexterity-codegen/     # Java code generation (~18,300 lines)
+├── dexterity-resources/   # AXML & resources.arsc (~4,300 lines)
 ├── dexterity-deobf/       # Deobfuscation (~1,800 lines)
-├── dexterity-kotlin/      # Kotlin metadata parsing (~1,600 lines)
-├── dexterity-cli/         # CLI application (~5,900 lines)
+├── dexterity-kotlin/      # Kotlin metadata parsing (~2,100 lines)
+├── dexterity-cli/         # CLI application (~6,100 lines)
 ├── dexterity-qa/          # Quality assurance tools
 └── dexterity-llm-postproc/# LLM post-processing utilities
 ```
@@ -45,7 +45,7 @@ Memory-mapped DEX file parsing with zero-copy access.
 Core IR types shared across all passes. Updated Dec 21, 2025 (89% -> 100% parity).
 
 **Key components:**
-- `instructions.rs` - ~46 instruction variants (incl. MoveMulti, StrConcat, Constructor, JavaJsr/Ret)
+- `instructions.rs` - ~46 instruction variants (incl. MoveMulti, StrConcat, Constructor, JavaJsr/Ret); Binary has `arg_type` field for type inference optimization
 - `types.rs` - **100% JADX parity**: Type system with all 15 Unknown variants, OuterGeneric, TypeVariable with bounds, select_first(), visit_types(), get_array_dimension(), contains_type_variable(), contains_generic()
 - `nodes.rs` - `ClassNode`, `MethodNode`, `FieldNode`, `BlockNode` definitions
 - `class_hierarchy.rs` - **100% JADX parity**: TypeCompare engine, TypeVarMapping with bounds, visitSuperTypes visitor, LCA calculation
@@ -83,6 +83,7 @@ Transform IR through analysis passes.
 - `code_shrink.rs` - Single-use variable inlining with InvokeCustom (lambda) detection
 - `deboxing.rs` - Primitive boxing/unboxing optimization
 - `fix_types.rs` - Type correction and widening
+- `simplify.rs` - Instruction simplification (identity elimination, constant folding, CMP unwrapping, ternary simplification)
 
 ### dexterity-codegen (Code Generation)
 
@@ -91,7 +92,7 @@ Emit Java source from IR.
 **Key components:**
 - `class_gen.rs` - Class/interface/enum/annotation generation
 - `method_gen.rs` - Method signatures and bodies
-- `body_gen.rs` - Statement and expression generation (~6,653 lines)
+- `body_gen.rs` - Statement and expression generation (~9,700 lines); includes `gen_invoke_expr()`, `process_all_condition_blocks_for_inlining()` for compound condition handling, `simplify_ternary_expr_for_boolean()` for `cond ? 1 : 0` simplification
 - `fallback_gen.rs` - Fallback mode raw instruction output
 - `expr_gen.rs` - Expression code generation
 - `stmt_gen.rs` - Statement code generation with InvokeCustom/lambda support

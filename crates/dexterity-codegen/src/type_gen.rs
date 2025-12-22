@@ -394,6 +394,16 @@ fn format_double(d: f64) -> String {
     }
 }
 
+/// Public wrapper for format_float
+pub fn format_float_pub(f: f32) -> String {
+    format_float(f)
+}
+
+/// Public wrapper for format_double
+pub fn format_double_pub(d: f64) -> String {
+    format_double(d)
+}
+
 /// Escape a string for Java source (default: no unicode escaping)
 pub fn escape_string(s: &str) -> String {
     escape_string_with_unicode(s, false)

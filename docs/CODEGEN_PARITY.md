@@ -332,10 +332,10 @@ The remaining 5% to reach 100% parity consists entirely of cosmetic improvements
 | AnnotationGen.java | ~200 | Annotations |
 | NameGen.java | ~400 | Variable naming |
 
-### Dexterity Codegen (Rust - 11 modules, ~13,811 lines)
+### Dexterity Codegen (Rust - 11 modules, ~14,900 lines)
 | Module | Lines | JADX Equivalent |
 |--------|-------|-----------------|
-| body_gen.rs | ~7,106 | RegionGen + InsnGen |
+| body_gen.rs | ~9,710 | RegionGen + InsnGen |
 | class_gen.rs | ~1,750 | ClassGen |
 | expr_gen.rs | ~1,488 | InsnGen |
 | dex_info.rs | ~954 | N/A (DEX bridge) |

@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 2 P0, 2 P1, 0 P2 | IR 100% Complete | **f.java audit FAILED** (Dec 22, 2025)
+**Status:** Open: 2 P0, 2 P1, 0 P2 | IR 100% Complete | **f.java audit: 4 bugs fixed** (Dec 22, 2025)
 **Reference Files:**
 - `io/grpc/j1/f.java` (ApplicationThreadDeframer - 185 lines) - try-catch/control flow bugs
 - `net/time4j/f.java` (CalendarUnit - 380 lines) - enum/switch/literal bugs
@@ -8,14 +8,14 @@
 
 ## Open Issues (from f.java Audit Dec 22, 2025)
 
-### P0 Critical (Code Won't Compile) - 2 OPEN (3 fixed Dec 22)
+### P0 Critical (Code Won't Compile) - 2 OPEN (4 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
 | **P0-CFG01** | Try-catch exception variable scope corruption | **HARD** | `th` used before catch | region_builder.rs, body_gen.rs |
 | ~~P0-CFG02~~ | ~~Empty if-body for early returns~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 | **P0-CFG03** | Undefined variables in complex expressions | **HARD** | `l -= l2` where l undefined | ssa.rs, var_naming.rs |
-| ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 | type_inference.rs |
+| ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 | instructions.rs, builder.rs, body_gen.rs |
 | ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 
 ### P1 Semantic (Wrong Behavior) - 2 OPEN (1 fixed Dec 22)
@@ -135,9 +135,20 @@ public double getLength() {
 }
 ```
 
-**Root Cause:** Type inference for Return instructions only propagated Boolean types, not Double/Float/Long. Wide constants (const-wide) are stored as raw bits that could be Long OR Double. The method return type now propagates via UseBound constraint to resolve the ambiguity.
+**Root Causes:**
+1. Type inference for Return instructions only propagated Boolean types, not Double/Float/Long
+2. Wide constants (`const-wide`) stored as raw bits could be Long OR Double
+3. No type hints preserved from typed DEX opcodes (div-double, add-float, etc.)
 
-**Fix:** Extended Return instruction handling in `type_inference.rs` to propagate all primitive return types (Double, Float, Long, Int, Short, Byte, Char, Boolean) via UseBound constraints.
+**Fixes Applied (Dec 22, 2025):**
+1. Added `arg_type: Option<ArgType>` field to `InsnType::Binary` in `instructions.rs` (1,277 lines)
+2. Added typed builder functions in `builder.rs` (880 lines):
+   - `build_binary_3reg_typed()` for Double (0xab-0xaf), Float (0xa6-0xaa), Long (0x9b-0xa5)
+   - `build_binary_2addr_typed()` for 2-address variants (0xbb-0xcf)
+3. Enhanced `gen_arg_inline_typed()` in `body_gen.rs` (9,710 lines) for raw bits conversion
+4. Added `get_inferred_type_any_version()` helper to search all SSA versions for type hints
+5. Updated `collect_const_values()` for type-aware literal formatting
+6. Extended Return instruction handling in `type_inference.rs` to propagate all primitive return types
 
 ---
 

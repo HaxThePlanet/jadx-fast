@@ -26,13 +26,30 @@
 - Returns `FxHashSet<(u16, u32)>` of (register, ssa_version) pairs
 - Exported: `pub use needed_vars::collect_needed_variables;` in `lib.rs`
 
-#### 3. Binary IR Type Hint Field
+#### 3. Binary IR Type Hint Field (Double Literal Rendering Fix)
 
-**File Modified:** `crates/dexterity-ir/src/instructions.rs`
+**File Modified:** `crates/dexterity-ir/src/instructions.rs` (1,277 lines)
 
 - Added `arg_type: Option<ArgType>` field to `InsnType::Binary`
 - Preserves type info from typed DEX opcodes (div-double, add-float, etc.)
 - Updated all pattern matches in: `builder.rs`, `loop_analysis.rs`, `simplify.rs`, `type_inference.rs`, `body_gen.rs`
+
+**Builder Enhancements:** `crates/dexterity-ir/src/builder.rs` (880 lines)
+
+- `build_binary_3reg_typed(regs, op, ArgType)` - Creates typed Binary with arg_type
+- `build_binary_2addr_typed(regs, op, ArgType)` - Creates typed 2-address Binary
+- Double operations (0xab-0xaf) now pass `ArgType::Double`
+- Float operations (0xa6-0xaa) now pass `ArgType::Float`
+- Long operations (0x9b-0xa5) now pass `ArgType::Long`
+
+**Codegen Type Conversion:** `crates/dexterity-codegen/src/body_gen.rs` (9,710 lines)
+
+- `gen_arg_inline_typed()` - Converts raw bits to proper double/float literals
+  - For `ArgType::Double`: `f64::from_bits(value as u64)` then format
+  - For `ArgType::Float`: `f32::from_bits(value as u32)` then format
+  - For `ArgType::Long`: Format with `L` suffix
+- `get_inferred_type_any_version()` - Searches all SSA versions for type hints
+- `collect_const_values()` - Uses inferred types for proper literal formatting
 
 **Benchmark Results (100GB RAM disk):**
 

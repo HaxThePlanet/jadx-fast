@@ -2,7 +2,7 @@
 
 This document provides a comprehensive comparison of JADX's Java-based IR (Intermediate Representation) and Dexterity's Rust-based IR. It documents semantic parity status and identifies gaps that may affect decompilation quality.
 
-**Last Updated:** December 21, 2025
+**Last Updated:** December 22, 2025
 
 ---
 
@@ -334,7 +334,7 @@ pub struct BlockNode {
 | INVOKE | `Invoke` | ✅ |
 | INVOKE_CUSTOM | `InvokeCustom` | ✅ |
 | NEG, NOT | `Unary` | ✅ |
-| ARITH | `Binary` | ✅ |
+| ARITH | `Binary` (with `arg_type` field for typed ops) | ✅ |
 | CAST | `Cast` | ✅ |
 | CMP_L, CMP_G | `Compare` | ✅ |
 | IF | `If` | ✅ |
@@ -349,6 +349,32 @@ pub struct BlockNode {
 | CONSTRUCTOR | `Constructor` | ✅ |
 | JAVA_JSR, JAVA_RET | `JavaJsr`, `JavaRet` | ✅ |
 | (synthetic) | `Break`, `Continue` | ✅ |
+
+### Binary Instruction Type Hints (Dec 22, 2025)
+
+**Status:** IMPLEMENTED
+
+Binary operations now carry type hints from the DEX opcode to enable proper literal rendering:
+
+**Dexterity** (instructions.rs):
+```rust
+Binary {
+    dest: RegisterArg,
+    op: BinaryOp,
+    left: InsnArg,
+    right: InsnArg,
+    /// Type hint from DEX opcode (e.g., Double from div-double, Float from add-float)
+    arg_type: Option<ArgType>,
+}
+```
+
+**Builder functions** (builder.rs):
+- `build_binary_3reg_typed(regs, op, ArgType::Double)` - For double operations (0xab-0xaf)
+- `build_binary_3reg_typed(regs, op, ArgType::Float)` - For float operations (0xa6-0xaa)
+- `build_binary_3reg_typed(regs, op, ArgType::Long)` - For long operations (0x9b-0xa5)
+- `build_binary_2addr_typed(regs, op, ty)` - For 2-address variants (0xbb-0xcf)
+
+**Impact:** Wide constants (`const-wide`) can now be correctly rendered as `double` or `long` literals based on operation context, fixing double literal rendering issues.
 
 ### InsnArg Variants
 
