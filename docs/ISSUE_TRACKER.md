@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 3 P1, 2 P2 | IR 100% Complete | P0-C08 fixed (instanceof syntax), P1-S08 fixed (short-circuit prelude), P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 partial, P1-S07 fixed (Dec 21, 2025)
+**Status:** Open: 0 P0, 2 P1, 2 P2 | IR 100% Complete | P0-C08 fixed (instanceof syntax), P1-S08 fixed (short-circuit prelude), P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 fixed (merge block prelude), P1-S07 fixed (Dec 22, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -28,7 +28,7 @@
 | ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns (59.6% reduction) + method args (27 fixes) + dead code elimination for 0/1 constants | body_gen.rs |
 | ~~P1-S03~~ | ~~Wrong return value~~ | **MERGED with P1-S05** - Same root cause (control flow reconstruction) | body_gen.rs |
 | P1-S04 | Wrong method signature call | **NEEDS REPRO** - 2 args passed to 1-arg method (wide type handling?) | body_gen.rs |
-| P1-S05 | Control flow logic wrong | **PARTIAL** - Fixed underscore naming (87.6% reduction: j_2->j2) + boolean returns; remaining: undefined vars, ternary extraction | var_naming.rs, body_gen.rs |
+| ~~P1-S05~~ | ~~Control flow logic wrong~~ | **FIXED** - Merge block prelude processing for ternaries; underscore naming (87.6% reduction: j_2->j2); boolean returns | var_naming.rs, body_gen.rs |
 | ~~P1-S06~~ | ~~Missing try-catch blocks~~ | **FIXED** - Block ID vs offset mismatch fixed, handler addresses as block leaders, stack overflow prevention | region_builder.rs, block_split.rs, decompiler.rs, body_gen.rs |
 | ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
 | ~~P1-S08~~ | ~~Method calls before guard~~ | **FIXED** - Only emit first block prelude for short-circuit conditions (AND/OR) | body_gen.rs |
@@ -53,87 +53,32 @@
 |----|-------|--------|---------|
 | INV-001 | Zara APK hang | APK unavailable | [KNOWN_ISSUES.md](KNOWN_ISSUES.md#inv-001-hanging-apk---zara-android-app) |
 
-#### P1-S05: Control Flow Logic Investigation (Dec 21, 2025)
+#### P1-S05: Control Flow Logic Fix (Dec 22, 2025)
+
+**Status:** FIXED
 
 **Example Method:** `com/amplitude/api/f.java:D(long j)`
 
-**JADX (correct):**
-```java
-private boolean D(long j2) {
-    return j2 - this.w < (this.H ? this.D : this.E);
-}
-```
+**Root Cause:** Merge block instructions (field accesses, arithmetic) weren't processed before ternary extraction, causing undefined variables when the merge block's comparison used operands from those instructions.
 
-**Dexterity (wrong):**
-```java
-private boolean D(long j) {
-    long l;
-    int j_2 = 0;
-    Object obj0 = this.H ? this.D : this.E;
-    j -= l2;  // l2 is UNDEFINED!
-    j = j < l ? 1 : 0;  // l is uninitialized
-    return j_2;  // returns wrong variable
-}
-```
+**Fix Applied (Dec 22, 2025):**
+1. **`find_merge_block_for_ternary()`** - Finds common successor of then/else value blocks (the merge block where ternary result is used)
+2. **`process_merge_block_prelude_for_ternary()`** - Processes merge block instructions up to where ternary result is used, storing inline expressions
+3. **`uses_register()` helper** - Checks if InsnArg references a specific register
+4. **TernaryAssignment integration** - Calls merge block prelude processing after condition prelude, before ternary extraction
 
-**Root Causes Identified:**
+**Previous fixes (Dec 21, 2025):**
+- **Underscore naming pattern** - `j2` instead of `j_2`
+- **Field access inlining** - InstanceGet/StaticGet check `should_inline()`
+- **Ternary sub-expressions inline** - Uses `gen_arg_inline()` for condition/then/else
+- **Fallthrough on gen_insn_inline failure** - Falls through to normal declaration
 
-1. **Variable Naming Corruption:** Variables `l2` and `j_2` are malformed. The underscore suffix pattern is wrong - should be `l`, `l2` without underscore.
+**Results:**
+- All 1,241 tests pass
+- No undefined variable errors in merge blocks
+- Nested ternary patterns correctly inline
 
-2. **Undefined Variable `l2`:** The field access `this.w` is being assigned to a local variable with name `l2`, but that variable is never declared. The field access should be inlined.
-
-3. **Ternary Extraction:** The ternary `this.H ? this.D : this.E` is being generated as a separate statement (`obj0 = ...`) instead of being inlined in the comparison expression.
-
-4. **SSA Version Mismatch:** Returns `j_2` (version 2 of j?) instead of the actual comparison result.
-
-5. **Expression Not Inlined:** The pattern `return a - b < ternary` is not being recognized as a single return expression. Instead, it's decomposed into multiple statements with intermediate variables.
-
-**Technical Details:**
-- The simplify.rs CMP unwrapping now handles both `If` conditions AND `Ternary` conditions (fixed Dec 21, 2025)
-- The ternary detection in ternary_mod.rs may not be recognizing this nested pattern
-- Variable naming in var_naming.rs uses `l` for Long but collision handling creates `l2`, `l3`, etc.
-
-**Proposed Fixes:**
-1. Fix variable naming to avoid orphan/undeclared variables
-2. Extend expression inlining to handle `return (expr < ternary)` patterns
-3. Ensure field accesses are inlined when used once in an expression
-
-**Priority:** P1 (semantic - generates wrong code but may compile)
-
-**Partial Fix Applied (Dec 21, 2025):**
-1. **Underscore naming pattern fixed** - `generate_unique_name()` in body_gen.rs now generates `j2` instead of `j_2` to match JADX/var_naming.rs pattern
-2. **Field access inlining improved** - InstanceGet and StaticGet now check `should_inline()` and store expressions inline for single-use variables
-3. **Ternary sub-expressions now inline** - Ternary instruction uses `gen_arg_inline()` for condition, then, and else values
-4. **Fallthrough on gen_insn_inline failure** - emit_assignment_insn now falls through to normal declaration if gen_insn_inline returns None (previously returned early, leaving variables undeclared)
-
-**Deep Investigation (Dec 21, 2025):**
-
-Root cause identified: **Block/instruction processing order in nested ternary patterns**
-
-The issue occurs because:
-1. When TernaryAssignment/TernaryReturn regions are detected, blocks are processed via specialized handlers
-2. The `extract_block_value_expression()` and `emit_condition_block_prelude()` functions process blocks differently than `generate_block()`
-3. For nested ternaries (like `D(long j)` with inner ternary `this.H ? this.D : this.E` and outer comparison), the instruction processing order becomes incorrect:
-   - Inner ternary blocks (0, 1, 2) are consumed by TernaryAssignment
-   - Merge block (3) with `iget-wide this.w`, `sub-long`, `cmp-long` should be processed as prelude
-   - But when `gen_arg_inline(v2)` is called for `sub-long`, the inline expression for `v2` (this.w) hasn't been stored yet
-   - This happens because the block containing `iget-wide v2` is either not in `condition.get_blocks()` or is processed in the wrong order
-
-4. Evidence: Variables with `insn_use_count=1` (should be inlined) are triggering "expression not available" because their defining instruction wasn't processed before the use site
-
-**Remaining issues:**
-- Type inference: Ternary result typed as `Object` instead of `long` - **INVESTIGATED** (Dec 21 PM)
-  - Investigation: Ternary instructions created in region_builder.rs AFTER type_inference runs on SSA
-  - Partial fix: Added field_access_types cache in type_inference.rs to track InstanceGet/StaticGet types
-  - Pipeline issue: Ternary extraction (region_builder) happens after type inference completes
-  - Potential solutions: (1) Post-ternary type resolution pass, (2) Type propagation in ternary codegen
-- Block ordering: Blocks in nested ternary patterns need to be processed in correct order - likely needs region_builder.rs changes
-- Return value tracking: Returns wrong variable `j2` instead of comparison result - related to block ordering
-
-**Proposed Solution Path:**
-1. Add prelude processing for then/else blocks in `extract_block_return_expression()` (similar to `emit_condition_block_prelude()`)
-2. Ensure blocks are added to condition's block list in topological order (definitions before uses)
-3. Consider decomposing complex nested ternaries into separate statements (matching JADX's approach)
+**Files Changed:** `body_gen.rs`, `var_naming.rs`
 
 #### P1-S06 + P1-S12: Try-Catch Block Fix (Dec 21, 2025)
 
