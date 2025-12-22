@@ -136,7 +136,7 @@ limit is `5 × block_count`, same as JADX's `DepthRegionTraversal.java:13`.
 | `CheckCode.java` | - | MISSING | Bad code validation |
 
 **Dexterity Implementation:**
-- `block_split.rs`: 437 lines, splits bytecode into basic blocks
+- `block_split.rs`: 487 lines, splits bytecode into basic blocks
 - `cfg.rs`: 831 lines, builds CFG and computes dominators
 - Block storage uses `Vec<BasicBlock>` for O(1) direct index access since block IDs are dense sequential integers (0,1,2...). Changed from BTreeMap in Dec 2025 optimization pass.
 
@@ -150,11 +150,11 @@ limit is `5 × block_count`, same as JADX's `DepthRegionTraversal.java:13`.
 
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
-| `SSATransform.java` (467 lines) | `ssa.rs` (971 lines) | DONE | Full SSA with phi nodes |
+| `SSATransform.java` (467 lines) | `ssa.rs` (1,294 lines) | DONE | Full SSA with phi nodes |
 | `MoveInlineVisitor.java` | `ssa.rs` | PARTIAL | Basic move inlining |
 
 **Dexterity Implementation:**
-- `ssa.rs`: 971 lines, complete SSA transformation
+- `ssa.rs`: 1,294 lines, complete SSA transformation
 - Computes dominance frontiers
 - Inserts phi nodes correctly
 - Handles def-use chains
@@ -211,8 +211,8 @@ jadx/core/dex/visitors/typeinference/
 
 ```
 dexterity-passes/src/
-├── type_inference.rs        (3,200 lines) - Main engine with TypeSearch integrated
-├── type_search.rs           (~500 lines)  - Modular TypeSearch multi-var solver
+├── type_inference.rs        (3,229 lines) - Main engine with TypeSearch integrated
+├── type_search.rs           (703 lines)   - Modular TypeSearch multi-var solver
 ├── type_bound.rs            (780 lines)   - TypeBound trait system (5 impls)
 ├── type_update.rs           (1,146 lines) - Propagation engine with 10 listeners
 ├── type_listener.rs         (361 lines)   - Type listener traits
@@ -220,10 +220,10 @@ dexterity-passes/src/
 └── finish_type_inference.rs (298 lines)   - Final validation
 
 dexterity-ir/src/
-└── types.rs                 (~1,200 lines) - TypeCompare with full generic handling
+└── types.rs                 (1,793 lines) - TypeCompare with full generic handling
 ```
 
-**Total: ~7,100 lines implementing JADX's ~26 files (~4,000 lines)**
+**Total: ~9,100 lines implementing JADX's ~26 files (~4,000 lines)**
 
 #### Key Concept Comparison
 
@@ -320,8 +320,7 @@ Unknown
    - Rule 9: If else is single throw, invert to put throw in then
 
 3. **Nested IF Merging** (`conditionals.rs`)
-   - `merge_nested_ifs_recursive()` implementing JADX's `mergeNestedIfNodes()`
-   - `is_equal_paths()` for identical branch detection
+   - `merge_nested_conditions()` implementing JADX's `mergeNestedIfNodes()`
    - AND/OR pattern detection
 
 4. **Loop Pattern Detection** (`loop_analysis.rs`)
@@ -336,9 +335,9 @@ Unknown
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
 | `ModVisitor.java` (633 lines) | `mod_visitor.rs` (831 lines) + `body_gen.rs` | DONE | StringBuilder chains, field arithmetic (Dec 22, 2025) |
-| `SimplifyVisitor.java` (637 lines) | `simplify.rs` (1,687 lines) | DONE | CMP unwrapping + ternary CMP support, dead CMP elimination |
-| `CodeShrinkVisitor.java` | `code_shrink.rs` (1,052 lines) | DONE | Variable inlining |
-| `ConstInlineVisitor.java` (307 lines) | `const_inline.rs` (427 lines) | DONE | Constant inlining |
+| `SimplifyVisitor.java` (637 lines) | `simplify.rs` (1,820 lines) | DONE | CMP unwrapping + ternary CMP support, dead CMP elimination |
+| `CodeShrinkVisitor.java` | `code_shrink.rs` (1,055 lines) | DONE | Variable inlining |
+| `ConstInlineVisitor.java` (307 lines) | `const_inline.rs` (471 lines) | DONE | Constant inlining |
 | `ReplaceNewArray.java` | `mod_visitor.rs` | DONE | Array init patterns |
 | `DeboxingVisitor.java` (181 lines) | `deboxing.rs` (429 lines) | DONE | BoxingType detection at codegen |
 
@@ -364,7 +363,7 @@ Dexterity patterns handled:
 - Array initialization
 - StringBuilder chain (DONE Dec 22) - body_gen.rs parse_stringbuilder_chain()
 - CMP instruction inlining (in simplify.rs, not mod_visitor.rs)
-- Field arithmetic compound assignment (DONE) - body_gen.rs try_convert_to_compound_assignment()
+- Field arithmetic compound assignment (DONE) - body_gen.rs detect_increment_decrement() and detect_field_increment()
 - Boolean negation (DONE) - if_region_visitor.rs invert_if_region()
 ```
 
@@ -384,7 +383,7 @@ issues by operating on the final expression text.
 | `ApplyVariableNames.java` | `var_naming.rs` | PARTIAL | Combined |
 | `CodeRenameVisitor.java` | - | MISSING | Deobfuscation naming |
 
-Dexterity `var_naming.rs` (1,736 lines):
+Dexterity `var_naming.rs` (2,623 lines):
 - Type-based name generation
 - Basic scope analysis
 - Common type prefixes (str, list, map, etc.)
@@ -395,8 +394,8 @@ Dexterity `var_naming.rs` (1,736 lines):
 
 | JADX Pass | Dexterity Equivalent | Status | Priority |
 |-----------|---------------------|--------|----------|
-| `FixTypesVisitor.java` | `fix_types.rs` (816 lines) | DONE | HIGH |
-| `FinishTypeInference.java` | `finish_type_inference.rs` (299 lines) | DONE | HIGH |
+| `FixTypesVisitor.java` | `fix_types.rs` (834 lines) | DONE | HIGH |
+| `FinishTypeInference.java` | `finish_type_inference.rs` (298 lines) | DONE | HIGH |
 | `DeboxingVisitor.java` | `deboxing.rs` (429 lines) | DONE | MEDIUM |
 | `GenericTypesVisitor.java` | `generic_types.rs` (178 lines) | DONE | Attach generic type info to constructors |
 | `ShadowFieldVisitor.java` | `shadow_field.rs` (308 lines) | DONE | Fix shadowed field access with super/cast |
@@ -420,11 +419,11 @@ Implemented passes:
 
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
-| `EnumVisitor.java` | `enum_visitor.rs` (620 lines) | DONE | Enum reconstruction |
+| `EnumVisitor.java` | `enum_visitor.rs` (643 lines) | DONE | Enum reconstruction |
 | `ConstructorVisitor.java` | - | PARTIAL | Basic constructor handling |
 | `MethodInvokeVisitor.java` (441 lines) | `method_invoke.rs` (441 lines) | DONE | Overload resolution with explicit casts |
 | `SwitchOverStringVisitor.java` | `body_gen.rs` | DONE | Two-switch pattern merge (79% coverage) |
-| `ExtractFieldInit.java` | `extract_field_init.rs` (713 lines) | DONE | Field init extraction |
+| `ExtractFieldInit.java` | `extract_field_init.rs` (1,024 lines) | DONE | Field init extraction |
 
 ---
 
@@ -466,7 +465,7 @@ Implemented passes:
 
 ### Phase 4: Code Optimization - **COMPLETED Dec 22, 2025**
 1. ✅ Full StringBuilder chain detection - body_gen.rs parse_stringbuilder_chain()
-2. ✅ Field arithmetic conversion (`a += 2`) - body_gen.rs try_convert_to_compound_assignment()
+2. ✅ Field arithmetic conversion (`a += 2`) - body_gen.rs detect_increment_decrement() and detect_field_increment()
 3. ✅ CMP instruction inlining - simplify.rs (Dec 21, 2025)
 4. ✅ Boolean negation propagation - if_region_visitor.rs invert_if_region()
 

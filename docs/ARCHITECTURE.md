@@ -20,19 +20,19 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 
 ```
 crates/
-├── dexterity-dex/         # DEX parsing (~4,400 lines)
-├── dexterity-ir/          # IR types & class hierarchy (~9,300 lines)
-├── dexterity-passes/      # Decompilation passes (~26,800 lines)
-├── dexterity-codegen/     # Java code generation (~16,100 lines)
-├── dexterity-resources/   # AXML & resources.arsc (~3,600 lines)
-├── dexterity-deobf/       # Deobfuscation (~1,800 lines)
-├── dexterity-kotlin/      # Kotlin metadata parsing (~2,000 lines)
-├── dexterity-cli/         # CLI application (~5,900 lines)
+├── dexterity-dex/         # DEX parsing (~4,500 lines)
+├── dexterity-ir/          # IR types & class hierarchy (~10,700 lines)
+├── dexterity-passes/      # Decompilation passes (~29,600 lines)
+├── dexterity-codegen/     # Java code generation (~17,600 lines)
+├── dexterity-resources/   # AXML & resources.arsc (~4,300 lines)
+├── dexterity-deobf/       # Deobfuscation (~1,850 lines)
+├── dexterity-kotlin/      # Kotlin metadata parsing (~2,100 lines)
+├── dexterity-cli/         # CLI application (~6,100 lines)
 ├── dexterity-qa/          # Quality assurance tools
 └── dexterity-llm-postproc/# LLM post-processing utilities
 ```
 
-Total: ~95,000 lines of Rust
+Total: ~77,000 lines of Rust (core crates)
 
 ## Crate Details
 
@@ -87,7 +87,7 @@ Emit Java source from IR.
 |------|---------|
 | `class_gen.rs` | Class/interface/enum/annotation generation |
 | `method_gen.rs` | Method signatures and bodies |
-| `body_gen.rs` | Statement and expression generation (~6,653 lines) |
+| `body_gen.rs` | Statement and expression generation (~9,400 lines) |
 | `type_gen.rs` | Type name generation with import handling |
 | `writer.rs` | Java source code writer with formatting |
 

@@ -48,7 +48,7 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 
 ### Type Inference: ~85% JADX Parity Achieved (Dec 22, 2025)
 
-Type inference has been significantly enhanced from ~60% to ~85% JADX parity. Dexterity implements the core functionality of JADX's 26 type inference files in 7 focused Rust modules (~7,100 lines total).
+Type inference has been significantly enhanced from ~60% to ~85% JADX parity. Dexterity implements the core functionality of JADX's 26 type inference files in 7 focused Rust modules (~9,100 lines total).
 
 **Components Completed:**
 
@@ -120,8 +120,8 @@ Type inference has been significantly enhanced from ~60% to ~85% JADX parity. De
 
 | Metric | Value |
 |--------|-------|
-| Total Tests | 1,217 passing (687 integration + 530 unit) |
-| Type Inference Parity | **~90%** (up from ~85%, 7 files / ~7,100 lines, 58 type tests) |
+| Total Tests | 1,254 passing (690 integration + 564 unit) |
+| Type Inference Parity | **~90%** (up from ~85%, 7 files / ~9,100 lines, 58 type tests) |
 | Throws Parity | 41.7% (up from ~13.7%, 3x improvement) |
 | Kotlin Parity | 100% (BitEncoding ported, all modifiers work) |
 | DEX Debug Info | 100% (DBG_SET_FILE uleb128 fix) |

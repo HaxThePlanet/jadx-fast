@@ -44,7 +44,7 @@ All code optimization patterns from JADX's ModVisitor have been implemented in D
 
 ### Type Inference: ~85% JADX Parity (Dec 22, 2025)
 
-Type inference enhanced from ~60% to ~85% JADX parity. Dexterity now implements the core functionality of JADX's 26 type inference files in 7 focused Rust modules (~7,100 lines total).
+Type inference enhanced from ~60% to ~85% JADX parity. Dexterity now implements the core functionality of JADX's 26 type inference files in 7 focused Rust modules (~9,100 lines total).
 
 | Component | Description | Status |
 |-----------|-------------|--------|
