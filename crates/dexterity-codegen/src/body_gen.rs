@@ -7237,7 +7237,6 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             // Check if this is StringBuilder/StringBuffer for chain optimization
                             // Use simple name for matching since type_name is full path like "java/lang/StringBuilder"
                             let simple_type_name = type_name.rsplit('/').next().unwrap_or(&type_name);
-                            eprintln!("DEBUG StringBuilder: type_name={} simple={} is_sb={}", type_name, simple_type_name, is_stringbuilder_class(simple_type_name));
                             if is_stringbuilder_class(simple_type_name) {
                                 // Start tracking the chain with constructor arg (if any)
                                 let initial_arg = if args.len() > 1 {
