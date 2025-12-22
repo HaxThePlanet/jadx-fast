@@ -120,6 +120,9 @@ cargo build --release -p dexterity-cli
 | dexterity-resources | Resource decoding | 100% |
 | dexterity-deobf | Deobfuscation | 90% |
 | dexterity-kotlin | Kotlin metadata | 100% |
+| dexterity-llm-postproc | LLM post-processing | N/A |
+| dexterity-qa | Quality assurance tooling | N/A |
+| dexterity-py | Python bindings | N/A |
 | dexterity-cli | CLI application | 95% |
 
 *Feature completeness vs JADX. Overall grade: **B+**. Variable naming: JADX slightly better (0.93 vs 0.70-0.81). See [Quality Status](docs/QUALITY_STATUS.md).*
