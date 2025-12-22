@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 3 P1, 2 P2 Open | IR 100% | Kotlin 100% | IR Type System + SSA Parity Complete (Dec 22, 2025)
+**Status:** 0 P0, 1 P1 (partial), 2 P2 Open | IR 100% | Kotlin 100% | IR Type System + SSA Parity Complete (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---

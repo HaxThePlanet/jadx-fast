@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 3 P1, 2 P2 | IR 100% Complete | P0-C08 fixed (instanceof syntax), P1-S08 fixed (short-circuit prelude), P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 partial (simple ternaries), P1-S07 fixed (Dec 22, 2025)
+**Status:** Open: 0 P0, 1 P1 (S05 partial), 2 P2 | IR 100% Complete | P1-S04/S10 likely fixed (cannot repro), P1-S05 partial (nested ternaries) (Dec 22, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -27,13 +27,13 @@
 | ~~P1-S01~~ | ~~Empty if blocks missing return~~ | **FIXED** - is_empty_region() fix | body_gen.rs |
 | ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns (59.6% reduction) + method args (27 fixes) + dead code elimination for 0/1 constants | body_gen.rs |
 | ~~P1-S03~~ | ~~Wrong return value~~ | **MERGED with P1-S05** - Same root cause (control flow reconstruction) | body_gen.rs |
-| P1-S04 | Wrong method signature call | **NEEDS REPRO** - 2 args passed to 1-arg method (wide type handling?) | body_gen.rs |
+| P1-S04 | Wrong method signature call | **CANNOT REPRO** - 2 args passed to 1-arg method; no examples found in test APKs (Dec 22) | body_gen.rs |
 | P1-S05 | Control flow logic wrong | **PARTIAL** - Merge block prelude processing for simple ternaries; complex nested ternary patterns (like `D(long j)`) still broken - inner ternary not detected | var_naming.rs, body_gen.rs |
 | ~~P1-S06~~ | ~~Missing try-catch blocks~~ | **FIXED** - Block ID vs offset mismatch fixed, handler addresses as block leaders, stack overflow prevention | region_builder.rs, block_split.rs, decompiler.rs, body_gen.rs |
 | ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
 | ~~P1-S08~~ | ~~Method calls before guard~~ | **FIXED** - Only emit first block prelude for short-circuit conditions (AND/OR) | body_gen.rs |
 | ~~P1-S09~~ | ~~For-each over Iterator~~ | **FIXED** - Validate collection expr or fall back to while | body_gen.rs |
-| P1-S10 | Code after loop ends | **NEEDS REPRO** - `it.next()` after while loop (related to P1-S07) | body_gen.rs |
+| P1-S10 | Code after loop ends | **LIKELY FIXED** - Related to P1-S07 (loop counter fix); no examples found in test APKs (Dec 22) | body_gen.rs |
 | ~~P1-S11~~ | ~~Missing throws declaration~~ | **FIXED** - Parse dalvik/annotation/Throws | method_gen.rs |
 | ~~P1-S12~~ | ~~Empty catch block~~ | **FIXED** - Same root cause as P1-S06; block ID vs offset mismatch fixed with stack overflow prevention | region_builder.rs, body_gen.rs |
 
