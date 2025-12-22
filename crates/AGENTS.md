@@ -5,8 +5,8 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 1,217 tests passing (687 integration + 530 unit tests)
-**Integration Tests:** 687 passing (100%)
+**Tests:** 1,262 tests passing (715 integration + 547 unit tests)
+**Integration Tests:** 715 passing (100%)
 **Lines:** ~103,000 lines of Rust
 **IR Parity:** 100% JADX parity (Dec 21, 2025)
 **Kotlin:** 100% parity (BitEncoding ported)
@@ -183,7 +183,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 ## Build Commands
 
 ```bash
-cd /mnt/nvme4tb/jadx-fast/crates
+cd /mnt/nvme4tb/dexterity/crates
 
 # Development build
 cargo build
