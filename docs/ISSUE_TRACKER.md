@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 2 P1, 2 P2 | IR 100% Complete | P0-C08 fixed (instanceof syntax), P1-S08 fixed (short-circuit prelude), P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 fixed (merge block prelude), P1-S07 fixed (Dec 22, 2025)
+**Status:** Open: 0 P0, 3 P1, 2 P2 | IR 100% Complete | P0-C08 fixed (instanceof syntax), P1-S08 fixed (short-circuit prelude), P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 partial (simple ternaries), P1-S07 fixed (Dec 22, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -28,7 +28,7 @@
 | ~~P1-S02~~ | ~~Boolean vs int confusion~~ | **FIXED** - const_values tracking for returns (59.6% reduction) + method args (27 fixes) + dead code elimination for 0/1 constants | body_gen.rs |
 | ~~P1-S03~~ | ~~Wrong return value~~ | **MERGED with P1-S05** - Same root cause (control flow reconstruction) | body_gen.rs |
 | P1-S04 | Wrong method signature call | **NEEDS REPRO** - 2 args passed to 1-arg method (wide type handling?) | body_gen.rs |
-| ~~P1-S05~~ | ~~Control flow logic wrong~~ | **FIXED** - Merge block prelude processing for ternaries; underscore naming (87.6% reduction: j_2->j2); boolean returns | var_naming.rs, body_gen.rs |
+| P1-S05 | Control flow logic wrong | **PARTIAL** - Merge block prelude processing for simple ternaries; complex nested ternary patterns (like `D(long j)`) still broken - inner ternary not detected | var_naming.rs, body_gen.rs |
 | ~~P1-S06~~ | ~~Missing try-catch blocks~~ | **FIXED** - Block ID vs offset mismatch fixed, handler addresses as block leaders, stack overflow prevention | region_builder.rs, block_split.rs, decompiler.rs, body_gen.rs |
 | ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
 | ~~P1-S08~~ | ~~Method calls before guard~~ | **FIXED** - Only emit first block prelude for short-circuit conditions (AND/OR) | body_gen.rs |
@@ -55,28 +55,69 @@
 
 #### P1-S05: Control Flow Logic Fix (Dec 22, 2025)
 
-**Status:** FIXED
+**Status:** PARTIAL
 
 **Example Method:** `com/amplitude/api/f.java:D(long j)`
 
-**Root Cause:** Merge block instructions (field accesses, arithmetic) weren't processed before ternary extraction, causing undefined variables when the merge block's comparison used operands from those instructions.
+**Expected (JADX):**
+```java
+private boolean D(long j2) {
+    return j2 - this.w < (this.H ? this.D : this.E);
+}
+```
 
-**Fix Applied (Dec 22, 2025):**
-1. **`find_merge_block_for_ternary()`** - Finds common successor of then/else value blocks (the merge block where ternary result is used)
-2. **`process_merge_block_prelude_for_ternary()`** - Processes merge block instructions up to where ternary result is used, storing inline expressions
-3. **`uses_register()` helper** - Checks if InsnArg references a specific register
-4. **TernaryAssignment integration** - Calls merge block prelude processing after condition prelude, before ternary extraction
+**Current (Dexterity):**
+```java
+private boolean D(long j) {
+    long l;
+    int j2 = 0;
+    j -= l2;
+    return j < l ? 1 : 0;
+}
+```
+
+**Root Cause Analysis (Dec 22, 2025):**
+
+The bytecode structure is:
+```smali
+iget-boolean v0, this.H     ; Block 0: condition
+if-eqz v0, :else
+iget-wide v0, this.D        ; Block 1: then (ternary value)
+goto :merge
+:else
+iget-wide v0, this.E        ; Block 2: else (ternary value)
+:merge
+iget-wide v2, this.w        ; Block 3: merge block
+sub-long p1, v2
+cmp-long p1, p1, v0
+if-gez p1, :false           ; Block 3 continued: outer ternary
+const 1
+goto :ret
+:false
+const 0
+:ret
+return p1
+```
+
+The issue is that the **inner ternary** (`this.H ? this.D : this.E` for v0) is not being detected as a TernaryAssignment region, even though it should satisfy all criteria:
+- Both branches are single blocks (blocks 1, 2)
+- Both have single meaningful instructions (iget-wide)
+- Both assign to the same register (v0)
+
+Investigation needed:
+1. Why isn't the ternary detection triggering for the inner pattern?
+2. Is there a block splitting issue that prevents correct analysis?
+3. Is the condition analysis grouping blocks incorrectly?
+
+**Partial Fix Applied (Dec 22, 2025):**
+- `find_merge_block_for_ternary()` - Finds common successor of then/else value blocks
+- `process_merge_block_prelude_for_ternary()` - Processes merge block prelude
+- `uses_register()` helper - Checks register references
 
 **Previous fixes (Dec 21, 2025):**
-- **Underscore naming pattern** - `j2` instead of `j_2`
-- **Field access inlining** - InstanceGet/StaticGet check `should_inline()`
-- **Ternary sub-expressions inline** - Uses `gen_arg_inline()` for condition/then/else
-- **Fallthrough on gen_insn_inline failure** - Falls through to normal declaration
-
-**Results:**
-- All 1,241 tests pass
-- No undefined variable errors in merge blocks
-- Nested ternary patterns correctly inline
+- Underscore naming pattern (`j2` instead of `j_2`)
+- Field access inlining improvements
+- Ternary sub-expressions inline
 
 **Files Changed:** `body_gen.rs`, `var_naming.rs`
 

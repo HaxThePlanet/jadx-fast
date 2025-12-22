@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 2 P1, 2 P2 Open | IR 100% | Kotlin 100% | IR Type System + SSA Parity Complete (Dec 22, 2025)
+**Status:** 0 P0, 3 P1, 2 P2 Open | IR 100% | Kotlin 100% | IR Type System + SSA Parity Complete (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -26,14 +26,14 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open it
 
 ## Completed
 
-### P1-S05: Merge Block Prelude Processing for Ternaries (Dec 22, 2025)
+### P1-S05: Merge Block Prelude Processing for Ternaries (Dec 22, 2025) - PARTIAL
 
-- **Fixed nested ternary patterns** - `return j - this.w < (cond ? a : b)` now correctly inlines
+- **Partial fix for nested ternary patterns** - Simple cases improved, complex nested ternaries still broken
 - **Added `find_merge_block_for_ternary()`** - Finds common successor of then/else value blocks
 - **Added `process_merge_block_prelude_for_ternary()`** - Processes merge block instructions before ternary use
 - **Added `uses_register()` helper** - Checks if InsnArg references specific register
-- **Integration in TernaryAssignment** - Ensures inline expressions available when merge block uses ternary result
-- **Results:** All 1,241 tests pass, undefined variable errors eliminated in merge blocks
+- **Remaining issue:** Inner ternary not detected in `D(long j)` pattern despite meeting all criteria
+- **Investigation needed:** Block splitting, condition analysis, or region builder issue
 - **Files changed:** `body_gen.rs`
 
 ### P0-C08: Invalid instanceof Syntax Fix (Dec 21, 2025)
