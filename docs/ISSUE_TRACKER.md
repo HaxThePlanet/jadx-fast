@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 4 P0, 3 P1, 0 P2 | IR 100% Complete | **f.java audit FAILED** (Dec 22, 2025)
+**Status:** Open: 2 P0, 2 P1, 0 P2 | IR 100% Complete | **f.java audit FAILED** (Dec 22, 2025)
 **Reference Files:**
 - `io/grpc/j1/f.java` (ApplicationThreadDeframer - 185 lines) - try-catch/control flow bugs
 - `net/time4j/f.java` (CalendarUnit - 380 lines) - enum/switch/literal bugs
@@ -8,23 +8,23 @@
 
 ## Open Issues (from f.java Audit Dec 22, 2025)
 
-### P0 Critical (Code Won't Compile) - 4 OPEN (1 fixed Dec 22)
+### P0 Critical (Code Won't Compile) - 2 OPEN (3 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
 | **P0-CFG01** | Try-catch exception variable scope corruption | **HARD** | `th` used before catch | region_builder.rs, body_gen.rs |
-| **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | `if (x) {}` missing return | region_builder.rs |
+| ~~P0-CFG02~~ | ~~Empty if-body for early returns~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 | **P0-CFG03** | Undefined variables in complex expressions | **HARD** | `l -= l2` where l undefined | ssa.rs, var_naming.rs |
-| **P0-TYPE01** | Double literals as raw long bits | **EASY** | `3.15E10d` → `4764073672128331776L` | codegen/literals.rs |
+| ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 | type_inference.rs |
 | ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 
-### P1 Semantic (Wrong Behavior) - 3 OPEN
+### P1 Semantic (Wrong Behavior) - 2 OPEN (1 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
 | **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | Entire else logic lost | region_builder.rs |
 | **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | `l4 /= i5` in switch | body_gen.rs, ssa.rs |
-| **P1-ENUM01** | Enum reconstruction failures | **MEDIUM** | Inner enums extend outer | class_gen.rs |
+| ~~P1-ENUM01~~ | ~~Enum reconstruction failures~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | class_gen.rs |
 
 ---
 
@@ -63,9 +63,9 @@ try {
 
 ---
 
-### P0-CFG02: Empty if-body for early returns
+### P0-CFG02: Empty if-body for early returns - FIXED (Dec 22, 2025)
 
-**Severity:** CRITICAL | **Difficulty:** MEDIUM
+**Severity:** CRITICAL | **Difficulty:** MEDIUM | **Status:** ✅ FIXED
 **Files:** `io/grpc/j1/f.java`, `com/geetest/sdk/f.java`
 
 **JADX (correct):**
@@ -76,14 +76,21 @@ if (f.this.f5575c.isClosed()) {
 f.this.f5575c.e(this.a);
 ```
 
-**Dexterity (broken):**
+**Dexterity (was broken):**
 ```java
 if (this.b.c.isClosed()) {
 }  // EMPTY! Missing return
 this.b.c.e(this.a);  // Always executes
 ```
 
-**Root Cause:** Return statements inside if blocks not being decompiled. Control flow reconstruction loses early return.
+**Root Cause:** The `generate_block()` function was skipping void return instructions when they were the last instruction in their block (`i == last_idx`). This optimization is valid for trailing returns at method end, but NOT for early returns inside conditional branches.
+
+**Fix Applied (Dec 22, 2025):**
+1. Added `region_depth` check to the void return skip logic in `body_gen.rs:5816`
+2. Now only skips void returns when `ctx.region_depth == 1` (top-level method body)
+3. Inside conditionals/loops (`region_depth >= 2`), void returns are preserved as early exits
+
+**Files Changed:** `body_gen.rs`
 
 ---
 
@@ -109,9 +116,9 @@ return l -= g0Var;  // ERROR: l undefined
 
 ---
 
-### P0-TYPE01: Double literals as raw long bits
+### P0-TYPE01: Double literals as raw long bits - FIXED (Dec 22, 2025)
 
-**Severity:** CRITICAL | **Difficulty:** EASY
+**Severity:** CRITICAL | **Difficulty:** EASY | **Status:** FIXED
 **Files:** `net/time4j/f.java` enum inner classes
 
 **JADX (correct):**
@@ -121,16 +128,16 @@ public double getLength() {
 }
 ```
 
-**Dexterity (broken):**
+**Dexterity (was broken, now fixed):**
 ```java
 public double getLength() {
-    return 4764073672128331776L;  // Raw IEEE 754 bits!
+    return 3.1556952E10d;  // Now correctly formatted as double
 }
 ```
 
-**Root Cause:** Double literal decompilation treating raw IEEE 754 bits as long values. Constant pool handling bug.
+**Root Cause:** Type inference for Return instructions only propagated Boolean types, not Double/Float/Long. Wide constants (const-wide) are stored as raw bits that could be Long OR Double. The method return type now propagates via UseBound constraint to resolve the ambiguity.
 
-**Fix Hint:** Check `Double.longBitsToDouble()` conversion in literal emission.
+**Fix:** Extended Return instruction handling in `type_inference.rs` to propagate all primitive return types (Double, Float, Long, Int, Short, Byte, Char, Boolean) via UseBound constraints.
 
 ---
 
@@ -156,13 +163,17 @@ if (systemUiVisibility &= i2 == i2 || i == i2) {  // NONSENSICAL
 **Root Causes:**
 1. Compound assignments (`&=`) were being generated for inline expressions via `detect_increment_decrement()`, but compound assignments are statements, not expressions.
 2. Bitwise operators (`&`, `|`, `^`) have lower precedence than comparison operators in Java, so `a & b == c` parses as `a & (b == c)` instead of `(a & b) == c`.
+3. For compound conditions (AND/OR), only the first condition block was being processed for inlining, so subsequent blocks' expressions weren't available.
 
 **Fixes Applied (Dec 22, 2025):**
 1. Removed `detect_increment_decrement` from inline expression generation (body_gen.rs:1304-1317) - compound assignments are statements, not expressions
 2. Added `wrap_for_comparison()` helper to wrap expressions with bitwise operators in parentheses (body_gen.rs:4017-4030)
 3. Applied `wrap_for_comparison()` to left operand in comparison conditions (body_gen.rs:3839-3841)
+4. **FIX #4:** Modified `emit_condition_block_prelude()` to process ALL condition blocks for inlining, not just the first block. This ensures expressions like binary operations and constants in subsequent OR/AND branches are available when generating condition strings.
 
 **Files Changed:** `body_gen.rs`
+
+**Remaining Issues:** Variable naming still shows `i2` instead of `4` and `1024` - this is a separate constant propagation issue (P0-CFG03).
 
 ---
 
@@ -243,19 +254,28 @@ case 2: long l = f.j.e(obj2, obj); break;  // Partial
 
 ---
 
-### P1-ENUM01: Enum reconstruction failures
+### P1-ENUM01: Enum reconstruction failures - FIXED (Dec 22, 2025)
 
-**Severity:** HIGH | **Difficulty:** MEDIUM
+**Severity:** HIGH | **Difficulty:** MEDIUM | **Status:** ✅ FIXED
 **Files:** `net/time4j/f.java`
 
 **JADX:** Recognizes enum as broken, emits abstract class with `/* JADX WARN: Failed to restore enum class */`
 
-**Dexterity:** Attempts `enum f` but creates invalid Java with inner enums extending outer enum:
+**Dexterity (was broken):**
 ```java
 enum a extends f { ... }  // INVALID: enums can't extend
 ```
 
-**Root Cause:** Enum reconstruction doesn't detect complex enum patterns. Should fall back to abstract class like JADX.
+**Root Cause:** The class generation code only checked for `extends java.lang.Enum` to skip, but not for other invalid superclasses. In Java, enums cannot extend ANY class - the `extends Enum<T>` is always implicit.
+
+**Fix Applied (Dec 22, 2025):**
+1. Modified `class_gen.rs` at two locations (lines 921 and 1105)
+2. For enum types, NEVER emit any `extends` clause regardless of what superclass is in bytecode
+3. This produces valid Java: `enum a { ... }` instead of `enum a extends f { ... }`
+
+**Note:** JADX's approach is more sophisticated - it demotes broken enums to `class` with a warning. Our fix keeps the enum keyword but produces compilable code.
+
+**Files Changed:** `class_gen.rs`
 
 ---
 

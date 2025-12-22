@@ -1169,8 +1169,25 @@ impl TypeInference {
                 op,
                 left,
                 right,
+                arg_type,
             } => {
                 let dest_var = self.get_or_create_var(dest);
+
+                // If we have an explicit type from the DEX opcode (e.g., div-double),
+                // use that to constrain all operands and result
+                if let Some(ref ty) = arg_type {
+                    self.add_constraint(Constraint::Equals(dest_var, InferredType::Concrete(ty.clone())));
+                    if let Some(l_var) = self.var_for_arg(left) {
+                        self.add_constraint(Constraint::Equals(l_var, InferredType::Concrete(ty.clone())));
+                    }
+                    if let Some(r_var) = self.var_for_arg(right) {
+                        // For shift operations, only left operand gets the type, right is always int
+                        if !matches!(op, BinaryOp::Shl | BinaryOp::Shr | BinaryOp::Ushr) {
+                            self.add_constraint(Constraint::Equals(r_var, InferredType::Concrete(ty.clone())));
+                        }
+                    }
+                }
+
                 match op {
                     BinaryOp::Add
                     | BinaryOp::Sub
@@ -1387,17 +1404,41 @@ impl TypeInference {
             }
 
             // P1-S02 enhancement: Handle Return instruction to propagate method return type
-            // If the method returns boolean, the returned value should be typed as boolean
+            // P0-TYPE01 fix: Also propagate Double/Float/Long types to resolve const-wide ambiguity
+            // Wide constants (const-wide) store raw bits that could be Long OR Double - the
+            // method return type determines which interpretation is correct.
             InsnType::Return { value: Some(arg) } => {
-                if let Some(ref return_type) = self.method_return_type {
-                    if matches!(return_type, ArgType::Boolean) {
+                if let Some(return_type) = self.method_return_type.clone() {
+                    // Propagate primitive return types to resolve const ambiguity
+                    let should_propagate = matches!(
+                        return_type,
+                        ArgType::Boolean
+                            | ArgType::Double
+                            | ArgType::Float
+                            | ArgType::Long
+                            | ArgType::Int
+                            | ArgType::Short
+                            | ArgType::Byte
+                            | ArgType::Char
+                    );
+                    if should_propagate {
                         if let Some(var) = self.var_for_arg(arg) {
-                            // Add use bound: the returned value is used as boolean
-                            self.add_use_bound(var, ArgType::Boolean);
+                            // Add use bound: the returned value is used as the return type
+                            // Use both the TypeInfo bounds system and the constraint system
+                            self.add_use_bound(var, return_type.clone());
+                            // Also add to constraints for solve() to process (like InstancePut does)
+                            if !matches!(return_type, ArgType::Unknown) {
+                                self.add_constraint(Constraint::UseBound(
+                                    var,
+                                    return_type.clone(),
+                                ));
+                            }
                             // If this is a boolean literal candidate (0 or 1 constant), mark it
-                            if let InsnArg::Register(reg) = arg {
-                                if self.boolean_literal_candidates.contains_key(&(reg.reg_num, reg.ssa_version)) {
-                                    // Already marked, constraint will help resolve it
+                            if matches!(return_type, ArgType::Boolean) {
+                                if let InsnArg::Register(reg) = arg {
+                                    if self.boolean_literal_candidates.contains_key(&(reg.reg_num, reg.ssa_version)) {
+                                        // Already marked, constraint will help resolve it
+                                    }
                                 }
                             }
                         }
@@ -3303,5 +3344,57 @@ mod tests {
 
         // v2 (the compare result) should be Int (compare always returns -1, 0, or 1)
         assert_eq!(result.types.get(&(2, 1)), Some(&ArgType::Int));
+    }
+
+    #[test]
+    fn test_double_literal_with_return_type() {
+        use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
+
+        // P0-TYPE01: Test that a wide constant gets Double type when returned from a double method
+        // This simulates: double getLength() { return 3.1556952E10d; }
+        // Raw bits of 3.1556952E10d = 4764073672128331776L
+        let double_bits: i64 = 4764073672128331776;
+
+        let blocks = vec![SsaBlock {
+            id: 0,
+            phi_nodes: vec![],
+            instructions: vec![
+                // const-wide v0, 4764073672128331776 (3.1556952E10d as raw bits)
+                InsnNode::new(
+                    InsnType::Const {
+                        dest: RegisterArg::with_ssa(0, 1),
+                        value: LiteralArg::Int(double_bits),
+                    },
+                    0,
+                ),
+                // return v0
+                InsnNode::new(
+                    InsnType::Return {
+                        value: Some(InsnArg::Register(RegisterArg::with_ssa(0, 1))),
+                    },
+                    1,
+                ),
+            ],
+            successors: vec![],
+            predecessors: vec![],
+        }];
+
+        let ssa = SsaResult {
+            blocks,
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::from_iter([(0, 1)]),
+        };
+
+        // Use the inference function with method return type = Double
+        let mut inference = TypeInference::new().with_method_return_type(ArgType::Double);
+        inference.collect_constraints(&ssa);
+        inference.solve();
+        inference.propagate_partial_phi_types();
+        let types = inference.get_all_types();
+
+        // v0 (the wide constant) should be Double due to return type propagation
+        assert_eq!(types.get(&(0, 1)), Some(&ArgType::Double),
+            "P0-TYPE01: Wide constant returned from double method should be inferred as Double, not Long");
     }
 }
