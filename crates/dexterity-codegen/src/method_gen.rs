@@ -905,7 +905,7 @@ fn collect_throws_from_instructions(
 
     // Scan instructions for INVOKE calls
     for insn in insns {
-        if let InsnType::Invoke { method_idx, args: _, kind: _, proto_idx: _ } = &insn.insn_type {
+        if let InsnType::Invoke { method_idx, .. } = &insn.insn_type {
             // Get method info from dex_info
             if let Some(method_info) = dex_info.get_method(*method_idx) {
                 // class_type is in internal format (e.g., "org/json/JSONObject")

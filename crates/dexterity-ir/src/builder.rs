@@ -420,30 +420,35 @@ pub fn build_ir_insn(
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
             proto_idx: None,
+            dest: None,
         },
         0x6f => InsnType::Invoke {
             kind: InvokeKind::Super,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
             proto_idx: None,
+            dest: None,
         },
         0x70 => InsnType::Invoke {
             kind: InvokeKind::Direct,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
             proto_idx: None,
+            dest: None,
         },
         0x71 => InsnType::Invoke {
             kind: InvokeKind::Static,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
             proto_idx: None,
+            dest: None,
         },
         0x72 => InsnType::Invoke {
             kind: InvokeKind::Interface,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
             proto_idx: None,
+            dest: None,
         },
 
         // INVOKE/RANGE variants
@@ -452,30 +457,35 @@ pub fn build_ir_insn(
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
             proto_idx: None,
+            dest: None,
         },
         0x75 => InsnType::Invoke {
             kind: InvokeKind::Super,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
             proto_idx: None,
+            dest: None,
         },
         0x76 => InsnType::Invoke {
             kind: InvokeKind::Direct,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
             proto_idx: None,
+            dest: None,
         },
         0x77 => InsnType::Invoke {
             kind: InvokeKind::Static,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
             proto_idx: None,
+            dest: None,
         },
         0x78 => InsnType::Invoke {
             kind: InvokeKind::Interface,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
             proto_idx: None,
+            dest: None,
         },
 
         // Unary operations
@@ -662,12 +672,14 @@ pub fn build_ir_insn(
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
             proto_idx,
+            dest: None,
         },
         0xfb => InsnType::Invoke {
             kind: InvokeKind::Polymorphic,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
             proto_idx,
+            dest: None,
         },
         // invoke-custom - for lambdas and method references
         0xfc => InsnType::InvokeCustom {
@@ -815,6 +827,7 @@ mod tests {
                 method_idx,
                 args,
                 proto_idx,
+                ..
             } => {
                 assert_eq!(kind, InvokeKind::Virtual);
                 assert_eq!(method_idx, 100);

@@ -12,7 +12,7 @@ use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{
     assign_var_names, split_blocks_with_handlers, transform_to_ssa, transform_to_ssa_owned, infer_types, simplify_instructions,
-    inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, BlockSplitResult, CFG, SsaResult,
+    inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, process_instructions, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
 };
 use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_duplicated_finally, refine_loops_with_patterns};
@@ -55,13 +55,17 @@ pub fn decompile_method(
         return None;
     }
 
+    // JADX parity: Merge invoke + move-result pairs BEFORE block splitting
+    let mut insns_vec = insns.to_vec();
+    process_instructions(&mut insns_vec);
+
     // Stage 1: Block splitting (pass reference to avoid Vec clone)
     // Collect exception handler addresses - they must be block leaders for proper try-catch detection
     let handler_addrs: Vec<u32> = method.try_blocks
         .iter()
         .flat_map(|tb| tb.handlers.iter().map(|h| h.handler_addr))
         .collect();
-    let blocks = split_blocks_with_handlers(insns, &handler_addrs);
+    let blocks = split_blocks_with_handlers(&insns_vec, &handler_addrs);
     if blocks.blocks.is_empty() {
         return None;
     }

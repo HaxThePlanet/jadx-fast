@@ -962,6 +962,7 @@ mod tests {
                 method_idx: 0,
                 args: vec![InsnArg::reg(0)].into(),
                 proto_idx: None,
+                dest: None,
             },
             0,
         );
@@ -977,6 +978,7 @@ mod tests {
                 method_idx: 0,
                 args: vec![InsnArg::reg(0)].into(),
                 proto_idx: None,
+                dest: None,
             },
             1,
         );
@@ -1002,6 +1004,7 @@ mod tests {
                 method_idx: 0,
                 args: vec![InsnArg::reg(0), InsnArg::reg(1)].into(),
                 proto_idx: None,
+                dest: None,
             },
             1,
         );

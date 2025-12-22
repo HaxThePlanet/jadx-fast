@@ -42,7 +42,7 @@ use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_dup
 use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 use dexterity_passes::var_naming::types_compatible_for_naming;
-use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen};
+use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen, process_instructions};
 
 use crate::class_gen::{get_inner_class_simple_name, is_anonymous_class};
 use crate::dex_info::DexInfoProvider;
@@ -1725,7 +1725,11 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
         }
     };
 
-    let block_result = split_blocks(insns);
+    // JADX parity: Merge invoke + move-result pairs BEFORE block splitting
+    let mut insns_vec = insns.to_vec();
+    process_instructions(&mut insns_vec);
+
+    let block_result = split_blocks(&insns_vec);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -1868,7 +1872,11 @@ fn generate_body_impl<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     code: &mut W,
 ) {
-    let block_result = split_blocks(insns);
+    // JADX parity: Merge invoke + move-result pairs BEFORE block splitting
+    let mut insns_vec = insns.to_vec();
+    process_instructions(&mut insns_vec);
+
+    let block_result = split_blocks(&insns_vec);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -2145,7 +2153,11 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
         }
     };
 
-    let block_result = split_blocks(insns);
+    // JADX parity: Merge invoke + move-result pairs BEFORE block splitting
+    let mut insns_vec = insns.to_vec();
+    process_instructions(&mut insns_vec);
+
+    let block_result = split_blocks(&insns_vec);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -2504,18 +2516,45 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
     // Look for an Invoke calling next() on the iterator
     for (i, insn) in block.instructions.iter().enumerate() {
         // Check both Interface and Virtual invokes
-        if let InsnType::Invoke { kind, method_idx, args, .. } = &insn.insn_type {
+        if let InsnType::Invoke { kind, method_idx, args, dest, .. } = &insn.insn_type {
             if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
                 if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
                     if &*method_info.method_name == "next" && args.len() == 1 {
                         if let InsnArg::Register(reg) = &args[0] {
                             if reg.reg_num == iterator_reg {
                                 // Found next() call on the same iterator
-                                // Look for MoveResult to get item variable name
+                                // Look for result destination (either merged dest or following MoveResult)
                                 let mut item_var = "item".to_string();
                                 let mut item_type: Option<String> = None;
 
-                                // Check next instruction for MoveResult
+                                // JADX parity: Check if Invoke has merged dest first
+                                if let Some(dest_reg) = dest {
+                                    item_var = ctx.expr_gen.get_var_name(dest_reg);
+
+                                    // Check for CheckCast following Invoke to get item type
+                                    let mut has_cast = false;
+                                    if i + 1 < block.instructions.len() {
+                                        let cast_insn = &block.instructions[i + 1];
+                                        if let InsnType::CheckCast { type_idx, .. } = &cast_insn.insn_type {
+                                            if let Some(type_name) = ctx.expr_gen.get_type_value(*type_idx) {
+                                                let simple = type_name.rsplit('/').next().unwrap_or(&type_name);
+                                                item_type = Some(simple.to_string());
+                                                has_cast = true;
+                                            }
+                                        }
+                                    }
+                                    // Skip: next() (merged) + optionally CheckCast
+                                    let skip_count = if has_cast { 2 } else { 1 };
+                                    return Some(ForEachInfo {
+                                        item_var,
+                                        item_type,
+                                        skip_block: first_block,
+                                        skip_start: i,
+                                        skip_count,
+                                    });
+                                }
+
+                                // Legacy path: Check next instruction for MoveResult
                                 if i + 1 < block.instructions.len() {
                                     let next_insn = &block.instructions[i + 1];
                                     if let InsnType::MoveResult { dest } = &next_insn.insn_type {
@@ -2545,7 +2584,7 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
                                     }
                                 }
 
-                                // No MoveResult - just skip the next() call
+                                // No MoveResult or merged dest - just skip the next() call
                                 return Some(ForEachInfo {
                                     item_var,
                                     item_type,
@@ -7100,7 +7139,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
     }
 
     // Special handling for Invoke: store expression if MoveResult follows
-    if let InsnType::Invoke { kind, method_idx, args, proto_idx } = &insn.insn_type {
+    if let InsnType::Invoke { kind, method_idx, args, proto_idx, dest } = &insn.insn_type {
         // Check if this is an <init> call on a pending new-instance
         if matches!(kind, InvokeKind::Direct) {
             // Get method info to check if this is <init>
@@ -7309,8 +7348,20 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
         }
 
         // Normal invoke handling - use inlining for arguments
-        if next_is_move_result {
-            // Store expression for MoveResult to use (needs String)
+        // JADX parity: If dest is merged (from process_instructions), handle assignment directly
+        if let Some(dest_reg) = dest {
+            let expr = gen_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx);
+            let reg = dest_reg.reg_num;
+            let version = dest_reg.ssa_version;
+
+            // If single use, store for inlining instead of emitting assignment
+            if ctx.should_inline(reg, version) {
+                ctx.store_inline_expr(reg, version, expr);
+            } else {
+                emit_assignment(dest_reg, &expr, ctx, code);
+            }
+        } else if next_is_move_result {
+            // Legacy path: Store expression for MoveResult to use (needs String)
             let expr = gen_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx);
             ctx.last_invoke_expr = Some(expr);
         } else {
@@ -7869,7 +7920,7 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::Invoke { kind, method_idx, args, proto_idx } => {
+        InsnType::Invoke { kind, method_idx, args, proto_idx, .. } => {
             // Use write_invoke_with_inlining to properly inline constant arguments
             code.start_line();
             write_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx, code);

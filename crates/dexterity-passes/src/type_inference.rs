@@ -1026,7 +1026,7 @@ impl TypeInference {
                 }
             }
 
-            InsnType::Invoke { method_idx, args, .. } => {
+            InsnType::Invoke { method_idx, args, dest, .. } => {
                 // Method signature determines arg types and return type
                 // Reset instance var tracking for this invoke
                 self.last_invoke_instance_var = None;
@@ -1039,13 +1039,19 @@ impl TypeInference {
                         // Track it for resolving TypeVariables in return types
                         // Instance methods have one more arg than param_types (the implicit 'this')
                         let is_instance_method = args.len() > param_types.len();
+
+                        // Track instance var and reg for generic type resolution
+                        let mut instance_var_for_dest = None;
+                        let mut instance_reg_for_dest = None;
                         if is_instance_method {
                             if let Some(instance_arg) = args.first() {
                                 if let Some(instance_var) = self.var_for_arg(instance_arg) {
                                     self.last_invoke_instance_var = Some(instance_var);
+                                    instance_var_for_dest = Some(instance_var);
                                     // Track register info for TypeBoundInvokeAssign
                                     if let InsnArg::Register(reg) = instance_arg {
                                         self.last_invoke_instance_reg = Some((reg.reg_num, reg.ssa_version));
+                                        instance_reg_for_dest = Some((reg.reg_num, reg.ssa_version));
                                     }
                                 }
                             }
@@ -1089,8 +1095,31 @@ impl TypeInference {
                                 ));
                             }
                         }
-                        // Store return type for subsequent MoveResult
-                        self.last_invoke_return = Some(return_ty);
+
+                        // JADX parity: If dest is merged (from process_instructions), handle type directly
+                        if let Some(dest_reg) = dest {
+                            let dest_var = self.get_or_create_var(dest_reg);
+
+                            // Check if return type contains TypeVariable and we have instance info
+                            if Self::contains_type_variable(&return_ty) {
+                                if let Some(inst_var) = instance_var_for_dest {
+                                    // Track this for post-solve resolution
+                                    self.pending_type_var_resolutions.push((dest_var, inst_var, return_ty.clone()));
+                                }
+                                // Add dynamic invoke bound for generic type resolution
+                                if let Some((reg_num, ssa_version)) = instance_reg_for_dest {
+                                    self.add_invoke_bound(dest_var, *method_idx, return_ty.clone(), reg_num, ssa_version);
+                                }
+                            } else {
+                                // Non-generic return type - add as assign bound
+                                self.add_assign_bound(dest_var, return_ty.clone());
+                            }
+                            // Always add the constraint (will be refined post-solve if needed)
+                            self.add_constraint(Constraint::Equals(dest_var, InferredType::Concrete(return_ty)));
+                        } else {
+                            // No merged dest - store return type for subsequent MoveResult (legacy path)
+                            self.last_invoke_return = Some(return_ty);
+                        }
                     }
                 }
             }

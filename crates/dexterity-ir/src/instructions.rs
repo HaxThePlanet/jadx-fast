@@ -305,6 +305,9 @@ pub enum InsnType {
         args: InsnArgs,
         /// Proto index for polymorphic invokes (MethodHandle/VarHandle)
         proto_idx: Option<u32>,
+        /// Result register (merged from MoveResult, JADX parity)
+        /// Set by process_instructions pass BEFORE SSA transformation
+        dest: Option<RegisterArg>,
     },
 
     /// Lambda/method reference invocation (invoke-custom)
