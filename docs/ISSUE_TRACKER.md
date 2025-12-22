@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 1 P1 (S10 open), 0 P2 | IR 100% Complete | P1-S02 enhanced, P1-S05 fixed, P2-Q01/Q02/Q03 fixed (Dec 22, 2025)
+**Status:** Open: 0 P0, 1 P1 (S10 open with 6 sub-issues), 0 P2 | IR 100% Complete | P1-S10 split into sub-issues (Dec 22, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -33,7 +33,7 @@
 | ~~P1-S07~~ | ~~Truncated loop body~~ | **FIXED** - Semantic origin tracking prevents ArrayBound/LoopCounter variable collapse | var_naming.rs |
 | ~~P1-S08~~ | ~~Method calls before guard~~ | **FIXED** - Only emit first block prelude for short-circuit conditions (AND/OR) | body_gen.rs |
 | ~~P1-S09~~ | ~~For-each over Iterator~~ | **FIXED** - Validate collection expr or fall back to while | body_gen.rs |
-| P1-S10 | Code after loop ends | **OPEN** - P1-S07 fix works in unit tests but real APK output shows ~60-70% JADX parity. Issues: undefined variables, broken loop syntax, corrupted control flow. See **P1-S10 Quality Gap** below. | body_gen.rs, var_naming.rs, type_inference.rs |
+| P1-S10 | Code after loop ends | **OPEN** - Split into 6 sub-issues (P1-S10a through P1-S10f). Real APK output shows ~60-70% JADX parity. See **P1-S10 Sub-Issues** below. | body_gen.rs, var_naming.rs, type_inference.rs |
 | ~~P1-S11~~ | ~~Missing throws declaration~~ | **FIXED** - Parse dalvik/annotation/Throws | method_gen.rs |
 | ~~P1-S12~~ | ~~Empty catch block~~ | **FIXED** - Same root cause as P1-S06; block ID vs offset mismatch fixed with stack overflow prevention | region_builder.rs, body_gen.rs |
 
@@ -72,39 +72,71 @@
 
 **Files Changed:** `block_split.rs`, `ternary_mod.rs`
 
-#### P1-S10: Quality Gap Investigation (Dec 22, 2025)
+#### P1-S10: Sub-Issues (Dec 22, 2025)
 
-**Status:** INVESTIGATION COMPLETE - Broader quality issues identified
+**Status:** OPEN - Split into 6 sub-issues for better tracking
 
-**Summary:** The P1-S07 fix (SemanticOrigin tracking) works correctly in integration tests (60+ loop tests pass). However, real APK output shows significant quality gaps compared to JADX.
+**Summary:** Real APK output shows ~60-70% JADX parity. The original P1-S10 was too broad - now split into specific, actionable sub-issues.
+
+| Sub-ID | Category | Status | Description |
+|--------|----------|--------|-------------|
+| P1-S10a | Type Inference | OPEN | Variables assigned wrong types |
+| P1-S10b | Undefined Variables | OPEN | Variables used before declaration |
+| P1-S10c | Loop Detection | OPEN | Wrong loop construct chosen |
+| P1-S10d | SSA/PHI Resolution | OPEN | PHI nodes not resolving properly |
+| P1-S10e | Arithmetic Corruption | OPEN | Operations on undefined values |
+| P1-S10f | Unknown Type Fallback | OPEN | Type inference gives up |
+
+**P1-S10a: Type Inference**
+- Variables assigned wrong types (e.g., File assigned to int parameter)
+- Example: `FileManager.java:72` - `i = new File(str);` should be `File file = new File(str);`
+- Root cause: Type not propagated from RHS expression to variable
+- Location: `type_inference.rs`
+
+**P1-S10b: Undefined Variables**
+- Variables referenced but never declared in scope
+- Examples:
+  - `FileManager.java:87` - `i72` never declared
+  - `FileManager.java:79` - `str3` used from wrong scope
+  - `Base64.java:29` - `length3` never declared
+  - `Base64.java:53` - `iALPHABET` (missing `this.`)
+- Root cause: SSA version not mapped to CodeVar
+- Location: `var_naming.rs`, `body_gen.rs`
+
+**P1-S10c: Loop Detection**
+- Wrong loop type chosen (while instead of for-each)
+- Example: `FileManager.java:79` - `while (i3 < str3.length)` should be `for (File file2 : fileArrListFiles)`
+- Root cause: Iterator source detection failing for complex cases
+- Location: `body_gen.rs`
+
+**P1-S10d: SSA/PHI Resolution**
+- PHI nodes not merging variables correctly
+- Multiple SSA versions not unified into single variable
+- PHI nodes creating new variables instead of merging existing ones
+- Root cause: PHI operands not unified correctly
+- Location: `var_naming.rs`, `ssa.rs`
+
+**P1-S10e: Arithmetic Corruption**
+- Operations on undefined values produce invalid code
+- Examples:
+  - `Base64.java:78` - `i16 *= 3;` (i16 undefined)
+  - `Base64.java:82` - `i22 <<= i;` (i22 undefined)
+  - `Base64.java:87` - `i23 += i;` (i23 undefined)
+- Root cause: Instruction operands not resolved to variables
+- Location: `body_gen.rs`
+
+**P1-S10f: Unknown Type Fallback**
+- Type inference gives up and produces `Object /* Unknown type */`
+- Example: `Base64.java:74` - `Object /* Dexterity WARNING: Unknown type */ obj3`
+- Root cause: No type constraints available for complex expressions
+- Location: `type_inference.rs`
 
 **Test Results:**
-- All 690 integration tests pass
-- 60+ loop-specific tests pass
-- Synthetic source code decompiles correctly
-
-**Real APK Comparison (medium.apk):**
-
-| File | JADX | Dexterity | Issue |
-|------|------|-----------|-------|
-| `FileManager.java:72` | `File file = new File(str)` | `i = new File(str)` | Type confusion - File assigned to int |
-| `FileManager.java:80` | `for (File file2 : fileArrListFiles)` | `while (i3 < str3.length)` | Undefined `str3`, wrong loop type |
-| `FileManager.java:88` | Proper condition with named vars | `if (i72 <= i3 && ...)` | Undefined `i72` |
-| `Base64.java:68` | `while (i7 < i2)` | `while (i < i20 *= 3)` | Invalid Java syntax |
-| `Strings.java:61-67` | For loop with `sb.append(str)` | For-each missing `sb.append(str)` | Missing loop body statements |
+- All 690+ integration tests pass (use synthetic Java, simpler bytecode)
+- Real APK comparison shows ~60-70% JADX parity
 
 **Root Cause Analysis:**
-1. **Integration test gap** - Tests use synthetic Java source that compiles to simpler bytecode. Real APKs have complex optimization patterns (ProGuard/R8, multi-DEX) not covered by tests.
-2. **Type inference failures** - Variables losing type information during IR transformation
-3. **SSA reconstruction issues** - PHI nodes not properly resolving in complex control flow
-4. **Variable definition tracking** - Some variables defined but not tracked through all paths
-
-**Impact:** While P1-S10 (loop counter separation) is technically fixed, real APK decompilation quality is ~60-70% of JADX parity due to broader IR issues.
-
-**Recommended Actions:**
-1. Add integration tests using real APK bytecode patterns (not just synthetic source)
-2. Investigate type inference failures in complex methods
-3. Add comparison tests against JADX output for key files
+Integration tests use synthetic Java source that compiles to simpler bytecode. Real APKs have complex optimization patterns (ProGuard/R8, multi-DEX) not covered by tests.
 
 #### P1-S06 + P1-S12: Try-Catch Block Fix (Dec 21, 2025)
 
