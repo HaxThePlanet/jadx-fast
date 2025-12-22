@@ -380,6 +380,19 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
         // catch entries pointing to the same handler block
         let handlers = merge_multi_catch_handlers(handlers);
 
+        // CRITICAL FIX (P0-CFG01): Remove handler blocks from try_block_ids
+        // Handler blocks may have addresses within the try range (especially when
+        // the handler code immediately follows the try code in bytecode), but they
+        // belong to the catch handlers, not the try body.
+        // This matches JADX's prepareTryBlocks() which does:
+        //   blocks.removeAll(eh.getBlocks());
+        let mut try_block_ids = try_block_ids;
+        for handler in &handlers {
+            for &hblock in &handler.handler_blocks {
+                try_block_ids.remove(&hblock);
+            }
+        }
+
         // Find merge block (first block after all try and handler blocks)
         let all_blocks: BTreeSet<u32> = try_block_ids.iter()
             .chain(handlers.iter().flat_map(|h| h.handler_blocks.iter()))

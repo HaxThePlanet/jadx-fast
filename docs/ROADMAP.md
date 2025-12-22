@@ -7,14 +7,14 @@
 
 ## Open Work (f.java Audit Dec 22, 2025)
 
-### P0 Critical - Code Won't Compile (4 bugs, 1 fixed Dec 22)
+### P0 Critical - Code Won't Compile (4 bugs, 2 fixed Dec 22)
 
 | ID | Issue | Difficulty | Recommended Order |
 |----|-------|------------|-------------------|
 | **P0-TYPE01** | Double literals as raw long bits | **EASY** | 1st - Quick win |
 | **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | 2nd - CFG |
 | ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
-| **P0-CFG01** | Try-catch exception variable scope | **HARD** | 3rd - Deep CFG work |
+| ~~P0-CFG01~~ | ~~Try-catch exception variable scope~~ | ~~HARD~~ | **FIXED** Dec 22 |
 | **P0-CFG03** | Undefined variables in expressions | **HARD** | 4th - SSA/variable resolution |
 
 ### P1 Semantic - Wrong Behavior (3 bugs, 1 fixed Dec 22)

@@ -8,11 +8,11 @@
 
 ## Open Issues (from f.java Audit Dec 22, 2025)
 
-### P0 Critical (Code Won't Compile) - 2 OPEN (4 fixed Dec 22)
+### P0 Critical (Code Won't Compile) - 1 OPEN (5 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
-| **P0-CFG01** | Try-catch exception variable scope corruption | **HARD** | `th` used before catch | region_builder.rs, body_gen.rs |
+| ~~P0-CFG01~~ | ~~Try-catch exception variable scope corruption~~ | ~~HARD~~ | **FIXED** Dec 22 | region_builder.rs |
 | ~~P0-CFG02~~ | ~~Empty if-body for early returns~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 | **P0-CFG03** | Undefined variables in complex expressions | **HARD** | `l -= l2` where l undefined | ssa.rs, var_naming.rs |
 | ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 | instructions.rs, builder.rs, body_gen.rs |

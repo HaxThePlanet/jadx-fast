@@ -1,0 +1,19 @@
+P0-CFG01: Try-catch exception variable scope corruption
+Status: FIXED
+Started: Mon Dec 22 03:24:25 PM PST 2025
+Completed: Mon Dec 22 03:34:25 PM PST 2025
+Agent: Claude Opus 4.5
+
+Issue: Exception handler variable scope resolution failure in CFG decompilation.
+Exception block code was being placed in try block instead of catch block.
+
+Root Cause: Handler blocks with addresses within the try address range were being
+included in try_block_ids. These blocks belong to the exception handlers, not the
+try body.
+
+Fix: After computing handler_blocks via collect_handler_blocks_by_dominance(),
+remove all handler blocks from try_block_ids. This matches JADX's approach in
+prepareTryBlocks() where it does: blocks.removeAll(eh.getBlocks())
+
+Files Modified:
+- crates/dexterity-passes/src/region_builder.rs (lines 383-394)
