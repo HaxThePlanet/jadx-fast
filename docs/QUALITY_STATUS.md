@@ -1,6 +1,6 @@
 # Quality Status
 
-**Status:** 5 P0, 4 P1, 0 P2 | Kotlin 100% | Type Inference ~90% JADX parity | **f.java audit FAILED** (Dec 22, 2025)
+**Status:** 4 P0, 4 P1, 0 P2 | Kotlin 100% | Type Inference ~90% JADX parity | **f.java audit FAILED** (Dec 22, 2025)
 **Goal:** 1:1 identical decompilation output with JADX
 **Output Refresh:** Dec 21, 2025 - All 5 APK samples refreshed (~8,858 Java files)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
@@ -34,7 +34,7 @@ Critical bugs produce **non-compilable code** that also loses semantic meaning.
 
 | Priority | Status |
 |----------|--------|
-| P0 Bugs | **5 OPEN** - CFG01-05 from f.java audit (code won't compile) |
+| P0 Bugs | **4 OPEN** - CFG01-03, TYPE01 from f.java audit (code won't compile); CFG04 fixed Dec 22 |
 | P1 Bugs | **4 OPEN** - CFG06-08, ENUM01 from f.java audit |
 | P2 Bugs | **ALL FIXED** (P2-Q01, P2-Q02, P2-Q03, P2-Q04, P2-Q05 fixed) |
 | P3 Polish | **ALL DONE** - POL-001 by design (library filtering intentional), POL-002 fixed |
@@ -43,7 +43,7 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 
 ## New Bugs from f.java Audit (Dec 22, 2025)
 
-### P0 Critical (Code Won't Compile) - 5 bugs
+### P0 Critical (Code Won't Compile) - 4 bugs (1 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example File |
 |----|-------|------------|--------------|
@@ -51,13 +51,13 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 | **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | io/grpc/j1/f.java |
 | **P0-CFG03** | Undefined variables in complex expressions | **HARD** | net/time4j/f.java |
 | **P0-TYPE01** | Double literals as raw long bits | **EASY** | net/time4j/f.java |
-| **P0-CFG04** | Complex boolean expressions garbled | **MEDIUM** | com/geetest/sdk/f.java |
+| ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
 
-### P1 Semantic (Wrong Behavior) - 4 bugs
+### P1 Semantic (Wrong Behavior) - 3 bugs (1 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example File |
 |----|-------|------------|--------------|
-| **P1-CFG05** | Variables used outside exception scope | **MEDIUM** | com/geetest/sdk/f.java |
+| ~~P1-CFG05~~ | ~~Variables used outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
 | **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | com/geetest/sdk/f.java |
 | **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | net/time4j/f.java |
 | **P1-ENUM01** | Enum reconstruction failures | **MEDIUM** | net/time4j/f.java |

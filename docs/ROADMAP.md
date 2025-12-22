@@ -1,27 +1,27 @@
 # Roadmap
 
-**Status:** 5 P0, 4 P1, 0 P2 | IR 100% | Kotlin 100% | Type Inference ~90% | **f.java audit FAILED** (Dec 22, 2025)
+**Status:** 4 P0, 4 P1, 0 P2 | IR 100% | Kotlin 100% | Type Inference ~90% | **f.java audit FAILED** (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
 
 ## Open Work (f.java Audit Dec 22, 2025)
 
-### P0 Critical - Code Won't Compile (5 bugs)
+### P0 Critical - Code Won't Compile (4 bugs, 1 fixed Dec 22)
 
 | ID | Issue | Difficulty | Recommended Order |
 |----|-------|------------|-------------------|
 | **P0-TYPE01** | Double literals as raw long bits | **EASY** | 1st - Quick win |
-| **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | 2nd - Related to CFG04 |
-| **P0-CFG04** | Complex boolean expressions garbled | **MEDIUM** | 3rd - Condition handling |
-| **P0-CFG01** | Try-catch exception variable scope | **HARD** | 4th - Deep CFG work |
-| **P0-CFG03** | Undefined variables in expressions | **HARD** | 5th - SSA/variable resolution |
+| **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | 2nd - CFG |
+| ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
+| **P0-CFG01** | Try-catch exception variable scope | **HARD** | 3rd - Deep CFG work |
+| **P0-CFG03** | Undefined variables in expressions | **HARD** | 4th - SSA/variable resolution |
 
-### P1 Semantic - Wrong Behavior (4 bugs)
+### P1 Semantic - Wrong Behavior (3 bugs, 1 fixed Dec 22)
 
 | ID | Issue | Difficulty | Notes |
 |----|-------|------------|-------|
-| **P1-CFG05** | Variables outside exception scope | **MEDIUM** | Same root cause as CFG01 |
+| ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 - Exception register name linking |
 | **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | Region builder issue |
 | **P1-ENUM01** | Enum reconstruction failures | **MEDIUM** | Fall back to abstract class |
 | **P1-CFG07** | Switch case bodies undefined vars | **HARD** | Complex SSA in switch |
@@ -29,7 +29,7 @@
 ### Work Order Recommendation
 
 1. **Start with EASY (P0-TYPE01)** - Double literal fix is isolated, gives quick confidence
-2. **Tackle MEDIUM CFG bugs together** - CFG02, CFG04, CFG05, CFG06, ENUM01 share control flow roots
+2. **Tackle MEDIUM CFG bugs together** - CFG02, CFG06, ENUM01 share control flow roots (CFG04, CFG05 fixed Dec 22)
 3. **Save HARD for last** - CFG01, CFG03, CFG07 require deep understanding of SSA/CFG
 
 ### Performance TODOs
@@ -44,6 +44,21 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open it
 ---
 
 ## Completed
+
+### P0-CFG04: Complex Boolean Expressions Fix (Dec 22, 2025)
+
+**Problem:** Bitwise conditions like `(window.getDecorView().getSystemUiVisibility() & 4) == 4` were garbled into nonsensical code like `systemUiVisibility &= i2 == i2`.
+
+**Root Causes:**
+1. Compound assignments (`&=`) were being used in inline expression generation, producing statements instead of expressions
+2. Bitwise operators have lower precedence than comparison operators, so `a & b == c` parses as `a & (b == c)` instead of `(a & b) == c`
+
+**Fixes Applied:**
+1. In `body_gen.rs` lines 1304-1317: Removed `detect_increment_decrement` from inline expression generation. Compound assignments are statements, not expressions.
+2. In `body_gen.rs` lines 4017-4030: Added `wrap_for_comparison()` helper to wrap expressions containing bitwise operators (`&`, `|`, `^`) in parentheses for correct precedence.
+3. In `body_gen.rs` lines 3839-3841: Applied `wrap_for_comparison()` to left operand in comparison conditions.
+
+**Files Changed:** `body_gen.rs`
 
 ### Phase 4 Code Optimization: COMPLETE (Dec 22, 2025)
 

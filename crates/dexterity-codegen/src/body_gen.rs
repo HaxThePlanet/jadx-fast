@@ -1304,11 +1304,11 @@ fn emit_assignment_insn<W: CodeWriter>(
     // Check if this variable should be inlined (used exactly once)
     // This is the rare case where we need the String for deferred emission
     if ctx.should_inline(reg, version) {
-        // For increment/decrement patterns, generate the compact form for inlining too
-        if let Some(incr_expr) = detect_increment_decrement(dest, insn, ctx) {
-            ctx.store_inline_expr(reg, version, incr_expr);
-            return true;
-        }
+        // BUG-005 FIX: Do NOT use detect_increment_decrement for inline expressions!
+        // Compound assignments like `var &= N` are STATEMENTS, not pure expressions.
+        // Using them in conditions produces garbled code like `if (systemUiVisibility &= 4 == 4)`
+        // Instead, always use gen_insn_inline which produces `(var & N)` - a proper expression.
+        //
         // BUG-002 FIX: Use gen_insn_inline to properly substitute inlined sub-expressions.
         // This prevents self-referencing expressions like `int obj1 = (int)obj1`.
         if let Some(expr_str) = ctx.gen_insn_inline(insn) {
@@ -3836,7 +3836,9 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                         // Get the operator string
                         let op_str = if_condition_to_string(op, *negated);
 
-                        return format!("{} {} {}", left_str, op_str, right_str);
+                        // BUG-005 FIX: Wrap left operand if it contains bitwise operators
+                        // to ensure correct precedence: (a & b) == c, not a & (b == c)
+                        return format!("{} {} {}", wrap_for_comparison(&left_str), op_str, right_str);
                     }
                 }
             }
@@ -4008,6 +4010,21 @@ fn wrap_for_and(s: &str, cond: &Condition) -> String {
 /// Wrap condition string for || context (wrap && subconditions)
 fn wrap_for_or(s: &str, cond: &Condition) -> String {
     if matches!(cond, Condition::And(..)) {
+        format!("({})", s)
+    } else {
+        s.to_string()
+    }
+}
+
+/// BUG-005 FIX: Wrap expression for comparison context
+/// Bitwise operators (&, |, ^) have LOWER precedence than comparison operators (==, !=, <, >, etc.)
+/// So `a & b == c` is parsed as `a & (b == c)`, not `(a & b) == c`
+/// We must wrap expressions containing bitwise operators in parentheses for correct precedence.
+fn wrap_for_comparison(s: &str) -> String {
+    // Check if string contains bitwise operators that need wrapping
+    // These have lower precedence than ==, !=, <, >, <=, >= in Java
+    // Only wrap if the operator appears with spaces around it (to avoid false positives in strings)
+    if s.contains(" & ") || s.contains(" | ") || s.contains(" ^ ") {
         format!("({})", s)
     } else {
         s.to_string()
@@ -5485,8 +5502,17 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                 ctx.mark_name_declared(&exc_var, &exc_type);
 
                 // Enter exception handler context for proper variable handling
+                // Also link the exception variable name to the MoveException register
                 if let Some(entry_block) = get_handler_entry_block(&handler.region) {
                     ctx.enter_exception_handler(entry_block);
+
+                    // FIX: Link the generated exception variable name to the actual exception register
+                    // This ensures that references to the exception inside the catch block use the correct name
+                    // Without this, the exception register might use a different/generated name
+                    if let Some((reg, version)) = find_move_exception_dest(entry_block, ctx) {
+                        ctx.expr_gen.set_var_name(reg, version, exc_var.clone());
+                        ctx.expr_gen.set_var_type(reg, version, exc_type.clone());
+                    }
                 }
 
                 code.inc_indent();
@@ -5845,6 +5871,19 @@ fn get_handler_entry_block(region: &Region) -> Option<u32> {
         Region::Break { .. } | Region::Continue { .. } => None,
         Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => None,
     }
+}
+
+/// Find the MoveException destination register in a handler's entry block
+/// Returns (reg_num, ssa_version) if found
+fn find_move_exception_dest(entry_block: u32, ctx: &BodyGenContext) -> Option<(u16, u32)> {
+    if let Some(block) = ctx.blocks.get(&entry_block) {
+        for insn in &block.instructions {
+            if let InsnType::MoveException { dest } = &insn.insn_type {
+                return Some((dest.reg_num, dest.ssa_version));
+            }
+        }
+    }
+    None
 }
 
 /// Get the first/leftmost block from a condition.

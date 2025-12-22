@@ -610,7 +610,20 @@ impl TypeInference {
             InsnType::Const { dest, value } => {
                 let dest_var = self.get_or_create_var(dest);
                 let ty = Self::type_for_literal(value);
-                self.add_constraint(Constraint::Equals(dest_var, ty));
+
+                // For integer literals, use AssignBound instead of Equals because:
+                // - Wide literals (> i32 range) could be Long OR Double (stored as raw bits)
+                // - Small literals (like 0, 1) could be Int, Float, or Double in context
+                // The actual type will be determined by usage (e.g., dcmpg enforces Double).
+                // Equals constraints from operations (Compare, Cast, etc.) will set the correct type.
+                if let LiteralArg::Int(_) = value {
+                    if let InferredType::Concrete(arg_ty) = ty {
+                        self.add_constraint(Constraint::AssignBound(dest_var, arg_ty));
+                    }
+                } else {
+                    // Float/Double/Null literals have unambiguous types
+                    self.add_constraint(Constraint::Equals(dest_var, ty));
+                }
 
                 // NEW: Track boolean literal candidates (0 or 1)
                 if matches!(value, LiteralArg::Int(0) | LiteralArg::Int(1)) {
@@ -1229,12 +1242,12 @@ impl TypeInference {
                     dest_var,
                     InferredType::Concrete(ArgType::Int),
                 ));
-                // Operands must be same type
-                if let (Some(l_var), Some(r_var)) =
-                    (self.var_for_arg(left), self.var_for_arg(right))
-                {
-                    self.add_constraint(Constraint::Same(l_var, r_var));
-                }
+                // NOTE: We don't add Same(l_var, r_var) here because the operand types
+                // are determined by the opcode (CmplDouble/CmpgDouble => Double, etc.).
+                // Adding Same would incorrectly propagate types between operands when
+                // one is a wide literal (Long/Double ambiguous) and the other is a small int.
+                // The Equals constraints below correctly enforce the operand types.
+
                 // Type based on comparison kind
                 let operand_type = match op {
                     CompareOp::CmplFloat | CompareOp::CmpgFloat => ArgType::Float,
@@ -3225,5 +3238,70 @@ mod tests {
             resolved,
             ArgType::Object("java/lang/Integer".to_string())
         );
+    }
+
+    #[test]
+    fn test_double_literal_with_compare() {
+        use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
+
+        // Test that a wide constant (stored as Int) gets Double type when used in dcmpg
+        // This is the raw bits representation of 1.0d
+        let double_bits: i64 = 4607182418800017408;
+
+        let blocks = vec![SsaBlock {
+            id: 0,
+            phi_nodes: vec![],
+            instructions: vec![
+                // const-wide v0, 4607182418800017408 (1.0d as raw bits)
+                InsnNode::new(
+                    InsnType::Const {
+                        dest: RegisterArg::with_ssa(0, 1),
+                        value: LiteralArg::Int(double_bits),
+                    },
+                    0,
+                ),
+                // const-wide v1, 0 (0.0d as raw bits)
+                InsnNode::new(
+                    InsnType::Const {
+                        dest: RegisterArg::with_ssa(1, 1),
+                        value: LiteralArg::Int(0),
+                    },
+                    1,
+                ),
+                // dcmpg v2, v0, v1 (double compare)
+                InsnNode::new(
+                    InsnType::Compare {
+                        dest: RegisterArg::with_ssa(2, 1),
+                        op: CompareOp::CmpgDouble,
+                        left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+                        right: InsnArg::Register(RegisterArg::with_ssa(1, 1)),
+                    },
+                    2,
+                ),
+            ],
+            successors: vec![],
+            predecessors: vec![],
+        }];
+
+        let ssa = SsaResult {
+            blocks,
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::from_iter([(0, 1), (1, 1), (2, 1)]),
+        };
+
+        let result = infer_types(&ssa);
+
+        // v0 (the wide constant) should be Double due to dcmpg usage
+        assert_eq!(result.types.get(&(0, 1)), Some(&ArgType::Double),
+            "Wide constant used in dcmpg should be inferred as Double, not Long");
+
+        // v1 (the zero constant) should also be Double due to dcmpg
+        // Note: 0 is within i32 range, so it would normally be Int, but dcmpg forces Double
+        assert_eq!(result.types.get(&(1, 1)), Some(&ArgType::Double),
+            "Zero constant used in dcmpg should be inferred as Double");
+
+        // v2 (the compare result) should be Int (compare always returns -1, 0, or 1)
+        assert_eq!(result.types.get(&(2, 1)), Some(&ArgType::Int));
     }
 }

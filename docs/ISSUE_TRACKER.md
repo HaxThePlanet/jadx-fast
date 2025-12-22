@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 5 P0, 4 P1, 0 P2 | IR 100% Complete | **f.java audit FAILED** (Dec 22, 2025)
+**Status:** Open: 4 P0, 3 P1, 0 P2 | IR 100% Complete | **f.java audit FAILED** (Dec 22, 2025)
 **Reference Files:**
 - `io/grpc/j1/f.java` (ApplicationThreadDeframer - 185 lines) - try-catch/control flow bugs
 - `net/time4j/f.java` (CalendarUnit - 380 lines) - enum/switch/literal bugs
@@ -8,7 +8,7 @@
 
 ## Open Issues (from f.java Audit Dec 22, 2025)
 
-### P0 Critical (Code Won't Compile) - 5 OPEN
+### P0 Critical (Code Won't Compile) - 4 OPEN (1 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
@@ -16,13 +16,12 @@
 | **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | `if (x) {}` missing return | region_builder.rs |
 | **P0-CFG03** | Undefined variables in complex expressions | **HARD** | `l -= l2` where l undefined | ssa.rs, var_naming.rs |
 | **P0-TYPE01** | Double literals as raw long bits | **EASY** | `3.15E10d` → `4764073672128331776L` | codegen/literals.rs |
-| **P0-CFG04** | Complex boolean expressions garbled | **MEDIUM** | Bitwise conditions broken | conditionals.rs |
+| ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 
-### P1 Semantic (Wrong Behavior) - 4 OPEN
+### P1 Semantic (Wrong Behavior) - 3 OPEN
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
-| **P1-CFG05** | Variables used outside exception scope | **MEDIUM** | `th.printStackTrace()` outside catch | body_gen.rs |
 | **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | Entire else logic lost | region_builder.rs |
 | **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | `l4 /= i5` in switch | body_gen.rs, ssa.rs |
 | **P1-ENUM01** | Enum reconstruction failures | **MEDIUM** | Inner enums extend outer | class_gen.rs |
@@ -135,9 +134,9 @@ public double getLength() {
 
 ---
 
-### P0-CFG04: Complex boolean expressions garbled
+### P0-CFG04: Complex boolean expressions garbled - FIXED (Dec 22, 2025)
 
-**Severity:** CRITICAL | **Difficulty:** MEDIUM
+**Severity:** CRITICAL | **Difficulty:** MEDIUM | **Status:** FIXED
 **Files:** `com/geetest/sdk/f.java`
 
 **JADX (correct):**
@@ -148,19 +147,28 @@ if ((window.getDecorView().getSystemUiVisibility() & 4) == 4 ||
 }
 ```
 
-**Dexterity (broken):**
+**Dexterity (was broken):**
 ```java
 if (systemUiVisibility &= i2 == i2 || i == i2) {  // NONSENSICAL
 }
 ```
 
-**Root Cause:** Complex boolean expression decompilation failure. Bitwise AND combined with equality check not reconstructed properly.
+**Root Causes:**
+1. Compound assignments (`&=`) were being generated for inline expressions via `detect_increment_decrement()`, but compound assignments are statements, not expressions.
+2. Bitwise operators (`&`, `|`, `^`) have lower precedence than comparison operators in Java, so `a & b == c` parses as `a & (b == c)` instead of `(a & b) == c`.
+
+**Fixes Applied (Dec 22, 2025):**
+1. Removed `detect_increment_decrement` from inline expression generation (body_gen.rs:1304-1317) - compound assignments are statements, not expressions
+2. Added `wrap_for_comparison()` helper to wrap expressions with bitwise operators in parentheses (body_gen.rs:4017-4030)
+3. Applied `wrap_for_comparison()` to left operand in comparison conditions (body_gen.rs:3839-3841)
+
+**Files Changed:** `body_gen.rs`
 
 ---
 
-### P1-CFG05: Variables used outside exception scope
+### P1-CFG05: Variables used outside exception scope - FIXED (Dec 22, 2025)
 
-**Severity:** HIGH | **Difficulty:** MEDIUM
+**Severity:** HIGH | **Difficulty:** MEDIUM | **Status:** ✅ FIXED
 **Files:** `com/geetest/sdk/f.java`
 
 **JADX (correct):**
@@ -170,14 +178,21 @@ if (systemUiVisibility &= i2 == i2 || i == i2) {  // NONSENSICAL
 }
 ```
 
-**Dexterity (broken):**
+**Dexterity (was broken):**
 ```java
 th.printStackTrace();  // ERROR: th used outside catch block
 } catch (Exception e) {
 }
 ```
 
-**Root Cause:** Same as P0-CFG01 - exception handler code placement issue.
+**Root Cause:** Exception variable name generated in catch clause was never linked to the actual `MoveException` register.
+
+**Fix Applied (Dec 22, 2025):**
+1. Added `find_move_exception_dest()` helper function to find the `MoveException` instruction's destination register
+2. After generating the catch clause, link the exception variable name to the actual register using `set_var_name()` and `set_var_type()`
+3. This ensures exception register uses correct name inside catch block and SSA scoping prevents name leakage outside
+
+**Files Changed:** `body_gen.rs`
 
 ---
 

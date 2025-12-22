@@ -2,6 +2,50 @@
 
 ## December 2025
 
+### Dec 22, 2025 - P0-CFG04 Complex Boolean Expressions Fix (BUG-5)
+
+**Fixed garbled bitwise conditions in boolean expressions**
+
+**Problem:** Complex boolean expressions with bitwise operators like `(window.getDecorView().getSystemUiVisibility() & 4) == 4` were being decompiled as nonsensical code like `systemUiVisibility &= i2 == i2`.
+
+**Root Causes:**
+1. Compound assignments (`&=`) were being generated for inline expressions via `detect_increment_decrement()`, but compound assignments are statements, not expressions. This produced invalid code when used in conditions.
+2. Bitwise operators (`&`, `|`, `^`) have lower precedence than comparison operators (`==`, `!=`, `<`, etc.) in Java. So `a & b == c` parses as `a & (b == c)` instead of `(a & b) == c`.
+
+**Fixes Applied:**
+
+1. **Removed detect_increment_decrement from inline expressions (body_gen.rs:1304-1317)**
+   - Compound assignments like `var &= N` are statements, not pure expressions
+   - Using `gen_insn_inline()` instead produces `(var & N)` - a proper expression
+
+2. **Added wrap_for_comparison() helper (body_gen.rs:4017-4030)**
+   - Wraps expressions containing bitwise operators in parentheses
+   - Ensures correct operator precedence in comparisons
+
+3. **Applied wrap_for_comparison to condition generation (body_gen.rs:3839-3841)**
+   - Left operand in comparisons now wrapped if it contains bitwise operators
+   - Produces correct code like `(systemUiVisibility & 4) == 4`
+
+**Files changed:** `body_gen.rs`
+
+---
+
+### Dec 22, 2025 - P1-CFG05 Exception Variable Scope Fix
+
+**Fixed exception variable names used outside catch block scope**
+
+**Problem:** Exception variable names (like `th` for Throwable) were generated for catch clauses but never linked to the actual register from the `MoveException` instruction. This caused `th.printStackTrace()` to appear outside the catch block where it's not in scope.
+
+**Fix Applied:**
+1. Added `find_move_exception_dest()` helper function to locate the `MoveException` instruction in a handler's entry block and return the destination register (reg_num, ssa_version)
+2. After generating the catch clause and entering exception handler context, link the generated exception variable name to the actual register using `set_var_name()` and `set_var_type()`
+
+**Impact:** Exception variables now correctly scoped to catch blocks. SSA versioning ensures names don't leak outside.
+
+**Files changed:** `body_gen.rs`
+
+---
+
 ### Dec 22, 2025 - P1-S02 Return Type Constraint Propagation Enhancement
 
 **Enhanced type inference for boolean method returns and ternary simplification**

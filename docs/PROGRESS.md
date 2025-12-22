@@ -27,6 +27,15 @@ See [QUALITY_STATUS.md](QUALITY_STATUS.md) for details.
 
 ## Recent Work (Dec 22, 2025)
 
+### P0-CFG04: Complex Boolean Expressions Fix (BUG-5) - FIXED
+- **Problem:** Bitwise conditions like `(x & 4) == 4` were garbled into nonsense like `x &= i2 == i2`
+- **Root Cause 1:** Compound assignments (`&=`) used in inline expressions - statements, not expressions
+- **Root Cause 2:** Bitwise operators have lower precedence than comparison operators in Java
+- **Fix 1:** Removed `detect_increment_decrement` from inline expression generation (body_gen.rs:1304-1317)
+- **Fix 2:** Added `wrap_for_comparison()` to wrap bitwise expressions in parentheses (body_gen.rs:4017-4030)
+- **Fix 3:** Applied `wrap_for_comparison()` to left operand in comparisons (body_gen.rs:3839-3841)
+- **Files:** `body_gen.rs`
+
 ### P1-S02: Return Type Constraint Propagation Enhancement
 - **Return type constraint propagation** - Added `method_return_type` field to `TypeInference` struct
 - **New builder method** - `with_method_return_type()` to set method's return type for constraint propagation

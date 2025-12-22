@@ -6,7 +6,7 @@
 
 ## f.java Audit Results (Dec 22, 2025)
 
-**Status:** CRITICAL - 9 bugs found, only 4.6% of f.java files identical to JADX
+**Status:** CRITICAL - 7 bugs remaining (2 fixed Dec 22), only 4.6% of f.java files identical to JADX
 
 A comprehensive comparison of all 151 f.java files between JADX and Dexterity outputs revealed major quality gaps:
 
@@ -24,8 +24,8 @@ A comprehensive comparison of all 151 f.java files between JADX and Dexterity ou
 | P0-CFG02 | Empty if-body for early returns | MEDIUM | Missing return statements |
 | P0-CFG03 | Undefined variables in expressions | HARD | Broken arithmetic |
 | P0-TYPE01 | Double literals as raw long bits | EASY | Wrong numeric values |
-| P0-CFG04 | Complex boolean expressions | MEDIUM | Garbled conditions |
-| P1-CFG05 | Variables outside exception scope | MEDIUM | th used outside catch |
+| ~~P0-CFG04~~ | ~~Complex boolean expressions~~ | ~~MEDIUM~~ | **FIXED** - Bitwise precedence + compound assignment fix |
+| ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | ~~MEDIUM~~ | **FIXED** - Exception register name linking |
 | P1-CFG06 | Missing if-else branch bodies | MEDIUM | Logic lost |
 | P1-CFG07 | Switch case undefined variables | HARD | Broken switch |
 | P1-ENUM01 | Enum reconstruction failures | MEDIUM | Invalid Java |
