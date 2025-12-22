@@ -109,11 +109,12 @@ FINAL CODE PREPARATION
 6. ModVisitor             - Instruction modifications
 7. Constant Inlining      - Inline constants
 8. Type Inference         - Infer register types
-9. Simplification         ─┐
-10. Code Shrinking        ─┴─ ITERATIVE (until fixpoint, max 5×blocks)
-11. Loop Pattern Analysis - for/foreach detection
-12. Prepare for Codegen   - Final preparation
-13. Variable Naming       - Assign variable names
+9. Finish Type Inference  - Validate types, generate warnings for unknown types
+10. Simplification        ─┐
+11. Code Shrinking        ─┴─ ITERATIVE (until fixpoint, max 5×blocks)
+12. Loop Pattern Analysis - for/foreach detection
+13. Prepare for Codegen   - Final preparation
+14. Variable Naming       - Assign variable names
 ```
 
 **Iterative Pass Execution (Dec 20, 2025):**
@@ -323,8 +324,8 @@ Unknown
 
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
-| `ModVisitor.java` (633 lines) | `mod_visitor.rs` (831 lines) | PARTIAL | Missing patterns |
-| `SimplifyVisitor.java` (637 lines) | `simplify.rs` (1,687 lines) | PARTIAL | CMP unwrapping, Phase 3 dead CMP elimination |
+| `ModVisitor.java` (633 lines) | `mod_visitor.rs` (831 lines) | PARTIAL | Missing: field arithmetic, boolean negation |
+| `SimplifyVisitor.java` (637 lines) | `simplify.rs` (1,687 lines) | DONE | CMP unwrapping + ternary CMP support, dead CMP elimination |
 | `CodeShrinkVisitor.java` | `code_shrink.rs` (1,052 lines) | DONE | Variable inlining |
 | `ConstInlineVisitor.java` (307 lines) | `const_inline.rs` (427 lines) | DONE | Constant inlining |
 | `ReplaceNewArray.java` | `mod_visitor.rs` | DONE | Array init patterns |
@@ -351,12 +352,12 @@ Dexterity patterns handled:
 - Redundant cast removal (basic)
 - Array initialization
 - StringBuilder chain (partial)
+- CMP instruction inlining (in simplify.rs, not mod_visitor.rs)
 ```
 
 **Missing Dexterity Patterns:**
 - Full StringBuilder chain detection
-- Field arithmetic conversion
-- CMP instruction inlining
+- Field arithmetic conversion (`a += 2` - PrepareForCodeGen in JADX)
 - Boolean negation propagation
 
 ---
@@ -381,7 +382,7 @@ Dexterity `var_naming.rs` (1,736 lines):
 | JADX Pass | Dexterity Equivalent | Status | Priority |
 |-----------|---------------------|--------|----------|
 | `FixTypesVisitor.java` | `fix_types.rs` (816 lines) | DONE | HIGH |
-| `FinishTypeInference.java` | - | PARTIAL | HIGH |
+| `FinishTypeInference.java` | `finish_type_inference.rs` (299 lines) | DONE | HIGH |
 | `DeboxingVisitor.java` | `deboxing.rs` (429 lines) | DONE | MEDIUM |
 | `GenericTypesVisitor.java` | `generic_types.rs` (178 lines) | DONE | Attach generic type info to constructors |
 | `ShadowFieldVisitor.java` | `shadow_field.rs` (308 lines) | DONE | Fix shadowed field access with super/cast |
@@ -394,6 +395,10 @@ Implemented passes:
 2. **DeboxingVisitor** (`deboxing.rs`) - Remove primitive boxing calls
    - Handles Integer, Boolean, Byte, Short, Character, Long, Float, Double
    - Utility functions for wrapper class detection
+3. **FinishTypeInference** (`finish_type_inference.rs`) - Type validation after inference
+   - Validates all SSA variables have known types
+   - Generates warnings for variables with unknown types
+   - Returns statistics about type inference completeness
 
 ---
 
@@ -429,10 +434,10 @@ Implemented passes:
 4. ✅ Create `fix_types.rs` for heuristic fallbacks
 5. ✅ Create `deboxing.rs` for primitive unboxing
 
-### Phase 2: Post-Type Passes (Current)
-1. ⏳ `FinishTypeInference` pass - type validation
-2. ⏳ `GenericTypesVisitor` - generic type application
-3. ⏳ `ShadowFieldVisitor` - shadowed field handling
+### Phase 2: Post-Type Passes (COMPLETED)
+1. ✅ `FinishTypeInference` pass - type validation (`finish_type_inference.rs`)
+2. ✅ `GenericTypesVisitor` - generic type application (`generic_types.rs`)
+3. ✅ `ShadowFieldVisitor` - shadowed field handling (`shadow_field.rs`)
 
 ### Phase 3: Region Enhancement - **COMPLETED Dec 19, 2025**
 1. ✅ Enhance `IfRegionMaker` - AND/OR merging (conditionals.rs)
@@ -442,8 +447,8 @@ Implemented passes:
 
 ### Phase 4: Code Optimization
 1. Full StringBuilder chain detection
-2. Field arithmetic conversion
-3. CMP instruction inlining
+2. Field arithmetic conversion (`a += 2` - PrepareForCodeGen in JADX)
+3. ~~CMP instruction inlining~~ - **DONE** in simplify.rs (Dec 21, 2025)
 4. Boolean negation propagation
 
 ### Phase 5: Specialized Passes

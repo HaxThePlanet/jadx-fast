@@ -2405,7 +2405,17 @@ fn type_to_var_name(ty: &ArgType) -> String {
             }
         }
         ArgType::Wildcard { .. } => "w".to_string(),
-        ArgType::TypeVariable(name) => name.to_lowercase(),
+        ArgType::TypeVariable { name, .. } => name.to_lowercase(),
+        ArgType::OuterGeneric { inner, .. } => type_to_var_name(inner),
+        // New unknown variants
+        ArgType::UnknownNarrowNumbers => "n".to_string(),
+        ArgType::UnknownNumbersNoBool => "n".to_string(),
+        ArgType::UnknownNumbersNoFloat => "n".to_string(),
+        ArgType::UnknownIntFloat => "i".to_string(),
+        ArgType::UnknownIntBoolean => "i".to_string(),
+        ArgType::UnknownByteBoolean => "b".to_string(),
+        ArgType::UnknownObjectNoArray => "obj".to_string(),
+        ArgType::UnknownInt => "i".to_string(),
     }
 }
 
@@ -4729,9 +4739,14 @@ fn generate_lambda_param_name(idx: usize, param_type: &dexterity_ir::ArgType) ->
             return if idx > 0 { format!("{}{}", prefix, idx) } else { prefix };
         }
         ArgType::Void => "v",
-        ArgType::Unknown | ArgType::Wildcard { .. } | ArgType::TypeVariable(_)
+        ArgType::Unknown | ArgType::Wildcard { .. } | ArgType::TypeVariable { .. }
+        | ArgType::OuterGeneric { .. }
         | ArgType::UnknownNarrow | ArgType::UnknownWide | ArgType::UnknownObject
-        | ArgType::UnknownIntegral => "p",
+        | ArgType::UnknownIntegral | ArgType::UnknownNarrowNumbers
+        | ArgType::UnknownNumbersNoBool | ArgType::UnknownNumbersNoFloat
+        | ArgType::UnknownIntFloat | ArgType::UnknownIntBoolean
+        | ArgType::UnknownByteBoolean | ArgType::UnknownObjectNoArray
+        | ArgType::UnknownInt => "p",
     };
     if idx == 0 { base.to_string() } else { format!("{}{}", base, idx) }
 }
@@ -7179,8 +7194,9 @@ fn generate_insn<W: CodeWriter>(
                 };
                 let is_object_return = matches!(
                     ctx.return_type,
-                    ArgType::Object(_) | ArgType::Array(_) | ArgType::TypeVariable(_)
+                    ArgType::Object(_) | ArgType::Array(_) | ArgType::TypeVariable { .. }
                     | ArgType::Generic { .. } | ArgType::Wildcard { .. }
+                    | ArgType::OuterGeneric { .. }
                 );
                 let is_boolean_return = matches!(ctx.return_type, ArgType::Boolean);
 
@@ -8201,12 +8217,17 @@ fn generate_base_param_name(ty: &ArgType) -> String {
                 None => "obj".to_string(),
             }
         }
-        ArgType::TypeVariable(name) => name.to_lowercase(),
+        ArgType::TypeVariable { name, .. } => name.to_lowercase(),
         ArgType::Wildcard { inner: Some(inner), .. } => generate_base_param_name(inner),
         ArgType::Wildcard { inner: None, .. } => "obj".to_string(),
+        ArgType::OuterGeneric { inner, .. } => generate_base_param_name(inner),
         ArgType::Void => "v".to_string(),
         ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide
-        | ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral => "obj".to_string(),
+        | ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral
+        | ArgType::UnknownNarrowNumbers | ArgType::UnknownNumbersNoBool
+        | ArgType::UnknownNumbersNoFloat | ArgType::UnknownIntFloat | ArgType::UnknownIntBoolean
+        | ArgType::UnknownByteBoolean | ArgType::UnknownObjectNoArray
+        | ArgType::UnknownInt => "obj".to_string(),
     }
 }
 

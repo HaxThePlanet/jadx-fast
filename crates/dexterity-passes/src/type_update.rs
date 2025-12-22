@@ -1013,7 +1013,7 @@ impl TypeUpdateEngine {
 
         for arg_var in arg_vars.iter().flatten() {
             if let Some(current_type) = self.resolved.get(arg_var).cloned() {
-                if let ArgType::TypeVariable(ref var_name) = current_type {
+                if let ArgType::TypeVariable { name: ref var_name, .. } = current_type {
                     if let Some(resolved_type) = self.resolve_type_var(var_name, instance_type) {
                         let result = self.update_type_checked(info, *arg_var, &resolved_type);
                         if result == TypeUpdateResult::Reject {
@@ -1052,8 +1052,8 @@ impl TypeUpdateEngine {
             if let ArgType::Generic { params, .. } = &instance_type {
                 // If params contain TypeVariable and arg_type is concrete,
                 // we could update the instance type. Conservative for now.
-                let has_unresolved = params.iter().any(|p| matches!(p, ArgType::TypeVariable(_)));
-                if has_unresolved && !matches!(arg_type, ArgType::TypeVariable(_) | ArgType::Unknown) {
+                let has_unresolved = params.iter().any(|p| matches!(p, ArgType::TypeVariable { .. }));
+                if has_unresolved && !matches!(arg_type, ArgType::TypeVariable { .. } | ArgType::Unknown) {
                     // Could infer: if arg is String and method expects E, instance might be List<String>
                     // This requires method signature lookup - defer for now
                 }

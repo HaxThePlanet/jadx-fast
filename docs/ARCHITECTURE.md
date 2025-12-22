@@ -71,6 +71,7 @@ Transform IR through analysis passes.
 | `cfg.rs` | CFG construction with dominance (Cooper-Harvey-Kennedy) |
 | `ssa.rs` | SSA transformation with phi nodes |
 | `type_inference.rs` | Constraint-based type inference |
+| `finish_type_inference.rs` | Type validation, unknown type warnings (JADX FinishTypeInference parity) |
 | `region_builder.rs` | CFG to structured regions |
 | `conditionals.rs` | Else-if chaining, ternary reconstruction |
 | `loops.rs` | ForEach detection from iterator patterns |
@@ -149,7 +150,7 @@ Command-line interface and decompilation orchestration.
 | Crate | Parity |
 |-------|--------|
 | dexterity-dex | **100%** |
-| dexterity-ir | **90%** |
+| dexterity-ir | **100%** |
 | dexterity-passes | **85%** |
 | dexterity-codegen | **85%** |
 | dexterity-resources | **100%** |

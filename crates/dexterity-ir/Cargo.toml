@@ -12,9 +12,14 @@ smallvec.workspace = true
 string-interner.workspace = true
 thiserror.workspace = true
 
+# Optional: enables lazy loading from DEX bytecode
+dexterity-dex = { path = "../dexterity-dex", optional = true }
+
 [features]
 default = []
 serialize = ["serde"]
+# Enable lazy loading of instructions from DEX bytecode
+lazy-loading = ["dexterity-dex"]
 
 [dependencies.serde]
 workspace = true

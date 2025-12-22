@@ -44,8 +44,22 @@ pub enum ArgType {
         inner: Option<Box<ArgType>>,
     },
 
-    /// Type variable (e.g., T, E, K, V)
-    TypeVariable(String),
+    /// Type variable (e.g., T, E, K, V) with optional extend bounds
+    /// Matches JADX's GenericType which stores extendTypes
+    TypeVariable {
+        name: String,
+        /// Extend bounds (e.g., [Number, Comparable] for T extends Number & Comparable)
+        extend_types: Vec<ArgType>,
+    },
+
+    /// Outer generic class with inner class: Outer<T>.Inner
+    /// Matches JADX's OuterGenericObject for nested class generics
+    OuterGeneric {
+        /// The outer class type (e.g., Outer<T>)
+        outer: Box<ArgType>,
+        /// The inner class type (e.g., Inner)
+        inner: Box<ArgType>,
+    },
 
     // === Unknown type variants for type inference ===
     // Matches JADX's UnknownArg with possible types
@@ -78,6 +92,40 @@ pub enum ArgType {
     /// Used for const instructions that could be any integral type
     /// Matches JADX's NARROW_INTEGRAL
     UnknownIntegral,
+
+    // === Additional JADX Unknown type variants for precise type inference ===
+
+    /// Unknown narrow numbers with boolean (int, float, short, byte, char, boolean)
+    /// Matches JADX's NARROW_NUMBERS
+    UnknownNarrowNumbers,
+
+    /// Unknown narrow numbers without boolean (int, float, short, byte, char)
+    /// Matches JADX's NARROW_NUMBERS_NO_BOOL
+    UnknownNumbersNoBool,
+
+    /// Unknown narrow numbers without float (int, short, byte, char, boolean)
+    /// Matches JADX's NARROW_NUMBERS_NO_FLOAT
+    UnknownNumbersNoFloat,
+
+    /// Unknown type that could be int or float
+    /// Matches JADX's INT_FLOAT
+    UnknownIntFloat,
+
+    /// Unknown type that could be int or boolean
+    /// Matches JADX's INT_BOOLEAN
+    UnknownIntBoolean,
+
+    /// Unknown type that could be byte or boolean
+    /// Matches JADX's BYTE_BOOLEAN
+    UnknownByteBoolean,
+
+    /// Unknown object type that is NOT an array
+    /// Matches JADX's UNKNOWN_OBJECT_NO_ARRAY
+    UnknownObjectNoArray,
+
+    /// Unknown type that is specifically int (used for inference)
+    /// Matches JADX's UNKNOWN_INT
+    UnknownInt,
 }
 
 /// Wildcard bound direction
@@ -120,9 +168,28 @@ impl ArgType {
         }
     }
 
-    /// Create a type variable
+    /// Create a type variable (without bounds)
     pub fn type_var(name: impl Into<String>) -> Self {
-        ArgType::TypeVariable(name.into())
+        ArgType::TypeVariable {
+            name: name.into(),
+            extend_types: Vec::new(),
+        }
+    }
+
+    /// Create a type variable with extend bounds
+    pub fn type_var_bounded(name: impl Into<String>, extend_types: Vec<ArgType>) -> Self {
+        ArgType::TypeVariable {
+            name: name.into(),
+            extend_types,
+        }
+    }
+
+    /// Create an outer generic type (Outer<T>.Inner)
+    pub fn outer_generic(outer: ArgType, inner: ArgType) -> Self {
+        ArgType::OuterGeneric {
+            outer: Box::new(outer),
+            inner: Box::new(inner),
+        }
     }
 
     // === Type queries ===
@@ -173,9 +240,11 @@ impl ArgType {
             ArgType::Object(_)
                 | ArgType::Array(_)
                 | ArgType::Generic { .. }
-                | ArgType::TypeVariable(_)
+                | ArgType::TypeVariable { .. }
                 | ArgType::Wildcard { .. }
+                | ArgType::OuterGeneric { .. }
                 | ArgType::UnknownObject
+                | ArgType::UnknownObjectNoArray
                 | ArgType::UnknownArray
         )
     }
@@ -195,6 +264,14 @@ impl ArgType {
                 | ArgType::UnknownObject
                 | ArgType::UnknownArray
                 | ArgType::UnknownIntegral
+                | ArgType::UnknownNarrowNumbers
+                | ArgType::UnknownNumbersNoBool
+                | ArgType::UnknownNumbersNoFloat
+                | ArgType::UnknownIntFloat
+                | ArgType::UnknownIntBoolean
+                | ArgType::UnknownByteBoolean
+                | ArgType::UnknownObjectNoArray
+                | ArgType::UnknownInt
         )
     }
 
@@ -213,6 +290,9 @@ impl ArgType {
                 | ArgType::Short
                 | ArgType::Int
                 | ArgType::UnknownIntegral
+                | ArgType::UnknownIntBoolean
+                | ArgType::UnknownByteBoolean
+                | ArgType::UnknownInt
         )
     }
 
@@ -345,14 +425,31 @@ impl ArgType {
             ArgType::Object(name) => format!("L{};", name),
             ArgType::Array(elem) => format!("[{}", elem.to_descriptor()),
             ArgType::Generic { base, .. } => format!("L{};", base),
-            ArgType::TypeVariable(_) => "Ljava/lang/Object;".to_string(),
+            ArgType::TypeVariable { .. } => "Ljava/lang/Object;".to_string(),
             ArgType::Wildcard { .. } => "Ljava/lang/Object;".to_string(),
+            ArgType::OuterGeneric { outer, inner } => {
+                // Combine outer and inner descriptors
+                let outer_desc = outer.to_descriptor();
+                let inner_desc = inner.to_descriptor();
+                // Strip L and ; from both and combine with $
+                let outer_name = outer_desc.trim_start_matches('L').trim_end_matches(';');
+                let inner_name = inner_desc.trim_start_matches('L').trim_end_matches(';');
+                format!("L{}${};", outer_name, inner_name)
+            }
             ArgType::Unknown
             | ArgType::UnknownNarrow
             | ArgType::UnknownWide
             | ArgType::UnknownObject
             | ArgType::UnknownArray
-            | ArgType::UnknownIntegral => "?".to_string(),
+            | ArgType::UnknownIntegral
+            | ArgType::UnknownNarrowNumbers
+            | ArgType::UnknownNumbersNoBool
+            | ArgType::UnknownNumbersNoFloat
+            | ArgType::UnknownIntFloat
+            | ArgType::UnknownIntBoolean
+            | ArgType::UnknownByteBoolean
+            | ArgType::UnknownObjectNoArray
+            | ArgType::UnknownInt => "?".to_string(),
         }
     }
 
@@ -386,19 +483,37 @@ impl ArgType {
                     format!("{}<{}>", base_name, param_strs.join(","))
                 }
             }
-            ArgType::TypeVariable(name) => name.clone(),
+            ArgType::TypeVariable { name, extend_types } => {
+                if extend_types.is_empty() {
+                    name.clone()
+                } else {
+                    let bounds: Vec<_> = extend_types.iter().map(|t| t.short_name()).collect();
+                    format!("{} extends {}", name, bounds.join(" & "))
+                }
+            }
             ArgType::Wildcard { bound, inner } => match (bound, inner) {
                 (WildcardBound::Unbounded, _) => "?".to_string(),
                 (WildcardBound::Extends, Some(t)) => format!("?e{}", t.short_name()),
                 (WildcardBound::Super, Some(t)) => format!("?s{}", t.short_name()),
                 _ => "?".to_string(),
             },
+            ArgType::OuterGeneric { outer, inner } => {
+                format!("{}.{}", outer.short_name(), inner.short_name())
+            }
             ArgType::Unknown => "?".to_string(),
             ArgType::UnknownNarrow => "?N".to_string(),
             ArgType::UnknownWide => "?W".to_string(),
             ArgType::UnknownObject => "?O".to_string(),
             ArgType::UnknownArray => "?A".to_string(),
             ArgType::UnknownIntegral => "?I".to_string(),
+            ArgType::UnknownNarrowNumbers => "?NN".to_string(),
+            ArgType::UnknownNumbersNoBool => "?NNB".to_string(),
+            ArgType::UnknownNumbersNoFloat => "?NNF".to_string(),
+            ArgType::UnknownIntFloat => "?IF".to_string(),
+            ArgType::UnknownIntBoolean => "?IB".to_string(),
+            ArgType::UnknownByteBoolean => "?BB".to_string(),
+            ArgType::UnknownObjectNoArray => "?ONA".to_string(),
+            ArgType::UnknownInt => "?Int".to_string(),
         }
     }
 
@@ -407,7 +522,174 @@ impl ArgType {
         match self {
             ArgType::Object(name) => Some(name.rsplit('/').next().unwrap_or(name).to_string()),
             ArgType::Generic { base, .. } => Some(base.rsplit('/').next().unwrap_or(base).to_string()),
+            ArgType::OuterGeneric { inner, .. } => inner.get_simple_name(),
             _ => None,
+        }
+    }
+
+    // === New JADX parity methods ===
+
+    /// Check if this is an outer generic type
+    pub fn is_outer_generic(&self) -> bool {
+        matches!(self, ArgType::OuterGeneric { .. })
+    }
+
+    /// Get the outer type for OuterGeneric
+    pub fn get_outer_type(&self) -> Option<&ArgType> {
+        match self {
+            ArgType::OuterGeneric { outer, .. } => Some(outer),
+            _ => None,
+        }
+    }
+
+    /// Get the inner type for OuterGeneric
+    pub fn get_inner_type(&self) -> Option<&ArgType> {
+        match self {
+            ArgType::OuterGeneric { inner, .. } => Some(inner),
+            _ => None,
+        }
+    }
+
+    /// Get extend types for TypeVariable
+    pub fn get_extend_types(&self) -> &[ArgType] {
+        match self {
+            ArgType::TypeVariable { extend_types, .. } => extend_types,
+            _ => &[],
+        }
+    }
+
+    /// Check if type is a generic type (including type variables)
+    pub fn is_generic(&self) -> bool {
+        matches!(
+            self,
+            ArgType::Generic { .. }
+                | ArgType::Wildcard { .. }
+                | ArgType::OuterGeneric { .. }
+        )
+    }
+
+    /// Check if this is a type variable (T, E, K, V etc.)
+    pub fn is_generic_type(&self) -> bool {
+        matches!(self, ArgType::TypeVariable { .. })
+    }
+
+    // === Type utility methods for JADX parity (Phase 2) ===
+
+    /// Select the first possible concrete type from an unknown type.
+    /// Returns None for already-known types.
+    /// For unknown types: prefers Object > Array > first primitive.
+    /// (JADX parity: selectFirst)
+    pub fn select_first(&self) -> Option<ArgType> {
+        match self {
+            // Known types return None (already concrete)
+            ArgType::Void
+            | ArgType::Boolean
+            | ArgType::Byte
+            | ArgType::Char
+            | ArgType::Short
+            | ArgType::Int
+            | ArgType::Long
+            | ArgType::Float
+            | ArgType::Double
+            | ArgType::Object(_)
+            | ArgType::Generic { .. }
+            | ArgType::TypeVariable { .. }
+            | ArgType::Wildcard { .. }
+            | ArgType::OuterGeneric { .. } => None,
+
+            // Array: recurse
+            ArgType::Array(elem) => elem.select_first().map(|e| ArgType::Array(Box::new(e))),
+
+            // Unknown variants: select preferred type
+            ArgType::Unknown
+            | ArgType::UnknownNarrow
+            | ArgType::UnknownObject
+            | ArgType::UnknownObjectNoArray => Some(ArgType::Object("java/lang/Object".into())),
+
+            ArgType::UnknownArray => {
+                Some(ArgType::Array(Box::new(ArgType::Object("java/lang/Object".into()))))
+            }
+
+            ArgType::UnknownWide => Some(ArgType::Long),
+
+            ArgType::UnknownIntegral
+            | ArgType::UnknownNarrowNumbers
+            | ArgType::UnknownNumbersNoBool
+            | ArgType::UnknownNumbersNoFloat
+            | ArgType::UnknownInt
+            | ArgType::UnknownIntFloat
+            | ArgType::UnknownIntBoolean => Some(ArgType::Int),
+
+            ArgType::UnknownByteBoolean => Some(ArgType::Byte),
+        }
+    }
+
+    /// Visit all nested types recursively.
+    /// Visitor is called for self and all contained types.
+    /// (JADX parity: visitTypes)
+    pub fn visit_types<F>(&self, visitor: &mut F)
+    where
+        F: FnMut(&ArgType),
+    {
+        visitor(self);
+        match self {
+            ArgType::Array(elem) => elem.visit_types(visitor),
+            ArgType::Generic { params, .. } => {
+                for p in params {
+                    p.visit_types(visitor);
+                }
+            }
+            ArgType::Wildcard { inner: Some(i), .. } => i.visit_types(visitor),
+            ArgType::OuterGeneric { outer, inner } => {
+                outer.visit_types(visitor);
+                inner.visit_types(visitor);
+            }
+            ArgType::TypeVariable { extend_types, .. } => {
+                for t in extend_types {
+                    t.visit_types(visitor);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    /// Get the array nesting depth.
+    /// Returns 0 for non-arrays, 1 for [], 2 for [][], etc.
+    /// (JADX parity: getArrayDimension)
+    pub fn get_array_dimension(&self) -> usize {
+        match self {
+            ArgType::Array(elem) => 1 + elem.get_array_dimension(),
+            _ => 0,
+        }
+    }
+
+    /// Check if this type contains any TypeVariable anywhere.
+    /// (JADX parity: containsTypeVariable)
+    pub fn contains_type_variable(&self) -> bool {
+        match self {
+            ArgType::TypeVariable { .. } => true,
+            ArgType::Array(elem) => elem.contains_type_variable(),
+            ArgType::Generic { params, .. } => params.iter().any(|p| p.contains_type_variable()),
+            ArgType::Wildcard { inner: Some(i), .. } => i.contains_type_variable(),
+            ArgType::OuterGeneric { outer, inner } => {
+                outer.contains_type_variable() || inner.contains_type_variable()
+            }
+            _ => false,
+        }
+    }
+
+    /// Check if type contains any generic parameters (Generic, TypeVariable, or Wildcard).
+    /// (JADX parity: containsGeneric)
+    pub fn contains_generic(&self) -> bool {
+        match self {
+            ArgType::Generic { .. } | ArgType::TypeVariable { .. } | ArgType::Wildcard { .. } => {
+                true
+            }
+            ArgType::Array(elem) => elem.contains_generic(),
+            ArgType::OuterGeneric { outer, inner } => {
+                outer.contains_generic() || inner.contains_generic()
+            }
+            _ => false,
         }
     }
 }
@@ -743,7 +1025,7 @@ fn compare_wildcard_to_type(
     use WildcardBound::*;
 
     // Wildcards only work with reference types
-    if !concrete.is_object() && !matches!(concrete, ArgType::TypeVariable(_)) {
+    if !concrete.is_object() && !matches!(concrete, ArgType::TypeVariable { .. }) {
         return TypeCompare::Conflict;
     }
 
@@ -1286,5 +1568,126 @@ mod tests {
         // Wildcards only work with reference types
         assert!(compare_types(&extends_number, &int_type, None).is_conflict());
         assert!(compare_types(&int_type, &extends_number, None).is_conflict());
+    }
+
+    // === Type utility method tests (Phase 2) ===
+
+    #[test]
+    fn test_select_first_known_types() {
+        // Known types should return None
+        assert_eq!(ArgType::Int.select_first(), None);
+        assert_eq!(ArgType::Long.select_first(), None);
+        assert_eq!(ArgType::Object("java/lang/String".into()).select_first(), None);
+        assert_eq!(ArgType::type_var("T").select_first(), None);
+    }
+
+    #[test]
+    fn test_select_first_unknown_types() {
+        // Unknown types should return preferred concrete type
+        assert_eq!(
+            ArgType::Unknown.select_first(),
+            Some(ArgType::Object("java/lang/Object".into()))
+        );
+        assert_eq!(
+            ArgType::UnknownObject.select_first(),
+            Some(ArgType::Object("java/lang/Object".into()))
+        );
+        assert_eq!(ArgType::UnknownWide.select_first(), Some(ArgType::Long));
+        assert_eq!(ArgType::UnknownIntegral.select_first(), Some(ArgType::Int));
+        assert_eq!(ArgType::UnknownByteBoolean.select_first(), Some(ArgType::Byte));
+        assert_eq!(
+            ArgType::UnknownArray.select_first(),
+            Some(ArgType::Array(Box::new(ArgType::Object("java/lang/Object".into()))))
+        );
+    }
+
+    #[test]
+    fn test_get_array_dimension() {
+        assert_eq!(ArgType::Int.get_array_dimension(), 0);
+        assert_eq!(ArgType::Object("java/lang/String".into()).get_array_dimension(), 0);
+        assert_eq!(ArgType::Array(Box::new(ArgType::Int)).get_array_dimension(), 1);
+        assert_eq!(
+            ArgType::Array(Box::new(ArgType::Array(Box::new(ArgType::Int)))).get_array_dimension(),
+            2
+        );
+        assert_eq!(
+            ArgType::Array(Box::new(ArgType::Array(Box::new(ArgType::Array(Box::new(
+                ArgType::Object("java/lang/String".into())
+            ))))))
+            .get_array_dimension(),
+            3
+        );
+    }
+
+    #[test]
+    fn test_contains_type_variable() {
+        // Simple cases
+        assert!(!ArgType::Int.contains_type_variable());
+        assert!(!ArgType::Object("java/lang/String".into()).contains_type_variable());
+        assert!(ArgType::type_var("T").contains_type_variable());
+
+        // Nested in array
+        assert!(ArgType::Array(Box::new(ArgType::type_var("T"))).contains_type_variable());
+        assert!(!ArgType::Array(Box::new(ArgType::Int)).contains_type_variable());
+
+        // Nested in generic
+        let generic_with_var = ArgType::Generic {
+            base: "java/util/List".into(),
+            params: vec![ArgType::type_var("E")],
+        };
+        assert!(generic_with_var.contains_type_variable());
+
+        let generic_without_var = ArgType::Generic {
+            base: "java/util/List".into(),
+            params: vec![ArgType::Object("java/lang/String".into())],
+        };
+        assert!(!generic_without_var.contains_type_variable());
+    }
+
+    #[test]
+    fn test_contains_generic() {
+        // Non-generic types
+        assert!(!ArgType::Int.contains_generic());
+        assert!(!ArgType::Object("java/lang/String".into()).contains_generic());
+
+        // Generic types
+        assert!(ArgType::type_var("T").contains_generic());
+        assert!(ArgType::Generic {
+            base: "java/util/List".into(),
+            params: vec![ArgType::Object("java/lang/String".into())],
+        }
+        .contains_generic());
+        assert!(ArgType::Wildcard {
+            bound: WildcardBound::Unbounded,
+            inner: None,
+        }
+        .contains_generic());
+
+        // Nested in array
+        assert!(ArgType::Array(Box::new(ArgType::type_var("T"))).contains_generic());
+        assert!(!ArgType::Array(Box::new(ArgType::Int)).contains_generic());
+    }
+
+    #[test]
+    fn test_visit_types() {
+        let complex_type = ArgType::Generic {
+            base: "java/util/Map".into(),
+            params: vec![
+                ArgType::Object("java/lang/String".into()),
+                ArgType::Array(Box::new(ArgType::Int)),
+            ],
+        };
+
+        let mut visited = Vec::new();
+        complex_type.visit_types(&mut |t| {
+            visited.push(t.short_name());
+        });
+
+        // Should visit: Map<String,int[]>, String, int[], int
+        assert_eq!(visited.len(), 4);
+        assert!(visited.contains(&"Map<String,I[]>".to_string()));
+        assert!(visited.contains(&"String".to_string()));
+        assert!(visited.contains(&"I[]".to_string()));
+        assert!(visited.contains(&"I".to_string()));
     }
 }

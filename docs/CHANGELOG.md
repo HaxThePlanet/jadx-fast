@@ -2,6 +2,76 @@
 
 ## December 2025
 
+### Dec 21, 2025 - IR Type System and SSA Parity Complete
+
+**Type system and SSA infrastructure now at 100% JADX parity**
+
+Additional IR parity work completed after initial 100% milestone:
+
+1. **OuterGeneric Type Variant (types.rs)**
+   - Added `OuterGeneric { outer, inner }` for nested class generics like `Outer<T>.Inner`
+   - Factory method: `outer_generic(outer, inner)`
+   - Accessors: `is_outer_generic()`, `get_outer_type()`, `get_inner_type()`
+
+2. **TypeVariable with Bounds (types.rs)**
+   - Extended `TypeVariable` to include `extend_types: Vec<ArgType>` for bounds like `T extends Number & Comparable`
+   - Factory methods: `type_var(name)`, `type_var_bounded(name, extend_types)`
+   - Accessor: `get_extend_types()`
+
+3. **All 15 Unknown Type Variants (types.rs)**
+   - Added 8 missing variants: `UnknownNarrowNumbers`, `UnknownNumbersNoBool`, `UnknownNumbersNoFloat`, `UnknownIntFloat`, `UnknownIntBoolean`, `UnknownByteBoolean`, `UnknownObjectNoArray`, `UnknownInt`
+   - All variants handled in `is_unknown()`, `short_name()`, `to_descriptor()`
+
+4. **SSA Utility Methods (ssa.rs)**
+   - `get_only_one_use_in_phi()` - Returns PHI index if exactly one use, None otherwise
+   - `reset_type_and_code_var()` - Resets type (respecting immutability), clears bounds and code_var
+   - `update_used_in_phi_list()` - Rebuilds used_in_phi from use_list using closure predicate
+
+5. **Type Utility Methods (types.rs)**
+   - `select_first()` - Returns preferred concrete type for unknown variants
+   - `visit_types()` - Recursive type visitor with closure
+   - `get_array_dimension()` - Returns array nesting depth
+   - `contains_type_variable()` - Checks for TypeVariable anywhere in type tree
+   - `contains_generic()` - Checks for Generic/TypeVariable/Wildcard in type
+
+6. **Cleanup: Removed Duplicate (class_hierarchy.rs)**
+   - Removed duplicate `contains_type_variable()` method now that it exists in types.rs
+
+**Files changed:** `ssa.rs`, `types.rs`, `class_hierarchy.rs`
+
+### Dec 21, 2025 - Dexterity-IR 100% Completion
+
+**IR crate now at full JADX parity (90% -> 100%)**
+
+All remaining IR features have been implemented:
+
+1. **Lazy Instruction Loading (info.rs)**
+   - Added `load()` method with conditional compilation via `lazy-loading` feature flag
+   - Bytecode decoded on-demand from `BytecodeRef` using dexterity-dex
+
+2. **RegionVisitor Pattern (regions.rs)**
+   - Added `RegionVisitor` trait with pre/post hooks for clean tree traversal
+   - Implements `accept()` on Region, RegionContent, CaseInfo
+
+3. **PHI Simplification (ssa.rs)**
+   - Added `PhiNode` struct for explicit PHI tracking
+   - `simplify_phis()` removes trivial PHIs (single source, all same, self-referential)
+   - Enables SSA optimization quality improvements
+
+4. **Type Variable Bounds (class_hierarchy.rs)**
+   - `TypeVarMapping` now tracks bounds (`T extends Comparable`)
+   - `TypeCompare` uses bounds for generic type comparison
+   - Resolves TODO at line 469
+
+5. **Kotlin Class Validation (kotlin_metadata.rs)**
+   - Added `ClassResolver` trait for class existence checking
+   - `get_class_alias_with_resolver()` validates Kotlin class aliases
+   - Prevents aliases to non-existent classes
+
+**Stats:** 84 unit tests passing, ~280 lines of new code
+
+**Files changed:** `info.rs`, `regions.rs`, `ssa.rs`, `class_hierarchy.rs`, `kotlin_metadata.rs`, `lib.rs`, `Cargo.toml`
+
 ### Dec 21, 2025 - P1-S02 Dead Code Elimination for Boolean Constants
 
 **Eliminated unused `final int i = 1;` declarations**

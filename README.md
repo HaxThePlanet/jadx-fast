@@ -95,11 +95,11 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 | Crate | Purpose | Parity |
 |-------|---------|--------|
 | dexterity-dex | DEX binary parsing | 100% |
-| dexterity-ir | Intermediate representation | 90% |
-| dexterity-passes | Decompilation passes | 80% |
-| dexterity-codegen | Java source generation | 80% |
+| dexterity-ir | Intermediate representation | 100% |
+| dexterity-passes | Decompilation passes | 85% |
+| dexterity-codegen | Java source generation | 85% |
 | dexterity-resources | Resource decoding | 100% |
-| dexterity-deobf | Deobfuscation | 85% |
+| dexterity-deobf | Deobfuscation | 90% |
 | dexterity-kotlin | Kotlin metadata | 100% |
 | dexterity-cli | CLI application | 95% |
 

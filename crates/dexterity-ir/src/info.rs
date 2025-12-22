@@ -520,14 +520,90 @@ impl MethodData {
     /// This is the key to JADX-style memory efficiency: instructions are stored
     /// on disk (via BytecodeRef) and only decoded when actually needed.
     ///
-    /// IMPORTANT: The actual loading should happen in the caller (converter/main)
-    /// that has access to dexterity_dex parsing functions. This method is a placeholder
-    /// for the lazy loading pattern. Real implementation decodes instructions from
-    /// the bytecode stored in bytecode_ref.
+    /// When the `lazy-loading` feature is enabled, this decodes instructions directly
+    /// from DEX bytecode. Otherwise, the caller should use `set_instructions()` after
+    /// decoding externally.
     ///
-    /// For now, this is a no-op since instructions are loaded in converter before
-    /// the class is returned. In a full lazy loading implementation, this would
-    /// decode instructions from bytecode_ref on-demand.
+    /// # Arguments
+    /// * `dex_bytes` - The full DEX file bytes (only used with `lazy-loading` feature)
+    ///
+    /// # Returns
+    /// * `Ok(())` - Instructions loaded successfully (or already loaded/no bytecode)
+    /// * `Err(String)` - Decoding error (with `lazy-loading` feature)
+    #[cfg(feature = "lazy-loading")]
+    pub fn load(&mut self, dex_bytes: &[u8]) -> Result<(), String> {
+        use crate::builder::build_ir_insn;
+
+        // Already loaded
+        if self.is_loaded() {
+            return Ok(());
+        }
+
+        // No bytecode to load (abstract method, native, etc.)
+        let Some(ref bytecode_ref) = self.bytecode_ref else {
+            return Ok(());
+        };
+
+        // Calculate bytecode slice from DEX file
+        let code_offset = bytecode_ref.code_offset as usize;
+        let code_size = (bytecode_ref.insns_count as usize) * 2; // insns_count is in code units (2 bytes each)
+
+        if code_offset + code_size > dex_bytes.len() {
+            return Err(format!(
+                "Bytecode offset {}+{} exceeds DEX size {}",
+                code_offset, code_size, dex_bytes.len()
+            ));
+        }
+
+        let bytecode_u8 = &dex_bytes[code_offset..code_offset + code_size];
+
+        // Convert u8 slice to u16 slice (DEX bytecode is little-endian u16 code units)
+        // Safety: DEX bytecode is always aligned and sized in u16 units
+        let bytecode: &[u16] = unsafe {
+            std::slice::from_raw_parts(
+                bytecode_u8.as_ptr() as *const u16,
+                bytecode_u8.len() / 2,
+            )
+        };
+
+        // Decode instructions using dexterity-dex
+        let mut instructions = Vec::new();
+        let iter = dexterity_dex::insns::InsnIterator::new(bytecode);
+
+        for result in iter {
+            let decoded = match result {
+                Ok(d) => d,
+                Err(e) => {
+                    // Skip invalid instructions but continue processing
+                    eprintln!("Warning: failed to decode instruction: {:?}", e);
+                    continue;
+                }
+            };
+
+            if let Some(insn) = build_ir_insn(
+                decoded.opcode as u8,
+                decoded.offset,
+                &decoded.regs,
+                decoded.reg_count,
+                decoded.literal,
+                decoded.index,
+                decoded.target,
+                decoded.proto_idx,
+            ) {
+                instructions.push(insn);
+            }
+        }
+
+        self.instructions = Some(instructions);
+        self.state = ProcessState::Loaded;
+        Ok(())
+    }
+
+    /// Load instructions from bytecode reference (lazy loading)
+    ///
+    /// Without the `lazy-loading` feature, this is a no-op.
+    /// Use `set_instructions()` to provide pre-decoded instructions.
+    #[cfg(not(feature = "lazy-loading"))]
     pub fn load(&mut self, _dex_bytes: &[u8]) -> Result<(), String> {
         // Already loaded
         if self.is_loaded() {
@@ -539,8 +615,8 @@ impl MethodData {
             return Ok(());
         };
 
-        // TODO: Implement actual lazy loading by decoding instructions from bytecode_ref
-        // For now, instructions should be loaded by the converter before returning the class
+        // Without lazy-loading feature, caller should use set_instructions()
+        // This is a no-op for backwards compatibility
         Ok(())
     }
 

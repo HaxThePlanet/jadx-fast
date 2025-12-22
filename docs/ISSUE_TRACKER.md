@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 3 P1, 2 P2 | P0-C08 fixed (instanceof syntax), P1-S08 fixed (short-circuit prelude), P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 partial, P1-S07 fixed (Dec 21, 2025)
+**Status:** Open: 0 P0, 3 P1, 2 P2 | IR 100% Complete | P0-C08 fixed (instanceof syntax), P1-S08 fixed (short-circuit prelude), P1-S02 fixed (returns + args), P1-S03 merged with P1-S05, P1-S05 partial, P1-S07 fixed (Dec 21, 2025)
 **Reference Files:**
 - `com/amplitude/api/f.java` (AmplitudeClient - 1033 lines)
 - `f/c/a/f/a/d/n.java` (NativeLibraryExtractor - 143 lines)
@@ -45,7 +45,7 @@
 | P2-Q02 | Synthetic accessor methods visible | **VERIFIED** - Implemented with inline_attr, all tests pass |
 | P2-Q03 | Wrong import classes | **VERIFIED** - Conflict detection via simple_name_map, needs specific repro |
 | ~~P2-Q04~~ | ~~JADX WARNING comments~~ | **FIXED** - Changed to Dexterity branding |
-| ~~P2-Q05~~ | ~~Unused variable declarations~~ | **FIXED** - Mark unwrapped CMP with DontGenerate in simplify.rs |
+| ~~P2-Q05~~ | ~~Unused variable declarations~~ | **FIXED** - CMP inlining fix in simplify.rs (counts ALL uses, marks dead only if ALL are IF/Ternary compare-to-zero) |
 
 ### Investigation (Blocked)
 
@@ -89,7 +89,7 @@ private boolean D(long j) {
 5. **Expression Not Inlined:** The pattern `return a - b < ternary` is not being recognized as a single return expression. Instead, it's decomposed into multiple statements with intermediate variables.
 
 **Technical Details:**
-- The simplify.rs CMP unwrapping only handles `If` conditions, not return expressions
+- The simplify.rs CMP unwrapping now handles both `If` conditions AND `Ternary` conditions (fixed Dec 21, 2025)
 - The ternary detection in ternary_mod.rs may not be recognizing this nested pattern
 - Variable naming in var_naming.rs uses `l` for Long but collision handling creates `l2`, `l3`, etc.
 
@@ -209,7 +209,6 @@ while (i < length - 1) {   // Correct: counter vs bound
 |----|-------|--------|
 | ~~GAP-001~~ | ~~Kotlin package deobfuscation~~ | **FIXED** - get_aliased_class_name() + extract_and_register_package_alias() |
 | ~~GAP-002~~ | ~~Variable naming quality~~ | **FIXED** - OBJ_ALIAS exact matching, GOOD_VAR_NAMES, toString(), type+method fallback |
-| POL-001 | Library skip filters | Low priority |
 | POL-002 | Cosmetic formatting | Low priority |
 
 ### Performance TODOs
@@ -426,7 +425,7 @@ if (matcher.matches() && obj == null) { ... }
 | ID | Bug | Fix |
 |----|-----|-----|
 | P1-S09 | For-each over Iterator illegal Java | Validate collection expr contains `.`/`(`/`[` or fall back to while loop |
-| P2-Q05 | Unused Compare variable declarations | Track unwrapped CMPs in simplify.rs Phase 3, mark with DontGenerate |
+| P2-Q05 | Unused Compare variable declarations | CMP inlining fix in simplify.rs - counts ALL uses, marks dead only if ALL are IF/Ternary compare-to-zero, added ternary CMP support |
 | P0-C04 | Unreachable code after return | emitted_exit tracking in generate_block() |
 | P1-S01 | Empty if blocks missing return | Enhanced is_empty_region_with_ctx() recursion |
 | VAR-001 | OBJ_ALIAS exact matching | Changed from contains() to exact FQN matching |

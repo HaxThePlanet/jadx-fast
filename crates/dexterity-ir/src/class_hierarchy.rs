@@ -153,7 +153,7 @@ impl PrimitiveType {
             ArgType::Long => Some(PrimitiveType::Long),
             ArgType::Float => Some(PrimitiveType::Float),
             ArgType::Double => Some(PrimitiveType::Double),
-            ArgType::Object(_) | ArgType::Generic { .. } | ArgType::TypeVariable(_) => {
+            ArgType::Object(_) | ArgType::Generic { .. } | ArgType::TypeVariable { .. } => {
                 Some(PrimitiveType::Object)
             }
             ArgType::Array(_) => Some(PrimitiveType::Array),
@@ -171,12 +171,35 @@ impl PrimitiveType {
 /// Provides comprehensive type comparison for type inference.
 pub struct TypeCompare<'a> {
     hierarchy: &'a ClassHierarchy,
+    /// Type variable mapping for looking up bounds
+    type_var_mapping: Option<TypeVarMapping>,
 }
 
 impl<'a> TypeCompare<'a> {
     /// Create a new TypeCompare with a class hierarchy reference
     pub fn new(hierarchy: &'a ClassHierarchy) -> Self {
-        Self { hierarchy }
+        Self {
+            hierarchy,
+            type_var_mapping: None,
+        }
+    }
+
+    /// Create a TypeCompare with type variable mapping for bound checking
+    pub fn with_type_var_mapping(hierarchy: &'a ClassHierarchy, mapping: TypeVarMapping) -> Self {
+        Self {
+            hierarchy,
+            type_var_mapping: Some(mapping),
+        }
+    }
+
+    /// Set the type variable mapping
+    pub fn set_type_var_mapping(&mut self, mapping: TypeVarMapping) {
+        self.type_var_mapping = Some(mapping);
+    }
+
+    /// Get the bounds for a type variable if available
+    fn get_type_var_bounds(&self, type_var: &str) -> Option<&Vec<ArgType>> {
+        self.type_var_mapping.as_ref()?.get_bounds(type_var)
     }
 
     /// Compare two types and return the relationship of first to second
@@ -324,8 +347,8 @@ impl<'a> TypeCompare<'a> {
         let objects_equal = first_name == second_name;
 
         // Handle generic types (type variables like T, E)
-        let first_generic_type = matches!(first, ArgType::TypeVariable(_));
-        let second_generic_type = matches!(second, ArgType::TypeVariable(_));
+        let first_generic_type = matches!(first, ArgType::TypeVariable { .. });
+        let second_generic_type = matches!(second, ArgType::TypeVariable { .. });
 
         if first_generic_type && second_generic_type && !objects_equal {
             return TypeCompareEnum::Conflict;
@@ -453,7 +476,7 @@ impl<'a> TypeCompare<'a> {
         generic_type: &ArgType,
         obj_type: &ArgType,
     ) -> TypeCompareEnum {
-        if matches!(obj_type, ArgType::TypeVariable(_)) {
+        if matches!(obj_type, ArgType::TypeVariable { .. }) {
             return self.compare_type_variables(generic_type, obj_type);
         }
 
@@ -466,7 +489,30 @@ impl<'a> TypeCompare<'a> {
             return TypeCompareEnum::Narrow;
         }
 
-        // TODO: Check extend types for generic type variables
+        // Check extend types for generic type variables
+        // If we have bounds for this type variable, check if obj_type is compatible
+        if let ArgType::TypeVariable { name: type_var_name, .. } = generic_type {
+            if let Some(bounds) = self.get_type_var_bounds(type_var_name) {
+                // Check if any bound is a supertype of or equal to obj_type
+                // T extends Bound means T can be assigned to Bound
+                for bound in bounds {
+                    let cmp = self.compare_types(bound, obj_type);
+                    match cmp {
+                        // Bound equals obj_type: T extends X, comparing with X -> Narrow
+                        TypeCompareEnum::Equal => return TypeCompareEnum::Narrow,
+                        // Bound is wider than obj_type: T extends Number, comparing with Integer
+                        // -> T is wider (can hold Integer through its Number bound)
+                        TypeCompareEnum::Wider => return TypeCompareEnum::Wider,
+                        // Bound is narrower than obj_type: T extends Integer, comparing with Number
+                        // -> T is narrower than Number (T must be Integer or subtype)
+                        TypeCompareEnum::Narrow => return TypeCompareEnum::Narrow,
+                        // Otherwise continue checking other bounds
+                        _ => continue,
+                    }
+                }
+            }
+        }
+
         TypeCompareEnum::Conflict
     }
 
@@ -476,7 +522,7 @@ impl<'a> TypeCompare<'a> {
         first: &ArgType,
         second: &ArgType,
     ) -> TypeCompareEnum {
-        if let (ArgType::TypeVariable(n1), ArgType::TypeVariable(n2)) = (first, second) {
+        if let (ArgType::TypeVariable { name: n1, .. }, ArgType::TypeVariable { name: n2, .. }) = (first, second) {
             if n1 == n2 {
                 return TypeCompareEnum::Equal;
             }
@@ -593,6 +639,8 @@ impl<'a> TypeCompare<'a> {
 #[derive(Debug, Clone, Default)]
 pub struct TypeVarMapping {
     mappings: HashMap<String, ArgType>,
+    /// Bounds for type variables (T extends Comparable, etc.)
+    bounds: HashMap<String, Vec<ArgType>>,
 }
 
 impl TypeVarMapping {
@@ -610,15 +658,40 @@ impl TypeVarMapping {
         self.mappings.get(type_var)
     }
 
+    /// Add bounds for a type variable (T extends Comparable & Serializable)
+    pub fn add_bounds(&mut self, type_var: String, bounds: Vec<ArgType>) {
+        if !bounds.is_empty() {
+            self.bounds.insert(type_var, bounds);
+        }
+    }
+
+    /// Get the bounds for a type variable
+    pub fn get_bounds(&self, type_var: &str) -> Option<&Vec<ArgType>> {
+        self.bounds.get(type_var)
+    }
+
+    /// Check if a type variable has bounds
+    pub fn has_bounds(&self, type_var: &str) -> bool {
+        self.bounds.contains_key(type_var)
+    }
+
     /// Check if mapping is empty
     pub fn is_empty(&self) -> bool {
         self.mappings.is_empty()
+    }
+
+    /// Check if bounds are empty
+    pub fn bounds_empty(&self) -> bool {
+        self.bounds.is_empty()
     }
 
     /// Merge another mapping into this one
     pub fn merge(&mut self, other: &TypeVarMapping) {
         for (k, v) in &other.mappings {
             self.mappings.entry(k.clone()).or_insert_with(|| v.clone());
+        }
+        for (k, v) in &other.bounds {
+            self.bounds.entry(k.clone()).or_insert_with(|| v.clone());
         }
     }
 
@@ -629,7 +702,7 @@ impl TypeVarMapping {
         }
 
         match ty {
-            ArgType::TypeVariable(name) => self.get(name).cloned(),
+            ArgType::TypeVariable { name, .. } => self.get(name).cloned(),
 
             ArgType::Array(elem) => {
                 self.replace_type_vars(elem).map(|e| ArgType::Array(Box::new(e)))
@@ -1039,21 +1112,11 @@ impl ArgType {
         match self {
             ArgType::Object(name) => Some(name.as_str()),
             ArgType::Generic { base, .. } => Some(base.as_str()),
-            ArgType::TypeVariable(name) => Some(name.as_str()),
+            ArgType::TypeVariable { name, .. } => Some(name.as_str()),
             _ => None,
         }
     }
-
-    /// Check if this type contains a type variable
-    pub fn contains_type_variable(&self) -> bool {
-        match self {
-            ArgType::TypeVariable(_) => true,
-            ArgType::Array(elem) => elem.contains_type_variable(),
-            ArgType::Generic { params, .. } => params.iter().any(|p| p.contains_type_variable()),
-            ArgType::Wildcard { inner: Some(i), .. } => i.contains_type_variable(),
-            _ => false,
-        }
-    }
+    // Note: contains_type_variable() is now in types.rs
 }
 
 // ============================================================================
@@ -1266,7 +1329,7 @@ mod tests {
         let mut mapping = TypeVarMapping::new();
         mapping.add("T".to_string(), ArgType::Object("java/lang/String".to_string()));
 
-        let type_var = ArgType::TypeVariable("T".to_string());
+        let type_var = ArgType::type_var("T");
         let replaced = mapping.replace_type_vars(&type_var);
 
         assert_eq!(
@@ -1282,7 +1345,7 @@ mod tests {
         assert!(!ArgType::Object("java/lang/String".to_string()).is_primitive());
 
         assert!(ArgType::Object("java/lang/String".to_string()).is_object());
-        assert!(ArgType::TypeVariable("T".to_string()).is_object());
+        assert!(ArgType::type_var("T").is_object());
         assert!(!ArgType::Int.is_object());
 
         assert!(ArgType::Int.is_type_known());
@@ -1292,15 +1355,15 @@ mod tests {
 
     #[test]
     fn test_contains_type_variable() {
-        assert!(ArgType::TypeVariable("T".to_string()).contains_type_variable());
+        assert!(ArgType::type_var("T").contains_type_variable());
         assert!(!ArgType::Object("java/lang/String".to_string()).contains_type_variable());
 
-        let array_of_t = ArgType::Array(Box::new(ArgType::TypeVariable("T".to_string())));
+        let array_of_t = ArgType::Array(Box::new(ArgType::type_var("T")));
         assert!(array_of_t.contains_type_variable());
 
         let generic = ArgType::Generic {
             base: "java/util/List".to_string(),
-            params: vec![ArgType::TypeVariable("E".to_string())],
+            params: vec![ArgType::type_var("E")],
         };
         assert!(generic.contains_type_variable());
     }
@@ -1314,5 +1377,54 @@ mod tests {
 
         let params = hierarchy.get_type_params("java/util/Map");
         assert_eq!(params, vec!["K", "V"]);
+    }
+
+    #[test]
+    fn test_type_var_mapping_bounds() {
+        let mut mapping = TypeVarMapping::new();
+
+        // Add type variable with bound: T extends Number
+        mapping.add_bounds(
+            "T".to_string(),
+            vec![ArgType::Object("java/lang/Number".to_string())],
+        );
+
+        assert!(mapping.has_bounds("T"));
+        assert!(!mapping.has_bounds("U"));
+
+        let bounds = mapping.get_bounds("T").unwrap();
+        assert_eq!(bounds.len(), 1);
+        assert_eq!(bounds[0], ArgType::Object("java/lang/Number".to_string()));
+    }
+
+    #[test]
+    fn test_type_compare_with_bounds() {
+        let mut hierarchy = ClassHierarchy::new();
+        // Add Number -> Integer relationship
+        hierarchy.add_class(
+            "java/lang/Integer".to_string(),
+            Some("java/lang/Number".to_string()),
+            vec![],
+        );
+
+        // Create mapping with T extends Number
+        let mut mapping = TypeVarMapping::new();
+        mapping.add_bounds(
+            "T".to_string(),
+            vec![ArgType::Object("java/lang/Number".to_string())],
+        );
+
+        let compare = TypeCompare::with_type_var_mapping(&hierarchy, mapping);
+
+        // T (bounded by Number) vs Number -> should be Narrow (T is subtype of Number)
+        let t_type = ArgType::type_var("T");
+        let number_type = ArgType::Object("java/lang/Number".to_string());
+        let result = compare.compare_types(&t_type, &number_type);
+        assert_eq!(result, TypeCompareEnum::Narrow);
+
+        // T (bounded by Number) vs Object -> should be Narrow (T is subtype of Object)
+        let object_type = ArgType::Object("java/lang/Object".to_string());
+        let result = compare.compare_types(&t_type, &object_type);
+        assert_eq!(result, TypeCompareEnum::Narrow);
     }
 }

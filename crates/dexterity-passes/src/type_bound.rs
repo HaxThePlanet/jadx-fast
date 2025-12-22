@@ -232,7 +232,7 @@ impl TypeBoundInvokeAssign {
         mapping: &std::collections::HashMap<String, ArgType>,
     ) -> ArgType {
         match ty {
-            ArgType::TypeVariable(name) => {
+            ArgType::TypeVariable { name, .. } => {
                 mapping.get(name).cloned().unwrap_or_else(|| ty.clone())
             }
             ArgType::Generic { base, params } => {
@@ -268,7 +268,7 @@ impl TypeBoundInvokeAssign {
             // Fallback for when hierarchy is not available or instance is not Generic
             // Use legacy positional heuristics
             match (&self.generic_return_type, instance_type) {
-                (ArgType::TypeVariable(var_name), ArgType::Generic { params, .. })
+                (ArgType::TypeVariable { name: var_name, .. }, ArgType::Generic { params, .. })
                     if !params.is_empty() =>
                 {
                     match var_name.as_str() {
@@ -284,7 +284,7 @@ impl TypeBoundInvokeAssign {
                     let resolved_params: Vec<ArgType> = ret_params
                         .iter()
                         .map(|p| {
-                            if let ArgType::TypeVariable(_) = p {
+                            if let ArgType::TypeVariable { .. } = p {
                                 self.resolve_single_type_var(p, instance_ty)
                             } else {
                                 p.clone()
@@ -306,7 +306,7 @@ impl TypeBoundInvokeAssign {
     }
 
     fn resolve_single_type_var(&self, type_var: &ArgType, instance_type: &ArgType) -> ArgType {
-        if let (ArgType::TypeVariable(var_name), ArgType::Generic { params, .. }) =
+        if let (ArgType::TypeVariable { name: var_name, .. }, ArgType::Generic { params, .. }) =
             (type_var, instance_type)
         {
             if !params.is_empty() {
@@ -405,8 +405,8 @@ impl TypeBound for TypeBoundInvokeUse {
 
     fn is_dynamic(&self) -> bool {
         // Only dynamic if we have generic type variables to resolve
-        matches!(self.generic_arg_type, ArgType::TypeVariable(_))
-            || matches!(&self.generic_arg_type, ArgType::Generic { params, .. } if params.iter().any(|p| matches!(p, ArgType::TypeVariable(_))))
+        matches!(self.generic_arg_type, ArgType::TypeVariable { .. })
+            || matches!(&self.generic_arg_type, ArgType::Generic { params, .. } if params.iter().any(|p| matches!(p, ArgType::TypeVariable { .. })))
     }
 
     fn clone_box(&self) -> Box<dyn TypeBound> {
@@ -425,7 +425,7 @@ impl TypeBoundDynamic for TypeBoundInvokeUse {
             let instance_var = TypeVar::new(ssa);
             if let Some(instance_type) = ctx.resolved_types.get(&instance_var) {
                 // Resolve type variables in the argument type
-                if let ArgType::TypeVariable(var_name) = &self.generic_arg_type {
+                if let ArgType::TypeVariable { name: var_name, .. } = &self.generic_arg_type {
                     if let ArgType::Generic { params, .. } = instance_type {
                         return match var_name.as_str() {
                             "E" | "T" | "R" => params.first().cloned(),
@@ -480,7 +480,7 @@ impl TypeBound for TypeBoundFieldGetAssign {
     }
 
     fn is_dynamic(&self) -> bool {
-        matches!(self.init_type, ArgType::TypeVariable(_))
+        matches!(self.init_type, ArgType::TypeVariable { .. })
     }
 
     fn clone_box(&self) -> Box<dyn TypeBound> {
@@ -497,7 +497,7 @@ impl TypeBoundDynamic for TypeBoundFieldGetAssign {
         if let Some((reg, ssa)) = self.instance_reg {
             let instance_var = TypeVar::new(ssa);
             if let Some(instance_type) = ctx.resolved_types.get(&instance_var) {
-                if let ArgType::TypeVariable(var_name) = &self.init_type {
+                if let ArgType::TypeVariable { name: var_name, .. } = &self.init_type {
                     if let ArgType::Generic { params, .. } = instance_type {
                         return match var_name.as_str() {
                             "E" | "T" | "R" => params.first().cloned(),
@@ -730,7 +730,7 @@ mod tests {
     fn test_invoke_assign_resolve() {
         let bound = TypeBoundInvokeAssign::new(
             0,
-            ArgType::TypeVariable("E".to_string()),
+            ArgType::type_var("E"),
             0,
             1,
         );
@@ -752,7 +752,7 @@ mod tests {
 
         let bound = TypeBoundInvokeAssign::new(
             0,
-            ArgType::TypeVariable("E".to_string()),
+            ArgType::type_var("E"),
             0,
             1,
         );

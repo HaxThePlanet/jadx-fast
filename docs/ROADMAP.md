@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0, 3 P1, 2 P2 Open | Kotlin 100% | P0-C08 instanceof, P1-S08 short-circuit Fix Complete (Dec 21, 2025)
+**Status:** 0 P0, 3 P1, 2 P2 Open | IR 100% | Kotlin 100% | IR Type System + SSA Parity Complete (Dec 21, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -11,12 +11,11 @@
 
 | ID | Issue | Action |
 |----|-------|--------|
-| POL-001 | Library skip filters | appsflyer, revenuecat, zendesk |
 | POL-002 | Cosmetic formatting | Whitespace, parentheses (~5%) |
 
 ### Performance TODOs
 
-See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2/P1-4 open items.
+See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open items.
 
 ### Future Features
 
@@ -96,11 +95,16 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2/P1-4 op
 - **Old-style vs BCP-47 detection:** Distinguishes `pt-rBR` from `b+sr+Latn` formats
 - **Files changed:** `code_item.rs`, `arsc.rs`
 
-### Phase 3: Dead CMP Elimination (Dec 21, 2025)
+### Phase 3: CMP Instruction Inlining Fix (Dec 21, 2025)
 
+- **CMP inlining fixed in simplify.rs** - CMP instructions now properly inlined into If/Ternary conditions
+- **Bug fix:** CMP instructions were incorrectly marked as dead when they had multiple uses
+- **Solution:** Now counts ALL uses of CMP results before marking dead
+- **Only marks CMP as dead if ALL uses are IF/Ternary with compare-to-zero**
+- **Added ternary support for CMP unwrapping** - `cmp_l(a, b) == 0` patterns in ternary conditions
 - **P2-Q05 fix:** Unused Compare variable declarations (e.g., `int compare = ...;`) eliminated
 - **SimplifyResult.dead_cmp_count:** New field tracks CMP instructions marked for removal
-- **DontGenerate flag:** Compare instructions whose results are inlined into If conditions get marked
+- **DontGenerate flag:** Compare instructions whose results are inlined get marked
 - **Files changed:** `simplify.rs`
 
 ### Phase 2: Boolean Expression Simplification (Dec 21, 2025)

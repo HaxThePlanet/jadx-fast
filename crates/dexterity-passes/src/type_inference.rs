@@ -488,7 +488,7 @@ impl TypeInference {
     /// Check if a type contains any TypeVariable that needs resolution
     fn contains_type_variable(ty: &ArgType) -> bool {
         match ty {
-            ArgType::TypeVariable(_) => true,
+            ArgType::TypeVariable { .. } => true,
             ArgType::Generic { params, .. } => params.iter().any(Self::contains_type_variable),
             ArgType::Array(elem) => Self::contains_type_variable(elem),
             _ => false,
@@ -527,7 +527,7 @@ impl TypeInference {
     /// This is the JADX-equivalent of `TypeUtils.replaceTypeVariablesUsingMap()`.
     fn apply_type_var_mapping(ty: &ArgType, mapping: &HashMap<String, ArgType>) -> ArgType {
         match ty {
-            ArgType::TypeVariable(name) => {
+            ArgType::TypeVariable { name, .. } => {
                 mapping.get(name).cloned().unwrap_or_else(|| ty.clone())
             }
             ArgType::Generic { base, params } => {
@@ -567,7 +567,7 @@ impl TypeInference {
             // Fallback for when hierarchy is not available or instance is not Generic
             // Use legacy positional heuristics
             match (return_type, instance_type) {
-                (ArgType::TypeVariable(var_name), ArgType::Generic { params, .. }) if !params.is_empty() => {
+                (ArgType::TypeVariable { name: var_name, .. }, ArgType::Generic { params, .. }) if !params.is_empty() => {
                     match var_name.as_str() {
                         "E" | "T" | "R" => params.first().cloned().unwrap_or(return_type.clone()),
                         "V" if params.len() >= 2 => params.get(1).cloned().unwrap_or(return_type.clone()),
@@ -2995,7 +2995,7 @@ mod tests {
         );
 
         // TypeVariable("E") should become String
-        let type_var = ArgType::TypeVariable("E".to_string());
+        let type_var = ArgType::type_var("E");
         let resolved = TypeInference::apply_type_var_mapping(&type_var, &mapping);
 
         assert_eq!(
@@ -3015,7 +3015,7 @@ mod tests {
         // Iterator<E> should become Iterator<String>
         let generic_type = ArgType::Generic {
             base: "java/util/Iterator".to_string(),
-            params: vec![ArgType::TypeVariable("E".to_string())],
+            params: vec![ArgType::type_var("E")],
         };
         let resolved = TypeInference::apply_type_var_mapping(&generic_type, &mapping);
 
@@ -3040,7 +3040,7 @@ mod tests {
         };
 
         // Return type E (from Iterator.next())
-        let return_type = ArgType::TypeVariable("E".to_string());
+        let return_type = ArgType::type_var("E");
 
         // Should resolve E to String
         let resolved = inference.resolve_type_variable(&return_type, &instance_type);
@@ -3066,7 +3066,7 @@ mod tests {
         };
 
         // Return type V (from Map.get())
-        let return_type = ArgType::TypeVariable("V".to_string());
+        let return_type = ArgType::type_var("V");
 
         // Should resolve V to Integer
         let resolved = inference.resolve_type_variable(&return_type, &instance_type);

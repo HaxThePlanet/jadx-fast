@@ -53,7 +53,14 @@ pub fn type_to_string_with_imports_and_package(
                 _ => "?".to_string(),
             }
         }
-        ArgType::TypeVariable(name) => name.clone(),
+        ArgType::TypeVariable { name, .. } => name.clone(),
+        ArgType::OuterGeneric { outer, inner } => {
+            format!(
+                "{}.{}",
+                type_to_string_with_imports_and_package(outer, imports, current_package),
+                type_to_string_with_imports_and_package(inner, imports, current_package)
+            )
+        }
         // JADX-compatible fallback: Unknown types become Object with warning comment
         // This ensures generated code compiles even when type inference fails
         ArgType::Unknown => "Object /* Dexterity WARNING: Unknown type */".to_string(),
@@ -63,6 +70,15 @@ pub fn type_to_string_with_imports_and_package(
         ArgType::UnknownObject => "Object /* Dexterity INFO: Object type unknown */".to_string(),
         ArgType::UnknownArray => "Object[] /* Dexterity INFO: Array type unknown */".to_string(),
         ArgType::UnknownIntegral => "int /* Dexterity INFO: Integral type */".to_string(),
+        // New unknown variants
+        ArgType::UnknownNarrowNumbers => "int /* Dexterity INFO: Narrow numbers */".to_string(),
+        ArgType::UnknownNumbersNoBool => "int /* Dexterity INFO: Numbers no bool */".to_string(),
+        ArgType::UnknownNumbersNoFloat => "int /* Dexterity INFO: Numbers no float */".to_string(),
+        ArgType::UnknownIntFloat => "int /* Dexterity INFO: Int or float */".to_string(),
+        ArgType::UnknownIntBoolean => "int /* Dexterity INFO: Int or boolean */".to_string(),
+        ArgType::UnknownByteBoolean => "byte /* Dexterity INFO: Byte or boolean */".to_string(),
+        ArgType::UnknownObjectNoArray => "Object /* Dexterity INFO: Object no array */".to_string(),
+        ArgType::UnknownInt => "int /* Dexterity INFO: Unknown int */".to_string(),
     }
 }
 
@@ -254,8 +270,9 @@ pub fn literal_to_string(value: i64, ty: &ArgType) -> String {
             let d = f64::from_bits(value as u64);
             format_double(d)
         }
-        ArgType::Object(_) | ArgType::Array(_) | ArgType::TypeVariable(_)
-        | ArgType::Generic { .. } | ArgType::Wildcard { .. } => {
+        ArgType::Object(_) | ArgType::Array(_) | ArgType::TypeVariable { .. }
+        | ArgType::Generic { .. } | ArgType::Wildcard { .. }
+        | ArgType::OuterGeneric { .. } => {
             if value == 0 {
                 "null".to_string()
             } else {

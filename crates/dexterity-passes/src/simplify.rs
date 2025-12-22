@@ -108,31 +108,113 @@ pub fn simplify_instructions(ssa: &mut SsaResult, types: Option<&HashMap<(u16, u
         }
     }
 
-    // Phase 2: Apply simplifications and track which CMP instructions were unwrapped
-    // When an If instruction uses a CMP result and we simplify it, the CMP becomes dead
-    let mut unwrapped_cmps: HashSet<(u16, u32)> = HashSet::new();
+    // Phase 2: Count all uses of CMP results and track which are IF-with-compare-to-zero
+    // A CMP can only be marked dead if ALL its uses are IF instructions comparing to zero
+    // Maps CMP key -> (total_uses, if_zero_uses)
+    let mut cmp_use_counts: HashMap<(u16, u32), (usize, usize)> = HashMap::new();
 
-    for block in &mut ssa.blocks {
-        for insn in &mut block.instructions {
-            // Check if this is an If instruction that uses a CMP result
-            if let InsnType::If { left, right, .. } = &insn.insn_type {
-                // Check if we're comparing a CMP result to zero (the pattern we unwrap)
-                if let InsnArg::Register(reg) = left {
+    // Initialize counts for all CMP definitions
+    for key in cmp_defs.keys() {
+        cmp_use_counts.insert(*key, (0, 0));
+    }
+
+    // Count uses of CMP results across all instructions
+    for block in &ssa.blocks {
+        for insn in &block.instructions {
+            // Count uses in all instruction arguments
+            let mut count_use = |arg: &InsnArg, is_if_zero_use: bool| {
+                if let InsnArg::Register(reg) = arg {
                     let key = (reg.reg_num, reg.ssa_version);
-                    if cmp_defs.contains_key(&key) {
-                        let comparing_to_zero = match right {
-                            Some(InsnArg::Literal(LiteralArg::Int(0))) => true,
-                            None => true, // *z variants implicitly compare to 0
-                            _ => false,
-                        };
-                        if comparing_to_zero {
-                            // This CMP will be unwrapped, track it as dead
-                            unwrapped_cmps.insert(key);
+                    if let Some((total, if_zero)) = cmp_use_counts.get_mut(&key) {
+                        *total += 1;
+                        if is_if_zero_use {
+                            *if_zero += 1;
                         }
                     }
                 }
-            }
+            };
 
+            match &insn.insn_type {
+                InsnType::If { left, right, .. } => {
+                    // Check if this is a compare-to-zero pattern
+                    let comparing_to_zero = match right {
+                        Some(InsnArg::Literal(LiteralArg::Int(0))) => true,
+                        None => true, // *z variants implicitly compare to 0
+                        _ => false,
+                    };
+                    count_use(left, comparing_to_zero);
+                    if let Some(r) = right {
+                        count_use(r, false);
+                    }
+                }
+                InsnType::Ternary { left, right, then_value, else_value, .. } => {
+                    // Ternary conditions can also unwrap CMP when comparing to zero
+                    let comparing_to_zero = match right {
+                        Some(InsnArg::Literal(LiteralArg::Int(0))) => true,
+                        None => true,
+                        _ => false,
+                    };
+                    count_use(left, comparing_to_zero);
+                    if let Some(r) = right {
+                        count_use(r, false);
+                    }
+                    count_use(then_value, false);
+                    count_use(else_value, false);
+                }
+                InsnType::Binary { left, right, .. } => {
+                    count_use(left, false);
+                    count_use(right, false);
+                }
+                InsnType::Unary { arg, .. } => {
+                    count_use(arg, false);
+                }
+                InsnType::Move { src, .. } => {
+                    count_use(src, false);
+                }
+                InsnType::Return { value: Some(v) } => {
+                    count_use(v, false);
+                }
+                InsnType::Invoke { args, .. } => {
+                    for arg in args {
+                        count_use(arg, false);
+                    }
+                }
+                InsnType::ArrayGet { array, index, .. } => {
+                    count_use(array, false);
+                    count_use(index, false);
+                }
+                InsnType::ArrayPut { array, index, value, .. } => {
+                    count_use(array, false);
+                    count_use(index, false);
+                    count_use(value, false);
+                }
+                InsnType::InstanceGet { object, .. } => {
+                    count_use(object, false);
+                }
+                InsnType::InstancePut { object, value, .. } => {
+                    count_use(object, false);
+                    count_use(value, false);
+                }
+                InsnType::StaticPut { value, .. } => {
+                    count_use(value, false);
+                }
+                _ => {}
+            }
+        }
+    }
+
+    // Determine which CMPs can be safely marked as dead (all uses are IF-zero)
+    let mut safe_to_remove_cmps: HashSet<(u16, u32)> = HashSet::new();
+    for (key, (total, if_zero)) in &cmp_use_counts {
+        if *total > 0 && *total == *if_zero {
+            // All uses are IF instructions comparing to zero - safe to inline and remove
+            safe_to_remove_cmps.insert(*key);
+        }
+    }
+
+    // Phase 3: Apply simplifications
+    for block in &mut ssa.blocks {
+        for insn in &mut block.instructions {
             if let Some(new_insn) = simplify_insn(insn, types, &unary_defs, &cmp_defs, &cast_defs, &check_cast_defs) {
                 *insn = new_insn;
                 simplified_count += 1;
@@ -140,14 +222,13 @@ pub fn simplify_instructions(ssa: &mut SsaResult, types: Option<&HashMap<(u16, u
         }
     }
 
-    // Phase 3: Mark unwrapped Compare instructions with DontGenerate flag
-    // These CMP instructions had their results inlined into If conditions and are now dead
+    // Phase 4: Mark CMP instructions as dead only if ALL uses were IF-zero patterns
     let mut dead_cmp_count = 0;
     for block in &mut ssa.blocks {
         for insn in &mut block.instructions {
             if let InsnType::Compare { dest, .. } = &insn.insn_type {
                 let key = (dest.reg_num, dest.ssa_version);
-                if unwrapped_cmps.contains(&key) && !insn.has_flag(AFlag::DontGenerate) {
+                if safe_to_remove_cmps.contains(&key) && !insn.has_flag(AFlag::DontGenerate) {
                     insn.add_flag(AFlag::DontGenerate);
                     dead_cmp_count += 1;
                 }
@@ -176,6 +257,10 @@ fn simplify_insn(
         }
         InsnType::If { condition, left, right, target } => {
             simplify_if(*condition, left.clone(), right.clone(), *target, insn.offset, cmp_defs)
+        }
+        InsnType::Ternary { dest, condition, left, right, then_value, else_value } => {
+            simplify_ternary(*dest, *condition, left.clone(), right.clone(),
+                           then_value.clone(), else_value.clone(), insn.offset, cmp_defs)
         }
         InsnType::Cast { dest, cast_type, arg } => {
             simplify_cast(*dest, *cast_type, arg.clone(), insn.offset, cast_defs)
@@ -271,6 +356,55 @@ fn simplify_if(
                         left: cmp_left.clone(),
                         right: Some(cmp_right.clone()),
                         target,
+                    },
+                    offset,
+                ));
+            }
+        }
+    }
+
+    None
+}
+
+/// Simplify Ternary conditions with CMP unwrapping
+///
+/// Similar to simplify_if, handles patterns like:
+/// - `cmp_result == 0 ? a : b` → `left == right ? a : b`
+/// - `cmp_result < 0 ? a : b` → `left < right ? a : b`
+fn simplify_ternary(
+    dest: RegisterArg,
+    condition: IfCondition,
+    left: InsnArg,
+    right: Option<InsnArg>,
+    then_value: InsnArg,
+    else_value: InsnArg,
+    offset: u32,
+    cmp_defs: &HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)>,
+) -> Option<InsnNode> {
+    // CMP unwrapping: if (cmp_result OP 0) -> if (cmp_left OP cmp_right)
+    // Only applies when comparing a CMP result to zero
+
+    // Check if left is a register that was defined by a CMP instruction
+    if let InsnArg::Register(reg) = &left {
+        if let Some((_, cmp_left, cmp_right)) = cmp_defs.get(&(reg.reg_num, reg.ssa_version)) {
+            // Check if we're comparing to zero
+            let is_compare_to_zero = match &right {
+                Some(InsnArg::Literal(LiteralArg::Int(0))) => true,
+                None => true, // *z variants implicitly compare to 0
+                _ => false,
+            };
+
+            if is_compare_to_zero {
+                // CMP returns -1 (a < b), 0 (a == b), or 1 (a > b)
+                // Unwrap the CMP directly into the ternary condition
+                return Some(InsnNode::new(
+                    InsnType::Ternary {
+                        dest,
+                        condition,  // The condition stays the same!
+                        left: cmp_left.clone(),
+                        right: Some(cmp_right.clone()),
+                        then_value,
+                        else_value,
                     },
                     offset,
                 ));

@@ -513,6 +513,7 @@ dependencies = [
 name = "dexterity-ir"
 version = "1.0.0"
 dependencies = [
+ "dexterity-dex",
  "fixedbitset 0.5.7",
  "pretty_assertions",
  "serde",

@@ -717,7 +717,7 @@ pub fn parse_kotlin_type_name(type_name: &str) -> dexterity_ir::ArgType {
 
     // 3. Type variable (simple name without '/')
     if !type_name.contains('/') && !type_name.starts_with('[') {
-        return ArgType::TypeVariable(type_name.to_string());
+        return ArgType::type_var(type_name);
     }
 
     // 4. Handle array types (starts with '[')

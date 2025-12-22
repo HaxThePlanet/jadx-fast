@@ -36,14 +36,18 @@ pub use info::{
     TryCatchBlockAttr, TypeParameter, TypeVariance,
 };
 pub use instructions::{InsnArg, InsnArgs, InsnNode, InsnType, LambdaHandleType, LambdaInfo, PhiSources, RegisterArg, WrappedInsn};
-pub use kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};
+pub use kotlin_metadata::{
+    ClassAlias, ClassResolver, FnClassResolver, KotlinMetadata, SetClassResolver,
+    get_class_alias, get_class_alias_with_resolver, KOTLIN_METADATA_ANNOTATION,
+};
 pub use ssa::{
-    CodeVar, SSAContext, SSAVar, SSAVarRef, TypeBound, TypeInfo,
-    SSA_FLAG_IMMUTABLE_TYPE, SSA_FLAG_METHOD_ARG, SSA_FLAG_PHI_ASSIGN, SSA_FLAG_THIS_ARG,
+    CodeVar, PhiNode, PhiSimplifyResult, SSAContext, SSAVar, SSAVarRef, TypeBound, TypeInfo,
+    simplify_phis, SSA_FLAG_IMMUTABLE_TYPE, SSA_FLAG_METHOD_ARG, SSA_FLAG_PHI_ASSIGN, SSA_FLAG_THIS_ARG,
 };
 pub use types::{compare_types, ArgType, TypeCompare};
 pub use regions::{
     CaseInfo, CaseKey, CatchHandler, Condition, ConditionMode, ForEachLoopInfo, ForLoopInfo,
     IBranchRegion, IConditionRegion, IContainer, IRegion, IterableSource, LoopDetails,
     LoopKind, LoopType, Region, RegionContent, RegionContext, RegionId, RegionType,
+    RegionVisitor,
 };

@@ -12,6 +12,7 @@ pub mod deboxing;
 pub mod enum_visitor;
 pub mod extract_field_init;
 pub mod finally_extract;
+pub mod finish_type_inference;
 pub mod fix_types;
 pub mod generic_types;
 pub mod if_region_visitor;
@@ -84,6 +85,9 @@ pub use type_bound::{
 pub use type_update::{
     InsnKind, TypeListener, TypeUpdateEngine, TypeUpdateEntry, TypeUpdateFlags,
     TypeUpdateInfo, TypeUpdateResult,
+};
+pub use finish_type_inference::{
+    finish_type_inference, finish_type_inference_with_names, FinishTypeInferenceResult,
 };
 pub use fix_types::{
     fix_types, fix_types_with_context, FixStrategy, FixTypes, FixTypesResult,

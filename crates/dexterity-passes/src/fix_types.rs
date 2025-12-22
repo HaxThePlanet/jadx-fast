@@ -148,7 +148,7 @@ impl FixTypes {
 
     /// Check if a type is considered unresolved
     fn is_unresolved(ty: &ArgType) -> bool {
-        matches!(ty, ArgType::Unknown | ArgType::TypeVariable(_))
+        matches!(ty, ArgType::Unknown | ArgType::TypeVariable { .. })
     }
 
     /// Check if all types are resolved
@@ -235,7 +235,7 @@ impl FixTypes {
             if let Some(info) = self.type_info.get(&var) {
                 let has_generic_bound = info.bounds().iter().any(|b| {
                     if let Some(ty) = b.get_type() {
-                        matches!(ty, ArgType::TypeVariable(_))
+                        matches!(ty, ArgType::TypeVariable { .. })
                     } else {
                         false
                     }
@@ -464,7 +464,7 @@ impl FixTypes {
                                 changed = true;
                                 break;
                             }
-                            ArgType::TypeVariable(_) => {
+                            ArgType::TypeVariable { .. } => {
                                 // Unresolved type variable - fall back to Object
                                 // This handles cases where type inference couldn't resolve
                                 // the type variable (e.g., missing generic context)

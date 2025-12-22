@@ -698,7 +698,7 @@ fn parse_type_from_signature(chars: &mut std::iter::Peekable<std::str::Chars>) -
                 chars.next();
                 var_name.push(c);
             }
-            Some(ArgType::TypeVariable(var_name))
+            Some(ArgType::type_var(&var_name))
         }
         _ => None,
     }

@@ -1,6 +1,57 @@
 
 use crate::info::{Annotation, AnnotationValue, ClassData};
 
+/// Trait for resolving class existence in the codebase.
+/// Used by Kotlin metadata processing to validate class aliases.
+pub trait ClassResolver {
+    /// Check if a class exists in the codebase.
+    /// The class name should be in JVM internal format (e.g., "com/example/MyClass").
+    fn class_exists(&self, class_name: &str) -> bool;
+}
+
+/// Simple class resolver that uses a set of known class names.
+pub struct SetClassResolver<'a> {
+    class_names: &'a std::collections::HashSet<String>,
+}
+
+impl<'a> SetClassResolver<'a> {
+    pub fn new(class_names: &'a std::collections::HashSet<String>) -> Self {
+        Self { class_names }
+    }
+}
+
+impl<'a> ClassResolver for SetClassResolver<'a> {
+    fn class_exists(&self, class_name: &str) -> bool {
+        self.class_names.contains(class_name)
+    }
+}
+
+/// Class resolver backed by a closure for flexible lookups.
+pub struct FnClassResolver<F>
+where
+    F: Fn(&str) -> bool,
+{
+    resolver: F,
+}
+
+impl<F> FnClassResolver<F>
+where
+    F: Fn(&str) -> bool,
+{
+    pub fn new(resolver: F) -> Self {
+        Self { resolver }
+    }
+}
+
+impl<F> ClassResolver for FnClassResolver<F>
+where
+    F: Fn(&str) -> bool,
+{
+    fn class_exists(&self, class_name: &str) -> bool {
+        (self.resolver)(class_name)
+    }
+}
+
 #[derive(Debug, Clone, Default)]
 pub struct KotlinMetadata {
     pub kind: Option<i32>,
@@ -119,7 +170,25 @@ impl ClassAlias {
     }
 }
 
+/// Get class alias from Kotlin metadata without class existence validation.
+/// For strict validation, use `get_class_alias_with_resolver` instead.
 pub fn get_class_alias(cls: &ClassData) -> Option<ClassAlias> {
+    get_class_alias_internal(cls, None::<&FnClassResolver<fn(&str) -> bool>>)
+}
+
+/// Get class alias from Kotlin metadata with class existence validation.
+/// The resolver is used to verify that the resolved class actually exists.
+pub fn get_class_alias_with_resolver<R: ClassResolver>(
+    cls: &ClassData,
+    resolver: &R,
+) -> Option<ClassAlias> {
+    get_class_alias_internal(cls, Some(resolver))
+}
+
+fn get_class_alias_internal<R: ClassResolver>(
+    cls: &ClassData,
+    resolver: Option<&R>,
+) -> Option<ClassAlias> {
     let kotlin_metadata = cls.get_kotlin_metadata()?;
 
     // Check the kind (k) value:
@@ -145,14 +214,18 @@ pub fn get_class_alias(cls: &ClassData) -> Option<ClassAlias> {
         return None;
     }
 
-    let result = split_and_check_cls_name(cls, &cleaned_name);
+    let result = split_and_check_cls_name(cls, &cleaned_name, resolver);
     if result.is_some() && cls.class_type.contains("/c/") {
         eprintln!("Kotlin alias SUCCESS: {} -> {:?}", cls.class_type, result);
     }
     result
 }
 
-fn split_and_check_cls_name(origin_cls: &ClassData, full_cls_name: &str) -> Option<ClassAlias> {
+fn split_and_check_cls_name<R: ClassResolver>(
+    origin_cls: &ClassData,
+    full_cls_name: &str,
+    resolver: Option<&R>,
+) -> Option<ClassAlias> {
     if !is_valid_full_identifier(full_cls_name) {
         if origin_cls.class_type.contains("/c/") {
             eprintln!("Kotlin alias fail [invalid identifier]: {} -> {}", origin_cls.class_type, full_cls_name);
@@ -207,8 +280,18 @@ fn split_and_check_cls_name(origin_cls: &ClassData, full_cls_name: &str) -> Opti
         return None;
     }
 
-    // TODO: Add class existence check (origin_cls.root().resolveClass(fullClsName) equivalent)
-    // This requires access to all_class_names from the DexInfo provider
+    // Check if the resolved class exists (if a resolver is provided)
+    if let Some(resolver) = resolver {
+        // Convert dotted package name to JVM internal format for lookup
+        let internal_name = full_cls_name.replace('.', "/");
+        if !resolver.class_exists(&internal_name) {
+            if origin_cls.class_type.contains("/c/") {
+                eprintln!("Kotlin alias fail [class not found]: {} -> {} (internal: {})",
+                    origin_cls.class_type, full_cls_name, internal_name);
+            }
+            return None;
+        }
+    }
 
     Some(ClassAlias::new(pkg, name))
 }

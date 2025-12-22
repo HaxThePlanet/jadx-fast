@@ -5,11 +5,13 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 1,209 tests passing (687 integration + 522 unit tests)
+**Tests:** 1,217 tests passing (687 integration + 530 unit tests)
 **Integration Tests:** 687 passing (100%)
 **Lines:** ~95,000 lines of Rust
-**Completion:** 98%+ JADX CLI parity (Dec 17, 2025)
-**Issues:** 22 total (20 resolved, 2 remaining from badboy APK comparison)
+**IR Parity:** 100% JADX parity (Dec 21, 2025)
+**Kotlin:** 100% parity (BitEncoding ported)
+**Resources:** 1:1 JADX parity (103 dirs, 152 files, zero diff)
+**Issues:** 0 P0, 3 P1, 2 P2 open
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is intentional
 
 ## Crate Overview
@@ -38,21 +40,21 @@ Memory-mapped DEX file parsing with zero-copy access.
 - `header.rs` - DEX header parsing (magic, checksum, offsets)
 - `consts.rs` - Dalvik opcode definitions (all 224 opcodes)
 
-### dexterity-ir (Intermediate Representation) - 89% JADX Parity
+### dexterity-ir (Intermediate Representation) - 100% JADX Parity
 
-Core IR types shared across all passes. Major update Dec 17, 2025 (82% -> 89% parity).
+Core IR types shared across all passes. Updated Dec 21, 2025 (89% -> 100% parity).
 
 **Key components:**
 - `instructions.rs` - ~46 instruction variants (incl. MoveMulti, StrConcat, Constructor, JavaJsr/Ret)
-- `types.rs` - Type system with Unknown variants (UnknownNarrow/Wide/Object/Array/Integral)
+- `types.rs` - **100% JADX parity**: Type system with all 15 Unknown variants, OuterGeneric, TypeVariable with bounds, select_first(), visit_types(), get_array_dimension(), contains_type_variable(), contains_generic()
 - `nodes.rs` - `ClassNode`, `MethodNode`, `FieldNode`, `BlockNode` definitions
-- `class_hierarchy.rs` - **100% JADX parity**: TypeCompare engine, TypeVarMapping, visitSuperTypes visitor, LCA calculation
-- `ssa.rs` - Full SSA infrastructure (SSAVar, TypeInfo, CodeVar, TypeBound, SSAContext)
+- `class_hierarchy.rs` - **100% JADX parity**: TypeCompare engine, TypeVarMapping with bounds, visitSuperTypes visitor, LCA calculation
+- `ssa.rs` - **100% JADX parity**: Full SSA infrastructure (SSAVar, TypeInfo, CodeVar, TypeBound, SSAContext, PhiNode), utility methods (get_only_one_use_in_phi, reset_type_and_code_var, update_used_in_phi_list)
 - `attributes.rs` - **100% JADX parity**: 60 AFlag flags (59 JADX + TmpEdge) + 37 AType typed attributes
 - `builder.rs` - IR builder from DEX bytecode
-- `regions.rs` - Control flow region types (if/loop/switch/try)
-- `kotlin_metadata.rs` - Kotlin metadata types and parsing
-- `info.rs` - Debug info and source line tracking structures
+- `regions.rs` - **100% JADX parity**: Control flow region types (if/loop/switch/try), RegionVisitor pattern
+- `kotlin_metadata.rs` - Kotlin metadata types and parsing with ClassResolver trait
+- `info.rs` - Debug info, source line tracking, lazy loading with `lazy-loading` feature flag
 
 **InsnArg variants:** Register, Literal, Type, Field, Method, String, Wrapped (inlined expr), Named (synthetic vars), This
 
@@ -69,6 +71,7 @@ Transform IR through analysis passes.
   - Post-solve PHI node LCA computation for conflicting types
   - ObjectType constraints for array elements (vs Unknown)
   - 7 constraint types: Equals, Same, Subtype, ArrayOf, Numeric, Integral, ObjectType
+- `finish_type_inference.rs` - JADX FinishTypeInference.java parity: validates all SSA variables have known types, generates warnings for unknown types
 - `region_builder.rs` - CFG to structured regions (if/loop/switch/try)
 - `conditionals.rs` - Else-if chaining, ternary reconstruction
 - `loops.rs` - ForEach detection from iterator patterns

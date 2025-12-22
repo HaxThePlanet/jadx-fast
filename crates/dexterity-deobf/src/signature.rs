@@ -36,7 +36,8 @@ pub fn arg_type_to_descriptor(ty: &ArgType) -> String {
         }
         ArgType::Wildcard { inner: Some(inner), .. } => arg_type_to_descriptor(inner),
         ArgType::Wildcard { inner: None, .. } => "Ljava/lang/Object;".to_string(),
-        ArgType::TypeVariable(_) => "Ljava/lang/Object;".to_string(), // Type erasure
+        ArgType::TypeVariable { .. } => "Ljava/lang/Object;".to_string(), // Type erasure
+        ArgType::OuterGeneric { inner, .. } => arg_type_to_descriptor(inner), // Use inner type
         ArgType::Unknown => "Ljava/lang/Object;".to_string(),
         // Unknown variants during type inference - use Object as placeholder
         ArgType::UnknownNarrow => "I".to_string(),  // Could be int/float/etc
@@ -44,6 +45,15 @@ pub fn arg_type_to_descriptor(ty: &ArgType) -> String {
         ArgType::UnknownObject => "Ljava/lang/Object;".to_string(),
         ArgType::UnknownArray => "[Ljava/lang/Object;".to_string(),
         ArgType::UnknownIntegral => "I".to_string(),  // Integer-like
+        // New unknown variants for type inference
+        ArgType::UnknownNarrowNumbers => "I".to_string(),    // Narrow numeric types
+        ArgType::UnknownNumbersNoBool => "I".to_string(),    // Numbers excluding boolean
+        ArgType::UnknownNumbersNoFloat => "I".to_string(),   // Numbers excluding float
+        ArgType::UnknownIntFloat => "I".to_string(),         // Int or float
+        ArgType::UnknownIntBoolean => "I".to_string(),       // Int or boolean
+        ArgType::UnknownByteBoolean => "B".to_string(),      // Byte or boolean
+        ArgType::UnknownObjectNoArray => "Ljava/lang/Object;".to_string(),
+        ArgType::UnknownInt => "I".to_string(),
     }
 }
 

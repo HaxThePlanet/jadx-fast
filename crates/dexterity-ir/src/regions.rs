@@ -975,6 +975,166 @@ impl Region {
     }
 }
 
+// ============================================================================
+// Region Visitor Pattern
+// ============================================================================
+
+/// Visitor trait for traversing region trees
+///
+/// Implement this trait to perform operations on each region type.
+/// The default implementations do nothing, allowing selective overrides.
+///
+/// # Example
+/// ```ignore
+/// struct BlockCounter { count: usize }
+///
+/// impl RegionVisitor for BlockCounter {
+///     fn visit_block(&mut self, _block_id: u32) {
+///         self.count += 1;
+///     }
+/// }
+/// ```
+pub trait RegionVisitor {
+    /// Called before visiting any region
+    fn pre_visit_region(&mut self, _region: &Region) {}
+
+    /// Called after visiting a region and all its children
+    fn post_visit_region(&mut self, _region: &Region) {}
+
+    /// Visit a basic block
+    fn visit_block(&mut self, _block_id: u32) {}
+
+    /// Visit a sequence region
+    fn visit_sequence(&mut self, _contents: &[RegionContent]) {}
+
+    /// Visit an if region
+    fn visit_if(&mut self, _condition: &Condition, _then_region: &Region, _else_region: Option<&Region>) {}
+
+    /// Visit a loop region
+    fn visit_loop(&mut self, _kind: LoopKind, _condition: Option<&Condition>, _body: &Region, _loop_type: &LoopType) {}
+
+    /// Visit a switch region
+    fn visit_switch(&mut self, _header_block: u32, _cases: &[CaseInfo]) {}
+
+    /// Visit a try-catch region
+    fn visit_try_catch(&mut self, _try_region: &Region, _handlers: &[CatchHandler], _finally: Option<&Region>) {}
+
+    /// Visit a synchronized region
+    fn visit_synchronized(&mut self, _enter_block: u32, _body: &Region) {}
+
+    /// Visit a break statement
+    fn visit_break(&mut self, _label: Option<&str>) {}
+
+    /// Visit a continue statement
+    fn visit_continue(&mut self, _label: Option<&str>) {}
+
+    /// Visit a ternary assignment
+    fn visit_ternary_assignment(&mut self, _condition: &Condition, _dest_reg: u16, _then_block: u32, _else_block: u32) {}
+
+    /// Visit a ternary return
+    fn visit_ternary_return(&mut self, _condition: &Condition, _then_block: u32, _else_block: u32) {}
+
+    /// Visit a condition
+    fn visit_condition(&mut self, _condition: &Condition) {}
+}
+
+impl Region {
+    /// Accept a visitor, traversing this region and all children
+    pub fn accept<V: RegionVisitor>(&self, visitor: &mut V) {
+        visitor.pre_visit_region(self);
+
+        match self {
+            Region::Sequence(contents) => {
+                visitor.visit_sequence(contents);
+                for content in contents {
+                    content.accept(visitor);
+                }
+            }
+
+            Region::If { condition, then_region, else_region } => {
+                visitor.visit_condition(condition);
+                visitor.visit_if(condition, then_region, else_region.as_deref());
+                then_region.accept(visitor);
+                if let Some(else_r) = else_region {
+                    else_r.accept(visitor);
+                }
+            }
+
+            Region::Loop { kind, condition, body, loop_type, .. } => {
+                if let Some(cond) = condition {
+                    visitor.visit_condition(cond);
+                }
+                visitor.visit_loop(*kind, condition.as_ref(), body, loop_type);
+                body.accept(visitor);
+            }
+
+            Region::Switch { header_block, cases } => {
+                visitor.visit_switch(*header_block, cases);
+                for case in cases {
+                    case.container.accept(visitor);
+                }
+            }
+
+            Region::TryCatch { try_region, handlers, finally } => {
+                visitor.visit_try_catch(try_region, handlers, finally.as_deref());
+                try_region.accept(visitor);
+                for handler in handlers {
+                    handler.region.accept(visitor);
+                }
+                if let Some(finally_r) = finally {
+                    finally_r.accept(visitor);
+                }
+            }
+
+            Region::Synchronized { enter_block, body, .. } => {
+                visitor.visit_synchronized(*enter_block, body);
+                body.accept(visitor);
+            }
+
+            Region::Break { label } => {
+                visitor.visit_break(label.as_deref());
+            }
+
+            Region::Continue { label } => {
+                visitor.visit_continue(label.as_deref());
+            }
+
+            Region::TernaryAssignment { condition, dest_reg, then_value_block, else_value_block, .. } => {
+                visitor.visit_condition(condition);
+                visitor.visit_ternary_assignment(condition, *dest_reg, *then_value_block, *else_value_block);
+            }
+
+            Region::TernaryReturn { condition, then_value_block, else_value_block } => {
+                visitor.visit_condition(condition);
+                visitor.visit_ternary_return(condition, *then_value_block, *else_value_block);
+            }
+        }
+
+        visitor.post_visit_region(self);
+    }
+}
+
+impl RegionContent {
+    /// Accept a visitor for this content
+    pub fn accept<V: RegionVisitor>(&self, visitor: &mut V) {
+        match self {
+            RegionContent::Block(block_id) => {
+                visitor.visit_block(*block_id);
+            }
+            RegionContent::Region(region) => {
+                region.accept(visitor);
+            }
+        }
+    }
+}
+
+impl CaseInfo {
+    /// Accept a visitor for this case's region
+    pub fn accept_region<V: RegionVisitor>(&self, visitor: &mut V) {
+        self.container.accept(visitor);
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

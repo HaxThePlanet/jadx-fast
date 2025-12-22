@@ -424,41 +424,6 @@ pub fn get_block(&self, id: u32) -> Option<&BasicBlock> {
 
 ---
 
-### P1-4: Sequential DEX File Processing
-
-**Location**: `crates/dexterity-cli/src/main.rs:412-431`
-
-**Problem**: Multi-DEX APKs processed one DEX at a time:
-
-```rust
-for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
-    // Process DEX sequentially - 55 cores sit idle
-    match process_dex_bytes(...) { ... }
-}
-```
-
-**Impact**:
-- Only affects multi-DEX APKs (common for large apps)
-- 55 cores idle during DEX parsing phase
-- Can add seconds to processing time
-
-**Solution**: Parallel DEX extraction with deferred merge:
-
-```rust
-let dex_results: Vec<_> = dex_file_names
-    .par_iter()
-    .enumerate()
-    .map(|(idx, name)| process_dex_bytes(idx, name, ...))
-    .collect();
-
-// Merge results sequentially (fast)
-for result in dex_results { ... }
-```
-
-**Estimated Gain**: Significant for multi-DEX APKs
-
----
-
 ### P1-5: Memory Checkpoint Logging Every 100 Classes
 
 **Location**: `crates/dexterity-cli/src/main.rs:1346-1349`
@@ -676,7 +641,6 @@ done
 | P1-3: BTreeMap → Vec in block_split/cfg | **DONE** | 2025-12-17 |
 | P1-6: Jemalloc background threads | **DONE** | 2025-12-17 - tikv-jemalloc-ctl |
 | P1-7: Transparent Huge Pages (THP) | **DONE** | 2025-12-17 - MALLOC_CONF env var |
-| P1-4: Parallel DEX processing | TODO | - |
 | P1-5: Memory checkpoint interval | DONE | 2025-12-17 (100 → 1000) |
 | P1-8: Physical core count default | **DONE** | 2025-12-19 - df12b6ab5 |
 | P2: String interning (Arc<str>) | **DONE** | 2025-12-19 - FieldInfo/MethodInfo/AliasRegistry |

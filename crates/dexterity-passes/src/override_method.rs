@@ -19,7 +19,7 @@ const ACC_PROTECTED: u32 = 0x0004;
 /// Check if a type contains type variables (e.g., T, E extends Foo)
 fn contains_type_variable(arg_type: &ArgType) -> bool {
     match arg_type {
-        ArgType::TypeVariable(_) => true,
+        ArgType::TypeVariable { .. } => true,
         ArgType::Generic { params, .. } => params.iter().any(contains_type_variable),
         ArgType::Array(inner) => contains_type_variable(inner),
         ArgType::Wildcard { inner, .. } => inner.as_ref().map_or(false, |i| contains_type_variable(i)),
@@ -305,7 +305,8 @@ fn arg_type_to_descriptor(arg_type: &ArgType) -> String {
         ArgType::Object(name) => format!("L{};", name),
         ArgType::Array(inner) => format!("[{}", arg_type_to_descriptor(inner)),
         ArgType::Generic { base, .. } => format!("L{};", base),
-        ArgType::TypeVariable(name) => format!("T{};", name),
+        ArgType::TypeVariable { name, .. } => format!("T{};", name),
+        ArgType::OuterGeneric { inner, .. } => arg_type_to_descriptor(inner),
         ArgType::Wildcard { .. } => "*".to_string(),
         // Unknown type variants - use placeholder descriptor
         ArgType::Unknown
@@ -313,7 +314,15 @@ fn arg_type_to_descriptor(arg_type: &ArgType) -> String {
         | ArgType::UnknownWide
         | ArgType::UnknownObject
         | ArgType::UnknownArray
-        | ArgType::UnknownIntegral => "?".to_string(),
+        | ArgType::UnknownIntegral
+        | ArgType::UnknownNarrowNumbers
+        | ArgType::UnknownNumbersNoBool
+        | ArgType::UnknownNumbersNoFloat
+        | ArgType::UnknownIntFloat
+        | ArgType::UnknownIntBoolean
+        | ArgType::UnknownByteBoolean
+        | ArgType::UnknownObjectNoArray
+        | ArgType::UnknownInt => "?".to_string(),
     }
 }
 
@@ -477,7 +486,7 @@ pub fn fix_method_arg_types(
 
 fn try_resolve_type_var(type_with_var: &ArgType, type_params: &[ArgType]) -> Option<ArgType> {
     match type_with_var {
-        ArgType::TypeVariable(name) => {
+        ArgType::TypeVariable { name, .. } => {
             // Simple heuristic: T -> first param, E -> second, etc.
             let index = match name.as_str() {
                 "T" | "K" => 0,

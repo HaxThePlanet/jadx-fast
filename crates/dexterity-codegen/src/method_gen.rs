@@ -1081,12 +1081,17 @@ fn generate_base_param_name(ty: &ArgType) -> String {
                 None => "obj".to_string(),
             }
         }
-        ArgType::TypeVariable(name) => name.to_lowercase(),
+        ArgType::TypeVariable { name, .. } => name.to_lowercase(),
         ArgType::Wildcard { inner: Some(inner), .. } => generate_base_param_name(inner),
         ArgType::Wildcard { inner: None, .. } => "obj".to_string(),
+        ArgType::OuterGeneric { inner, .. } => generate_base_param_name(inner),
         ArgType::Void => "v".to_string(),
         ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide
-        | ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral => "obj".to_string(),
+        | ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral
+        | ArgType::UnknownNarrowNumbers | ArgType::UnknownNumbersNoBool
+        | ArgType::UnknownNumbersNoFloat | ArgType::UnknownIntFloat | ArgType::UnknownIntBoolean
+        | ArgType::UnknownByteBoolean | ArgType::UnknownObjectNoArray
+        | ArgType::UnknownInt => "obj".to_string(),
     }
 }
 
@@ -1201,13 +1206,18 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
             }
         }
         // Handle type variables by using the variable name lowercase
-        ArgType::TypeVariable(name) => name.to_lowercase(),
+        ArgType::TypeVariable { name, .. } => name.to_lowercase(),
         // Handle wildcards by using the bound type if available
         ArgType::Wildcard { inner: Some(inner), .. } => generate_param_name(index, inner),
         ArgType::Wildcard { inner: None, .. } => "obj".to_string(),
+        ArgType::OuterGeneric { inner, .. } => generate_param_name(index, inner),
         ArgType::Void => "v".to_string(),
         ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide
-        | ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral => "obj".to_string(),
+        | ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral
+        | ArgType::UnknownNarrowNumbers | ArgType::UnknownNumbersNoBool
+        | ArgType::UnknownNumbersNoFloat | ArgType::UnknownIntFloat | ArgType::UnknownIntBoolean
+        | ArgType::UnknownByteBoolean | ArgType::UnknownObjectNoArray
+        | ArgType::UnknownInt => "obj".to_string(),
     };
 
     // Add numeric suffix for params after the first
