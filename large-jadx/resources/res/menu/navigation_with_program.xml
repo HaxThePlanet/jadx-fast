@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/vector_nav_home"
+        android:id="@+id/nav_home"
+        android:title="@string/bottom.tab.home"/>
+    <item
+        android:icon="@drawable/vector_nav_library_v2"
+        android:id="@+id/nav_explore"
+        android:title="@string/bottom.tab.explore"/>
+    <item
+        android:icon="@drawable/vector_nav_challenge_v2"
+        android:id="@+id/nav_challenge"
+        android:title="@string/onboarding.choose.social"/>
+    <item
+        android:icon="@drawable/vector_nav_profile"
+        android:id="@+id/nav_profile"
+        android:title="@string/profile"/>
+    <item
+        android:icon="@drawable/vector_nav_settings_v2"
+        android:id="@+id/nav_settings"
+        android:title="@string/settings.title"/>
+</menu>

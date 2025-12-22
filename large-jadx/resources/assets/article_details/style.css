@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'Font';
+    src:url("file:///android_asset/workout_explanation/montserrat_semi_bold.ttf")
+}
+body {
+    font-family: sans-serif;
+    font-size: 14px;
+    color:#4C5D56;
+    padding-top: 16px;
+    padding-left: 0px;
+    margin-left: 0px;
+}
+b {
+    font-height: 26px;
+    color:#4C5D56;
+}
+ul {
+    padding-left: 8px;
+    color:#4C5D56;
+}
+ul li {
+    list-style: none;
+    background-image: url("file:///android_asset/workout_explanation/bullet_point_dot.png");
+    background-repeat: no-repeat;
+    background-size: 4px;
+    padding-left: 10px;
+    padding-top: 24px;
+    background-position: top 28.5px left 0px;
+}
+
+ol {
+    padding-left: 24px;
+    color:#4C5D56;
+}
+
+ol li {
+    padding-top: 24px;
+}
+
+h1 {
+    font-family: 'Font';
+    font-size: 28px;
+    padding-top: 28px;
+    font-height: 26px;
+    color:#4C5D56;
+}
+
+h2 {
+    font-family: 'Font';
+    font-size: 18px;
+    padding-top: 28px;
+    font-height: 26px;
+    color:#4C5D56;
+    padding-left: 1px;
+}
+
+p {
+    font-size: 14px;
+    color:#4C5D56;
+    line-height: 1.5;
+}
+
+a {
+  color: #4C5D56;
+  text-decoration: none
+}

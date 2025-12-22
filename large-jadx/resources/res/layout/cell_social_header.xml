@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/cell_social_header_0"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+    <TextView
+        android:textColor="@color/darkGray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding.choose.social"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:layout_constraintVertical_bias="1"
+        style="@style/Toolbar.BigTitleText"/>
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:layout_constraintVertical_bias="1"
+        app:srcCompat="@drawable/ic_notification"/>
+    <View
+        android:id="@+id/notification_click_area"
+        android:background="@drawable/button_ripple_effect_transparent"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

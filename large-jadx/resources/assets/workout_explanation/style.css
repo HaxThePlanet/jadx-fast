@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'Font';
+    src:url("file:///android_asset/workout_explanation/montserrat_semi_bold.ttf")
+}
+body {
+    font-family: sans-serif;
+    font-size: 16px;
+    color:#4C5D56
+}
+b {
+    font-family: 'Font';
+    font-size: 22px;
+    font-height: 26px;
+    color:#4C5D56
+}
+ul {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+li {
+    margin-bottom: 16px;
+    margin-left: 0px;
+    padding-left: 20px;
+   	list-style: none;
+   	background-image: url("file:///android_asset/workout_explanation/bullet_point_dot.png");
+   	background-repeat: no-repeat;
+   	background-size: 8px;
+    background-position: top 4.5px left 0px;
+}

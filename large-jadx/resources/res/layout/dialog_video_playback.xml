@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:tag="layout/dialog_video_playback_0"
+    android:background="#000000"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageButton
+        android:id="@+id/cancel_button"
+        android:background="@null"
+        android:layout_width="@dimen/touch_minimum"
+        android:layout_height="@dimen/touch_minimum"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:elevation="20dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:srcCompat="@drawable/vector_cancel_outlined"/>
+    <VideoView
+        android:id="@+id/myVideo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:theme="@style/AppTheme.WhiteLoadingBar"
+        android:id="@+id/loading_spinner"
+        android:visibility="gone"
+        android:layout_width="@dimen/medium_image_size"
+        android:layout_height="@dimen/medium_image_size"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        style="?android:attr/progressBarStyleLarge"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:textAppearance="@style/chipTextappearance"
+    android:textColor="@color/darkGray"
+    android:tag="layout/cell_article_tag_0"
+    android:focusable="false"
+    android:clickable="false"
+    android:layout_width="match_parent"
+    android:layout_height="38dp"
+    android:textAlignment="center"
+    android:elevation="0dp"
+    app:chipBackgroundColor="@color/white"
+    app:chipStrokeColor="@color/lightGray"
+    app:chipStrokeWidth="1dp"
+    style="@style/Widget.MaterialComponents.Chip.Choice"/>

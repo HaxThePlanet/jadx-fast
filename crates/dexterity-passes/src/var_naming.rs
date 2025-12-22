@@ -919,13 +919,14 @@ impl<'a> VarNaming<'a> {
             }
 
             // Instance field get - use field name for variable name (JADX's IGET case)
-            // e.g., obj.buffer -> "buffer", this.name -> "name"
+            // e.g., obj.buffer -> "buffer", this.name -> "name", this.x -> "x"
             InsnType::InstanceGet { field_idx, .. } => {
                 if let Some(lookup) = &self.field_lookup {
                     if let Some(info) = lookup(*field_idx) {
                         // Use field name as variable name base
+                        // sanitize_field_name already filters obfuscated short names
                         let base = Self::sanitize_field_name(&info.field_name);
-                        if !base.is_empty() && base.len() >= 2 {
+                        if !base.is_empty() {
                             return Some(self.make_unique(&base));
                         }
                     }
@@ -938,8 +939,9 @@ impl<'a> VarNaming<'a> {
             InsnType::StaticGet { field_idx, .. } => {
                 if let Some(lookup) = &self.field_lookup {
                     if let Some(info) = lookup(*field_idx) {
+                        // sanitize_field_name already filters obfuscated short names
                         let base = Self::sanitize_field_name(&info.field_name);
-                        if !base.is_empty() && base.len() >= 2 {
+                        if !base.is_empty() {
                             return Some(self.make_unique(&base));
                         }
                     }
@@ -1017,16 +1019,39 @@ impl<'a> VarNaming<'a> {
     /// Sanitize field name for use as variable name
     /// Handles common field naming patterns and obfuscated names
     fn sanitize_field_name(field_name: &str) -> String {
+        // Empty field names are invalid
+        if field_name.is_empty() {
+            return String::new();
+        }
+
         // Skip very short names (likely obfuscated like "a", "b")
+        // Single letters are almost always obfuscation in field names
         if field_name.len() < 2 {
             return String::new();
         }
 
-        // Skip names that look obfuscated (single letter or letter+number)
-        if field_name.len() <= 2 && field_name.chars().all(|c| c.is_alphanumeric()) {
-            let first_char = field_name.chars().next().unwrap();
-            if first_char.is_ascii_lowercase() {
-                return String::new();
+        // Known meaningful two-char field names that should be allowed
+        let meaningful_short = [
+            "id", "ID", "Id", "x1", "x2", "y1", "y2",
+            "dx", "dy", "dz", "rx", "ry", "rz",
+            "cx", "cy", "ax", "ay", "bx", "by",
+            "ok", "up", "on", "to", "db", "io",
+        ];
+
+        // Skip names that look obfuscated (single lowercase letter + digit like "a1", "b2")
+        if field_name.len() == 2 {
+            let chars: Vec<char> = field_name.chars().collect();
+            // Skip letter+digit patterns unless in meaningful list
+            if chars[0].is_ascii_lowercase() && chars[1].is_ascii_digit() {
+                if !meaningful_short.contains(&field_name) {
+                    return String::new();
+                }
+            }
+            // Skip generic two lowercase letters unless in meaningful list
+            if chars[0].is_ascii_lowercase() && chars[1].is_ascii_lowercase() {
+                if !meaningful_short.contains(&field_name) {
+                    return String::new();
+                }
             }
         }
 
@@ -1231,6 +1256,240 @@ impl<'a> VarNaming<'a> {
     /// Handle special method names that JADX treats specially
     /// These methods have semantically meaningful return values that deserve specific names
     fn extract_name_from_method_special(method_name: &str, class_name: Option<&str>) -> Option<String> {
+        // First check class+method patterns for more semantic names
+        if let Some(class) = class_name {
+            // Get simple class name (last part after / or .)
+            let simple_class = class.rsplit('/').next()
+                .unwrap_or(class)
+                .rsplit('.')
+                .next()
+                .unwrap_or(class);
+
+            // Math operations - use descriptive names
+            if simple_class == "Math" {
+                match method_name {
+                    "min" => return Some("min".to_string()),
+                    "max" => return Some("max".to_string()),
+                    "abs" => return Some("abs".to_string()),
+                    "random" => return Some("random".to_string()),
+                    "round" => return Some("rounded".to_string()),
+                    "floor" => return Some("floored".to_string()),
+                    "ceil" => return Some("ceiled".to_string()),
+                    "sqrt" => return Some("sqrt".to_string()),
+                    "pow" => return Some("power".to_string()),
+                    "sin" | "cos" | "tan" => return Some(method_name.to_string()),
+                    "log" | "log10" => return Some("log".to_string()),
+                    "exp" => return Some("exp".to_string()),
+                    _ => {}
+                }
+            }
+
+            // String operations
+            if simple_class == "String" {
+                match method_name {
+                    "format" => return Some("formatted".to_string()),
+                    "valueOf" => return Some("str".to_string()),
+                    "substring" => return Some("substring".to_string()),
+                    "split" => return Some("parts".to_string()),
+                    "trim" => return Some("trimmed".to_string()),
+                    "toLowerCase" | "toUpperCase" => return Some("str".to_string()),
+                    "replace" | "replaceAll" | "replaceFirst" => return Some("replaced".to_string()),
+                    "concat" => return Some("concatenated".to_string()),
+                    "join" => return Some("joined".to_string()),
+                    _ => {}
+                }
+            }
+
+            // Collection utility operations
+            if simple_class == "Arrays" {
+                match method_name {
+                    "asList" => return Some("list".to_string()),
+                    "copyOf" | "copyOfRange" => return Some("copy".to_string()),
+                    "sort" => return Some("sorted".to_string()),
+                    "binarySearch" => return Some("index".to_string()),
+                    "fill" => return Some("filled".to_string()),
+                    "toString" => return Some("str".to_string()),
+                    _ => {}
+                }
+            }
+
+            if simple_class == "Collections" {
+                match method_name {
+                    "emptyList" | "emptySet" | "emptyMap" => return Some(method_name.to_string()),
+                    "singletonList" | "singleton" => return Some("singleton".to_string()),
+                    "unmodifiableList" | "unmodifiableSet" | "unmodifiableMap" => {
+                        return Some("unmodifiable".to_string());
+                    }
+                    "synchronizedList" | "synchronizedSet" | "synchronizedMap" => {
+                        return Some("synchronized".to_string());
+                    }
+                    "sort" => return Some("sorted".to_string()),
+                    "reverse" => return Some("reversed".to_string()),
+                    "shuffle" => return Some("shuffled".to_string()),
+                    "max" => return Some("max".to_string()),
+                    "min" => return Some("min".to_string()),
+                    _ => {}
+                }
+            }
+
+            // I/O patterns
+            if simple_class == "InputStream" || simple_class == "FileInputStream"
+                || simple_class == "BufferedInputStream" || simple_class == "DataInputStream" {
+                match method_name {
+                    "read" => return Some("bytesRead".to_string()),
+                    "available" => return Some("available".to_string()),
+                    "skip" => return Some("skipped".to_string()),
+                    _ => {}
+                }
+            }
+
+            if simple_class == "Reader" || simple_class == "BufferedReader"
+                || simple_class == "InputStreamReader" || simple_class == "FileReader" {
+                match method_name {
+                    "read" => return Some("charsRead".to_string()),
+                    "readLine" => return Some("line".to_string()),
+                    _ => {}
+                }
+            }
+
+            if simple_class == "Scanner" {
+                match method_name {
+                    "nextLine" => return Some("line".to_string()),
+                    "nextInt" => return Some("num".to_string()),
+                    "nextLong" => return Some("num".to_string()),
+                    "nextDouble" => return Some("num".to_string()),
+                    "next" => return Some("token".to_string()),
+                    "hasNext" | "hasNextLine" | "hasNextInt" => return Some("hasMore".to_string()),
+                    _ => {}
+                }
+            }
+
+            // System operations
+            if simple_class == "System" {
+                match method_name {
+                    "currentTimeMillis" | "nanoTime" => return Some("time".to_string()),
+                    "getProperty" => return Some("property".to_string()),
+                    "getenv" => return Some("env".to_string()),
+                    "identityHashCode" => return Some("hashCode".to_string()),
+                    _ => {}
+                }
+            }
+
+            // Object operations
+            if simple_class == "Objects" {
+                match method_name {
+                    "requireNonNull" => return Some("nonNull".to_string()),
+                    "hash" | "hashCode" => return Some("hash".to_string()),
+                    "equals" => return Some("equals".to_string()),
+                    "toString" => return Some("str".to_string()),
+                    "isNull" | "nonNull" => return Some("isNull".to_string()),
+                    _ => {}
+                }
+            }
+
+            // Optional operations
+            if simple_class == "Optional" || simple_class == "OptionalInt"
+                || simple_class == "OptionalLong" || simple_class == "OptionalDouble" {
+                match method_name {
+                    "of" | "ofNullable" => return Some("optional".to_string()),
+                    "empty" => return Some("empty".to_string()),
+                    "get" | "orElse" | "orElseGet" => return Some("value".to_string()),
+                    "isPresent" | "isEmpty" => return Some("present".to_string()),
+                    "map" | "flatMap" => return Some("mapped".to_string()),
+                    "filter" => return Some("filtered".to_string()),
+                    _ => {}
+                }
+            }
+
+            // Pattern/Matcher operations
+            if simple_class == "Pattern" {
+                match method_name {
+                    "compile" => return Some("pattern".to_string()),
+                    "matcher" => return Some("matcher".to_string()),
+                    "matches" => return Some("matches".to_string()),
+                    "split" => return Some("parts".to_string()),
+                    _ => {}
+                }
+            }
+
+            if simple_class == "Matcher" {
+                match method_name {
+                    "find" | "matches" | "lookingAt" => return Some("found".to_string()),
+                    "group" => return Some("group".to_string()),
+                    "start" | "end" => return Some("pos".to_string()),
+                    "replaceAll" | "replaceFirst" => return Some("replaced".to_string()),
+                    _ => {}
+                }
+            }
+
+            // Integer/Long parse operations
+            if simple_class == "Integer" || simple_class == "Long" || simple_class == "Short"
+                || simple_class == "Byte" || simple_class == "Float" || simple_class == "Double" {
+                match method_name {
+                    "parseInt" | "parseLong" | "parseShort" | "parseByte"
+                    | "parseFloat" | "parseDouble" => return Some("parsed".to_string()),
+                    "valueOf" => return Some("num".to_string()),
+                    "decode" => return Some("decoded".to_string()),
+                    "toHexString" | "toBinaryString" | "toOctalString" => return Some("str".to_string()),
+                    "intValue" | "longValue" | "floatValue" | "doubleValue" => {
+                        return Some("value".to_string());
+                    }
+                    _ => {}
+                }
+            }
+
+            // UUID
+            if simple_class == "UUID" {
+                match method_name {
+                    "randomUUID" => return Some("uuid".to_string()),
+                    "fromString" => return Some("uuid".to_string()),
+                    _ => {}
+                }
+            }
+
+            // Date/Time operations
+            if simple_class == "Date" || simple_class == "Calendar" || simple_class == "Instant"
+                || simple_class == "LocalDate" || simple_class == "LocalDateTime" || simple_class == "LocalTime" {
+                match method_name {
+                    "now" | "getTime" | "getInstance" => return Some("time".to_string()),
+                    "parse" => return Some("date".to_string()),
+                    "format" => return Some("formatted".to_string()),
+                    _ => {}
+                }
+            }
+
+            // StringBuilder/StringBuffer
+            if simple_class == "StringBuilder" || simple_class == "StringBuffer" {
+                if method_name == "toString" {
+                    return Some("str".to_string());
+                }
+            }
+
+            // List/Collection operations
+            if simple_class.contains("List") || simple_class.contains("Set") || simple_class.contains("Collection") {
+                match method_name {
+                    "get" => return Some("item".to_string()),
+                    "toArray" => return Some("array".to_string()),
+                    "subList" => return Some("subList".to_string()),
+                    "stream" => return Some("stream".to_string()),
+                    _ => {}
+                }
+            }
+
+            // Map operations
+            if simple_class.contains("Map") {
+                match method_name {
+                    "get" => return Some("value".to_string()),
+                    "getOrDefault" => return Some("value".to_string()),
+                    "keySet" => return Some("keys".to_string()),
+                    "values" => return Some("values".to_string()),
+                    "entrySet" => return Some("entries".to_string()),
+                    _ => {}
+                }
+            }
+        }
+
+        // Then check method-only patterns
         match method_name {
             // Factory methods - use declaring class name
             // e.g., Cipher.getInstance() -> "cipher", KeyFactory.getInstance() -> "keyFactory"
@@ -1268,6 +1527,28 @@ impl<'a> VarNaming<'a> {
             "entrySet" => Some("entries".to_string()),
             "keySet" => Some("keys".to_string()),
             "values" => Some("values".to_string()),
+            // Stream operations
+            "stream" | "parallelStream" => Some("stream".to_string()),
+            "collect" => Some("collected".to_string()),
+            "filter" => Some("filtered".to_string()),
+            // Note: "map" already covered above (returns "map")
+            "flatMap" => Some("flatMapped".to_string()),
+            "reduce" => Some("reduced".to_string()),
+            "findFirst" | "findAny" => Some("found".to_string()),
+            "count" => Some("count".to_string()),
+            "sum" => Some("sum".to_string()),
+            "average" => Some("avg".to_string()),
+            "min" => Some("min".to_string()),
+            "max" => Some("max".to_string()),
+            "toList" | "toSet" => Some("result".to_string()),
+            // Common Rx/async patterns
+            "subscribe" => Some("disposable".to_string()),
+            "observe" | "observeOn" | "subscribeOn" => Some("observable".to_string()),
+            // Common builder/factory patterns
+            "build" | "create" => {
+                class_name.map(|c| Self::extract_class_name_base(c).to_string())
+            }
+            "builder" => Some("builder".to_string()),
             _ => None,
         }
     }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+        android:duration="600"
+        android:repeatCount="0"
+        android:repeatMode="2"
+        android:valueFrom="@color/white"
+        android:valueTo="@color/warning"
+        android:propertyName="cardBackgroundColor"/>
+    <objectAnimator
+        android:interpolator="@android:anim/linear_interpolator"
+        android:duration="50"
+        android:repeatCount="6"
+        android:repeatMode="2"
+        android:valueFrom="-20"
+        android:valueTo="20"
+        android:propertyName="translationX"/>
+</set>
