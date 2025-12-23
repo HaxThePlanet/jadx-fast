@@ -776,13 +776,17 @@ impl BodyGenContext {
                     (self.gen_arg_inline(left), self.gen_arg_inline(right))
                 };
                 let op_str = binary_op_str(*op);
-                Some(format!("{} {} {}", maybe_paren(&left_str), op_str, maybe_paren(&right_str)))
+                // JADX parity: Use maybe_paren_wrap for right operand to handle negative literals
+                // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:129-136
+                // This converts `a - -5` to `a - (-5)`
+                Some(format!("{} {} {}", maybe_paren(&left_str), op_str, crate::expr_gen::maybe_paren_wrap(&right_str)))
             }
             InsnType::Compare { op, left, right, .. } => {
+                // JADX parity: Use ternary expression instead of library method
+                // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:391-401
                 let left_str = self.gen_arg_inline(left);
                 let right_str = self.gen_arg_inline(right);
-                let method = compare_op_to_method(*op);
-                Some(format!("{}({}, {})", method, left_str, right_str))
+                Some(crate::expr_gen::compare_op_to_ternary(&left_str, &right_str))
             }
             InsnType::ArrayLength { array, .. } => {
                 Some(format!("{}.length", self.gen_arg_inline(array)))
@@ -8111,9 +8115,10 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 code.add(")");
             }
             InvokeKind::Super => {
+                // Clone of JADX InsnGen.java:1080-1095 callSuper()
+                // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
                 if &*info.method_name == "<init>" {
                     // Constructor super() call - check if we need qualified form
-                    // JADX parity: callSuper() in InsnGen.java
                     if needs_qualified_super(&info.class_type, ctx) {
                         // OuterClass.super() - rare but valid for invoking outer class's super constructor
                         let decl_class = crate::type_gen::get_simple_name(&info.class_type);
@@ -9228,15 +9233,23 @@ fn generate_insn<W: CodeWriter>(
             true // Instruction handled (nothing emitted)
         }
 
-        InsnType::MonitorEnter { object: _ } => {
-            // MonitorEnter is handled at the region level (Region::Synchronized)
-            // Don't emit code here - just mark as handled
+        InsnType::MonitorEnter { object } => {
+            // Clone of JADX InsnGen.java:517-523 (MONITOR_ENTER)
+            // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
+            // In fallback mode, emit the instruction for debugging
+            // In normal mode, MonitorEnter is handled at the region level (Region::Synchronized)
+            // For now, always skip since synchronized regions are processed separately
+            // TODO: Add fallback mode flag to emit debug output when needed
             true
         }
 
-        InsnType::MonitorExit { object: _ } => {
-            // MonitorExit is handled at the region level (Region::Synchronized)
-            // Don't emit code here - just mark as handled
+        InsnType::MonitorExit { object } => {
+            // Clone of JADX InsnGen.java:525-531 (MONITOR_EXIT)
+            // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
+            // In fallback mode, emit the instruction for debugging
+            // In normal mode, MonitorExit is handled at the region level (Region::Synchronized)
+            // For now, always skip since synchronized regions are processed separately
+            // TODO: Add fallback mode flag to emit debug output when needed
             true
         }
 
@@ -9298,6 +9311,11 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::FillArrayData { array, payload_offset, element_width, data } => {
+            // Clone of JADX InsnGen.java:657-681 (fillArray)
+            // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
+            // Note: JADX uses individual array[i] = val; assignments
+            // Dexterity uses array literal syntax: array = new type[]{...}
+            // Both are valid Java; literal syntax is often cleaner
             if data.is_empty() {
                 // Payload not parsed, emit placeholder comment
                 code.start_line()
@@ -9424,6 +9442,8 @@ fn generate_insn<W: CodeWriter>(
             true
         }
         InsnType::StrConcat { dest, args } => {
+            // Clone of JADX InsnGen.java:501-515 (STR_CONCAT)
+            // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
             // String concatenation: dest = arg1 + arg2 + ...
             code.start_line();
             code.add(&ctx.expr_gen.get_var_name(dest));

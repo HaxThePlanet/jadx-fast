@@ -987,7 +987,10 @@ impl ExprGen {
                 let left_str = self.gen_arg(left);
                 let right_str = self.gen_arg(right);
                 let op_str = binary_op_str(*op);
-                Some(format!("{} {} {}", maybe_paren(&left_str), op_str, maybe_paren(&right_str)))
+                // JADX parity: Use maybe_paren_wrap for right operand to handle negative literals
+                // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:129-136
+                // This converts `a - -5` to `a - (-5)`
+                Some(format!("{} {} {}", maybe_paren(&left_str), op_str, maybe_paren_wrap(&right_str)))
             }
 
             InsnType::Cast { cast_type, arg, .. } => {
@@ -998,11 +1001,11 @@ impl ExprGen {
 
             InsnType::Compare { op, left, right, .. } => {
                 // Compare returns int (-1, 0, 1), used for long/float/double comparisons
-                // Use proper Java compare method based on type
+                // JADX parity: Use ternary expression instead of library method
+                // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:391-401
                 let left_str = self.gen_arg(left);
                 let right_str = self.gen_arg(right);
-                let method = compare_op_to_method(*op);
-                Some(format!("{}({}, {})", method, left_str, right_str))
+                Some(compare_op_to_ternary(&left_str, &right_str))
             }
 
             InsnType::CheckCast { object, type_idx } => {
@@ -1249,10 +1252,55 @@ impl ExprGen {
     }
 
     /// Generate condition expression for If instruction
+    /// Clone of JADX ConditionGen.addCompare() with boolean simplification
+    ///
+    /// Reference: jadx-core/src/main/java/jadx/core/codegen/ConditionGen.java:101-132
     pub fn gen_condition(&self, condition: IfCondition, left: &InsnArg, right: Option<&InsnArg>) -> String {
         let left_str = self.gen_arg(left);
-        let op = condition_op_str(condition);
 
+        // JADX parity: Check if left operand is boolean for simplification
+        // Get type from var_types if it's a register
+        let is_boolean = match left {
+            InsnArg::Register(reg) => {
+                matches!(self.var_types.get(&(reg.reg_num, reg.ssa_version)), Some(ArgType::Boolean))
+            }
+            _ => false,
+        };
+
+        // Check if right is literal 0/1 (false/true)
+        let right_is_false = match right {
+            None => true, // No right operand means comparing to zero
+            Some(InsnArg::Literal(LiteralArg::Int(0))) => true,
+            _ => false,
+        };
+        let right_is_true = match right {
+            Some(InsnArg::Literal(LiteralArg::Int(1))) => true,
+            _ => false,
+        };
+
+        // JADX ConditionGen boolean simplification:
+        // bool == true -> bool
+        // bool != true -> !bool
+        // bool == false -> !bool
+        // bool != false -> bool
+        if is_boolean {
+            if right_is_true {
+                return match condition {
+                    IfCondition::Eq => left_str, // == true -> just bool
+                    IfCondition::Ne => format!("!{}", maybe_paren(&left_str)), // != true -> !bool
+                    _ => format!("{} {} 1", left_str, condition_op_str(condition)),
+                };
+            }
+            if right_is_false {
+                return match condition {
+                    IfCondition::Ne => left_str, // != false -> just bool
+                    IfCondition::Eq => format!("!{}", maybe_paren(&left_str)), // == false -> !bool
+                    _ => format!("{} {} 0", left_str, condition_op_str(condition)),
+                };
+            }
+        }
+
+        let op = condition_op_str(condition);
         if let Some(right) = right {
             format!("{} {} {}", left_str, op, self.gen_arg(right))
         } else {
@@ -1311,6 +1359,20 @@ pub fn compare_op_to_method(op: CompareOp) -> &'static str {
     }
 }
 
+/// Generate JADX-style ternary compare expression
+/// Clone of JADX InsnGen CMP_L/CMP_G handling - generates:
+///   (a > b ? 1 : (a == b ? 0 : -1))
+///
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:391-401
+pub fn compare_op_to_ternary(left: &str, right: &str) -> String {
+    // JADX parity: Generate ternary comparison instead of library method
+    // This matches JADX's output: (a > b ? 1 : (a == b ? 0 : -1))
+    format!(
+        "({} > {} ? 1 : ({} == {} ? 0 : -1))",
+        left, right, left, right
+    )
+}
+
 /// Cast type to Java type string
 pub fn cast_type_str(cast: CastType) -> &'static str {
     match cast {
@@ -1335,6 +1397,20 @@ pub fn cast_type_str(cast: CastType) -> &'static str {
 /// Wrap in parentheses if needed (for complex expressions)
 pub fn maybe_paren(s: &str) -> String {
     if s.contains(' ') && !s.starts_with('(') {
+        format!("({})", s)
+    } else {
+        s.to_string()
+    }
+}
+
+/// Wrap in parentheses if needed for wrapping context
+/// Clone of JADX InsnGen.addLiteralArg() - wraps negative literals to avoid
+/// syntax issues like `a - -5` which should be `a - (-5)`
+///
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:129-136
+pub fn maybe_paren_wrap(s: &str) -> String {
+    // JADX parity: wrap if starts with '-' (negative literal) or contains space
+    if s.starts_with('-') || (s.contains(' ') && !s.starts_with('(')) {
         format!("({})", s)
     } else {
         s.to_string()
