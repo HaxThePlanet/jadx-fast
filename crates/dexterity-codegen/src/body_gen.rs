@@ -6319,7 +6319,8 @@ fn process_region_for_inlining(region: &Region, ctx: &mut BodyGenContext) {
             }
         }
         // These region types don't need prelude processing
-        Region::Continue { .. } | Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => {}
+        Region::Continue { .. } | Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } |
+        Region::Synchronized { .. } | Region::Break { .. } => {}
     }
 }
 
