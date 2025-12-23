@@ -53,12 +53,12 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 | ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 |
 | ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
 
-### P1 Semantic (Wrong Behavior) - 3 bugs (1 fixed Dec 22)
+### P1 Semantic (Wrong Behavior) - 3 bugs (2 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example File |
 |----|-------|------------|--------------|
 | ~~P1-CFG05~~ | ~~Variables used outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
-| **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | com/geetest/sdk/f.java |
+| ~~P1-CFG06~~ | ~~Missing if-else branch bodies~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
 | **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | net/time4j/f.java |
 | **P1-ENUM01** | Enum reconstruction failures | **MEDIUM** | net/time4j/f.java |
 

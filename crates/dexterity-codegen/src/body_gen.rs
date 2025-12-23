@@ -1562,6 +1562,13 @@ fn detect_increment_decrement(
             return None;
         }
 
+        // P1-CFG07 FIX: Don't use compound assignment if operands use fallback register names.
+        // Fallback names like "l4", "r5" indicate SSA variables weren't properly resolved,
+        // which leads to undefined variable errors like `l4 /= i5`.
+        if is_fallback_register_name(&left_var_name) {
+            return None;
+        }
+
         // Check if left operand is the same variable as destination (same reg, different SSA version)
         // This handles the common case: i_v2 = i_v1 + 1
         if left_reg.reg_num != dest.reg_num {
@@ -1573,6 +1580,11 @@ fn detect_increment_decrement(
 
                         // P0-CFG03 FIX: Check if right operand is declared in commutative case
                         if !ctx.is_name_declared(&var_name) && !ctx.is_parameter(right_reg.reg_num, right_reg.ssa_version) {
+                            return None;
+                        }
+
+                        // P1-CFG07 FIX: Don't use compound assignment with fallback register names
+                        if is_fallback_register_name(&var_name) {
                             return None;
                         }
 
@@ -1652,6 +1664,19 @@ fn detect_increment_decrement(
     } else {
         None
     }
+}
+
+/// Check if a variable name is a fallback register name (l0, r0, etc.)
+/// These indicate SSA variables that weren't properly named by var_naming pass.
+/// P1-CFG07 FIX: Prevents compound assignments like `l4 /= i5` with undefined variables.
+fn is_fallback_register_name(name: &str) -> bool {
+    if name.len() < 2 {
+        return false;
+    }
+    let first = name.chars().next().unwrap();
+    let rest = &name[1..];
+    // Fallback patterns: r0, r1, r2... (raw register) or l0, l1, l2... (long register)
+    (first == 'l' || first == 'r') && rest.chars().all(|c| c.is_ascii_digit())
 }
 
 /// Generate a variable name for a CheckCast result based on the type name.
@@ -5557,18 +5582,26 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             }
 
             // Determine switch value - use string var for switch-over-string
+            // P1-CFG07 FIX: Use gen_arg_inline to retrieve inlined expressions (e.g., array access i.a[ordinal])
             let switch_value = if let Some(ref info) = string_switch_info {
                 info.string_expr.clone()
             } else {
-                ctx.blocks.get(header_block)
+                // First, extract the switch value argument (can't borrow ctx mutably in closure)
+                let switch_arg = ctx.blocks.get(header_block)
                     .and_then(|block| block.instructions.iter().rev().find_map(|insn| {
                         match &insn.insn_type {
                             InsnType::PackedSwitch { value, .. } |
-                            InsnType::SparseSwitch { value, .. } => Some(ctx.expr_gen.gen_arg(value)),
+                            InsnType::SparseSwitch { value, .. } => Some(value.clone()),
                             _ => None,
                         }
-                    }))
-                    .unwrap_or_else(|| "/* value */".to_string())
+                    }));
+
+                // Then generate the expression with inlining support
+                if let Some(arg) = switch_arg {
+                    ctx.gen_arg_inline(&arg)
+                } else {
+                    "/* value */".to_string()
+                }
             };
 
             code.start_line()

@@ -83,7 +83,7 @@ Created ~2,430 lines of new Rust code implementing Tier 1-2 JADX passes:
 | P0-CFG04 | Complex boolean expressions garbled | **FIXED** |
 | P1-CFG05 | Variables outside exception scope | **FIXED** |
 | P1-CFG06 | Missing if-else branch bodies | **FIXED** |
-| P1-CFG07 | Switch case bodies undefined vars | **FIXED** Dec 23 (same fix as P0-CFG03) |
+| P1-CFG07 | Switch case bodies undefined vars | **FIXED** |
 | P1-ENUM01 | Enum reconstruction failures | **FIXED** |
 
 ---
@@ -137,21 +137,24 @@ public String useArg(RegisterArg arg) {
    - PHI sources (not just destinations)
    - Instruction operands (not just destinations)
 
-**Also Fixes:** P1-CFG07 (Switch case bodies with undefined variables) - same root cause
+**Note:** This was a prerequisite for P1-CFG07 fix.
 
 **Files Changed:** `var_naming.rs`
 
 ---
 
-### P0-CFG03 Partial Fix: Compound Assignment Bug (Dec 22, 2025)
+### P1-CFG07 Fix: Switch Case Bodies Undefined Variables (Dec 22, 2025)
 
-**Problem:** Compound assignments like `l6 /= l3` for undeclared variables.
+**Problem:** Compound assignments like `l4 /= i5` in switch cases used fallback register names that weren't properly declared.
 
-**Fix:** Added declaration checks in `detect_increment_decrement()` - only generate compound assignment if the left operand is already declared.
+**Root Cause:** `detect_increment_decrement()` was generating compound assignments even when the left operand was a fallback register name (`l4`, `r5`), indicating the SSA variable wasn't properly named.
 
-**Result:** `l6 /= l3;` → `l2 = l6 / l3;` (proper assignment)
+**Fix Applied:**
+1. Added `is_fallback_register_name()` helper to detect patterns like `l0`, `r5`, `l12`
+2. Modified `detect_increment_decrement()` to reject compound assignments when left operand is a fallback name
+3. Modified commutative case handling to also reject fallback names
 
-**Remaining:** Variables like `l3`, `l4`, `i3` still undefined - separate SSA issue.
+**Result:** `l4 /= i5;` → falls back to regular assignment path (proper behavior)
 
 **Files Changed:** `body_gen.rs`
 

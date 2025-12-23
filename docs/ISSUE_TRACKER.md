@@ -46,7 +46,7 @@ Completed all 5 phases of cloning JADX's SSA system:
 |----|-------|------------|---------|----------|
 | ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 | ~~P1-CFG06~~ | ~~Missing if-else branch bodies~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | region_builder.rs |
-| ~~P1-CFG07~~ | ~~Switch case bodies with undefined variables~~ | ~~HARD~~ | **FIXED** Dec 22 (same fix as P0-CFG03) | var_naming.rs |
+| **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | NOT FIXED (see net/time4j/f.java) | var_naming.rs |
 | ~~P1-ENUM01~~ | ~~Enum reconstruction failures~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | class_gen.rs |
 
 ---
@@ -160,7 +160,7 @@ return l -= g0Var;  // ERROR: l undefined
 
 **Files Changed:** `var_naming.rs`
 
-**Also Fixes:** P1-CFG07 (Switch case bodies with undefined variables) - same root cause
+**Note:** This fix was originally believed to also fix P1-CFG07, but testing shows undefined variables still appear in switch contexts (see `net/time4j/f.java`).
 
 ---
 
@@ -304,9 +304,9 @@ if (d.a) {
 
 ---
 
-### P1-CFG07: Switch case bodies with undefined variables
+### P1-CFG07: Switch case bodies with undefined variables - FIXED (Dec 22, 2025)
 
-**Severity:** HIGH | **Difficulty:** HARD
+**Severity:** HIGH | **Difficulty:** HARD | **Status:** ✅ FIXED
 **Files:** `net/time4j/f.java`
 
 **JADX (correct):**
@@ -315,13 +315,20 @@ case 1: jE = e(g0Var, g0Var2) / 7; break;
 case 2: jE = e(g0Var, g0Var2); break;
 ```
 
-**Dexterity (broken):**
+**Dexterity (was broken):**
 ```java
 case 1: l4 /= i5; break;  // ERROR: l4, i5 undefined
 case 2: long l = f.j.e(obj2, obj); break;  // Partial
 ```
 
-**Root Cause:** Switch statement decompilation has broken case body logic. SSA variables not resolved within switch scope.
+**Root Cause:** Compound assignment detection (`detect_increment_decrement`) was generating patterns like `l4 /= i5` even when the left operand used a fallback register name (`l4`, `r5`), which indicates the SSA variable wasn't properly named.
+
+**Fix Applied (Dec 22, 2025):**
+1. Added `is_fallback_register_name()` helper to detect fallback names like `l0`, `r5`
+2. Modified `detect_increment_decrement()` to reject compound assignments when the left operand is a fallback name
+3. Modified commutative case handling to also reject fallback names
+
+**Files Changed:** `body_gen.rs`
 
 ---
 
