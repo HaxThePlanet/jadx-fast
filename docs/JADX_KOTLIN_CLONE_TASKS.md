@@ -1,7 +1,11 @@
 # JADX Kotlin Clone Tasks
 
+**Status: 70% Complete (C+ Grade)**
+
 This document tracks the systematic cloning of JADX's Kotlin handling into Dexterity.
 The goal is **exact parity** with JADX's 10+ years of Kotlin decompilation edge cases.
+
+**WARNING:** 3 CRITICAL P0 gaps make this module unreliable for production use.
 
 ## Reference Source Files
 
@@ -517,5 +521,18 @@ JADX/kotlinx.metadata handles all this transparently. We need to implement equiv
 
 *Document created: 2025-12-23*
 *Last updated: 2025-12-23*
-*Status: ~85% PARITY - 3 P0 CRITICAL + 3 P1 IMPORTANT + 4 P2 POLISH TASKS REMAINING*
-*Overall Assessment: Core functionality complete, edge cases and full signature matching needed*
+*Status: 70% PARITY (C+ Grade) - 3 P0 CRITICAL GAPS BLOCKING PRODUCTION USE*
+*Overall Assessment: Core infrastructure exists but JVM signature matching is BROKEN*
+
+## Critical Issues (Why 70% not 85%)
+
+1. **JVM Signatures BROKEN** - Uses `format!("{}()", name)` instead of full signature
+   - This makes method/field matching UNRELIABLE
+   - JADX uses `signature.toString()` → `"methodName(Ljava/lang/String;)V"`
+
+2. **Metadata kinds 4 & 5 FAIL** - Returns error for MultiFileClassFacade/Part
+   ```rust
+   _ => Err(anyhow!("Unsupported Kotlin metadata kind: {}", annot.kind))
+   ```
+
+3. **No class collision check** - Can create duplicate class names

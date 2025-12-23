@@ -268,6 +268,14 @@ fn simplify_insn(
         InsnType::CheckCast { object, type_idx } => {
             simplify_check_cast(object.clone(), *type_idx, insn.offset, types, check_cast_defs)
         }
+        // Clone of JADX SimplifyVisitor.java:581-636
+        // convertFieldArith: IPUT(ARITH(IGET, lit)) -> field += lit
+        InsnType::InstancePut { object, field_idx, value } => {
+            convert_field_arith_iput(object.clone(), *field_idx, value.clone(), insn.offset)
+        }
+        InsnType::StaticPut { field_idx, value } => {
+            convert_field_arith_sput(*field_idx, value.clone(), insn.offset)
+        }
         _ => None,
     }
 }
@@ -585,6 +593,151 @@ fn simplify_check_cast(
     // }
 
     None
+}
+
+/// Clone of JADX SimplifyVisitor.java:581-636
+/// Convert field arith operation to arith instruction for IPUT
+///
+/// Pattern: IPUT(object, field, ARITH(IGET(object, field), value))
+/// Result:  Binary with ArithOneArg flag (object.field += value)
+///
+/// Reference: convertFieldArith(MethodNode, InsnNode)
+fn convert_field_arith_iput(
+    object: InsnArg,
+    field_idx: u32,
+    value: InsnArg,
+    offset: u32,
+) -> Option<InsnNode> {
+    // Check if value is a wrapped ARITH instruction
+    // JADX: if (!arg.isInsnWrap()) return null;
+    let wrapped = match &value {
+        InsnArg::Wrapped(w) => w,
+        _ => return None,
+    };
+
+    let arith_insn = wrapped.get_wrap_insn()?;
+
+    // Check if wrapped instruction is ARITH (Binary)
+    // JADX: if (wrapType != InsnType.ARITH && wrapType != InsnType.STR_CONCAT) return null;
+    let (op, arith_left, arith_right) = match &arith_insn.insn_type {
+        InsnType::Binary { op, left, right, .. } => (*op, left, right),
+        InsnType::StrConcat { args, .. } if !args.is_empty() => {
+            // For STR_CONCAT, use ADD operation with first arg as left
+            // JADX handles this for string field concatenation
+            return None; // TODO: Handle STR_CONCAT case
+        }
+        _ => return None,
+    };
+
+    // Check if first arg of ARITH is a wrapped IGET
+    // JADX: if (!wrap.getArg(0).isInsnWrap()) return null;
+    let get_wrapped = match arith_left {
+        InsnArg::Wrapped(w) => w,
+        _ => return None,
+    };
+
+    let get_insn = get_wrapped.get_wrap_insn()?;
+
+    // Check if inner instruction is IGET with same field
+    // JADX: InsnType getType = get.getType();
+    //       if (getType != InsnType.IGET && getType != InsnType.SGET) return null;
+    let (get_object, get_field_idx) = match &get_insn.insn_type {
+        InsnType::InstanceGet { object, field_idx, .. } => (Some(object), *field_idx),
+        _ => return None,
+    };
+
+    // Verify field indices match
+    // JADX: if (!field.equals(innerField)) return null;
+    if get_field_idx != field_idx {
+        return None;
+    }
+
+    // Verify instance registers match for IGET/IPUT
+    // JADX: if (getType == InsnType.IGET && insn.getType() == InsnType.IPUT) {
+    //           if (!reg.equals(putReg)) return null;
+    //       }
+    if let Some(get_obj) = get_object {
+        if !args_equal(&object, get_obj) {
+            return None;
+        }
+    }
+
+    // Create one-arg arith instruction
+    // JADX: return ArithNode.oneArgOp(ar.getOp(), fArg, ar.getArg(1));
+    let mut result = InsnNode::new(
+        InsnType::new_arith_one_arg(op, arith_left.clone(), arith_right.clone()),
+        offset,
+    );
+    result.add_flag(AFlag::ArithOneArg);
+
+    Some(result)
+}
+
+/// Clone of JADX SimplifyVisitor.java:581-636
+/// Convert field arith operation to arith instruction for SPUT
+///
+/// Pattern: SPUT(field, ARITH(SGET(field), value))
+/// Result:  Binary with ArithOneArg flag (Class.field += value)
+fn convert_field_arith_sput(
+    field_idx: u32,
+    value: InsnArg,
+    offset: u32,
+) -> Option<InsnNode> {
+    // Check if value is a wrapped ARITH instruction
+    let wrapped = match &value {
+        InsnArg::Wrapped(w) => w,
+        _ => return None,
+    };
+
+    let arith_insn = wrapped.get_wrap_insn()?;
+
+    // Check if wrapped instruction is ARITH (Binary)
+    let (op, arith_left, arith_right) = match &arith_insn.insn_type {
+        InsnType::Binary { op, left, right, .. } => (*op, left, right),
+        _ => return None,
+    };
+
+    // Check if first arg of ARITH is a wrapped SGET
+    let get_wrapped = match arith_left {
+        InsnArg::Wrapped(w) => w,
+        _ => return None,
+    };
+
+    let get_insn = get_wrapped.get_wrap_insn()?;
+
+    // Check if inner instruction is SGET with same field
+    let get_field_idx = match &get_insn.insn_type {
+        InsnType::StaticGet { field_idx, .. } => *field_idx,
+        _ => return None,
+    };
+
+    // Verify field indices match
+    if get_field_idx != field_idx {
+        return None;
+    }
+
+    // Create one-arg arith instruction
+    let mut result = InsnNode::new(
+        InsnType::new_arith_one_arg(op, arith_left.clone(), arith_right.clone()),
+        offset,
+    );
+    result.add_flag(AFlag::ArithOneArg);
+
+    Some(result)
+}
+
+/// Helper to check if two InsnArgs are equal (for instance register comparison)
+/// JADX Reference: InsnArg.equals() comparison
+fn args_equal(a: &InsnArg, b: &InsnArg) -> bool {
+    match (a, b) {
+        (InsnArg::Register(ra), InsnArg::Register(rb)) => {
+            ra.reg_num == rb.reg_num && ra.ssa_version == rb.ssa_version
+        }
+        (InsnArg::Literal(la), InsnArg::Literal(lb)) => la == lb,
+        (InsnArg::String(sa), InsnArg::String(sb)) => sa == sb,
+        (InsnArg::Type(ta), InsnArg::Type(tb)) => ta == tb,
+        _ => false,
+    }
 }
 
 /// Check if an argument is a zero literal (0)

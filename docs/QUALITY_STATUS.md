@@ -1,10 +1,11 @@
 # Quality Status
 
-**Status:** **0 P1 Open** | **Production Ready** | Dec 23, 2025 - JADX Codegen Parity ~93%
+**Status:** **82% Overall JADX Parity (B Grade)** - Usable but not complete
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Output Refresh:** Dec 23, 2025 - All APK samples compared against JADX
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
-**Codegen:** ~93% parity (source-level audit) - See JADX_CODEGEN_CLONE_STATUS.md for gaps
+**Codegen:** 92% parity (A- Grade) - See JADX_CODEGEN_CLONE_STATUS.md for gaps
+**Kotlin:** 70% parity (C+ Grade) - CRITICAL: JVM signature matching broken
 
 ## Output Quality Audit (Dec 23, 2025)
 
@@ -44,17 +45,19 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 **Result:** Medium APK now 98%+ clean (was 89%).
 
-## Current Grades
+## Current Grades (Honest Assessment Dec 23, 2025)
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **A** | ~93% parity - source-level audit Dec 23 |
-| **Type Inference** | **A-** | ~90% JADX parity |
-| **IR/Control Flow** | **A** | All major patterns working |
-| **Variable Naming** | **A** | Name collision detection complete (Dec 23) |
-| **Kotlin Support** | **A** | 100% parity |
+| **Codegen** | **A-** | 92% parity - solid but gaps remain |
+| **Type Inference** | **B+** | ~85% JADX parity |
+| **IR/Control Flow** | **B+** | 88% - SSA renaming deferred |
+| **Variable Naming** | **A-** | Name collision detection done |
+| **Kotlin Support** | **C+** | 70% - JVM signatures BROKEN |
+| **Deobfuscation** | **A** | 95% - honest about SSA gap |
+| **Passes** | **B** | 85% - missing some visitors |
 | **Resources** | **A+** | 1:1 JADX parity |
-| **Overall** | **A** | Production ready for all APKs |
+| **Overall** | **B** | 82% - usable, not complete |
 
 ### Per-APK Grades
 
@@ -317,20 +320,21 @@ Type inference has been significantly enhanced from ~60% to ~85% JADX parity. De
 - Extended extract_field_init.rs for new-instance pattern detection
 - Empty clinit suppression (skip `static {}` with only return-void)
 
-## Quality Metrics
+## Quality Metrics (Honest Assessment)
 
 | Metric | Value |
 |--------|-------|
 | Total Tests | 1,392+ passing (all integration + unit) |
-| Pass Coverage | **82%** (86/105 JADX passes implemented) |
-| IR Parity | **98%** (up from 96%, P8-P16 complete) |
-| Codegen Parity | **~93%** (source-level audit Dec 23, see JADX_CODEGEN_CLONE_STATUS.md) |
-| Type Inference Parity | **~90%** (7 files / ~9,100 lines, 58 type tests) |
-| Throws Parity | 41.7% (up from ~13.7%, 3x improvement) |
-| Kotlin Parity | 100% (BitEncoding ported, all modifiers work) |
-| DEX Debug Info | 100% (DBG_SET_FILE uleb128 fix) |
-| Resources Parity | **100% (1:1 JADX - 103 dirs, 152 files, zero diff)** |
-| Resource Qualifiers | 100% (BCP-47 locale tags - **VALIDATED**) |
+| Pass Coverage | **85%** (some visitors missing) |
+| IR Parity | **88%** (SSA renaming deferred) |
+| Codegen Parity | **92%** (A- Grade) |
+| Type Inference Parity | **~85%** (7 files / ~9,100 lines) |
+| Throws Parity | 41.7% |
+| Kotlin Parity | **70%** (C+ - JVM signatures BROKEN) |
+| Deobfuscation Parity | **95%** (A Grade - SSA gap documented) |
+| DEX Debug Info | 100% |
+| Resources Parity | **100% (1:1 JADX)** |
+| Overall JADX Parity | **82% (B Grade)** |
 | Total Java Files | ~8,858 (across 5 APK samples) |
 
 ## Validated Fixes

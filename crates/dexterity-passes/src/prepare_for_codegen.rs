@@ -33,6 +33,8 @@ pub struct PrepareForCodeGenResult {
     pub constructors_synthesized: usize,
     /// Number of STR_CONCAT instructions synthesized
     pub str_concat_synthesized: usize,
+    /// Number of arithmetic instructions converted to compound form (a += 2)
+    pub arith_onearg_converted: usize,
 }
 
 /// Check if a binary operation is associative (can be chained without parentheses)
@@ -54,6 +56,7 @@ pub fn prepare_for_codegen(
     for block in &mut ssa.blocks {
         remove_redundant_moves(block, &mut result);
         mark_associative_chains(block, &mut result);
+        modify_arith(block, &mut result);
         synthesize_constructors(block, &mut result, inferred_types);
     }
 

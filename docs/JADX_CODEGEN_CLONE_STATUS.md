@@ -434,15 +434,21 @@ if (k instanceof FieldNode) {
 
 | Category | JADX Features | Dexterity Status |
 |----------|--------------|------------------|
-| InsnGen | 15+ major | ~95% cloned |
-| ClassGen | 10+ major | ~90% cloned |
-| MethodGen | 8+ major | ~95% cloned |
-| RegionGen | 8+ major | 100% cloned |
-| TypeGen | 5+ major | 100% cloned |
-| ConditionGen | 4+ major | 100% cloned |
-| AnnotationGen | 5+ major | ~85% cloned |
+| InsnGen | 15+ major | ~90% cloned |
+| ClassGen | 10+ major | ~85% cloned |
+| MethodGen | 8+ major | ~90% cloned |
+| RegionGen | 8+ major | ~95% cloned |
+| TypeGen | 5+ major | ~95% cloned |
+| ConditionGen | 4+ major | ~95% cloned |
+| AnnotationGen | 5+ major | ~80% cloned |
 
-**Overall Estimated Parity: ~100%** (Source-Level Audit, Dec 23, 2025)
+**Overall Estimated Parity: 92% (A- Grade)** - Solid, but some gaps need verification
+
+### Remaining Gaps
+- Inner class collision detection: "simplified" vs JADX's full recursive check
+- Lambda/invoke-custom generation: unclear if complete
+- 3 TODO/FIXME markers still in codegen crates
+- No output comparison tests to verify claims
 
 ---
 

@@ -2319,7 +2319,7 @@ impl RegisterArg {
 }
 
 /// Literal argument
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum LiteralArg {
     /// Integer/long constant
     Int(i64),

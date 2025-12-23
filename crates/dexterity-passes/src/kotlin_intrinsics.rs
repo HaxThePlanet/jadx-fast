@@ -22,6 +22,10 @@ pub struct IntrinsicsContext {
     pub method_signatures: HashMap<u32, (String, String, String)>,
     /// Map of string index to string value
     pub string_pool: HashMap<u32, String>,
+    /// P1.3 FIX: Map of field index to constant string value
+    /// JADX Reference: ProcessKotlinInternals.java:164-172
+    /// Used to revert SGET of inlined string constants back to their values
+    pub field_constants: HashMap<u32, String>,
 }
 
 impl IntrinsicsContext {
@@ -29,6 +33,7 @@ impl IntrinsicsContext {
         Self {
             method_signatures: HashMap::new(),
             string_pool: HashMap::new(),
+            field_constants: HashMap::new(),
         }
     }
 }
@@ -268,6 +273,8 @@ fn compute_param_idx(reg: u16, first_param_reg: u16, is_static: bool) -> Option<
 }
 
 /// Static version of get_string_from_context (doesn't borrow method mutably)
+/// P1.3 FIX: Also handles SGET of inlined string constants
+/// JADX Reference: ProcessKotlinInternals.java:162-172
 fn get_string_from_context_static(
     arg: &InsnArg,
     insn_idx: usize,
@@ -278,9 +285,29 @@ fn get_string_from_context_static(
         InsnArg::String(idx) => ctx.string_pool.get(&(*idx as u32)).cloned(),
         InsnArg::Register(reg) => {
             for i in (0..insn_idx).rev() {
+                // Pattern 1: const-string
                 if let InsnType::ConstString { dest, string_idx } = &instructions[i].insn_type {
                     if dest.reg_num == reg.reg_num {
                         return ctx.string_pool.get(&(*string_idx as u32)).cloned();
+                    }
+                }
+                // P1.3 FIX: Pattern 2: sget of inlined string constant
+                // JADX Reference: ProcessKotlinInternals.java:164-172
+                // if (insnType == InsnType.SGET) {
+                //     // revert const field inline :(
+                //     FieldInfo fieldInfo = (FieldInfo) ((IndexInsnNode) constInsn).getIndex();
+                //     FieldNode fieldNode = mth.root().resolveField(fieldInfo);
+                //     if (fieldNode != null) {
+                //         String str = (String) fieldNode.get(JadxAttrType.CONSTANT_VALUE).getValue();
+                //         ...
+                //     }
+                // }
+                if let InsnType::StaticGet { dest, field_idx, .. } = &instructions[i].insn_type {
+                    if dest.reg_num == reg.reg_num {
+                        // Look up field's constant value
+                        if let Some(const_str) = ctx.field_constants.get(field_idx) {
+                            return Some(const_str.clone());
+                        }
                     }
                 }
             }
@@ -350,6 +377,8 @@ fn get_string_arg(
 }
 
 /// Get string from context with full DEX data
+/// P1.3 FIX: Also handles SGET of inlined string constants
+/// JADX Reference: ProcessKotlinInternals.java:162-172
 fn get_string_from_context(
     arg: &InsnArg,
     insn_idx: usize,
@@ -359,11 +388,21 @@ fn get_string_from_context(
     match arg {
         InsnArg::String(idx) => ctx.string_pool.get(&(*idx as u32)).cloned(),
         InsnArg::Register(reg) => {
-            // Find const-string that loaded this register
+            // Find const-string or sget that loaded this register
             for i in (0..insn_idx).rev() {
+                // Pattern 1: const-string
                 if let InsnType::ConstString { dest, string_idx } = &instructions[i].insn_type {
                     if dest.reg_num == reg.reg_num {
                         return ctx.string_pool.get(&(*string_idx as u32)).cloned();
+                    }
+                }
+                // P1.3 FIX: Pattern 2: sget of inlined string constant
+                // JADX Reference: ProcessKotlinInternals.java:164-172
+                if let InsnType::StaticGet { dest, field_idx, .. } = &instructions[i].insn_type {
+                    if dest.reg_num == reg.reg_num {
+                        if let Some(const_str) = ctx.field_constants.get(field_idx) {
+                            return Some(const_str.clone());
+                        }
                     }
                 }
             }

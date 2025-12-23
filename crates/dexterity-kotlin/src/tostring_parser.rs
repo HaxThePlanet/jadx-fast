@@ -61,6 +61,10 @@ struct ToStringParser {
     sb_register: Option<u16>,
     /// Track registers and their source (for data flow)
     register_sources: std::collections::HashMap<u16, RegisterSource>,
+    /// P1.2 FIX: Track field_idx when static invoke wraps a field (e.g., Arrays.toString(arrayField))
+    /// JADX Reference: ToStringParser.kt:66-74
+    /// Next move-result will associate this field_idx with the result register
+    pending_static_invoke_field_arg: Option<u32>,
 }
 
 /// Source of a register value
@@ -91,6 +95,7 @@ impl ToStringParser {
             field_mappings: Vec::new(),
             sb_register: None,
             register_sources: std::collections::HashMap::new(),
+            pending_static_invoke_field_arg: None,
         }
     }
 
@@ -231,6 +236,8 @@ impl ToStringParser {
     }
 
     /// Handle StringBuilder.append() - extract field name or field reference
+    /// P1.2 FIX: Also handles Arrays.toString(arrayField) wrapped field values
+    /// JADX Reference: ToStringParser.kt:87-95 - handleFieldInfo handles both cases
     fn handle_append(&mut self, insn: &InsnNode) {
         if let InsnType::Invoke { args, .. } = &insn.insn_type {
             // Second argument is the value being appended
@@ -243,6 +250,11 @@ impl ToStringParser {
                                 self.handle_string(&s);
                             }
                             RegisterSource::InstanceGet(field_idx) => {
+                                self.handle_field_info(field_idx);
+                            }
+                            // P1.2 FIX: Handle Arrays.toString(arrayField) - treat same as direct field access
+                            // JADX Reference: ToStringParser.kt:66-74, 87-95
+                            RegisterSource::StaticInvokeOnField(field_idx) => {
                                 self.handle_field_info(field_idx);
                             }
                             _ => {}

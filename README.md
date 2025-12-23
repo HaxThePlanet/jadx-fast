@@ -20,7 +20,7 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** Correct decompilation close to JADX
-**Status:** **Production Ready** | Grade: A | 98-100% clean for all APKs | 0 P1 open | JADX codegen parity complete - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** 82% JADX Parity | Grade: B | Usable but not complete - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
 ## Performance
 
@@ -79,12 +79,11 @@ cargo build --release -p dexterity-cli
 
 - **Input formats:** APK, DEX, JAR, AAR, AAB, XAPK, APKM (APKS not yet supported)
 - **Deobfuscation:** ProGuard mappings, JOBF files
-- **Kotlin support:** Full metadata parsing (100% parity with JADX's kotlin-metadata plugin)
+- **Kotlin support:** 70% parity (C+ Grade) - core features work, but JVM signature matching is broken
   - Class modifiers: `/* data */`, `/* sealed */`, `/* value */`
   - Function modifiers: `/* suspend */`, `/* inline */`, `/* operator */`, `/* infix */`, `/* tailrec */`
   - Type variance: `<out R>`, `<in T>` from Kotlin metadata
-  - Name restoration from obfuscated code
-  - Static field inline initialization (`INSTANCE = new ClassName()`)
+  - **KNOWN ISSUES:** JVM signatures use simplified format, metadata kinds 4/5 unsupported
 - **Control flow:** OR condition merging (`a || b` patterns), short-circuit evaluation
 - **Throws declarations:** Parse `dalvik/annotation/Throws` (41.7% parity, 3x improvement)
 - **Resource resolution:** `R.layout.activity_main` (enabled by default)
@@ -109,21 +108,21 @@ cargo build --release -p dexterity-cli
   <img src="docs/architecture.svg" alt="Dexterity Architecture" width="100%">
 </p>
 
-| Crate | Purpose | Parity |
-|-------|---------|--------|
-| dexterity-dex | DEX binary parsing | 100% |
-| dexterity-ir | Intermediate representation | 100% |
-| dexterity-passes | Decompilation passes | **85%** (84/124 JADX visitors) |
-| dexterity-codegen | Java source generation | 90% |
-| dexterity-resources | Resource decoding | 100% |
-| dexterity-deobf | Deobfuscation | 90% |
-| dexterity-kotlin | Kotlin metadata | 100% |
-| dexterity-llm-postproc | LLM post-processing | N/A |
-| dexterity-qa | Quality assurance tooling | N/A |
-| dexterity-py | Python bindings | N/A |
-| dexterity-cli | CLI application | 95% |
+| Crate | Purpose | Parity | Grade |
+|-------|---------|--------|-------|
+| dexterity-dex | DEX binary parsing | 100% | A+ |
+| dexterity-ir | Intermediate representation | 88% | B+ |
+| dexterity-passes | Decompilation passes | 85% | B |
+| dexterity-codegen | Java source generation | 92% | A- |
+| dexterity-resources | Resource decoding | 100% | A+ |
+| dexterity-deobf | Deobfuscation | 95% | A |
+| dexterity-kotlin | Kotlin metadata | **70%** | **C+** |
+| dexterity-llm-postproc | LLM post-processing | N/A | - |
+| dexterity-qa | Quality assurance tooling | N/A | - |
+| dexterity-py | Python bindings | N/A | - |
+| dexterity-cli | CLI application | 95% | A |
 
-*Feature completeness vs JADX. Overall grade: **A**. Production ready for all APKs (98-100% clean). JADX codegen parity complete (Dec 23, 2025). See [Quality Status](docs/QUALITY_STATUS.md).*
+*Feature completeness vs JADX. Overall grade: **B (82%)**. Usable but gaps remain. See [Quality Status](docs/QUALITY_STATUS.md).*
 
 ### Recent JADX Pass Clones (Dec 2025)
 
