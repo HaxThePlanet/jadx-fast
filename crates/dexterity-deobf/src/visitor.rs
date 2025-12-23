@@ -140,7 +140,7 @@ impl DeobfConfig {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::conditions::{CombinedCondition, LengthCondition, ValidityCondition};
+    use crate::conditions::CombinedCondition;
     use crate::alias_provider::DeobfAliasProvider;
     use dexterity_ir::{ArgType, FieldData, MethodData};
 

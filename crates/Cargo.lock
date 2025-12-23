@@ -489,6 +489,7 @@ dependencies = [
  "dexterity-ir",
  "lazy_static",
  "regex",
+ "tempfile",
  "thiserror",
 ]
 

@@ -22,11 +22,11 @@ use std::path::PathBuf;
 use anyhow::Result;
 use tracing::{info, warn};
 
-use dexterity_deobf::{AliasProvider, AliasRegistry, DeobfAliasProvider, method_proto_to_descriptor};
+use dexterity_deobf::{AliasProvider, AliasRegistry, DeobfAliasProvider, method_proto_to_descriptor, get_better_class_name, NameMapper, UserRenames};
 use dexterity_dex::DexReader;
 use dexterity_ir::{ArgType, ClassData, FieldData, MethodData};
 
-use crate::args::DeobfCfgFileMode;
+use crate::args::{DeobfCfgFileMode, UseSourceNameAlias};
 use crate::Args;
 
 /// Well-known short package names that should NOT be treated as obfuscated.
@@ -109,6 +109,13 @@ pub fn precompute_deobf_aliases(
             if let Err(e) = load_jobf_file(jobf_path, registry) {
                 warn!("Failed to load JOBF file {}: {}", jobf_path.display(), e);
             }
+        }
+    }
+
+    // Load user-provided renames (takes priority over JOBF)
+    if let Some(ref user_renames_path) = args.user_renames {
+        if let Err(e) = load_user_renames(user_renames_path, registry) {
+            warn!("Failed to load user renames {}: {}", user_renames_path.display(), e);
         }
     }
 
@@ -197,8 +204,8 @@ pub fn precompute_deobf_aliases(
         }
     }
 
-    for (class_desc, idx) in by_name {
-        let class_def = match dex.get_class(idx) {
+    for (class_desc, idx) in &by_name {
+        let class_def = match dex.get_class(*idx) {
             Ok(c) => c,
             Err(_) => continue,
         };
@@ -299,6 +306,120 @@ pub fn precompute_deobf_aliases(
                 let alias = provider.for_method(&mth_stub, is_override);
                 registry.set_method_alias(&class_desc, &method_name, &proto_desc, &alias);
             }
+        }
+    }
+
+    // === Source file rename pass ===
+    // Apply source file-based class aliases (can override/enhance existing aliases)
+    apply_source_file_renames_prepass(dex, &by_name, args, registry);
+}
+
+/// Apply source file-based class renames in the prepass.
+///
+/// This is a separate pass that runs after normal deobfuscation alias generation.
+/// It uses the SourceFile attribute to potentially provide better class names.
+fn apply_source_file_renames_prepass(
+    dex: &DexReader,
+    by_name: &[(String, u32)],
+    args: &Args,
+    registry: &AliasRegistry,
+) {
+    // Check if source name aliases are enabled
+    let use_source_name = match args.use_source_name_as_alias {
+        Some(UseSourceNameAlias::Always) => true,
+        Some(UseSourceNameAlias::IfBetter) => true,
+        Some(UseSourceNameAlias::Never) => return,
+        None => {
+            // Check deprecated flag for backwards compatibility
+            if args.deobf_use_sourcename {
+                true
+            } else {
+                return; // Default: disabled
+            }
+        }
+    };
+
+    if !use_source_name {
+        return;
+    }
+
+    let repeat_limit = args.source_name_repeat_limit as usize;
+    if repeat_limit <= 1 {
+        return;
+    }
+
+    let use_always = matches!(args.use_source_name_as_alias, Some(UseSourceNameAlias::Always));
+
+    // First pass: collect all source file aliases and track usage counts
+    let mut alias_use_count: HashMap<String, usize> = HashMap::new();
+    let mut source_aliases: Vec<(String, String)> = Vec::new(); // (class_desc, source_alias)
+
+    for (class_desc, idx) in by_name {
+        let class_def = match dex.get_class(*idx) {
+            Ok(c) => c,
+            Err(_) => continue,
+        };
+
+        // Skip inner classes (they have $ in the name after the last /)
+        let internal = strip_desc_to_internal(class_desc);
+        if internal.rsplit('/').next().map(|s| s.contains('$')).unwrap_or(false) {
+            continue;
+        }
+
+        // Get source file
+        let source_file = match class_def.source_file() {
+            Ok(Some(sf)) => sf,
+            _ => continue,
+        };
+
+        // Remove .java/.kt suffix
+        let alias = if let Some(stripped) = source_file.strip_suffix(".java") {
+            stripped
+        } else if let Some(stripped) = source_file.strip_suffix(".kt") {
+            stripped
+        } else {
+            &source_file
+        };
+
+        // Validate it's a valid identifier
+        if !NameMapper::is_valid_and_printable(alias) {
+            continue;
+        }
+
+        // Track usage count
+        let count = alias_use_count.entry(alias.to_string()).or_insert(0);
+        *count += 1;
+
+        // Only collect if within repeat limit
+        if *count < repeat_limit {
+            source_aliases.push((class_desc.clone(), alias.to_string()));
+        }
+    }
+
+    // Second pass: apply aliases
+    for (class_desc, source_alias) in source_aliases {
+        let simple_name = simple_name_from_desc(&class_desc);
+
+        // Skip if source alias is same as current name
+        if source_alias == simple_name {
+            continue;
+        }
+
+        // Determine the final alias
+        let final_alias = if use_always {
+            source_alias
+        } else {
+            // IfBetter mode: compare with current name/alias
+            let current = registry
+                .get_class_alias(&class_desc)
+                .unwrap_or_else(|| simple_name.to_string());
+            get_better_class_name(&source_alias, &current)
+        };
+
+        // Only set if different from current
+        let current_alias = registry.get_class_alias(&class_desc);
+        if current_alias.as_deref() != Some(&final_alias) && final_alias != simple_name {
+            registry.set_class_alias(&class_desc, &final_alias);
         }
     }
 }
@@ -1067,5 +1188,103 @@ pub fn save_jobf_file(path: &PathBuf, registry: &AliasRegistry) -> Result<()> {
     }
 
     info!("Saved {} aliases to JOBF file: {}", lines.len(), path.display());
+    Ok(())
+}
+
+// ============================================================================
+// User-provided renames
+// ============================================================================
+
+/// Load user-provided renames from a file into the registry.
+///
+/// Format (same as JOBF, one per line):
+/// - `p com.old.pkg = newpkg` for packages
+/// - `c com.old.Class = NewClass` for classes
+/// - `f com.old.Class.fieldName = newFieldName` for fields
+/// - `m com.old.Class.methodName(II)V = newMethodName` for methods
+///
+/// Lines starting with # are comments.
+pub fn load_user_renames(path: &PathBuf, registry: &AliasRegistry) -> Result<()> {
+    if !path.exists() {
+        warn!("User renames file not found: {}", path.display());
+        return Ok(());
+    }
+
+    let file = fs::File::open(path)?;
+    let reader = BufReader::new(file);
+    let mut count = 0;
+
+    for line in reader.lines() {
+        let line = line?;
+        let line = line.trim();
+        if line.is_empty() || line.starts_with('#') {
+            continue;
+        }
+
+        // Format: "X origName = alias" where X is p/c/f/m
+        if line.len() < 4 {
+            continue;
+        }
+        let kind = line.chars().next().unwrap();
+        let rest = &line[2..]; // Skip "X "
+
+        let parts: Vec<&str> = rest.splitn(2, '=').collect();
+        if parts.len() != 2 {
+            continue;
+        }
+        let orig_name = parts[0].trim();
+        let alias = parts[1].trim();
+
+        match kind {
+            'p' => {
+                // Package: store as internal format (slashes)
+                let internal = orig_name.replace('.', "/");
+                registry.set_package_alias(&internal, alias);
+                count += 1;
+            }
+            'c' => {
+                // Class: convert to descriptor format
+                let internal = orig_name.replace('.', "/");
+                let desc = format!("L{};", internal);
+                registry.set_class_alias(&desc, alias);
+                count += 1;
+            }
+            'f' => {
+                // Field: format is "class.field"
+                if let Some(dot_pos) = orig_name.rfind('.') {
+                    let class_name = &orig_name[..dot_pos];
+                    let field_name = &orig_name[dot_pos + 1..];
+                    let internal = class_name.replace('.', "/");
+                    let desc = format!("L{};", internal);
+                    registry.set_field_alias(&desc, field_name, alias);
+                    count += 1;
+                }
+            }
+            'm' => {
+                // Method: format is "class.method(sig)" or "class.method"
+                if let Some(dot_pos) = orig_name.rfind('.') {
+                    let class_name = &orig_name[..dot_pos];
+                    let method_part = &orig_name[dot_pos + 1..];
+
+                    // Extract method name and optional proto
+                    let (method_name, proto) = if let Some(paren_pos) = method_part.find('(') {
+                        (&method_part[..paren_pos], &method_part[paren_pos..])
+                    } else {
+                        (method_part, "")
+                    };
+
+                    let internal = class_name.replace('.', "/");
+                    let desc = format!("L{};", internal);
+                    registry.set_method_alias(&desc, method_name, proto, alias);
+                    count += 1;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    if count > 0 {
+        info!("Loaded {} user renames from: {}", count, path.display());
+    }
     Ok(())
 }

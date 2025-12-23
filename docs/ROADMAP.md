@@ -1,23 +1,19 @@
 # Roadmap
 
-**Status:** 1 P0, 1 P1 open | IR 100% | Kotlin 100% | Type Inference ~90% | **SSA Clone Complete** (Dec 22, 2025)
+**Status:** 0 P0, 0 P1 open | IR 100% | Kotlin 100% | Type Inference ~90% | **All Issues Fixed** (Dec 23, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
 
 ## Open Work
 
-### P0 Critical - Code Won't Compile (1 remaining)
+### P0 Critical - ALL FIXED
 
-| ID | Issue | Difficulty | Notes |
-|----|-------|------------|-------|
-| **P0-CFG03** | Undefined variables in expressions | **HARD** | PARTIAL FIX: compound assignment bug fixed Dec 22 |
+All P0 issues have been resolved. See Completed section below.
 
-### P1 Semantic - Wrong Behavior (1 remaining)
+### P1 Semantic - ALL FIXED
 
-| ID | Issue | Difficulty | Notes |
-|----|-------|------------|-------|
-| **P1-CFG07** | Switch case bodies undefined vars | **HARD** | Complex SSA in switch |
+All P1 issues have been resolved. See Completed section below.
 
 ### Performance TODOs
 
@@ -76,17 +72,74 @@ Created ~2,430 lines of new Rust code implementing Tier 1-2 JADX passes:
 
 ---
 
-### P0/P1 Fixes (Dec 22, 2025)
+### P0/P1 Fixes (Dec 22-23, 2025)
 
 | ID | Issue | Status |
 |----|-------|--------|
 | P0-TYPE01 | Double literals as raw long bits | **FIXED** |
 | P0-CFG01 | Try-catch exception variable scope | **FIXED** |
 | P0-CFG02 | Empty if-body for early returns | **FIXED** |
+| P0-CFG03 | Undefined variables in expressions | **FIXED** Dec 23 |
 | P0-CFG04 | Complex boolean expressions garbled | **FIXED** |
 | P1-CFG05 | Variables outside exception scope | **FIXED** |
 | P1-CFG06 | Missing if-else branch bodies | **FIXED** |
+| P1-CFG07 | Switch case bodies undefined vars | **FIXED** Dec 23 (same fix as P0-CFG03) |
 | P1-ENUM01 | Enum reconstruction failures | **FIXED** |
+
+---
+
+### P0-CFG01 Enhancement: Nested Structures in Try-Catch (Dec 23, 2025)
+
+**Problem:** Try-catch blocks were producing empty or incomplete regions. Nested structures (loops and conditionals) inside try blocks were missing.
+
+**Root Cause:** In `process_try_catch()`, ALL try blocks were pre-marked in `self.processed` BEFORE calling `build_try_body()`. When `build_try_body()` called `process_if()` → `build_branch_region()` → `traverse()`, the traverse function checked `self.processed` and skipped all blocks since they were already marked.
+
+**Fix Applied:**
+1. Removed pre-marking of try blocks in `process_try_catch()`
+2. Modified `build_try_body()` to mark blocks in `self.processed` as it processes them - after processing loops, conditionals, or plain blocks
+
+**Files Changed:** `region_builder.rs`
+
+---
+
+### P0-CFG03 Enhancement: Declaration Check + JADX Fallback (Dec 23, 2025)
+
+**Clone JADX's NameGen.useArg() Pattern:**
+```java
+// JADX NameGen.java:72-78
+public String useArg(RegisterArg arg) {
+    String name = arg.getName();
+    if (name == null || fallback) {
+        return getFallbackName(arg);  // Returns "r" + regNum
+    }
+    return name;
+}
+```
+
+**Changes Made:**
+1. **Declaration check in detect_increment_decrement()** - Compound assignments only generated for declared variables
+2. **JADX-style fallback naming** - `r{n}` instead of `obj{n}` for unnamed variables
+3. **New get_fallback_name() function** - Public API in var_naming.rs
+
+**Files Changed:** `body_gen.rs`, `expr_gen.rs`, `var_naming.rs`
+
+---
+
+### P0-CFG03 Complete Fix: Source Operand Collection (Dec 23, 2025)
+
+**Problem:** Variables in complex expressions like `l -= l2` were undefined because only destination registers were collected for naming.
+
+**Root Cause:** `assign_var_names_with_lookups()` only collected destination registers. Source operand registers in Binary, Switch, Ternary, etc. were never added to `vars_to_name`.
+
+**Fix Applied:**
+1. Added `get_insn_operands()` helper (~125 lines) - extracts source registers from 25+ instruction types
+2. Modified `assign_var_names_with_lookups()` to collect:
+   - PHI sources (not just destinations)
+   - Instruction operands (not just destinations)
+
+**Also Fixes:** P1-CFG07 (Switch case bodies with undefined variables) - same root cause
+
+**Files Changed:** `var_naming.rs`
 
 ---
 

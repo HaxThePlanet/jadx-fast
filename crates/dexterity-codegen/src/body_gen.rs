@@ -9462,7 +9462,12 @@ mod tests {
 
         // Create a minimal context for testing
         let method = make_method();
-        let ctx = BodyGenContext::from_method(&method);
+        let mut ctx = BodyGenContext::from_method(&method);
+
+        // P0-CFG03: Must declare the variable first before testing compound assignment
+        // The left operand (reg 0, version 1) must be declared for pattern detection to work
+        ctx.expr_gen.set_var_name(0, 1, "i".to_string());
+        ctx.mark_name_declared("i", &ArgType::Int);
 
         // Test i = i + 1 -> i++
         let dest = RegisterArg::with_ssa(0, 2);

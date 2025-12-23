@@ -1,6 +1,6 @@
 # Issue Tracker
 
-**Status:** Open: 1 P0, 1 P1, 0 P2 | IR 100% Complete | **SSA Clone + 8 JADX Passes** (Dec 22, 2025)
+**Status:** Open: 0 P0, 0 P1, 0 P2 | IR 100% Complete | **SSA Clone + 8 JADX Passes** (Dec 22, 2025)
 **Reference Files:**
 - `io/grpc/j1/f.java` (ApplicationThreadDeframer - 185 lines) - try-catch/control flow bugs
 - `net/time4j/f.java` (CalendarUnit - 380 lines) - enum/switch/literal bugs
@@ -30,32 +30,32 @@ Completed all 5 phases of cloning JADX's SSA system:
 
 ## Open Issues
 
-### P0 Critical (Code Won't Compile) - 1 OPEN (5 fixed Dec 22)
+### P0 Critical (Code Won't Compile) - ALL FIXED (6 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
 | ~~P0-CFG01~~ | ~~Try-catch exception variable scope corruption~~ | ~~HARD~~ | **FIXED** Dec 22 | region_builder.rs |
 | ~~P0-CFG02~~ | ~~Empty if-body for early returns~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
-| **P0-CFG03** | Undefined variables in complex expressions | **HARD** | `l -= l2` where l undefined | ssa.rs, var_naming.rs |
+| ~~P0-CFG03~~ | ~~Undefined variables in complex expressions~~ | ~~HARD~~ | **FIXED** Dec 22 | var_naming.rs |
 | ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 | instructions.rs, builder.rs, body_gen.rs |
 | ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 
-### P1 Semantic (Wrong Behavior) - 1 OPEN (2 fixed Dec 22)
+### P1 Semantic (Wrong Behavior) - ALL FIXED (3 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
 | ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 | ~~P1-CFG06~~ | ~~Missing if-else branch bodies~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | region_builder.rs |
-| **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | `l4 /= i5` in switch | body_gen.rs, ssa.rs |
+| ~~P1-CFG07~~ | ~~Switch case bodies with undefined variables~~ | ~~HARD~~ | **FIXED** Dec 22 (same fix as P0-CFG03) | var_naming.rs |
 | ~~P1-ENUM01~~ | ~~Enum reconstruction failures~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | class_gen.rs |
 
 ---
 
 ## Bug Details (f.java Audit Dec 22, 2025)
 
-### P0-CFG01: Try-catch exception variable scope corruption
+### P0-CFG01: Try-catch exception variable scope corruption - FIXED (Dec 22-23, 2025)
 
-**Severity:** CRITICAL | **Difficulty:** HARD
+**Severity:** CRITICAL | **Difficulty:** HARD | **Status:** ✅ FIXED
 **Files:** `io/grpc/j1/f.java`, `i/b/m0/e/c/f.java`, `i/b/m0/e/d/f.java`
 
 **JADX (correct):**
@@ -68,7 +68,7 @@ try {
 }
 ```
 
-**Dexterity (broken):**
+**Dexterity (was broken):**
 ```java
 try {
     this.b.c.k(this.a);
@@ -82,7 +82,22 @@ try {
 }
 ```
 
-**Root Cause:** Exception handler variable scope resolution failure in CFG decompilation. Exception block code is being placed in try block instead of catch block.
+**Root Cause (Original):** Exception handler variable scope resolution failure in CFG decompilation. Exception block code is being placed in try block instead of catch block.
+
+**Fix Applied (Dec 22, 2025):**
+1. Fixed try-catch region building in `region_builder.rs`
+2. `detect_try_catch_regions()` now uses `block.start_offset`
+3. Handler address mapping with `addr_to_block`
+
+**Enhancement (Dec 23, 2025):** Nested structures were still missing from try-catch regions.
+
+**Root Cause (Enhancement):** ALL try blocks were pre-marked in `self.processed` BEFORE calling `build_try_body()`. When `traverse()` was called for nested if/loop structures, it skipped all blocks since they were already marked.
+
+**Additional Fix:**
+1. Removed pre-marking of try blocks in `process_try_catch()`
+2. `build_try_body()` now marks blocks in `self.processed` as it processes them - after processing loops, conditionals, or plain blocks
+
+**Files Changed:** `region_builder.rs`, `block_split.rs`, `decompiler.rs`, `body_gen.rs`
 
 ---
 
@@ -117,9 +132,9 @@ this.b.c.e(this.a);  // Always executes
 
 ---
 
-### P0-CFG03: Undefined variables in complex expressions
+### P0-CFG03: Undefined variables in complex expressions - FIXED (Dec 22, 2025)
 
-**Severity:** CRITICAL | **Difficulty:** HARD
+**Severity:** CRITICAL | **Difficulty:** HARD | **Status:** ✅ FIXED
 **Files:** `net/time4j/f.java`, `com/geetest/sdk/f.java`
 
 **JADX (correct):**
@@ -128,14 +143,24 @@ long jF0 = g0Var2.F0() - g0Var.F0();
 return g0Var.m() == g0Var2.m() ? g0Var2.D0() - g0Var.D0() : g0Var2.E0() - g0Var.E0();
 ```
 
-**Dexterity (broken):**
+**Dexterity (was broken):**
 ```java
 l -= l2;  // ERROR: l and l2 undefined
 return (long)(g0Var2 -= g0Var);  // ERROR: nonsensical
 return l -= g0Var;  // ERROR: l undefined
 ```
 
-**Root Cause:** Register/variable resolution failure in complex expressions. SSA variable naming fails for switch/ternary/arithmetic expressions.
+**Root Cause:** The `assign_var_names_with_lookups()` function in `var_naming.rs` only collected destination registers for naming. Source operand registers used in complex expressions (Binary, Switch, Ternary, etc.) were not collected, causing them to fall back to `r0`, `r1` fallback names instead of proper variable names.
+
+**Fix Applied (Dec 22, 2025):**
+1. Added `get_insn_operands()` helper function in `var_naming.rs` to extract ALL source register operands from instructions
+2. Modified `assign_var_names_with_lookups()` to collect BOTH destinations AND source operands
+3. Added PHI source collection (previously only PHI destinations were collected)
+4. This ensures ALL referenced SSA variables get proper names, not just destinations
+
+**Files Changed:** `var_naming.rs`
+
+**Also Fixes:** P1-CFG07 (Switch case bodies with undefined variables) - same root cause
 
 ---
 

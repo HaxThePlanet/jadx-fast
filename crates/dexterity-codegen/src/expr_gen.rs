@@ -582,9 +582,10 @@ impl ExprGen {
             }
         }
 
-        // No name from var_naming - use fallback
-        // This typically means the variable wasn't properly analyzed
-        format!("obj{}", reg.reg_num)
+        // No name from var_naming - use JADX-style fallback
+        // Clone JADX's NameGen.getFallbackName(): "r" + regNum
+        // This produces r0, r1, r2, etc. for unnamed variables
+        format!("r{}", reg.reg_num)
     }
 
     /// Get variable name by register number and SSA version
@@ -608,7 +609,8 @@ impl ExprGen {
             }
         }
 
-        format!("obj{}", reg_num)
+        // Clone JADX's NameGen.getFallbackName(): "r" + regNum
+        format!("r{}", reg_num)
     }
 
     /// Get string by index (local cache first, then DEX provider)
@@ -1410,7 +1412,7 @@ mod tests {
 
         // Unknown var gets default name based on type (Object -> obj)
         let reg2 = RegisterArg::with_ssa(5, 0);
-        assert_eq!(gen.get_var_name(&reg2), "obj5");
+        assert_eq!(gen.get_var_name(&reg2), "r5");
     }
 
     #[test]
@@ -1423,7 +1425,7 @@ mod tests {
             right: InsnArg::reg(2),
             arg_type: None,
         };
-        assert_eq!(gen.gen_insn(&insn), Some("obj1 + obj2".to_string()));
+        assert_eq!(gen.gen_insn(&insn), Some("r1 + r2".to_string()));
     }
 
     #[test]
@@ -1434,7 +1436,7 @@ mod tests {
             op: UnaryOp::Neg,
             arg: InsnArg::reg(1),
         };
-        assert_eq!(gen.gen_insn(&insn), Some("-obj1".to_string()));
+        assert_eq!(gen.gen_insn(&insn), Some("-r1".to_string()));
     }
 
     #[test]
@@ -1446,7 +1448,7 @@ mod tests {
             index: InsnArg::reg(2),
             elem_type: ArrayElemType::Int,
         };
-        assert_eq!(gen.gen_insn(&insn), Some("obj1[obj2]".to_string()));
+        assert_eq!(gen.gen_insn(&insn), Some("r1[r2]".to_string()));
     }
 
     #[test]
@@ -1457,7 +1459,7 @@ mod tests {
             &InsnArg::reg(0),
             Some(&InsnArg::reg(1))
         );
-        assert_eq!(cond, "obj0 == obj1");
+        assert_eq!(cond, "r0 == r1");
     }
 
     #[test]

@@ -57,6 +57,26 @@ fn is_valid_identifier(name: &str) -> bool {
     name.chars().all(|c| (32..=126).contains(&(c as u32)))
 }
 
+/// Generate a fallback variable name when SSA variable name is not available.
+/// Clones JADX's NameGen.getFallbackName(RegisterArg) pattern.
+///
+/// This produces register-based names like r0, r1, r2, etc.
+/// Used when a variable wasn't properly analyzed or named during SSA transformation.
+///
+/// # Example
+/// ```ignore
+/// // JADX Java:
+/// // private String getFallbackName(RegisterArg arg) {
+/// //     return "r" + arg.getRegNum();
+/// // }
+///
+/// assert_eq!(get_fallback_name(0, 1), "r0");
+/// assert_eq!(get_fallback_name(5, 2), "r5");
+/// ```
+pub fn get_fallback_name(reg: u16, _version: u32) -> String {
+    format!("r{}", reg)
+}
+
 /// Sanitize a name to be a valid Java identifier
 /// Converts invalid characters (like hyphens) to valid alternatives
 /// Returns None if the name cannot be sanitized (e.g., empty or all invalid)
@@ -1685,6 +1705,9 @@ pub fn assign_var_names_with_lookups<'a>(
     }
 
     // Collect all (reg, version) pairs that need names
+    // P0-CFG03 FIX: Collect BOTH destinations AND source operands
+    // Previously only destinations were collected, causing variables used as operands
+    // in complex expressions (switch, ternary, arithmetic) to get fallback r0/r1 names.
     let mut vars_to_name: Vec<(u16, u32)> = Vec::with_capacity(estimated_vars);
 
     for block in &ssa.blocks {
@@ -1693,6 +1716,12 @@ pub fn assign_var_names_with_lookups<'a>(
             if phi.dest.reg_num < first_param_reg {
                 vars_to_name.push((phi.dest.reg_num, phi.dest.ssa_version));
             }
+            // P0-CFG03 FIX: Also add PHI sources - they need names too!
+            for (_, src) in &phi.sources {
+                if src.reg_num < first_param_reg {
+                    vars_to_name.push((src.reg_num, src.ssa_version));
+                }
+            }
         }
 
         // Add instruction destinations
@@ -1700,6 +1729,13 @@ pub fn assign_var_names_with_lookups<'a>(
             if let Some(dest) = get_insn_dest(&insn.insn_type) {
                 if dest.0 < first_param_reg {
                     vars_to_name.push(dest);
+                }
+            }
+            // P0-CFG03 FIX: Also add source operands - they need names too!
+            // This ensures variables used in Binary, Switch, Ternary, etc. get proper names.
+            for (reg, version) in get_insn_operands(&insn.insn_type) {
+                if reg < first_param_reg {
+                    vars_to_name.push((reg, version));
                 }
             }
         }
@@ -2080,6 +2116,132 @@ fn get_base_name_from_instruction<'a>(
 
         _ => None,
     }
+}
+
+/// Get all source register operands from an instruction (for variable naming).
+/// P0-CFG03 FIX: This ensures ALL referenced SSA variables get names, not just destinations.
+/// Variables used as operands in complex expressions (switch, ternary, arithmetic) need names.
+fn get_insn_operands(insn: &dexterity_ir::instructions::InsnType) -> Vec<(u16, u32)> {
+    use dexterity_ir::instructions::{InsnArg, InsnType};
+
+    let mut operands = Vec::new();
+
+    // Helper to extract register from InsnArg
+    fn push_reg(ops: &mut Vec<(u16, u32)>, arg: &InsnArg) {
+        if let InsnArg::Register(r) = arg {
+            ops.push((r.reg_num, r.ssa_version));
+        }
+    }
+
+    match insn {
+        // Binary ops (arithmetic, bitwise) - CRITICAL for P0-CFG03
+        InsnType::Binary { left, right, .. } => {
+            push_reg(&mut operands, left);
+            push_reg(&mut operands, right);
+        }
+        // Unary ops
+        InsnType::Unary { arg, .. } => {
+            push_reg(&mut operands, arg);
+        }
+        // Move
+        InsnType::Move { src, .. } => {
+            push_reg(&mut operands, src);
+        }
+        // Return value
+        InsnType::Return { value: Some(arg) } => {
+            push_reg(&mut operands, arg);
+        }
+        // Throw
+        InsnType::Throw { exception } => {
+            push_reg(&mut operands, exception);
+        }
+        // Conditionals
+        InsnType::If { left, right, .. } => {
+            push_reg(&mut operands, left);
+            if let Some(r) = right {
+                push_reg(&mut operands, r);
+            }
+        }
+        // Switch - CRITICAL for P0-CFG03
+        InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } => {
+            push_reg(&mut operands, value);
+        }
+        // Ternary - CRITICAL for P0-CFG03
+        InsnType::Ternary { left, right, then_value, else_value, .. } => {
+            push_reg(&mut operands, left);
+            if let Some(r) = right {
+                push_reg(&mut operands, r);
+            }
+            push_reg(&mut operands, then_value);
+            push_reg(&mut operands, else_value);
+        }
+        // Method invocation
+        InsnType::Invoke { args, .. } | InsnType::InvokeCustom { args, .. } => {
+            for arg in args.iter() {
+                push_reg(&mut operands, arg);
+            }
+        }
+        // Instance field ops
+        InsnType::InstanceGet { object, .. } => {
+            push_reg(&mut operands, object);
+        }
+        InsnType::InstancePut { object, value, .. } => {
+            push_reg(&mut operands, object);
+            push_reg(&mut operands, value);
+        }
+        // Static field put
+        InsnType::StaticPut { value, .. } => {
+            push_reg(&mut operands, value);
+        }
+        // Array ops
+        InsnType::ArrayGet { array, index, .. } => {
+            push_reg(&mut operands, array);
+            push_reg(&mut operands, index);
+        }
+        InsnType::ArrayPut { array, index, value, .. } => {
+            push_reg(&mut operands, array);
+            push_reg(&mut operands, index);
+            push_reg(&mut operands, value);
+        }
+        InsnType::ArrayLength { array, .. } => {
+            push_reg(&mut operands, array);
+        }
+        InsnType::NewArray { size, .. } => {
+            push_reg(&mut operands, size);
+        }
+        InsnType::FilledNewArray { args, .. } => {
+            for arg in args.iter() {
+                push_reg(&mut operands, arg);
+            }
+        }
+        InsnType::FillArrayData { array, .. } => {
+            push_reg(&mut operands, array);
+        }
+        // Type checks
+        InsnType::CheckCast { object, .. } => {
+            push_reg(&mut operands, object);
+        }
+        InsnType::InstanceOf { object, .. } => {
+            push_reg(&mut operands, object);
+        }
+        // Compare
+        InsnType::Compare { left, right, .. } => {
+            push_reg(&mut operands, left);
+            push_reg(&mut operands, right);
+        }
+        // Cast
+        InsnType::Cast { arg, .. } => {
+            push_reg(&mut operands, arg);
+        }
+        // Monitor
+        InsnType::MonitorEnter { object } | InsnType::MonitorExit { object } => {
+            push_reg(&mut operands, object);
+        }
+        // No operands for these instruction types
+        _ => {}
+    }
+
+    operands
 }
 
 /// Get the destination register from an instruction type

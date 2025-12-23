@@ -191,6 +191,10 @@ pub struct Args {
     #[arg(long = "source-name-repeat-limit", default_value = "10")]
     pub source_name_repeat_limit: u32,
 
+    /// User-provided renames file (format: class/field/method original = alias)
+    #[arg(long = "user-renames")]
+    pub user_renames: Option<PathBuf>,
+
     // === Rename options ===
     /// Rename flags (comma-separated: case, valid, printable, none, all)
     #[arg(long = "rename-flags", default_value = "all")]

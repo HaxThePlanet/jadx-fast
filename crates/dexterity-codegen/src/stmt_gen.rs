@@ -636,7 +636,7 @@ mod tests {
         let mut writer = SimpleCodeWriter::new();
         let arg = InsnArg::reg(0);
         stmt.gen_return(Some(&arg), &mut writer);
-        assert_eq!(writer.finish().trim(), "return obj0;");
+        assert_eq!(writer.finish().trim(), "return r0;");
     }
 
     #[test]
@@ -646,7 +646,7 @@ mod tests {
         let mut writer = SimpleCodeWriter::new();
         let exception = InsnArg::reg(5);
         stmt.gen_throw(&exception, &mut writer);
-        assert_eq!(writer.finish().trim(), "throw obj5;");
+        assert_eq!(writer.finish().trim(), "throw r5;");
     }
 
     #[test]
@@ -658,7 +658,7 @@ mod tests {
         let index = InsnArg::lit(5);
         let value = InsnArg::reg(1);
         stmt.gen_array_put(&array, &index, &value, &mut writer);
-        assert_eq!(writer.finish().trim(), "obj0[5] = obj1;");
+        assert_eq!(writer.finish().trim(), "r0[5] = r1;");
     }
 
     #[test]
