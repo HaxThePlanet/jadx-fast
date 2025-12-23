@@ -355,6 +355,12 @@ pub struct MethodData {
     /// Methods which use this method (like JADX's MethodNode.useIn)
     /// Format: (class_type, method_name) tuples
     pub use_in: Vec<(String, String)>,
+    /// Thrown exceptions (like JADX's MethodThrowsAttr)
+    /// Set of exception class names that this method throws
+    /// Used to generate the throws clause in method signatures
+    pub throws_exceptions: Vec<String>,
+    /// Whether throws analysis has been run on this method
+    pub throws_visited: bool,
 }
 
 impl MethodData {
@@ -395,6 +401,8 @@ impl MethodData {
             enter_block: None,
             exit_block: None,
             use_in: Vec::new(),
+            throws_exceptions: Vec::new(),
+            throws_visited: false,
         }
     }
 
@@ -443,6 +451,8 @@ impl MethodData {
             enter_block: None,
             exit_block: None,
             use_in: Vec::new(),
+            throws_exceptions: Vec::new(),
+            throws_visited: false,
         }
     }
 

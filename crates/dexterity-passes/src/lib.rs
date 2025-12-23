@@ -3,8 +3,10 @@
 //! This crate contains the visitor passes that transform the IR.
 
 pub mod algorithms;
+pub mod anonymous_class_visitor;
 pub mod attach_method_details;
 pub mod block_split;
+pub mod clean_regions;
 pub mod check_code;
 pub mod check_regions;
 pub mod constructor_visitor;
@@ -27,6 +29,7 @@ pub mod loop_analysis;
 pub mod loops;
 pub mod method_inline;
 pub mod method_invoke;
+pub mod method_throws_visitor;
 pub mod mod_visitor;
 pub mod override_method;
 pub mod post_process_regions;
@@ -140,6 +143,13 @@ pub use check_regions::{check_regions, has_missing_blocks, CheckRegionsResult, L
 pub use usage_info::{collect_usage_from_instructions, FieldRef, MethodRef, UsageInfo};
 pub use process_anonymous::{
     process_anonymous, AnonymousClassInfo, ClassInfo, InlineType, ProcessAnonymousResult,
+};
+pub use anonymous_class_visitor::{
+    is_anonymous_class, process_anonymous_class, AnonymousClassVisitorResult, ArgToFieldMapping,
+};
+pub use clean_regions::{clean_regions, CleanRegionsResult};
+pub use method_throws_visitor::{
+    collect_invoke_throws, process_method_throws, MethodThrowsResult,
 };
 pub use post_process_regions::{
     insert_edge_insn, post_process_regions, region_ends_with_return_or_throw,
