@@ -1,12 +1,34 @@
 # Issue Tracker
 
-**Status:** Open: 2 P0, 2 P1, 0 P2 | IR 100% Complete | **f.java audit: 4 bugs fixed** (Dec 22, 2025)
+**Status:** Open: 1 P0, 1 P1, 0 P2 | IR 100% Complete | **SSA Clone + 8 JADX Passes** (Dec 22, 2025)
 **Reference Files:**
 - `io/grpc/j1/f.java` (ApplicationThreadDeframer - 185 lines) - try-catch/control flow bugs
 - `net/time4j/f.java` (CalendarUnit - 380 lines) - enum/switch/literal bugs
 - `com/geetest/sdk/f.java` (BaseScreenDialog - 56 lines) - boolean/branch bugs
 
-## Open Issues (from f.java Audit Dec 22, 2025)
+## Recent Accomplishments (Dec 22, 2025)
+
+### SSA System Clone - P0-CFG03 Fix Foundation
+Completed all 5 phases of cloning JADX's SSA system:
+- Phase 1: Connected SSAContext to SSA Transform in `ssa.rs`
+- Phase 2: Implemented `init_code_vars.rs` (306 lines) - links SSAVars to CodeVars
+- Phase 3: Implemented `process_variables.rs` (344 lines) - removes unused vars, finalizes CodeVars
+- Phase 4: Enhanced Variable Naming in `var_naming.rs` to use SSAContext
+- Phase 5: Integration and Testing - all 219 tests pass
+
+### 8 New JADX Parity Passes (~2,430 lines)
+| Pass | Purpose | Lines |
+|------|---------|-------|
+| `check_code.rs` | Instruction validation (register bounds, >255 args) | 447 |
+| `check_regions.rs` | Region coverage validation (missing blocks, duplicates) | 379 |
+| `usage_info.rs` | Usage graph for classes/methods/fields | 340 |
+| `process_anonymous.rs` | Anonymous/lambda class detection for inlining | 445 |
+| `post_process_regions.rs` | Loop condition merging, switch breaks | 213 |
+| `return_visitor.rs` | Return statement optimization | 204 |
+| `constructor_visitor.rs` | Constructor processing (super/this calls) | 271 |
+| `attach_method_details.rs` | Method signature parsing, throws, generics | 354 |
+
+## Open Issues
 
 ### P0 Critical (Code Won't Compile) - 1 OPEN (5 fixed Dec 22)
 
@@ -18,11 +40,12 @@
 | ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 | instructions.rs, builder.rs, body_gen.rs |
 | ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 
-### P1 Semantic (Wrong Behavior) - 2 OPEN (1 fixed Dec 22)
+### P1 Semantic (Wrong Behavior) - 1 OPEN (2 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
-| **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | Entire else logic lost | region_builder.rs |
+| ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
+| ~~P1-CFG06~~ | ~~Missing if-else branch bodies~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | region_builder.rs |
 | **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | `l4 /= i5` in switch | body_gen.rs, ssa.rs |
 | ~~P1-ENUM01~~ | ~~Enum reconstruction failures~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | class_gen.rs |
 
@@ -218,9 +241,9 @@ th.printStackTrace();  // ERROR: th used outside catch block
 
 ---
 
-### P1-CFG06: Missing if-else branch bodies
+### P1-CFG06: Missing if-else branch bodies - FIXED (Dec 22, 2025)
 
-**Severity:** HIGH | **Difficulty:** MEDIUM
+**Severity:** HIGH | **Difficulty:** MEDIUM | **Status:** FIXED
 **Files:** `com/geetest/sdk/f.java`, `net/time4j/f.java`
 
 **JADX (correct):**
@@ -234,13 +257,25 @@ if (com.geetest.sdk.utils.d.f76a) {
 }
 ```
 
-**Dexterity (broken):**
+**Dexterity (was broken, now fixed):**
 ```java
 if (d.a) {
-}  // EMPTY - all logic lost
+    window.getAttributes().width = i3;
+    attributes2.height = i3;
+} else {
+    attributes2.width = g.b(this.e);
+    attributes2.height = g.a(this.e);
+}
 ```
 
-**Root Cause:** Entire if-else branches with critical logic being dropped. Region builder loses branch content.
+**Root Cause:** In `process_try_catch()`, all try blocks were marked as `processed` BEFORE building the try body. This caused `traverse()` to skip blocks when building if-branches inside try blocks, producing empty if-bodies.
+
+**Fix Applied (Dec 22, 2025):**
+1. Moved `processed.insert()` loop from before `build_try_body()` to after it
+2. Try blocks are now marked as processed AFTER the try body is fully built
+3. This allows `traverse()` to properly visit blocks when building nested conditionals
+
+**Files Changed:** `region_builder.rs`
 
 ---
 

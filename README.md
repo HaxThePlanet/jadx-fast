@@ -20,7 +20,7 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** 1:1 identical decompilation output with JADX
-**Status:** 5 P0, 4 P1 open | Grade: C+ | Kotlin 100% | Resources 100% | **f.java audit: 4.6% identical** - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** 1 P0, 1 P1 open | Grade: B+ | Kotlin 100% | Resources 100% | **SSA Clone + 8 JADX Passes** (Dec 22, 2025) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
 ## Performance
 
@@ -113,7 +113,7 @@ cargo build --release -p dexterity-cli
 |-------|---------|--------|
 | dexterity-dex | DEX binary parsing | 100% |
 | dexterity-ir | Intermediate representation | 100% |
-| dexterity-passes | Decompilation passes | 85% |
+| dexterity-passes | Decompilation passes | 90% |
 | dexterity-codegen | Java source generation | 85% |
 | dexterity-resources | Resource decoding | 100% |
 | dexterity-deobf | Deobfuscation | 90% |
@@ -123,7 +123,7 @@ cargo build --release -p dexterity-cli
 | dexterity-py | Python bindings | N/A |
 | dexterity-cli | CLI application | 95% |
 
-*Feature completeness vs JADX. Overall grade: **B+**. Variable naming: JADX slightly better (0.93 vs 0.70-0.81). See [Quality Status](docs/QUALITY_STATUS.md).*
+*Feature completeness vs JADX. Overall grade: **B+**. SSA Clone + 8 new passes added Dec 22. See [Quality Status](docs/QUALITY_STATUS.md).*
 
 ## Sample Output
 

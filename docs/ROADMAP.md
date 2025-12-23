@@ -1,36 +1,23 @@
 # Roadmap
 
-**Status:** 4 P0, 4 P1, 0 P2 | IR 100% | Kotlin 100% | Type Inference ~90% | **f.java audit FAILED** (Dec 22, 2025)
+**Status:** 1 P0, 1 P1 open | IR 100% | Kotlin 100% | Type Inference ~90% | **SSA Clone Complete** (Dec 22, 2025)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
 
-## Open Work (f.java Audit Dec 22, 2025)
+## Open Work
 
-### P0 Critical - Code Won't Compile (4 bugs, 2 fixed Dec 22)
-
-| ID | Issue | Difficulty | Recommended Order |
-|----|-------|------------|-------------------|
-| **P0-TYPE01** | Double literals as raw long bits | **EASY** | 1st - Quick win |
-| **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | 2nd - CFG |
-| ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
-| ~~P0-CFG01~~ | ~~Try-catch exception variable scope~~ | ~~HARD~~ | **FIXED** Dec 22 |
-| **P0-CFG03** | Undefined variables in expressions | **HARD** | 4th - SSA/variable resolution |
-
-### P1 Semantic - Wrong Behavior (3 bugs, 1 fixed Dec 22)
+### P0 Critical - Code Won't Compile (1 remaining)
 
 | ID | Issue | Difficulty | Notes |
 |----|-------|------------|-------|
-| ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 - Exception register name linking |
-| **P1-CFG06** | Missing if-else branch bodies | **MEDIUM** | Region builder issue |
-| **P1-ENUM01** | Enum reconstruction failures | **MEDIUM** | Fall back to abstract class |
+| **P0-CFG03** | Undefined variables in expressions | **HARD** | PARTIAL FIX: compound assignment bug fixed Dec 22 |
+
+### P1 Semantic - Wrong Behavior (1 remaining)
+
+| ID | Issue | Difficulty | Notes |
+|----|-------|------------|-------|
 | **P1-CFG07** | Switch case bodies undefined vars | **HARD** | Complex SSA in switch |
-
-### Work Order Recommendation
-
-1. **Start with EASY (P0-TYPE01)** - Double literal fix is isolated, gives quick confidence
-2. **Tackle MEDIUM CFG bugs together** - CFG02, CFG06, ENUM01 share control flow roots (CFG04, CFG05 fixed Dec 22)
-3. **Save HARD for last** - CFG01, CFG03, CFG07 require deep understanding of SSA/CFG
 
 ### Performance TODOs
 
@@ -44,6 +31,78 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for P0-3/P1-2 open it
 ---
 
 ## Completed
+
+### SSA System Clone - P0-CFG03 Fix Foundation (Dec 22, 2025)
+
+Completed all 5 phases of cloning JADX's SSA system (~650 lines of new Rust code):
+
+| Phase | File | Purpose | Lines |
+|-------|------|---------|-------|
+| 1 | `ssa.rs` | Connected SSAContext to SSA Transform | Enhanced |
+| 2 | `init_code_vars.rs` | InitCodeVariables pass - links SSAVars to CodeVars | 306 |
+| 3 | `process_variables.rs` | ProcessVariables pass - removes unused vars, finalizes CodeVars | 344 |
+| 4 | `var_naming.rs` | Enhanced Variable Naming to use SSAContext | Enhanced |
+| 5 | Integration | All 219 tests pass, release builds working | Verified |
+
+**Key Accomplishments:**
+- SSAContext now properly tracks SSAVars and their relationships
+- CodeVars created from SSAVars with proper naming
+- Unused variable elimination works correctly
+- Variable naming uses SSA information for better names
+
+---
+
+### JADX Parity Passes - 8 New Passes (Dec 22, 2025)
+
+Created ~2,430 lines of new Rust code implementing Tier 1-2 JADX passes:
+
+| Pass | Purpose | Lines |
+|------|---------|-------|
+| `check_code.rs` | Instruction validation (register bounds, >255 args) | 447 |
+| `check_regions.rs` | Region coverage validation (missing blocks, duplicates) | 379 |
+| `usage_info.rs` | Usage graph for classes/methods/fields | 340 |
+| `process_anonymous.rs` | Anonymous/lambda class detection for inlining | 445 |
+| `post_process_regions.rs` | Loop condition merging, switch breaks | 213 |
+| `return_visitor.rs` | Return statement optimization | 204 |
+| `constructor_visitor.rs` | Constructor processing (super/this calls) | 271 |
+| `attach_method_details.rs` | Method signature parsing, throws, generics | 354 |
+
+**Key Features:**
+- **Validation:** Detect malformed DEX (register bounds, >255 args, code loss)
+- **Anonymous Classes:** Mark single-use synthetic classes for inlining
+- **Constructor Chaining:** Identify super()/this() calls, extract field initializers
+- **Generic Signatures:** Parse `<T extends Comparable>`, throws clauses
+- **Region Post-Processing:** Insert edge instructions, merge loop conditions
+
+---
+
+### P0/P1 Fixes (Dec 22, 2025)
+
+| ID | Issue | Status |
+|----|-------|--------|
+| P0-TYPE01 | Double literals as raw long bits | **FIXED** |
+| P0-CFG01 | Try-catch exception variable scope | **FIXED** |
+| P0-CFG02 | Empty if-body for early returns | **FIXED** |
+| P0-CFG04 | Complex boolean expressions garbled | **FIXED** |
+| P1-CFG05 | Variables outside exception scope | **FIXED** |
+| P1-CFG06 | Missing if-else branch bodies | **FIXED** |
+| P1-ENUM01 | Enum reconstruction failures | **FIXED** |
+
+---
+
+### P0-CFG03 Partial Fix: Compound Assignment Bug (Dec 22, 2025)
+
+**Problem:** Compound assignments like `l6 /= l3` for undeclared variables.
+
+**Fix:** Added declaration checks in `detect_increment_decrement()` - only generate compound assignment if the left operand is already declared.
+
+**Result:** `l6 /= l3;` → `l2 = l6 / l3;` (proper assignment)
+
+**Remaining:** Variables like `l3`, `l4`, `i3` still undefined - separate SSA issue.
+
+**Files Changed:** `body_gen.rs`
+
+---
 
 ### Type Inference Performance Optimization (Dec 22, 2025)
 

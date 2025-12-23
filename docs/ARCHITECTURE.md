@@ -22,7 +22,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 crates/
 ├── dexterity-dex/         # DEX parsing (~4,500 lines)
 ├── dexterity-ir/          # IR types & class hierarchy (~10,744 lines)
-├── dexterity-passes/      # Decompilation passes (~29,566 lines)
+├── dexterity-passes/      # Decompilation passes (~33,120 lines)
 ├── dexterity-codegen/     # Java code generation (~18,332 lines)
 ├── dexterity-resources/   # AXML & resources.arsc (~4,300 lines)
 ├── dexterity-deobf/       # Deobfuscation (~1,850 lines)
@@ -32,7 +32,7 @@ crates/
 └── dexterity-llm-postproc/# LLM post-processing utilities
 ```
 
-Total: ~79,500 lines of Rust (core crates)
+Total: ~83,000 lines of Rust (core crates)
 
 ## Crate Details
 
@@ -70,15 +70,25 @@ Transform IR through analysis passes.
 | `block_split.rs` | Instructions to basic blocks |
 | `cfg.rs` | CFG construction with dominance (Cooper-Harvey-Kennedy) |
 | `ssa.rs` | SSA transformation with phi nodes |
+| `init_code_vars.rs` | Initialize CodeVars from SSAVars (JADX parity) |
+| `process_variables.rs` | Remove unused vars, finalize CodeVars (JADX parity) |
 | `type_inference.rs` | Constraint-based type inference |
 | `finish_type_inference.rs` | Type validation, unknown type warnings (JADX FinishTypeInference parity) |
 | `region_builder.rs` | CFG to structured regions |
 | `conditionals.rs` | Else-if chaining, ternary reconstruction |
 | `loops.rs` | ForEach detection from iterator patterns |
-| `var_naming.rs` | JADX-style variable naming |
+| `var_naming.rs` | JADX-style variable naming with SSAContext |
 | `code_shrink.rs` | Single-use variable inlining |
 | `deboxing.rs` | Primitive boxing/unboxing optimization |
 | `needed_vars.rs` | Compute variables needed for output (lazy inference support) |
+| `check_code.rs` | Instruction validation (register bounds, >255 args) |
+| `check_regions.rs` | Region coverage validation (missing blocks, duplicates) |
+| `usage_info.rs` | Usage graph for classes/methods/fields |
+| `process_anonymous.rs` | Anonymous/lambda class detection for inlining |
+| `post_process_regions.rs` | Loop condition merging, switch breaks |
+| `return_visitor.rs` | Return statement optimization |
+| `constructor_visitor.rs` | Constructor processing (super/this calls) |
+| `attach_method_details.rs` | Method signature parsing, throws, generics |
 
 ### dexterity-codegen (Code Generation)
 
@@ -151,16 +161,16 @@ Command-line interface and decompilation orchestration.
 
 ## JADX Parity
 
-| Crate | Parity |
-|-------|--------|
-| dexterity-dex | **100%** |
-| dexterity-ir | **100%** |
-| dexterity-passes | **85%** |
-| dexterity-codegen | **85%** |
-| dexterity-resources | **100%** |
-| dexterity-deobf | **90%** |
-| dexterity-kotlin | **100%** |
-| dexterity-cli | **95%** |
+| Crate | Parity | Notes |
+|-------|--------|-------|
+| dexterity-dex | **100%** | Full DEX parsing |
+| dexterity-ir | **100%** | Complete SSA infrastructure |
+| dexterity-passes | **90%** | 8 new passes added Dec 22 |
+| dexterity-codegen | **85%** | Java source generation |
+| dexterity-resources | **100%** | AXML + resources.arsc |
+| dexterity-deobf | **90%** | ProGuard mapping support |
+| dexterity-kotlin | **100%** | Full metadata parsing |
+| dexterity-cli | **95%** | JADX CLI compatibility |
 
 *Feature completeness vs JADX. See [QUALITY_STATUS.md](QUALITY_STATUS.md) for APK-specific grades.*
 

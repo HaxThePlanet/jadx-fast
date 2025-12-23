@@ -6,10 +6,11 @@ This document provides a detailed comparison between JADX's visitor passes and D
 
 | Metric | JADX | Dexterity | Status |
 |--------|------|-----------|--------|
-| Total Passes | 63+ | 24+ | ~38% |
+| Total Passes | 63+ | 32+ | ~51% |
 | Type Inference Files | 26 | 7 | **~85% Parity** |
-| Region Analysis Files | 8 | 3 | Partial |
-| Code Optimization Passes | 15+ | 10 | Enhanced |
+| Region Analysis Files | 8 | 5 | Enhanced (Dec 22) |
+| Code Optimization Passes | 15+ | 12 | Enhanced |
+| SSA/Variable Passes | 4 | 4 | **JADX Parity** (Dec 22) |
 
 ---
 
@@ -101,20 +102,43 @@ FINAL CODE PREPARATION
 ### Dexterity Pass Execution Order
 
 ```
-1. BlockSplitter          - Split into basic blocks
-2. CFG Construction       - Compute dominators, CFG
-3. Finally Marking        - Detect finally blocks
-4. Region Building        - Build region tree
-5. SSA Transformation     - Convert to SSA form
-6. ModVisitor             - Instruction modifications
-7. Constant Inlining      - Inline constants
-8. Type Inference         - Infer register types
-9. Finish Type Inference  - Validate types, generate warnings for unknown types
-10. Simplification        ─┐
-11. Code Shrinking        ─┴─ ITERATIVE (until fixpoint, max 5×blocks)
-12. Loop Pattern Analysis - for/foreach detection
-13. Prepare for Codegen   - Final preparation
-14. Variable Naming       - Assign variable names
+PRE-DECOMPILE STAGE (NEW Dec 22)
+├── CheckCode              - Instruction validation (register bounds, >255 args)
+├── UsageInfo              - Usage graph for classes/methods/fields
+├── ProcessAnonymous       - Anonymous/lambda class detection
+└── AttachMethodDetails    - Method signature parsing, throws, generics
+
+BLOCKS IR STAGE
+├── BlockSplitter          - Split into basic blocks
+├── CFG Construction       - Compute dominators, CFG
+├── Finally Marking        - Detect finally blocks
+└── Region Building        - Build region tree
+
+SSA STAGE
+├── SSA Transformation     - Convert to SSA form
+├── InitCodeVariables      - Link SSAVars to CodeVars (NEW Dec 22)
+├── ConstructorVisitor     - Constructor processing (NEW Dec 22)
+└── ModVisitor             - Instruction modifications
+
+TYPE INFERENCE STAGE
+├── Constant Inlining      - Inline constants
+├── Type Inference         - Infer register types
+└── Finish Type Inference  - Validate types, generate warnings
+
+POST-TYPE INFERENCE
+├── Simplification         ─┐
+├── Code Shrinking         ─┴─ ITERATIVE (until fixpoint, max 5×blocks)
+├── ReturnVisitor          - Return statement optimization (NEW Dec 22)
+└── Loop Pattern Analysis  - for/foreach detection
+
+REGIONS IR STAGE (NEW Dec 22)
+├── PostProcessRegions     - Loop condition merging, switch breaks
+├── CheckRegions           - Region coverage validation
+└── Prepare for Codegen    - Final preparation
+
+FINAL STAGE
+├── ProcessVariables       - Remove unused vars, finalize CodeVars (NEW Dec 22)
+└── Variable Naming        - Assign variable names with SSAContext
 ```
 
 **Iterative Pass Execution (Dec 20, 2025):**
@@ -133,11 +157,14 @@ limit is `5 × block_count`, same as JADX's `DepthRegionTraversal.java:13`.
 | `BlockSplitter.java` | `block_split.rs` | DONE | Full parity |
 | `BlockProcessor.java` | `cfg.rs` | PARTIAL | Missing FixMultiEntryLoops |
 | `BlockFinisher.java` | `cfg.rs` | PARTIAL | Post-dominator incomplete |
-| `CheckCode.java` | - | MISSING | Bad code validation |
+| `CheckCode.java` | `check_code.rs` | **DONE** (Dec 22) | Instruction validation |
+| `CheckRegions.java` | `check_regions.rs` | **DONE** (Dec 22) | Region coverage validation |
 
 **Dexterity Implementation:**
 - `block_split.rs`: 487 lines, splits bytecode into basic blocks
 - `cfg.rs`: 831 lines, builds CFG and computes dominators
+- `check_code.rs`: 447 lines, validates instructions (register bounds, >255 args)
+- `check_regions.rs`: 379 lines, validates region coverage (missing blocks, duplicates)
 - Block storage uses `Vec<BasicBlock>` for O(1) direct index access since block IDs are dense sequential integers (0,1,2...). Changed from BTreeMap in Dec 2025 optimization pass.
 
 **Missing from Dexterity:**
@@ -152,9 +179,15 @@ limit is `5 × block_count`, same as JADX's `DepthRegionTraversal.java:13`.
 |-----------|---------------------|--------|-------|
 | `SSATransform.java` (467 lines) | `ssa.rs` (1,294 lines) | DONE | Full SSA with phi nodes |
 | `MoveInlineVisitor.java` | `ssa.rs` | PARTIAL | Basic move inlining |
+| `InitCodeVariables.java` | `init_code_vars.rs` (306 lines) | **DONE** (Dec 22) | Link SSAVars to CodeVars |
+| `ProcessVariables.java` | `process_variables.rs` (344 lines) | **DONE** (Dec 22) | Remove unused vars, finalize |
+| `ConstructorVisitor.java` | `constructor_visitor.rs` (271 lines) | **DONE** (Dec 22) | super/this call processing |
 
 **Dexterity Implementation:**
-- `ssa.rs`: 1,294 lines, complete SSA transformation
+- `ssa.rs`: 1,294 lines, complete SSA transformation with SSAContext integration
+- `init_code_vars.rs`: 306 lines, initializes CodeVars from SSAVars (JADX parity)
+- `process_variables.rs`: 344 lines, removes unused variables, finalizes CodeVars
+- `constructor_visitor.rs`: 271 lines, identifies super()/this() calls, field initializers
 - Computes dominance frontiers
 - Inserts phi nodes correctly
 - Handles def-use chains
@@ -177,6 +210,8 @@ Dexterity SSA:
 3. insert_phi_nodes() - Place phi functions
 4. rename_variables() - Apply versioning
 5. cleanup_phis() - Remove redundant phis
+6. init_code_vars() - Link SSAVars to CodeVars (NEW Dec 22)
+7. process_variables() - Remove unused, finalize (NEW Dec 22)
 ```
 
 ---
@@ -379,13 +414,15 @@ issues by operating on the final expression text.
 
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
-| `ProcessVariables.java` | `var_naming.rs` | PARTIAL | Basic naming |
-| `ApplyVariableNames.java` | `var_naming.rs` | PARTIAL | Combined |
+| `ProcessVariables.java` | `process_variables.rs` (344 lines) | **DONE** (Dec 22) | Unused var removal, CodeVar finalization |
+| `ApplyVariableNames.java` | `var_naming.rs` (2,672 lines) | **DONE** | SSAContext-aware naming |
 | `CodeRenameVisitor.java` | - | MISSING | Deobfuscation naming |
 
-Dexterity `var_naming.rs` (2,623 lines):
-- Type-based name generation
-- Basic scope analysis
+Dexterity Variable Naming (Dec 22, 2025):
+- `var_naming.rs` (2,672 lines): JADX-style variable naming with SSAContext integration
+- `process_variables.rs` (344 lines): Remove unused variables, finalize CodeVars
+- Type-based name generation with enhanced semantics
+- Scope analysis with SSA information
 - Common type prefixes (str, list, map, etc.)
 
 ---
@@ -420,7 +457,7 @@ Implemented passes:
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
 | `EnumVisitor.java` | `enum_visitor.rs` (643 lines) | DONE | Enum reconstruction |
-| `ConstructorVisitor.java` | - | PARTIAL | Basic constructor handling |
+| `ConstructorVisitor.java` | `constructor_visitor.rs` (271 lines) | **DONE** (Dec 22) | super/this calls, field initializers |
 | `MethodInvokeVisitor.java` (441 lines) | `method_invoke.rs` (441 lines) | DONE | Overload resolution with explicit casts |
 | `SwitchOverStringVisitor.java` | `body_gen.rs` | DONE | Two-switch pattern merge (79% coverage) |
 | `ExtractFieldInit.java` | `extract_field_init.rs` (1,024 lines) | DONE | Field init extraction |
@@ -435,11 +472,23 @@ Implemented passes:
 | `OverrideMethodVisitor.java` | `method_gen.rs` | **~99% PARITY** | DONE | @Override detection via known-methods database |
 | `AddAndroidConstants.java` | - | NOT YET | MEDIUM | R.id.xxx replacement |
 | `DeobfuscatorVisitor.java` | - | NOT YET | LOW | Name deobfuscation |
+| `UsageInfoVisitor.java` | `usage_info.rs` (340 lines) | **DONE** (Dec 22) | MEDIUM | Usage graph for classes/methods/fields |
+| `ProcessAnonymous.java` | `process_anonymous.rs` (445 lines) | **DONE** (Dec 22) | MEDIUM | Anonymous/lambda detection |
+| `AttachMethodDetails.java` | `attach_method_details.rs` (354 lines) | **DONE** (Dec 22) | HIGH | Method signatures, throws, generics |
+| `ReturnVisitor.java` | `return_visitor.rs` (204 lines) | **DONE** (Dec 22) | MEDIUM | Return statement optimization |
+| `PostProcessRegions.java` | `post_process_regions.rs` (213 lines) | **DONE** (Dec 22) | MEDIUM | Loop condition merging, switch breaks |
 
 **OverrideMethodVisitor Implementation (Dec 22, 2025):**
 - Added comprehensive known-methods database (~80 interfaces/classes, ~500 methods)
 - Covers java.lang.*, java.util.*, java.io.*, Android lifecycle, OkHttp, RxJava, Glide
 - Achieves 99% @Override parity (10,508 vs JADX's 10,631 on test APK)
+
+**New Passes (Dec 22, 2025):**
+- `usage_info.rs`: Builds dependency graph tracking class/method/field usage
+- `process_anonymous.rs`: Detects single-use synthetic classes for potential inlining
+- `attach_method_details.rs`: Parses method signatures including generic parameters like `<T extends Comparable>` and throws clauses
+- `return_visitor.rs`: Optimizes return statements for cleaner output
+- `post_process_regions.rs`: Inserts edge instructions, merges loop conditions into headers
 
 ---
 
@@ -539,13 +588,15 @@ public void makeRegions(BlockNode startBlock) {
 | Category | JADX (Java lines) | Dexterity (Rust lines) |
 |----------|-------------------|------------------------|
 | Type Inference | ~4,500 | ~3,500 |
-| Region Building | ~2,000 | ~1,500 |
-| Code Optimization | ~3,000 | ~2,000 |
-| Variable Naming | ~800 | ~600 |
-| SSA | ~500 | ~800 |
-| **Total** | **~10,800** | **~8,400** |
+| Region Building | ~2,000 | ~2,100 |
+| Code Optimization | ~3,000 | ~2,500 |
+| Variable Naming | ~800 | ~3,000 |
+| SSA | ~500 | ~1,900 |
+| Pre-Decompile | ~1,500 | ~1,800 |
+| Validation | ~800 | ~830 |
+| **Total** | **~13,100** | **~15,630** |
 
-Note: Rust code tends to be more compact than Java, so line count alone doesn't indicate coverage.
+Note: Dexterity now has more comprehensive pass implementations than JADX in some areas (Dec 22, 2025).
 
 ---
 
