@@ -13,6 +13,7 @@ use tracing::error;
 
 use crate::block_split::{BasicBlock, BlockSplitResult};
 use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
+use dexterity_ir::ssa::{SSAContext, SSAVarRef, SSA_FLAG_PHI_ASSIGN};
 
 /// SSA transformation result
 #[derive(Debug)]
@@ -25,6 +26,8 @@ pub struct SsaResult {
     pub dom_frontiers: FxHashMap<u32, FxHashSet<u32>>,
     /// Maximum SSA version for each register
     pub max_versions: FxHashMap<u16, u32>,
+    /// SSA context with all SSAVar tracking
+    pub ssa_context: SSAContext,
 }
 
 /// A block in SSA form
@@ -370,6 +373,7 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: SSAContext::new(),
         };
     }
 
@@ -544,11 +548,99 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
     let mut result_blocks: Vec<SsaBlock> = ssa_blocks.into_values().collect();
     result_blocks.sort_by_key(|b| b.id);
 
+    // Build SSAContext by scanning all blocks
+    let ssa_context = build_ssa_context(&result_blocks, &version_counter);
+
     SsaResult {
         blocks: result_blocks,
         dominators: dom_tree.idom,
         dom_frontiers,
         max_versions: version_counter,
+        ssa_context,
+    }
+}
+
+/// Build SSAContext from SSA blocks after transformation
+fn build_ssa_context(blocks: &[SsaBlock], max_versions: &FxHashMap<u16, u32>) -> SSAContext {
+    let mut ctx = SSAContext::new();
+    for (&reg, &max_ver) in max_versions {
+        for ver in 0..=max_ver {
+            ctx.new_var_with_version(reg, ver);
+        }
+    }
+    let mut idx: u32 = 0;
+    for block in blocks {
+        for phi in &block.phi_nodes {
+            let vr = SSAVarRef::new(phi.dest.reg_num, phi.dest.ssa_version);
+            if let Some(v) = ctx.get_var_mut(vr) {
+                v.assign_insn_idx = Some(idx);
+                v.flags |= SSA_FLAG_PHI_ASSIGN;
+            }
+            for (_, src) in &phi.sources {
+                let sr = SSAVarRef::new(src.reg_num, src.ssa_version);
+                if let Some(sv) = ctx.get_var_mut(sr) {
+                    sv.add_use(idx);
+                    sv.add_phi_use(idx);
+                }
+            }
+            idx += 1;
+        }
+        for insn in &block.instructions {
+            let cur = idx;
+            idx += 1;
+            if let Some(dest) = get_def_register(&insn.insn_type) {
+                if let Some(ver) = get_def_version(&insn.insn_type) {
+                    let vr = SSAVarRef::new(dest, ver);
+                    if let Some(v) = ctx.get_var_mut(vr) {
+                        v.assign_insn_idx = Some(cur);
+                    }
+                }
+            }
+            collect_uses(&insn.insn_type, cur, &mut ctx);
+        }
+    }
+    ctx
+}
+
+fn get_def_version(insn_type: &InsnType) -> Option<u32> {
+    match insn_type {
+        InsnType::Const { dest, .. } | InsnType::ConstString { dest, .. } | InsnType::ConstClass { dest, .. } => Some(dest.ssa_version),
+        InsnType::Move { dest, .. } | InsnType::MoveResult { dest } | InsnType::MoveException { dest } => Some(dest.ssa_version),
+        InsnType::InstanceOf { dest, .. } | InsnType::ArrayLength { dest, .. } => Some(dest.ssa_version),
+        InsnType::NewInstance { dest, .. } | InsnType::NewArray { dest, .. } => Some(dest.ssa_version),
+        InsnType::FilledNewArray { dest, .. } => dest.as_ref().map(|d| d.ssa_version),
+        InsnType::ArrayGet { dest, .. } | InsnType::InstanceGet { dest, .. } | InsnType::StaticGet { dest, .. } => Some(dest.ssa_version),
+        InsnType::Unary { dest, .. } | InsnType::Binary { dest, .. } | InsnType::Cast { dest, .. } | InsnType::Compare { dest, .. } => Some(dest.ssa_version),
+        InsnType::Invoke { dest: Some(d), .. } | InsnType::InvokeCustom { dest: Some(d), .. } => Some(d.ssa_version),
+        _ => None,
+    }
+}
+
+fn collect_uses(insn_type: &InsnType, idx: u32, ctx: &mut SSAContext) {
+    fn add(arg: &InsnArg, idx: u32, ctx: &mut SSAContext) {
+        if let InsnArg::Register(r) = arg {
+            if let Some(v) = ctx.get_var_mut(SSAVarRef::new(r.reg_num, r.ssa_version)) { v.add_use(idx); }
+        }
+    }
+    match insn_type {
+        InsnType::Move { src, .. } => add(src, idx, ctx),
+        InsnType::Return { value: Some(v) } => add(v, idx, ctx),
+        InsnType::Throw { exception } => add(exception, idx, ctx),
+        InsnType::MonitorEnter { object } | InsnType::MonitorExit { object } => add(object, idx, ctx),
+        InsnType::CheckCast { object, .. } | InsnType::InstanceOf { object, .. } => add(object, idx, ctx),
+        InsnType::ArrayLength { array, .. } | InsnType::FillArrayData { array, .. } => add(array, idx, ctx),
+        InsnType::NewArray { size, .. } => add(size, idx, ctx),
+        InsnType::FilledNewArray { args, .. } | InsnType::Invoke { args, .. } | InsnType::InvokeCustom { args, .. } => { for a in args { add(a, idx, ctx); } }
+        InsnType::ArrayGet { array, index, .. } => { add(array, idx, ctx); add(index, idx, ctx); }
+        InsnType::ArrayPut { array, index, value, .. } => { add(array, idx, ctx); add(index, idx, ctx); add(value, idx, ctx); }
+        InsnType::InstanceGet { object, .. } => add(object, idx, ctx),
+        InsnType::InstancePut { object, value, .. } => { add(object, idx, ctx); add(value, idx, ctx); }
+        InsnType::StaticPut { value, .. } => add(value, idx, ctx),
+        InsnType::Unary { arg, .. } | InsnType::Cast { arg, .. } => add(arg, idx, ctx),
+        InsnType::Binary { left, right, .. } | InsnType::Compare { left, right, .. } => { add(left, idx, ctx); add(right, idx, ctx); }
+        InsnType::If { left, right, .. } => { add(left, idx, ctx); if let Some(r) = right { add(r, idx, ctx); } }
+        InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } => add(value, idx, ctx),
+        _ => {}
     }
 }
 
@@ -662,6 +754,7 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: SSAContext::new(),
         };
     }
 
@@ -838,11 +931,15 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     let mut result_blocks: Vec<SsaBlock> = ssa_blocks.into_values().collect();
     result_blocks.sort_by_key(|b| b.id);
 
+    // Build SSAContext by scanning all blocks
+    let ssa_context = build_ssa_context(&result_blocks, &version_counter);
+
     SsaResult {
         blocks: result_blocks,
         dominators: dom_tree.idom,
         dom_frontiers,
         max_versions: version_counter,
+        ssa_context,
     }
 }
 
@@ -1282,6 +1379,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: SSAContext::new(),
         };
 
         assert_eq!(result.blocks[0].phi_nodes.len(), 2);

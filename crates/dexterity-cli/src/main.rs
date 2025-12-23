@@ -404,11 +404,19 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             entry.read_to_end(&mut data)?;
             arsc_data = Some(data);
         } else if name.starts_with("res/") && name.ends_with(".xml") {
+            // Skip qualified resources (drawable-hdpi, values-en, etc.) unless --include-framework
+            if !args.include_framework && is_qualified_resource_path(&name) {
+                continue;
+            }
             // Extract XML data for parallel processing later
             let mut data = Vec::new();
             entry.read_to_end(&mut data)?;
             xml_resources.push((name, data));
         } else if !args.skip_resources && should_extract_raw_file(&name) {
+            // Skip qualified resources (res/drawable-hdpi/*, etc.) unless --include-framework
+            if !args.include_framework && is_qualified_resource_path(&name) {
+                continue;
+            }
             // Extract raw files immediately (ramdisk is fast)
             let normalized_name = normalize_config_qualifier(&name);
             let out_path = out_res.join(&normalized_name);
@@ -428,7 +436,7 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     let mut app_package_name: Option<String> = None;
     if !args.skip_resources {
         let pretty_print = !args.no_xml_pretty_print;
-        (res_names, app_package_name) = process_resources_parallel(out_res, manifest_data, arsc_data, xml_resources, raw_file_count, pretty_print)?;
+        (res_names, app_package_name) = process_resources_parallel(out_res, manifest_data, arsc_data, xml_resources, raw_file_count, pretty_print, args.include_framework)?;
     }
     // Wrap res_names in Arc for efficient sharing across parallel class processing
     let res_names = Arc::new(res_names);
@@ -630,6 +638,7 @@ fn process_resources_parallel(
     xml_resources: Vec<(String, Vec<u8>)>,
     raw_file_count: usize,
     pretty_print: bool,
+    include_framework: bool,
 ) -> Result<(std::collections::HashMap<u32, String>, Option<String>)> {
     use dexterity_resources::{ArscParser, AxmlParser};
     use rayon::prelude::*;
@@ -658,6 +667,23 @@ fn process_resources_parallel(
                 std::fs::create_dir_all(&values_dir)?;
 
                 let values_files = arsc_parser.generate_values_xml();
+
+                // Filter out qualified values directories (values-en, values-hdpi, etc.)
+                // unless --include-framework is set
+                let values_files: Vec<_> = if include_framework {
+                    values_files.into_iter().collect()
+                } else {
+                    values_files.into_iter().filter(|(filename, _)| {
+                        // Keep files in base values/ dir or files without path separator
+                        if let Some(slash_pos) = filename.find('/') {
+                            let dir_name = &filename[..slash_pos];
+                            // Skip if directory has qualifier (contains '-')
+                            !dir_name.contains('-')
+                        } else {
+                            true // No path separator, keep it
+                        }
+                    }).collect()
+                };
                 let values_count = values_files.len();
 
                 // Write values files in parallel
@@ -2030,4 +2056,25 @@ fn should_extract_raw_file(name: &str) -> bool {
 
     // Extract everything else (1:1 JADX parity)
     true
+}
+
+/// Check if a resource path has qualifiers (e.g., drawable-hdpi, values-en)
+/// Used to skip localized/density-specific resources when --include-framework is not set.
+/// This keeps only base resources (drawable, values, layout, etc.) for faster output.
+fn is_qualified_resource_path(path: &str) -> bool {
+    // Must be in res/ directory
+    if !path.starts_with("res/") {
+        return false;
+    }
+
+    // Get the directory component after res/
+    let after_res = &path[4..]; // Skip "res/"
+    if let Some(slash_pos) = after_res.find('/') {
+        let dir_name = &after_res[..slash_pos];
+        // Check if directory has a qualifier (contains '-')
+        // Examples: drawable-hdpi, values-en, mipmap-xxxhdpi
+        dir_name.contains('-')
+    } else {
+        false
+    }
 }
