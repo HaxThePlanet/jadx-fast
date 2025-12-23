@@ -1,486 +1,262 @@
-//! MoveInlineVisitor - Inline redundant move instructions
+//! MoveInlineVisitor - Inline redundant MOVE instructions
 //!
-//! This pass performs copy propagation by inlining MOVE instructions:
-//! - Removes self-moves (a = a)
-//! - Removes moves with unused results
-//! - For used moves, replaces all uses with the source register
+//! This pass inlines redundant MOVE instructions by:
+//! 1. Removing self-moves where dest and src are the same SSA variable
+//! 2. Removing moves where the result is unused
+//! 3. Replacing uses of move results with the source (copy propagation)
 //!
-//! Runs after SSA transform, before CodeShrinkVisitor.
-//! Equivalent to JADX's MoveInlineVisitor.java
+//! Equivalent to JADX's MoveInlineVisitor.java (141 lines)
+//!
+//! # When to Run
+//! After SSA transform, before CodeShrinkVisitor.
+//!
+//! # Algorithm
+//! For each MOVE instruction:
+//! - If dest.sameRegAndSVar(src): remove (self-move)
+//! - If result has no uses: remove (dead code)
+//! - If result is used in PHI: skip (can't inline across control flow)
+//! - Otherwise: replace all uses of result with source, then remove
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use dexterity_ir::{
     attributes::AFlag,
     instructions::{InsnArg, InsnNode, InsnType, RegisterArg},
-    ssa::SSAContext,
+    ssa::{SSAContext, SSAVarRef},
 };
-use crate::ssa::SsaBlock;
 
 /// Result of move inline pass
 #[derive(Debug, Default)]
 pub struct MoveInlineResult {
-    /// Number of moves removed (self-moves)
+    /// Number of self-moves removed (dest == src)
     pub self_moves_removed: usize,
-    /// Number of unused moves removed
+    /// Number of unused result moves removed
     pub unused_moves_removed: usize,
-    /// Number of moves inlined (copy propagation)
+    /// Number of moves inlined via copy propagation
     pub moves_inlined: usize,
-    /// Number of moves that couldn't be inlined
-    pub moves_kept: usize,
-    /// Warnings generated
-    pub warnings: Vec<String>,
+    /// Number of moves skipped (used in PHI)
+    pub phi_skipped: usize,
+    /// Total moves processed
+    pub total_moves: usize,
 }
 
-/// Perform move inlining on SSA blocks
+/// Inline redundant MOVE instructions in SSA blocks
 ///
 /// # Arguments
-/// * `blocks` - Mutable slice of SSA blocks to process
-/// * `ssa_ctx` - SSA context with variable use information
+/// * `instructions` - The instruction list to process
+/// * `ssa_context` - SSA context with variable use information
 ///
 /// # Returns
-/// * `MoveInlineResult` with statistics
-pub fn inline_moves(blocks: &mut [SsaBlock], ssa_ctx: &SSAContext) -> MoveInlineResult {
+/// * `MoveInlineResult` with processing statistics
+pub fn inline_moves(
+    instructions: &mut Vec<InsnNode>,
+    ssa_context: Option<&SSAContext>,
+) -> MoveInlineResult {
     let mut result = MoveInlineResult::default();
 
-    // First pass: collect moves to process
-    let mut moves_to_remove: HashSet<(u32, usize)> = HashSet::new(); // (block_id, insn_idx)
-    let mut moves_to_inline: Vec<MoveInfo> = Vec::new();
+    // First pass: identify moves that can be removed or inlined
+    let mut moves_to_remove: HashSet<u32> = HashSet::new();
+    let mut replacements: HashMap<SSAVarRef, InsnArg> = HashMap::new();
 
-    for block in blocks.iter() {
-        for (insn_idx, insn) in block.instructions.iter().enumerate() {
-            if let InsnType::Move { dest, src } = &insn.insn_type {
-                let move_info = analyze_move(dest, src, insn, block.id, insn_idx, ssa_ctx);
+    for insn in instructions.iter() {
+        if let InsnType::Move { dest, src } = &insn.insn_type {
+            result.total_moves += 1;
 
-                match move_info.action {
-                    MoveAction::Remove => {
-                        moves_to_remove.insert((block.id, insn_idx));
-                        match move_info.reason {
-                            MoveRemoveReason::SelfMove => result.self_moves_removed += 1,
-                            MoveRemoveReason::UnusedResult => result.unused_moves_removed += 1,
-                            MoveRemoveReason::Inlined => result.moves_inlined += 1,
-                        }
+            // Check for self-move: dest and src are the same register and version
+            if is_same_ssa_var(dest, src) {
+                moves_to_remove.insert(insn.offset);
+                result.self_moves_removed += 1;
+                continue;
+            }
+
+            // Check if result has uses via SSA context
+            if let Some(ctx) = ssa_context {
+                let dest_ref = SSAVarRef::new(dest.reg_num, dest.ssa_version);
+                if let Some(ssa_var) = ctx.vars.get(&dest_ref) {
+                    // If no uses, remove the move (dead code)
+                    if ssa_var.use_list.is_empty() && ssa_var.used_in_phi.is_empty() {
+                        moves_to_remove.insert(insn.offset);
+                        result.unused_moves_removed += 1;
+                        continue;
                     }
-                    MoveAction::Inline => {
-                        moves_to_inline.push(move_info);
+
+                    // If used in PHI, can't inline (control flow merge)
+                    if !ssa_var.used_in_phi.is_empty() {
+                        result.phi_skipped += 1;
+                        continue;
                     }
-                    MoveAction::Keep => {
-                        result.moves_kept += 1;
-                    }
+
+                    // Can inline: record replacement and mark for removal
+                    replacements.insert(dest_ref, src.clone());
+                    moves_to_remove.insert(insn.offset);
+                    result.moves_inlined += 1;
                 }
-            }
-        }
-    }
-
-    // Second pass: perform inlining (replace uses with source)
-    for move_info in &moves_to_inline {
-        if let Some(block) = blocks.iter_mut().find(|b| b.id == move_info.block_id) {
-            if perform_inline(block, blocks, move_info, ssa_ctx, &mut result) {
-                moves_to_remove.insert((move_info.block_id, move_info.insn_idx));
-                result.moves_inlined += 1;
             } else {
-                result.moves_kept += 1;
+                // Without SSA context, just handle obvious self-moves
+                // (already handled above)
             }
         }
     }
 
-    // Third pass: mark removed moves with DONT_GENERATE
-    for block in blocks.iter_mut() {
-        for (insn_idx, insn) in block.instructions.iter_mut().enumerate() {
-            if moves_to_remove.contains(&(block.id, insn_idx)) {
-                insn.add_flag(AFlag::DontGenerate);
-            }
+    // Second pass: apply replacements to all instruction arguments
+    if !replacements.is_empty() {
+        for insn in instructions.iter_mut() {
+            apply_replacements(&mut insn.insn_type, &replacements);
+        }
+    }
+
+    // Third pass: mark moves for removal
+    for insn in instructions.iter_mut() {
+        if moves_to_remove.contains(&insn.offset) {
+            insn.add_flag(AFlag::DontGenerate);
         }
     }
 
     result
 }
 
-/// Information about a move instruction
-struct MoveInfo {
-    block_id: u32,
-    insn_idx: usize,
-    dest_reg: u16,
-    dest_ssa: u32,
-    src: InsnArg,
-    action: MoveAction,
-    reason: MoveRemoveReason,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum MoveAction {
-    Remove,
-    Inline,
-    Keep,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum MoveRemoveReason {
-    SelfMove,
-    UnusedResult,
-    Inlined,
-}
-
-/// Analyze a move instruction to determine action
-fn analyze_move(
-    dest: &RegisterArg,
-    src: &InsnArg,
-    _insn: &InsnNode,
-    block_id: u32,
-    insn_idx: usize,
-    ssa_ctx: &SSAContext,
-) -> MoveInfo {
-    let dest_reg = dest.reg_num;
-    let dest_ssa = dest.ssa_version;
-
-    // Check for self-move (same register and SSA version)
-    if let InsnArg::Register(src_reg) = src {
-        if dest_reg == src_reg.reg_num && dest_ssa == src_reg.ssa_version {
-            return MoveInfo {
-                block_id,
-                insn_idx,
-                dest_reg,
-                dest_ssa,
-                src: src.clone(),
-                action: MoveAction::Remove,
-                reason: MoveRemoveReason::SelfMove,
-            };
+/// Check if dest and src represent the same SSA variable
+fn is_same_ssa_var(dest: &RegisterArg, src: &InsnArg) -> bool {
+    match src {
+        InsnArg::Register(src_reg) => {
+            dest.reg_num == src_reg.reg_num && dest.ssa_version == src_reg.ssa_version
         }
-
-        // Check if source is assigned in a phi (don't mix already merged variables)
-        let src_var_ref = dexterity_ir::ssa::SSAVarRef {
-            reg_num: src_reg.reg_num,
-            version: src_reg.ssa_version,
-        };
-        if let Some(src_var) = ssa_ctx.vars.get(&src_var_ref) {
-            // Check if this variable is used in phi instructions
-            if !src_var.used_in_phi.is_empty() {
-                return MoveInfo {
-                    block_id,
-                    insn_idx,
-                    dest_reg,
-                    dest_ssa,
-                    src: src.clone(),
-                    action: MoveAction::Keep,
-                    reason: MoveRemoveReason::Inlined,
-                };
-            }
-        }
-    }
-
-    // Check the result's uses
-    let dest_var_ref = dexterity_ir::ssa::SSAVarRef {
-        reg_num: dest_reg,
-        version: dest_ssa,
-    };
-
-    if let Some(dest_var) = ssa_ctx.vars.get(&dest_var_ref) {
-        // No uses - remove
-        if dest_var.use_list.is_empty() {
-            return MoveInfo {
-                block_id,
-                insn_idx,
-                dest_reg,
-                dest_ssa,
-                src: src.clone(),
-                action: MoveAction::Remove,
-                reason: MoveRemoveReason::UnusedResult,
-            };
-        }
-
-        // Used in phi - can't inline (would corrupt SSA form)
-        if !dest_var.used_in_phi.is_empty() {
-            return MoveInfo {
-                block_id,
-                insn_idx,
-                dest_reg,
-                dest_ssa,
-                src: src.clone(),
-                action: MoveAction::Keep,
-                reason: MoveRemoveReason::Inlined,
-            };
-        }
-
-        // Has uses but not in phi - can inline
-        return MoveInfo {
-            block_id,
-            insn_idx,
-            dest_reg,
-            dest_ssa,
-            src: src.clone(),
-            action: MoveAction::Inline,
-            reason: MoveRemoveReason::Inlined,
-        };
-    }
-
-    // Unknown variable - keep to be safe
-    MoveInfo {
-        block_id,
-        insn_idx,
-        dest_reg,
-        dest_ssa,
-        src: src.clone(),
-        action: MoveAction::Keep,
-        reason: MoveRemoveReason::Inlined,
+        _ => false,
     }
 }
 
-/// Perform inline of a move by replacing uses with source
-fn perform_inline(
-    _move_block: &mut SsaBlock,
-    blocks: &mut [SsaBlock],
-    move_info: &MoveInfo,
-    ssa_ctx: &SSAContext,
-    result: &mut MoveInlineResult,
-) -> bool {
-    let dest_var_ref = dexterity_ir::ssa::SSAVarRef {
-        reg_num: move_info.dest_reg,
-        ssa_version: move_info.dest_ssa,
-    };
-
-    let use_list = match ssa_ctx.vars.get(&dest_var_ref) {
-        Some(var) => var.use_list.clone(),
-        None => return false,
-    };
-
-    if use_list.is_empty() {
-        return true; // No uses to replace
-    }
-
-    // Create the replacement arg
-    let replace_arg = match &move_info.src {
-        InsnArg::Register(reg) => InsnArg::Register(reg.clone()),
-        InsnArg::Literal(lit) => InsnArg::Literal(lit.clone()),
-        InsnArg::Wrapped(wrapped) => InsnArg::Wrapped(wrapped.clone()),
-        other => other.clone(),
-    };
-
-    // Replace all uses
-    let mut all_replaced = true;
-    for &use_idx in &use_list {
-        let use_offset = use_idx as u32;
-
-        // Find the instruction with this use
-        for block in blocks.iter_mut() {
-            for insn in block.instructions.iter_mut() {
-                if insn.offset == use_offset {
-                    if !replace_arg_in_insn(insn, move_info.dest_reg, move_info.dest_ssa, &replace_arg) {
-                        result.warnings.push(format!(
-                            "Failed to replace arg r{}v{} in insn at offset {}",
-                            move_info.dest_reg, move_info.dest_ssa, use_offset
-                        ));
-                        all_replaced = false;
-                    }
-                }
-            }
-        }
-    }
-
-    all_replaced
-}
-
-/// Replace an argument in an instruction
-fn replace_arg_in_insn(insn: &mut InsnNode, reg_num: u16, ssa_version: u32, replacement: &InsnArg) -> bool {
-    // Check all arguments in the instruction
-    match &mut insn.insn_type {
-        InsnType::Move { src, .. } => {
-            if matches_reg(src, reg_num, ssa_version) {
-                *src = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::Binary { left, right, .. } => {
-            let mut found = false;
-            if matches_reg(left, reg_num, ssa_version) {
-                *left = replacement.clone();
-                found = true;
-            }
-            if matches_reg(right, reg_num, ssa_version) {
-                *right = replacement.clone();
-                found = true;
-            }
-            return found;
-        }
-        InsnType::Unary { arg, .. } => {
-            if matches_reg(arg, reg_num, ssa_version) {
+/// Apply replacements to instruction arguments
+fn apply_replacements(insn_type: &mut InsnType, replacements: &HashMap<SSAVarRef, InsnArg>) {
+    // Helper to replace a single argument
+    fn maybe_replace(arg: &mut InsnArg, replacements: &HashMap<SSAVarRef, InsnArg>) {
+        if let InsnArg::Register(reg) = arg {
+            let var_ref = SSAVarRef::new(reg.reg_num, reg.ssa_version);
+            if let Some(replacement) = replacements.get(&var_ref) {
                 *arg = replacement.clone();
-                return true;
             }
         }
-        InsnType::Compare { left, right, .. } => {
-            let mut found = false;
-            if matches_reg(left, reg_num, ssa_version) {
-                *left = replacement.clone();
-                found = true;
-            }
-            if matches_reg(right, reg_num, ssa_version) {
-                *right = replacement.clone();
-                found = true;
-            }
-            return found;
-        }
-        InsnType::If { left, right, .. } => {
-            let mut found = false;
-            if matches_reg(left, reg_num, ssa_version) {
-                *left = replacement.clone();
-                found = true;
-            }
-            if let Some(r) = right {
-                if matches_reg(r, reg_num, ssa_version) {
-                    *r = replacement.clone();
-                    found = true;
-                }
-            }
-            return found;
-        }
-        InsnType::Return { value: Some(val), .. } => {
-            if matches_reg(val, reg_num, ssa_version) {
-                *val = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::Throw { exception } => {
-            if matches_reg(exception, reg_num, ssa_version) {
-                *exception = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::Invoke { args, .. } | InsnType::InvokeCustom { args, .. } => {
-            let mut found = false;
-            for arg in args.iter_mut() {
-                if matches_reg(arg, reg_num, ssa_version) {
-                    *arg = replacement.clone();
-                    found = true;
-                }
-            }
-            return found;
-        }
-        InsnType::Constructor { args, .. } => {
-            let mut found = false;
-            for arg in args.iter_mut() {
-                if matches_reg(arg, reg_num, ssa_version) {
-                    *arg = replacement.clone();
-                    found = true;
-                }
-            }
-            return found;
-        }
-        InsnType::InstancePut { object, value, .. } => {
-            let mut found = false;
-            if matches_reg(object, reg_num, ssa_version) {
-                *object = replacement.clone();
-                found = true;
-            }
-            if matches_reg(value, reg_num, ssa_version) {
-                *value = replacement.clone();
-                found = true;
-            }
-            return found;
-        }
-        InsnType::InstanceGet { object, .. } => {
-            if matches_reg(object, reg_num, ssa_version) {
-                *object = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::StaticPut { value, .. } => {
-            if matches_reg(value, reg_num, ssa_version) {
-                *value = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::ArrayGet { array, index, .. } => {
-            let mut found = false;
-            if matches_reg(array, reg_num, ssa_version) {
-                *array = replacement.clone();
-                found = true;
-            }
-            if matches_reg(index, reg_num, ssa_version) {
-                *index = replacement.clone();
-                found = true;
-            }
-            return found;
-        }
-        InsnType::ArrayPut { array, index, value, .. } => {
-            let mut found = false;
-            if matches_reg(array, reg_num, ssa_version) {
-                *array = replacement.clone();
-                found = true;
-            }
-            if matches_reg(index, reg_num, ssa_version) {
-                *index = replacement.clone();
-                found = true;
-            }
-            if matches_reg(value, reg_num, ssa_version) {
-                *value = replacement.clone();
-                found = true;
-            }
-            return found;
-        }
-        InsnType::ArrayLength { array, .. } => {
-            if matches_reg(array, reg_num, ssa_version) {
-                *array = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::CheckCast { object, .. } => {
-            if matches_reg(object, reg_num, ssa_version) {
-                *object = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::InstanceOf { object, .. } => {
-            if matches_reg(object, reg_num, ssa_version) {
-                *object = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::MonitorEnter { object } | InsnType::MonitorExit { object } => {
-            if matches_reg(object, reg_num, ssa_version) {
-                *object = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::Switch { value, .. } => {
-            if matches_reg(value, reg_num, ssa_version) {
-                *value = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::NewArray { size, .. } => {
-            if matches_reg(size, reg_num, ssa_version) {
-                *size = replacement.clone();
-                return true;
-            }
-        }
-        InsnType::FilledNewArray { args, .. } => {
-            let mut found = false;
-            for arg in args.iter_mut() {
-                if matches_reg(arg, reg_num, ssa_version) {
-                    *arg = replacement.clone();
-                    found = true;
-                }
-            }
-            return found;
-        }
-        InsnType::FillArrayData { array, .. } => {
-            if matches_reg(array, reg_num, ssa_version) {
-                *array = replacement.clone();
-                return true;
-            }
-        }
-        _ => {}
     }
 
-    false
-}
+    match insn_type {
+        InsnType::Move { src, .. } => {
+            maybe_replace(src, replacements);
+        }
 
-/// Check if an argument matches the target register
-fn matches_reg(arg: &InsnArg, reg_num: u16, ssa_version: u32) -> bool {
-    if let InsnArg::Register(reg) = arg {
-        reg.reg_num == reg_num && reg.ssa_version == ssa_version
-    } else {
-        false
+        InsnType::Return { value: Some(val) } => {
+            maybe_replace(val, replacements);
+        }
+
+        InsnType::Throw { exception } => {
+            maybe_replace(exception, replacements);
+        }
+
+        InsnType::Binary { left, right, .. } => {
+            maybe_replace(left, replacements);
+            maybe_replace(right, replacements);
+        }
+
+        InsnType::Unary { arg, .. } => {
+            maybe_replace(arg, replacements);
+        }
+
+        InsnType::If { left, right, .. } => {
+            maybe_replace(left, replacements);
+            if let Some(r) = right {
+                maybe_replace(r, replacements);
+            }
+        }
+
+        InsnType::ArrayGet { array, index, .. } => {
+            maybe_replace(array, replacements);
+            maybe_replace(index, replacements);
+        }
+
+        InsnType::ArrayPut { array, index, value, .. } => {
+            maybe_replace(array, replacements);
+            maybe_replace(index, replacements);
+            maybe_replace(value, replacements);
+        }
+
+        InsnType::InstanceGet { object, .. } => {
+            maybe_replace(object, replacements);
+        }
+
+        InsnType::InstancePut { object, value, .. } => {
+            maybe_replace(object, replacements);
+            maybe_replace(value, replacements);
+        }
+
+        InsnType::StaticPut { value, .. } => {
+            maybe_replace(value, replacements);
+        }
+
+        InsnType::Invoke { args, .. } => {
+            for arg in args.iter_mut() {
+                maybe_replace(arg, replacements);
+            }
+        }
+
+        InsnType::Constructor { args, .. } => {
+            for arg in args.iter_mut() {
+                maybe_replace(arg, replacements);
+            }
+        }
+
+        InsnType::NewArray { size, .. } => {
+            maybe_replace(size, replacements);
+        }
+
+        InsnType::FilledNewArray { args, .. } => {
+            for arg in args {
+                maybe_replace(arg, replacements);
+            }
+        }
+
+        InsnType::ArrayLength { array, .. } => {
+            maybe_replace(array, replacements);
+        }
+
+        InsnType::CheckCast { object, .. } => {
+            maybe_replace(object, replacements);
+        }
+
+        InsnType::InstanceOf { object, .. } => {
+            maybe_replace(object, replacements);
+        }
+
+        InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } => {
+            maybe_replace(value, replacements);
+        }
+
+        InsnType::FillArrayData { array, .. } => {
+            maybe_replace(array, replacements);
+        }
+
+        InsnType::MonitorEnter { object } | InsnType::MonitorExit { object } => {
+            maybe_replace(object, replacements);
+        }
+
+        InsnType::Compare { left, right, .. } => {
+            maybe_replace(left, replacements);
+            maybe_replace(right, replacements);
+        }
+
+        // Instructions with no replaceable arguments
+        InsnType::Const { .. }
+        | InsnType::ConstString { .. }
+        | InsnType::ConstClass { .. }
+        | InsnType::NewInstance { .. }
+        | InsnType::StaticGet { .. }
+        | InsnType::Return { value: None }
+        | InsnType::Goto { .. }
+        | InsnType::Nop
+        | InsnType::MoveException { .. }
+        | InsnType::MoveResult { .. }
+        | InsnType::Phi { .. } => {}
+
+        // Catch-all for any variants we might have missed
+        #[allow(unreachable_patterns)]
+        _ => {}
     }
 }
 
@@ -488,73 +264,145 @@ fn matches_reg(arg: &InsnArg, reg_num: u16, ssa_version: u32) -> bool {
 mod tests {
     use super::*;
     use dexterity_ir::types::ArgType;
-    use dexterity_ir::ssa::{SSAVar, SSAVarRef};
-    use std::collections::HashMap;
 
-    fn make_move_insn(offset: u32, dest_reg: u16, dest_ssa: u32, src_reg: u16, src_ssa: u32) -> InsnNode {
+    fn make_register(reg_num: u16, ssa_version: u32) -> RegisterArg {
+        RegisterArg { reg_num, ssa_version }
+    }
+
+    fn make_insn(offset: u32, insn_type: InsnType) -> InsnNode {
         InsnNode {
-            insn_type: InsnType::Move {
-                dest: RegisterArg { reg_num: dest_reg, ssa_version: dest_ssa },
-                src: InsnArg::Register(RegisterArg { reg_num: src_reg, ssa_version: src_ssa }),
-            },
             offset,
-            flags: 0,
+            insn_type,
             result_type: Some(ArgType::Int),
             source_line: None,
+            flags: 0,
         }
     }
 
     #[test]
-    fn test_self_move_detection() {
-        let mut blocks = vec![SsaBlock {
-            id: 0,
-            phi_nodes: vec![],
-            instructions: vec![
-                make_move_insn(0, 1, 0, 1, 0), // r1v0 = r1v0 (self-move)
-            ],
-            successors: vec![],
-            predecessors: vec![],
-        }];
+    fn test_self_move_removal() {
+        let mut instructions = vec![
+            make_insn(0, InsnType::Move {
+                dest: make_register(1, 1),
+                src: InsnArg::Register(make_register(1, 1)),
+            }),
+        ];
 
-        let ssa_ctx = SSAContext::default();
-        let result = inline_moves(&mut blocks, &ssa_ctx);
+        let result = inline_moves(&mut instructions, None);
 
         assert_eq!(result.self_moves_removed, 1);
-        assert!(blocks[0].instructions[0].has_flag(AFlag::DontGenerate));
+        assert_eq!(result.total_moves, 1);
+        assert!(instructions[0].has_flag(AFlag::DontGenerate));
     }
 
     #[test]
-    fn test_unused_result_removal() {
-        let mut blocks = vec![SsaBlock {
-            id: 0,
-            phi_nodes: vec![],
-            instructions: vec![
-                make_move_insn(0, 1, 1, 2, 0), // r1v1 = r2v0 (unused)
-            ],
-            successors: vec![],
-            predecessors: vec![],
-        }];
+    fn test_different_reg_not_removed() {
+        let mut instructions = vec![
+            make_insn(0, InsnType::Move {
+                dest: make_register(1, 1),
+                src: InsnArg::Register(make_register(2, 0)),
+            }),
+        ];
 
-        // Create SSA context with variable that has no uses
-        let mut vars = HashMap::new();
-        vars.insert(
-            SSAVarRef { reg_num: 1, ssa_version: 1 },
-            SSAVar {
-                def_insn_idx: Some(0),
-                use_list: vec![], // No uses
-                arg_type: Some(ArgType::Int),
-                is_phi: false,
-                used_in_phi: false,
-            },
-        );
-        let ssa_ctx = SSAContext {
-            vars,
-            phi_at_block: HashMap::new(),
-        };
+        let result = inline_moves(&mut instructions, None);
 
-        let result = inline_moves(&mut blocks, &ssa_ctx);
+        assert_eq!(result.self_moves_removed, 0);
+        assert_eq!(result.total_moves, 1);
+        assert!(!instructions[0].has_flag(AFlag::DontGenerate));
+    }
+
+    #[test]
+    fn test_same_reg_different_version_not_removed() {
+        // r1v1 = r1v0 is NOT a self-move (different SSA versions)
+        let mut instructions = vec![
+            make_insn(0, InsnType::Move {
+                dest: make_register(1, 1),
+                src: InsnArg::Register(make_register(1, 0)),
+            }),
+        ];
+
+        let result = inline_moves(&mut instructions, None);
+
+        assert_eq!(result.self_moves_removed, 0);
+        assert_eq!(result.total_moves, 1);
+        assert!(!instructions[0].has_flag(AFlag::DontGenerate));
+    }
+
+    #[test]
+    fn test_unused_move_with_ssa_context() {
+        let mut instructions = vec![
+            make_insn(0, InsnType::Move {
+                dest: make_register(1, 1),
+                src: InsnArg::Register(make_register(2, 0)),
+            }),
+        ];
+
+        // Create SSA context where r1v1 has no uses
+        let mut ctx = SSAContext::new();
+        let var_ref = SSAVarRef::new(1, 1);
+        let ssa_var = dexterity_ir::ssa::SSAVar::new(1, 1);
+        ctx.vars.insert(var_ref, ssa_var);
+
+        let result = inline_moves(&mut instructions, Some(&ctx));
 
         assert_eq!(result.unused_moves_removed, 1);
-        assert!(blocks[0].instructions[0].has_flag(AFlag::DontGenerate));
+        assert!(instructions[0].has_flag(AFlag::DontGenerate));
+    }
+
+    #[test]
+    fn test_phi_usage_prevents_inline() {
+        let mut instructions = vec![
+            make_insn(0, InsnType::Move {
+                dest: make_register(1, 1),
+                src: InsnArg::Register(make_register(2, 0)),
+            }),
+        ];
+
+        // Create SSA context where r1v1 is used in a PHI
+        let mut ctx = SSAContext::new();
+        let var_ref = SSAVarRef::new(1, 1);
+        let mut ssa_var = dexterity_ir::ssa::SSAVar::new(1, 1);
+        ssa_var.used_in_phi.push(100); // Used in PHI at insn 100
+        ctx.vars.insert(var_ref, ssa_var);
+
+        let result = inline_moves(&mut instructions, Some(&ctx));
+
+        assert_eq!(result.phi_skipped, 1);
+        assert!(!instructions[0].has_flag(AFlag::DontGenerate));
+    }
+
+    #[test]
+    fn test_copy_propagation() {
+        // r1v1 = r2v0
+        // return r1v1  -> should become return r2v0
+        let mut instructions = vec![
+            make_insn(0, InsnType::Move {
+                dest: make_register(1, 1),
+                src: InsnArg::Register(make_register(2, 0)),
+            }),
+            make_insn(1, InsnType::Return {
+                value: Some(InsnArg::Register(make_register(1, 1))),
+            }),
+        ];
+
+        // Create SSA context where r1v1 is used in insn 1
+        let mut ctx = SSAContext::new();
+        let var_ref = SSAVarRef::new(1, 1);
+        let mut ssa_var = dexterity_ir::ssa::SSAVar::new(1, 1);
+        ssa_var.use_list.push(1); // Used in return at offset 1
+        ctx.vars.insert(var_ref, ssa_var);
+
+        let result = inline_moves(&mut instructions, Some(&ctx));
+
+        assert_eq!(result.moves_inlined, 1);
+        assert!(instructions[0].has_flag(AFlag::DontGenerate));
+
+        // Check that the return now uses r2v0
+        if let InsnType::Return { value: Some(InsnArg::Register(reg)) } = &instructions[1].insn_type {
+            assert_eq!(reg.reg_num, 2);
+            assert_eq!(reg.ssa_version, 0);
+        } else {
+            panic!("Expected Return with register argument");
+        }
     }
 }
