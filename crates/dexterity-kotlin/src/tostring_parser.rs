@@ -130,7 +130,14 @@ impl ToStringParser {
                 self.register_sources.insert(dest.reg_num, RegisterSource::InstanceGet(*field_idx));
             }
             InsnType::MoveResult { dest } => {
-                self.register_sources.insert(dest.reg_num, RegisterSource::MoveResult);
+                // Check if this is following a static invoke that wraps a field
+                // P1.2 FIX: Handle Arrays.toString(field) pattern
+                // JADX Reference: ToStringParser.kt:66-74
+                if let Some(field_idx) = self.pending_static_invoke_field_arg.take() {
+                    self.register_sources.insert(dest.reg_num, RegisterSource::StaticInvokeOnField(field_idx));
+                } else {
+                    self.register_sources.insert(dest.reg_num, RegisterSource::MoveResult);
+                }
             }
             InsnType::Move { dest, src } => {
                 // Propagate source tracking through moves
@@ -148,6 +155,18 @@ impl ToStringParser {
                     }
                 }
                 self.register_sources.insert(dest.reg_num, RegisterSource::Other);
+            }
+            // P1.2 FIX: Track static invokes with 1 arg that comes from a field
+            // JADX Reference: ToStringParser.kt:66-74 - Arrays.toString(arrayField)
+            InsnType::Invoke { kind: InvokeKind::Static, args, .. } => {
+                if args.len() == 1 {
+                    if let Some(arg_reg) = args.first().and_then(|a| get_reg_num(a)) {
+                        if let Some(RegisterSource::InstanceGet(field_idx)) = self.register_sources.get(&arg_reg) {
+                            // Static invoke with field arg - next move-result will capture this
+                            self.pending_static_invoke_field_arg = Some(*field_idx);
+                        }
+                    }
+                }
             }
             _ => {}
         }
