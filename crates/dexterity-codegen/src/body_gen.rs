@@ -1548,8 +1548,16 @@ fn emit_assignment_insn<W: CodeWriter>(
 
     code.add(&var_name).add(" = ");
 
-    // OPTIMIZED: Write expression directly without String allocation
-    if ctx.expr_gen.write_insn(code, insn) {
+    // P1-CFG07 FIX: Use gen_insn_inline for expression generation even when result is multi-use.
+    // This ensures operands (like Invoke results and Constants) are properly inlined.
+    // Previous code used ctx.expr_gen.write_insn() which doesn't support inlining,
+    // causing undefined variables like `l = l5 / l2` instead of `l = e(...) / 7`.
+    if let Some(expr_str) = ctx.gen_insn_inline(insn) {
+        code.add(&expr_str);
+        code.add(";").newline();
+        true
+    } else if ctx.expr_gen.write_insn(code, insn) {
+        // Fallback to non-inlining write for instruction types not handled by gen_insn_inline
         code.add(";").newline();
         true
     } else {

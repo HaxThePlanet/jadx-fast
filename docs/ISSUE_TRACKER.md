@@ -374,13 +374,13 @@ Completed all 5 phases of cloning JADX's SSA system:
 | ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 | instructions.rs, builder.rs, body_gen.rs |
 | ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 
-### P1 Semantic (Wrong Behavior) - ALL FIXED (3 fixed Dec 22)
+### P1 Semantic (Wrong Behavior) - ALL FIXED (3 fixed Dec 22, 1 fixed Dec 23)
 
 | ID | Issue | Difficulty | Example | Location |
 |----|-------|------------|---------|----------|
 | ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 | ~~P1-CFG06~~ | ~~Missing if-else branch bodies~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | region_builder.rs |
-| **P1-CFG07** | Switch case bodies with undefined variables | **VERY HARD** | PARTIALLY FIXED (Dec 22-23) - Binary operands still undefined | body_gen.rs |
+| ~~P1-CFG07~~ | ~~Switch case bodies with undefined variables~~ | ~~VERY HARD~~ | **FIXED** Dec 23 | body_gen.rs |
 | ~~P1-ENUM01~~ | ~~Enum reconstruction failures~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | class_gen.rs |
 
 ---
@@ -638,9 +638,9 @@ if (d.a) {
 
 ---
 
-### P1-CFG07: Switch case bodies with undefined variables - PARTIALLY FIXED (Dec 22-23, 2025)
+### P1-CFG07: Switch case bodies with undefined variables - FIXED (Dec 22-23, 2025)
 
-**Severity:** HIGH | **Difficulty:** VERY HARD | **Status:** 🔄 PARTIALLY FIXED
+**Severity:** HIGH | **Difficulty:** VERY HARD | **Status:** ✅ FIXED
 **Files:** `net/time4j/f.java`
 
 **JADX (correct):**
@@ -650,27 +650,20 @@ switch (i.a[this.a.ordinal()]) {
     case 2: jE = e(g0Var, g0Var2); break;
 ```
 
-**Dexterity (current):**
+**Dexterity (now correct):**
 ```java
-switch (f.i.a[ordinal]) {  // ✅ Switch expression now correct
-    case 1: l = l5 / l2; break;  // ❌ Binary operands still undefined
+switch (f.i.a[ordinal]) {
+    case 1: l = e(g0Var, g0Var2) / 7; break;  // ✅ Binary operands now inlined!
     case 2: l = f.j.e(obj2, obj); break;  // ✅ Direct invoke works!
 ```
 
-**What's Fixed:**
-1. Switch expression now correctly shows `f.i.a[ordinal]` (was `i3` before)
-2. Simple invoke cases work (case 2, case 8)
-3. PHI sources no longer inflate use counts (prevents false `should_inline=false`)
-
-**What's Still Broken:**
-- Binary expressions with Invoke and Const operands (case 1, 3, 4, 5, 6, 7)
-- Shows `l5 / l2` instead of `e(g0Var, g0Var2) / 7`
-
 **Root Cause Analysis:**
-The issue is complex and involves multiple interacting systems:
-1. **Use count inflation:** Variables used in multiple switch cases appear to have `use_count > 1`
+The issue had multiple interacting causes:
+1. **Use count inflation:** Variables used in multiple switch cases appeared to have `use_count > 1`
 2. **Prelude consumption:** `process_block_prelude_for_inlining` was consuming inline expressions
-3. **Block structure:** Invoke/Const may be in different blocks than the Binary that uses them
+3. **Non-inlining expression generation:** `emit_assignment_insn` used `ctx.expr_gen.write_insn()` which doesn't support inlining
+
+**Final Root Cause:** When `emit_assignment_insn` fell through to the normal path (for multi-use variables), it called `ctx.expr_gen.write_insn()` which internally uses `write_arg()` - a method that doesn't look up inlined expressions. This meant Binary operands (like Invoke results and Constants) that were properly stored for inlining were never retrieved.
 
 **Fixes Applied (Dec 22-23, 2025):**
 1. **PHI source skipping** - `count_uses_in_insn` now skips `InsnType::Phi` to prevent use count inflation
@@ -678,19 +671,9 @@ The issue is complex and involves multiple interacting systems:
 3. **Unconditional storing** - Const and ConstString now stored unconditionally in prelude (like Invoke)
 4. **Invoke should_inline check** - `generate_insn` for Invoke now checks `should_inline` before emitting
 5. **Updated prelude calls** - All `gen_arg_inline` calls in prelude changed to `gen_arg_inline_peek`
+6. **Inlining-aware expression generation** - `emit_assignment_insn` now uses `gen_insn_inline()` for expression generation, which properly calls `gen_arg_inline()` to retrieve inlined operands
 
 **Files Changed:** `body_gen.rs`
-
-**Remaining Work:**
-The fundamental issue is that switch case Binary expressions can't find their inline operands. Possible causes:
-1. Invoke/Const are in a predecessor block not processed by `process_region_for_inlining`
-2. Use counts are computed globally (across all switch cases) inflating single-case variables
-3. SSA version tracking loses connection between definition and use sites
-
-**Investigation Notes:**
-- Direct Invoke assignments work (case 2, 8) - proves Invoke inlining works for simple cases
-- Binary with operands fails - suggests the operand lookup in `gen_arg_inline` fails
-- All variables share same divisor name (`l2`) - indicates possible SSA version confusion
 
 ---
 
