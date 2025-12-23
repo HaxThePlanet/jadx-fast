@@ -324,7 +324,20 @@ Unknown
 | `TernaryMod.java` | `ternary_mod.rs` | **DONE Dec 19** | TernaryTransformResult, try_transform_to_ternary() |
 | `IfRegionVisitor.java` | `if_region_visitor.rs` | **DONE Dec 19** | 9 branch reordering rules, CFG integration |
 
-#### Recently Implemented Features (Dec 21, 2025 - Phase 2)
+#### Recently Implemented Features (Dec 23, 2025)
+
+1. **P1-HOTRELOAD Control Flow Inversion Fix** (commit ba6703896)
+   - Fixed `find_branch_blocks()` to return None as merge_block for throw patterns
+   - Fixed single-block merged condition handling to use IfInfo's negate_condition
+   - Ensures `if (classLoader == null) { throw ... }` instead of inverted `if (classLoader != null)`
+   - Files: `conditionals.rs`, `region_builder.rs`, `if_region_visitor.rs`
+
+2. **Ternary Detection for Merged Conditions** (commit d5a9addf4)
+   - Fixed recognition of ternary where else_target == merge_block but merge contains Const (false value)
+   - Region builder now uses MergedCondition's value blocks for ternary transformation
+   - Files: `conditionals.rs`, `region_builder.rs`
+
+#### Previously Implemented Features (Dec 21, 2025 - Phase 2)
 
 1. **Short-circuit OR Condition Merging** (`conditionals.rs`)
    - `MergeMode` enum with And/Or/Single variants for tracking merge type
@@ -369,7 +382,7 @@ Unknown
 
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
-| `ModVisitor.java` (633 lines) | `mod_visitor.rs` (831 lines) + `body_gen.rs` | DONE | StringBuilder chains, field arithmetic (Dec 22, 2025) |
+| `ModVisitor.java` (633 lines) | `mod_visitor.rs` (831 lines) + `body_gen.rs` (~10,100 lines) | DONE | StringBuilder chains, field arithmetic (Dec 22-23) |
 | `SimplifyVisitor.java` (637 lines) | `simplify.rs` (1,820 lines) | DONE | CMP unwrapping + ternary CMP support, dead CMP elimination |
 | `CodeShrinkVisitor.java` | `code_shrink.rs` (1,055 lines) | DONE | Variable inlining |
 | `ConstInlineVisitor.java` (307 lines) | `const_inline.rs` (471 lines) | DONE | Constant inlining |
@@ -415,11 +428,11 @@ issues by operating on the final expression text.
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
 | `ProcessVariables.java` | `process_variables.rs` (344 lines) | **DONE** (Dec 22) | Unused var removal, CodeVar finalization |
-| `ApplyVariableNames.java` | `var_naming.rs` (2,672 lines) | **DONE** | SSAContext-aware naming |
+| `ApplyVariableNames.java` | `var_naming.rs` (~3,020 lines) | **DONE** | SSAContext-aware naming, Dec 23 PHI grouping fix |
 | `CodeRenameVisitor.java` | - | MISSING | Deobfuscation naming |
 
-Dexterity Variable Naming (Dec 22, 2025):
-- `var_naming.rs` (2,672 lines): JADX-style variable naming with SSAContext integration
+Dexterity Variable Naming (Dec 23, 2025):
+- `var_naming.rs` (~3,020 lines): JADX-style variable naming with SSAContext integration, PHI grouping fix
 - `process_variables.rs` (344 lines): Remove unused variables, finalize CodeVars
 - Type-based name generation with enhanced semantics
 - Scope analysis with SSA information
@@ -590,13 +603,13 @@ public void makeRegions(BlockNode startBlock) {
 | Type Inference | ~4,500 | ~3,500 |
 | Region Building | ~2,000 | ~2,100 |
 | Code Optimization | ~3,000 | ~2,500 |
-| Variable Naming | ~800 | ~3,000 |
+| Variable Naming | ~800 | ~3,300 |
 | SSA | ~500 | ~1,900 |
 | Pre-Decompile | ~1,500 | ~1,800 |
 | Validation | ~800 | ~830 |
-| **Total** | **~13,100** | **~15,630** |
+| **Total** | **~13,100** | **~15,930** |
 
-Note: Dexterity now has more comprehensive pass implementations than JADX in some areas (Dec 22, 2025).
+Note: Dexterity now has more comprehensive pass implementations than JADX in some areas (Dec 23, 2025).
 
 ---
 
