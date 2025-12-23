@@ -1367,20 +1367,11 @@ impl TypeInference {
             // Ternary: result = cond ? then_value : else_value
             // The dest type should be the common type of then_value and else_value
             InsnType::Ternary { dest, then_value, else_value, .. } => {
-                eprintln!("TERNARY: dest={:?}, then={:?}, else={:?}", dest, then_value, else_value);
                 let dest_var = self.get_or_create_var(dest);
 
                 // Try to get concrete types for both branches
                 let then_type = self.get_arg_type(then_value);
                 let else_type = self.get_arg_type(else_value);
-                eprintln!("  then_type={:?}, else_type={:?}", then_type, else_type);
-
-                // DEBUG: Log ternary type inference
-                if let (Some(ref t1), Some(ref t2)) = (&then_type, &else_type) {
-                    if t1 == t2 && !matches!(t1, ArgType::Unknown) {
-                        eprintln!("TERNARY FIX: Both branches have type {:?}, applying to dest {:?}", t1, dest);
-                    }
-                }
 
                 // If both branches have the same concrete type, use it for dest
                 match (then_type, else_type) {

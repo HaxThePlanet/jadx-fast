@@ -68,7 +68,8 @@ pub fn detect_conditionals(cfg: &CFG, loops: &[LoopInfo]) -> Vec<IfInfo> {
         let merge = cfg.ipdom(block_id);
 
         // Determine then/else blocks and whether to negate condition
-        let (then_blocks, else_blocks, negate_condition) = find_branch_blocks(
+        // P1-HOTRELOAD FIX: Now also returns updated merge_block for throw patterns
+        let (then_blocks, else_blocks, negate_condition, updated_merge) = find_branch_blocks(
             cfg,
             block_id,
             then_target,
@@ -83,27 +84,16 @@ pub fn detect_conditionals(cfg: &CFG, loops: &[LoopInfo]) -> Vec<IfInfo> {
             condition_block = block_id,
             ?then_blocks,
             ?else_blocks,
-            ?merge,
+            ?updated_merge,
             is_simple_if,
             "Detected conditional"
         );
-
-        // DEBUG: Check for merge == else_target issue
-        if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() && merge == Some(else_target) {
-            eprintln!("[COND_DEBUG] Block {}: merge={:?} == else_target={}, then_target={}, this may cause empty else_blocks!",
-                block_id, merge, else_target, then_target);
-            // Print the successors of both targets
-            let then_succs = cfg.successors(then_target);
-            let else_succs = cfg.successors(else_target);
-            eprintln!("[COND_DEBUG]   then_target {} successors: {:?}", then_target, then_succs);
-            eprintln!("[COND_DEBUG]   else_target {} successors: {:?}", else_target, else_succs);
-        }
 
         conditionals.push(IfInfo {
             condition_block: block_id,
             then_blocks,
             else_blocks,
-            merge_block: merge,
+            merge_block: updated_merge,  // P1-HOTRELOAD FIX: Use updated merge from find_branch_blocks
             is_simple_if,
             negate_condition,
         });
@@ -124,6 +114,9 @@ fn is_loop_condition(block: u32, loops: &[LoopInfo]) -> bool {
 /// Returns (then_blocks, else_blocks, negate_condition)
 /// negate_condition is true when we should negate the bytecode condition,
 /// which is the normal case. It's false when we've swapped branches.
+///
+/// Returns: (then_blocks, else_blocks, negate_condition, updated_merge_block)
+/// The updated_merge_block may differ from the input merge for throw patterns.
 fn find_branch_blocks(
     cfg: &CFG,
     condition: u32,
@@ -131,7 +124,7 @@ fn find_branch_blocks(
     else_target: u32,
     merge: Option<u32>,
     loops: &[LoopInfo],
-) -> (Vec<u32>, Vec<u32>, bool) {
+) -> (Vec<u32>, Vec<u32>, bool, Option<u32>) {
     let merge_block = merge.unwrap_or(u32::MAX);
 
     // FIRST: Check for the throw-pattern BEFORE collecting blocks
@@ -165,7 +158,11 @@ fn find_branch_blocks(
         let then_blocks = collect_branch_blocks_with_barrier(cfg, else_target, u32::MAX, condition, loops, None);
         // The else blocks (normal code) should stop at the original merge if it exists
         let else_blocks = collect_branch_blocks_with_barrier(cfg, then_target, merge_block, condition, loops, None);
-        return (then_blocks, else_blocks, false);
+        // P1-HOTRELOAD FIX: For throw patterns, DON'T use the throw block as merge.
+        // The throw block is now in then_blocks, so using it as merge would cause it
+        // to be added as an exit, preventing it from being included in the region.
+        // Instead, use None as merge since the then branch (throw) doesn't merge anywhere.
+        return (then_blocks, else_blocks, false, None);
     }
 
     // Normal case: collect blocks in standard order
@@ -232,7 +229,8 @@ fn find_branch_blocks(
         (then_blocks, else_blocks)
     };
 
-    (then_blocks, else_blocks, negate_condition)
+    // Normal case: return the original merge block
+    (then_blocks, else_blocks, negate_condition, merge)
 }
 
 /// Collect all blocks in a branch until merge point (legacy wrapper)
@@ -295,10 +293,12 @@ fn collect_branch_blocks_with_barrier(
             continue;
         }
 
-        // Skip if this is a different loop's header
-        if loops.iter().any(|l| l.header == block && !l.contains(condition)) {
-            continue;
-        }
+        // P1-HOTRELOAD FIX: REMOVED the check that skipped loop headers not containing
+        // the condition block. This was incorrectly skipping nested loops inside if-branches.
+        // For example, when building else_blocks for a throw pattern, the while loop inside
+        // the else branch doesn't contain the outer if-condition, but it SHOULD be included.
+        // The barrier, merge, and containing_loop_header checks are sufficient to prevent
+        // collecting blocks from unrelated regions.
 
         blocks.push(block);
 

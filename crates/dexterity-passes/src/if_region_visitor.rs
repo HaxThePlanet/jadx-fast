@@ -375,7 +375,8 @@ fn has_exit_block(region: &Region, cfg: &CFG) -> bool {
     }
 }
 
-/// Check if a region contains only a throw instruction (JADX IfRegionVisitor.java:88-101)
+/// Check if a region is a single block that ends with throw
+/// P1-HOTRELOAD: Updated to check "ends with throw" instead of "only contains throw"
 fn is_throw_only_region(region: &Region, cfg: &CFG) -> bool {
     match region {
         Region::Sequence(contents) => {
@@ -399,18 +400,16 @@ fn block_is_return_or_throw(block_id: u32, cfg: &CFG) -> bool {
     false
 }
 
-/// Check if a block contains only a throw instruction (single meaningful instruction)
+/// Check if a block ends with a throw instruction
+/// P1-HOTRELOAD FIX: Changed from "only 1 instruction" to "ends with throw"
+/// Real throw blocks have multiple instructions (new-instance, const-string, invoke-direct, throw)
 fn block_is_throw_only(block_id: u32, cfg: &CFG) -> bool {
     if let Some(block) = cfg.get_block(block_id) {
-        // Filter out NOPs and other non-meaningful instructions
-        let meaningful: Vec<_> = block
-            .instructions
-            .iter()
-            .filter(|i| !matches!(i.insn_type, InsnType::Nop | InsnType::Goto { .. }))
-            .collect();
-
-        if meaningful.len() == 1 {
-            return matches!(meaningful[0].insn_type, InsnType::Throw { .. });
+        // Check if the last meaningful instruction is a throw
+        // This is less strict than JADX's "single instruction" check but more practical
+        // because real exception construction requires multiple instructions
+        if let Some(last) = block.instructions.last() {
+            return matches!(last.insn_type, InsnType::Throw { .. });
         }
     }
     false

@@ -403,15 +403,6 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
             }
         }
 
-        // Debug output for P0-CFG01 investigation
-        if std::env::var("DEXTERITY_DEBUG_TRYCATCH").is_ok() {
-            eprintln!("[P0-CFG01 DEBUG] try_block range: {}..{}", try_block.start_addr, try_block.end_addr);
-            eprintln!("[P0-CFG01 DEBUG] try_blocks after handler removal: {:?}", try_block_ids);
-            for (i, handler) in handlers.iter().enumerate() {
-                eprintln!("[P0-CFG01 DEBUG] handler[{}] addr={}, blocks={:?}", i, handler.handler_block, handler.handler_blocks);
-            }
-        }
-
         // Find merge block (first block after all try and handler blocks)
         let all_blocks: BTreeSet<u32> = try_block_ids.iter()
             .chain(handlers.iter().flat_map(|h| h.handler_blocks.iter()))
@@ -1253,7 +1244,6 @@ impl<'a> RegionBuilder<'a> {
     fn build_try_body(&mut self, try_info: &TryInfo) -> Region {
         let mut contents = Vec::new();
         let mut processed_in_try = BTreeSet::new();
-        let debug = std::env::var("DEXTERITY_DEBUG_TRYCATCH").is_ok();
 
         // Build blocks in order
         let mut sorted_blocks: Vec<u32> = try_info.try_blocks.iter().copied().collect();
@@ -1262,25 +1252,16 @@ impl<'a> RegionBuilder<'a> {
         for block_id in sorted_blocks {
             // Skip already processed (in case of nested structures)
             if !try_info.try_blocks.contains(&block_id) {
-                if debug {
-                    eprintln!("[BUILD_TRY_BODY] Block {} skipped: not in try_blocks", block_id);
-                }
                 continue;
             }
             // Skip blocks already processed as part of nested structures
             if processed_in_try.contains(&block_id) {
-                if debug {
-                    eprintln!("[BUILD_TRY_BODY] Block {} skipped: in processed_in_try", block_id);
-                }
                 continue;
             }
 
             // Check for nested loops/conditionals within try
             if let Some(loop_info) = self.loop_map.get(&block_id).copied() {
                 if loop_info.blocks.iter().all(|b| try_info.try_blocks.contains(b)) {
-                    if debug {
-                        eprintln!("[BUILD_TRY_BODY] Block {} is loop header, loop_blocks={:?}", block_id, loop_info.blocks);
-                    }
                     let body = self.build_loop_body(loop_info);
                     contents.push(RegionContent::Region(Box::new(Region::Loop {
                         kind: loop_info.kind,
@@ -1298,12 +1279,6 @@ impl<'a> RegionBuilder<'a> {
                         self.processed.insert(b);
                     }
                     continue;
-                } else if debug {
-                    let missing: Vec<u32> = loop_info.blocks.iter()
-                        .filter(|b| !try_info.try_blocks.contains(b))
-                        .copied()
-                        .collect();
-                    eprintln!("[BUILD_TRY_BODY] Block {} loop NOT fully contained, missing={:?}", block_id, missing);
                 }
             }
 
@@ -1311,10 +1286,6 @@ impl<'a> RegionBuilder<'a> {
                 if cond.then_blocks.iter().all(|b| try_info.try_blocks.contains(b))
                     && cond.else_blocks.iter().all(|b| try_info.try_blocks.contains(b))
                 {
-                    if debug {
-                        eprintln!("[BUILD_TRY_BODY] Block {} is cond header, then={:?}, else={:?}",
-                            block_id, cond.then_blocks, cond.else_blocks);
-                    }
                     // Mark the condition block as globally processed before calling process_if
                     // (process_if also marks it, but this ensures it's marked even if process_if
                     // returns early, e.g., for ternary transformation)
@@ -1332,23 +1303,9 @@ impl<'a> RegionBuilder<'a> {
                         self.processed.insert(b);
                     }
                     continue;
-                } else if debug {
-                    let then_missing: Vec<u32> = cond.then_blocks.iter()
-                        .filter(|b| !try_info.try_blocks.contains(b))
-                        .copied()
-                        .collect();
-                    let else_missing: Vec<u32> = cond.else_blocks.iter()
-                        .filter(|b| !try_info.try_blocks.contains(b))
-                        .copied()
-                        .collect();
-                    eprintln!("[BUILD_TRY_BODY] Block {} cond NOT fully contained, then_missing={:?}, else_missing={:?}",
-                        block_id, then_missing, else_missing);
                 }
             }
 
-            if debug {
-                eprintln!("[BUILD_TRY_BODY] Block {} added as plain block", block_id);
-            }
             // Mark block as globally processed (prevents re-traversal after try-catch returns)
             self.processed.insert(block_id);
             contents.push(RegionContent::Block(block_id));
@@ -1928,9 +1885,19 @@ impl<'a> RegionBuilder<'a> {
 
         // Extract condition first (needed for ternary)
         // For merged conditions, build the composite condition
+        // P1-HOTRELOAD FIX: For single-block merged conditions, use the IfInfo's negate_condition
+        // instead of the default true. This ensures throw patterns (which set negate=false) work correctly.
         let condition = if let Some(merged) = self.merged_map.get(&cond.condition_block) {
-            self.build_merged_condition(merged)
+            if merged.merged_blocks.len() == 1 {
+                // Single-block "merged" condition - use IfInfo's negate_condition
+                // This respects the throw pattern detection which sets negate=false
+                self.extract_condition_with_negation(cond.condition_block, cond.negate_condition)
+            } else {
+                // True merged condition (multiple blocks)
+                self.build_merged_condition(merged)
+            }
         } else {
+            // No merged condition - use IfInfo's negate_condition
             self.extract_condition_with_negation(cond.condition_block, cond.negate_condition)
         };
 
