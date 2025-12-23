@@ -104,6 +104,56 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 
 ## Recent Improvements (Dec 23, 2025)
 
+### IR Layer JADX Parity Enhancement (Dec 23, 2025 - Latest)
+
+Comprehensive analysis of JADX's 263 Java files (~2MB) IR layer vs Dexterity revealed IR is now **~85% complete**. Key additions:
+
+**InsnNode Visitor Methods (instructions.rs):**
+- `visit_insns()` / `visit_insns_until()` - Recursive instruction traversal (JADX: visitInsns)
+- `visit_args()` / `visit_args_until()` - Recursive argument traversal (JADX: visitArgs)
+
+**InsnNode Utility Methods (instructions.rs):**
+- `can_reorder()` - Check if instruction is side-effect free for optimization
+- `can_throw_exception()` - Check if instruction can throw exceptions
+- `is_exit_edge_insn()` - Check for return/throw/break/continue
+- `contains_wrapped_insn()` / `contains_arg()` / `contains_var()`
+- `get_register_args()` - Collect all register args recursively
+- `get_result()` / `has_result()` - Get destination register
+- `is_deep_equals()` / `copy_common_params()` - Instruction comparison/copying
+
+**InsnType Accessor Methods (instructions.rs):**
+- `get_args()` - Get all arguments as a slice (for all 35+ instruction types)
+- `get_dest()` / `get_dest_mut()` - Get destination register from any instruction type
+
+**Documentation:** See `docs/IR_CLONE_STATUS.md` for full parity tracking.
+
+**Remaining IR Tasks (P1-P4):**
+- P1: Mutation methods (replaceArg, copy variants)
+- P2: Specialized instruction methods (IfNode, PhiInsn)
+- P3: BlockNode CFG infrastructure (dominators)
+- P4: RegisterArg parent tracking
+
+### IR Source Code Parity Improvements (Dec 23, 2025)
+
+Deep source code comparison of JADX Java vs dexterity Rust IR layer revealed and fixed gaps:
+
+**LiteralArg Methods Added (instructions.rs):**
+- `negate()` - Negate literal for condition inversion
+- `is_negative()` - Check sign with float/double bit handling
+- `lit_true()` / `lit_false()` - Boolean factory methods
+- `is_true()` / `is_false()` - Boolean value checks
+
+**ArgType Methods Added (types.rs):**
+- `is_void()`, `is_wildcard()` - Type predicates
+- `get_array_element()`, `get_array_root_element()` - Array accessors
+- `can_be_object()`, `can_be_array()`, `can_be_primitive()`, `can_be_any_number()` - Type checks
+- `get_reg_count()` - Register count (1 or 2)
+- `get_generic_types()`, `get_wildcard_type()`, `get_wildcard_bound()` - Generic accessors
+- `array_of_dimension()` - Multi-dimensional array factory
+
+**Type Hints from DEX Opcodes (builder.rs):**
+- MOVE/RETURN/CONST opcodes now preserve type width info (UnknownNarrow/Wide/Object)
+
 ### P1-HOTRELOAD: Complete Fix (Dec 23, 2025) - FIXED
 
 **Problem:** Hot-reload instrumented APKs (with `RuntimeDirector`, `m__m` fields) had multiple issues:

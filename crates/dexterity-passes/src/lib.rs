@@ -31,6 +31,7 @@ pub mod method_inline;
 pub mod method_invoke;
 pub mod method_throws_visitor;
 pub mod mod_visitor;
+pub mod move_inline;
 pub mod override_method;
 pub mod post_process_regions;
 pub mod prepare_for_codegen;
@@ -151,6 +152,7 @@ pub use clean_regions::{clean_regions, CleanRegionsResult};
 pub use method_throws_visitor::{
     collect_invoke_throws, process_method_throws, MethodThrowsResult,
 };
+pub use move_inline::{inline_moves, MoveInlineResult};
 pub use post_process_regions::{
     insert_edge_insn, post_process_regions, region_ends_with_return_or_throw,
     PostProcessRegionsResult,

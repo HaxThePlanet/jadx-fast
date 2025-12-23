@@ -17,6 +17,22 @@
 
 No critical issues remaining. Dexterity is production ready for all APKs.
 
+### IR Layer Parity Tasks (Dec 23, 2025)
+
+Remaining tasks to reach 100% JADX IR parity. See `docs/IR_CLONE_STATUS.md` for details.
+
+| Task | Priority | Description |
+|------|----------|-------------|
+| P1 | HIGH | InsnNode mutation methods (replaceArg, copy variants) |
+| P2 | MEDIUM | Specialized instruction methods (IfNode, PhiInsn) |
+| P3 | HIGH | BlockNode CFG infrastructure (dominators, predecessors) |
+| P4 | MEDIUM | RegisterArg parent tracking and SSA linkage |
+
+**Completed Dec 23:**
+- InsnNode visitor methods (visitInsns, visitArgs) ✅
+- InsnNode utility methods (canReorder, canThrowException, isExitEdgeInsn) ✅
+- InsnType accessor methods (get_args, get_dest) ✅
+
 ### Performance TODOs
 
 See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for optimization items.

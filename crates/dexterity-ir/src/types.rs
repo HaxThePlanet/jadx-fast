@@ -692,6 +692,122 @@ impl ArgType {
             _ => false,
         }
     }
+
+    // === JADX parity methods ===
+
+    /// Check if this type is void (JADX: isVoid)
+    pub fn is_void(&self) -> bool {
+        matches!(self, ArgType::Void)
+    }
+
+    /// Check if this is a wildcard type (JADX: isWildcard)
+    pub fn is_wildcard(&self) -> bool {
+        matches!(self, ArgType::Wildcard { .. })
+    }
+
+    /// Get the immediate element type of an array (JADX: getArrayElement)
+    pub fn get_array_element(&self) -> Option<&ArgType> {
+        match self {
+            ArgType::Array(elem) => Some(elem.as_ref()),
+            _ => None,
+        }
+    }
+
+    /// Get the root element type of a nested array (JADX: getArrayRootElement)
+    pub fn get_array_root_element(&self) -> &ArgType {
+        match self {
+            ArgType::Array(elem) => elem.get_array_root_element(),
+            _ => self,
+        }
+    }
+
+    /// Check if this unknown type could be an object (JADX: canBeObject)
+    pub fn can_be_object(&self) -> bool {
+        match self {
+            ArgType::Object(_) | ArgType::Generic { .. } | ArgType::Array(_) => true,
+            ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownObject
+            | ArgType::UnknownArray | ArgType::UnknownObjectNoArray => true,
+            _ => false,
+        }
+    }
+
+    /// Check if this unknown type could be an array (JADX: canBeArray)
+    pub fn can_be_array(&self) -> bool {
+        match self {
+            ArgType::Array(_) | ArgType::UnknownArray => true,
+            ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownObject => true,
+            ArgType::UnknownObjectNoArray => false,
+            _ => false,
+        }
+    }
+
+    /// Check if this type could be a specific primitive (JADX: canBePrimitive)
+    pub fn can_be_primitive(&self, primitive: &ArgType) -> bool {
+        if self == primitive {
+            return true;
+        }
+        match (self, primitive) {
+            (ArgType::Unknown, _) => primitive.is_primitive(),
+            (ArgType::UnknownNarrow, ArgType::Long | ArgType::Double) => false,
+            (ArgType::UnknownNarrow, p) => p.is_primitive() && *p != ArgType::Void,
+            (ArgType::UnknownWide, ArgType::Long | ArgType::Double) => true,
+            (ArgType::UnknownWide, _) => false,
+            (ArgType::UnknownIntegral, ArgType::Int | ArgType::Short | ArgType::Byte | ArgType::Char | ArgType::Boolean) => true,
+            (ArgType::UnknownIntFloat, ArgType::Int | ArgType::Float) => true,
+            (ArgType::UnknownIntBoolean, ArgType::Int | ArgType::Boolean) => true,
+            (ArgType::UnknownByteBoolean, ArgType::Byte | ArgType::Boolean) => true,
+            _ => false,
+        }
+    }
+
+    /// Check if this type could be any numeric type (JADX: canBeAnyNumber)
+    pub fn can_be_any_number(&self) -> bool {
+        match self {
+            ArgType::Int | ArgType::Long | ArgType::Float | ArgType::Double
+            | ArgType::Short | ArgType::Byte | ArgType::Char => true,
+            ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide
+            | ArgType::UnknownIntegral | ArgType::UnknownIntFloat => true,
+            _ => false,
+        }
+    }
+
+    /// Get register count (1 for narrow, 2 for wide) (JADX: getRegCount)
+    pub fn get_reg_count(&self) -> usize {
+        if self.is_wide() { 2 } else { 1 }
+    }
+
+    /// Get generic type parameters (JADX: getGenericTypes)
+    pub fn get_generic_types(&self) -> &[ArgType] {
+        match self {
+            ArgType::Generic { params, .. } => params.as_slice(),
+            _ => &[],
+        }
+    }
+
+    /// Get the inner type of a wildcard (JADX: getWildcardType)
+    pub fn get_wildcard_type(&self) -> Option<&ArgType> {
+        match self {
+            ArgType::Wildcard { inner: Some(inner), .. } => Some(inner.as_ref()),
+            _ => None,
+        }
+    }
+
+    /// Get the wildcard bound direction (JADX: getWildcardBound)
+    pub fn get_wildcard_bound(&self) -> Option<WildcardBound> {
+        match self {
+            ArgType::Wildcard { bound, .. } => Some(*bound),
+            _ => None,
+        }
+    }
+
+    /// Create a multi-dimensional array type (JADX: array(type, dimension))
+    pub fn array_of_dimension(element: ArgType, dimension: usize) -> ArgType {
+        if dimension == 0 {
+            element
+        } else {
+            ArgType::Array(Box::new(ArgType::array_of_dimension(element, dimension - 1)))
+        }
+    }
 }
 
 /// Type comparison result (matching JADX's TypeCompareEnum)

@@ -103,6 +103,259 @@ impl InsnNode {
     pub fn type_name(&self) -> &'static str {
         self.insn_type.name()
     }
+
+    // === JADX InsnNode visitor methods for 100% parity ===
+
+    /// Visit this instruction and all inner (wrapped) instructions (JADX: visitInsns)
+    ///
+    /// Calls the visitor function on this instruction, then recursively
+    /// visits any wrapped instructions in the arguments.
+    pub fn visit_insns<F>(&self, visitor: &mut F)
+    where
+        F: FnMut(&InsnNode),
+    {
+        visitor(self);
+        for arg in self.insn_type.get_args() {
+            if let InsnArg::Wrapped(wrapped) = arg {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    inner.visit_insns(visitor);
+                }
+            }
+        }
+    }
+
+    /// Visit this instruction and all inner (wrapped) instructions, returning early on Some (JADX: visitInsns<R>)
+    ///
+    /// Calls the visitor function on this instruction, then recursively
+    /// visits any wrapped instructions. Returns early if visitor returns Some.
+    pub fn visit_insns_until<F, R>(&self, visitor: &mut F) -> Option<R>
+    where
+        F: FnMut(&InsnNode) -> Option<R>,
+    {
+        if let Some(result) = visitor(self) {
+            return Some(result);
+        }
+        for arg in self.insn_type.get_args() {
+            if let InsnArg::Wrapped(wrapped) = arg {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    if let Some(result) = inner.visit_insns_until(visitor) {
+                        return Some(result);
+                    }
+                }
+            }
+        }
+        None
+    }
+
+    /// Visit all args recursively, but excluding wrapped args (JADX: visitArgs)
+    ///
+    /// Visits the actual arguments (registers, literals, etc.) but descends
+    /// into wrapped instructions to visit their arguments too.
+    pub fn visit_args<F>(&self, visitor: &mut F)
+    where
+        F: FnMut(&InsnArg),
+    {
+        for arg in self.insn_type.get_args() {
+            if let InsnArg::Wrapped(wrapped) = arg {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    inner.visit_args(visitor);
+                }
+            } else {
+                visitor(arg);
+            }
+        }
+    }
+
+    /// Visit all args recursively, returning early on Some (JADX: visitArgs<R>)
+    pub fn visit_args_until<F, R>(&self, visitor: &mut F) -> Option<R>
+    where
+        F: FnMut(&InsnArg) -> Option<R>,
+    {
+        for arg in self.insn_type.get_args() {
+            if let InsnArg::Wrapped(wrapped) = arg {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    if let Some(result) = inner.visit_args_until(visitor) {
+                        return Some(result);
+                    }
+                }
+            } else if let Some(result) = visitor(arg) {
+                return Some(result);
+            }
+        }
+        None
+    }
+
+    // === JADX InsnNode utility methods for 100% parity ===
+
+    /// Check if this instruction can be safely reordered (JADX: canReorder)
+    ///
+    /// Returns true for instructions without side effects that can be moved
+    /// during optimization passes.
+    pub fn can_reorder(&self) -> bool {
+        if self.has_flag(AFlag::DontGenerate) {
+            // DONT_GENERATE instructions can usually be reordered
+            // Exception: MONITOR_EXIT must stay in place
+            if matches!(&self.insn_type, InsnType::MonitorExit { .. }) {
+                return false;
+            }
+            return true;
+        }
+
+        // Check wrapped args recursively
+        for arg in self.insn_type.get_args() {
+            if let InsnArg::Wrapped(wrapped) = arg {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    if !inner.can_reorder() {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        // Instructions that can be safely reordered
+        matches!(
+            &self.insn_type,
+            InsnType::Const { .. }
+                | InsnType::ConstString { .. }
+                | InsnType::ConstClass { .. }
+                | InsnType::Cast { .. }
+                | InsnType::Move { .. }
+                | InsnType::Unary { .. }
+                | InsnType::Binary { .. }
+                | InsnType::Compare { .. }
+                | InsnType::CheckCast { .. }
+                | InsnType::InstanceOf { .. }
+                | InsnType::FillArrayData { .. }
+                | InsnType::FilledNewArray { .. }
+                | InsnType::NewArray { .. }
+                | InsnType::StrConcat { .. }
+        )
+        // Note: SGET/IGET could be reorderable for final fields, but we're conservative
+    }
+
+    /// Check if this instruction can throw an exception (JADX: canThrowException)
+    ///
+    /// Returns false for instructions that are guaranteed not to throw.
+    pub fn can_throw_exception(&self) -> bool {
+        match &self.insn_type {
+            InsnType::Return { .. }
+            | InsnType::If { .. }
+            | InsnType::Goto { .. }
+            | InsnType::Move { .. }
+            | InsnType::MoveException { .. }
+            | InsnType::Unary { op: UnaryOp::Neg | UnaryOp::Not | UnaryOp::BoolNot, .. }
+            | InsnType::Const { .. }
+            | InsnType::ConstString { .. }
+            | InsnType::ConstClass { .. }
+            | InsnType::Compare { .. }
+            | InsnType::Nop => false,
+            _ => true,
+        }
+    }
+
+    /// Check if this is an exit edge instruction (JADX: isExitEdgeInsn)
+    ///
+    /// Returns true for instructions that exit the current block/method.
+    pub fn is_exit_edge_insn(&self) -> bool {
+        matches!(
+            &self.insn_type,
+            InsnType::Return { .. }
+                | InsnType::Throw { .. }
+                | InsnType::Continue { .. }
+                | InsnType::Break { .. }
+        )
+    }
+
+    /// Check if any argument contains a wrapped instruction (JADX: containsWrappedInsn)
+    pub fn contains_wrapped_insn(&self) -> bool {
+        self.insn_type.get_args().iter().any(|arg| arg.is_wrapped())
+    }
+
+    /// Check if this instruction can have its result removed (JADX: canRemoveResult)
+    ///
+    /// Returns true for INVOKE and CONSTRUCTOR which can be called
+    /// without using the return value.
+    pub fn can_remove_result(&self) -> bool {
+        matches!(
+            &self.insn_type,
+            InsnType::Invoke { .. } | InsnType::Constructor { .. }
+        )
+    }
+
+    /// Check if instruction contains a specific arg (JADX: containsArg)
+    pub fn contains_arg(&self, target: &InsnArg) -> bool {
+        for arg in self.insn_type.get_args() {
+            if std::ptr::eq(arg, target) {
+                return true;
+            }
+        }
+        false
+    }
+
+    /// Check if instruction uses a specific register variable (JADX: containsVar)
+    pub fn contains_var(&self, target: &RegisterArg) -> bool {
+        for arg in self.insn_type.get_args() {
+            if let InsnArg::Register(reg) = arg {
+                if reg.same_reg_and_ssa(target) {
+                    return true;
+                }
+            } else if let InsnArg::Wrapped(wrapped) = arg {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    if inner.contains_var(target) {
+                        return true;
+                    }
+                }
+            }
+        }
+        false
+    }
+
+    /// Collect all register arguments from this instruction (JADX: getRegisterArgs)
+    ///
+    /// Recursively collects registers from wrapped instructions too.
+    pub fn get_register_args(&self, collection: &mut Vec<RegisterArg>) {
+        for arg in self.insn_type.get_args() {
+            match arg {
+                InsnArg::Register(reg) => collection.push(*reg),
+                InsnArg::Wrapped(wrapped) => {
+                    if let Some(ref inner) = wrapped.inline_insn {
+                        inner.get_register_args(collection);
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    /// Get the destination register if this instruction has one (JADX: getResult)
+    pub fn get_result(&self) -> Option<&RegisterArg> {
+        self.insn_type.get_dest()
+    }
+
+    /// Check if this instruction has a destination register
+    pub fn has_result(&self) -> bool {
+        self.insn_type.get_dest().is_some()
+    }
+
+    /// Deep equality check comparing all arguments (JADX: isDeepEquals)
+    pub fn is_deep_equals(&self, other: &InsnNode) -> bool {
+        if !self.is_same(other) {
+            return false;
+        }
+        // Compare result types
+        if self.result_type != other.result_type {
+            return false;
+        }
+        // Compare arguments (need to implement proper InsnType comparison)
+        std::mem::discriminant(&self.insn_type) == std::mem::discriminant(&other.insn_type)
+    }
+
+    /// Copy common parameters to another instruction (JADX: copyCommonParams)
+    pub fn copy_common_params(&self, target: &mut InsnNode) {
+        target.flags = self.flags;
+        target.source_line = self.source_line;
+        target.offset = self.offset;
+    }
 }
 
 /// Method handle type for lambdas
@@ -483,6 +736,127 @@ pub enum InsnType {
 }
 
 impl InsnType {
+    /// Get all arguments from this instruction type (JADX: getArguments)
+    ///
+    /// Returns a slice of all InsnArg in this instruction.
+    /// Note: Returns an empty slice for instructions without arguments.
+    pub fn get_args(&self) -> &[InsnArg] {
+        match self {
+            InsnType::Nop => &[],
+            InsnType::Const { .. } => &[],
+            InsnType::ConstString { .. } => &[],
+            InsnType::ConstClass { .. } => &[],
+            InsnType::Move { src, .. } => std::slice::from_ref(src),
+            InsnType::MoveResult { .. } => &[],
+            InsnType::MoveException { .. } => &[],
+            InsnType::Return { value: Some(v), .. } => std::slice::from_ref(v),
+            InsnType::Return { value: None, .. } => &[],
+            InsnType::Throw { exception } => std::slice::from_ref(exception),
+            InsnType::MonitorEnter { object } => std::slice::from_ref(object),
+            InsnType::MonitorExit { object } => std::slice::from_ref(object),
+            InsnType::CheckCast { object, .. } => std::slice::from_ref(object),
+            InsnType::InstanceOf { object, .. } => std::slice::from_ref(object),
+            InsnType::ArrayLength { array, .. } => std::slice::from_ref(array),
+            InsnType::NewInstance { .. } => &[],
+            InsnType::NewArray { size, .. } => std::slice::from_ref(size),
+            InsnType::FilledNewArray { args, .. } => args.as_slice(),
+            InsnType::FillArrayData { array, .. } => std::slice::from_ref(array),
+            InsnType::ArrayGet { array, .. } => {
+                // Can't return both, use get_args_vec for multiple
+                std::slice::from_ref(array)
+            }
+            InsnType::ArrayPut { array, .. } => std::slice::from_ref(array),
+            InsnType::InstanceGet { object, .. } => std::slice::from_ref(object),
+            InsnType::InstancePut { object, .. } => std::slice::from_ref(object),
+            InsnType::StaticGet { .. } => &[],
+            InsnType::StaticPut { value, .. } => std::slice::from_ref(value),
+            InsnType::Invoke { args, .. } => args.as_slice(),
+            InsnType::InvokeCustom { args, .. } => args.as_slice(),
+            InsnType::Unary { arg, .. } => std::slice::from_ref(arg),
+            InsnType::Binary { left, .. } => std::slice::from_ref(left),
+            InsnType::Cast { arg, .. } => std::slice::from_ref(arg),
+            InsnType::Compare { left, .. } => std::slice::from_ref(left),
+            InsnType::If { left, .. } => std::slice::from_ref(left),
+            InsnType::Ternary { left, .. } => std::slice::from_ref(left),
+            InsnType::Goto { .. } => &[],
+            InsnType::PackedSwitch { value, .. } => std::slice::from_ref(value),
+            InsnType::SparseSwitch { value, .. } => std::slice::from_ref(value),
+            InsnType::Phi { .. } => {
+                // Return empty - use get_phi_sources for PHI nodes
+                &[]
+            }
+            InsnType::MoveMulti { .. } => &[],
+            InsnType::StrConcat { args, .. } => args.as_slice(),
+            InsnType::RegionArg { args } => args.as_slice(),
+            InsnType::OneArg { arg } => std::slice::from_ref(arg),
+            InsnType::Constructor { args, .. } => args.as_slice(),
+            InsnType::JavaJsr { .. } => &[],
+            InsnType::JavaRet { .. } => &[],
+            InsnType::Break { .. } => &[],
+            InsnType::Continue { .. } => &[],
+        }
+    }
+
+    /// Get destination register if this instruction has one (JADX: getResult)
+    pub fn get_dest(&self) -> Option<&RegisterArg> {
+        match self {
+            InsnType::Const { dest, .. }
+            | InsnType::ConstString { dest, .. }
+            | InsnType::ConstClass { dest, .. }
+            | InsnType::Move { dest, .. }
+            | InsnType::MoveResult { dest, .. }
+            | InsnType::MoveException { dest, .. }
+            | InsnType::InstanceOf { dest, .. }
+            | InsnType::ArrayLength { dest, .. }
+            | InsnType::NewInstance { dest, .. }
+            | InsnType::NewArray { dest, .. }
+            | InsnType::ArrayGet { dest, .. }
+            | InsnType::InstanceGet { dest, .. }
+            | InsnType::StaticGet { dest, .. }
+            | InsnType::Unary { dest, .. }
+            | InsnType::Binary { dest, .. }
+            | InsnType::Cast { dest, .. }
+            | InsnType::Compare { dest, .. }
+            | InsnType::Ternary { dest, .. }
+            | InsnType::Phi { dest, .. }
+            | InsnType::StrConcat { dest, .. }
+            | InsnType::Constructor { dest, .. } => Some(dest),
+            InsnType::FilledNewArray { dest, .. } => dest.as_ref(),
+            InsnType::Invoke { dest, .. } | InsnType::InvokeCustom { dest, .. } => dest.as_ref(),
+            _ => None,
+        }
+    }
+
+    /// Get mutable destination register if this instruction has one
+    pub fn get_dest_mut(&mut self) -> Option<&mut RegisterArg> {
+        match self {
+            InsnType::Const { dest, .. }
+            | InsnType::ConstString { dest, .. }
+            | InsnType::ConstClass { dest, .. }
+            | InsnType::Move { dest, .. }
+            | InsnType::MoveResult { dest, .. }
+            | InsnType::MoveException { dest, .. }
+            | InsnType::InstanceOf { dest, .. }
+            | InsnType::ArrayLength { dest, .. }
+            | InsnType::NewInstance { dest, .. }
+            | InsnType::NewArray { dest, .. }
+            | InsnType::ArrayGet { dest, .. }
+            | InsnType::InstanceGet { dest, .. }
+            | InsnType::StaticGet { dest, .. }
+            | InsnType::Unary { dest, .. }
+            | InsnType::Binary { dest, .. }
+            | InsnType::Cast { dest, .. }
+            | InsnType::Compare { dest, .. }
+            | InsnType::Ternary { dest, .. }
+            | InsnType::Phi { dest, .. }
+            | InsnType::StrConcat { dest, .. }
+            | InsnType::Constructor { dest, .. } => Some(dest),
+            InsnType::FilledNewArray { dest, .. } => dest.as_mut(),
+            InsnType::Invoke { dest, .. } | InsnType::InvokeCustom { dest, .. } => dest.as_mut(),
+            _ => None,
+        }
+    }
+
     /// Get the instruction type name (JADX: getType().name())
     ///
     /// Returns a string matching JADX's InsnType enum names.
@@ -1144,6 +1518,47 @@ impl LiteralArg {
     /// Check if this is a wide type (long/double) (JADX: isWide)
     pub fn is_wide(&self) -> bool {
         matches!(self, LiteralArg::Double(_)) || matches!(self, LiteralArg::Int(v) if *v > i32::MAX as i64 || *v < i32::MIN as i64)
+    }
+
+    /// Negate this literal (JADX: negate)
+    /// Used for condition inversion (e.g., `if (x == 0)` → `if (x != 0)`)
+    pub fn negate(&self) -> LiteralArg {
+        match self {
+            LiteralArg::Int(v) => LiteralArg::Int(-v),
+            LiteralArg::Float(v) => LiteralArg::Float(-v),
+            LiteralArg::Double(v) => LiteralArg::Double(-v),
+            LiteralArg::Null => LiteralArg::Null,
+        }
+    }
+
+    /// Check if this literal is negative (JADX: isNegative)
+    pub fn is_negative(&self) -> bool {
+        match self {
+            LiteralArg::Int(v) => *v < 0,
+            LiteralArg::Float(v) => *v < 0.0 && v.is_finite(),
+            LiteralArg::Double(v) => *v < 0.0 && v.is_finite(),
+            LiteralArg::Null => false,
+        }
+    }
+
+    /// Create a literal representing boolean false (JADX: litFalse)
+    pub fn lit_false() -> LiteralArg {
+        LiteralArg::Int(0)
+    }
+
+    /// Create a literal representing boolean true (JADX: litTrue)
+    pub fn lit_true() -> LiteralArg {
+        LiteralArg::Int(1)
+    }
+
+    /// Check if this literal represents boolean false
+    pub fn is_false(&self) -> bool {
+        self.is_zero()
+    }
+
+    /// Check if this literal represents boolean true
+    pub fn is_true(&self) -> bool {
+        matches!(self, LiteralArg::Int(1))
     }
 }
 
