@@ -350,6 +350,18 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
         // Find start block (first block in try)
         let start_block = *try_block_ids.iter().next().unwrap();
 
+        // CRITICAL FIX (P0-CFG01): Remove handler entry addresses from try_block_ids BEFORE
+        // collecting handler blocks. Handler entry addresses may fall within the try address
+        // range (when catch code immediately follows try code in bytecode), but they must NOT
+        // be considered part of the try body. If we leave them in try_block_ids, then
+        // collect_handler_blocks_by_dominance() will exclude them during its walk, resulting
+        // in empty handler_blocks and the handler code incorrectly staying in the try body.
+        // This matches JADX's prepareTryBlocks() which removes handler blocks from try blocks.
+        let mut try_block_ids = try_block_ids;
+        for h in &try_block.handlers {
+            try_block_ids.remove(&h.handler_addr);
+        }
+
         // Convert exception handlers, filtering out monitor-exit-only handlers
         // These are synthetic handlers for synchronized blocks that should not generate code
         let handlers: Vec<HandlerInfo> = try_block.handlers.iter().filter_map(|h| {
@@ -380,13 +392,11 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
         // catch entries pointing to the same handler block
         let handlers = merge_multi_catch_handlers(handlers);
 
-        // CRITICAL FIX (P0-CFG01): Remove handler blocks from try_block_ids
-        // Handler blocks may have addresses within the try range (especially when
-        // the handler code immediately follows the try code in bytecode), but they
-        // belong to the catch handlers, not the try body.
-        // This matches JADX's prepareTryBlocks() which does:
-        //   blocks.removeAll(eh.getBlocks());
-        let mut try_block_ids = try_block_ids;
+        // CRITICAL FIX (P0-CFG01): Remove ALL handler blocks from try_block_ids
+        // Now that collect_handler_blocks_by_dominance() collects all dominated blocks
+        // (including those within the try address range), we must remove them from
+        // try_block_ids to prevent handler code from appearing in the try body.
+        // This matches JADX's prepareTryBlocks() which does: blocks.removeAll(eh.getBlocks())
         for handler in &handlers {
             for &hblock in &handler.handler_blocks {
                 try_block_ids.remove(&hblock);
@@ -485,17 +495,22 @@ fn establish_try_nesting(tries: &mut [TryInfo]) {
 /// 1. First tries dominance-based collection (proper analysis, no hard limit)
 /// 2. Falls back to forward reachability if dominance yields insufficient results
 ///    (handles synthetic CFGs and edge cases where dominance isn't computed)
+///
+/// CRITICAL (P0-CFG01): This function deliberately does NOT exclude try_blocks during
+/// collection. Handler blocks may have addresses within the try range (when catch code
+/// immediately follows try code in bytecode). If we excluded try_blocks here, those
+/// handler blocks would be missed, causing handler code to appear in the try body.
+/// The caller (detect_try_catch_regions) removes collected handler blocks from
+/// try_block_ids AFTER this function returns.
 fn collect_handler_blocks_by_dominance(
     cfg: &CFG,
     handler_block: u32,
-    try_blocks: &BTreeSet<u32>,
+    _try_blocks: &BTreeSet<u32>,  // Kept for API compatibility but intentionally unused
 ) -> BTreeSet<u32> {
     // Try dominance-based collection first
+    // Collect ALL blocks dominated by the handler, even if they're in the try address range
     let mut dominated_blocks = BTreeSet::new();
     for block_id in cfg.block_ids() {
-        if try_blocks.contains(&block_id) {
-            continue;
-        }
         if cfg.dominates(handler_block, block_id) {
             dominated_blocks.insert(block_id);
         }
@@ -507,12 +522,13 @@ fn collect_handler_blocks_by_dominance(
     }
 
     // Fall back to forward reachability (for synthetic CFGs or edge cases)
+    // Don't filter by try_blocks - collect all reachable blocks from handler
     let mut handler_blocks = BTreeSet::new();
     let mut worklist = vec![handler_block];
     let mut visited = BTreeSet::new();
 
     while let Some(b) = worklist.pop() {
-        if visited.contains(&b) || try_blocks.contains(&b) {
+        if visited.contains(&b) {
             continue;
         }
         visited.insert(b);
