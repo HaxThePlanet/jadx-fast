@@ -180,6 +180,157 @@ impl SSAVar {
             }
         }
     }
+
+    // =========================================================================
+    // JADX Parity: SSAVar additional methods
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/args/SSAVar.java
+    // =========================================================================
+
+    /// Get combined list of all PHI instructions (JADX: getPhiList)
+    ///
+    /// Returns a list containing:
+    /// 1. The PHI instruction where this var is assigned (if assigned in PHI)
+    /// 2. All PHI instructions where this var is used as an argument
+    ///
+    /// JADX Reference: SSAVar.java:186-202
+    /// ```java
+    /// public List<PhiInsn> getPhiList() {
+    ///     InsnNode assignInsn = getAssign().getParentInsn();
+    ///     if (assignInsn != null && assignInsn.getType() == InsnType.PHI) {
+    ///         PhiInsn assignPhi = (PhiInsn) assignInsn;
+    ///         if (usedInPhi == null) {
+    ///             return Collections.singletonList(assignPhi);
+    ///         }
+    ///         List<PhiInsn> list = new ArrayList<>(1 + usedInPhi.size());
+    ///         list.add(assignPhi);
+    ///         list.addAll(usedInPhi);
+    ///         return list;
+    ///     }
+    ///     if (usedInPhi == null) {
+    ///         return Collections.emptyList();
+    ///     }
+    ///     return usedInPhi;
+    /// }
+    /// ```
+    pub fn get_phi_list(&self) -> Vec<u32> {
+        let mut result = Vec::new();
+
+        // Add assign PHI if this var is assigned in a PHI
+        if self.is_assigned_in_phi() {
+            if let Some(assign_idx) = self.assign_insn_idx {
+                result.push(assign_idx);
+            }
+        }
+
+        // Add all PHIs where this var is used
+        result.extend(&self.used_in_phi);
+
+        result
+    }
+
+    /// Get detailed variable information for debugging (JADX: getDetailedVarInfo)
+    ///
+    /// Returns a string with register, version, names, and types.
+    /// Used for debugging type inference issues.
+    ///
+    /// JADX Reference: SSAVar.java:262-309
+    /// ```java
+    /// public String getDetailedVarInfo(MethodNode mth) {
+    ///     Set<ArgType> types = new HashSet<>();
+    ///     Set<String> names = Collections.emptySet();
+    ///     // ... collect types and names from uses ...
+    ///     StringBuilder sb = new StringBuilder();
+    ///     sb.append('r').append(regNum).append('v').append(version);
+    ///     if (!names.isEmpty()) {
+    ///         sb.append(", names: ").append(orderedNames);
+    ///     }
+    ///     if (!types.isEmpty()) {
+    ///         sb.append(", types: ").append(orderedTypes);
+    ///     }
+    ///     return sb.toString();
+    /// }
+    /// ```
+    pub fn get_detailed_var_info(&self) -> String {
+        let mut sb = format!("r{}v{}", self.reg_num, self.version);
+
+        // Add type info if known
+        if !matches!(self.type_info.var_type, ArgType::Unknown) {
+            sb.push_str(&format!(", type: {}", self.type_info.var_type.short_name()));
+        }
+
+        // Add flags info
+        let mut flags_str = Vec::new();
+        if self.is_type_immutable() {
+            flags_str.push("immutable");
+        }
+        if self.is_assigned_in_phi() {
+            flags_str.push("phi-assign");
+        }
+        if self.flags & SSA_FLAG_METHOD_ARG != 0 {
+            flags_str.push("method-arg");
+        }
+        if self.flags & SSA_FLAG_THIS_ARG != 0 {
+            flags_str.push("this");
+        }
+
+        if !flags_str.is_empty() {
+            sb.push_str(&format!(", flags: [{}]", flags_str.join(", ")));
+        }
+
+        // Add use count
+        sb.push_str(&format!(", uses: {}", self.use_list.len()));
+
+        // Add PHI use count if any
+        if !self.used_in_phi.is_empty() {
+            sb.push_str(&format!(", phi-uses: {}", self.used_in_phi.len()));
+        }
+
+        sb
+    }
+
+    /// Check if this SSAVar is equal to another by identity (JADX: equals)
+    ///
+    /// JADX Reference: SSAVar.java:312-321
+    /// ```java
+    /// public boolean equals(Object o) {
+    ///     if (this == o) return true;
+    ///     if (!(o instanceof SSAVar)) return false;
+    ///     SSAVar ssaVar = (SSAVar) o;
+    ///     return regNum == ssaVar.regNum && version == ssaVar.version;
+    /// }
+    /// ```
+    pub fn equals(&self, other: &SSAVar) -> bool {
+        self.reg_num == other.reg_num && self.version == other.version
+    }
+
+    /// Get hashcode for SSAVar (JADX: hashCode)
+    ///
+    /// JADX Reference: SSAVar.java:324-326
+    /// ```java
+    /// public int hashCode() {
+    ///     return 31 * regNum + version;
+    /// }
+    /// ```
+    pub fn hash_code(&self) -> i32 {
+        31 * (self.reg_num as i32) + (self.version as i32)
+    }
+
+    /// Compare SSAVars for ordering (JADX: compareTo)
+    ///
+    /// Compares first by register number, then by version.
+    ///
+    /// JADX Reference: SSAVar.java:329-331
+    /// ```java
+    /// public int compareTo(@NotNull SSAVar o) {
+    ///     return SSA_VAR_COMPARATOR.compare(this, o);
+    /// }
+    /// ```
+    pub fn compare_to(&self, other: &SSAVar) -> std::cmp::Ordering {
+        match self.reg_num.cmp(&other.reg_num) {
+            std::cmp::Ordering::Equal => self.version.cmp(&other.version),
+            other => other,
+        }
+    }
 }
 
 // SSA variable flags (pub for use in other modules)

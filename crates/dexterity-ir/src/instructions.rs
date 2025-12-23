@@ -894,31 +894,193 @@ pub enum LambdaHandleType {
     InvokeInterface,
 }
 
+// ============================================================================
+// JADX Parity: LambdaInfo (P12 - InvokeCustomNode fields)
+// Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/InvokeCustomNode.java
+// ============================================================================
+
 /// Lambda/method reference information
 ///
 /// This contains the parsed call site information for generating lambda syntax.
+/// Matches JADX's InvokeCustomNode fields.
+///
+/// JADX Reference: InvokeCustomNode.java:12-17
 #[derive(Debug, Clone)]
 pub struct LambdaInfo {
-    /// The method handle type for the implementation
+    /// The method handle type for the implementation (JADX: handleType)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:14
     pub handle_type: LambdaHandleType,
-    /// Implementation method index
+
+    /// Implementation method index (JADX: implMthInfo.methodIdx)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:13
     pub impl_method_idx: u32,
-    /// Implementation method class
+
+    /// Implementation method class (JADX: implMthInfo.declClass)
     pub impl_class: String,
-    /// Implementation method name
+
+    /// Implementation method name (JADX: implMthInfo.name)
     pub impl_method_name: String,
+
     /// Functional interface method name (e.g., "apply", "run", "accept")
     pub interface_method_name: String,
-    /// Whether to use method reference syntax (::) instead of lambda
+
+    /// Whether to use method reference syntax (::) instead of lambda (JADX: useRef)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:17, :87-92
+    /// ```java
+    /// public boolean isUseRef() {
+    ///     return useRef;
+    /// }
+    /// ```
     pub use_method_ref: bool,
-    /// Whether to inline the lambda body (synthetic methods)
+
+    /// Whether to inline the lambda body (synthetic methods) (JADX: inlineInsn)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:16, :79-84
+    /// ```java
+    /// public boolean isInlineInsn() {
+    ///     return inlineInsn;
+    /// }
+    /// ```
     pub inline_body: bool,
+
     /// Number of captured variables (args passed to invoke-custom that become method params)
     pub captured_arg_count: usize,
+
     /// Lambda parameter types (from the functional interface's abstract method)
     pub lambda_param_types: Vec<ArgType>,
+
     /// Lambda return type (from the functional interface's abstract method)
     pub lambda_return_type: ArgType,
+
+    /// Call instruction index (JADX: callInsn)
+    ///
+    /// In JADX this is an InsnNode, in Dexterity we use an instruction index.
+    ///
+    /// JADX Reference: InvokeCustomNode.java:15, :71-77
+    /// ```java
+    /// public InsnNode getCallInsn() {
+    ///     return callInsn;
+    /// }
+    /// ```
+    pub call_insn_idx: Option<u32>,
+}
+
+impl LambdaInfo {
+    /// Create a new LambdaInfo with default values
+    pub fn new(handle_type: LambdaHandleType, impl_method_idx: u32) -> Self {
+        LambdaInfo {
+            handle_type,
+            impl_method_idx,
+            impl_class: String::new(),
+            impl_method_name: String::new(),
+            interface_method_name: String::new(),
+            use_method_ref: false,
+            inline_body: false,
+            captured_arg_count: 0,
+            lambda_param_types: Vec::new(),
+            lambda_return_type: ArgType::Void,
+            call_insn_idx: None,
+        }
+    }
+
+    /// Get the method handle type (JADX: getHandleType)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:63-65
+    pub fn get_handle_type(&self) -> LambdaHandleType {
+        self.handle_type
+    }
+
+    /// Set the method handle type (JADX: setHandleType)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:67-69
+    pub fn set_handle_type(&mut self, handle_type: LambdaHandleType) {
+        self.handle_type = handle_type;
+    }
+
+    /// Check if should use method reference syntax (JADX: isUseRef)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:87-89
+    pub fn is_use_ref(&self) -> bool {
+        self.use_method_ref
+    }
+
+    /// Set whether to use method reference syntax (JADX: setUseRef)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:91-93
+    pub fn set_use_ref(&mut self, use_ref: bool) {
+        self.use_method_ref = use_ref;
+    }
+
+    /// Check if should inline the lambda body (JADX: isInlineInsn)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:79-81
+    pub fn is_inline_insn(&self) -> bool {
+        self.inline_body
+    }
+
+    /// Set whether to inline the lambda body (JADX: setInlineInsn)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:83-85
+    pub fn set_inline_insn(&mut self, inline: bool) {
+        self.inline_body = inline;
+    }
+
+    /// Get the call instruction index (JADX: getCallInsn)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:71-73
+    pub fn get_call_insn_idx(&self) -> Option<u32> {
+        self.call_insn_idx
+    }
+
+    /// Set the call instruction index (JADX: setCallInsn)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:75-77
+    pub fn set_call_insn_idx(&mut self, idx: Option<u32>) {
+        self.call_insn_idx = idx;
+    }
+
+    /// Check if this is a static method reference (JADX: isStaticCall always returns true for InvokeCustomNode)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:109-111
+    pub fn is_static_call(&self) -> bool {
+        true // InvokeCustomNode is always static
+    }
+
+    /// Get the first argument offset (JADX: getFirstArgOffset always returns 0 for InvokeCustomNode)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:114-116
+    pub fn get_first_arg_offset(&self) -> usize {
+        0 // No 'this' argument for lambda
+    }
+
+    /// Check if the call insn is an invoke (JADX: getInvokeCall)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:95-101
+    /// ```java
+    /// @Nullable
+    /// public BaseInvokeNode getInvokeCall() {
+    ///     if (callInsn.getType() == InsnType.INVOKE) {
+    ///         return (BaseInvokeNode) callInsn;
+    ///     }
+    ///     return null;
+    /// }
+    /// ```
+    pub fn has_invoke_call(&self) -> bool {
+        self.call_insn_idx.is_some()
+    }
+
+    /// Compare with another LambdaInfo for equality (JADX: isSame partial)
+    ///
+    /// JADX Reference: InvokeCustomNode.java:40-53
+    pub fn is_same(&self, other: &LambdaInfo) -> bool {
+        self.handle_type == other.handle_type
+            && self.impl_method_idx == other.impl_method_idx
+            && self.use_method_ref == other.use_method_ref
+            && self.inline_body == other.inline_body
+    }
 }
 
 /// IR instruction types
@@ -2081,6 +2243,116 @@ impl LiteralArg {
     pub fn is_true(&self) -> bool {
         matches!(self, LiteralArg::Int(1))
     }
+
+    // =========================================================================
+    // JADX Parity: LiteralArg additional methods (P9)
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/args/LiteralArg.java
+    // =========================================================================
+
+    /// Check if this literal is an integer type (JADX: isInteger)
+    ///
+    /// Returns true for INT, BYTE, CHAR, SHORT, LONG types.
+    /// Used for arithmetic operations and type inference.
+    ///
+    /// JADX Reference: LiteralArg.java:66-77
+    /// ```java
+    /// public boolean isInteger() {
+    ///     switch (type.getPrimitiveType()) {
+    ///         case INT:
+    ///         case BYTE:
+    ///         case CHAR:
+    ///         case SHORT:
+    ///         case LONG:
+    ///             return true;
+    ///         default:
+    ///             return false;
+    ///     }
+    /// }
+    /// ```
+    pub fn is_integer(&self) -> bool {
+        matches!(self, LiteralArg::Int(_))
+    }
+
+    /// Create a literal argument (JADX: make)
+    ///
+    /// Factory method for creating literal arguments with specified type.
+    ///
+    /// JADX Reference: LiteralArg.java:11-13
+    /// ```java
+    /// public static LiteralArg make(long value, ArgType type) {
+    ///     return new LiteralArg(value, type);
+    /// }
+    /// ```
+    pub fn make(value: i64, arg_type: &ArgType) -> Self {
+        match arg_type {
+            ArgType::Float => LiteralArg::Float(f32::from_bits(value as u32)),
+            ArgType::Double => LiteralArg::Double(f64::from_bits(value as u64)),
+            _ => LiteralArg::Int(value),
+        }
+    }
+
+    /// Create a literal with fixed type based on value (JADX: makeWithFixedType)
+    ///
+    /// For 0/1 values, type may be boolean. For other values, narrows the type.
+    ///
+    /// JADX Reference: LiteralArg.java:15-17
+    /// ```java
+    /// public static LiteralArg makeWithFixedType(long value, ArgType type) {
+    ///     return new LiteralArg(value, fixLiteralType(value, type));
+    /// }
+    /// ```
+    pub fn make_with_fixed_type(value: i64, arg_type: &ArgType) -> Self {
+        // Apply type fixing logic from JADX
+        let fixed_type = Self::fix_literal_type(value, arg_type);
+        Self::make(value, &fixed_type)
+    }
+
+    /// Fix literal type based on value (JADX: fixLiteralType)
+    ///
+    /// Returns appropriate type based on the literal value:
+    /// - 0 or known type: return as-is
+    /// - 1: could be boolean, byte, short, char, int
+    /// - Other: narrow numeric types (no boolean)
+    ///
+    /// JADX Reference: LiteralArg.java:19-27
+    /// ```java
+    /// private static ArgType fixLiteralType(long value, ArgType type) {
+    ///     if (value == 0 || type.isTypeKnown() || type.contains(PrimitiveType.LONG) || type.contains(PrimitiveType.DOUBLE)) {
+    ///         return type;
+    ///     }
+    ///     if (value == 1) {
+    ///         return ArgType.NARROW_NUMBERS;
+    ///     }
+    ///     return ArgType.NARROW_NUMBERS_NO_BOOL;
+    /// }
+    /// ```
+    pub fn fix_literal_type(value: i64, arg_type: &ArgType) -> ArgType {
+        // If value is 0, type is known, or is long/double, keep as-is
+        if value == 0 {
+            return arg_type.clone();
+        }
+        if arg_type.is_type_known() {
+            return arg_type.clone();
+        }
+        if matches!(arg_type, ArgType::Long | ArgType::Double) {
+            return arg_type.clone();
+        }
+
+        // For value 1, could be boolean too
+        if value == 1 {
+            return ArgType::UnknownIntegral; // NARROW_NUMBERS equivalent
+        }
+
+        // Other values can't be boolean
+        ArgType::UnknownIntegral // NARROW_NUMBERS_NO_BOOL equivalent
+    }
+
+    /// Duplicate this literal (JADX: duplicate)
+    ///
+    /// JADX Reference: LiteralArg.java:112-114
+    pub fn duplicate(&self) -> Self {
+        self.clone()
+    }
 }
 
 // === JADX SwitchData for 100% parity ===
@@ -3173,6 +3445,355 @@ impl InsnType {
             InsnType::Phi { dest, .. } => Some(dest),
             _ => None,
         }
+    }
+
+    // =========================================================================
+    // JADX Parity: FillArrayData methods (P11)
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/FillArrayData.java
+    // =========================================================================
+
+    /// Get FillArrayData size (JADX: getSize)
+    ///
+    /// Returns the number of elements in the array payload.
+    ///
+    /// JADX Reference: FillArrayData.java:59-61
+    pub fn get_fill_array_size(&self) -> Option<usize> {
+        match self {
+            InsnType::FillArrayData { data, .. } => Some(data.len()),
+            _ => None,
+        }
+    }
+
+    /// Get FillArrayData element width (JADX: via elemSize)
+    ///
+    /// Returns the element width in bytes (1, 2, 4, or 8).
+    ///
+    /// JADX Reference: FillArrayData.java:24 (elemSize field)
+    pub fn get_fill_array_elem_width(&self) -> Option<u8> {
+        match self {
+            InsnType::FillArrayData { element_width, .. } => Some(*element_width),
+            _ => None,
+        }
+    }
+
+    /// Get element type based on width (JADX: getElementType)
+    ///
+    /// Returns the inferred element type based on element width.
+    ///
+    /// JADX Reference: FillArrayData.java:39-53
+    /// ```java
+    /// private static ArgType getElementType(int elementWidthUnit) {
+    ///     switch (elementWidthUnit) {
+    ///         case 1:
+    ///         case 0:
+    ///             return ONE_BYTE_TYPE;
+    ///         case 2:
+    ///             return TWO_BYTES_TYPE;
+    ///         case 4:
+    ///             return FOUR_BYTES_TYPE;
+    ///         case 8:
+    ///             return EIGHT_BYTES_TYPE;
+    ///         default:
+    ///             throw new JadxRuntimeException("Unknown array element width: " + elementWidthUnit);
+    ///     }
+    /// }
+    /// ```
+    pub fn get_fill_array_element_type(&self) -> Option<ArgType> {
+        match self {
+            InsnType::FillArrayData { element_width, .. } => {
+                match element_width {
+                    0 | 1 => Some(ArgType::Unknown), // byte or boolean
+                    2 => Some(ArgType::Unknown),     // short or char
+                    4 => Some(ArgType::Unknown),     // int or float
+                    8 => Some(ArgType::Unknown),     // long or double
+                    _ => None,
+                }
+            }
+            _ => None,
+        }
+    }
+
+    /// Get literal args from FillArrayData (JADX: getLiteralArgs)
+    ///
+    /// Converts the raw array data to a list of LiteralArg values.
+    ///
+    /// JADX Reference: FillArrayData.java:67-95
+    /// ```java
+    /// public List<LiteralArg> getLiteralArgs(ArgType type) {
+    ///     List<LiteralArg> list = new ArrayList<>(size);
+    ///     Object array = data;
+    ///     switch (elemSize) {
+    ///         case 1:
+    ///             for (byte b : (byte[]) array) {
+    ///                 list.add(InsnArg.lit(b, type));
+    ///             }
+    ///             break;
+    ///         // ... other cases
+    ///     }
+    ///     return list;
+    /// }
+    /// ```
+    pub fn get_fill_array_literal_args(&self, target_type: &ArgType) -> Option<Vec<LiteralArg>> {
+        match self {
+            InsnType::FillArrayData { data, .. } => {
+                let literals: Vec<LiteralArg> = data.iter()
+                    .map(|&v| LiteralArg::make(v, target_type))
+                    .collect();
+                Some(literals)
+            }
+            _ => None,
+        }
+    }
+
+    /// Format data as string (JADX: dataToString)
+    ///
+    /// JADX Reference: FillArrayData.java:116-129
+    pub fn fill_array_data_to_string(&self) -> Option<String> {
+        match self {
+            InsnType::FillArrayData { data, element_width, .. } => {
+                let values: Vec<String> = data.iter().map(|v| {
+                    match element_width {
+                        1 => format!("{}", *v as i8),
+                        2 => format!("{}", *v as i16),
+                        4 => format!("{}", *v as i32),
+                        8 => format!("{}", v),
+                        _ => format!("0x{:x}", v),
+                    }
+                }).collect();
+                Some(format!("[{}]", values.join(", ")))
+            }
+            _ => None,
+        }
+    }
+
+    /// Check if FillArrayData is same as another (JADX: isSame)
+    ///
+    /// JADX Reference: FillArrayData.java:98-107
+    pub fn is_fill_array_same(&self, other: &InsnType) -> bool {
+        match (self, other) {
+            (
+                InsnType::FillArrayData { data: data1, element_width: w1, .. },
+                InsnType::FillArrayData { data: data2, element_width: w2, .. },
+            ) => {
+                w1 == w2 && data1 == data2
+            }
+            _ => false,
+        }
+    }
+
+    // =========================================================================
+    // JADX Parity: ConstStringNode accessor methods
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/ConstStringNode.java
+    // =========================================================================
+
+    /// Get the string index from a ConstString instruction (JADX: getStringIdx)
+    ///
+    /// Returns None if this is not a ConstString instruction.
+    ///
+    /// JADX Reference: ConstStringNode.java:20-22
+    /// ```java
+    /// public StringRef getString() {
+    ///     return str;
+    /// }
+    /// ```
+    pub fn get_string_idx(&self) -> Option<u32> {
+        match self {
+            InsnType::ConstString { string_idx, .. } => Some(*string_idx),
+            _ => None,
+        }
+    }
+
+    /// Check if this is a ConstString instruction
+    pub fn is_const_string(&self) -> bool {
+        matches!(self, InsnType::ConstString { .. })
+    }
+
+    // =========================================================================
+    // JADX Parity: ConstClassNode accessor methods
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/ConstClassNode.java
+    // =========================================================================
+
+    /// Get the type index from a ConstClass instruction (JADX: getClsType)
+    ///
+    /// Returns None if this is not a ConstClass instruction.
+    ///
+    /// JADX Reference: ConstClassNode.java:22-24
+    /// ```java
+    /// public ArgType getClsType() {
+    ///     return clsType;
+    /// }
+    /// ```
+    pub fn get_class_type_idx(&self) -> Option<u32> {
+        match self {
+            InsnType::ConstClass { type_idx, .. } => Some(*type_idx),
+            _ => None,
+        }
+    }
+
+    /// Check if this is a ConstClass instruction
+    pub fn is_const_class(&self) -> bool {
+        matches!(self, InsnType::ConstClass { .. })
+    }
+
+    // =========================================================================
+    // JADX Parity: PhiInsn accessor methods
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/PhiInsn.java
+    // =========================================================================
+
+    /// Get a PHI argument by its SSA variable (JADX: getArgBySsaVar)
+    ///
+    /// Searches the PHI sources for an argument matching the given SSA variable
+    /// (register number and version).
+    ///
+    /// JADX Reference: PhiInsn.java:91-102
+    /// ```java
+    /// @Nullable
+    /// public RegisterArg getArgBySsaVar(SSAVar ssaVar) {
+    ///     if (getArgsCount() == 0) {
+    ///         return null;
+    ///     }
+    ///     for (InsnArg insnArg : getArguments()) {
+    ///         RegisterArg reg = (RegisterArg) insnArg;
+    ///         if (reg.getSVar() == ssaVar) {
+    ///             return reg;
+    ///         }
+    ///     }
+    ///     return null;
+    /// }
+    /// ```
+    pub fn get_phi_arg_by_ssa(&self, reg_num: u16, ssa_version: u32) -> Option<&InsnArg> {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                for (_, arg) in sources.iter() {
+                    if let InsnArg::Register(reg) = arg {
+                        if reg.reg_num == reg_num && reg.ssa_version == ssa_version {
+                            return Some(arg);
+                        }
+                    }
+                }
+                None
+            }
+            _ => None,
+        }
+    }
+
+    /// Get a PHI source by block ID (JADX: getBlockByArgIndex inverse)
+    ///
+    /// Returns the argument associated with the given block ID in the PHI.
+    ///
+    /// JADX Reference: PhiInsn.java:62-64
+    /// ```java
+    /// public BlockNode getBlockByArgIndex(int argIndex) {
+    ///     return blockBinds.get(argIndex);
+    /// }
+    /// ```
+    pub fn get_phi_arg_by_block(&self, block_id: u32) -> Option<&InsnArg> {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                for (bid, arg) in sources.iter() {
+                    if *bid == block_id {
+                        return Some(arg);
+                    }
+                }
+                None
+            }
+            _ => None,
+        }
+    }
+
+    /// Check if PHI is empty (no sources)
+    pub fn is_phi_empty(&self) -> bool {
+        match self {
+            InsnType::Phi { sources, .. } => sources.is_empty(),
+            _ => true,
+        }
+    }
+
+    /// Get PHI sources count
+    pub fn get_phi_sources_count(&self) -> usize {
+        match self {
+            InsnType::Phi { sources, .. } => sources.len(),
+            _ => 0,
+        }
+    }
+}
+
+// =============================================================================
+// JADX Parity: InsnArg static wrapping methods
+// Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/args/InsnArg.java
+// =============================================================================
+
+impl InsnArg {
+    /// Wrap an instruction into an InsnArg (JADX: wrapInsnIntoArg)
+    ///
+    /// Creates an InsnWrapArg containing the given instruction. This is used
+    /// for instruction inlining when an instruction's result is used directly
+    /// as an argument to another instruction.
+    ///
+    /// For CONST and MOVE instructions (without FORCE_ASSIGN_INLINE), the
+    /// instruction's argument is returned directly rather than wrapping.
+    ///
+    /// JADX Reference: InsnArg.java:161-185
+    /// ```java
+    /// @NotNull
+    /// public static InsnArg wrapInsnIntoArg(InsnNode insn) {
+    ///     InsnType type = insn.getType();
+    ///     if (type == InsnType.CONST || type == InsnType.MOVE) {
+    ///         if (insn.contains(AFlag.FORCE_ASSIGN_INLINE)) {
+    ///             // ... wrap anyway
+    ///         } else {
+    ///             // Return the instruction's first argument directly
+    ///             InsnArg arg = insn.getArg(0);
+    ///             insn.add(AFlag.DONT_GENERATE);
+    ///             return arg;
+    ///         }
+    ///     }
+    ///     return wrap(insn);
+    /// }
+    /// ```
+    ///
+    /// Note: In Dexterity we don't have parent pointers, so this method
+    /// creates a new wrapped arg. Flag handling should be done by the caller.
+    pub fn wrap_insn_into_arg(insn: &InsnNode, insn_idx: u32) -> Self {
+        // For simple CONST/MOVE, we might want to extract the argument directly
+        // but in Dexterity's immutable model, we always wrap
+        let result_type = insn.result_type.clone().unwrap_or(ArgType::Unknown);
+        InsnArg::Wrapped(Box::new(WrappedInsn {
+            insn_idx,
+            result_type,
+            inline_insn: Some(Box::new(insn.clone())),
+        }))
+    }
+
+    /// Wrap an instruction with optional inlining (JADX: wrap)
+    ///
+    /// Creates an InsnWrapArg. The wrapped instruction's result type
+    /// is used as the argument type.
+    ///
+    /// JADX Reference: InsnArg.java:193-199
+    /// ```java
+    /// public static InsnArg wrap(InsnNode insn) {
+    ///     RegisterArg result = insn.getResult();
+    ///     ArgType type = result != null ? result.getType() : ArgType.UNKNOWN;
+    ///     return new InsnWrapArg(insn);
+    /// }
+    /// ```
+    pub fn wrap(insn: &InsnNode, insn_idx: u32) -> Self {
+        let result_type = insn.result_type.clone().unwrap_or(ArgType::Unknown);
+        InsnArg::Wrapped(Box::new(WrappedInsn {
+            insn_idx,
+            result_type,
+            inline_insn: Some(Box::new(insn.clone())),
+        }))
+    }
+
+    /// Create a wrapped arg by index only (lazy wrapping)
+    ///
+    /// This creates a wrapped arg that only stores the instruction index,
+    /// without the inline instruction. Used when we want to defer loading
+    /// the wrapped instruction.
+    pub fn wrap_by_idx(insn_idx: u32, result_type: ArgType) -> Self {
+        InsnArg::Wrapped(Box::new(WrappedInsn::new(insn_idx, result_type)))
     }
 }
 

@@ -563,6 +563,433 @@ impl Condition {
             other => vec![other],
         }
     }
+
+    // =========================================================================
+    // JADX Parity: IfCondition methods (P8)
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/regions/conditions/IfCondition.java
+    // =========================================================================
+
+    /// Get all register arguments used in this condition (JADX: getRegisterArgs)
+    ///
+    /// Collects all register arguments from all instructions in the condition.
+    /// Requires a lookup function to get instructions from block IDs.
+    ///
+    /// JADX Reference: IfCondition.java:256-266
+    /// ```java
+    /// public List<RegisterArg> getRegisterArgs() {
+    ///     List<RegisterArg> list = new ArrayList<>();
+    ///     if (mode == Mode.COMPARE) {
+    ///         compare.getInsn().getRegisterArgs(list);
+    ///     } else {
+    ///         for (IfCondition arg : args) {
+    ///             list.addAll(arg.getRegisterArgs());
+    ///         }
+    ///     }
+    ///     return list;
+    /// }
+    /// ```
+    pub fn get_register_args<F>(&self, get_block_registers: F) -> Vec<(u16, u32)>
+    where
+        F: Fn(u32) -> Vec<(u16, u32)> + Copy,
+    {
+        let mut result = Vec::new();
+        self.collect_register_args(&mut result, get_block_registers);
+        result
+    }
+
+    /// Internal helper to collect register args recursively
+    fn collect_register_args<F>(&self, result: &mut Vec<(u16, u32)>, get_block_registers: F)
+    where
+        F: Fn(u32) -> Vec<(u16, u32)> + Copy,
+    {
+        match self {
+            Condition::Simple { block, .. } => {
+                for reg in get_block_registers(*block) {
+                    if !result.contains(&reg) {
+                        result.push(reg);
+                    }
+                }
+            }
+            Condition::And(left, right) | Condition::Or(left, right) => {
+                left.collect_register_args(result, get_block_registers);
+                right.collect_register_args(result, get_block_registers);
+            }
+            Condition::Not(inner) => {
+                inner.collect_register_args(result, get_block_registers);
+            }
+            Condition::Ternary { condition, if_true, if_false } => {
+                condition.collect_register_args(result, get_block_registers);
+                if_true.collect_register_args(result, get_block_registers);
+                if_false.collect_register_args(result, get_block_registers);
+            }
+            Condition::Unknown => {}
+        }
+    }
+
+    /// Visit all instructions in this condition (JADX: visitInsns)
+    ///
+    /// Calls the visitor for each block in the condition.
+    ///
+    /// JADX Reference: IfCondition.java:280-286
+    /// ```java
+    /// public void visitInsns(Consumer<InsnNode> visitor) {
+    ///     if (mode == Mode.COMPARE) {
+    ///         compare.getInsn().visitInsns(visitor);
+    ///     } else {
+    ///         args.forEach(arg -> arg.visitInsns(visitor));
+    ///     }
+    /// }
+    /// ```
+    pub fn visit_blocks<F>(&self, mut visitor: F)
+    where
+        F: FnMut(u32),
+    {
+        self.visit_blocks_impl(&mut visitor);
+    }
+
+    fn visit_blocks_impl<F>(&self, visitor: &mut F)
+    where
+        F: FnMut(u32),
+    {
+        match self {
+            Condition::Simple { block, .. } => {
+                visitor(*block);
+            }
+            Condition::And(left, right) | Condition::Or(left, right) => {
+                left.visit_blocks_impl(visitor);
+                right.visit_blocks_impl(visitor);
+            }
+            Condition::Not(inner) => {
+                inner.visit_blocks_impl(visitor);
+            }
+            Condition::Ternary { condition, if_true, if_false } => {
+                condition.visit_blocks_impl(visitor);
+                if_true.visit_blocks_impl(visitor);
+                if_false.visit_blocks_impl(visitor);
+            }
+            Condition::Unknown => {}
+        }
+    }
+
+    /// Collect all blocks in this condition (JADX: collectInsns)
+    ///
+    /// Returns a list of all block IDs in this condition.
+    ///
+    /// JADX Reference: IfCondition.java:288-292
+    /// ```java
+    /// public List<InsnNode> collectInsns() {
+    ///     List<InsnNode> list = new ArrayList<>();
+    ///     visitInsns(list::add);
+    ///     return list;
+    /// }
+    /// ```
+    pub fn collect_all_blocks(&self) -> Vec<u32> {
+        let mut blocks = Vec::new();
+        self.visit_blocks(|block| {
+            if !blocks.contains(&block) {
+                blocks.push(block);
+            }
+        });
+        blocks
+    }
+
+    /// Get source line from the condition (JADX: getSourceLine)
+    ///
+    /// Returns the first non-zero source line from blocks in the condition.
+    ///
+    /// JADX Reference: IfCondition.java:294-302
+    /// ```java
+    /// public int getSourceLine() {
+    ///     for (InsnNode insn : collectInsns()) {
+    ///         int line = insn.getSourceLine();
+    ///         if (line != 0) {
+    ///             return line;
+    ///         }
+    ///     }
+    ///     return 0;
+    /// }
+    /// ```
+    pub fn get_source_line<F>(&self, get_block_source_line: F) -> Option<u32>
+    where
+        F: Fn(u32) -> Option<u32>,
+    {
+        for block in self.collect_all_blocks() {
+            if let Some(line) = get_block_source_line(block) {
+                return Some(line);
+            }
+        }
+        None
+    }
+
+    /// Get the first block in this condition (JADX: getFirstInsn)
+    ///
+    /// Returns the first block ID in this condition.
+    ///
+    /// JADX Reference: IfCondition.java:304-310
+    /// ```java
+    /// @Nullable
+    /// public InsnNode getFirstInsn() {
+    ///     if (mode == Mode.COMPARE) {
+    ///         return compare.getInsn();
+    ///     }
+    ///     return args.get(0).getFirstInsn();
+    /// }
+    /// ```
+    pub fn get_first_block(&self) -> Option<u32> {
+        match self {
+            Condition::Simple { block, .. } => Some(*block),
+            Condition::And(left, _) | Condition::Or(left, _) => left.get_first_block(),
+            Condition::Not(inner) => inner.get_first_block(),
+            Condition::Ternary { condition, .. } => condition.get_first_block(),
+            Condition::Unknown => None,
+        }
+    }
+
+    /// Invert this condition following JADX's invert() logic (JADX: invert)
+    ///
+    /// Returns a new condition that is the logical inverse of this one.
+    /// Uses De Morgan's laws for AND/OR.
+    ///
+    /// JADX Reference: IfCondition.java:121-140
+    /// ```java
+    /// public static IfCondition invert(IfCondition cond) {
+    ///     Mode mode = cond.getMode();
+    ///     switch (mode) {
+    ///         case COMPARE:
+    ///             return new IfCondition(cond.getCompare().invert());
+    ///         case TERNARY:
+    ///             return ternary(cond.first(), not(cond.second()), not(cond.third()));
+    ///         case NOT:
+    ///             return cond.first();
+    ///         case AND:
+    ///         case OR:
+    ///             List<IfCondition> newArgs = new ArrayList<>();
+    ///             for (IfCondition arg : cond.getArgs()) {
+    ///                 newArgs.add(invert(arg));
+    ///             }
+    ///             return new IfCondition(mode == Mode.AND ? Mode.OR : Mode.AND, newArgs);
+    ///     }
+    /// }
+    /// ```
+    pub fn invert(self) -> Self {
+        match self {
+            Condition::Simple { block, op, negated } => {
+                // Invert by flipping the negated flag or inverting the operator
+                Condition::Simple {
+                    block,
+                    op: op.invert(),
+                    negated,
+                }
+            }
+            Condition::Not(inner) => {
+                // NOT(NOT(x)) = x
+                *inner
+            }
+            Condition::And(left, right) => {
+                // De Morgan: !(a && b) = !a || !b
+                Condition::Or(
+                    Box::new(left.invert()),
+                    Box::new(right.invert()),
+                )
+            }
+            Condition::Or(left, right) => {
+                // De Morgan: !(a || b) = !a && !b
+                Condition::And(
+                    Box::new(left.invert()),
+                    Box::new(right.invert()),
+                )
+            }
+            Condition::Ternary { condition, if_true, if_false } => {
+                // a ? b : c inverted = a ? !b : !c
+                Condition::Ternary {
+                    condition,
+                    if_true: Box::new(if_true.invert()),
+                    if_false: Box::new(if_false.invert()),
+                }
+            }
+            Condition::Unknown => Condition::Unknown,
+        }
+    }
+
+    /// Merge two conditions with the given mode (JADX: merge)
+    ///
+    /// If the first condition already has the same mode, add to it.
+    /// Otherwise create a new compound condition.
+    ///
+    /// JADX Reference: IfCondition.java:80-87
+    /// ```java
+    /// public static IfCondition merge(Mode mode, IfCondition a, IfCondition b) {
+    ///     if (a.getMode() == mode) {
+    ///         IfCondition n = new IfCondition(a);
+    ///         n.addArg(b);
+    ///         return n;
+    ///     }
+    ///     return new IfCondition(mode, Arrays.asList(a, b));
+    /// }
+    /// ```
+    pub fn merge_with(self, mode: ConditionMode, other: Condition) -> Self {
+        match (mode, self) {
+            (ConditionMode::And, Condition::And(left, right)) => {
+                // Flatten: (a && b) && c = a && b && c
+                // We keep it as nested for now (same behavior)
+                Condition::And(
+                    Box::new(Condition::And(left, right)),
+                    Box::new(other),
+                )
+            }
+            (ConditionMode::Or, Condition::Or(left, right)) => {
+                // Flatten: (a || b) || c = a || b || c
+                Condition::Or(
+                    Box::new(Condition::Or(left, right)),
+                    Box::new(other),
+                )
+            }
+            (ConditionMode::And, cond) => {
+                Condition::And(Box::new(cond), Box::new(other))
+            }
+            (ConditionMode::Or, cond) => {
+                Condition::Or(Box::new(cond), Box::new(other))
+            }
+            (_, cond) => cond, // Invalid mode for merge
+        }
+    }
+}
+
+// ============================================================================
+// JADX Parity: Compare struct (P10)
+// Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/regions/conditions/Compare.java
+// ============================================================================
+
+/// Comparison wrapper for condition comparisons (JADX: Compare)
+///
+/// Wraps a condition comparison with the operator and operands.
+/// Used in IfCondition.Mode.COMPARE to hold the actual comparison.
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/dex/regions/conditions/Compare.java
+#[derive(Debug, Clone)]
+pub struct Compare {
+    /// The block containing the IF instruction
+    pub block_id: u32,
+    /// The comparison operator
+    pub op: IfCondition,
+    /// First argument (left side)
+    pub arg_a_reg: Option<u16>,
+    /// Second argument (right side, None for *z variants)
+    pub arg_b_reg: Option<u16>,
+    /// SSA version of first argument
+    pub arg_a_ssa: u32,
+    /// SSA version of second argument
+    pub arg_b_ssa: u32,
+}
+
+impl Compare {
+    /// Create a new comparison (JADX: Compare constructor)
+    ///
+    /// JADX Reference: Compare.java:11-14
+    /// ```java
+    /// public Compare(IfNode insn) {
+    ///     insn.add(AFlag.HIDDEN);
+    ///     this.insn = insn;
+    /// }
+    /// ```
+    pub fn new(block_id: u32, op: IfCondition) -> Self {
+        Compare {
+            block_id,
+            op,
+            arg_a_reg: None,
+            arg_b_reg: None,
+            arg_a_ssa: 0,
+            arg_b_ssa: 0,
+        }
+    }
+
+    /// Create with register arguments
+    pub fn with_args(block_id: u32, op: IfCondition, a_reg: u16, b_reg: Option<u16>) -> Self {
+        Compare {
+            block_id,
+            op,
+            arg_a_reg: Some(a_reg),
+            arg_b_reg: b_reg,
+            arg_a_ssa: 0,
+            arg_b_ssa: 0,
+        }
+    }
+
+    /// Get the comparison operator (JADX: getOp)
+    ///
+    /// JADX Reference: Compare.java:16-18
+    pub fn get_op(&self) -> IfCondition {
+        self.op
+    }
+
+    /// Get first argument register (JADX: getA)
+    ///
+    /// JADX Reference: Compare.java:20-22
+    pub fn get_a(&self) -> Option<u16> {
+        self.arg_a_reg
+    }
+
+    /// Get second argument register (JADX: getB)
+    ///
+    /// JADX Reference: Compare.java:24-26
+    pub fn get_b(&self) -> Option<u16> {
+        self.arg_b_reg
+    }
+
+    /// Get the block ID containing this comparison
+    ///
+    /// JADX Reference: Compare.java:28-30 (getInsn returns IfNode)
+    pub fn get_block_id(&self) -> u32 {
+        self.block_id
+    }
+
+    /// Invert this comparison (JADX: invert)
+    ///
+    /// Inverts the operator and returns self for chaining.
+    ///
+    /// JADX Reference: Compare.java:32-35
+    /// ```java
+    /// public Compare invert() {
+    ///     insn.invertCondition();
+    ///     return this;
+    /// }
+    /// ```
+    pub fn invert(&mut self) -> &mut Self {
+        self.op = self.op.invert();
+        self
+    }
+
+    /// Normalize this comparison (JADX: normalize)
+    ///
+    /// Ensures consistent operand ordering for canonical form.
+    /// E.g., puts the one with result first if applicable.
+    ///
+    /// JADX Reference: Compare.java:37-39
+    pub fn normalize(&mut self) {
+        // Normalize by swapping args and mirroring op if needed
+        // JADX does this based on which arg has a result
+        // For now, we just keep as-is since we don't have that info
+    }
+
+    /// Check if this comparison uses zero as second operand
+    pub fn is_zero_compare(&self) -> bool {
+        self.arg_b_reg.is_none()
+    }
+
+    /// Convert to string (JADX: toString)
+    ///
+    /// JADX Reference: Compare.java:42-44
+    pub fn to_string(&self) -> String {
+        let a = self.arg_a_reg.map_or("?".to_string(), |r| format!("v{}", r));
+        let b = self.arg_b_reg.map_or("0".to_string(), |r| format!("v{}", r));
+        format!("{} {} {}", a, self.op.symbol(), b)
+    }
+}
+
+impl std::fmt::Display for Compare {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_string())
+    }
 }
 
 /// Loop kind
