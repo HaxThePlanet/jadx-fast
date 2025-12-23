@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P1 Open | **Production Ready for ALL APKs** | Grade: A | Dec 23, 2025 Output Audit
+**Status:** 0 P1 Open | **Production Ready for ALL APKs** | Grade: A | Dec 23, 2025 - JADX Codegen Parity Complete
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -12,6 +12,8 @@
 - large APK: 99.93% clean
 - badboy APK: 98% clean
 - medium APK: 98%+ clean (hot-reload fix applied Dec 23)
+
+**JADX Codegen Parity:** COMPLETE - All 12 tasks finished Dec 23, 2025
 
 ## Open Work
 
@@ -46,6 +48,34 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for optimization item
 ---
 
 ## Completed
+
+### JADX Codegen Parity - Complete (Dec 23, 2025)
+
+All 12 JADX codegen parity tasks completed. See [JADX_CODEGEN_PARITY.md](JADX_CODEGEN_PARITY.md) for details.
+
+**P1 (High Priority) - 6 tasks:**
+- **P1-LAMBDA-REF** - Method reference generation (`String::new`, `obj::method`)
+- **P1-LAMBDA-SIMPLE** - Simple lambda generation (`() -> { return expr; }`)
+- **P1-LAMBDA-INLINE** - Inlined lambda with name inheritance
+- **P1-ANON-INLINE** - Anonymous class inlining with recursion detection
+- **P1-INVOKE-RAW** - InvokeCustom raw fallback using `.dynamicInvoker().invoke()`
+- **P1-FIELD-REPLACE** - `this$0` -> `OuterClass.this` replacement
+
+**P2 (Medium Priority) - 5 tasks:**
+- **P2-BOOL-SIMP** - Boolean simplification (`bool==true` -> `bool`)
+- **P2-NAME-COLLISION** - Class-level reserved names (static fields, inner classes, packages)
+- **P2-SIMPLE-MODE** - Complete SimpleModeHelper rewrite in `fallback_gen.rs` (~500 lines)
+- **P2-MULTI-CATCH** - Multi-catch separator (`Type1 | Type2`)
+- **P2-SUPER-QUAL** - Qualified super calls (`OuterClass.super.method()`)
+
+**P3 (Lower Priority) - 1 task:**
+- **P3-PARAM-ANNOT** - Parameter annotations (`@NonNull arg`)
+
+**Key Files Modified:**
+- `crates/dexterity-codegen/src/body_gen.rs` - Super call qualification, name collision detection
+- `crates/dexterity-codegen/src/fallback_gen.rs` - Complete rewrite with SimpleModeHelper
+
+---
 
 ### P1-HOTRELOAD Fix - Complete (Dec 23, 2025)
 

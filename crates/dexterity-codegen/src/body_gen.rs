@@ -7510,6 +7510,33 @@ fn get_outer_class_from_field_type(field_type: &ArgType) -> Option<String> {
     }
 }
 
+/// Check if a super call needs to be qualified with the outer class name
+/// JADX parity: InsnGen.java:1080-1095 (callSuper method)
+///
+/// In Java, when an inner class calls a super method of its outer class, it uses
+/// qualified super syntax: `OuterClass.super.method()`
+///
+/// This function returns true if the declaring class of the method being called
+/// is different from the current class (indicating we're in an inner class calling
+/// out to an outer class's superclass method).
+fn needs_qualified_super(decl_class_type: &str, ctx: &BodyGenContext) -> bool {
+    if let Some(ref current_class) = ctx.current_class_type {
+        // Normalize both types for comparison
+        let decl_normalized = decl_class_type
+            .trim_start_matches('L')
+            .trim_end_matches(';');
+        let current_normalized = current_class
+            .trim_start_matches('L')
+            .trim_end_matches(';');
+
+        // If the declaring class is different from current class, we need qualified super
+        // This happens when an inner class calls super on a method from an outer class
+        decl_normalized != current_normalized
+    } else {
+        false
+    }
+}
+
 // =============================================================================
 // Varargs Expansion Support
 // =============================================================================
@@ -8085,9 +8112,25 @@ fn write_invoke_with_inlining<W: CodeWriter>(
             }
             InvokeKind::Super => {
                 if &*info.method_name == "<init>" {
-                    code.add("super(");
+                    // Constructor super() call - check if we need qualified form
+                    // JADX parity: callSuper() in InsnGen.java
+                    if needs_qualified_super(&info.class_type, ctx) {
+                        // OuterClass.super() - rare but valid for invoking outer class's super constructor
+                        let decl_class = crate::type_gen::get_simple_name(&info.class_type);
+                        code.add(decl_class).add(".super(");
+                    } else {
+                        code.add("super(");
+                    }
                 } else {
-                    code.add("super.").add(&sanitize_method_name(&info.method_name)).add("(");
+                    // Regular super method call - check if we need qualified form
+                    // JADX parity: InsnGen.java:1088-1094
+                    // If calling a super method of an outer class, use OuterClass.super.method()
+                    if needs_qualified_super(&info.class_type, ctx) {
+                        let decl_class = crate::type_gen::get_simple_name(&info.class_type);
+                        code.add(decl_class).add(".super.").add(&sanitize_method_name(&info.method_name)).add("(");
+                    } else {
+                        code.add("super.").add(&sanitize_method_name(&info.method_name)).add("(");
+                    }
                 }
                 // Use type-aware argument formatting with varargs expansion
                 write_typed_args_with_varargs(args, &info.param_types, skip_count, info.is_varargs, ctx, code);

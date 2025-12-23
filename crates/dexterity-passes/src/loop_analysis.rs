@@ -7,7 +7,7 @@
 //! Based on JADX's LoopRegionVisitor patterns.
 
 use std::collections::{HashMap, HashSet};
-use dexterity_ir::instructions::{BinaryOp, InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
+use dexterity_ir::instructions::{BinaryOp, InsnArg, InsnNode, InsnType, InvokeKind, LiteralArg, RegisterArg};
 use dexterity_ir::regions::LoopKind;
 use crate::ssa::SsaResult;
 use crate::loops::LoopInfo;
@@ -575,6 +575,272 @@ pub fn get_register_args(insn: &InsnNode) -> Vec<(u16, u32)> {
         _ => {}
     }
     args
+}
+
+// =============================================================================
+// Iterator For-Each Detection
+// =============================================================================
+// JADX Reference: LoopRegionVisitor.checkIterableForEach()
+// See: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/regions/LoopRegionVisitor.java
+
+/// Information about a detected iterator for-each pattern
+///
+/// JADX Reference: ForEachLoop for Iterable
+#[derive(Debug, Clone)]
+pub struct IteratorForEachPattern {
+    /// The loop header block
+    pub header: u32,
+    /// The iterable collection being iterated
+    pub iterable_reg: (u16, u32),
+    /// The iterator variable (from .iterator() call)
+    pub iterator_reg: (u16, u32),
+    /// The element variable (from .next() call)
+    pub elem_var: (u16, u32),
+    /// Offset of the iterator() call
+    pub iterator_call_offset: u32,
+    /// Offset of the hasNext() call (in condition)
+    pub has_next_offset: u32,
+    /// Offset of the next() call (in body)
+    pub next_call_offset: u32,
+}
+
+/// Detect iterator for-each pattern
+///
+/// JADX Reference: LoopRegionVisitor.checkIterableForEach()
+///
+/// Pattern:
+/// ```java
+/// Iterator iter = collection.iterator();
+/// while (iter.hasNext()) {
+///     Type elem = iter.next();
+///     // body
+/// }
+/// ```
+///
+/// Becomes:
+/// ```java
+/// for (Type elem : collection) {
+///     // body
+/// }
+/// ```
+pub fn detect_iterator_foreach(
+    ssa: &SsaResult,
+    loop_info: &LoopInfo,
+    def_map: &HashMap<(u16, u32), &InsnNode>,
+    use_locations: &HashMap<(u16, u32), Vec<u32>>,
+) -> Option<IteratorForEachPattern> {
+    // Find the header block
+    let header_block = ssa.blocks.iter().find(|b| b.id == loop_info.header)?;
+
+    // Look for IF instruction in condition (the hasNext() check)
+    let condition_insn = header_block.instructions.iter()
+        .find(|i| matches!(&i.insn_type, InsnType::If { .. }))?;
+
+    // Get the condition argument - should be hasNext() result
+    let cond_arg = match &condition_insn.insn_type {
+        InsnType::If { left, .. } => left,
+        _ => return None,
+    };
+
+    // The condition should use a single register (result of hasNext())
+    let has_next_result = match cond_arg {
+        InsnArg::Register(reg) => (reg.reg_num, reg.ssa_version),
+        _ => return None,
+    };
+
+    // Find the hasNext() call
+    let has_next_insn = def_map.get(&has_next_result)?;
+    if !is_has_next_call(has_next_insn) {
+        return None;
+    }
+
+    // Get the iterator variable from hasNext() call
+    let iterator_reg = get_invoke_receiver(has_next_insn)?;
+
+    // Find the iterator() call that created this iterator
+    let iterator_assign = def_map.get(&iterator_reg)?;
+    if !is_iterator_call(iterator_assign) {
+        return None;
+    }
+
+    // Get the iterable collection
+    let iterable_reg = get_invoke_receiver(iterator_assign)?;
+
+    // Iterator should be used exactly twice: hasNext() and next()
+    let iterator_uses = use_locations.get(&iterator_reg)?;
+    if iterator_uses.len() != 2 {
+        return None;
+    }
+
+    // Find the next() call in the loop body
+    let next_call = find_next_call(ssa, loop_info, iterator_reg)?;
+
+    // Get the element variable
+    let elem_var = get_invoke_result(&next_call)?;
+
+    // Verify element is used only in loop
+    if !used_only_in_loop(loop_info, elem_var, use_locations) {
+        return None;
+    }
+
+    Some(IteratorForEachPattern {
+        header: loop_info.header,
+        iterable_reg,
+        iterator_reg,
+        elem_var,
+        iterator_call_offset: iterator_assign.offset,
+        has_next_offset: has_next_insn.offset,
+        next_call_offset: next_call.offset,
+    })
+}
+
+/// Check if an instruction is a .hasNext() call
+///
+/// JADX Reference: checkInvoke(insn, "java.util.Iterator", "hasNext()Z")
+fn is_has_next_call(insn: &InsnNode) -> bool {
+    if let InsnType::Invoke { method, kind, .. } = &insn.insn_type {
+        method.name == "hasNext"
+            && method.return_type.as_deref() == Some("Z")
+            && method.params.is_empty()
+            && matches!(kind, InvokeKind::Virtual | InvokeKind::Interface)
+    } else {
+        false
+    }
+}
+
+/// Check if an instruction is a .iterator() call
+///
+/// JADX Reference: checkInvoke(insn, null, "iterator()Ljava/util/Iterator;")
+fn is_iterator_call(insn: &InsnNode) -> bool {
+    if let InsnType::Invoke { method, kind, .. } = &insn.insn_type {
+        method.name == "iterator"
+            && method.return_type.as_deref().map_or(false, |t| t.contains("Iterator"))
+            && method.params.is_empty()
+            && matches!(kind, InvokeKind::Virtual | InvokeKind::Interface)
+    } else {
+        false
+    }
+}
+
+/// Check if an instruction is a .next() call
+///
+/// JADX Reference: checkInvoke(insn, "java.util.Iterator", "next()Ljava/lang/Object;")
+fn is_next_call(insn: &InsnNode) -> bool {
+    if let InsnType::Invoke { method, kind, .. } = &insn.insn_type {
+        method.name == "next"
+            && method.params.is_empty()
+            && matches!(kind, InvokeKind::Virtual | InvokeKind::Interface)
+    } else {
+        false
+    }
+}
+
+/// Get the receiver (first arg) of an invoke instruction
+fn get_invoke_receiver(insn: &InsnNode) -> Option<(u16, u32)> {
+    if let InsnType::Invoke { args, .. } = &insn.insn_type {
+        if let Some(InsnArg::Register(reg)) = args.first() {
+            return Some((reg.reg_num, reg.ssa_version));
+        }
+    }
+    None
+}
+
+/// Get the result register of an invoke instruction
+fn get_invoke_result(insn: &InsnNode) -> Option<(u16, u32)> {
+    if let InsnType::Invoke { dest: Some(dest), .. } = &insn.insn_type {
+        return Some((dest.reg_num, dest.ssa_version));
+    }
+    None
+}
+
+/// Find the next() call in the loop body
+fn find_next_call(
+    ssa: &SsaResult,
+    loop_info: &LoopInfo,
+    iterator_reg: (u16, u32),
+) -> Option<InsnNode> {
+    for block_id in &loop_info.blocks {
+        if let Some(block) = ssa.blocks.iter().find(|b| b.id == *block_id) {
+            for insn in &block.instructions {
+                if is_next_call(insn) {
+                    // Check if it's called on the right iterator
+                    if let Some(receiver) = get_invoke_receiver(insn) {
+                        if receiver == iterator_reg {
+                            return Some(insn.clone());
+                        }
+                    }
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Enhanced loop pattern analysis including iterator for-each
+///
+/// JADX Reference: LoopRegionVisitor.processLoopRegion()
+pub fn analyze_loop_patterns_with_iterables(
+    ssa: &SsaResult,
+    loops: &[LoopInfo],
+) -> EnhancedLoopPatternResult {
+    let mut result = EnhancedLoopPatternResult::default();
+
+    // Build helper maps
+    let mut def_map: HashMap<(u16, u32), &InsnNode> = HashMap::new();
+    for block in &ssa.blocks {
+        for insn in &block.instructions {
+            if let Some(dest) = get_result_reg(insn) {
+                def_map.insert((dest.reg_num, dest.ssa_version), insn);
+            }
+        }
+    }
+
+    let use_counts = count_uses(ssa);
+    let use_locations = build_use_locations(ssa);
+    let def_locations = build_def_locations(ssa);
+
+    for loop_info in loops {
+        // Try indexed for-loop first
+        if let Some(for_pattern) = detect_indexed_for(
+            ssa, loop_info, &def_map, &use_counts, &use_locations, &def_locations
+        ) {
+            // Check if it's actually an array for-each
+            if let Some(foreach_pattern) = detect_array_foreach(ssa, &for_pattern, &def_map, &use_counts) {
+                result.array_for_each.push(foreach_pattern);
+                result.loop_kinds.insert(loop_info.header, LoopKind::ForEach);
+                continue;
+            } else {
+                result.for_loops.push(for_pattern);
+                result.loop_kinds.insert(loop_info.header, LoopKind::For);
+                continue;
+            }
+        }
+
+        // Try iterator for-each pattern
+        if let Some(iter_pattern) = detect_iterator_foreach(ssa, loop_info, &def_map, &use_locations) {
+            result.iterator_for_each.push(iter_pattern);
+            result.loop_kinds.insert(loop_info.header, LoopKind::ForEach);
+            continue;
+        }
+
+        // Default: while loop
+        result.loop_kinds.insert(loop_info.header, LoopKind::While);
+    }
+
+    result
+}
+
+/// Enhanced result including iterator for-each patterns
+#[derive(Debug, Default)]
+pub struct EnhancedLoopPatternResult {
+    /// Detected indexed for-loops
+    pub for_loops: Vec<ForLoopPattern>,
+    /// Detected array for-each patterns
+    pub array_for_each: Vec<ArrayForEachPattern>,
+    /// Detected iterator for-each patterns (NEW)
+    pub iterator_for_each: Vec<IteratorForEachPattern>,
+    /// Map of loop header to detected kind
+    pub loop_kinds: HashMap<u32, LoopKind>,
 }
 
 #[cfg(test)]

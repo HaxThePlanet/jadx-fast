@@ -44,6 +44,7 @@ High-performance Android decompiler written in Rust, targeting 1:1 JADX parity.
 | Document | Description |
 |----------|-------------|
 | [DEX Parity](DEX_PARITY.md) | 100% - Binary parsing |
+| [IR Clone Status](IR_CLONE_STATUS.md) | ~92% - JADX IR clone with dominator infrastructure |
 | [IR Reference](JADX_DEXTERITY_IR_REFERENCE.md) | 100% - Type system, SSA, instructions, regions |
 | [Codegen Parity](CODEGEN_PARITY.md) | B+ Grade - Java generation |
 | [Kotlin Parity](KOTLIN_PARITY.md) | 100% - Complete metadata parsing |

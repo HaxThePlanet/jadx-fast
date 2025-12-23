@@ -1,9 +1,10 @@
 # Quality Status
 
-**Status:** **0 P1 Open** | **Production Ready** | Dec 23, 2025 - P1-HOTRELOAD Fixed
+**Status:** **0 P1 Open** | **Production Ready** | Dec 23, 2025 - JADX Codegen Parity Complete
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Output Refresh:** Dec 23, 2025 - All APK samples compared against JADX
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
+**Codegen:** JADX parity complete - All 12 codegen tasks finished (see JADX_CODEGEN_PARITY.md)
 
 ## Output Quality Audit (Dec 23, 2025)
 
@@ -47,13 +48,13 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **A-** | 98-100% clean for all APKs |
+| **Codegen** | **A** | JADX parity complete - all 12 tasks done (Dec 23) |
 | **Type Inference** | **A-** | ~90% JADX parity |
 | **IR/Control Flow** | **A** | All major patterns working |
-| **Variable Naming** | **A-** | Hot-reload edge case fixed Dec 23 |
+| **Variable Naming** | **A** | Name collision detection complete (Dec 23) |
 | **Kotlin Support** | **A** | 100% parity |
 | **Resources** | **A+** | 1:1 JADX parity |
-| **Overall** | **A-** | Production ready for all APKs |
+| **Overall** | **A** | Production ready for all APKs |
 
 ### Per-APK Grades
 
@@ -104,7 +105,35 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 
 ## Recent Improvements (Dec 23, 2025)
 
-### IR Layer JADX Parity Enhancement (Dec 23, 2025 - Latest)
+### JADX Codegen Parity Complete (Dec 23, 2025 - Latest)
+
+All 12 JADX codegen parity tasks have been completed. See [JADX_CODEGEN_PARITY.md](JADX_CODEGEN_PARITY.md) for full details.
+
+**P1 (High Priority) - 6 tasks:**
+| ID | Feature | Files |
+|----|---------|-------|
+| P1-LAMBDA-REF | Method reference (`String::new`, `obj::method`) | body_gen.rs |
+| P1-LAMBDA-SIMPLE | Simple lambda (`() -> { return expr; }`) | body_gen.rs |
+| P1-LAMBDA-INLINE | Inlined lambda with name inheritance | body_gen.rs |
+| P1-ANON-INLINE | Anonymous class inlining with recursion detection | body_gen.rs |
+| P1-INVOKE-RAW | InvokeCustom raw `.dynamicInvoker().invoke()` | body_gen.rs |
+| P1-FIELD-REPLACE | `this$0` -> `OuterClass.this` replacement | body_gen.rs |
+
+**P2 (Medium Priority) - 5 tasks:**
+| ID | Feature | Files |
+|----|---------|-------|
+| P2-BOOL-SIMP | Boolean simplification (`bool==true` -> `bool`) | body_gen.rs |
+| P2-NAME-COLLISION | Class-level reserved names (static fields, inner classes, packages) | body_gen.rs |
+| P2-SIMPLE-MODE | Complete SimpleModeHelper rewrite (~500 lines) | fallback_gen.rs |
+| P2-MULTI-CATCH | Multi-catch separator (`Type1 \| Type2`) | body_gen.rs |
+| P2-SUPER-QUAL | Qualified super calls (`OuterClass.super.method()`) | body_gen.rs |
+
+**P3 (Lower Priority) - 1 task:**
+| ID | Feature | Files |
+|----|---------|-------|
+| P3-PARAM-ANNOT | Parameter annotations (`@NonNull arg`) | method_gen.rs |
+
+### IR Layer JADX Parity Enhancement (Dec 23, 2025)
 
 Comprehensive analysis of JADX's 263 Java files (~2MB) IR layer vs Dexterity revealed IR is now **~85% complete**. Key additions:
 

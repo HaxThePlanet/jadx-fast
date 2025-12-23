@@ -2,7 +2,7 @@
 
 This document provides a comprehensive comparison of JADX's Java-based IR (Intermediate Representation) and Dexterity's Rust-based IR. It documents semantic parity status and identifies gaps that may affect decompilation quality.
 
-**Last Updated:** December 22, 2025
+**Last Updated:** December 23, 2025
 
 ---
 
@@ -26,12 +26,14 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 |-----------|-----------------|------------|--------|
 | **Type System** | 100% | None - OuterGeneric, TypeVariable bounds, 15 unknown variants | None |
 | **SSA Variables** | 100% | None - all utility methods implemented | None |
-| **Instructions** | 100% | None - all 40+ types covered | None |
+| **Instructions** | 100% | None - all 40+ types covered, SwitchData, TargetInsnNode methods | None |
 | **Instruction Args** | 100% | None - all variants present | None |
-| **Blocks** | 80% | Dominance info stored differently, cleanSuccessors | Medium |
+| **Blocks** | 95% | Full dominator infrastructure (Dec 23): cid, pos, doms, post_doms, dom_frontier, idom, ipost_dom, dominates_on, clean_successors, locked | Low |
 | **Regions** | 100% | None - enum matches class hierarchy | None |
 | **Attributes** | 100% | None - 60 AFlags complete | None |
 | **PHI Handling** | 100% | Different structure, same semantics | None |
+
+**Dec 23, 2025 Update:** Added ~840 lines of JADX-compatible IR infrastructure including full BlockNode dominator fields, SwitchData struct, TargetInsnNode methods, BinaryOp methods, InvokeNode methods, and InsnNode rebind methods. See [IR_CLONE_STATUS.md](IR_CLONE_STATUS.md) for details.
 
 ---
 

@@ -9,6 +9,7 @@ pub mod block_split;
 pub mod clean_regions;
 pub mod check_code;
 pub mod check_regions;
+pub mod class_modifier;  // NEW: JADX ClassModifier clone
 pub mod constructor_visitor;
 pub mod process_instructions;
 pub mod cfg;
@@ -20,10 +21,12 @@ pub mod enum_visitor;
 pub mod extract_field_init;
 pub mod finally_extract;
 pub mod finish_type_inference;
+pub mod fix_switch_over_enum;  // NEW: JADX FixSwitchOverEnum clone
 pub mod fix_types;
 pub mod generic_types;
 pub mod if_region_visitor;
 pub mod init_code_vars;
+pub mod inline_methods;  // NEW: JADX InlineMethods clone
 pub mod kotlin_intrinsics;
 pub mod loop_analysis;
 pub mod loops;
@@ -42,6 +45,7 @@ pub mod return_visitor;
 pub mod shadow_field;
 pub mod simplify;
 pub mod ssa;
+pub mod switch_break_visitor;  // NEW: JADX SwitchBreakVisitor clone
 pub mod ternary_mod;
 pub mod type_bound;
 pub mod type_inference;
@@ -169,6 +173,34 @@ pub use constructor_visitor::{
 pub use attach_method_details::{
     attach_param_names, is_lambda_impl, is_synthetic_accessor, parse_method_signature,
     AttachMethodDetailsResult, MethodDetails as AttachedMethodDetails, MethodSignature, TypeParameter,
+};
+
+// NEW: JADX parity passes (Dec 23, 2025)
+// See: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/
+
+pub use fix_switch_over_enum::{
+    init_class_enum_map, is_ordinal_call, is_switch_map_field, process_enum_switch,
+    should_hide_synthetic_class, EnumMapAttr, EnumMapInfo, EnumSwitchFix, EnumSwitchMap,
+    FixSwitchOverEnumResult,
+};
+pub use switch_break_visitor::{
+    block_contains_exit_insn, extract_common_break, is_break_block, is_break_for_switch,
+    is_exit_edge_insn, optimize_switch_breaks, region_ends_with_exit, remove_unreachable_break,
+    ExtractCommonBreakResult, SwitchBreakVisitorResult,
+};
+pub use class_modifier::{
+    find_methods_to_hide, find_synthetic_fields_to_hide, is_bridge_method, is_captured_variable,
+    is_empty_synthetic_class, is_outer_class_reference, is_removable_empty_clinit,
+    is_removable_empty_constructor, is_synthetic_accessor_wrapper, process_class_modifiers,
+    ClassModifierResult, FieldReplaceAttr, HideElement, MethodReplaceAttr,
+};
+pub use inline_methods::{
+    analyze_method_for_inlining, inline_invoke, process_method_inlines,
+    InlineMethodsResult, InlinePattern, MethodInlineAttr,
+};
+pub use loop_analysis::{
+    analyze_loop_patterns_with_iterables, detect_iterator_foreach, EnhancedLoopPatternResult,
+    IteratorForEachPattern,
 };
 
 /// Pass trait for decompilation passes

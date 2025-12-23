@@ -193,6 +193,11 @@ limit is `5 × block_count`, same as JADX's `DepthRegionTraversal.java:13`.
 - Inserts phi nodes correctly
 - Handles def-use chains
 
+**IR Infrastructure (Dec 23, 2025):**
+- `dexterity-ir/src/nodes.rs`: Full JADX-compatible BlockNode with dominator fields (cid, pos, doms, post_doms, dom_frontier, idom, ipost_dom, dominates_on, clean_successors, locked)
+- `dexterity-ir/src/instructions.rs`: SwitchData struct, TargetInsnNode methods, InvokeNode methods, BinaryOp methods, InsnNode rebind methods (~840 new lines)
+- See `docs/IR_CLONE_STATUS.md` for detailed IR parity tracking (~92% complete)
+
 **Key Algorithm Differences:**
 
 JADX SSATransform:
