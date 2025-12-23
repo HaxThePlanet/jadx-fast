@@ -415,12 +415,17 @@ impl BodyGenContext {
     /// would consume Const/Invoke expressions, making them unavailable for generation.
     pub fn gen_arg_inline_peek(&self, arg: &InsnArg) -> String {
         if let InsnArg::Register(reg) = arg {
-            // Check if we have an inlined expression for this register (peek, don't consume)
-            if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
-                return expr.clone();
+            // P1-HOTRELOAD FIX: Only use inline expression if the variable is single-use.
+            // Multi-use variables should use their variable name, not inline expressions.
+            // This prevents issues where a multi-use variable like "classLoader" gets
+            // incorrectly inlined as "cls.getClassLoader()" when "cls" was never declared.
+            if self.should_inline(reg.reg_num, reg.ssa_version) {
+                if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                    return expr.clone();
+                }
             }
         }
-        // Fall back to normal expression generation
+        // Fall back to normal expression generation (uses variable name)
         self.expr_gen.gen_arg(arg)
     }
 
@@ -524,14 +529,32 @@ impl BodyGenContext {
     /// Generate argument expression with inline peek (doesn't consume the inlined expr)
     /// This is useful for conditions where we need to reference the expression
     /// without consuming it (since the actual instruction will be processed later)
+    ///
+    /// P1-HOTRELOAD FIX: Only use inline expression if should_inline returns true.
+    /// Otherwise, return the variable name. This prevents using inline expressions
+    /// for multi-use variables that have already been declared.
     pub fn gen_arg_with_inline_peek(&self, arg: &InsnArg) -> String {
         if let InsnArg::Register(reg) = arg {
-            // Check if we have an inlined expression for this register
-            if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
-                return expr.clone();
+            // P1-HOTRELOAD FIX: Only use inline expression if the variable is single-use
+            // Multi-use variables should use their declared variable name, not the expression
+            let should_inline = self.should_inline(reg.reg_num, reg.ssa_version);
+
+            // P1-HOTRELOAD DEBUG: Trace inline decisions
+            if std::env::var("DEBUG_INLINE").is_ok() {
+                let use_count = self.insn_use_counts.get(&(reg.reg_num, reg.ssa_version)).copied().unwrap_or(0);
+                let has_expr = self.inlined_exprs.contains_key(&(reg.reg_num, reg.ssa_version));
+                let var_name = self.expr_gen.gen_arg(arg);
+                eprintln!("[GEN_ARG_INLINE_PEEK] r{}v{}: should_inline={}, use_count={}, has_expr={}, var={}",
+                    reg.reg_num, reg.ssa_version, should_inline, use_count, has_expr, var_name);
+            }
+
+            if should_inline {
+                if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                    return expr.clone();
+                }
             }
         }
-        // Fall back to normal expression generation
+        // Fall back to normal expression generation (returns variable name)
         self.expr_gen.gen_arg(arg)
     }
 
@@ -3959,18 +3982,29 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                             || matches!(left_type, Some(ArgType::Boolean));
                         // Check if name suggests a boolean method (e.g., isClosed(), hasPermission())
                         // This takes priority over object type heuristics to avoid "isClosed() == null"
-                        let name_looks_boolean = name_suggests_boolean_method(&left_str);
+                        // FIX: For multi-use variables, left_str might be a variable name (e.g., "z")
+                        // instead of the expression (e.g., "alive.isAlive()"). We need to also check
+                        // the raw inlined expression for boolean method detection.
+                        let expr_for_name_check = if let InsnArg::Register(reg) = left {
+                            ctx.peek_inline_expr(reg.reg_num, reg.ssa_version)
+                                .cloned()
+                                .unwrap_or_else(|| left_str.clone())
+                        } else {
+                            left_str.clone()
+                        };
+                        let name_looks_boolean = name_suggests_boolean_method(&expr_for_name_check);
                         // Check if expression is an instanceof check - these always return boolean
                         // Must detect this to avoid generating "x instanceof Y == null" (invalid Java)
-                        let is_instanceof = left_str.contains(" instanceof ");
+                        let is_instanceof = expr_for_name_check.contains(" instanceof ");
                         let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)) | Some(ArgType::Generic { .. }))
-                            || (type_is_ambiguous && name_suggests_object_type(&left_str) && !name_looks_boolean && !is_instanceof);
+                            || (type_is_ambiguous && name_suggests_object_type(&expr_for_name_check) && !name_looks_boolean && !is_instanceof);
                         let is_boolean = matches!(left_type, Some(ArgType::Boolean))
                             || (type_is_ambiguous && name_looks_boolean)
                             || is_instanceof;
 
-                        // Check if this is a comparison against 1 (true) for boolean types
-                        let is_one_compare = matches!(right, Some(r) if is_one_literal(r));
+                        // Check if this is a comparison against 1/true for boolean types
+                        // FIX: Use is_true_value to detect both literals AND registers with "true"/"1"
+                        let is_one_compare = matches!(right, Some(r) if is_true_value(r, ctx));
                         if is_one_compare && is_boolean {
                             let effective_op = if *negated { negate_op(op) } else { *op };
 
@@ -4006,8 +4040,9 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                             }
                         }
 
-                        // Check if this is a zero-comparison (commonly used for booleans and null checks)
-                        let is_zero_compare = right.is_none() || matches!(right, Some(r) if is_zero_literal(r));
+                        // Check if this is a zero/false-comparison (commonly used for booleans and null checks)
+                        // FIX: Use is_false_value to detect both literals AND registers with "false"/"0"
+                        let is_zero_compare = right.is_none() || matches!(right, Some(r) if is_false_value(r, ctx));
 
                         if is_zero_compare {
                             let effective_op = if *negated { negate_op(op) } else { *op };
@@ -4140,6 +4175,48 @@ fn is_zero_literal(arg: &InsnArg) -> bool {
 /// Check if an InsnArg is a one literal (true for boolean comparisons)
 fn is_one_literal(arg: &InsnArg) -> bool {
     matches!(arg, InsnArg::Literal(LiteralArg::Int(1)))
+}
+
+/// Check if an InsnArg represents boolean true (1, "1", or "true")
+/// This handles both direct literals AND registers with inlined expressions
+fn is_true_value(arg: &InsnArg, ctx: &BodyGenContext) -> bool {
+    match arg {
+        // Direct literal 1
+        InsnArg::Literal(LiteralArg::Int(1)) => true,
+        // Register with inlined expression "true" or "1"
+        InsnArg::Register(reg) => {
+            if let Some(expr) = ctx.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                expr == "true" || expr == "1"
+            } else {
+                // Check const_values as fallback
+                ctx.const_values.get(&(reg.reg_num, reg.ssa_version))
+                    .map(|v| v == "true" || v == "1")
+                    .unwrap_or(false)
+            }
+        }
+        _ => false,
+    }
+}
+
+/// Check if an InsnArg represents boolean false (0, "0", or "false")
+/// This handles both direct literals AND registers with inlined expressions
+fn is_false_value(arg: &InsnArg, ctx: &BodyGenContext) -> bool {
+    match arg {
+        // Direct literal 0
+        InsnArg::Literal(LiteralArg::Int(0)) => true,
+        // Register with inlined expression "false" or "0"
+        InsnArg::Register(reg) => {
+            if let Some(expr) = ctx.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                expr == "false" || expr == "0"
+            } else {
+                // Check const_values as fallback
+                ctx.const_values.get(&(reg.reg_num, reg.ssa_version))
+                    .map(|v| v == "false" || v == "0")
+                    .unwrap_or(false)
+            }
+        }
+        _ => false,
+    }
 }
 
 /// Result of finding a bitwise boolean operation
@@ -5358,6 +5435,14 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
             // Standard if/else generation
             let condition_str = generate_condition(condition, ctx);
+
+            // P1-HOTRELOAD DEBUG: Log what we're generating
+            if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() {
+                // Log condition blocks for debugging
+                let cond_blocks = condition.get_blocks();
+                eprintln!("[CODEGEN_IF] condition='{}', cond_blocks={:?}, has_else={}",
+                    condition_str, cond_blocks, else_region.is_some());
+            }
 
             gen_if_header(&condition_str, code);
             generate_region(then_region, ctx, code);
