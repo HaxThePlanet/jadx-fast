@@ -63,9 +63,10 @@ impl Default for ExcludePackageWithTLDNames {
 impl DeobfCondition for ExcludePackageWithTLDNames {
     fn check_package(&self, package: &str) -> Action {
         // Get the root package (first segment)
+        // JADX Reference: ExcludePackageWithTLDNames.check(PackageNode) - returns FORBID_RENAME for TLD packages
         let root = package.split('/').next().unwrap_or(package);
         if TLD_SET.contains(root) {
-            Action::DontRename
+            Action::ForbidRename
         } else {
             Action::NoAction
         }
@@ -127,9 +128,10 @@ mod tests {
         let cond = ExcludePackageWithTLDNames::new();
 
         // TLD packages shouldn't be renamed
-        assert_eq!(cond.check_package("com"), Action::DontRename);
-        assert_eq!(cond.check_package("com/example"), Action::DontRename);
-        assert_eq!(cond.check_package("org/apache"), Action::DontRename);
+        // JADX Reference: ExcludePackageWithTLDNames - returns FORBID_RENAME for TLD roots
+        assert_eq!(cond.check_package("com"), Action::ForbidRename);
+        assert_eq!(cond.check_package("com/example"), Action::ForbidRename);
+        assert_eq!(cond.check_package("org/apache"), Action::ForbidRename);
 
         // Non-TLD packages are allowed to be renamed
         assert_eq!(cond.check_package("myapp"), Action::NoAction);

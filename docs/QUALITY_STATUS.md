@@ -1,10 +1,10 @@
 # Quality Status
 
-**Status:** **0 P1 Open** | **Production Ready** | Dec 23, 2025 - JADX Codegen Parity Complete
+**Status:** **0 P1 Open** | **Production Ready** | Dec 23, 2025 - JADX Codegen Parity ~93%
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Output Refresh:** Dec 23, 2025 - All APK samples compared against JADX
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
-**Codegen:** JADX parity complete - All 12 codegen tasks finished (see JADX_CODEGEN_PARITY.md)
+**Codegen:** ~93% parity (source-level audit) - See JADX_CODEGEN_CLONE_STATUS.md for gaps
 
 ## Output Quality Audit (Dec 23, 2025)
 
@@ -48,7 +48,7 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **A** | JADX parity complete - all 12 tasks done (Dec 23) |
+| **Codegen** | **A** | ~93% parity - source-level audit Dec 23 |
 | **Type Inference** | **A-** | ~90% JADX parity |
 | **IR/Control Flow** | **A** | All major patterns working |
 | **Variable Naming** | **A** | Name collision detection complete (Dec 23) |
@@ -128,9 +128,10 @@ Completed IR parity methods for Condition, LiteralArg, Compare, FillArrayData, L
 
 **IR Parity:** 96% → 98%
 
-### JADX Codegen Parity Complete (Dec 23, 2025)
+### JADX Codegen Parity ~93% (Dec 23, 2025)
 
-All 12 JADX codegen parity tasks have been completed. See [JADX_CODEGEN_PARITY.md](JADX_CODEGEN_PARITY.md) for full details.
+Source-level audit complete. Most JADX codegen functionality implemented.
+See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed audit and remaining gaps.
 
 **P1 (High Priority) - 6 tasks:**
 | ID | Feature | Files |
@@ -323,7 +324,7 @@ Type inference has been significantly enhanced from ~60% to ~85% JADX parity. De
 | Total Tests | 1,392+ passing (all integration + unit) |
 | Pass Coverage | **82%** (86/105 JADX passes implemented) |
 | IR Parity | **98%** (up from 96%, P8-P16 complete) |
-| Codegen Parity | **100%** (all 12 JADX codegen tasks complete) |
+| Codegen Parity | **~93%** (source-level audit Dec 23, see JADX_CODEGEN_CLONE_STATUS.md) |
 | Type Inference Parity | **~90%** (7 files / ~9,100 lines, 58 type tests) |
 | Throws Parity | 41.7% (up from ~13.7%, 3x improvement) |
 | Kotlin Parity | 100% (BitEncoding ported, all modifiers work) |

@@ -650,7 +650,7 @@ pub fn detect_iterator_foreach(
 
     // Find the hasNext() call
     let has_next_insn = def_map.get(&has_next_result)?;
-    if !is_has_next_call(has_next_insn) {
+    if !is_has_next_call(has_next_insn, None) {
         return None;
     }
 
@@ -659,7 +659,7 @@ pub fn detect_iterator_foreach(
 
     // Find the iterator() call that created this iterator
     let iterator_assign = def_map.get(&iterator_reg)?;
-    if !is_iterator_call(iterator_assign) {
+    if !is_iterator_call(iterator_assign, None) {
         return None;
     }
 
@@ -694,15 +694,30 @@ pub fn detect_iterator_foreach(
     })
 }
 
+/// Method name resolver type for checking method calls
+///
+/// Takes a method_idx and returns the method name if resolvable.
+pub type MethodNameResolver<'a> = &'a dyn Fn(u32) -> Option<String>;
+
 /// Check if an instruction is a .hasNext() call
 ///
 /// JADX Reference: checkInvoke(insn, "java.util.Iterator", "hasNext()Z")
-fn is_has_next_call(insn: &InsnNode) -> bool {
-    if let InsnType::Invoke { method, kind, .. } = &insn.insn_type {
-        method.name == "hasNext"
-            && method.return_type.as_deref() == Some("Z")
-            && method.params.is_empty()
-            && matches!(kind, InvokeKind::Virtual | InvokeKind::Interface)
+///
+/// Note: Full check requires a method resolver. Returns true if:
+/// - It's a virtual/interface invoke
+/// - Method name (if resolvable) is "hasNext"
+fn is_has_next_call(insn: &InsnNode, method_resolver: Option<MethodNameResolver>) -> bool {
+    if let InsnType::Invoke { method_idx, kind, .. } = &insn.insn_type {
+        if !matches!(kind, InvokeKind::Virtual | InvokeKind::Interface) {
+            return false;
+        }
+        if let Some(resolver) = method_resolver {
+            if let Some(name) = resolver(*method_idx) {
+                return name == "hasNext";
+            }
+        }
+        // Without resolver, can't determine - return false
+        false
     } else {
         false
     }
@@ -711,12 +726,18 @@ fn is_has_next_call(insn: &InsnNode) -> bool {
 /// Check if an instruction is a .iterator() call
 ///
 /// JADX Reference: checkInvoke(insn, null, "iterator()Ljava/util/Iterator;")
-fn is_iterator_call(insn: &InsnNode) -> bool {
-    if let InsnType::Invoke { method, kind, .. } = &insn.insn_type {
-        method.name == "iterator"
-            && method.return_type.as_deref().map_or(false, |t| t.contains("Iterator"))
-            && method.params.is_empty()
-            && matches!(kind, InvokeKind::Virtual | InvokeKind::Interface)
+fn is_iterator_call(insn: &InsnNode, method_resolver: Option<MethodNameResolver>) -> bool {
+    if let InsnType::Invoke { method_idx, kind, .. } = &insn.insn_type {
+        if !matches!(kind, InvokeKind::Virtual | InvokeKind::Interface) {
+            return false;
+        }
+        if let Some(resolver) = method_resolver {
+            if let Some(name) = resolver(*method_idx) {
+                return name == "iterator";
+            }
+        }
+        // Without resolver, can't determine - return false
+        false
     } else {
         false
     }
@@ -725,11 +746,18 @@ fn is_iterator_call(insn: &InsnNode) -> bool {
 /// Check if an instruction is a .next() call
 ///
 /// JADX Reference: checkInvoke(insn, "java.util.Iterator", "next()Ljava/lang/Object;")
-fn is_next_call(insn: &InsnNode) -> bool {
-    if let InsnType::Invoke { method, kind, .. } = &insn.insn_type {
-        method.name == "next"
-            && method.params.is_empty()
-            && matches!(kind, InvokeKind::Virtual | InvokeKind::Interface)
+fn is_next_call(insn: &InsnNode, method_resolver: Option<MethodNameResolver>) -> bool {
+    if let InsnType::Invoke { method_idx, kind, .. } = &insn.insn_type {
+        if !matches!(kind, InvokeKind::Virtual | InvokeKind::Interface) {
+            return false;
+        }
+        if let Some(resolver) = method_resolver {
+            if let Some(name) = resolver(*method_idx) {
+                return name == "next";
+            }
+        }
+        // Without resolver, can't determine - return false
+        false
     } else {
         false
     }
@@ -762,7 +790,7 @@ fn find_next_call(
     for block_id in &loop_info.blocks {
         if let Some(block) = ssa.blocks.iter().find(|b| b.id == *block_id) {
             for insn in &block.instructions {
-                if is_next_call(insn) {
+                if is_next_call(insn, None) {
                     // Check if it's called on the right iterator
                     if let Some(receiver) = get_invoke_receiver(insn) {
                         if receiver == iterator_reg {

@@ -157,7 +157,8 @@ pub use check_code::{check_code, CheckCodeError, CheckCodeResult, CheckCodeWarni
 pub use check_regions::{check_regions, has_missing_blocks, CheckRegionsResult, LoopWarning, MissingBlock};
 pub use usage_info::{collect_usage_from_instructions, collect_usage_from_instructions_full, FieldRef, MethodRef, UsageInfo};
 pub use process_anonymous::{
-    process_anonymous, AnonymousClassInfo, ClassInfo, InlineType, ProcessAnonymousResult,
+    process_anonymous, process_anonymous_with_context, AnonymousClassInfo, AnonymousWarning,
+    ClassInfo, FieldInfo, InlineType, MethodInfo, ProcessAnonymousContext, ProcessAnonymousResult,
 };
 pub use anonymous_class_visitor::{
     is_anonymous_class, process_anonymous_class, AnonymousClassVisitorResult, ArgToFieldMapping,

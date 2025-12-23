@@ -690,17 +690,27 @@ pub struct ForceReturnAttr {
     pub return_insn: u32,
 }
 
-/// Loop info for a block
+/// Loop info for a block (JADX: LoopInfo)
+///
+/// JADX Clone: jadx-core/src/main/java/jadx/core/dex/attributes/nodes/LoopInfo.java
 #[derive(Debug, Clone)]
 pub struct LoopInfo {
+    /// Loop unique identifier (JADX: id)
     pub id: u32,
+    /// Start block (loop header) (JADX: start)
     pub start_block: u32,
+    /// End block (back edge source) (JADX: end)
     pub end_block: u32,
+    /// All blocks in the loop (JADX: loopBlocks)
     pub loop_blocks: HashSet<u32>,
-    pub parent_loop: Option<u32>, // Parent loop ID
+    /// Parent loop ID (JADX: parentLoop)
+    pub parent_loop: Option<u32>,
 }
 
 impl LoopInfo {
+    /// Create a new loop info (JADX: LoopInfo constructor)
+    ///
+    /// JADX Reference: LoopInfo.java:22-26
     pub fn new(id: u32, start_block: u32, end_block: u32, loop_blocks: HashSet<u32>) -> Self {
         Self {
             id,
@@ -711,6 +721,164 @@ impl LoopInfo {
         }
     }
 
+    /// Get start block (JADX: getStart)
+    ///
+    /// JADX Reference: LoopInfo.java:28-30
+    pub fn get_start(&self) -> u32 {
+        self.start_block
+    }
+
+    /// Get end block (JADX: getEnd)
+    ///
+    /// JADX Reference: LoopInfo.java:32-34
+    pub fn get_end(&self) -> u32 {
+        self.end_block
+    }
+
+    /// Get loop blocks (JADX: getLoopBlocks)
+    ///
+    /// JADX Reference: LoopInfo.java:36-38
+    pub fn get_loop_blocks(&self) -> &HashSet<u32> {
+        &self.loop_blocks
+    }
+
+    /// Get exit nodes - blocks with exit edges (JADX: getExitNodes)
+    ///
+    /// Returns blocks inside the loop that have successors outside the loop.
+    ///
+    /// JADX Reference: LoopInfo.java:44-56
+    /// ```java
+    /// public Set<BlockNode> getExitNodes() {
+    ///     Set<BlockNode> nodes = new HashSet<>();
+    ///     Set<BlockNode> blocks = getLoopBlocks();
+    ///     for (BlockNode block : blocks) {
+    ///         for (BlockNode s : block.getSuccessors()) {
+    ///             if (!blocks.contains(s) && !s.contains(AType.EXC_HANDLER)) {
+    ///                 nodes.add(block);
+    ///             }
+    ///         }
+    ///     }
+    ///     return nodes;
+    /// }
+    /// ```
+    pub fn get_exit_nodes<F>(&self, get_successors: F) -> HashSet<u32>
+    where
+        F: Fn(u32) -> Vec<u32>,
+    {
+        let mut exit_nodes = HashSet::new();
+        for &block in &self.loop_blocks {
+            for succ in get_successors(block) {
+                if !self.loop_blocks.contains(&succ) {
+                    exit_nodes.insert(block);
+                    break; // Found an exit, no need to check other successors
+                }
+            }
+        }
+        exit_nodes
+    }
+
+    /// Get exit edges (JADX: getExitEdges)
+    ///
+    /// Returns all edges from inside the loop to outside.
+    ///
+    /// JADX Reference: LoopInfo.java:61-72
+    /// ```java
+    /// public List<Edge> getExitEdges() {
+    ///     List<Edge> edges = new ArrayList<>();
+    ///     Set<BlockNode> blocks = getLoopBlocks();
+    ///     for (BlockNode block : blocks) {
+    ///         for (BlockNode s : block.getSuccessors()) {
+    ///             if (!blocks.contains(s) && !BlockUtils.isExceptionHandlerPath(s)) {
+    ///                 edges.add(new Edge(block, s));
+    ///             }
+    ///         }
+    ///     }
+    ///     return edges;
+    /// }
+    /// ```
+    pub fn get_exit_edges<F>(&self, get_successors: F) -> Vec<(u32, u32)>
+    where
+        F: Fn(u32) -> Vec<u32>,
+    {
+        let mut edges = Vec::new();
+        for &block in &self.loop_blocks {
+            for succ in get_successors(block) {
+                if !self.loop_blocks.contains(&succ) {
+                    edges.push((block, succ));
+                }
+            }
+        }
+        edges
+    }
+
+    /// Get pre-header block (JADX: getPreHeader)
+    ///
+    /// Returns the predecessor of the loop header that is not in the loop.
+    /// This is the block before entering the loop.
+    ///
+    /// JADX Reference: LoopInfo.java:74-76
+    /// ```java
+    /// public BlockNode getPreHeader() {
+    ///     return BlockUtils.selectOther(end, start.getPredecessors());
+    /// }
+    /// ```
+    pub fn get_pre_header<F>(&self, get_predecessors: F) -> Option<u32>
+    where
+        F: Fn(u32) -> Vec<u32>,
+    {
+        let preds = get_predecessors(self.start_block);
+        // Select the predecessor that is NOT the end block (back edge)
+        for pred in preds {
+            if pred != self.end_block {
+                return Some(pred);
+            }
+        }
+        None
+    }
+
+    /// Get loop ID (JADX: getId)
+    ///
+    /// JADX Reference: LoopInfo.java:78-80
+    pub fn get_id(&self) -> u32 {
+        self.id
+    }
+
+    /// Set loop ID (JADX: setId)
+    ///
+    /// JADX Reference: LoopInfo.java:82-84
+    pub fn set_id(&mut self, id: u32) {
+        self.id = id;
+    }
+
+    /// Get parent loop ID (JADX: getParentLoop)
+    ///
+    /// JADX Reference: LoopInfo.java:86-88
+    pub fn get_parent_loop(&self) -> Option<u32> {
+        self.parent_loop
+    }
+
+    /// Set parent loop ID (JADX: setParentLoop)
+    ///
+    /// JADX Reference: LoopInfo.java:90-92
+    pub fn set_parent_loop(&mut self, parent_id: Option<u32>) {
+        self.parent_loop = parent_id;
+    }
+
+    /// Check if this loop has a specific parent (JADX: hasParent)
+    ///
+    /// Traverses the parent chain looking for the given loop ID.
+    ///
+    /// JADX Reference: LoopInfo.java:94-105
+    /// ```java
+    /// public boolean hasParent(LoopInfo searchLoop) {
+    ///     LoopInfo parent = parentLoop;
+    ///     while (true) {
+    ///         if (parent == null) return false;
+    ///         if (parent == searchLoop) return true;
+    ///         parent = parent.getParentLoop();
+    ///     }
+    /// }
+    /// ```
     pub fn has_parent(&self, search_id: u32, all_loops: &[LoopInfo]) -> bool {
         let mut current = self.parent_loop;
         while let Some(parent_id) = current {
@@ -723,6 +891,11 @@ impl LoopInfo {
                 .and_then(|l| l.parent_loop);
         }
         false
+    }
+
+    /// Check if a block is inside this loop
+    pub fn contains_block(&self, block_id: u32) -> bool {
+        self.loop_blocks.contains(&block_id)
     }
 }
 

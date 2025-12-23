@@ -52,7 +52,7 @@ All passes include JADX reference comments:
 
 ---
 
-### Dec 23, 2025 - JADX Codegen Parity Complete (100%)
+### Dec 23, 2025 - JADX Codegen Parity ~93% (Source-Level Audit)
 
 **Loop Labels Implementation (JADX RegionGen.java:166-169):**
 - Added `label: Option<String>` field to `Region::Loop`

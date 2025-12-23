@@ -654,6 +654,140 @@ impl SSAContext {
 
         count
     }
+
+    // =========================================================================
+    // JADX Name Management - 100% Parity
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/args/RegisterArg.java
+    // =========================================================================
+
+    /// Get the name of a variable (JADX: RegisterArg.getName via SSAVar.getCodeVar)
+    ///
+    /// Looks up the SSA variable, finds its CodeVar, and returns the name if set.
+    ///
+    /// JADX Reference: RegisterArg.java:90-95
+    /// ```java
+    /// public String getName() {
+    ///     SSAVar sVar = getSVar();
+    ///     if (sVar != null) {
+    ///         CodeVar codeVar = sVar.getCodeVar();
+    ///         if (codeVar != null) {
+    ///             return codeVar.getName();
+    ///         }
+    ///     }
+    ///     return null;
+    /// }
+    /// ```
+    pub fn get_var_name(&self, reg_num: u16, ssa_version: u32) -> Option<&str> {
+        let var_ref = SSAVarRef::new(reg_num, ssa_version);
+        if let Some(var) = self.vars.get(&var_ref) {
+            if let Some(code_var_id) = var.code_var {
+                if let Some(code_var) = self.code_vars.get(code_var_id as usize) {
+                    return code_var.name.as_deref();
+                }
+            }
+        }
+        None
+    }
+
+    /// Set the name of a variable (JADX: RegisterArg.setName via SSAVar.getCodeVar)
+    ///
+    /// Finds the SSA variable's CodeVar and sets its name.
+    ///
+    /// JADX Reference: RegisterArg.java:97-113
+    /// ```java
+    /// public void setName(String name) {
+    ///     SSAVar sVar = getSVar();
+    ///     if (sVar == null) {
+    ///         return;
+    ///     }
+    ///     CodeVar codeVar = sVar.getCodeVar();
+    ///     if (codeVar == null) {
+    ///         codeVar = sVar.makeCodeVar();
+    ///     }
+    ///     codeVar.setName(name);
+    /// }
+    /// ```
+    pub fn set_var_name(&mut self, reg_num: u16, ssa_version: u32, name: String) {
+        let var_ref = SSAVarRef::new(reg_num, ssa_version);
+
+        // Ensure the SSA variable has a code var
+        let code_var_id = {
+            if let Some(var) = self.vars.get(&var_ref) {
+                if let Some(id) = var.code_var {
+                    Some(id)
+                } else {
+                    None
+                }
+            } else {
+                return;
+            }
+        };
+
+        let code_var_id = match code_var_id {
+            Some(id) => id,
+            None => {
+                // Create a new code var
+                let id = self.new_code_var();
+                if let Some(var) = self.vars.get_mut(&var_ref) {
+                    var.code_var = Some(id);
+                }
+                id
+            }
+        };
+
+        // Set the name
+        if let Some(code_var) = self.code_vars.get_mut(code_var_id as usize) {
+            code_var.name = Some(name);
+        }
+    }
+
+    /// Set name if not already set (JADX: RegisterArg.setNameIfUnknown)
+    ///
+    /// Only sets the name if the variable doesn't already have one.
+    /// Used during code generation for generated names.
+    ///
+    /// JADX Reference: RegisterArg.java:115-119
+    /// ```java
+    /// public void setNameIfUnknown(String name) {
+    ///     if (getName() == null) {
+    ///         setName(name);
+    ///     }
+    /// }
+    /// ```
+    pub fn set_var_name_if_unknown(&mut self, reg_num: u16, ssa_version: u32, name: String) {
+        if self.get_var_name(reg_num, ssa_version).is_none() {
+            self.set_var_name(reg_num, ssa_version, name);
+        }
+    }
+
+    /// Check if two variables have the same name (JADX: RegisterArg.isNameEquals)
+    ///
+    /// JADX Reference: RegisterArg.java:121-127
+    /// ```java
+    /// public boolean isNameEquals(InsnArg other) {
+    ///     if (other instanceof RegisterArg) {
+    ///         String name = getName();
+    ///         if (name != null) {
+    ///             return name.equals(((RegisterArg) other).getName());
+    ///         }
+    ///     }
+    ///     return false;
+    /// }
+    /// ```
+    pub fn is_name_equals(
+        &self,
+        reg1: u16,
+        ssa1: u32,
+        reg2: u16,
+        ssa2: u32,
+    ) -> bool {
+        let name1 = self.get_var_name(reg1, ssa1);
+        let name2 = self.get_var_name(reg2, ssa2);
+        match (name1, name2) {
+            (Some(a), Some(b)) => a == b,
+            _ => false,
+        }
+    }
 }
 
 /// PHI node for explicit tracking and simplification

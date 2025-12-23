@@ -588,9 +588,29 @@ pub fn generate_method_with_dex<W: CodeWriter>(
 
     // Method modifiers (skip for static initializers since we handle them specially)
     if !method.is_class_init() {
-        let mods = access_flags::access_flags_to_string(method.access_flags, AccessContext::Method);
+        // JADX parity: Don't add 'public' and 'abstract' to methods in interfaces
+        // Also don't add 'public' for annotation methods
+        let is_interface = access_flags::is_interface(class.access_flags);
+        let is_annotation = access_flags::is_annotation(class.access_flags);
+
+        let effective_flags = if is_interface {
+            // Remove PUBLIC and ABSTRACT for interface methods
+            method.access_flags & !(access_flags::flags::ACC_PUBLIC | access_flags::flags::ACC_ABSTRACT)
+        } else if is_annotation {
+            // Remove PUBLIC for annotation methods
+            method.access_flags & !access_flags::flags::ACC_PUBLIC
+        } else {
+            method.access_flags
+        };
+
+        let mods = access_flags::access_flags_to_string(effective_flags, AccessContext::Method);
         if !mods.is_empty() {
             code.add(&mods);
+        }
+
+        // JADX parity: Add 'default' for interface methods with code (non-static, non-abstract)
+        if is_interface && !method.is_abstract() && !method.is_static() && method.bytecode_ref.is_some() {
+            code.add("default ");
         }
     }
 
@@ -744,9 +764,29 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
 
     // Method modifiers (skip for static initializers since we handle them specially)
     if !method.is_class_init() {
-        let mods = access_flags::access_flags_to_string(method.access_flags, AccessContext::Method);
+        // JADX parity: Don't add 'public' and 'abstract' to methods in interfaces
+        // Also don't add 'public' for annotation methods
+        let is_interface = access_flags::is_interface(class.access_flags);
+        let is_annotation = access_flags::is_annotation(class.access_flags);
+
+        let effective_flags = if is_interface {
+            // Remove PUBLIC and ABSTRACT for interface methods
+            method.access_flags & !(access_flags::flags::ACC_PUBLIC | access_flags::flags::ACC_ABSTRACT)
+        } else if is_annotation {
+            // Remove PUBLIC for annotation methods
+            method.access_flags & !access_flags::flags::ACC_PUBLIC
+        } else {
+            method.access_flags
+        };
+
+        let mods = access_flags::access_flags_to_string(effective_flags, AccessContext::Method);
         if !mods.is_empty() {
             code.add(&mods);
+        }
+
+        // JADX parity: Add 'default' for interface methods with code (non-static, non-abstract)
+        if is_interface && !method.is_abstract() && !method.is_static() && method.bytecode_ref.is_some() {
+            code.add("default ");
         }
     }
 

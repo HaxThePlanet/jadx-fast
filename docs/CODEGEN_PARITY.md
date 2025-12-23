@@ -1,15 +1,16 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-23 (0 P0, 0 P1 open, 0 P2 | Type Inference ~90% | JADX Codegen Parity Complete)
+**Last Updated**: 2025-12-23 (0 P0, 0 P1 open, 0 P2 | Type Inference ~90% | JADX Codegen Parity ~93%)
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
-**Overall Parity**: **A Grade** (JADX codegen parity complete - 12 tasks finished Dec 23, 2025)
+**Overall Parity**: **A Grade** (~93% codegen parity - source-level audit Dec 23, 2025)
 **Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
 
 ---
 
-## Dec 23, 2025: JADX Codegen Parity Complete
+## Dec 23, 2025: JADX Codegen Parity ~93%
 
-**All 12 JADX codegen parity tasks completed.** See [JADX_CODEGEN_PARITY.md](JADX_CODEGEN_PARITY.md) for full implementation details.
+**Source-level audit complete.** Most JADX codegen functionality implemented.
+See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed audit and remaining gaps.
 
 ### Completed Tasks Summary
 
@@ -45,7 +46,7 @@
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **A** | JADX parity complete - all 12 tasks done |
+| **Codegen** | **A** | ~93% parity - source-level audit Dec 23 |
 | **Type Inference** | **A-** | ~90% JADX parity |
 | **IR/Control Flow** | **A** | All major patterns working |
 | **Variable Naming** | **A** | Name collision detection complete |

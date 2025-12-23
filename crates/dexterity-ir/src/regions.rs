@@ -221,6 +221,10 @@ pub enum Region {
         header_block: Option<u32>,
         /// Pre-condition block - matches JADX preCondition field
         pre_condition_block: Option<u32>,
+        /// Loop label for labeled break/continue (matches JADX LoopLabelAttr)
+        /// Clone of JADX RegionGen.java:166-169 - loop label output
+        /// Reference: jadx-core/src/main/java/jadx/core/codegen/RegionGen.java
+        label: Option<String>,
     },
 
     /// Switch region (matches JADX SwitchRegion)
@@ -1717,5 +1721,445 @@ mod tests {
         // Double negate should return to original
         let double_negated = negated.negate();
         assert!(!double_negated.is_negated());
+    }
+}
+
+// ============================================================================
+// JADX Parity: DepthRegionTraversal
+// Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/regions/DepthRegionTraversal.java
+// ============================================================================
+
+/// Iterative region visitor trait (JADX: IRegionIterativeVisitor)
+///
+/// For multi-pass traversals that may modify structure.
+/// Return true to repeat traversal, false when stable.
+///
+/// JADX Reference: IRegionIterativeVisitor.java
+/// ```java
+/// public interface IRegionIterativeVisitor {
+///     boolean visitRegion(MethodNode mth, IRegion region);
+/// }
+/// ```
+pub trait RegionIterativeVisitor {
+    /// Visit a region, return true to repeat traversal (JADX: visitRegion)
+    fn visit_region(&mut self, region: &mut Region) -> bool;
+}
+
+/// Region traversal utilities matching JADX's DepthRegionTraversal
+///
+/// JADX Clone: jadx-core/src/main/java/jadx/core/dex/visitors/regions/DepthRegionTraversal.java
+///
+/// Provides static-like methods for traversing region trees with various strategies:
+/// - Single-pass depth-first traversal
+/// - Multi-pass iterative traversal until stable
+/// - Traversal including exception handlers
+pub mod depth_traversal {
+    use super::*;
+
+    /// Iterative traversal limit multiplier (JADX: ITERATIVE_LIMIT_MULTIPLIER)
+    ///
+    /// JADX Reference: DepthRegionTraversal.java:13
+    /// ```java
+    /// private static final int ITERATIVE_LIMIT_MULTIPLIER = 5;
+    /// ```
+    const ITERATIVE_LIMIT_MULTIPLIER: usize = 5;
+
+    /// Single-pass depth-first traversal (JADX: traverse)
+    ///
+    /// Traverses the region tree calling the visitor for each region.
+    ///
+    /// JADX Reference: DepthRegionTraversal.java:18-24
+    /// ```java
+    /// public static void traverse(MethodNode mth, IRegionVisitor visitor) {
+    ///     traverseInternal(mth, visitor, mth.getRegion());
+    /// }
+    /// public static void traverse(MethodNode mth, IContainer container, IRegionVisitor visitor) {
+    ///     traverseInternal(mth, visitor, container);
+    /// }
+    /// ```
+    pub fn traverse<V: RegionVisitor>(region: &Region, visitor: &mut V) {
+        region.accept(visitor);
+    }
+
+    /// Iterative traversal until no changes (JADX: traverseIterative)
+    ///
+    /// Repeatedly traverses the region tree until the visitor returns false
+    /// (indicating no changes were made). Has a limit to prevent infinite loops.
+    ///
+    /// JADX Reference: DepthRegionTraversal.java:26-38
+    /// ```java
+    /// public static void traverseIterative(MethodNode mth, IRegionIterativeVisitor visitor) {
+    ///     boolean repeat;
+    ///     int k = 0;
+    ///     int limit = ITERATIVE_LIMIT_MULTIPLIER * mth.getBasicBlocks().size();
+    ///     do {
+    ///         repeat = traverseIterativeStepInternal(mth, visitor, mth.getRegion());
+    ///         if (k++ > limit) {
+    ///             throw new JadxRuntimeException("Iterative traversal limit reached");
+    ///         }
+    ///     } while (repeat);
+    /// }
+    /// ```
+    pub fn traverse_iterative<V: RegionIterativeVisitor>(
+        region: &mut Region,
+        visitor: &mut V,
+        block_count: usize,
+    ) -> Result<(), TraversalError> {
+        let limit = ITERATIVE_LIMIT_MULTIPLIER * block_count.max(10);
+        let mut k = 0;
+
+        loop {
+            let repeat = traverse_iterative_step(region, visitor)?;
+            if !repeat {
+                break;
+            }
+            k += 1;
+            if k > limit {
+                return Err(TraversalError::LimitReached {
+                    limit,
+                    block_count,
+                });
+            }
+        }
+        Ok(())
+    }
+
+    /// Single step of iterative traversal (JADX: traverseIterativeStepInternal)
+    ///
+    /// JADX Reference: DepthRegionTraversal.java:74-91
+    /// ```java
+    /// private static boolean traverseIterativeStepInternal(MethodNode mth, IRegionIterativeVisitor visitor, IContainer container) {
+    ///     if (container instanceof IRegion) {
+    ///         IRegion region = (IRegion) container;
+    ///         if (visitor.visitRegion(mth, region)) {
+    ///             return true;
+    ///         }
+    ///         for (IContainer subCont : region.getSubBlocks()) {
+    ///             try {
+    ///                 if (traverseIterativeStepInternal(mth, visitor, subCont)) {
+    ///                     return true;
+    ///                 }
+    ///             } catch (StackOverflowError overflow) {
+    ///                 throw new JadxOverflowException("Region traversal failed");
+    ///             }
+    ///         }
+    ///     }
+    ///     return false;
+    /// }
+    /// ```
+    fn traverse_iterative_step<V: RegionIterativeVisitor>(
+        region: &mut Region,
+        visitor: &mut V,
+    ) -> Result<bool, TraversalError> {
+        // Visit this region first
+        if visitor.visit_region(region) {
+            return Ok(true);
+        }
+
+        // Visit sub-regions recursively
+        traverse_iterative_children(region, visitor)
+    }
+
+    /// Traverse children of a region iteratively
+    fn traverse_iterative_children<V: RegionIterativeVisitor>(
+        region: &mut Region,
+        visitor: &mut V,
+    ) -> Result<bool, TraversalError> {
+        match region {
+            Region::Sequence(contents) => {
+                for content in contents.iter_mut() {
+                    if let RegionContent::Region(child) = content {
+                        if traverse_iterative_step(child, visitor)? {
+                            return Ok(true);
+                        }
+                    }
+                }
+            }
+            Region::If { then_region, else_region, .. } => {
+                if traverse_iterative_step(then_region, visitor)? {
+                    return Ok(true);
+                }
+                if let Some(else_r) = else_region {
+                    if traverse_iterative_step(else_r, visitor)? {
+                        return Ok(true);
+                    }
+                }
+            }
+            Region::Loop { body, .. } => {
+                if traverse_iterative_step(body, visitor)? {
+                    return Ok(true);
+                }
+            }
+            Region::Switch { cases, .. } => {
+                for case in cases.iter_mut() {
+                    if traverse_iterative_step(&mut case.container, visitor)? {
+                        return Ok(true);
+                    }
+                }
+            }
+            Region::TryCatch { try_region, handlers, finally, .. } => {
+                if traverse_iterative_step(try_region, visitor)? {
+                    return Ok(true);
+                }
+                for handler in handlers.iter_mut() {
+                    if traverse_iterative_step(&mut handler.region, visitor)? {
+                        return Ok(true);
+                    }
+                }
+                if let Some(finally_r) = finally {
+                    if traverse_iterative_step(finally_r, visitor)? {
+                        return Ok(true);
+                    }
+                }
+            }
+            Region::Synchronized { body, .. } => {
+                if traverse_iterative_step(body, visitor)? {
+                    return Ok(true);
+                }
+            }
+            // Leaf regions have no children
+            Region::Break { .. } |
+            Region::Continue { .. } |
+            Region::TernaryAssignment { .. } |
+            Region::TernaryReturn { .. } => {}
+        }
+        Ok(false)
+    }
+
+    /// Traversal including exception handlers (JADX: traverseIncludingExcHandlers)
+    ///
+    /// Like traverseIterative but also visits exception handler regions.
+    ///
+    /// JADX Reference: DepthRegionTraversal.java:40-60
+    /// ```java
+    /// public static void traverseIncludingExcHandlers(MethodNode mth, IRegionIterativeVisitor visitor) {
+    ///     boolean repeat;
+    ///     int k = 0;
+    ///     int limit = ITERATIVE_LIMIT_MULTIPLIER * mth.getBasicBlocks().size();
+    ///     do {
+    ///         repeat = traverseIterativeStepInternal(mth, visitor, mth.getRegion());
+    ///         if (!repeat) {
+    ///             for (ExceptionHandler h : mth.getExceptionHandlers()) {
+    ///                 repeat = traverseIterativeStepInternal(mth, visitor, h.getHandlerRegion());
+    ///                 if (repeat) break;
+    ///             }
+    ///         }
+    ///         if (k++ > limit) {
+    ///             throw new JadxRuntimeException("Iterative traversal limit reached");
+    ///         }
+    ///     } while (repeat);
+    /// }
+    /// ```
+    pub fn traverse_including_exc_handlers<V: RegionIterativeVisitor>(
+        region: &mut Region,
+        exception_handlers: &mut [Region],
+        visitor: &mut V,
+        block_count: usize,
+    ) -> Result<(), TraversalError> {
+        let limit = ITERATIVE_LIMIT_MULTIPLIER * block_count.max(10);
+        let mut k = 0;
+
+        loop {
+            let mut repeat = traverse_iterative_step(region, visitor)?;
+
+            if !repeat {
+                for handler in exception_handlers.iter_mut() {
+                    repeat = traverse_iterative_step(handler, visitor)?;
+                    if repeat {
+                        break;
+                    }
+                }
+            }
+
+            if !repeat {
+                break;
+            }
+
+            k += 1;
+            if k > limit {
+                return Err(TraversalError::LimitReached {
+                    limit,
+                    block_count,
+                });
+            }
+        }
+        Ok(())
+    }
+
+    /// Visit all blocks in a region (JADX-style block iteration)
+    ///
+    /// Calls the visitor for each block ID in the region tree.
+    pub fn visit_blocks<F>(region: &Region, visitor: F)
+    where
+        F: FnMut(u32),
+    {
+        struct BlockVisitor<F> {
+            callback: F,
+        }
+
+        impl<F: FnMut(u32)> RegionVisitor for BlockVisitor<F> {
+            fn visit_block(&mut self, block_id: u32) {
+                (self.callback)(block_id);
+            }
+        }
+
+        let mut v = BlockVisitor { callback: visitor };
+        traverse(region, &mut v);
+    }
+
+    /// Collect all blocks from a region tree
+    pub fn collect_blocks(region: &Region) -> Vec<u32> {
+        let mut blocks = Vec::new();
+        visit_blocks(region, |id| blocks.push(id));
+        blocks
+    }
+}
+
+/// Error type for region traversal
+#[derive(Debug, Clone)]
+pub enum TraversalError {
+    /// Iteration limit reached (likely infinite loop)
+    LimitReached {
+        limit: usize,
+        block_count: usize,
+    },
+    /// Stack overflow during traversal
+    StackOverflow,
+}
+
+impl std::fmt::Display for TraversalError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            TraversalError::LimitReached { limit, block_count } => {
+                write!(
+                    f,
+                    "Iterative traversal limit reached: limit={}, blocks={}",
+                    limit, block_count
+                )
+            }
+            TraversalError::StackOverflow => {
+                write!(f, "Stack overflow during region traversal")
+            }
+        }
+    }
+}
+
+impl std::error::Error for TraversalError {}
+
+// ============================================================================
+// JADX Parity: Region.getSubBlocks() and IRegion methods
+// ============================================================================
+
+impl Region {
+    /// Get sub-blocks of this region (JADX: getSubBlocks)
+    ///
+    /// Returns all direct children of this region as RegionContent items.
+    /// This matches JADX's IRegion.getSubBlocks() interface.
+    ///
+    /// JADX Reference: IRegion.java:22 - List<IContainer> getSubBlocks()
+    pub fn get_sub_blocks(&self) -> Vec<&RegionContent> {
+        match self {
+            Region::Sequence(contents) => contents.iter().collect(),
+            Region::If { .. } => {
+                // If regions have sub-regions, use get_child_regions() instead
+                vec![]
+            }
+            _ => vec![],
+        }
+    }
+
+    /// Get child regions (for regions with sub-regions)
+    ///
+    /// More Rust-idiomatic alternative to get_sub_blocks()
+    pub fn child_regions(&self) -> Vec<&Region> {
+        match self {
+            Region::Sequence(contents) => {
+                contents.iter()
+                    .filter_map(|c| match c {
+                        RegionContent::Region(r) => Some(r.as_ref()),
+                        _ => None,
+                    })
+                    .collect()
+            }
+            Region::If { then_region, else_region, .. } => {
+                let mut result = vec![then_region.as_ref()];
+                if let Some(e) = else_region {
+                    result.push(e.as_ref());
+                }
+                result
+            }
+            Region::Loop { body, .. } => vec![body.as_ref()],
+            Region::Switch { cases, .. } => {
+                cases.iter().map(|c| c.container.as_ref()).collect()
+            }
+            Region::TryCatch { try_region, handlers, finally, .. } => {
+                let mut result = vec![try_region.as_ref()];
+                for h in handlers {
+                    result.push(h.region.as_ref());
+                }
+                if let Some(f) = finally {
+                    result.push(f.as_ref());
+                }
+                result
+            }
+            Region::Synchronized { body, .. } => vec![body.as_ref()],
+            Region::Break { .. } |
+            Region::Continue { .. } |
+            Region::TernaryAssignment { .. } |
+            Region::TernaryReturn { .. } => vec![],
+        }
+    }
+
+    /// Get mutable child regions (for modification)
+    pub fn child_regions_mut(&mut self) -> Vec<&mut Region> {
+        match self {
+            Region::Sequence(contents) => {
+                contents.iter_mut()
+                    .filter_map(|c| match c {
+                        RegionContent::Region(r) => Some(r.as_mut()),
+                        _ => None,
+                    })
+                    .collect()
+            }
+            Region::If { then_region, else_region, .. } => {
+                let mut result = vec![then_region.as_mut()];
+                if let Some(e) = else_region {
+                    result.push(e.as_mut());
+                }
+                result
+            }
+            Region::Loop { body, .. } => vec![body.as_mut()],
+            Region::Switch { cases, .. } => {
+                cases.iter_mut().map(|c| c.container.as_mut()).collect()
+            }
+            Region::TryCatch { try_region, handlers, finally, .. } => {
+                let mut result = vec![try_region.as_mut()];
+                for h in handlers {
+                    result.push(h.region.as_mut());
+                }
+                if let Some(f) = finally {
+                    result.push(f.as_mut());
+                }
+                result
+            }
+            Region::Synchronized { body, .. } => vec![body.as_mut()],
+            Region::Break { .. } |
+            Region::Continue { .. } |
+            Region::TernaryAssignment { .. } |
+            Region::TernaryReturn { .. } => vec![],
+        }
+    }
+
+    /// Replace a sub-block with a new one (JADX: replaceSubBlock)
+    ///
+    /// JADX Reference: IRegion.java:26 - boolean replaceSubBlock(IContainer oldBlock, IContainer newBlock)
+    pub fn replace_sub_block(&mut self, old_index: usize, new_content: RegionContent) -> bool {
+        if let Region::Sequence(contents) = self {
+            if old_index < contents.len() {
+                contents[old_index] = new_content;
+                return true;
+            }
+        }
+        false
     }
 }

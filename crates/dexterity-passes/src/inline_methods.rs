@@ -37,7 +37,7 @@
 //! - Constant getter: `return 42;`
 //! - Simple wrapper: `return otherMethod();`
 
-use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, InvokeKind, RegisterArg, MethodRef, FieldRef};
+use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
 use dexterity_ir::MethodData;
 use std::collections::HashMap;
 
@@ -54,6 +54,22 @@ pub struct InlineMethodsResult {
     pub constants_inlined: usize,
     /// Number of wrapper methods inlined
     pub wrappers_inlined: usize,
+}
+
+/// Field reference for inline pattern tracking (field_idx based)
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct InlineFieldRef {
+    /// DEX field index
+    pub field_idx: u32,
+    /// Whether this is a static field
+    pub is_static: bool,
+}
+
+/// Method reference for inline pattern tracking (method_idx based)
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct InlineMethodRef {
+    /// DEX method index
+    pub method_idx: u32,
 }
 
 /// Attribute marking a method for inlining
@@ -93,13 +109,13 @@ impl MethodInlineAttr {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum InlinePattern {
     /// Field getter: return this.field
-    Getter { field: FieldRef, is_static: bool },
+    Getter { field_idx: u32, is_static: bool },
     /// Field setter: this.field = arg
-    Setter { field: FieldRef, is_static: bool },
+    Setter { field_idx: u32, is_static: bool },
     /// Constant getter: return CONSTANT
     ConstGetter { value: i64 },
     /// Simple wrapper: return otherMethod(...)
-    Wrapper { method: MethodRef },
+    Wrapper { method_idx: u32 },
     /// Not inlinable
     None,
 }
@@ -111,13 +127,13 @@ pub enum InlinePattern {
 /// Returns the inline pattern if the method is inlinable, None otherwise.
 pub fn analyze_method_for_inlining(method: &MethodData) -> InlinePattern {
     // Skip abstract, native, or no-code methods
-    let code = match &method.code {
-        Some(c) => c,
+    let insns = match method.instructions() {
+        Some(i) => i,
         None => return InlinePattern::None,
     };
 
     // Get meaningful instructions (skip nop, goto)
-    let meaningful: Vec<&InsnNode> = code.instructions.iter()
+    let meaningful: Vec<&InsnNode> = insns.iter()
         .filter(|i| !matches!(i.insn_type,
             InsnType::Nop | InsnType::Goto { .. }
         ))
@@ -140,27 +156,27 @@ pub fn analyze_method_for_inlining(method: &MethodData) -> InlinePattern {
 fn check_single_insn_pattern(insn: &InsnNode, _method: &MethodData) -> InlinePattern {
     match &insn.insn_type {
         // return this.field - instance getter
-        InsnType::Return { value: Some(arg) } => {
+        InsnType::Return { value: Some(_arg) } => {
             // Would need to trace the arg back to a field get
             // This is a simplified check
             InlinePattern::None
         }
 
         // return void - empty method, not useful to inline
-        InsnType::ReturnVoid => InlinePattern::None,
+        InsnType::Return { value: None } => InlinePattern::None,
 
         // IGET + implicit return - instance getter
-        InsnType::InstanceGet { field, .. } => {
+        InsnType::InstanceGet { field_idx, .. } => {
             InlinePattern::Getter {
-                field: field.clone(),
+                field_idx: *field_idx,
                 is_static: false,
             }
         }
 
         // SGET + implicit return - static getter
-        InsnType::StaticGet { field, .. } => {
+        InsnType::StaticGet { field_idx, .. } => {
             InlinePattern::Getter {
-                field: field.clone(),
+                field_idx: *field_idx,
                 is_static: true,
             }
         }
@@ -184,11 +200,11 @@ fn check_two_insn_pattern(insns: &[&InsnNode], _method: &MethodData) -> InlinePa
     let second = insns[1];
 
     // IGET + RETURN value - instance getter
-    if let InsnType::InstanceGet { dest, field, .. } = &first.insn_type {
+    if let InsnType::InstanceGet { dest, field_idx, .. } = &first.insn_type {
         if let InsnType::Return { value: Some(ret_arg) } = &second.insn_type {
             if matches!(ret_arg, InsnArg::Register(r) if r.reg_num == dest.reg_num) {
                 return InlinePattern::Getter {
-                    field: field.clone(),
+                    field_idx: *field_idx,
                     is_static: false,
                 };
             }
@@ -196,42 +212,42 @@ fn check_two_insn_pattern(insns: &[&InsnNode], _method: &MethodData) -> InlinePa
     }
 
     // SGET + RETURN value - static getter
-    if let InsnType::StaticGet { dest, field, .. } = &first.insn_type {
+    if let InsnType::StaticGet { dest, field_idx, .. } = &first.insn_type {
         if let InsnType::Return { value: Some(ret_arg) } = &second.insn_type {
             if matches!(ret_arg, InsnArg::Register(r) if r.reg_num == dest.reg_num) {
                 return InlinePattern::Getter {
-                    field: field.clone(),
+                    field_idx: *field_idx,
                     is_static: true,
                 };
             }
         }
     }
 
-    // IPUT + RETURN_VOID - instance setter
-    if let InsnType::InstancePut { field, .. } = &first.insn_type {
-        if matches!(second.insn_type, InsnType::ReturnVoid) {
+    // IPUT + RETURN void - instance setter
+    if let InsnType::InstancePut { field_idx, .. } = &first.insn_type {
+        if matches!(second.insn_type, InsnType::Return { value: None }) {
             return InlinePattern::Setter {
-                field: field.clone(),
+                field_idx: *field_idx,
                 is_static: false,
             };
         }
     }
 
-    // SPUT + RETURN_VOID - static setter
-    if let InsnType::StaticPut { field, .. } = &first.insn_type {
-        if matches!(second.insn_type, InsnType::ReturnVoid) {
+    // SPUT + RETURN void - static setter
+    if let InsnType::StaticPut { field_idx, .. } = &first.insn_type {
+        if matches!(second.insn_type, InsnType::Return { value: None }) {
             return InlinePattern::Setter {
-                field: field.clone(),
+                field_idx: *field_idx,
                 is_static: true,
             };
         }
     }
 
     // INVOKE + RETURN - wrapper method
-    if let InsnType::Invoke { method: mref, .. } = &first.insn_type {
-        if matches!(second.insn_type, InsnType::Return { .. } | InsnType::ReturnVoid) {
+    if let InsnType::Invoke { method_idx, .. } = &first.insn_type {
+        if matches!(second.insn_type, InsnType::Return { .. }) {
             return InlinePattern::Wrapper {
-                method: mref.clone(),
+                method_idx: *method_idx,
             };
         }
     }
@@ -345,25 +361,32 @@ fn set_insn_result(insn: &mut InsnNode, result: RegisterArg) {
 /// Process all invoke instructions in a method for inlining opportunities
 ///
 /// JADX Reference: InlineMethods.visit()
-pub fn process_method_inlines(
+///
+/// The `method_key_resolver` function takes a method_idx and returns an optional
+/// string key (e.g., "com/example/Class.methodName") for looking up inline attributes.
+pub fn process_method_inlines<F>(
     instructions: &mut Vec<InsnNode>,
     inline_attrs: &HashMap<String, MethodInlineAttr>,
-) -> InlineMethodsResult {
+    method_key_resolver: F,
+) -> InlineMethodsResult
+where
+    F: Fn(u32) -> Option<String>,
+{
     let mut result = InlineMethodsResult::default();
 
     let mut i = 0;
     while i < instructions.len() {
         let insn = &instructions[i];
 
-        if let InsnType::Invoke { method, .. } = &insn.insn_type {
-            // Build method key for lookup
-            let method_key = format!("{}.{}", method.class, method.name);
-
-            if let Some(attr) = inline_attrs.get(&method_key) {
-                if let Some(inlined) = inline_invoke(insn, attr) {
-                    // Replace the invoke with the inlined instruction
-                    instructions[i] = inlined;
-                    result.methods_inlined += 1;
+        if let InsnType::Invoke { method_idx, .. } = &insn.insn_type {
+            // Build method key for lookup using resolver
+            if let Some(method_key) = method_key_resolver(*method_idx) {
+                if let Some(attr) = inline_attrs.get(&method_key) {
+                    if let Some(inlined) = inline_invoke(insn, attr) {
+                        // Replace the invoke with the inlined instruction
+                        instructions[i] = inlined;
+                        result.methods_inlined += 1;
+                    }
                 }
             }
         }
@@ -392,14 +415,26 @@ mod tests {
     #[test]
     fn test_getter_pattern() {
         let pattern = InlinePattern::Getter {
-            field: FieldRef {
-                class: "Test".to_string(),
-                name: "value".to_string(),
-                field_type: "I".to_string(),
-            },
+            field_idx: 42,
             is_static: false,
         };
 
         assert!(matches!(pattern, InlinePattern::Getter { is_static: false, .. }));
+    }
+
+    #[test]
+    fn test_setter_pattern() {
+        let pattern = InlinePattern::Setter {
+            field_idx: 100,
+            is_static: true,
+        };
+
+        assert!(matches!(pattern, InlinePattern::Setter { is_static: true, .. }));
+    }
+
+    #[test]
+    fn test_wrapper_pattern() {
+        let pattern = InlinePattern::Wrapper { method_idx: 200 };
+        assert!(matches!(pattern, InlinePattern::Wrapper { .. }));
     }
 }

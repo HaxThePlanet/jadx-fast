@@ -3,23 +3,46 @@
 ## Purpose
 This document provides **complete documentation of every JADX codegen feature** that must be cloned into dexterity to achieve 100% output parity. The goal is not to make "better" output, but to exactly replicate JADX's 10 years of edge-case handling.
 
+## Status: ~93% PARITY (Dec 23, 2025)
+
+Source-level audit complete. Most JADX codegen functionality has been verified and implemented.
+See JADX_CODEGEN_CLONE_STATUS.md for detailed source-level audit.
+
+### Verified Implementations (93%)
+- Negative literal wrapping (`maybe_paren_wrap`)
+- Varargs expansion (comprehensive - FilledNewArray + NewArray+ArrayPut patterns)
+- Increment/decrement operators (`i++`, `i--`, `obj.field++`)
+- Import conflict detection (simple name collisions)
+- Else-if chain optimization
+- Multi-catch syntax (`Type1 | Type2`)
+- Enum switch case handling
+- Boolean condition simplification
+- 1000-element array line wrap
+
+### Remaining Gaps (~7%)
+- Diamond operator (`new ArrayList<>()`) - GenericInfoAttr
+- Outer class constructor prefix (`outer.new Inner()`)
+- Polymorphic call return cast (MethodHandle.invoke)
+- Recursive inner class collision check
+- Comment escape (`*/` in string dumps)
+
 ## JADX Codegen Source Files
 
 | File | Lines | Dexterity Equivalent | Status |
 |------|-------|---------------------|--------|
-| InsnGen.java | ~1100 | expr_gen.rs + stmt_gen.rs + body_gen.rs | **COMPLETE** |
-| RegionGen.java | ~385 | body_gen.rs (regions) | **COMPLETE** |
-| ConditionGen.java | ~199 | body_gen.rs gen_condition | **COMPLETE** |
-| NameGen.java | ~117 | body_gen.rs + var_naming.rs | **COMPLETE** |
-| TypeGen.java | ~137 | type_gen.rs | **COMPLETE** |
-| AnnotationGen.java | ~227 | method_gen.rs + class_gen.rs | **COMPLETE** |
-| SimpleModeHelper.java | ~152 | fallback_gen.rs (~500 lines) | **COMPLETE** |
-| ClassGen.java | ~900+ | class_gen.rs | **COMPLETE** |
-| MethodGen.java | ~500+ | method_gen.rs | **COMPLETE** |
-| CodeGen.java | ~80 | N/A (entry point) | N/A |
+| InsnGen.java | 1,237 | expr_gen.rs + stmt_gen.rs + body_gen.rs | ~95% (missing: diamond, outer.new, polymorphic cast) |
+| RegionGen.java | 385 | body_gen.rs (regions) | ~95% |
+| ConditionGen.java | 198 | body_gen.rs gen_condition | ~95% |
+| NameGen.java | 117 | body_gen.rs + var_naming.rs | ~90% |
+| TypeGen.java | 137 | type_gen.rs | ~98% |
+| AnnotationGen.java | 226 | method_gen.rs + class_gen.rs | ~85% |
+| SimpleModeHelper.java | 151 | fallback_gen.rs (~500 lines) | ~90% |
+| ClassGen.java | 887 | class_gen.rs | ~90% (missing: inner collision check) |
+| MethodGen.java | 570 | method_gen.rs | ~95% (missing: */ escape) |
+| CodeGen.java | 62 | N/A (entry point) | N/A |
 
-**Total JADX Codegen:** ~3,800 lines Java
-**Dexterity Codegen:** ~19,500 lines Rust
+**Total JADX Codegen:** ~4,867 lines Java (23 files)
+**Dexterity Codegen:** ~19,869 lines Rust (12 files)
 
 ---
 
@@ -54,6 +77,84 @@ All major JADX codegen features have been implemented. The following 12 tasks we
 ### Key Files Modified
 - `crates/dexterity-codegen/src/body_gen.rs` - Super call qualification, name collision detection, field replacement
 - `crates/dexterity-codegen/src/fallback_gen.rs` - Complete rewrite with SimpleModeHelper (~500 lines)
+
+---
+
+## VERIFICATION AUDIT (Dec 23, 2025)
+
+Each claimed feature was verified by searching the codebase for implementation evidence:
+
+### 1. FieldReplaceAttr CLASS_INSTANCE (InsnGen.java:186-213)
+**JADX:** Replaces `this$0` field access with `OuterClass.this`
+**Dexterity:**
+- `is_outer_this_field()` at body_gen.rs:7480-7489 - detects `this$N` pattern
+- `get_outer_class_from_field_type()` - extracts outer class name
+- Usage at body_gen.rs:800-807 - replaces `this.this$0` with `OuterClass.this`
+**STATUS: ✅ VERIFIED**
+
+### 2. callSuper() Method (InsnGen.java:1080-1117)
+**JADX:** Handles qualified super calls for inner/anonymous classes
+**Dexterity:**
+- `needs_qualified_super()` at body_gen.rs:7517-7541
+- Usage at body_gen.rs:8117-8140 - generates `OuterClass.super.method()`
+**STATUS: ✅ VERIFIED**
+
+### 3. makeInvokeCustomRaw (InsnGen.java:913-936)
+**JADX:** Generates `.dynamicInvoker().invoke()` for invoke-custom-raw
+**Dexterity:**
+- body_gen.rs:9166-9176 - generates `invoke_custom_#N.dynamicInvoker().invoke(args)`
+**STATUS: ✅ VERIFIED**
+
+### 4. Multi-Catch (RegionGen.java:345-378)
+**JADX:** Generates `catch (Type1 | Type2 e)` for multi-catch handlers
+**Dexterity:**
+- body_gen.rs:6219-6226 - `is_multi_catch()` check and `|` separator
+- Example: `exc_types.join(" | ")` at line 6225
+**STATUS: ✅ VERIFIED**
+
+### 5. Boolean Simplification (ConditionGen.java:101-132)
+**JADX:** `bool == true` → `bool`, `bool != false` → `bool`
+**Dexterity:**
+- body_gen.rs `gen_condition_expr()` - comprehensive boolean simplification
+**STATUS: ✅ VERIFIED**
+
+### 6. Collision Detection (NameGen.java:36-48)
+**JADX:** Reserves static fields, inner class names, root packages
+**Dexterity:**
+- `add_class_level_reserved_names()` at body_gen.rs:385-421
+- Static fields reserved at lines 389-395
+- Inner class names reserved at lines 398-411
+- Root packages (java, android, etc.) at lines 413-420
+**STATUS: ✅ VERIFIED**
+
+### 7. Generic Type Bounds with & (ClassGen.java:234-273)
+**JADX:** `<T extends A & B>` multiple bounds with `&` separator
+**Dexterity:**
+- `generate_type_parameters()` at method_gen.rs:84-126
+- Line 119: `code.add(" & ");` for multiple bounds
+**STATUS: ✅ VERIFIED**
+
+### 8. @Override with Class Comment (MethodGen.java:191-208)
+**JADX:** `@Override // declaring.class.Name`
+**Dexterity:**
+- `find_override_source()` at method_gen.rs:287-331
+- `should_add_override_heuristic()` at method_gen.rs:339-370
+- Line 555, 709: `@Override // ` + declaring_class
+**STATUS: ✅ VERIFIED**
+
+### 9. Encoded Annotation Values (AnnotationGen.java:144-221)
+**JADX:** Full switch for all 12 encoded value types
+**Dexterity:**
+- `annotation_value_to_string()` at method_gen.rs:398-472
+- All types: Byte, Short, Char, Int, Long, Float, Double, String, Type, Enum, Annotation, Array, Boolean, Null
+**STATUS: ✅ VERIFIED**
+
+### 10. SimpleModeHelper (SimpleModeHelper.java:36-151)
+**JADX:** DFS block sorting, label/goto detection, if inversion
+**Dexterity:**
+- fallback_gen.rs:~500 lines total
+- DFS sorting, label marking, goto generation
+**STATUS: ✅ VERIFIED**
 
 ---
 

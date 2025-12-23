@@ -3,6 +3,7 @@
 use anyhow::Result;
 use dexterity_dex::DexReader;
 use dexterity_ir::{ClassData, FieldData, KotlinClassInfo, TypeParameter};
+use dexterity_ir::instructions::InsnType;
 use crate::types::{KotlinClassMetadata, KotlinKind, KotlinProperty};
 use crate::tostring_parser::{self, TypeResolver};
 
@@ -476,4 +477,297 @@ pub fn apply_tostring_names(cls: &mut ClassData, dex: &DexReader) -> Result<()> 
     }
 
     Ok(())
+}
+
+// ============================================================================
+// JADX-Style Getter Recognition
+// ============================================================================
+// Cloned from JADX: jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/utils/KotlinUtils.kt
+// JADX approach: For each instance field, find method where:
+// - Return type matches field type
+// - No arguments
+// - Exactly 3 instructions
+// - Has InstanceGet instruction pointing to the field
+
+/// Find getter methods for fields using JADX's exact criteria
+/// JADX Reference: KotlinUtils.kt:25-44
+pub fn find_getters_jadx_style(cls: &mut ClassData) {
+    // Collect field info first to avoid borrow issues
+    let field_info: Vec<_> = cls.instance_fields.iter()
+        .filter_map(|f| {
+            f.dex_field_idx.map(|idx| (idx, f.field_type.clone(), f.display_name().to_string()))
+        })
+        .collect();
+
+    for (field_idx, field_type, field_alias) in field_info {
+        // Find a method that matches JADX's getter criteria
+        // JADX Reference: KotlinUtils.kt:36-43
+        if let Some(method_idx) = find_field_getter_method(cls, field_idx, &field_type) {
+            // Generate getter alias: get{FieldAlias}
+            // JADX Reference: KotlinUtils.kt:46-51
+            let getter_alias = get_getter_alias(&field_alias);
+
+            // Apply the alias
+            if let Some(method) = cls.methods.get_mut(method_idx) {
+                if method.alias.is_none() {
+                    tracing::debug!(
+                        "JADX-style getter match: method '{}' -> '{}' (field: {})",
+                        method.name, getter_alias, field_alias
+                    );
+                    method.alias = Some(getter_alias);
+                }
+            }
+        }
+    }
+}
+
+/// Find a method that is a getter for the given field
+/// JADX Reference: KotlinUtils.kt:36-43
+/// Criteria:
+/// - Return type matches field type
+/// - No arguments (argTypes.isEmpty())
+/// - Exactly 3 instructions (insnsCount == 3)
+/// - Has InstanceGet instruction pointing to the field (sVars[1].assignInsn as? IndexInsnNode)?.index == field
+fn find_field_getter_method(cls: &ClassData, field_idx: u32, field_type: &dexterity_ir::ArgType) -> Option<usize> {
+    for (method_idx, method) in cls.methods.iter().enumerate() {
+        // Skip static methods (getters are instance methods)
+        if method.is_static() {
+            continue;
+        }
+
+        // Criterion 1: Return type must match field type
+        // JADX Reference: KotlinUtils.kt:38
+        if &method.return_type != field_type {
+            continue;
+        }
+
+        // Criterion 2: No arguments
+        // JADX Reference: KotlinUtils.kt:39
+        if !method.arg_types.is_empty() {
+            continue;
+        }
+
+        // Criterion 3: Exactly 3 instructions
+        // JADX Reference: KotlinUtils.kt:40
+        let insn_count = match &method.instructions {
+            Some(insns) => insns.len(),
+            None => continue, // No instructions = not a getter
+        };
+        if insn_count != 3 {
+            continue;
+        }
+
+        // Criterion 4: Has InstanceGet instruction pointing to our field
+        // JADX Reference: KotlinUtils.kt:41-42
+        // (it.sVars[1].assignInsn as? IndexInsnNode)?.index == field
+        // In our IR: Check if any instruction is InstanceGet with matching field_idx
+        if let Some(insns) = &method.instructions {
+            let has_field_get = insns.iter().any(|insn| {
+                matches!(&insn.insn_type, InsnType::InstanceGet { field_idx: idx, .. } if *idx == field_idx)
+            });
+
+            if has_field_get {
+                return Some(method_idx);
+            }
+        }
+    }
+
+    None
+}
+
+/// Generate getter method alias from field alias
+/// JADX Reference: KotlinUtils.kt:46-51
+fn get_getter_alias(field_alias: &str) -> String {
+    let capitalized = capitalize_first(field_alias);
+    format!("get{}", capitalized)
+}
+
+// ============================================================================
+// JADX-Style Default Method Recognition
+// ============================================================================
+// Cloned from JADX: jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/utils/KotlinUtils.kt
+// For methods with default parameter values, Kotlin generates synthetic $default methods
+
+// ============================================================================
+// JADX-Style Companion Object Detection
+// ============================================================================
+// Cloned from JADX: jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/utils/KotlinMetadataUtils.kt
+// Empty companion objects that are only used in <clinit> can be hidden
+
+/// Result of companion analysis
+/// JADX Reference: KotlinMetadataUtils.kt:118-141
+pub struct CompanionAnalysis {
+    /// Field name of the companion object
+    pub field_name: String,
+    /// Whether the companion should be hidden (only used in clinit and empty)
+    pub should_hide: bool,
+}
+
+/// Analyze companion object for potential hiding
+/// JADX Reference: KotlinMetadataUtils.kt:118-141
+pub fn analyze_companion_for_hiding(cls: &ClassData, metadata: &KotlinClassMetadata) -> Option<CompanionAnalysis> {
+    // Get companion object name from metadata
+    // JADX Reference: KotlinMetadataUtils.kt:119
+    let companion_name = metadata.companion_object.as_ref()?;
+
+    // Find the companion field (static final public)
+    // JADX Reference: KotlinMetadataUtils.kt:120-122
+    let companion_field = cls.static_fields.iter().find(|f| {
+        f.name == *companion_name
+            && f.is_static()
+            && f.is_final()
+            && (f.access_flags & 0x0001) != 0 // public
+    })?;
+
+    // Check if field is only used in <clinit>
+    // JADX Reference: KotlinMetadataUtils.kt:130
+    // isOnlyInit = compField.useIn.size == 1 && compField.useIn[0].methodInfo.isClassInit
+    let is_only_init = companion_field.use_in.len() == 1
+        && companion_field.use_in.first()
+            .map(|(_, method_name)| method_name == "<clinit>")
+            .unwrap_or(false);
+
+    // Check if companion class is empty (only constructors, no fields)
+    // JADX Reference: KotlinMetadataUtils.kt:131
+    // isEmpty = compCls.run { methods.all { it.isConstructor } && fields.isEmpty() }
+    // We need to find the inner class and check it
+    // For now, we'll just check based on the field's type
+    let companion_type = match &companion_field.field_type {
+        dexterity_ir::ArgType::Object(name) => Some(name.as_str()),
+        _ => None,
+    };
+
+    // Check if we can find the companion inner class
+    let is_empty = if let Some(comp_type) = companion_type {
+        // Look for the inner class
+        cls.inner_classes.iter().find(|inner| {
+            inner.as_str() == comp_type
+        }).is_some()
+        // For full implementation, we'd need to load the inner class and check
+        // if it has only constructors and no fields
+        // For now, we'll be conservative and only hide if isOnlyInit is true
+        && is_only_init
+    } else {
+        false
+    };
+
+    // JADX Reference: KotlinMetadataUtils.kt:133-136
+    // hide = isOnlyInit && isEmpty
+    let should_hide = is_only_init && is_empty;
+
+    if should_hide {
+        tracing::debug!(
+            "Companion object '{}' can be hidden (only init: {}, empty: {})",
+            companion_name, is_only_init, is_empty
+        );
+    }
+
+    Some(CompanionAnalysis {
+        field_name: companion_name.clone(),
+        should_hide,
+    })
+}
+
+/// Rename companion object field and class
+/// JADX Reference: KotlinMetadataDecompilePass.kt:71-88
+pub fn rename_companion_jadx_style(cls: &mut ClassData, metadata: &KotlinClassMetadata) {
+    // Get companion object name from metadata
+    let companion_name = match &metadata.companion_object {
+        Some(name) => name,
+        None => return,
+    };
+
+    // Find and rename the companion field to "Companion"
+    // JADX Reference: KotlinMetadataDecompilePass.kt:74-77
+    for field in &mut cls.static_fields {
+        if field.name == *companion_name && field.alias.is_none() {
+            // Standard Kotlin companion field name
+            field.alias = Some("Companion".to_string());
+            tracing::debug!(
+                "JADX-style companion field rename: '{}' -> 'Companion'",
+                field.name
+            );
+            break;
+        }
+    }
+
+    // Note: Full companion class rename requires access to the inner class
+    // which is handled separately in the class processing pipeline
+}
+
+/// Find and rename default parameter methods
+/// JADX Reference: KotlinUtils.kt:53-89
+pub fn find_default_methods_jadx_style(cls: &mut ClassData) {
+    // Collect matching methods and their potential original methods
+    let class_name = cls.class_type.clone();
+    let mut renames: Vec<(usize, String)> = Vec::new();
+
+    for (method_idx, method) in cls.methods.iter().enumerate() {
+        // Criteria for $default method:
+        // JADX Reference: KotlinUtils.kt:55-62
+        // 1. Static and synthetic
+        if !method.is_static() || (method.access_flags & 0x1000) == 0 {
+            continue;
+        }
+
+        // 2. Signature pattern:
+        //    - First arg is the class type
+        //    - Second-to-last arg is INT (bitmask for which params have defaults)
+        //    - Last arg is Object (unused continuation parameter)
+        let arg_count = method.arg_types.len();
+        if arg_count < 4 {
+            continue;
+        }
+
+        // First arg must be the class type
+        let first_arg = &method.arg_types[0];
+        if !matches!(first_arg, dexterity_ir::ArgType::Object(name) if name.as_str() == class_name) {
+            continue;
+        }
+
+        // Second-to-last must be int
+        let second_to_last = &method.arg_types[arg_count - 2];
+        if !matches!(second_to_last, dexterity_ir::ArgType::Int) {
+            continue;
+        }
+
+        // Last must be Object
+        let last_arg = &method.arg_types[arg_count - 1];
+        if !matches!(last_arg, dexterity_ir::ArgType::Object(name) if name.as_str() == "java/lang/Object") {
+            continue;
+        }
+
+        // This looks like a $default method
+        // Try to find the original method it corresponds to
+        // The original method has the same name without $default suffix
+        // and matches the parameter types (minus the bitmask and Object params)
+
+        // Simple heuristic: look for a method with matching name pattern
+        // Real JADX uses dominator analysis, but we'll use name matching
+        if method.name.ends_with("$default") {
+            let original_name = method.name.trim_end_matches("$default");
+            // Find original method
+            for orig_method in cls.methods.iter() {
+                if orig_method.name == original_name && !orig_method.is_static() {
+                    // Found potential original - rename $default method
+                    let alias = format!("{}$default", orig_method.display_name());
+                    tracing::debug!(
+                        "JADX-style default method match: '{}' -> '{}'",
+                        method.name, &alias
+                    );
+                    renames.push((method_idx, alias));
+                    break;
+                }
+            }
+        }
+    }
+
+    // Apply renames
+    for (method_idx, alias) in renames {
+        if let Some(method) = cls.methods.get_mut(method_idx) {
+            if method.alias.is_none() {
+                method.alias = Some(alias);
+            }
+        }
+    }
 }

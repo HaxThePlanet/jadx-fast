@@ -101,18 +101,34 @@ pub fn precompute_deobf_aliases(
         return;
     }
 
+    // Counts for initializing alias provider indexes after loading mappings
+    // JADX Reference: DeobfPresets.initIndexes() - start counters from loaded mapping sizes
+    let mut loaded_pkg_count: u32 = 0;
+    let mut loaded_cls_count: u32 = 0;
+    let mut loaded_fld_count: u32 = 0;
+    let mut loaded_mth_count: u32 = 0;
+
     // Load JOBF file if specified and mode allows
     if let Some(ref jobf_path) = args.deobf_cfg_file {
         if args.deobf_cfg_file_mode == DeobfCfgFileMode::Read
             || args.deobf_cfg_file_mode == DeobfCfgFileMode::ReadOrSave
         {
-            if let Err(e) = load_jobf_file(jobf_path, registry) {
-                warn!("Failed to load JOBF file {}: {}", jobf_path.display(), e);
+            match load_jobf_file_with_counts(jobf_path, registry) {
+                Ok((pkg, cls, fld, mth)) => {
+                    loaded_pkg_count = pkg;
+                    loaded_cls_count = cls;
+                    loaded_fld_count = fld;
+                    loaded_mth_count = mth;
+                }
+                Err(e) => {
+                    warn!("Failed to load JOBF file {}: {}", jobf_path.display(), e);
+                }
             }
         }
     }
 
     // Load user-provided renames (takes priority over JOBF)
+    // Note: User renames don't increment counters since they're manual overrides
     if let Some(ref user_renames_path) = args.user_renames {
         if let Err(e) = load_user_renames(user_renames_path, registry) {
             warn!("Failed to load user renames {}: {}", user_renames_path.display(), e);
@@ -133,7 +149,10 @@ pub fn precompute_deobf_aliases(
         .collect();
     by_name.sort_by(|a, b| a.0.cmp(&b.0));
 
+    // Create provider and initialize indexes from loaded mapping counts
+    // JADX Reference: DeobfPresets.initIndexes(IAliasProvider) - ensures new aliases don't collide
     let provider = DeobfAliasProvider::new(args.deobf_max_length);
+    provider.init_indexes(loaded_pkg_count, loaded_cls_count, loaded_fld_count, loaded_mth_count);
 
     // Android R-class detection (precomputed, linear scan).
     // The previous per-class scan was O(n^2) on real apps and can explode memory.
@@ -141,7 +160,9 @@ pub fn precompute_deobf_aliases(
 
     // Collect all unique package prefixes (JADX processes each package segment)
     // For "a/b/c", we collect: "a", "a/b", "a/b/c"
+    // JADX Reference: RenameVisitor.checkPackage() - handles default package
     let mut all_prefixes: HashSet<String> = HashSet::new();
+    let mut has_default_package = false;
     for (desc, _) in &by_name {
         let internal = strip_desc_to_internal(desc);
         if let Some((pkg, _)) = internal.rsplit_once('/') {
@@ -153,8 +174,20 @@ pub fn precompute_deobf_aliases(
                 current.push_str(part);
                 all_prefixes.insert(current.clone());
             }
+        } else {
+            // Class is in default package (no package path, e.g., "LFoo;" -> "Foo")
+            // JADX Reference: RenameVisitor.java:115-119 - rename default package to "defpackage"
+            has_default_package = true;
         }
     }
+
+    // Handle default package -> "defpackage" rename
+    // JADX Reference: Consts.DEFAULT_PACKAGE_NAME = "defpackage"
+    if has_default_package {
+        // Set alias for empty package to "defpackage"
+        registry.set_package_alias("", dexterity_deobf::rename_validator::consts::DEFAULT_PACKAGE_NAME);
+    }
+
     let mut packages: Vec<String> = all_prefixes.into_iter().collect();
     packages.sort();
 
@@ -1034,21 +1067,31 @@ fn is_whitelisted_class(
 // JOBF file persistence
 // ============================================================================
 
-/// Load aliases from a JOBF file into the registry.
+/// Load aliases from a JOBF file into the registry, returning counts per category.
+///
+/// JADX Reference: DeobfPresets.load() and DeobfPresets.initIndexes()
+/// The counts are used to initialize alias provider indexes so new aliases
+/// don't collide with loaded ones.
 ///
 /// JOBF format (one per line):
 /// - `p fullPkgName = alias` for packages
 /// - `c fullClassName = alias` for classes
 /// - `f classRawName.fieldName = alias` for fields
 /// - `m classRawName.methodName(signature) = alias` for methods
-fn load_jobf_file(path: &PathBuf, registry: &AliasRegistry) -> Result<()> {
+///
+/// Returns: (pkg_count, cls_count, fld_count, mth_count)
+fn load_jobf_file_with_counts(path: &PathBuf, registry: &AliasRegistry) -> Result<(u32, u32, u32, u32)> {
     if !path.exists() {
-        return Ok(());
+        return Ok((0, 0, 0, 0));
     }
 
     let file = fs::File::open(path)?;
     let reader = BufReader::new(file);
-    let mut count = 0;
+
+    let mut pkg_count: u32 = 0;
+    let mut cls_count: u32 = 0;
+    let mut fld_count: u32 = 0;
+    let mut mth_count: u32 = 0;
 
     for line in reader.lines() {
         let line = line?;
@@ -1076,14 +1119,14 @@ fn load_jobf_file(path: &PathBuf, registry: &AliasRegistry) -> Result<()> {
                 // Package: store as internal format (slashes)
                 let internal = orig_name.replace('.', "/");
                 registry.set_package_alias(&internal, alias);
-                count += 1;
+                pkg_count += 1;
             }
             'c' => {
                 // Class: convert to descriptor format
                 let internal = orig_name.replace('.', "/");
                 let desc = format!("L{};", internal);
                 registry.set_class_alias(&desc, alias);
-                count += 1;
+                cls_count += 1;
             }
             'f' => {
                 // Field: format is "class.field"
@@ -1093,7 +1136,7 @@ fn load_jobf_file(path: &PathBuf, registry: &AliasRegistry) -> Result<()> {
                     let internal = class_name.replace('.', "/");
                     let desc = format!("L{};", internal);
                     registry.set_field_alias(&desc, field_name, alias);
-                    count += 1;
+                    fld_count += 1;
                 }
             }
             'm' => {
@@ -1107,17 +1150,19 @@ fn load_jobf_file(path: &PathBuf, registry: &AliasRegistry) -> Result<()> {
                     let desc = format!("L{};", internal);
                     // Store with empty proto since JOBF doesn't include full signature
                     registry.set_method_alias(&desc, method_name, "", alias);
-                    count += 1;
+                    mth_count += 1;
                 }
             }
             _ => {}
         }
     }
 
-    if count > 0 {
-        info!("Loaded {} aliases from JOBF file: {}", count, path.display());
+    let total = pkg_count + cls_count + fld_count + mth_count;
+    if total > 0 {
+        info!("Loaded {} aliases from JOBF file: {} (pkg={}, cls={}, fld={}, mth={})",
+              total, path.display(), pkg_count, cls_count, fld_count, mth_count);
     }
-    Ok(())
+    Ok((pkg_count, cls_count, fld_count, mth_count))
 }
 
 /// Save aliases from the registry to a JOBF file.

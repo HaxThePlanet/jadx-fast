@@ -1344,6 +1344,7 @@ fn resolve_lambda_info(dex: &DexReader, call_site_idx: u32) -> Option<LambdaInfo
         captured_arg_count,
         lambda_param_types,
         lambda_return_type,
+        call_insn_idx: None, // Will be set later during pass processing
     })
 }
 

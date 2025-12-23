@@ -277,6 +277,10 @@ pub struct MethodData {
     pub name: String,
     /// Alias name (from deobfuscation or mapping file)
     pub alias: Option<String>,
+    /// Reason(s) for the alias/rename - JADX parity: RenameReasonAttr
+    /// JADX Reference: jadx-core/src/main/java/jadx/core/dex/attributes/RenameReasonAttr.java
+    /// Tracks why this method was renamed (e.g., "from kotlin metadata", "from getter")
+    pub rename_reasons: Vec<String>,
     /// Access flags
     pub access_flags: u32,
     /// Return type
@@ -369,6 +373,7 @@ impl MethodData {
         MethodData {
             name,
             alias: None,
+            rename_reasons: Vec::new(),
             access_flags,
             return_type,
             arg_types: Vec::new(),
@@ -419,6 +424,7 @@ impl MethodData {
         MethodData {
             name,
             alias: None,
+            rename_reasons: Vec::new(),
             access_flags,
             return_type,
             arg_types: Vec::new(),
@@ -633,6 +639,14 @@ impl MethodData {
     /// Get the display name (alias if set, otherwise original name)
     pub fn display_name(&self) -> &str {
         self.alias.as_deref().unwrap_or(&self.name)
+    }
+
+    /// Add a rename reason (like JADX's RenameReasonAttr.append())
+    /// JADX Reference: jadx-core/src/main/java/jadx/core/dex/attributes/RenameReasonAttr.java:31-38
+    pub fn add_rename_reason(&mut self, reason: &str) {
+        if !self.rename_reasons.iter().any(|r| r == reason) {
+            self.rename_reasons.push(reason.to_string());
+        }
     }
 
     /// Check if this is a static method
@@ -1011,6 +1025,10 @@ pub struct ClassData {
     pub alias: Option<String>,
     /// Package alias (from deobfuscation or mapping file)
     pub pkg_alias: Option<String>,
+    /// Reason(s) for the alias/rename - JADX parity: RenameReasonAttr
+    /// JADX Reference: jadx-core/src/main/java/jadx/core/dex/attributes/RenameReasonAttr.java
+    /// Tracks why this class was renamed (e.g., "from kotlin metadata", "from SMAP")
+    pub rename_reasons: Vec<String>,
     /// Access flags
     pub access_flags: u32,
     /// Superclass type (None for java/lang/Object)
@@ -1086,6 +1104,7 @@ impl ClassData {
             class_type,
             alias: None,
             pkg_alias: None,
+            rename_reasons: Vec::new(),
             access_flags,
             superclass: None,
             superclass_type: None,
@@ -1156,6 +1175,14 @@ impl ClassData {
     /// Get the display name (alias if set, otherwise simple_name)
     pub fn display_name(&self) -> &str {
         self.alias.as_deref().unwrap_or_else(|| self.simple_name())
+    }
+
+    /// Add a rename reason (like JADX's RenameReasonAttr.append())
+    /// JADX Reference: jadx-core/src/main/java/jadx/core/dex/attributes/RenameReasonAttr.java:31-38
+    pub fn add_rename_reason(&mut self, reason: &str) {
+        if !self.rename_reasons.iter().any(|r| r == reason) {
+            self.rename_reasons.push(reason.to_string());
+        }
     }
 
     /// Get the simple name (without package)
@@ -1375,6 +1402,10 @@ pub struct FieldData {
     pub name: String,
     /// Alias name (from deobfuscation or mapping file)
     pub alias: Option<String>,
+    /// Reason(s) for the alias/rename - JADX parity: RenameReasonAttr
+    /// JADX Reference: jadx-core/src/main/java/jadx/core/dex/attributes/RenameReasonAttr.java
+    /// Tracks why this field was renamed (e.g., "from kotlin metadata", "from toString")
+    pub rename_reasons: Vec<String>,
     /// Access flags
     pub access_flags: u32,
     /// Field type
@@ -1396,12 +1427,21 @@ impl FieldData {
         FieldData {
             name,
             alias: None,
+            rename_reasons: Vec::new(),
             access_flags,
             field_type,
             initial_value: None,
             annotations: Vec::new(),
             dex_field_idx: None,
             use_in: Vec::new(),
+        }
+    }
+
+    /// Add a rename reason (like JADX's RenameReasonAttr.append())
+    /// JADX Reference: jadx-core/src/main/java/jadx/core/dex/attributes/RenameReasonAttr.java:31-38
+    pub fn add_rename_reason(&mut self, reason: &str) {
+        if !self.rename_reasons.iter().any(|r| r == reason) {
+            self.rename_reasons.push(reason.to_string());
         }
     }
 

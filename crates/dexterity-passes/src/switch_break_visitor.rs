@@ -54,9 +54,8 @@
 //!     throw new Exception();
 //! ```
 
-use std::collections::HashSet;
 use dexterity_ir::instructions::{InsnNode, InsnType};
-use dexterity_ir::regions::{Region, RegionKind, SwitchCase};
+use dexterity_ir::regions::{Region, CaseInfo};
 
 /// Result of the switch break visitor pass
 #[derive(Debug, Default)]
@@ -70,8 +69,26 @@ pub struct SwitchBreakVisitorResult {
 }
 
 /// Check if an instruction is a break instruction for a specific switch
+///
+/// Note: In dexterity IR, Break has a label (Option<String>) not a target offset.
+/// This function checks if it's a break with a label matching the given switch_offset as a string,
+/// or any break if switch_offset is 0 (generic break).
 pub fn is_break_for_switch(insn: &InsnNode, switch_offset: u32) -> bool {
-    matches!(&insn.insn_type, InsnType::Break { target } if *target == switch_offset)
+    match &insn.insn_type {
+        InsnType::Break { label } => {
+            if switch_offset == 0 {
+                // Any break
+                true
+            } else if let Some(lbl) = label {
+                // Break with specific label - try to match the offset
+                lbl.parse::<u32>().ok() == Some(switch_offset)
+            } else {
+                // Unlabeled break - matches offset 0 only
+                switch_offset == 0
+            }
+        }
+        _ => false,
+    }
 }
 
 /// Check if an instruction is an exit instruction (return, throw, continue)
@@ -81,7 +98,6 @@ pub fn is_exit_edge_insn(insn: &InsnNode) -> bool {
     matches!(
         &insn.insn_type,
         InsnType::Return { .. }
-            | InsnType::ReturnVoid
             | InsnType::Throw { .. }
             | InsnType::Continue { .. }
     )
@@ -105,7 +121,18 @@ pub fn is_break_block(instructions: &[InsnNode], switch_offset: u32) -> bool {
     }
 }
 
-/// Extract common break from switch cases
+/// Result of extracting common break
+#[derive(Debug, Default)]
+pub struct ExtractCommonBreakResult {
+    /// Number of breaks removed from cases
+    pub breaks_removed: usize,
+    /// Whether to add a break after the switch
+    pub add_break_after_switch: bool,
+    /// Whether the common break would be unreachable
+    pub break_is_unreachable: bool,
+}
+
+/// Extract common break from instruction-based switch cases
 ///
 /// JADX Reference: ExtractCommonBreak.processBranchRegion()
 ///
@@ -118,8 +145,11 @@ pub fn is_break_block(instructions: &[InsnNode], switch_offset: u32) -> bool {
 /// - Add a single break after the switch
 ///
 /// If all cases end with exit instructions, we can remove the break entirely.
+///
+/// Note: This simplified version works on Vec<Vec<InsnNode>> representing case bodies.
+/// The full Region-based version would need to recursively traverse the region tree.
 pub fn extract_common_break(
-    cases: &mut [SwitchCase],
+    case_bodies: &mut [Vec<InsnNode>],
     switch_offset: u32,
 ) -> ExtractCommonBreakResult {
     let mut result = ExtractCommonBreakResult::default();
@@ -129,14 +159,14 @@ pub fn extract_common_break(
     let mut all_have_exit_only = true;
     let mut cases_with_break: Vec<usize> = Vec::new();
 
-    for (idx, case) in cases.iter().enumerate() {
-        if case.body.is_empty() {
+    for (idx, body) in case_bodies.iter().enumerate() {
+        if body.is_empty() {
             // Empty case - fallthrough, doesn't count
             all_have_exit_only = false;
             continue;
         }
 
-        let last_insn = case.body.last();
+        let last_insn = body.last();
         if let Some(insn) = last_insn {
             if is_break_for_switch(insn, switch_offset) {
                 cases_with_break.push(idx);
@@ -161,7 +191,7 @@ pub fn extract_common_break(
 
     // Remove break from each case that has one
     for &idx in &cases_with_break {
-        if let Some(body) = cases.get_mut(idx).map(|c| &mut c.body) {
+        if let Some(body) = case_bodies.get_mut(idx) {
             if !body.is_empty() {
                 body.pop(); // Remove the break
                 result.breaks_removed += 1;
@@ -177,17 +207,6 @@ pub fn extract_common_break(
     }
 
     result
-}
-
-/// Result of extracting common break
-#[derive(Debug, Default)]
-pub struct ExtractCommonBreakResult {
-    /// Number of breaks removed from cases
-    pub breaks_removed: usize,
-    /// Whether to add a break after the switch
-    pub add_break_after_switch: bool,
-    /// Whether the common break would be unreachable
-    pub break_is_unreachable: bool,
 }
 
 /// Remove unreachable break instructions
@@ -220,13 +239,35 @@ pub fn remove_unreachable_break(
     removed
 }
 
-/// Process all switch regions in a method for break optimization
+/// Check if a region ends with return or throw
+///
+/// JADX Reference: Used in ExtractCommonBreak
+pub fn region_ends_with_exit(region: &Region) -> bool {
+    match region {
+        Region::Sequence(regions) => {
+            regions.last().map_or(false, |content| {
+                // RegionContent can be Region or BlockIdx - check Region case
+                match content {
+                    dexterity_ir::regions::RegionContent::Region(r) => region_ends_with_exit(r),
+                    dexterity_ir::regions::RegionContent::Block(_) => false,
+                }
+            })
+        }
+        _ => false,
+    }
+}
+
+/// Optimizes switch breaks in a simplified format (instruction lists per case)
 ///
 /// JADX Reference: SwitchBreakVisitor.visit()
 ///
 /// Runs iteratively until no more changes are made (fixpoint).
+///
+/// Note: This is a simplified version. Full implementation would traverse
+/// the Region tree and handle nested switches.
 pub fn optimize_switch_breaks(
-    regions: &mut Vec<Region>,
+    case_bodies: &mut [Vec<InsnNode>],
+    switch_offset: u32,
 ) -> SwitchBreakVisitorResult {
     let mut result = SwitchBreakVisitorResult::default();
 
@@ -236,23 +277,19 @@ pub fn optimize_switch_breaks(
     loop {
         let mut changed = false;
 
-        for region in regions.iter_mut() {
-            if let RegionKind::Switch { cases, switch_offset, .. } = &mut region.kind {
-                // Extract common break
-                let extract_result = extract_common_break(cases, *switch_offset);
-                if extract_result.breaks_removed > 0 {
-                    changed = true;
-                    result.common_breaks_extracted += extract_result.breaks_removed;
-                }
+        // Extract common break
+        let extract_result = extract_common_break(case_bodies, switch_offset);
+        if extract_result.breaks_removed > 0 {
+            changed = true;
+            result.common_breaks_extracted += extract_result.breaks_removed;
+        }
 
-                // Remove unreachable breaks from each case
-                for case in cases.iter_mut() {
-                    let removed = remove_unreachable_break(&mut case.body, *switch_offset);
-                    if removed > 0 {
-                        changed = true;
-                        result.unreachable_breaks_removed += removed;
-                    }
-                }
+        // Remove unreachable breaks from each case
+        for body in case_bodies.iter_mut() {
+            let removed = remove_unreachable_break(body, switch_offset);
+            if removed > 0 {
+                changed = true;
+                result.unreachable_breaks_removed += removed;
             }
         }
 
@@ -267,38 +304,28 @@ pub fn optimize_switch_breaks(
     result
 }
 
-/// Check if a region ends with return or throw
-///
-/// JADX Reference: Used in ExtractCommonBreak
-pub fn region_ends_with_exit(region: &Region) -> bool {
-    match &region.kind {
-        RegionKind::Block { instructions } => {
-            instructions.last().map_or(false, is_exit_edge_insn)
-        }
-        RegionKind::Sequence { regions } => {
-            regions.last().map_or(false, region_ends_with_exit)
-        }
-        _ => false,
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use dexterity_ir::instructions::RegisterArg;
+    use dexterity_ir::instructions::{InsnArg, RegisterArg};
 
     fn make_break(switch_offset: u32) -> InsnNode {
-        InsnNode::new(InsnType::Break { target: switch_offset }, 0)
+        let label = if switch_offset == 0 {
+            None
+        } else {
+            Some(switch_offset.to_string())
+        };
+        InsnNode::new(InsnType::Break { label }, 0)
     }
 
     fn make_return_void() -> InsnNode {
-        InsnNode::new(InsnType::ReturnVoid, 0)
+        InsnNode::new(InsnType::Return { value: None }, 0)
     }
 
     fn make_throw() -> InsnNode {
         InsnNode::new(
             InsnType::Throw {
-                exception: dexterity_ir::instructions::InsnArg::Register(RegisterArg {
+                exception: InsnArg::Register(RegisterArg {
                     reg_num: 0,
                     ssa_version: 0,
                 }),
@@ -331,7 +358,7 @@ mod tests {
         let removed = remove_unreachable_break(&mut instructions, 100);
         assert_eq!(removed, 1);
         assert_eq!(instructions.len(), 1);
-        assert!(matches!(instructions[0].insn_type, InsnType::ReturnVoid));
+        assert!(matches!(instructions[0].insn_type, InsnType::Return { value: None }));
     }
 
     #[test]

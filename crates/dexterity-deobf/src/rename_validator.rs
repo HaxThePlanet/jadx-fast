@@ -10,7 +10,7 @@
 
 use std::collections::{HashSet, HashMap};
 
-use dexterity_ir::ClassData;
+use dexterity_ir::{ClassData, MethodData};
 use regex::Regex;
 use lazy_static::lazy_static;
 
@@ -26,6 +26,50 @@ lazy_static! {
 pub mod consts {
     pub const ANONYMOUS_CLASS_PREFIX: &str = "AnonymousClass";
     pub const DEFAULT_PACKAGE_NAME: &str = "defpackage";
+}
+
+/// Check if an inner class name collides with any of its parent class names
+///
+/// JADX Reference: RenameVisitor.checkClassName() lines 101-112
+///
+/// In Java, inner classes must have different names than their enclosing classes
+/// to avoid ambiguity. This function detects such collisions.
+///
+/// Example: `Foo$Foo` - inner class Foo inside outer class Foo is problematic
+pub fn check_inner_class_parent_collision(class_type: &str, alias: Option<&str>) -> bool {
+    // Only check inner classes (those with $ in the name)
+    let internal = class_type.trim_start_matches('L').trim_end_matches(';');
+
+    // Get the simple name (after last /)
+    let simple = internal.rsplit('/').next().unwrap_or(internal);
+
+    // Check if it's an inner class
+    if !simple.contains('$') {
+        return false;
+    }
+
+    // Get the name we're checking (alias or simple name)
+    let check_name = if let Some(a) = alias {
+        a
+    } else {
+        // Extract just the inner class name (after last $)
+        simple.rsplit('$').next().unwrap_or(simple)
+    };
+
+    // Split by $ and check if check_name matches any parent name
+    let parts: Vec<&str> = simple.split('$').collect();
+    if parts.len() < 2 {
+        return false;
+    }
+
+    // The last part is the inner class name, check against all parent parts
+    for i in 0..parts.len() - 1 {
+        if parts[i] == check_name {
+            return true;
+        }
+    }
+
+    false
 }
 
 /// Fix class name if it's invalid
@@ -143,6 +187,57 @@ pub fn validate_fields<A: AliasProvider>(
     renamed_count
 }
 
+/// Check if a method can be renamed
+///
+/// JADX Reference: RenameVisitor.canRename(MethodNode mth)
+/// Returns false if:
+/// - Method already has an alias (DONT_RENAME equivalent)
+/// - Method is a bridge method (ACC_BRIDGE flag or has related method in same class)
+///
+/// Bridge method detection: A bridge method is a synthetic method that delegates
+/// to another method with the same name but different signature (usually due to
+/// generic type erasure or covariant return types). We only skip rename if:
+/// - The method has ACC_BRIDGE flag (0x40), OR
+/// - There's another method with same name but DIFFERENT signature in the same class
+///
+/// We DO NOT skip rename for collision case (same name + same signature) because
+/// that's exactly what we're trying to fix.
+fn can_rename_method(method: &MethodData, all_methods: &[MethodData]) -> bool {
+    use crate::signature::method_proto_to_descriptor;
+
+    // If already has alias, don't rename
+    if method.alias.is_some() {
+        return false;
+    }
+
+    // Check if this is a bridge method (ACC_BRIDGE = 0x40)
+    // JADX: Bridge methods have related methods in same class, renaming won't help collision
+    if method.access_flags & 0x40 != 0 {
+        return false;
+    }
+
+    // JADX Reference: Check if there's a related method from same class
+    // (bridge method case - renaming this method will also rename the original)
+    // We detect this by looking for methods with same name but DIFFERENT signature
+    // Note: Same name + same signature is a collision we WANT to fix, not a bridge
+    let method_name = method.alias.as_ref().unwrap_or(&method.name);
+    let method_proto = method_proto_to_descriptor(&method.arg_types, &method.return_type);
+
+    for other in all_methods {
+        let other_name = other.alias.as_ref().unwrap_or(&other.name);
+        if other_name == method_name {
+            let other_proto = method_proto_to_descriptor(&other.arg_types, &other.return_type);
+            // Same name but DIFFERENT signature = bridge method case
+            // (same name + same signature is just a collision, not a bridge)
+            if other_proto != method_proto {
+                return false;
+            }
+        }
+    }
+
+    true
+}
+
 /// Validate and fix method names for signature collisions
 ///
 /// Returns the number of methods that were renamed
@@ -178,6 +273,7 @@ pub fn validate_methods<A: AliasProvider>(
     }
 
     // Second pass: detect signature collisions
+    // JADX Reference: RenameVisitor.checkMethods() lines 196-205
     if rename_valid {
         let mut signatures: HashMap<String, usize> = HashMap::new();
 
@@ -192,6 +288,9 @@ pub fn validate_methods<A: AliasProvider>(
             signatures.entry(signature).or_insert(i);
         }
 
+        // Need a copy of methods for can_rename check
+        let methods_snapshot: Vec<MethodData> = cls.methods.clone();
+
         // Check for collisions and rename duplicates
         let mut seen_signatures: HashSet<String> = HashSet::new();
         for method in &mut cls.methods {
@@ -202,7 +301,10 @@ pub fn validate_methods<A: AliasProvider>(
             let proto = method_proto_to_descriptor(&method.arg_types, &method.return_type);
             let signature = format!("{}{}", name, proto);
 
-            if !seen_signatures.insert(signature.clone()) && method.alias.is_none() {
+            // JADX Reference: RenameVisitor line 200 - check canRename before renaming
+            if !seen_signatures.insert(signature.clone())
+                && can_rename_method(method, &methods_snapshot)
+            {
                 // Collision detected - rename this method
                 let is_override = method.annotations.iter().any(|a| {
                     a.annotation_type.ends_with("/Override")
@@ -344,5 +446,29 @@ mod tests {
         assert!(roots.contains("com"));
         assert!(roots.contains("org"));
         assert_eq!(roots.len(), 2);
+    }
+
+    #[test]
+    fn test_inner_class_parent_collision() {
+        // JADX Reference: RenameVisitor.checkClassName() lines 101-112
+        // Inner class shouldn't have same name as parent
+
+        // No collision - regular inner class
+        assert!(!check_inner_class_parent_collision("Lcom/example/Outer$Inner;", None));
+
+        // Collision - inner class same name as outer
+        assert!(check_inner_class_parent_collision("Lcom/example/Foo$Foo;", None));
+
+        // Collision - deeply nested, inner same as grandparent
+        assert!(check_inner_class_parent_collision("Lcom/example/Parent$Child$Parent;", None));
+
+        // No collision - not an inner class
+        assert!(!check_inner_class_parent_collision("Lcom/example/Regular;", None));
+
+        // Collision via alias - inner class renamed to parent's name
+        assert!(check_inner_class_parent_collision("Lcom/example/Outer$Inner;", Some("Outer")));
+
+        // No collision via alias - different name
+        assert!(!check_inner_class_parent_collision("Lcom/example/Outer$Inner;", Some("Other")));
     }
 }

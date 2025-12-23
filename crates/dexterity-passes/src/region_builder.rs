@@ -1272,6 +1272,7 @@ impl<'a> RegionBuilder<'a> {
                         condition_at_end: loop_info.kind == LoopKind::DoWhile,
                         header_block: Some(loop_info.header),
                         pre_condition_block: None,
+                        label: None,
                     })));
                     // Mark all loop blocks as processed (both local and global)
                     for &b in &loop_info.blocks {
@@ -1359,6 +1360,7 @@ impl<'a> RegionBuilder<'a> {
             condition_at_end: loop_info.kind == LoopKind::DoWhile,
             header_block: Some(loop_info.header),
             pre_condition_block: None,
+            label: None,
         };
 
         (region, loop_exit)
@@ -1535,6 +1537,7 @@ impl<'a> RegionBuilder<'a> {
                     condition_at_end: nested_loop.kind == LoopKind::DoWhile,
                     header_block: Some(nested_loop.header),
                     pre_condition_block: None,
+                    label: None,
                 })));
             } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
                 // Nested conditional - check if fully contained in loop
@@ -1606,6 +1609,7 @@ impl<'a> RegionBuilder<'a> {
                         condition_at_end: nested_loop.kind == LoopKind::DoWhile,
                         header_block: Some(nested_loop.header),
                         pre_condition_block: None,
+                        label: None,
                     })));
                 } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
                     if cond.then_blocks.iter().all(|b| loop_info.blocks.contains(b))
@@ -2909,6 +2913,7 @@ mod tests {
             condition_at_end: false,
             header_block: None,
             pre_condition_block: None,
+            label: None,
         };
 
         // Create loop patterns with a For loop pattern (header = 0, not matching our region)
@@ -2943,6 +2948,7 @@ mod tests {
             condition_at_end: false,
             header_block: None,
             pre_condition_block: None,
+            label: None,
         };
 
         let mut region = Region::Loop {
@@ -2954,6 +2960,7 @@ mod tests {
             condition_at_end: false,
             header_block: None,
             pre_condition_block: None,
+            label: None,
         };
 
         let patterns = LoopPatternResult::default();

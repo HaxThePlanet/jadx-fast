@@ -1124,6 +1124,33 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
     }
 }
 
+/// JADX parity: Compute collision-resolved field names
+/// Returns a Vec of (resolved_name, original_name, rename_reason) for each field in order
+/// Uses JADX's f{index}{name} pattern for colliding fields
+fn compute_field_collision_renames(fields: &[&FieldData]) -> Vec<(String, String, Option<String>)> {
+    use std::collections::HashSet;
+
+    let mut result = Vec::with_capacity(fields.len());
+    let mut used_names: HashSet<String> = HashSet::new();
+    let mut field_index: u32 = 0;
+
+    for field in fields {
+        let original_name = field.display_name().to_string();
+
+        if used_names.insert(original_name.clone()) {
+            // First occurrence - use original name, no rename reason
+            result.push((original_name.clone(), original_name, None));
+        } else {
+            // Collision - use JADX pattern: f{index}{name}
+            let new_name = format!("f{}{}", field_index, original_name);
+            result.push((new_name, original_name, Some("collision with other field name".to_string())));
+        }
+        field_index += 1;
+    }
+
+    result
+}
+
 /// Add field declarations
 fn add_fields<W: CodeWriter>(
     class: &ClassData,
@@ -1163,8 +1190,13 @@ fn add_fields<W: CodeWriter>(
 
         if !instance_fields.is_empty() {
             code.newline();
-            for field in instance_fields {
-                add_field(field, imports, current_package, escape_unicode, comments_level, code);
+            // JADX parity: Compute collision-resolved names for enum instance fields
+            let renames = compute_field_collision_renames(&instance_fields);
+            for (i, field) in instance_fields.iter().enumerate() {
+                let (ref resolved_name, ref _original, ref reason) = renames[i];
+                let name_override = reason.as_ref().map(|_| resolved_name.as_str());
+                let reason_str = reason.as_ref().map(|s| s.as_str());
+                add_field(field, imports, current_package, escape_unicode, comments_level, name_override, reason_str, code);
             }
         }
         return;
@@ -1185,14 +1217,25 @@ fn add_fields<W: CodeWriter>(
         code.newline();
     }
 
+    // JADX parity: Compute collision-resolved names for all fields
+    let all_fields: Vec<_> = static_fields.iter().chain(instance_fields.iter()).copied().collect();
+    let renames = compute_field_collision_renames(&all_fields);
+
     // Static fields first
-    for field in static_fields {
-        add_field(field, imports, current_package, escape_unicode, comments_level, code);
+    for (i, field) in static_fields.iter().enumerate() {
+        let (ref resolved_name, ref _original, ref reason) = renames[i];
+        let name_override = reason.as_ref().map(|_| resolved_name.as_str());
+        let reason_str = reason.as_ref().map(|s| s.as_str());
+        add_field(field, imports, current_package, escape_unicode, comments_level, name_override, reason_str, code);
     }
 
     // Instance fields
-    for field in instance_fields {
-        add_field(field, imports, current_package, escape_unicode, comments_level, code);
+    let offset = static_fields.len();
+    for (i, field) in instance_fields.iter().enumerate() {
+        let (ref resolved_name, ref _original, ref reason) = renames[offset + i];
+        let name_override = reason.as_ref().map(|_| resolved_name.as_str());
+        let reason_str = reason.as_ref().map(|s| s.as_str());
+        add_field(field, imports, current_package, escape_unicode, comments_level, name_override, reason_str, code);
     }
 }
 
@@ -1301,7 +1344,17 @@ fn enum_arg_to_string(arg: &dexterity_passes::EnumArg) -> String {
 }
 
 /// Add a single field declaration
-fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>>, current_package: Option<&str>, escape_unicode: bool, comments_level: CommentsLevel, code: &mut W) {
+/// Optional name_override and rename_reason for collision handling
+fn add_field<W: CodeWriter>(
+    field: &FieldData,
+    imports: Option<&BTreeSet<String>>,
+    current_package: Option<&str>,
+    escape_unicode: bool,
+    comments_level: CommentsLevel,
+    name_override: Option<&str>,
+    rename_reason: Option<&str>,
+    code: &mut W,
+) {
     // Emit field annotations
     for annotation in &field.annotations {
         if should_emit_annotation(annotation) {
@@ -1312,7 +1365,19 @@ fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>
     }
 
     // Add rename comment if field was renamed during deobfuscation (INFO level)
-    if let Some(ref alias) = field.alias {
+    // or if renamed due to collision
+    if let Some(reason) = rename_reason {
+        // JADX parity: /* renamed from: X, reason: collision with other field name */
+        if comments_level.show_info() {
+            code.start_line()
+                .add("/* renamed from: ")
+                .add(field.display_name())
+                .add(", reason: ")
+                .add(reason)
+                .add(" */")
+                .newline();
+        }
+    } else if let Some(ref alias) = field.alias {
         if alias != &field.name {
             add_renamed_comment(code, &field.name, comments_level);
         }
@@ -1330,8 +1395,12 @@ fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>
     code.add(&type_to_string_with_imports_and_package(&field.field_type, imports, current_package));
     code.add(" ");
 
-    // Name (use alias if available from deobfuscation)
-    code.add(field.display_name());
+    // Name (use override if provided, else alias if available from deobfuscation)
+    if let Some(name) = name_override {
+        code.add(name);
+    } else {
+        code.add(field.display_name());
+    }
 
     // Initial value
     if let Some(ref value) = field.initial_value {

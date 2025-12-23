@@ -27,7 +27,7 @@ pub use name_mapper::NameMapper;
 pub use conditions::{
     DeobfCondition, Action, LengthCondition, ValidityCondition, CombinedCondition,
     PrintableCondition, PackageWhitelistCondition, RenameFlag, build_conditions_from_flags,
-    ExcludeAndroidRClass, AvoidClsAndPkgNamesCollision,
+    ExcludeAndroidRClass, AvoidClsAndPkgNamesCollision, BaseDeobfCondition,
 };
 pub use alias_provider::{AliasProvider, DeobfAliasProvider};
 pub use visitor::DeobfuscatorVisitor;

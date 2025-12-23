@@ -268,6 +268,7 @@ mod tests {
             condition_at_end: false,
             header_block: None,
             pre_condition_block: None,
+            label: None,
         };
 
         let _result = clean_regions(&mut region, &blocks);

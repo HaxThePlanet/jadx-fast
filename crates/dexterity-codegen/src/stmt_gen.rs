@@ -468,9 +468,30 @@ pub fn gen_while_header<W: CodeWriter>(condition: &str, code: &mut W) {
     code.inc_indent();
 }
 
+/// Generate labeled while loop header (JADX parity: RegionGen.java:166-169)
+/// Clone of JADX loop label output for nested loops with break/continue targets
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/RegionGen.java
+pub fn gen_labeled_while_header<W: CodeWriter>(label: &str, condition: &str, code: &mut W) {
+    code.start_line()
+        .add(label)
+        .add(": while (")
+        .add(condition)
+        .add(") {")
+        .newline();
+    code.inc_indent();
+}
+
 /// Generate do-while loop start
 pub fn gen_do_while_start<W: CodeWriter>(code: &mut W) {
     code.start_line().add("do {").newline();
+    code.inc_indent();
+}
+
+/// Generate labeled do-while loop start (JADX parity: RegionGen.java:166-169)
+/// Clone of JADX loop label output for nested loops with break/continue targets
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/RegionGen.java
+pub fn gen_labeled_do_while_start<W: CodeWriter>(label: &str, code: &mut W) {
+    code.start_line().add(label).add(": do {").newline();
     code.inc_indent();
 }
 
@@ -503,6 +524,29 @@ pub fn gen_for_header<W: CodeWriter>(
     code.inc_indent();
 }
 
+/// Generate labeled for loop header (JADX parity: RegionGen.java:166-169)
+/// Clone of JADX loop label output for nested loops with break/continue targets
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/RegionGen.java
+pub fn gen_labeled_for_header<W: CodeWriter>(
+    label: &str,
+    init: &str,
+    condition: &str,
+    update: &str,
+    code: &mut W,
+) {
+    code.start_line()
+        .add(label)
+        .add(": for (")
+        .add(init)
+        .add("; ")
+        .add(condition)
+        .add("; ")
+        .add(update)
+        .add(") {")
+        .newline();
+    code.inc_indent();
+}
+
 /// Generate enhanced for loop header
 pub fn gen_foreach_header<W: CodeWriter>(
     var_type: &str,
@@ -512,6 +556,29 @@ pub fn gen_foreach_header<W: CodeWriter>(
 ) {
     code.start_line()
         .add("for (")
+        .add(var_type)
+        .add(" ")
+        .add(var_name)
+        .add(" : ")
+        .add(iterable)
+        .add(") {")
+        .newline();
+    code.inc_indent();
+}
+
+/// Generate labeled enhanced for loop header (JADX parity: RegionGen.java:166-169)
+/// Clone of JADX loop label output for nested loops with break/continue targets
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/RegionGen.java
+pub fn gen_labeled_foreach_header<W: CodeWriter>(
+    label: &str,
+    var_type: &str,
+    var_name: &str,
+    iterable: &str,
+    code: &mut W,
+) {
+    code.start_line()
+        .add(label)
+        .add(": for (")
         .add(var_type)
         .add(" ")
         .add(var_name)

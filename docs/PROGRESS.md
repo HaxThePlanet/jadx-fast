@@ -1,6 +1,6 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** 0 P0, 0 P1 | IR 98% | Kotlin 100% | Codegen 100% | Pass 82% | All tests pass (Dec 23, 2025)
+**Status:** 0 P0, 0 P1 | IR 98% | Kotlin 100% | Codegen ~93% | Pass 82% | All tests pass (Dec 23, 2025)
 **Tests:** 1,392+ passing (all integration + unit)
 **Benchmark:** 3.6-81x faster, 14.6x memory efficiency
 **Resources:** 1:1 JADX parity (103 directories, 152 files, zero differences)
@@ -14,7 +14,7 @@
 |----------|-------|-------|
 | **IR Type System** | **A** | 98% parity - OuterGeneric, TypeVariable bounds, all 15 unknown variants |
 | **IR SSA** | **A** | 100% parity - All utility methods (get_only_one_use_in_phi, reset_type_and_code_var, etc.) |
-| **Codegen** | **A** | 100% parity - All 12 JADX codegen tasks complete (Dec 23) |
+| **Codegen** | **A** | ~93% parity - Source-level audit complete (Dec 23) |
 | **Control Flow** | **A-** | OR condition merging, synchronized blocks fixed, loop labels added |
 | **Variable Naming** | **A-** | Field collision renaming, interface methods fixed |
 | **Kotlin Support** | **A** | 100% parity - BitEncoding ported |
@@ -52,11 +52,13 @@ See [QUALITY_STATUS.md](QUALITY_STATUS.md) for details.
 | P15 | SSAVar | get_phi_list, equals, hash_code, compare_to |
 | P16 | InsnArg | wrap_insn_into_arg, wrap |
 
-### JADX Codegen Parity - Loop Labels + Interface Methods
+### JADX Codegen Parity - Source-Level Audit (~93%)
 
 - **Loop Labels:** Added `label: Option<String>` to Region::Loop, gen_labeled_*_header() functions
 - **Interface Methods:** Removed redundant `public abstract` modifiers to match JADX
 - **Field Collision:** Added `compute_field_collision_renames()` with JADX's f{index}{name} pattern
+- **Verified:** Negative literal wrapping, varargs expansion, increment/decrement, import conflict detection
+- **See:** `JADX_CODEGEN_CLONE_STATUS.md` for detailed source-level audit with JADX line references
 
 ### Previous Work (Dec 22, 2025)
 
@@ -195,7 +197,7 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for fixed bug details.
 | Total Tests | 1,392+ passing |
 | Pass Coverage | 82% (86/105 JADX passes) |
 | IR Parity | 98% |
-| Codegen Parity | 100% (all 12 tasks) |
+| Codegen Parity | ~93% (source-level audit) |
 | Resources Parity | **100% (1:1 JADX - 103 dirs, 152 files, zero diff)** |
 | Throws Parity | 41.7% (up from ~13.7%) |
 | Speed Advantage | 3.6-81x faster than JADX |

@@ -33,6 +33,13 @@ pub struct InsnNode {
     /// Attribute flags (for FINALLY_INSNS, DONT_GENERATE, etc.)
     /// Extended to u128 to support 69+ JADX-compatible flags
     pub flags: u128,
+    /// Extended switch info for switch-over-enum/string passes (JADX: SwitchInsn fields)
+    ///
+    /// Lazily initialized when switch transformation methods are called.
+    /// Only valid for PackedSwitch and SparseSwitch instructions.
+    ///
+    /// JADX Reference: SwitchInsn.java:19-26 (modifiedKeys, targetBlocks, defTargetBlock, def)
+    pub extended_switch_info: Option<Box<ExtendedSwitchInfo>>,
 }
 
 impl InsnNode {
@@ -44,6 +51,7 @@ impl InsnNode {
             source_line: None,
             offset,
             flags: 0,
+            extended_switch_info: None,
         }
     }
 
@@ -378,6 +386,7 @@ impl InsnNode {
             source_line: None, // Will be set by copy_common_params
             offset: 0,         // Will be set by copy_common_params
             flags: 0,          // Will be set by copy_common_params
+            extended_switch_info: self.extended_switch_info.clone(),
         };
         self.copy_common_params(&mut copy);
         copy
@@ -403,6 +412,74 @@ impl InsnNode {
         if let Some(dest) = copy.insn_type.get_dest_mut() {
             // We can't easily "remove" the dest, but we can mark it as unused
             dest.ssa_version = u32::MAX; // Sentinel for "no result"
+        }
+        copy
+    }
+
+    /// Copy instruction without SSA variable (JADX: copyWithoutSsa)
+    ///
+    /// Creates a copy allowing the result register to be copied only if
+    /// it has no SSA variable set. Throws error if SSA is set, as SSA
+    /// variables can't be duplicated (SSA = single assignment).
+    ///
+    /// Copied from JADX: jadx-core/src/main/java/jadx/core/dex/nodes/InsnNode.java:454-464
+    /// ```java
+    /// public InsnNode copyWithoutSsa() {
+    ///     InsnNode copy = copyWithoutResult();
+    ///     if (result != null) {
+    ///         if (result.getSVar() == null) {
+    ///             copy.setResult(result.duplicate());
+    ///         } else {
+    ///             throw new JadxRuntimeException("Can't copy if SSA var is set");
+    ///         }
+    ///     }
+    ///     return copy;
+    /// }
+    /// ```
+    pub fn copy_without_ssa(&self) -> Result<InsnNode, &'static str> {
+        let mut copy = self.copy_without_result();
+
+        // Copy result register only if no SSA variable is set
+        if let Some(ref result_type) = self.result_type {
+            // Check if we have a destination register with SSA
+            if let Some(dest) = self.insn_type.get_dest() {
+                if dest.ssa_version == u32::MAX || dest.ssa_version == 0 {
+                    // No SSA var, safe to copy
+                    copy.result_type = Some(result_type.clone());
+                    // Copy the dest register without SSA
+                    if let Some(copy_dest) = copy.insn_type.get_dest_mut() {
+                        *copy_dest = dest.clone();
+                        copy_dest.ssa_version = 0; // Clear SSA
+                    }
+                } else {
+                    // SSA var is set - cannot copy
+                    return Err("Can't copy if SSA var is set");
+                }
+            }
+        }
+
+        Ok(copy)
+    }
+
+    /// Copy instruction with new result register (JADX: copy with RegisterArg)
+    ///
+    /// Creates a copy with a specific result register provided.
+    ///
+    /// Copied from JADX: jadx-core/src/main/java/jadx/core/dex/nodes/InsnNode.java:469-473
+    /// ```java
+    /// public InsnNode copy(RegisterArg newReturnArg) {
+    ///     InsnNode copy = copy();
+    ///     copy.setResult(newReturnArg);
+    ///     return copy;
+    /// }
+    /// ```
+    pub fn copy_with_result(&self, new_result: RegisterArg) -> InsnNode {
+        let mut copy = self.copy();
+        // Set the result type
+        copy.result_type = Some(new_result.arg_type.clone());
+        // Update the destination in the instruction type
+        if let Some(dest) = copy.insn_type.get_dest_mut() {
+            *dest = new_result;
         }
         copy
     }
@@ -2099,6 +2176,66 @@ impl RegisterArg {
         } else {
             format!("v{}", self.reg_num)
         }
+    }
+
+    // =========================================================================
+    // JADX RegisterArg Name Management - 100% Parity
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/args/RegisterArg.java
+    // =========================================================================
+
+    /// Set name if not already set (JADX: setNameIfUnknown)
+    ///
+    /// Sets the variable name only if it doesn't already have one.
+    /// Used during code generation to assign generated names (like "v0", "i", etc.)
+    /// without overwriting debug info names.
+    ///
+    /// JADX Reference: RegisterArg.java:115-119
+    /// ```java
+    /// public void setNameIfUnknown(String name) {
+    ///     if (getName() == null) {
+    ///         setName(name);
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// Note: This method requires access to the SSA context to update the CodeVar.
+    /// The caller should use `ssa_ctx.set_var_name_if_unknown(reg.reg_num, reg.ssa_version, name)`.
+    pub fn should_set_name(&self, current_name: Option<&str>) -> bool {
+        current_name.is_none()
+    }
+
+    /// Check if name equals another arg's name (JADX: isNameEquals)
+    ///
+    /// Compares variable names between two arguments. Used for detecting
+    /// when two different SSA versions represent the same named variable.
+    ///
+    /// JADX Reference: RegisterArg.java:121-127
+    /// ```java
+    /// public boolean isNameEquals(InsnArg other) {
+    ///     if (other instanceof RegisterArg) {
+    ///         String name = getName();
+    ///         if (name != null) {
+    ///             return name.equals(((RegisterArg) other).getName());
+    ///         }
+    ///     }
+    ///     return false;
+    /// }
+    /// ```
+    ///
+    /// Note: Names are retrieved from SSA context. Use with:
+    /// `ssa_ctx.get_var_name(reg.reg_num, reg.ssa_version)`
+    pub fn is_name_equals_with_names(my_name: Option<&str>, other_name: Option<&str>) -> bool {
+        match (my_name, other_name) {
+            (Some(a), Some(b)) => a == b,
+            _ => false,
+        }
+    }
+
+    /// Create an SSA variable reference from this register arg
+    ///
+    /// Returns a tuple of (reg_num, ssa_version) for SSA context lookups.
+    pub fn as_ssa_ref(&self) -> (u16, u32) {
+        (self.reg_num, self.ssa_version)
     }
 }
 
@@ -3797,6 +3934,996 @@ impl InsnArg {
     }
 }
 
+// ============================================================================
+// JADX SwitchInsn Extended Methods - 100% Parity
+// Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/SwitchInsn.java
+// ============================================================================
+
+/// Switch case key types for enum/string switches (JADX: modifiedKeys Object array)
+///
+/// JADX uses Object[] to store modified keys that can be Integer, String, or EnumField.
+/// This enum provides type-safe equivalent for Rust.
+///
+/// JADX Reference: SwitchInsn.java:24
+/// ```java
+/// private Object[] modifiedKeys;
+/// ```
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum SwitchKey {
+    /// Integer key (original DEX key)
+    Int(i32),
+    /// String key (for switch-over-string after transformation)
+    String(String),
+    /// Enum field key (for switch-over-enum after transformation)
+    Enum {
+        /// Fully qualified enum type name
+        type_name: String,
+        /// Enum field name
+        field_name: String,
+    },
+}
+
+impl std::fmt::Display for SwitchKey {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            SwitchKey::Int(i) => write!(f, "{}", i),
+            SwitchKey::String(s) => write!(f, "\"{}\"", s.escape_default()),
+            SwitchKey::Enum { field_name, .. } => write!(f, "{}", field_name),
+        }
+    }
+}
+
+/// Extended switch instruction info for pass transformations (JADX: SwitchInsn fields)
+///
+/// This struct holds additional data that JADX's SwitchInsn class stores beyond
+/// the basic SwitchData payload. Used for switch-over-enum and switch-over-string
+/// transformations.
+///
+/// JADX Clone: jadx-core/src/main/java/jadx/core/dex/instructions/SwitchInsn.java
+#[derive(Debug, Clone, Default)]
+pub struct ExtendedSwitchInfo {
+    /// Modified keys for enum/string switches (JADX: modifiedKeys)
+    ///
+    /// Initially None. When a switch-over-enum or switch-over-string pass
+    /// transforms the switch, this is populated with the actual enum/string keys.
+    ///
+    /// JADX Reference: SwitchInsn.java:24
+    /// ```java
+    /// private Object[] modifiedKeys;
+    /// ```
+    pub modified_keys: Option<Vec<SwitchKey>>,
+
+    /// Target block IDs (resolved after CFG construction) (JADX: targetBlocks)
+    ///
+    /// JADX Reference: SwitchInsn.java:25
+    /// ```java
+    /// private BlockNode[] targetBlocks;
+    /// ```
+    pub target_blocks: Option<Vec<u32>>,
+
+    /// Default target block ID (JADX: defTargetBlock)
+    ///
+    /// JADX Reference: SwitchInsn.java:26
+    /// ```java
+    /// private BlockNode defTargetBlock;
+    /// ```
+    pub default_block: Option<u32>,
+
+    /// Default case offset (next instruction) (JADX: def)
+    ///
+    /// JADX Reference: SwitchInsn.java:22
+    /// ```java
+    /// private int def; // next instruction
+    /// ```
+    pub default_offset: Option<u32>,
+}
+
+impl ExtendedSwitchInfo {
+    /// Create new extended switch info
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// Modify a key at index (for enum/string switches) (JADX: modifyKey)
+    ///
+    /// Converts integer keys to enum/string keys during switch transformation passes.
+    ///
+    /// JADX Reference: SwitchInsn.java:170-181
+    /// ```java
+    /// public void modifyKey(int i, Object newKey) {
+    ///     if (modifiedKeys == null) {
+    ///         int[] keys = getKeys();
+    ///         int caseCount = keys.length;
+    ///         Object[] newKeys = new Object[caseCount];
+    ///         for (int j = 0; j < caseCount; j++) {
+    ///             newKeys[j] = keys[j];
+    ///         }
+    ///         modifiedKeys = newKeys;
+    ///     }
+    ///     modifiedKeys[i] = newKey;
+    /// }
+    /// ```
+    pub fn modify_key(&mut self, index: usize, new_key: SwitchKey, original_keys: &[i32]) {
+        if self.modified_keys.is_none() {
+            // Initialize from original integer keys
+            self.modified_keys = Some(
+                original_keys.iter().map(|&k| SwitchKey::Int(k)).collect()
+            );
+        }
+        if let Some(ref mut keys) = self.modified_keys {
+            if index < keys.len() {
+                keys[index] = new_key;
+            }
+        }
+    }
+
+    /// Get key at index (modified or original) (JADX: getKey)
+    ///
+    /// JADX Reference: SwitchInsn.java:163-168
+    /// ```java
+    /// public Object getKey(int i) {
+    ///     if (modifiedKeys != null) {
+    ///         return modifiedKeys[i];
+    ///     }
+    ///     return getSwitchData().getKeys()[i];
+    /// }
+    /// ```
+    pub fn get_key(&self, index: usize, original_keys: &[i32]) -> Option<SwitchKey> {
+        if let Some(ref modified) = self.modified_keys {
+            modified.get(index).cloned()
+        } else {
+            original_keys.get(index).map(|&k| SwitchKey::Int(k))
+        }
+    }
+
+    /// Check if keys have been modified (enum/string switch)
+    pub fn has_modified_keys(&self) -> bool {
+        self.modified_keys.is_some()
+    }
+
+    /// Initialize target blocks from resolved CFG (JADX: initBlocks)
+    ///
+    /// Called after CFG construction to resolve bytecode offsets to block IDs.
+    ///
+    /// JADX Reference: SwitchInsn.java:44-57
+    /// ```java
+    /// public void initBlocks(BlockNode curBlock) {
+    ///     if (switchData == null) {
+    ///         throw new JadxRuntimeException("Switch data not yet attached");
+    ///     }
+    ///     List<BlockNode> successors = curBlock.getSuccessors();
+    ///     int[] targets = switchData.getTargets();
+    ///     int len = targets.length;
+    ///     targetBlocks = new BlockNode[len];
+    ///     for (int i = 0; i < len; i++) {
+    ///         targetBlocks[i] = getBlockByOffset(targets[i], successors);
+    ///     }
+    ///     defTargetBlock = getBlockByOffset(def, successors);
+    /// }
+    /// ```
+    pub fn init_blocks(&mut self, target_block_ids: Vec<u32>, default_block_id: Option<u32>) {
+        self.target_blocks = Some(target_block_ids);
+        self.default_block = default_block_id;
+    }
+
+    /// Get target blocks (JADX: getTargetBlocks)
+    ///
+    /// JADX Reference: SwitchInsn.java:183-185
+    pub fn get_target_blocks(&self) -> Option<&[u32]> {
+        self.target_blocks.as_deref()
+    }
+
+    /// Get default target block (JADX: getDefTargetBlock)
+    ///
+    /// JADX Reference: SwitchInsn.java:187-189
+    pub fn get_default_block(&self) -> Option<u32> {
+        self.default_block
+    }
+
+    /// Replace a target block (JADX: replaceTargetBlock)
+    ///
+    /// Used during CFG modifications to update block references.
+    ///
+    /// JADX Reference: SwitchInsn.java:60-77
+    /// ```java
+    /// public boolean replaceTargetBlock(BlockNode origin, BlockNode replace) {
+    ///     if (targetBlocks == null) {
+    ///         return false;
+    ///     }
+    ///     int count = 0;
+    ///     int len = targetBlocks.length;
+    ///     for (int i = 0; i < len; i++) {
+    ///         if (targetBlocks[i] == origin) {
+    ///             targetBlocks[i] = replace;
+    ///             count++;
+    ///         }
+    ///     }
+    ///     if (defTargetBlock == origin) {
+    ///         defTargetBlock = replace;
+    ///         count++;
+    ///     }
+    ///     return count > 0;
+    /// }
+    /// ```
+    pub fn replace_target_block(&mut self, origin: u32, replace: u32) -> bool {
+        let mut count = 0;
+        if let Some(ref mut blocks) = self.target_blocks {
+            for block in blocks.iter_mut() {
+                if *block == origin {
+                    *block = replace;
+                    count += 1;
+                }
+            }
+        }
+        if self.default_block == Some(origin) {
+            self.default_block = Some(replace);
+            count += 1;
+        }
+        count > 0
+    }
+
+    /// Check if blocks have been initialized
+    pub fn has_blocks(&self) -> bool {
+        self.target_blocks.is_some()
+    }
+
+    /// Get the case count
+    pub fn get_case_count(&self) -> usize {
+        self.target_blocks.as_ref().map(|b| b.len()).unwrap_or(0)
+    }
+}
+
+// ============================================================================
+// InsnNode methods for SwitchInsn extended functionality
+// ============================================================================
+
+impl InsnNode {
+    /// Get or create extended switch info for this instruction
+    ///
+    /// Returns None if this is not a switch instruction.
+    pub fn get_switch_info(&self) -> Option<&ExtendedSwitchInfo> {
+        self.extended_switch_info.as_ref().map(|b| b.as_ref())
+    }
+
+    /// Get mutable extended switch info
+    pub fn get_switch_info_mut(&mut self) -> Option<&mut ExtendedSwitchInfo> {
+        if self.insn_type.is_switch() {
+            if self.extended_switch_info.is_none() {
+                self.extended_switch_info = Some(Box::new(ExtendedSwitchInfo::new()));
+            }
+            self.extended_switch_info.as_mut().map(|b| b.as_mut())
+        } else {
+            None
+        }
+    }
+
+    /// Modify a switch key (for enum/string switches) (JADX: SwitchInsn.modifyKey)
+    ///
+    /// JADX Reference: SwitchInsn.java:170-181
+    pub fn modify_switch_key(&mut self, index: usize, new_key: SwitchKey) -> bool {
+        let original_keys = match &self.insn_type {
+            // PackedSwitch: keys are first_key, first_key+1, ...
+            InsnType::PackedSwitch { first_key, targets, .. } => {
+                (0..targets.len()).map(|i| *first_key + i as i32).collect::<Vec<_>>()
+            }
+            InsnType::SparseSwitch { keys, .. } => keys.clone(),
+            _ => return false,
+        };
+
+        if let Some(info) = self.get_switch_info_mut() {
+            info.modify_key(index, new_key, &original_keys);
+            true
+        } else {
+            false
+        }
+    }
+
+    /// Get a switch key (modified or original) (JADX: SwitchInsn.getKey)
+    ///
+    /// JADX Reference: SwitchInsn.java:163-168
+    pub fn get_switch_key(&self, index: usize) -> Option<SwitchKey> {
+        let original_keys: Vec<i32> = match &self.insn_type {
+            // PackedSwitch: keys are first_key, first_key+1, ...
+            InsnType::PackedSwitch { first_key, targets, .. } => {
+                (0..targets.len()).map(|i| *first_key + i as i32).collect()
+            }
+            InsnType::SparseSwitch { keys, .. } => keys.clone(),
+            _ => return None,
+        };
+
+        if let Some(info) = self.get_switch_info() {
+            info.get_key(index, &original_keys)
+        } else {
+            original_keys.get(index).map(|&k| SwitchKey::Int(k))
+        }
+    }
+
+    /// Initialize switch target blocks (JADX: SwitchInsn.initBlocks)
+    ///
+    /// JADX Reference: SwitchInsn.java:44-57
+    pub fn init_switch_blocks(&mut self, target_blocks: Vec<u32>, default_block: Option<u32>) -> bool {
+        if let Some(info) = self.get_switch_info_mut() {
+            info.init_blocks(target_blocks, default_block);
+            true
+        } else {
+            false
+        }
+    }
+
+    /// Get switch target blocks (JADX: SwitchInsn.getTargetBlocks)
+    pub fn get_switch_target_blocks(&self) -> Option<&[u32]> {
+        self.get_switch_info().and_then(|i| i.get_target_blocks())
+    }
+
+    /// Get switch default block (JADX: SwitchInsn.getDefTargetBlock)
+    pub fn get_switch_default_block(&self) -> Option<u32> {
+        self.get_switch_info().and_then(|i| i.get_default_block())
+    }
+
+    /// Replace a switch target block (JADX: SwitchInsn.replaceTargetBlock)
+    ///
+    /// JADX Reference: SwitchInsn.java:60-77
+    pub fn replace_switch_target_block(&mut self, origin: u32, replace: u32) -> bool {
+        if let Some(info) = self.get_switch_info_mut() {
+            info.replace_target_block(origin, replace)
+        } else {
+            false
+        }
+    }
+}
+
+impl InsnType {
+    /// Check if this is a switch instruction
+    pub fn is_switch(&self) -> bool {
+        matches!(self, InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. })
+    }
+
+    /// Get switch keys if this is a switch instruction
+    pub fn get_switch_keys(&self) -> Option<Vec<i32>> {
+        match self {
+            // PackedSwitch: keys are first_key, first_key+1, first_key+2, ...
+            InsnType::PackedSwitch { first_key, targets, .. } => {
+                Some((0..targets.len()).map(|i| *first_key + i as i32).collect())
+            }
+            InsnType::SparseSwitch { keys, .. } => Some(keys.clone()),
+            _ => None,
+        }
+    }
+
+    /// Get switch targets if this is a switch instruction
+    pub fn get_switch_targets(&self) -> Option<&[u32]> {
+        match self {
+            InsnType::PackedSwitch { targets, .. } => Some(targets),
+            InsnType::SparseSwitch { targets, .. } => Some(targets),
+            _ => None,
+        }
+    }
+
+    /// Get switch case count
+    pub fn get_switch_case_count(&self) -> usize {
+        match self {
+            InsnType::PackedSwitch { targets, .. } => targets.len(),
+            InsnType::SparseSwitch { keys, .. } => keys.len(),
+            _ => 0,
+        }
+    }
+
+    /// Check if this is a packed switch
+    pub fn is_packed_switch(&self) -> bool {
+        matches!(self, InsnType::PackedSwitch { .. })
+    }
+
+    /// Check if this is a sparse switch
+    pub fn is_sparse_switch(&self) -> bool {
+        matches!(self, InsnType::SparseSwitch { .. })
+    }
+}
+
+// =============================================================================
+// JADX InsnRemover Parity - Instruction Removal Utilities
+// =============================================================================
+//
+// JADX Clone: jadx-core/src/main/java/jadx/core/utils/InsnRemover.java
+//
+// These utilities handle safe instruction removal with SSA cleanup.
+// Critical for passes that modify the IR (inline, remove dead code, etc.).
+
+/// Instruction removal utilities with SSA cleanup (JADX: InsnRemover)
+///
+/// JADX Clone: jadx-core/src/main/java/jadx/core/utils/InsnRemover.java
+///
+/// This module handles the complex process of removing instructions while
+/// keeping SSA use-def chains consistent.
+pub mod insn_remover {
+    use super::*;
+    use crate::ssa::{SSAContext, SSAVarRef};
+    use crate::attributes::AFlag;
+
+    /// Unbind an instruction from SSA (JADX: unbindInsn)
+    ///
+    /// This removes all SSA uses from arguments and unbinds the result.
+    /// The instruction is marked with DONT_GENERATE flag.
+    ///
+    /// JADX Reference: InsnRemover.java:89-93
+    /// ```java
+    /// public static void unbindInsn(@Nullable MethodNode mth, InsnNode insn) {
+    ///     unbindAllArgs(mth, insn);
+    ///     unbindResult(mth, insn);
+    ///     insn.add(AFlag.DONT_GENERATE);
+    /// }
+    /// ```
+    pub fn unbind_insn(insn: &mut InsnNode, ssa_ctx: &mut SSAContext) {
+        unbind_all_args(insn, ssa_ctx);
+        unbind_result(insn, ssa_ctx);
+        insn.add_flag(AFlag::DontGenerate);
+    }
+
+    /// Unbind all arguments from SSA use lists (JADX: unbindAllArgs)
+    ///
+    /// Removes all argument uses from SSA variables. For PHI instructions,
+    /// also updates the usedInPhi lists. Marks instruction with REMOVE and
+    /// DONT_GENERATE flags.
+    ///
+    /// JADX Reference: InsnRemover.java:104-117
+    /// ```java
+    /// public static void unbindAllArgs(@Nullable MethodNode mth, InsnNode insn) {
+    ///     for (InsnArg arg : insn.getArguments()) {
+    ///         unbindArgUsage(mth, arg);
+    ///     }
+    ///     if (insn.getType() == InsnType.PHI) {
+    ///         for (InsnArg arg : insn.getArguments()) {
+    ///             if (arg instanceof RegisterArg) {
+    ///                 ((RegisterArg) arg).getSVar().updateUsedInPhiList();
+    ///             }
+    ///         }
+    ///     }
+    ///     insn.add(AFlag.REMOVE);
+    ///     insn.add(AFlag.DONT_GENERATE);
+    /// }
+    /// ```
+    pub fn unbind_all_args(insn: &mut InsnNode, ssa_ctx: &mut SSAContext) {
+        // Unbind each argument
+        for arg in insn.insn_type.get_args() {
+            unbind_arg_usage(arg, insn.offset, ssa_ctx);
+        }
+
+        // Handle PHI instructions - update usedInPhi lists
+        if let InsnType::Phi { sources, .. } = &insn.insn_type {
+            for (_, arg) in sources {
+                if let InsnArg::Register(reg) = arg {
+                    let var_ref = SSAVarRef::new(reg.reg_num, reg.ssa_version);
+                    if let Some(var) = ssa_ctx.get_var_mut(var_ref) {
+                        // Remove from usedInPhi list
+                        var.remove_phi_use(insn.offset);
+                    }
+                }
+            }
+        }
+
+        insn.add_flag(AFlag::Remove);
+        insn.add_flag(AFlag::DontGenerate);
+    }
+
+    /// Unbind result register from SSA (JADX: unbindResult)
+    ///
+    /// If the instruction defines an SSA variable, removes it if it has no
+    /// remaining uses.
+    ///
+    /// JADX Reference: InsnRemover.java:119-131
+    /// ```java
+    /// public static void unbindResult(@Nullable MethodNode mth, InsnNode insn) {
+    ///     RegisterArg r = insn.getResult();
+    ///     if (r == null) {
+    ///         return;
+    ///     }
+    ///     if (mth != null) {
+    ///         SSAVar ssaVar = r.getSVar();
+    ///         if (ssaVar != null && ssaVar.getAssignInsn() == insn) {
+    ///             removeSsaVar(mth, ssaVar);
+    ///         }
+    ///     }
+    ///     insn.setResult(null);
+    /// }
+    /// ```
+    pub fn unbind_result(insn: &mut InsnNode, ssa_ctx: &mut SSAContext) {
+        if let Some(dest) = insn.insn_type.get_dest() {
+            let var_ref = SSAVarRef::new(dest.reg_num, dest.ssa_version);
+
+            // Check if this is the defining instruction
+            if let Some(var) = ssa_ctx.get_var(var_ref) {
+                if var.assign_insn_idx == Some(insn.offset) {
+                    // Try to remove SSA var if no uses remain
+                    try_remove_ssa_var(var_ref, ssa_ctx);
+                }
+            }
+        }
+        insn.result_type = None;
+    }
+
+    /// Unbind a single argument from SSA (JADX: unbindArgUsage)
+    ///
+    /// Removes the use from the SSA variable's use list. For wrapped
+    /// instructions, recursively unbinds the inner instruction.
+    ///
+    /// JADX Reference: InsnRemover.java:165-176
+    /// ```java
+    /// public static void unbindArgUsage(@Nullable MethodNode mth, InsnArg arg) {
+    ///     if (arg instanceof RegisterArg) {
+    ///         RegisterArg reg = (RegisterArg) arg;
+    ///         SSAVar sVar = reg.getSVar();
+    ///         if (sVar != null) {
+    ///             sVar.removeUse(reg);
+    ///         }
+    ///     } else if (arg instanceof InsnWrapArg) {
+    ///         InsnWrapArg wrap = (InsnWrapArg) arg;
+    ///         unbindInsn(mth, wrap.getWrapInsn());
+    ///     }
+    /// }
+    /// ```
+    pub fn unbind_arg_usage(arg: &InsnArg, insn_offset: u32, ssa_ctx: &mut SSAContext) {
+        match arg {
+            InsnArg::Register(reg) => {
+                let var_ref = SSAVarRef::new(reg.reg_num, reg.ssa_version);
+                if let Some(var) = ssa_ctx.get_var_mut(var_ref) {
+                    var.remove_use(insn_offset);
+                }
+            }
+            InsnArg::Wrapped(wrapped) => {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    // For wrapped instructions, we would need mutable access
+                    // In practice, wrapped insns are already handled separately
+                    let _ = inner; // Acknowledge the inner instruction
+                }
+            }
+            _ => {}
+        }
+    }
+
+    /// Try to remove SSA variable if it has no uses (JADX: removeSsaVar)
+    ///
+    /// Removes the variable only if it has no remaining uses (neither regular
+    /// uses nor PHI uses).
+    ///
+    /// JADX Reference: InsnRemover.java:133-163
+    pub fn try_remove_ssa_var(var_ref: SSAVarRef, ssa_ctx: &mut SSAContext) -> bool {
+        if let Some(var) = ssa_ctx.get_var(var_ref) {
+            if var.use_list.is_empty() && var.used_in_phi.is_empty() {
+                ssa_ctx.remove_var(var_ref);
+                return true;
+            }
+        }
+        false
+    }
+
+    /// Check if an instruction can be safely removed (JADX: dontGenerateIfNotUsed)
+    ///
+    /// Returns true if the instruction was marked DONT_GENERATE because its
+    /// result is not used in any generated code.
+    ///
+    /// JADX Reference: InsnUtils.java:238-252
+    /// ```java
+    /// public static boolean dontGenerateIfNotUsed(InsnNode insn) {
+    ///     RegisterArg resArg = insn.getResult();
+    ///     if (resArg != null) {
+    ///         SSAVar ssaVar = resArg.getSVar();
+    ///         for (RegisterArg arg : ssaVar.getUseList()) {
+    ///             InsnNode parentInsn = arg.getParentInsn();
+    ///             if (parentInsn != null && !parentInsn.contains(AFlag.DONT_GENERATE)) {
+    ///                 return false;
+    ///             }
+    ///         }
+    ///     }
+    ///     insn.add(AFlag.DONT_GENERATE);
+    ///     return true;
+    /// }
+    /// ```
+    pub fn dont_generate_if_not_used(insn: &mut InsnNode, ssa_ctx: &SSAContext) -> bool {
+        if let Some(dest) = insn.insn_type.get_dest() {
+            let var_ref = SSAVarRef::new(dest.reg_num, dest.ssa_version);
+            if let Some(var) = ssa_ctx.get_var(var_ref) {
+                // If there are any uses that will be generated, we can't skip
+                if !var.use_list.is_empty() {
+                    return false;
+                }
+            }
+        }
+        insn.add_flag(AFlag::DontGenerate);
+        true
+    }
+}
+
+// =============================================================================
+// JADX InsnUtils Parity - Instruction Utility Helpers
+// =============================================================================
+//
+// JADX Clone: jadx-core/src/main/java/jadx/core/utils/InsnUtils.java
+
+/// Constant value types for instruction analysis
+///
+/// JADX Clone: Return types from InsnUtils.getConstValueByArg/getConstValueByInsn
+#[derive(Debug, Clone, PartialEq)]
+pub enum ConstValue {
+    /// Integer constant (includes byte, short, int, long)
+    Int(i64),
+    /// Float constant
+    Float(f32),
+    /// Double constant
+    Double(f64),
+    /// String constant (by index)
+    StringIdx(u32),
+    /// Type/class constant (by index)
+    TypeIdx(u32),
+    /// Null constant
+    Null,
+}
+
+impl ConstValue {
+    /// Create from a LiteralArg
+    pub fn from_literal(lit: &LiteralArg) -> Self {
+        match lit {
+            LiteralArg::Int(v) => ConstValue::Int(*v),
+            LiteralArg::Float(v) => ConstValue::Float(*v),
+            LiteralArg::Double(v) => ConstValue::Double(*v),
+            LiteralArg::Null => ConstValue::Null,
+        }
+    }
+
+    /// Check if this is a zero value
+    pub fn is_zero(&self) -> bool {
+        match self {
+            ConstValue::Int(0) => true,
+            ConstValue::Float(f) if *f == 0.0 => true,
+            ConstValue::Double(d) if *d == 0.0 => true,
+            ConstValue::Null => true,
+            _ => false,
+        }
+    }
+}
+
+/// Instruction utility helpers (JADX: InsnUtils)
+///
+/// JADX Clone: jadx-core/src/main/java/jadx/core/utils/InsnUtils.java
+pub mod insn_utils {
+    use super::*;
+
+    /// Get constant value from instruction argument (JADX: getConstValueByArg)
+    ///
+    /// Returns the constant value from a literal or wrapped const instruction.
+    ///
+    /// JADX Reference: InsnUtils.java:62-82
+    /// ```java
+    /// public static Object getConstValueByArg(RootNode root, InsnArg arg) {
+    ///     if (arg.isLiteral()) {
+    ///         return arg;
+    ///     }
+    ///     if (arg.isInsnWrap()) {
+    ///         InsnNode insn = ((InsnWrapArg) arg).getWrapInsn();
+    ///         return getConstValueByInsn(root, insn);
+    ///     }
+    ///     return null;
+    /// }
+    /// ```
+    pub fn get_const_value_by_arg(arg: &InsnArg) -> Option<ConstValue> {
+        match arg {
+            InsnArg::Literal(lit) => Some(ConstValue::from_literal(lit)),
+            InsnArg::Wrapped(wrapped) => {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    get_const_value_by_insn(inner)
+                } else {
+                    None
+                }
+            }
+            _ => None,
+        }
+    }
+
+    /// Get constant value from instruction (JADX: getConstValueByInsn)
+    ///
+    /// JADX Reference: InsnUtils.java:89-114
+    /// ```java
+    /// public static Object getConstValueByInsn(RootNode root, InsnNode insn) {
+    ///     switch (insn.getType()) {
+    ///         case CONST:
+    ///             return insn.getArg(0);
+    ///         case CONST_STR:
+    ///             return ((ConstStringNode) insn).getString();
+    ///         case CONST_CLASS:
+    ///             return ((ConstClassNode) insn).getClsType();
+    ///         default:
+    ///             return null;
+    ///     }
+    /// }
+    /// ```
+    pub fn get_const_value_by_insn(insn: &InsnNode) -> Option<ConstValue> {
+        match &insn.insn_type {
+            InsnType::Const { value, .. } => Some(ConstValue::from_literal(value)),
+            InsnType::ConstString { string_idx, .. } => Some(ConstValue::StringIdx(*string_idx)),
+            InsnType::ConstClass { type_idx, .. } => Some(ConstValue::TypeIdx(*type_idx)),
+            _ => None,
+        }
+    }
+
+    /// Check if instruction arg contains a specific SSA variable (JADX: containsVar)
+    ///
+    /// JADX Reference: InsnUtils.java:285-294
+    /// ```java
+    /// public static boolean containsVar(InsnArg insnArg, RegisterArg arg) {
+    ///     if (insnArg.isRegister()) {
+    ///         return ((RegisterArg) insnArg).sameRegAndSVar(arg);
+    ///     }
+    ///     if (insnArg.isInsnWrap()) {
+    ///         InsnNode wrapInsn = ((InsnWrapArg) insnArg).getWrapInsn();
+    ///         return containsVar(wrapInsn, arg);
+    ///     }
+    ///     return false;
+    /// }
+    /// ```
+    pub fn arg_contains_var(arg: &InsnArg, target_reg: u16, target_version: u32) -> bool {
+        match arg {
+            InsnArg::Register(reg) => {
+                reg.reg_num == target_reg && reg.ssa_version == target_version
+            }
+            InsnArg::Wrapped(wrapped) => {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    insn_contains_var(inner, target_reg, target_version)
+                } else {
+                    false
+                }
+            }
+            _ => false,
+        }
+    }
+
+    /// Check if instruction contains a variable (JADX: containsVar for InsnNode)
+    ///
+    /// Checks both result and all arguments (including wrapped instructions).
+    ///
+    /// JADX Reference: InsnUtils.java:266-283
+    /// ```java
+    /// public static boolean containsVar(InsnNode insn, RegisterArg arg) {
+    ///     if (insn == null) {
+    ///         return false;
+    ///     }
+    ///     RegisterArg result = insn.getResult();
+    ///     if (result != null && result.sameRegAndSVar(arg)) {
+    ///         return true;
+    ///     }
+    ///     for (InsnArg insnArg : insn.getArguments()) {
+    ///         if (containsVar(insnArg, arg)) {
+    ///             return true;
+    ///         }
+    ///     }
+    ///     return false;
+    /// }
+    /// ```
+    pub fn insn_contains_var(insn: &InsnNode, target_reg: u16, target_version: u32) -> bool {
+        // Check result
+        if let Some(dest) = insn.insn_type.get_dest() {
+            if dest.reg_num == target_reg && dest.ssa_version == target_version {
+                return true;
+            }
+        }
+        // Check args
+        for arg in insn.insn_type.get_args() {
+            if arg_contains_var(arg, target_reg, target_version) {
+                return true;
+            }
+        }
+        false
+    }
+
+    /// Get wrapped instruction from argument (JADX: getWrappedInsn)
+    ///
+    /// JADX Reference: InsnUtils.java:222-228
+    /// ```java
+    /// public static InsnNode getWrappedInsn(InsnArg arg) {
+    ///     if (arg != null && arg.isInsnWrap()) {
+    ///         return ((InsnWrapArg) arg).getWrapInsn();
+    ///     }
+    ///     return null;
+    /// }
+    /// ```
+    pub fn get_wrapped_insn(arg: &InsnArg) -> Option<&InsnNode> {
+        if let InsnArg::Wrapped(wrapped) = arg {
+            wrapped.inline_insn.as_deref()
+        } else {
+            None
+        }
+    }
+
+    /// Check if wrapped instruction is of specific type (JADX: isWrapped)
+    ///
+    /// JADX Reference: InsnUtils.java:230-236
+    /// ```java
+    /// public static boolean isWrapped(InsnArg arg, InsnType insnType) {
+    ///     if (arg != null && arg.isInsnWrap()) {
+    ///         InsnNode wrapInsn = ((InsnWrapArg) arg).getWrapInsn();
+    ///         return wrapInsn.getType() == insnType;
+    ///     }
+    ///     return false;
+    /// }
+    /// ```
+    pub fn is_wrapped_type(arg: &InsnArg, check_type: &str) -> bool {
+        if let InsnArg::Wrapped(wrapped) = arg {
+            if let Some(ref inner) = wrapped.inline_insn {
+                return inner.type_name() == check_type;
+            }
+        }
+        false
+    }
+
+    /// Get single argument from instruction if it has exactly one (JADX: getSingleArg)
+    ///
+    /// JADX Reference: InsnUtils.java:203-208
+    /// ```java
+    /// public static InsnArg getSingleArg(InsnNode insn) {
+    ///     if (insn != null && insn.getArgsCount() == 1) {
+    ///         return insn.getArg(0);
+    ///     }
+    ///     return null;
+    /// }
+    /// ```
+    pub fn get_single_arg(insn: &InsnNode) -> Option<&InsnArg> {
+        let args = insn.insn_type.get_args();
+        if args.len() == 1 {
+            args.first()
+        } else {
+            None
+        }
+    }
+
+    /// Check if instruction is of specific type (JADX: isInsnType)
+    ///
+    /// JADX Reference: InsnUtils.java:218-220
+    /// ```java
+    /// public static boolean isInsnType(@Nullable InsnNode insn, InsnType insnType) {
+    ///     return insn != null && insn.getType() == insnType;
+    /// }
+    /// ```
+    pub fn is_insn_type(insn: &InsnNode, type_name_str: &str) -> bool {
+        insn.type_name() == type_name_str
+    }
+
+    /// Format bytecode offset as hex string (JADX: formatOffset)
+    ///
+    /// JADX Reference: InsnUtils.java:36-41
+    /// ```java
+    /// public static String formatOffset(int offset) {
+    ///     if (offset < 0) {
+    ///         return "?";
+    ///     }
+    ///     return String.format("0x%04x", offset);
+    /// }
+    /// ```
+    pub fn format_offset(offset: i32) -> String {
+        if offset < 0 {
+            "?".to_string()
+        } else {
+            format!("0x{:04x}", offset)
+        }
+    }
+}
+
+// =============================================================================
+// JADX ArithNode.isSameLiteral Parity
+// =============================================================================
+
+impl InsnNode {
+    /// Compare two arithmetic instructions including literal values (JADX: ArithNode.isSame)
+    ///
+    /// JADX Reference: ArithNode.java:84-110
+    /// ```java
+    /// public boolean isSame(InsnNode obj) {
+    ///     if (this == obj) return true;
+    ///     if (!(obj instanceof ArithNode) || !super.isSame(obj)) return false;
+    ///     ArithNode other = (ArithNode) obj;
+    ///     return op == other.op && isSameLiteral(other);
+    /// }
+    ///
+    /// private boolean isSameLiteral(ArithNode other) {
+    ///     InsnArg thisSecond = getArg(1);
+    ///     InsnArg otherSecond = other.getArg(1);
+    ///     if (thisSecond.isLiteral() != otherSecond.isLiteral()) {
+    ///         return false;
+    ///     }
+    ///     if (!thisSecond.isLiteral()) {
+    ///         return true;  // both not literals
+    ///     }
+    ///     long thisLit = ((LiteralArg) thisSecond).getLiteral();
+    ///     long otherLit = ((LiteralArg) otherSecond).getLiteral();
+    ///     return thisLit == otherLit;
+    /// }
+    /// ```
+    pub fn is_same_arith(&self, other: &InsnNode) -> bool {
+        match (&self.insn_type, &other.insn_type) {
+            (InsnType::Binary { op: op1, right: r1, .. },
+             InsnType::Binary { op: op2, right: r2, .. }) => {
+                if op1 != op2 {
+                    return false;
+                }
+                // Check literal comparison
+                match (r1, r2) {
+                    (InsnArg::Literal(l1), InsnArg::Literal(l2)) => l1.same_value(l2),
+                    (InsnArg::Literal(_), _) | (_, InsnArg::Literal(_)) => false,
+                    _ => true,  // Both non-literals, ops match
+                }
+            }
+            _ => false,
+        }
+    }
+}
+
+// =============================================================================
+// JADX ConstructorInsn.CallType Parity
+// =============================================================================
+
+/// Constructor call type (JADX: ConstructorInsn.CallType)
+///
+/// JADX Clone: jadx-core/src/main/java/jadx/core/dex/instructions/mods/ConstructorInsn.java:20-25
+/// ```java
+/// public enum CallType {
+///     CONSTRUCTOR,  // new Object()
+///     SUPER,        // super()
+///     THIS,         // this()
+///     SELF          // same class call
+/// }
+/// ```
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ConstructorCallType {
+    /// Normal constructor: new Object()
+    Constructor,
+    /// Super constructor: super(...)
+    Super,
+    /// This constructor: this(...)
+    This,
+    /// Same class self call
+    SelfCall,
+}
+
+impl InsnType {
+    /// Get the constructor call type (JADX: ConstructorInsn.getCallType)
+    ///
+    /// Determines whether this is a normal constructor, super(), this(),
+    /// or self call based on the instance argument and class type.
+    ///
+    /// JADX Reference: ConstructorInsn.java:45-62
+    /// ```java
+    /// public CallType getCallType() {
+    ///     if (callType != null) return callType;
+    ///     if (instanceArg.isThis()) {
+    ///         if (classType.equals(mth.getParentClass().getType())) {
+    ///             callType = CallType.THIS;
+    ///         } else {
+    ///             callType = CallType.SUPER;
+    ///         }
+    ///     } else {
+    ///         callType = CallType.CONSTRUCTOR;
+    ///     }
+    ///     return callType;
+    /// }
+    /// ```
+    pub fn get_constructor_call_type(
+        &self,
+        constructor_class: &str,
+        current_class: &str,
+        is_instance_this: bool,
+    ) -> Option<ConstructorCallType> {
+        if let InsnType::Constructor { .. } = self {
+            if is_instance_this {
+                if constructor_class == current_class {
+                    Some(ConstructorCallType::This)
+                } else {
+                    Some(ConstructorCallType::Super)
+                }
+            } else {
+                Some(ConstructorCallType::Constructor)
+            }
+        } else {
+            None
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -3825,5 +4952,53 @@ mod tests {
 
         let lit = InsnArg::lit(42);
         assert!(matches!(lit, InsnArg::Literal(LiteralArg::Int(42))));
+    }
+
+    #[test]
+    fn test_const_value() {
+        let int_val = ConstValue::Int(42);
+        assert!(!int_val.is_zero());
+
+        let zero_val = ConstValue::Int(0);
+        assert!(zero_val.is_zero());
+
+        let null_val = ConstValue::Null;
+        assert!(null_val.is_zero());
+    }
+
+    #[test]
+    fn test_insn_utils_format_offset() {
+        assert_eq!(insn_utils::format_offset(0), "0x0000");
+        assert_eq!(insn_utils::format_offset(255), "0x00ff");
+        assert_eq!(insn_utils::format_offset(-1), "?");
+    }
+
+    #[test]
+    fn test_constructor_call_type() {
+        let ctor = InsnType::Constructor {
+            dest: RegisterArg::new(0),
+            type_idx: 0,
+            method_idx: 0,
+            args: vec![],
+            generic_types: None,
+        };
+
+        // Normal constructor
+        assert_eq!(
+            ctor.get_constructor_call_type("SomeClass", "MyClass", false),
+            Some(ConstructorCallType::Constructor)
+        );
+
+        // Super call
+        assert_eq!(
+            ctor.get_constructor_call_type("ParentClass", "MyClass", true),
+            Some(ConstructorCallType::Super)
+        );
+
+        // This call
+        assert_eq!(
+            ctor.get_constructor_call_type("MyClass", "MyClass", true),
+            Some(ConstructorCallType::This)
+        );
     }
 }

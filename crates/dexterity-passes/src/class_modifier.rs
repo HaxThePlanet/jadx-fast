@@ -44,9 +44,11 @@
 
 use dexterity_ir::instructions::{InsnType, InvokeKind};
 use dexterity_ir::{ClassData, MethodData, FieldData};
+#[cfg(test)]
 use dexterity_ir::types::ArgType;
 
 // Access flag constants (from DEX format)
+const ACC_PUBLIC: u32 = 0x0001;
 const ACC_SYNTHETIC: u32 = 0x1000;
 
 /// Helper trait to check synthetic flag on ClassData and FieldData
@@ -188,14 +190,14 @@ pub fn is_bridge_method(method: &MethodData) -> bool {
         return false;
     }
 
-    // Check if it's a simple wrapper
-    let code = match &method.code {
-        Some(c) => c,
+    // Check if it's a simple wrapper - get instructions
+    let insns = match method.instructions() {
+        Some(i) => i,
         None => return false,
     };
 
     // Should have minimal instructions
-    let meaningful: Vec<_> = code.instructions.iter()
+    let meaningful: Vec<_> = insns.iter()
         .filter(|i| !matches!(i.insn_type, InsnType::Nop | InsnType::Goto { .. }))
         .collect();
 
@@ -234,27 +236,27 @@ pub fn is_removable_empty_constructor(
     }
 
     // Must be public
-    if !method.is_public() {
+    if (method.access_flags & ACC_PUBLIC) == 0 {
         return false;
     }
 
     // Must have no parameters
-    if !method.params.is_empty() {
+    if !method.arg_types.is_empty() {
         return false;
     }
 
-    // Must have code
-    let code = match &method.code {
-        Some(c) => c,
+    // Must have instructions
+    let insns = match method.instructions() {
+        Some(i) => i,
         None => return false,
     };
 
     // Check if body is effectively empty
-    let meaningful: Vec<_> = code.instructions.iter()
+    let meaningful: Vec<_> = insns.iter()
         .filter(|i| !matches!(i.insn_type,
             InsnType::Nop
             | InsnType::Goto { .. }
-            | InsnType::ReturnVoid
+            | InsnType::Return { value: None }
         ))
         .collect();
 
@@ -285,18 +287,18 @@ pub fn is_removable_empty_clinit(method: &MethodData) -> bool {
         return false;
     }
 
-    // Must have code
-    let code = match &method.code {
-        Some(c) => c,
+    // Must have instructions
+    let insns = match method.instructions() {
+        Some(i) => i,
         None => return true, // No code means can be hidden
     };
 
     // Check if body is empty
-    let meaningful: Vec<_> = code.instructions.iter()
+    let meaningful: Vec<_> = insns.iter()
         .filter(|i| !matches!(i.insn_type,
             InsnType::Nop
             | InsnType::Goto { .. }
-            | InsnType::ReturnVoid
+            | InsnType::Return { value: None }
         ))
         .collect();
 
@@ -323,12 +325,12 @@ pub fn is_synthetic_accessor_wrapper(method: &MethodData) -> Option<u32> {
         // Not an accessor pattern
     }
 
-    let code = method.code.as_ref()?;
+    let insns = method.instructions()?;
 
     // Find the invoke instruction
-    let meaningful: Vec<_> = code.instructions.iter()
+    let meaningful: Vec<_> = insns.iter()
         .filter(|i| !matches!(i.insn_type,
-            InsnType::Nop | InsnType::Goto { .. } | InsnType::ReturnVoid
+            InsnType::Nop | InsnType::Goto { .. } | InsnType::Return { value: None }
         ))
         .collect();
 
@@ -355,7 +357,7 @@ pub fn find_methods_to_hide(class: &ClassData) -> Vec<usize> {
 
     // Count non-default constructors
     let constructor_count = class.methods.iter()
-        .filter(|m| m.name == "<init>" && !m.params.is_empty())
+        .filter(|m| m.name == "<init>" && !m.arg_types.is_empty())
         .count();
     let has_other_constructors = constructor_count > 0;
 

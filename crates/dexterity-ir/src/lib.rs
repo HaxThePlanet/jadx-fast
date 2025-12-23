@@ -35,7 +35,10 @@ pub use info::{
     LoadStage, LocalVar, MethodData, MethodInlineAttr, MethodOverrideAttr, ProcessState, TryBlock,
     TryCatchBlockAttr, TypeParameter, TypeVariance,
 };
-pub use instructions::{InsnArg, InsnArgs, InsnNode, InsnType, LambdaHandleType, LambdaInfo, PhiSources, RegisterArg, WrappedInsn};
+pub use instructions::{
+    ConstValue, ConstructorCallType, InsnArg, InsnArgs, InsnNode, InsnType, LambdaHandleType,
+    LambdaInfo, PhiSources, RegisterArg, WrappedInsn, insn_remover, insn_utils,
+};
 pub use kotlin_metadata::{
     ClassAlias, ClassResolver, FnClassResolver, KotlinMetadata, SetClassResolver,
     get_class_alias, get_class_alias_with_resolver, KOTLIN_METADATA_ANNOTATION,
@@ -46,8 +49,8 @@ pub use ssa::{
 };
 pub use types::{compare_types, ArgType, TypeCompare};
 pub use regions::{
-    CaseInfo, CaseKey, CatchHandler, Condition, ConditionMode, ForEachLoopInfo, ForLoopInfo,
+    CaseInfo, CaseKey, CatchHandler, Compare, Condition, ConditionMode, ForEachLoopInfo, ForLoopInfo,
     IBranchRegion, IConditionRegion, IContainer, IRegion, IterableSource, LoopDetails,
-    LoopKind, LoopType, Region, RegionContent, RegionContext, RegionId, RegionType,
-    RegionVisitor,
+    LoopKind, LoopType, Region, RegionContent, RegionContext, RegionId, RegionIterativeVisitor,
+    RegionType, RegionVisitor, TraversalError, depth_traversal,
 };

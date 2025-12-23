@@ -113,7 +113,7 @@ cargo build --release -p dexterity-cli
 |-------|---------|--------|
 | dexterity-dex | DEX binary parsing | 100% |
 | dexterity-ir | Intermediate representation | 100% |
-| dexterity-passes | Decompilation passes | 93% |
+| dexterity-passes | Decompilation passes | **85%** (84/124 JADX visitors) |
 | dexterity-codegen | Java source generation | 90% |
 | dexterity-resources | Resource decoding | 100% |
 | dexterity-deobf | Deobfuscation | 90% |
@@ -124,6 +124,23 @@ cargo build --release -p dexterity-cli
 | dexterity-cli | CLI application | 95% |
 
 *Feature completeness vs JADX. Overall grade: **A**. Production ready for all APKs (98-100% clean). JADX codegen parity complete (Dec 23, 2025). See [Quality Status](docs/QUALITY_STATUS.md).*
+
+### Recent JADX Pass Clones (Dec 2025)
+
+| Pass | JADX Lines | Description |
+|------|------------|-------------|
+| `block_exception_handler` | 640 | Exception CFG construction with splitter blocks |
+| `debug_info` | 442 | Debug info attach + apply (variable names/types) |
+| `switch_over_string` | 479 | Java 7+ string switch restoration |
+| `synchronized_region` | 184 | Synchronized block handling |
+| `fix_multi_entry_loops` | 125 | CFG normalization for loops |
+| `process_try_catch_regions` | 127 | Try-catch region wrapping |
+| `exc_handlers_region` | 153 | Exception handler regions |
+| `class_modifier` | ~300 | Synthetic element hiding |
+| `inline_methods` | ~300 | Method inlining |
+| `signature_processor` | 337 | Generic type signatures |
+
+See [CLONE_TASKS.md](docs/CLONE_TASKS.md) for complete clone specifications with JADX line references.
 
 ## Sample Output
 

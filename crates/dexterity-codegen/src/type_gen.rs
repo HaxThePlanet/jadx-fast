@@ -250,6 +250,43 @@ pub fn get_package(internal: &str) -> Option<String> {
 
 /// Convert a literal value to string representation
 pub fn literal_to_string(value: i64, ty: &ArgType) -> String {
+    literal_to_string_with_fallback(value, ty, false)
+}
+
+/// Clone of JADX TypeGen.literalToString with fallback support
+///
+/// When `fallback` is true and type is unknown with |value| > 100, outputs debug format:
+/// `12345(0x3039, float:1.7292E-41, double:6.1E-320)`
+///
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/TypeGen.java:52-68
+pub fn literal_to_string_with_fallback(value: i64, ty: &ArgType, fallback: bool) -> String {
+    // JADX parity: Handle unknown types with optional fallback hex output
+    // Reference: TypeGen.java:53-68
+    if !is_type_known(ty) {
+        let n = value.to_string();
+        if fallback && value.abs() > 100 {
+            // JADX fallback format: "12345(0x3039, float:..., double:...)"
+            let mut sb = String::with_capacity(64);
+            sb.push_str(&n);
+            sb.push_str("(0x");
+            sb.push_str(&format!("{:x}", value));
+
+            // JADX: if (type == null || type.contains(PrimitiveType.FLOAT))
+            if is_type_null_or_may_contain_float(ty) {
+                let f = f32::from_bits(value as u32);
+                sb.push_str(&format!(", float:{}", f));
+            }
+            // JADX: if (type == null || type.contains(PrimitiveType.DOUBLE))
+            if is_type_null_or_may_contain_double(ty) {
+                let d = f64::from_bits(value as u64);
+                sb.push_str(&format!(", double:{}", d));
+            }
+            sb.push(')');
+            return sb;
+        }
+        return n;
+    }
+
     match ty {
         ArgType::Boolean => {
             if value == 0 { "false" } else { "true" }.to_string()
@@ -281,6 +318,49 @@ pub fn literal_to_string(value: i64, ty: &ArgType) -> String {
         }
         _ => format!("{}", value),
     }
+}
+
+/// Check if type is known (JADX parity: type.isTypeKnown())
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/TypeGen.java:53
+fn is_type_known(ty: &ArgType) -> bool {
+    !matches!(ty,
+        ArgType::Unknown |
+        ArgType::UnknownNarrow |
+        ArgType::UnknownWide |
+        ArgType::UnknownObject |
+        ArgType::UnknownArray |
+        ArgType::UnknownIntegral |
+        ArgType::UnknownNarrowNumbers |
+        ArgType::UnknownNumbersNoBool |
+        ArgType::UnknownNumbersNoFloat |
+        ArgType::UnknownIntFloat |
+        ArgType::UnknownIntBoolean |
+        ArgType::UnknownByteBoolean |
+        ArgType::UnknownObjectNoArray |
+        ArgType::UnknownInt
+    )
+}
+
+/// Check if type is null-like or may contain float (JADX parity)
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/TypeGen.java:58
+fn is_type_null_or_may_contain_float(ty: &ArgType) -> bool {
+    matches!(ty,
+        ArgType::Unknown |
+        ArgType::UnknownNarrow |
+        ArgType::UnknownIntFloat |
+        ArgType::UnknownNarrowNumbers |
+        ArgType::Float
+    )
+}
+
+/// Check if type is null-like or may contain double (JADX parity)
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/TypeGen.java:61
+fn is_type_null_or_may_contain_double(ty: &ArgType) -> bool {
+    matches!(ty,
+        ArgType::Unknown |
+        ArgType::UnknownWide |
+        ArgType::Double
+    )
 }
 
 /// Convert an instruction argument to a string with type awareness
@@ -553,5 +633,48 @@ mod tests {
         // Regular double - test that it has 'd' suffix
         let regular = 3.0f64.to_bits() as i64;
         assert!(literal_to_string(regular, &ArgType::Double).ends_with("d"));
+    }
+
+    /// Test JADX fallback hex output format
+    /// Clone of JADX TypeGen.java:52-68 behavior
+    #[test]
+    fn test_literal_fallback_hex_output() {
+        // Small values (abs <= 100) don't get fallback format
+        assert_eq!(literal_to_string_with_fallback(50, &ArgType::Unknown, true), "50");
+        assert_eq!(literal_to_string_with_fallback(100, &ArgType::Unknown, true), "100");
+        assert_eq!(literal_to_string_with_fallback(-100, &ArgType::Unknown, true), "-100");
+
+        // Large values (abs > 100) with fallback=true get hex format
+        // JADX format: "12345(0x3039, float:..., double:...)"
+        let result = literal_to_string_with_fallback(12345, &ArgType::Unknown, true);
+        assert!(result.starts_with("12345(0x3039"), "Expected hex format, got: {}", result);
+        assert!(result.contains("float:"), "Expected float interpretation, got: {}", result);
+        assert!(result.contains("double:"), "Expected double interpretation, got: {}", result);
+        assert!(result.ends_with(")"), "Expected closing paren, got: {}", result);
+
+        // Negative large values
+        let result = literal_to_string_with_fallback(-12345, &ArgType::Unknown, true);
+        assert!(result.starts_with("-12345(0x"), "Expected negative hex format, got: {}", result);
+
+        // fallback=false doesn't produce hex format
+        assert_eq!(literal_to_string_with_fallback(12345, &ArgType::Unknown, false), "12345");
+
+        // Known types don't use fallback format
+        assert_eq!(literal_to_string_with_fallback(12345, &ArgType::Int, true), "12345");
+        assert_eq!(literal_to_string_with_fallback(12345, &ArgType::Long, true), "12345L");
+    }
+
+    /// Test is_type_known helper
+    #[test]
+    fn test_is_type_known() {
+        assert!(is_type_known(&ArgType::Int));
+        assert!(is_type_known(&ArgType::Long));
+        assert!(is_type_known(&ArgType::Boolean));
+        assert!(is_type_known(&ArgType::Object("java/lang/String".to_string())));
+
+        assert!(!is_type_known(&ArgType::Unknown));
+        assert!(!is_type_known(&ArgType::UnknownNarrow));
+        assert!(!is_type_known(&ArgType::UnknownWide));
+        assert!(!is_type_known(&ArgType::UnknownObject));
     }
 }

@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P1 Open | **Production Ready for ALL APKs** | Grade: A | Dec 23, 2025 - JADX Codegen Parity Complete
+**Status:** 0 P1 Open | **Production Ready for ALL APKs** | Grade: A | Dec 23, 2025 - JADX Codegen Parity ~93%
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
 
 ---
@@ -13,7 +13,7 @@
 - badboy APK: 98% clean
 - medium APK: 98%+ clean (hot-reload fix applied Dec 23)
 
-**JADX Codegen Parity:** COMPLETE - All 12 tasks finished Dec 23, 2025
+**JADX Codegen Parity:** ~93% - Source-level audit Dec 23, 2025 (see JADX_CODEGEN_CLONE_STATUS.md)
 
 ## Open Work
 
@@ -55,9 +55,24 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for optimization item
 
 ## Completed
 
-### JADX Codegen Parity - Complete (Dec 23, 2025)
+### JADX Codegen Parity - ~93% (Dec 23, 2025)
 
-All 12 JADX codegen parity tasks completed. See [JADX_CODEGEN_PARITY.md](JADX_CODEGEN_PARITY.md) for details.
+Most JADX codegen functionality implemented. Source-level audit complete.
+See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed audit.
+
+**Verified Implementations:**
+- Negative literal wrapping (`maybe_paren_wrap`)
+- Varargs expansion (comprehensive)
+- Increment/decrement operators
+- Import conflict detection
+- Else-if chains, Multi-catch, Enum switch
+
+**Remaining Gaps (~7%):**
+- Diamond operator (`new ArrayList<>()`)
+- Outer class constructor prefix (`outer.new Inner()`)
+- Polymorphic call return cast
+- Recursive inner class collision check
+- Comment escape (`*/`)
 
 **P1 (High Priority) - 6 tasks:**
 - **P1-LAMBDA-REF** - Method reference generation (`String::new`, `obj::method`)

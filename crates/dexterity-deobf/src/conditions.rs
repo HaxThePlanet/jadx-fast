@@ -1,6 +1,10 @@
 //! Deobfuscation conditions
 //!
 //! Ported from jadx-core/src/main/java/jadx/core/deobf/conditions/
+//!
+//! JADX Reference: jadx-core/src/main/java/jadx/api/deobf/IDeobfCondition.java
+//! JADX Reference: jadx-core/src/main/java/jadx/api/deobf/impl/CombineDeobfConditions.java
+//! JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/JadxRenameConditions.java
 
 use std::collections::HashSet;
 use dexterity_ir::{ClassData, FieldData, MethodData};
@@ -18,36 +22,41 @@ pub enum RenameFlag {
 }
 
 /// Action to take for a node
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/api/deobf/IDeobfCondition.java:Action
+/// JADX has exactly 3 states: NO_ACTION, FORCE_RENAME, FORBID_RENAME
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Action {
-    /// No action needed
+    /// No action needed - condition doesn't apply, continue to next
+    /// JADX: NO_ACTION
     NoAction,
-    /// Rename is suggested but can be overridden
-    Rename,
-    /// Force rename (e.g., invalid identifier)
+    /// Force rename (e.g., invalid identifier, too short)
+    /// JADX: FORCE_RENAME
     ForceRename,
     /// Do not rename under any circumstances
-    DontRename,
+    /// JADX: FORBID_RENAME
+    ForbidRename,
+}
+
+// Backwards compatibility aliases
+impl Action {
+    /// Alias for ForbidRename (legacy name)
+    pub const DontRename: Action = Action::ForbidRename;
+    /// Alias for ForceRename (legacy soft rename)
+    pub const Rename: Action = Action::ForceRename;
 }
 
 impl Action {
     /// Check if this action should trigger renaming
+    /// JADX: Only FORCE_RENAME triggers renaming
     pub fn should_rename(&self) -> bool {
-        matches!(self, Action::Rename | Action::ForceRename)
-    }
-
-    /// Combine two actions (more restrictive wins)
-    pub fn combine(self, other: Action) -> Action {
-        match (self, other) {
-            (Action::DontRename, _) | (_, Action::DontRename) => Action::DontRename,
-            (Action::ForceRename, _) | (_, Action::ForceRename) => Action::ForceRename,
-            (Action::Rename, _) | (_, Action::Rename) => Action::Rename,
-            _ => Action::NoAction,
-        }
+        matches!(self, Action::ForceRename)
     }
 }
 
 /// Trait for deobfuscation conditions
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/api/deobf/IDeobfCondition.java
 pub trait DeobfCondition: Send + Sync {
     /// Check if a package should be renamed
     fn check_package(&self, name: &str) -> Action {
@@ -70,6 +79,57 @@ pub trait DeobfCondition: Send + Sync {
     /// Check if a method should be renamed
     fn check_method(&self, method: &MethodData) -> Action {
         let _ = method;
+        Action::NoAction
+    }
+}
+
+/// Base deobfuscation condition that forbids renaming for:
+/// - Nodes with DONT_RENAME flag (not applicable in our IR, but checked via alias presence)
+/// - Nodes that already have an alias
+/// - Constructor methods (<init>, <clinit>)
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/BaseDeobfCondition.java
+pub struct BaseDeobfCondition;
+
+impl BaseDeobfCondition {
+    pub fn new() -> Self {
+        Self
+    }
+}
+
+impl Default for BaseDeobfCondition {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl DeobfCondition for BaseDeobfCondition {
+    fn check_class(&self, cls: &ClassData) -> Action {
+        // JADX: if (cls.contains(AFlag.DONT_RENAME) || cls.getClassInfo().hasAlias())
+        // We check if class already has an alias
+        if cls.alias.is_some() {
+            return Action::ForbidRename;
+        }
+        Action::NoAction
+    }
+
+    fn check_field(&self, field: &FieldData) -> Action {
+        // JADX: if (fld.contains(AFlag.DONT_RENAME) || fld.getFieldInfo().hasAlias())
+        if field.alias.is_some() {
+            return Action::ForbidRename;
+        }
+        Action::NoAction
+    }
+
+    fn check_method(&self, method: &MethodData) -> Action {
+        // JADX: if (mth.contains(AFlag.DONT_RENAME) || mth.getMethodInfo().hasAlias() || mth.isConstructor())
+        if method.alias.is_some() {
+            return Action::ForbidRename;
+        }
+        // Forbid renaming constructors
+        if method.name == "<init>" || method.name == "<clinit>" {
+            return Action::ForbidRename;
+        }
         Action::NoAction
     }
 }
@@ -155,6 +215,15 @@ impl DeobfCondition for ValidityCondition {
 }
 
 /// Combined condition that applies multiple conditions
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/api/deobf/impl/CombineDeobfConditions.java
+///
+/// Voting logic matches JADX exactly:
+/// - Iterate through conditions IN ORDER
+/// - First FORCE_RENAME -> return true (should rename)
+/// - First FORBID_RENAME -> return false (don't rename)
+/// - NO_ACTION -> ignore, continue to next
+/// - Default (all NO_ACTION) -> return false (don't rename)
 pub struct CombinedCondition {
     conditions: Vec<Box<dyn DeobfCondition>>,
 }
@@ -164,28 +233,60 @@ impl CombinedCondition {
         Self { conditions }
     }
 
-    /// Build default JADX conditions (length + validity + package whitelist)
+    /// Build default JADX conditions in the exact order from JadxRenameConditions.java
+    ///
+    /// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/JadxRenameConditions.java
+    ///
+    /// Order matters! JADX uses "first definitive action wins":
+    /// 1. BaseDeobfCondition - checks DONT_RENAME flag, existing alias, constructor
+    /// 2. DeobfWhitelist - user-configured whitelist patterns
+    /// 3. ExcludePackageWithTLDNames - skip packages starting with TLDs
+    /// 4. ExcludeAndroidRClass - skip Android R classes
+    /// 5. AvoidClsAndPkgNamesCollision - force rename if class collides with package
+    /// 6. DeobfLengthCondition - force rename if name too short/long
     pub fn default_jadx(min_length: usize, max_length: usize) -> Self {
         Self::new(vec![
+            // 1. BaseDeobfCondition - forbid if already has alias or is constructor
+            Box::new(BaseDeobfCondition::new()),
+            // 2. DeobfWhitelist equivalent (common package names)
             Box::new(PackageWhitelistCondition::new()),
-            Box::new(ValidityCondition::new()),
+            // 3. ExcludePackageWithTLDNames
+            Box::new(crate::tlds::ExcludePackageWithTLDNames::new()),
+            // 4. ExcludeAndroidRClass
+            Box::new(ExcludeAndroidRClass::new()),
+            // 5. AvoidClsAndPkgNamesCollision - initialized empty, caller should populate
+            Box::new(AvoidClsAndPkgNamesCollision::new()),
+            // 6. DeobfLengthCondition - force rename if too short/long
             Box::new(LengthCondition::new(min_length, max_length)),
         ])
     }
 
+    /// Combine actions using JADX's "first definitive action wins" logic
+    ///
+    /// JADX Reference: CombineDeobfConditions.combineFunc()
+    /// ```java
+    /// for (IDeobfCondition c : conditions) {
+    ///     switch (check.apply(c)) {
+    ///         case NO_ACTION: break;           // ignore, continue
+    ///         case FORCE_RENAME: return true;  // first force wins
+    ///         case FORBID_RENAME: return false; // first forbid wins
+    ///     }
+    /// }
+    /// return false; // default: don't rename
+    /// ```
     fn combine_actions<F>(&self, f: F) -> Action
     where
         F: Fn(&dyn DeobfCondition) -> Action,
     {
-        let mut result = Action::NoAction;
         for cond in &self.conditions {
-            let action = f(cond.as_ref());
-            if action == Action::DontRename {
-                return Action::DontRename;
+            match f(cond.as_ref()) {
+                Action::NoAction => continue,           // ignore, check next condition
+                Action::ForceRename => return Action::ForceRename,  // first FORCE wins
+                Action::ForbidRename => return Action::ForbidRename, // first FORBID wins
             }
-            result = result.combine(action);
         }
-        result
+        // Default: don't rename (matches JADX's `return false`)
+        Action::NoAction
     }
 }
 
@@ -353,8 +454,9 @@ impl Default for PackageWhitelistCondition {
 impl DeobfCondition for PackageWhitelistCondition {
     fn check_package(&self, name: &str) -> Action {
         // If the package name (or any segment) is in the whitelist, don't rename
+        // JADX Reference: DeobfWhitelist.check(PackageNode) - returns FORBID_RENAME for whitelisted
         if self.is_whitelisted(name) {
-            Action::DontRename
+            Action::ForbidRename
         } else {
             Action::NoAction
         }
@@ -480,8 +582,9 @@ impl Default for ExcludeAndroidRClass {
 
 impl DeobfCondition for ExcludeAndroidRClass {
     fn check_class(&self, cls: &ClassData) -> Action {
+        // JADX Reference: ExcludeAndroidRClass.check(ClassNode) - returns FORBID_RENAME for R classes
         if Self::is_r_class(cls) {
-            Action::DontRename
+            Action::ForbidRename
         } else {
             Action::NoAction
         }
@@ -595,22 +698,23 @@ mod tests {
         let cond = PackageWhitelistCondition::new();
 
         // Whitelisted two-letter package names should NOT be renamed
-        assert_eq!(cond.check_package("io"), Action::DontRename);
-        assert_eq!(cond.check_package("rx"), Action::DontRename);
-        assert_eq!(cond.check_package("me"), Action::DontRename);
-        assert_eq!(cond.check_package("tv"), Action::DontRename);
-        assert_eq!(cond.check_package("uk"), Action::DontRename);
-        assert_eq!(cond.check_package("de"), Action::DontRename);
+        // JADX: FORBID_RENAME for whitelisted packages
+        assert_eq!(cond.check_package("io"), Action::ForbidRename);
+        assert_eq!(cond.check_package("rx"), Action::ForbidRename);
+        assert_eq!(cond.check_package("me"), Action::ForbidRename);
+        assert_eq!(cond.check_package("tv"), Action::ForbidRename);
+        assert_eq!(cond.check_package("uk"), Action::ForbidRename);
+        assert_eq!(cond.check_package("de"), Action::ForbidRename);
 
         // Whitelisted three-letter package names should NOT be renamed
-        assert_eq!(cond.check_package("com"), Action::DontRename);
-        assert_eq!(cond.check_package("org"), Action::DontRename);
-        assert_eq!(cond.check_package("net"), Action::DontRename);
+        assert_eq!(cond.check_package("com"), Action::ForbidRename);
+        assert_eq!(cond.check_package("org"), Action::ForbidRename);
+        assert_eq!(cond.check_package("net"), Action::ForbidRename);
 
         // Whitelisted library names should NOT be renamed
-        assert_eq!(cond.check_package("okio"), Action::DontRename);
-        assert_eq!(cond.check_package("grpc"), Action::DontRename);
-        assert_eq!(cond.check_package("kotlin"), Action::DontRename);
+        assert_eq!(cond.check_package("okio"), Action::ForbidRename);
+        assert_eq!(cond.check_package("grpc"), Action::ForbidRename);
+        assert_eq!(cond.check_package("kotlin"), Action::ForbidRename);
 
         // Non-whitelisted short names should get NoAction (allowing other conditions to rename)
         assert_eq!(cond.check_package("a"), Action::NoAction);
@@ -623,19 +727,21 @@ mod tests {
         let cond = CombinedCondition::default_jadx(3, 64);
 
         // "io" is short but whitelisted, so should NOT be renamed
-        // DontRename takes precedence over ForceRename
-        assert_eq!(cond.check_package("io"), Action::DontRename);
+        // JADX: First FORBID_RENAME wins (from PackageWhitelistCondition)
+        assert_eq!(cond.check_package("io"), Action::ForbidRename);
 
         // "rx" is short but whitelisted
-        assert_eq!(cond.check_package("rx"), Action::DontRename);
+        assert_eq!(cond.check_package("rx"), Action::ForbidRename);
 
         // "a" is short and NOT whitelisted, so should be renamed
+        // JADX: LengthCondition returns FORCE_RENAME
         assert_eq!(cond.check_package("a"), Action::ForceRename);
 
         // "ab" is short and NOT whitelisted
         assert_eq!(cond.check_package("ab"), Action::ForceRename);
 
         // "example" is long enough and valid, so should NOT be renamed
+        // JADX: All conditions return NO_ACTION, default is don't rename
         assert_eq!(cond.check_package("example"), Action::NoAction);
     }
 
@@ -644,8 +750,9 @@ mod tests {
         let cond = ExcludeAndroidRClass::new();
 
         // Create an R class (empty, named "R")
+        // JADX: FORBID_RENAME for Android R classes
         let r_class = ClassData::new("Lcom/example/R;".to_string(), 0);
-        assert_eq!(cond.check_class(&r_class), Action::DontRename);
+        assert_eq!(cond.check_class(&r_class), Action::ForbidRename);
 
         // Create an R$id inner class with int fields
         let mut r_id_class = ClassData::new("Lcom/example/R$id;".to_string(), 0);
@@ -655,7 +762,7 @@ mod tests {
             access_flags: 0x19, // public static final
             ..Default::default()
         });
-        assert_eq!(cond.check_class(&r_id_class), Action::DontRename);
+        assert_eq!(cond.check_class(&r_id_class), Action::ForbidRename);
 
         // Create an R$styleable with int[] field
         let mut r_styleable = ClassData::new("Lcom/example/R$styleable;".to_string(), 0);
@@ -665,7 +772,7 @@ mod tests {
             access_flags: 0x19,
             ..Default::default()
         });
-        assert_eq!(cond.check_class(&r_styleable), Action::DontRename);
+        assert_eq!(cond.check_class(&r_styleable), Action::ForbidRename);
 
         // Non-R class should get NoAction
         let regular_class = ClassData::new("Lcom/example/MainActivity;".to_string(), 0);

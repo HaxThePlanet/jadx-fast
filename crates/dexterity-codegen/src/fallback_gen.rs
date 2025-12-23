@@ -29,16 +29,38 @@ pub fn generate_fallback_body<W: CodeWriter>(insns: &[InsnNode], code: &mut W) {
     code.inc_indent();
 
     for insn in insns {
-        code.start_line();
-        // Format: /* 000a */ <instruction>
-        code.add(&format!("/* {:04x} */ ", insn.offset));
-
-        // Format instruction
+        // Format instruction first to check for comment escape
         let insn_str = format_insn_fallback(insn);
-        code.add(&insn_str);
 
+        /// Clone of JADX MethodGen.isCommentEscapeNeeded
+        /// Reference: jadx-core/src/main/java/jadx/core/codegen/MethodGen.java:513-521
+        ///
+        /// When dumping bytecode as multi-line comments, strings containing `*/`
+        /// will break the comment block. JADX temporarily closes the comment,
+        /// uses a single-line comment for that instruction, then re-opens.
+        let escape_comment = insn_str.contains("*/");
+
+        if escape_comment {
+            // Close multi-line comment temporarily
+            code.dec_indent();
+            code.start_line().add("*/").newline();
+            code.start_line().add("//  ");
+            code.add(&format!("{:04x} ", insn.offset));
+        } else {
+            code.start_line();
+            // Format: /* 000a */ <instruction>
+            code.add(&format!("/* {:04x} */ ", insn.offset));
+        }
+
+        code.add(&insn_str);
         code.add(";");
         code.newline();
+
+        if escape_comment {
+            // Re-open multi-line comment
+            code.start_line().add("/*").newline();
+            code.inc_indent();
+        }
     }
 
     code.dec_indent();
@@ -232,11 +254,31 @@ impl<'a> SimpleModeHelper<'a> {
 
             // Generate instructions
             for insn in &block.instructions {
-                code.start_line();
-                code.add(&format!("/* {:04x} */ ", insn.offset));
-                code.add(&format_insn_simple(insn));
+                // Format instruction first to check for comment escape
+                let insn_str = format_insn_simple(insn);
+
+                /// Clone of JADX MethodGen.isCommentEscapeNeeded
+                /// Reference: jadx-core/src/main/java/jadx/core/codegen/MethodGen.java:513-521
+                let escape_comment = insn_str.contains("*/");
+
+                if escape_comment {
+                    // Close multi-line comment temporarily
+                    code.start_line().add("*/").newline();
+                    code.start_line().add("//  ");
+                    code.add(&format!("{:04x} ", insn.offset));
+                } else {
+                    code.start_line();
+                    code.add(&format!("/* {:04x} */ ", insn.offset));
+                }
+
+                code.add(&insn_str);
                 code.add(";");
                 code.newline();
+
+                if escape_comment {
+                    // Re-open multi-line comment
+                    code.start_line().add("/*").newline();
+                }
             }
 
             // Generate goto if needed

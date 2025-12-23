@@ -51,6 +51,9 @@ use crate::method_gen::generate_method_with_dex;
 use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_else_if,
     gen_if_header, gen_while_header, gen_for_header,
+    // JADX parity: Labeled loop headers for nested break/continue (RegionGen.java:166-169)
+    gen_labeled_while_header, gen_labeled_do_while_start, gen_labeled_for_header,
+    gen_labeled_foreach_header,
 };
 use crate::type_gen::{literal_to_string, object_to_java_name, type_to_string, type_to_string_with_imports, type_to_string_with_imports_and_package};
 use crate::writer::CodeWriter;
@@ -5756,10 +5759,17 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             condition,
             body,
             details,
+            label,
             ..
         } => {
             // Use loop details if available (JADX parity: ForLoop/ForEach distinction)
             let _loop_details = details;
+
+            // Clone of JADX RegionGen.java:166-169 - output loop label if present
+            // Reference: jadx-core/src/main/java/jadx/core/codegen/RegionGen.java
+            // Format: "loop_N: while (...) {" for labeled nested loops
+            // Note: The label is output inline with the loop header (same line)
+            let loop_label = label.clone();
 
             // Emit pre-condition setup instructions (e.g., array.length() for loop bounds)
             // These instructions define variables used in the condition but are not part
@@ -5799,7 +5809,12 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                             // Update: "i++"
                             let update_str = format!("{}++", var_name);
 
-                            gen_for_header(&init_str, &cond_str, &update_str, code);
+                            // JADX parity: use labeled for header if loop has label
+                            if let Some(lbl) = &loop_label {
+                                gen_labeled_for_header(lbl, &init_str, &cond_str, &update_str, code);
+                            } else {
+                                gen_for_header(&init_str, &cond_str, &update_str, code);
+                            }
                             generate_region(body, ctx, code);
                             gen_close_block(code);
                             return;
@@ -5811,16 +5826,21 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                     if let Some(cond) = condition {
                         if let Some(arr_foreach) = detect_array_foreach_pattern(cond, body, ctx) {
                             // Generate array for-each: for (Type item : array) {
-                            code.start_line()
-                                .add("for (")
-                                .add(&arr_foreach.item_type)
-                                .add(" ")
-                                .add(&arr_foreach.item_var)
-                                .add(" : ")
-                                .add(&arr_foreach.array_expr)
-                                .add(") {")
-                                .newline();
-                            code.inc_indent();
+                            // JADX parity: use labeled foreach header if loop has label
+                            if let Some(lbl) = &loop_label {
+                                gen_labeled_foreach_header(lbl, &arr_foreach.item_type, &arr_foreach.item_var, &arr_foreach.array_expr, code);
+                            } else {
+                                code.start_line()
+                                    .add("for (")
+                                    .add(&arr_foreach.item_type)
+                                    .add(" ")
+                                    .add(&arr_foreach.item_var)
+                                    .add(" : ")
+                                    .add(&arr_foreach.array_expr)
+                                    .add(") {")
+                                    .newline();
+                                code.inc_indent();
+                            }
 
                             // Mark instructions to skip: AGET and increment (i++)
                             let mut skip_set_aget: HashSet<usize> = HashSet::new();
@@ -5864,16 +5884,21 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                                     let collection = iter_str.replace(".hasNext()", "")
                                         .trim_end()
                                         .to_string();
-                                    code.start_line()
-                                        .add("for (")
-                                        .add(item_type)
-                                        .add(" ")
-                                        .add(&foreach_info.item_var)
-                                        .add(" : ")
-                                        .add(&collection)
-                                        .add(") {")
-                                        .newline();
-                                    code.inc_indent();
+                                    // JADX parity: use labeled foreach header if loop has label
+                                    if let Some(lbl) = &loop_label {
+                                        gen_labeled_foreach_header(lbl, item_type, &foreach_info.item_var, &collection, code);
+                                    } else {
+                                        code.start_line()
+                                            .add("for (")
+                                            .add(item_type)
+                                            .add(" ")
+                                            .add(&foreach_info.item_var)
+                                            .add(" : ")
+                                            .add(&collection)
+                                            .add(") {")
+                                            .newline();
+                                        code.inc_indent();
+                                    }
 
                                     // Mark iterator instructions to skip in body
                                     let skip_set: HashSet<usize> = (foreach_info.skip_start
@@ -5893,17 +5918,32 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                             }
                         }
                     }
-                    gen_while_header(&condition_str, code);
+                    // JADX parity: use labeled while header if loop has label
+                    if let Some(lbl) = &loop_label {
+                        gen_labeled_while_header(lbl, &condition_str, code);
+                    } else {
+                        gen_while_header(&condition_str, code);
+                    }
                     generate_region(body, ctx, code);
                     gen_close_block(code);
                 }
                 LoopKind::DoWhile => {
-                    gen_do_while_start(code);
+                    // JADX parity: use labeled do-while start if loop has label
+                    if let Some(lbl) = &loop_label {
+                        gen_labeled_do_while_start(lbl, code);
+                    } else {
+                        gen_do_while_start(code);
+                    }
                     generate_region(body, ctx, code);
                     gen_do_while_end(&condition_str, code);
                 }
                 LoopKind::Endless => {
-                    gen_while_header("true", code);
+                    // JADX parity: use labeled while header if loop has label
+                    if let Some(lbl) = &loop_label {
+                        gen_labeled_while_header(lbl, "true", code);
+                    } else {
+                        gen_while_header("true", code);
+                    }
                     generate_region(body, ctx, code);
                     gen_close_block(code);
                 }
@@ -5931,16 +5971,21 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                                         .unwrap_or_else(|| "Object".to_string());
 
                                     // Generate for-each: for (Type elem : array)
-                                    code.start_line()
-                                        .add("for (")
-                                        .add(&elem_type)
-                                        .add(" ")
-                                        .add(&elem_var_name)
-                                        .add(" : ")
-                                        .add(&array_expr)
-                                        .add(") {")
-                                        .newline();
-                                    code.inc_indent();
+                                    // JADX parity: use labeled foreach header if loop has label
+                                    if let Some(lbl) = &loop_label {
+                                        gen_labeled_foreach_header(lbl, &elem_type, &elem_var_name, &array_expr, code);
+                                    } else {
+                                        code.start_line()
+                                            .add("for (")
+                                            .add(&elem_type)
+                                            .add(" ")
+                                            .add(&elem_var_name)
+                                            .add(" : ")
+                                            .add(&array_expr)
+                                            .add(") {")
+                                            .newline();
+                                        code.inc_indent();
+                                    }
 
                                     generate_region(body, ctx, code);
 
@@ -5953,7 +5998,12 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
                     // Fall back to while loop if foreach generation didn't work
                     if !generated_foreach {
-                        gen_while_header(&condition_str, code);
+                        // JADX parity: use labeled while header if loop has label
+                        if let Some(lbl) = &loop_label {
+                            gen_labeled_while_header(lbl, &condition_str, code);
+                        } else {
+                            gen_while_header(&condition_str, code);
+                        }
                         generate_region(body, ctx, code);
                         gen_close_block(code);
                     }
@@ -9122,6 +9172,15 @@ fn generate_insn<W: CodeWriter>(
             // CRITICAL FIX (P1-S10b): Handle merged invoke+move_result
             // When dest is Some, we need to emit: var = method();
             // When dest is None, we just emit: method();
+
+            /// Clone of JADX InsnGen.isPolymorphicCall
+            /// Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:863-868
+            ///
+            /// MethodHandle.invoke() and invokeExact() are polymorphic - their return type
+            /// is determined by the call site signature, not the method declaration.
+            /// JADX adds an explicit cast to the expected return type.
+            let is_polymorphic = matches!(kind, InvokeKind::Polymorphic);
+
             if let Some(d) = dest {
                 // P1-CFG07 FIX: Check should_inline for Invoke results
                 // If single-use, store expression for inlining instead of emitting assignment.
@@ -9129,17 +9188,49 @@ fn generate_insn<W: CodeWriter>(
                 //   l6 = e(a, b);
                 //   l2 = l6 / 7;
                 if ctx.should_inline(d.reg_num, d.ssa_version) {
-                    if let Some(expr) = ctx.gen_invoke_expr(*kind, *method_idx, args, proto_idx.unwrap_or(0)) {
+                    if let Some(mut expr) = ctx.gen_invoke_expr(*kind, *method_idx, args, proto_idx.unwrap_or(0)) {
+                        // Add polymorphic cast if needed
+                        if is_polymorphic {
+                            if let Some(return_type) = &insn.result_type {
+                                let type_str = crate::type_gen::type_to_string_with_imports_and_package(
+                                    return_type, ctx.imports.as_ref(), ctx.current_package.as_deref()
+                                );
+                                expr = format!("({}) {}", type_str, expr);
+                            }
+                        }
                         ctx.store_inline_expr(d.reg_num, d.ssa_version, expr);
                         return true; // Stored for inlining, don't emit
                     }
                 }
                 // Multi-use or no expression - emit as assignment: var = invoke(...)
-                let expr = gen_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx);
+                let mut expr = gen_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx);
+
+                // Clone of JADX InsnGen.makeInvoke polymorphic cast
+                // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:863-868
+                if is_polymorphic {
+                    if let Some(return_type) = &insn.result_type {
+                        let type_str = crate::type_gen::type_to_string_with_imports_and_package(
+                            return_type, ctx.imports.as_ref(), ctx.current_package.as_deref()
+                        );
+                        expr = format!("({}) {}", type_str, expr);
+                    }
+                }
+
                 emit_assignment(d, &expr, ctx, code);
             } else {
                 // No result used - just emit the call
                 code.start_line();
+
+                // Add polymorphic cast if result type exists (rare case)
+                if is_polymorphic {
+                    if let Some(return_type) = &insn.result_type {
+                        let type_str = crate::type_gen::type_to_string_with_imports_and_package(
+                            return_type, ctx.imports.as_ref(), ctx.current_package.as_deref()
+                        );
+                        code.add("(").add(&type_str).add(") ");
+                    }
+                }
+
                 write_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx, code);
                 code.add(";").newline();
             }
@@ -9299,12 +9390,23 @@ fn generate_insn<W: CodeWriter>(
                         ctx.mark_name_declared(&var_name, &ArgType::Unknown);
                     }
 
-                    code.add(&var_name).add(" = new ").add(&elem_type).add("[] { ");
+                    // Clone of JADX InsnGen.filledNewArray with line wrap at 1000 elements
+                    // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:705-724
+                    code.add(&var_name).add(" = new ").add(&elem_type).add("[] {");
+                    let mut wrap = 0;
                     for (i, a) in args.iter().enumerate() {
-                        if i > 0 { code.add(", "); }
                         ctx.write_arg_inline(code, a);
+                        if i + 1 < args.len() {
+                            code.add(", ");
+                        }
+                        wrap += 1;
+                        // JADX parity: wrap every 1000 elements for huge arrays
+                        if wrap == 1000 {
+                            code.newline().start_line();
+                            wrap = 0;
+                        }
                     }
-                    code.add(" };").newline();
+                    code.add("};").newline();
                 }
             }
             true

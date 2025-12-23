@@ -2,10 +2,13 @@
 //!
 //! Extracts parameter names from Kotlin compiler-generated `Intrinsics.checkNotNullParameter()`
 //! and similar method calls. This is a fallback when Kotlin metadata is unavailable.
+//!
+//! JADX Reference: jadx-core/src/main/java/jadx/core/dex/visitors/kotlin/ProcessKotlinInternals.java
 
 use std::collections::HashMap;
 use dexterity_ir::{MethodData, InsnNode};
 use dexterity_ir::instructions::{InsnType, InsnArg};
+use dexterity_ir::attributes::AFlag;
 
 /// Kotlin Intrinsics method signatures that contain parameter names
 const INTRINSICS_CLASS: &str = "Lkotlin/jvm/internal/Intrinsics;";
@@ -33,6 +36,34 @@ impl IntrinsicsContext {
 impl Default for IntrinsicsContext {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+// ============================================================================
+// JADX-Style Hide Intrinsics Option
+// ============================================================================
+// Cloned from JADX: ProcessKotlinInternals.java:63,76,134-136
+// When enabled, marks Kotlin Intrinsics calls with DONT_GENERATE flag
+
+/// Options for Kotlin intrinsics processing
+/// JADX Reference: ProcessKotlinInternals.java:63,76
+#[derive(Debug, Clone, Copy, Default)]
+pub struct KotlinIntrinsicsOptions {
+    /// Whether to hide (mark DONT_GENERATE) intrinsics calls after extracting names
+    /// JADX Reference: ProcessKotlinInternals.java:76
+    /// hideInsns = root.getArgs().getUseKotlinMethodsForVarNames() == UseKotlinMethodsForVarNames.APPLY_AND_HIDE
+    pub hide_intrinsics: bool,
+}
+
+impl KotlinIntrinsicsOptions {
+    /// Create with default settings (don't hide)
+    pub fn new() -> Self {
+        Self { hide_intrinsics: false }
+    }
+
+    /// Create with hide option enabled
+    pub fn with_hide() -> Self {
+        Self { hide_intrinsics: true }
     }
 }
 
@@ -136,6 +167,143 @@ pub fn process_kotlin_intrinsics_with_context(method: &mut MethodData, ctx: &Int
             }
         }
     }
+}
+
+/// Process Kotlin Intrinsics with options (including hide support)
+/// JADX Reference: ProcessKotlinInternals.java:107-137
+pub fn process_kotlin_intrinsics_with_options(
+    method: &mut MethodData,
+    ctx: &IntrinsicsContext,
+    options: &KotlinIntrinsicsOptions,
+) {
+    // Early exit checks
+    if method.instructions.is_none() || method.arg_types.is_empty() {
+        return;
+    }
+
+    // First pass: collect information (immutable borrow)
+    // JADX Reference: ProcessKotlinInternals.java:107-133
+    let intrinsics_calls: Vec<(usize, usize, String)> = {
+        let instructions = match &method.instructions {
+            Some(insns) => insns,
+            None => return,
+        };
+
+        if instructions.is_empty() {
+            return;
+        }
+
+        // Compute first_param_reg and is_static once to avoid borrowing method later
+        let first_param_reg = method.first_arg_reg();
+        let is_static = method.is_static();
+
+        let mut calls = Vec::new();
+        for (insn_idx, insn) in instructions.iter().enumerate() {
+            if let InsnType::Invoke { method_idx, args, .. } = &insn.insn_type {
+                // Check if this is a Kotlin Intrinsics call
+                if let Some((class, name, _proto)) = ctx.method_signatures.get(method_idx) {
+                    if class == INTRINSICS_CLASS && is_intrinsics_check_method(name) {
+                        // Try to extract parameter name
+                        if args.len() >= 2 {
+                            if let Some(param_name) = get_string_from_context_static(&args[1], insn_idx, instructions.as_slice(), ctx) {
+                                if let InsnArg::Register(reg) = &args[0] {
+                                    if let Some(param_idx) = compute_param_idx(reg.reg_num, first_param_reg, is_static) {
+                                        calls.push((insn_idx, param_idx, param_name));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        calls
+    };
+
+    // Second pass: apply names and hide instructions (mutable borrow)
+    // JADX Reference: ProcessKotlinInternals.java:134-136
+    for (insn_idx, param_idx, param_name) in intrinsics_calls {
+        let renamed = if param_idx < method.arg_names.len() && method.arg_names[param_idx].is_none() {
+            if let Some(cleaned_name) = clean_kotlin_param_name(&param_name) {
+                method.arg_names[param_idx] = Some(cleaned_name);
+                true
+            } else {
+                false
+            }
+        } else {
+            false
+        };
+
+        // JADX Reference: ProcessKotlinInternals.java:134-136
+        // if (renamed && hideInsns) {
+        //     insn.add(AFlag.DONT_GENERATE);
+        // }
+        if renamed && options.hide_intrinsics {
+            if let Some(ref mut instructions) = method.instructions {
+                if let Some(insn) = instructions.get_mut(insn_idx) {
+                    insn.add_flag(AFlag::DontGenerate);
+                    tracing::debug!(
+                        "Hiding Kotlin Intrinsics call at offset {}",
+                        insn.offset
+                    );
+                }
+            }
+        }
+    }
+}
+
+/// Compute parameter index from register number
+fn compute_param_idx(reg: u16, first_param_reg: u16, is_static: bool) -> Option<usize> {
+    if reg < first_param_reg {
+        return None;
+    }
+    let offset = reg - first_param_reg;
+    if !is_static {
+        if offset == 0 {
+            return None;
+        }
+        return Some((offset - 1) as usize);
+    }
+    Some(offset as usize)
+}
+
+/// Static version of get_string_from_context (doesn't borrow method mutably)
+fn get_string_from_context_static(
+    arg: &InsnArg,
+    insn_idx: usize,
+    instructions: &[InsnNode],
+    ctx: &IntrinsicsContext,
+) -> Option<String> {
+    match arg {
+        InsnArg::String(idx) => ctx.string_pool.get(&(*idx as u32)).cloned(),
+        InsnArg::Register(reg) => {
+            for i in (0..insn_idx).rev() {
+                if let InsnType::ConstString { dest, string_idx } = &instructions[i].insn_type {
+                    if dest.reg_num == reg.reg_num {
+                        return ctx.string_pool.get(&(*string_idx as u32)).cloned();
+                    }
+                }
+            }
+            None
+        }
+        _ => None,
+    }
+}
+
+/// Static version of map_reg_to_param
+fn map_reg_to_param_static(reg: u16, method: &MethodData) -> Option<usize> {
+    let first_param_reg = method.first_arg_reg();
+    if reg < first_param_reg {
+        return None;
+    }
+    let offset = reg - first_param_reg;
+    if !method.is_static() {
+        if offset == 0 {
+            return None;
+        }
+        return Some((offset - 1) as usize);
+    }
+    Some(offset as usize)
 }
 
 /// Check if method name is a Kotlin Intrinsics check method
