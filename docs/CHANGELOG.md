@@ -2,6 +2,88 @@
 
 ## December 2025
 
+### Dec 23, 2025 - JADX Pass Cloning Session (3 New Passes, ~1,200 lines)
+
+**Implemented 3 new JADX-compatible passes:**
+
+#### 1. SignatureProcessor (`signature_processor.rs`, ~400 lines)
+- Clone of JADX `SignatureProcessor.java`
+- Generic type signature validation from dalvik annotations
+- Functions: `validate_parsed_type()`, `validate_full_class_name()`, `fix_type_param_declarations()`, `validate_inner_type()`, `process_super_type()`, `process_interfaces()`, `check_method_arg_types()`
+
+#### 2. SynchronizedRegionMaker (`synchronized_region.rs`, ~500 lines)
+- Clone of JADX `SynchronizedRegionMaker.java`
+- Detects MONITOR_ENTER/MONITOR_EXIT pairs and creates synchronized regions
+- Functions: `process_synchronized_regions()`, `find_monitor_enters()`, `find_monitor_exits()`, `can_remove_sync_block()`, `create_synchronized_region()`
+
+#### 3. ExcHandlersRegionMaker (`exc_handlers_region.rs`, ~300 lines)
+- Clone of JADX `ExcHandlersRegionMaker.java`
+- Processes exception handlers to create proper handler regions
+- Functions: `process_exc_handlers()`, `find_handler_exits()`, `process_exc_handler()`, `find_handlers_out_blocks()`, `get_top_splitter_for_handler()`
+
+**Coverage Improvement:** 79% → 82% (83/105 → 86/105 passes)
+
+All passes include JADX reference comments:
+```rust
+//! JADX Clone: jadx-core/src/main/java/jadx/core/dex/visitors/regions/maker/SynchronizedRegionMaker.java
+//! Original Author: Skylot (skylot@gmail.com)
+//! Clone Date: Dec 2025
+```
+
+---
+
+### Dec 23, 2025 - JADX IR Parity P8-P16 (~650 lines)
+
+**Completed IR parity tasks P8-P16:**
+
+| Priority | Component | Methods Added | File |
+|----------|-----------|---------------|------|
+| P8 | Condition | get_register_args, collect_all_blocks, invert, merge_with | regions.rs |
+| P9 | LiteralArg | is_integer, make, fix_literal_type, duplicate | instructions.rs |
+| P10 | Compare | new struct with invert, normalize, is_zero_compare | regions.rs |
+| P11 | FillArrayData | get_size, get_element_type, get_literal_args | instructions.rs |
+| P12 | LambdaInfo | handle_type, use_ref, inline_insn, is_same | instructions.rs |
+| P13 | PhiInsn | get_phi_arg_by_ssa, get_phi_arg_by_block | instructions.rs |
+| P14 | ConstString/ConstClass | get_string_idx, get_class_type_idx | instructions.rs |
+| P15 | SSAVar | get_phi_list, equals, hash_code, compare_to | ssa.rs |
+| P16 | InsnArg | wrap_insn_into_arg, wrap | instructions.rs |
+
+**IR Parity Status:** 96% → 98%
+
+---
+
+### Dec 23, 2025 - JADX Codegen Parity Complete (100%)
+
+**Loop Labels Implementation (JADX RegionGen.java:166-169):**
+- Added `label: Option<String>` field to `Region::Loop`
+- Added labeled loop generators in `stmt_gen.rs`:
+  - `gen_labeled_while_header()`
+  - `gen_labeled_do_while_start()`
+  - `gen_labeled_for_header()`
+  - `gen_labeled_foreach_header()`
+- Updated `region_builder.rs` with `label: None` for all Loop creations
+
+Output format matches JADX exactly:
+```java
+loop_0: while (true) {
+    while (true) {
+        break loop_0;  // Exits outer loop
+    }
+}
+```
+
+**Interface Method Fixes:**
+- Removed redundant `public abstract` modifiers to match JADX
+- Added `default` keyword support for interface methods with code
+- Example: `void c(a aVar);` instead of `public abstract void c(a aVar);`
+
+**Field Collision Renaming:**
+- Added `compute_field_collision_renames()` function
+- Uses JADX's `f{index}{name}` pattern for collisions
+- Generates proper rename comments when collisions occur
+
+---
+
 ### Dec 22, 2025 - Type Inference Performance Optimization (14x faster than JADX)
 
 **Implemented two high-impact optimizations for type inference speedup**

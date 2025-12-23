@@ -19,21 +19,27 @@
 
 No critical issues remaining. Dexterity is production ready for all APKs.
 
-### IR Layer Parity Tasks (Dec 23, 2025)
+### Remaining JADX Parity Items (Dec 23, 2025)
 
-Remaining tasks to reach 100% JADX IR parity. See `docs/IR_CLONE_STATUS.md` for details.
+| Task | Priority | Description | Status |
+|------|----------|-------------|--------|
+| Inner class this$0 → OuterClass.this | P1 | Issue 4 - Field access replacement | Open |
+| Synthetic member handling | P2 | Issue 5 - Better synthetic field detection | Open |
+| DebugInfo visitors | P2 | Clone DebugInfoApplyVisitor, DebugInfoAttachVisitor | Open |
+| AttachCommentsVisitor | P3 | Preserve source comments | Open |
+| FixAccessModifiers | P3 | Private→package visibility fixes for inner classes | Open |
 
-| Task | Priority | Description |
-|------|----------|-------------|
-| P1 | HIGH | InsnNode mutation methods (replaceArg, copy variants) |
-| P2 | MEDIUM | Specialized instruction methods (IfNode, PhiInsn) |
-| P3 | HIGH | BlockNode CFG infrastructure (dominators, predecessors) |
-| P4 | MEDIUM | RegisterArg parent tracking and SSA linkage |
+### IR Layer Parity - 98% Complete (Dec 23, 2025)
+
+All major IR tasks complete. See `docs/IR_CLONE_STATUS.md` for details.
 
 **Completed Dec 23:**
-- InsnNode visitor methods (visitInsns, visitArgs) ✅
-- InsnNode utility methods (canReorder, canThrowException, isExitEdgeInsn) ✅
-- InsnType accessor methods (get_args, get_dest) ✅
+- DepthRegionTraversal (traverse, traverseIterative, traverseIncludingExcHandlers) ✅
+- RegionIterativeVisitor trait ✅
+- Region.child_regions(), replace_sub_block() ✅
+- LoopInfo.get_exit_nodes(), get_exit_edges(), get_pre_header() ✅
+- InsnArg boolean queries (isZeroConst, isFalse, isTrue, isAnyThis) ✅
+- P8-P16: Condition, LiteralArg, Compare, FillArrayData, InvokeCustom, PhiInsn, ConstString/ConstClass, SSAVar, InsnArg wrapping ✅
 
 ### Performance TODOs
 

@@ -74,6 +74,13 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 | P2 Bugs | **ALL FIXED** |
 | P3 Polish | **ALL DONE** |
 
+### Remaining JADX Parity Work (Not Bugs)
+
+| Issue | Priority | Description |
+|-------|----------|-------------|
+| Issue 4 | P1 | Inner class `this$0` → `OuterClass.this` replacement |
+| Issue 5 | P2 | Synthetic member handling improvements |
+
 See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 
 ## New Bugs from f.java Audit (Dec 22-23, 2025)
@@ -105,7 +112,23 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 
 ## Recent Improvements (Dec 23, 2025)
 
-### JADX Codegen Parity Complete (Dec 23, 2025 - Latest)
+### JADX Pass Cloning - 3 New Passes (~1,200 lines)
+
+| Pass | Lines | Description |
+|------|-------|-------------|
+| signature_processor.rs | ~400 | Generic type signature validation |
+| synchronized_region.rs | ~500 | MONITOR_ENTER/MONITOR_EXIT region detection |
+| exc_handlers_region.rs | ~300 | Exception handler region construction |
+
+**Coverage:** 79% → 82% (83/105 → 86/105 passes)
+
+### JADX IR Parity - P8-P16 Complete (~650 lines)
+
+Completed IR parity methods for Condition, LiteralArg, Compare, FillArrayData, LambdaInfo, PhiInsn, ConstString/ConstClass, SSAVar, and InsnArg wrapping.
+
+**IR Parity:** 96% → 98%
+
+### JADX Codegen Parity Complete (Dec 23, 2025)
 
 All 12 JADX codegen parity tasks have been completed. See [JADX_CODEGEN_PARITY.md](JADX_CODEGEN_PARITY.md) for full details.
 
@@ -297,8 +320,11 @@ Type inference has been significantly enhanced from ~60% to ~85% JADX parity. De
 
 | Metric | Value |
 |--------|-------|
-| Total Tests | 1,254 passing (690 integration + 564 unit) |
-| Type Inference Parity | **~90%** (up from ~85%, 7 files / ~9,100 lines, 58 type tests) |
+| Total Tests | 1,392+ passing (all integration + unit) |
+| Pass Coverage | **82%** (86/105 JADX passes implemented) |
+| IR Parity | **98%** (up from 96%, P8-P16 complete) |
+| Codegen Parity | **100%** (all 12 JADX codegen tasks complete) |
+| Type Inference Parity | **~90%** (7 files / ~9,100 lines, 58 type tests) |
 | Throws Parity | 41.7% (up from ~13.7%, 3x improvement) |
 | Kotlin Parity | 100% (BitEncoding ported, all modifiers work) |
 | DEX Debug Info | 100% (DBG_SET_FILE uleb128 fix) |
