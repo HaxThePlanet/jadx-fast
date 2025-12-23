@@ -1,18 +1,18 @@
 # Issue Tracker
 
-**Status:** Open: 5 P0, 3 P1 | **CRITICAL - Non-compilable output** (Dec 23, 2025 audit)
+**Status:** Open: 3 P0, 3 P1 | **CRITICAL - Non-compilable output** (Dec 23, 2025 audit)
 **Reference Files:**
 - `com/bumptech/glide/util/LruCache.java` (medium) - undefined vars, typos
 - `app/dogo/.../ProgramRepository.java` (large) - missing field names, type descriptors
 - ~~`io/jsonwebtoken/Claims.java` (large) - reserved keyword as param~~ ✅ FIXED
 - `com/prototype/badboy/MaliciousPatterns.java` (badboy) - empty bodies, undefined vars
-- `fi/iki/elonen/NanoHTTPD.java` (medium) - wrong constructor chaining
+- ~~`fi/iki/elonen/NanoHTTPD.java` (medium) - wrong constructor chaining~~ ✅ FIXED
 
 ---
 
 ## Fresh Audit Bugs (Dec 22, 2025)
 
-### P0 Critical - Code Won't Compile (6 bugs, 2 fixed)
+### P0 Critical - Code Won't Compile (5 bugs, 4 fixed)
 
 | ID | Issue | Difficulty | Example | File | Root Cause |
 |----|-------|------------|---------|------|------------|
@@ -20,10 +20,10 @@
 | **P0-FIELD02** | Type descriptor as identifier | **HARD** | `Lapp/.../TricksRepository;` as field name | ProgramRepository.java (large) | Raw DEX type not converted to Java name |
 | ~~**P0-KEYWORD01**~~ | ~~Reserved keyword as parameter~~ | ~~**MEDIUM**~~ | ~~`Class<T> class`~~ | ~~Claims.java~~ | **✅ FIXED** Dec 22 |
 | **P0-VAR01** | Undefined variables | **VERY HARD** | `cache2`, `size`, `str5`, `file` | LruCache.java, MaliciousPatterns.java | SSA var naming fails for complex expressions |
-| **P0-TYPO01** | Typos in identifiers | **MEDIUM** | `inkedHashMap` missing 'L' | LruCache.java (medium) | String slice error in name extraction |
+| ~~**P0-TYPO01**~~ | ~~Typos in identifiers~~ | ~~**MEDIUM**~~ | ~~`inkedHashMap` missing 'L'~~ | ~~LruCache.java~~ | **✅ FIXED** Dec 23 |
 | **P0-BODY01** | Empty if-else bodies | **MEDIUM** | `if (...) { } else { }` | MaliciousPatterns.java (badboy) | CFG block not generating content |
 | ~~**P0-REACH01**~~ | ~~Unreachable code after return~~ | ~~**EASY**~~ | ~~Code after `return null;`~~ | ~~LruCache.java~~ | **✅ FIXED** Dec 23 |
-| **P0-CTOR01** | Wrong constructor chaining | **MEDIUM** | `super(x,y,z)` should be `this(x,y,z)` | NanoHTTPD.java (medium) | Constructor target detection wrong |
+| ~~**P0-CTOR01**~~ | ~~Wrong constructor chaining~~ | ~~**MEDIUM**~~ | ~~`super(x,y,z)` should be `this(x,y,z)`~~ | ~~NanoHTTPD.java (medium)~~ | **✅ FIXED** Dec 23 |
 
 ### P1 Semantic - Wrong Behavior (3 bugs)
 
@@ -142,24 +142,58 @@ size2 = this.cache;   // size2 never defined
 
 ---
 
-### P0-TYPO01: Typos in Identifiers
+### P0-TYPO01: Typos in Identifiers - FIXED (Dec 23, 2025)
 
-**Severity:** P0 | **Difficulty:** MEDIUM | **Status:** OPEN
+**Severity:** P0 | **Difficulty:** MEDIUM | **Status:** ✅ FIXED
 **Files:** `LruCache.java` (medium APK)
 
-**Dexterity (broken):**
+**Dexterity (was broken):**
 ```java
-inkedHashMap = new LinkedHashMap<>(100, 0.75f, true);  // Missing 'L'
+private final LinkedHashMap<T, Y> cache = new inkedHashMap();  // Missing 'L'
 ```
 
-**Expected:**
+**Now outputs:**
 ```java
-linkedHashMap = new LinkedHashMap<>(100, 0.75f, true);
+private final LinkedHashMap<T, Y> cache = new LinkedHashMap();
 ```
 
-**Root Cause:** String slicing error when extracting class name for variable naming. Off-by-one error cutting first character.
+**Root Cause:** In `FieldValue::NewInstance` handling, the code stripped 'L' prefix AFTER splitting on '/', which incorrectly removed 'L' from class names starting with 'L' (like `LinkedHashMap`).
 
-**Likely Location:** `var_naming.rs` - `extract_simple_name()` or similar
+**Fix Applied (Dec 23, 2025):**
+1. Changed order of operations in `class_gen.rs` `add_field_value()` for `FieldValue::NewInstance`
+2. Now strips 'L' and ';' from descriptor BEFORE splitting on '/'
+3. `Ljava/util/LinkedHashMap;` → strip → `java/util/LinkedHashMap` → split → `LinkedHashMap` ✓
+
+**Files Changed:** `class_gen.rs`
+
+---
+
+### P0-CTOR01: Wrong Constructor Chaining - FIXED (Dec 23, 2025)
+
+**Severity:** P0 | **Difficulty:** MEDIUM | **Status:** ✅ FIXED
+**Files:** `NanoHTTPD.java` (medium APK)
+
+**Dexterity (was broken):**
+```java
+public NanoHTTPD(int i) {
+    super(null, i);  // Wrong! Object doesn't have this constructor
+}
+```
+
+**Now outputs:**
+```java
+public NanoHTTPD(int i) {
+    this(null, i);  // Correct - delegates to NanoHTTPD(String, int)
+}
+```
+
+**Root Cause:** In `generate_insn_with_lookahead()` (the fallback path for constructor calls without pending new-instance), the class type comparison was using direct string comparison without normalizing formats. `current_class_type` has descriptor format (e.g., `Lfi/iki/elonen/NanoHTTPD;`) while `method_info.class_type` uses internal format (e.g., `fi/iki/elonen/NanoHTTPD`). They never matched, causing all constructor chains to emit `super()`.
+
+**Fix Applied (Dec 23, 2025):**
+1. Fixed the comparison at line 7944-7951 in `body_gen.rs` to normalize `current_class_type` by stripping 'L' prefix and ';' suffix before comparing with `method_info.class_type`
+2. This matches the fix already applied in `write_invoke_with_inlining()` for the primary code path
+
+**Files Changed:** `body_gen.rs`
 
 ---
 

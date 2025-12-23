@@ -1390,10 +1390,11 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &dexterity_ir:
         }
         FieldValue::NewInstance(class_name) => {
             // Format: new ClassName() - for Kotlin object INSTANCE fields
-            let simple_name = class_name.rsplit('/').next().unwrap_or(class_name);
-            // Strip L prefix and ; suffix if present
-            let simple_name = simple_name.strip_prefix('L').unwrap_or(simple_name);
-            let simple_name = simple_name.strip_suffix(';').unwrap_or(simple_name);
+            // P0-TYPO01 fix: Strip L prefix and ; suffix BEFORE splitting on '/'
+            // Otherwise "LinkedHashMap;" becomes "inkedHashMap" (L is class name, not descriptor prefix)
+            let stripped = class_name.strip_prefix('L').unwrap_or(class_name);
+            let stripped = stripped.strip_suffix(';').unwrap_or(stripped);
+            let simple_name = stripped.rsplit('/').next().unwrap_or(stripped);
             code.add("new ");
             code.add(simple_name);
             code.add("()")

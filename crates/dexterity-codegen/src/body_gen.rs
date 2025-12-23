@@ -5989,6 +5989,12 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             then_value_block,
             else_value_block,
         } => {
+            // DEBUG: Track TernaryAssignment processing
+            if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() {
+                eprintln!("[TERNARY_DEBUG] TernaryAssignment: then_block={}, else_block={}, dest_reg={}",
+                    then_value_block, else_value_block, dest_reg);
+            }
+
             // First emit any prelude instructions from the condition block
             emit_condition_block_prelude(condition, ctx, code);
 
@@ -6159,6 +6165,14 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
     // Skip blocks marked with DONT_GENERATE (duplicated finally code)
     if block.has_flag(AFlag::DontGenerate) {
         return;
+    }
+
+    // DEBUG: Track which blocks are being processed
+    if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() {
+        eprintln!("[BLOCK_DEBUG] Processing block {} with {} instructions", block.id, block.instructions.len());
+        for (i, insn) in block.instructions.iter().enumerate() {
+            eprintln!("[BLOCK_DEBUG]   insn[{}]: {:?}", i, insn.insn_type);
+        }
     }
 
     let last_idx = block.instructions.len().saturating_sub(1);
@@ -7905,8 +7919,16 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                     // For static methods and non-constructors, this would be invalid Java
                                     if ctx.is_constructor {
                                         // Check if calling same class (this()) or parent (super())
+                                        // P0-CTOR01 fix: Normalize class type formats before comparing
+                                        // current_class_type may have L; wrapper (e.g., "Lcom/example/MyClass;")
+                                        // while method_info.class_type is internal format (e.g., "com/example/MyClass")
                                         let is_same_class = ctx.current_class_type.as_ref()
-                                            .map(|current| current.as_str() == &*method_info.class_type)
+                                            .map(|current| {
+                                                let normalized = current
+                                                    .strip_prefix('L').unwrap_or(current)
+                                                    .strip_suffix(';').unwrap_or(current);
+                                                normalized == &*method_info.class_type
+                                            })
                                             .unwrap_or(false);
 
                                         code.start_line();
