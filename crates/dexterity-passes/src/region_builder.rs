@@ -1927,14 +1927,42 @@ impl<'a> RegionBuilder<'a> {
         //   if (cond) { return a; } else { return b; }  ->  return cond ? a : b;
 
         // Extract condition first (needed for ternary)
-        let condition = self.extract_condition_with_negation(cond.condition_block, cond.negate_condition);
+        // For merged conditions, build the composite condition
+        let condition = if let Some(merged) = self.merged_map.get(&cond.condition_block) {
+            self.build_merged_condition(merged)
+        } else {
+            self.extract_condition_with_negation(cond.condition_block, cond.negate_condition)
+        };
+
+        // For merged conditions (AND/OR), try to use the MergedCondition's then_block/else_block
+        // which are the VALUE blocks, not all the condition blocks.
+        // But only if BOTH are available - otherwise fall back to IfInfo blocks.
+        let (ternary_then_blocks, ternary_else_blocks) = if let Some(merged) = self.merged_map.get(&cond.condition_block) {
+            // Only use merged blocks if we have BOTH then and else value blocks
+            // Otherwise the merged condition is not a complete ternary pattern
+            match (merged.then_block, merged.else_block) {
+                (Some(then_block), Some(else_block)) => {
+                    // Mark all merged condition blocks as processed
+                    for &block in &merged.merged_blocks {
+                        self.processed.insert(block);
+                    }
+                    (vec![then_block], vec![else_block])
+                }
+                _ => {
+                    // Fall back to IfInfo blocks if merged blocks are incomplete
+                    (cond.then_blocks.clone(), cond.else_blocks.clone())
+                }
+            }
+        } else {
+            (cond.then_blocks.clone(), cond.else_blocks.clone())
+        };
 
         // Only try ternary if we have an else branch
-        if !cond.else_blocks.is_empty() {
+        if !ternary_else_blocks.is_empty() {
             match try_transform_to_ternary(
                 condition.clone(),
-                &cond.then_blocks,
-                &cond.else_blocks,
+                &ternary_then_blocks,
+                &ternary_else_blocks,
                 self.cfg,
             ) {
                 TernaryTransformResult::Assignment {

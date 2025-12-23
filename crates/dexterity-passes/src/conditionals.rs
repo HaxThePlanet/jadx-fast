@@ -88,6 +88,17 @@ pub fn detect_conditionals(cfg: &CFG, loops: &[LoopInfo]) -> Vec<IfInfo> {
             "Detected conditional"
         );
 
+        // DEBUG: Check for merge == else_target issue
+        if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() && merge == Some(else_target) {
+            eprintln!("[COND_DEBUG] Block {}: merge={:?} == else_target={}, then_target={}, this may cause empty else_blocks!",
+                block_id, merge, else_target, then_target);
+            // Print the successors of both targets
+            let then_succs = cfg.successors(then_target);
+            let else_succs = cfg.successors(else_target);
+            eprintln!("[COND_DEBUG]   then_target {} successors: {:?}", then_target, then_succs);
+            eprintln!("[COND_DEBUG]   else_target {} successors: {:?}", else_target, else_succs);
+        }
+
         conditionals.push(IfInfo {
             condition_block: block_id,
             then_blocks,
@@ -170,8 +181,27 @@ fn find_branch_blocks(
     let mut negate_condition = true;
 
     // Check for simple if: else branch goes directly to merge
+    // BUT: If the merge block is a ternary value block (has Const instruction),
+    // we should NOT treat it as "no else branch" - it's the false value.
     let else_blocks = if else_target == merge_block {
-        Vec::new()
+        // Check if merge block has a Const instruction (ternary false value pattern)
+        // We specifically check for Const (not Return, Throw, etc.) because those
+        // are normal code after the if, not part of the conditional.
+        let merge_has_const = cfg.get_block(else_target)
+            .map(|block| {
+                block.instructions.iter().any(|insn| {
+                    matches!(insn.insn_type, InsnType::Const { .. })
+                })
+            })
+            .unwrap_or(false);
+
+        if merge_has_const {
+            // Keep else_blocks because merge has Const (ternary pattern)
+            vec![else_target]
+        } else {
+            // Truly a simple if with no else content
+            Vec::new()
+        }
     } else {
         else_blocks
     };
