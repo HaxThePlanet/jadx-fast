@@ -217,6 +217,45 @@ pub fn collect_usage_from_instructions<F>(
     }
 }
 
+/// Collect usage info with full DEX context (field and method resolution)
+///
+/// JADX Reference: UsageInfoVisitor.java
+///
+/// # Arguments
+/// * `instructions` - Instructions to analyze
+/// * `current_class` - Class index of the current class
+/// * `current_method` - Method index of the current method
+/// * `usage` - Usage info to update
+/// * `resolve_class` - Function to resolve a type_idx to class_idx (or None if external)
+/// * `resolve_field` - Function to resolve a field_idx to (declaring_class_idx, field_idx) (or None if external)
+/// * `resolve_method` - Function to resolve a method_idx to (declaring_class_idx, method_idx) (or None if external)
+pub fn collect_usage_from_instructions_full<FC, FF, FM>(
+    instructions: &[InsnNode],
+    current_class: u32,
+    current_method: u32,
+    usage: &mut UsageInfo,
+    resolve_class: FC,
+    resolve_field: FF,
+    resolve_method: FM,
+) where
+    FC: Fn(u32) -> Option<u32>,
+    FF: Fn(u32) -> Option<(u32, u32)>,
+    FM: Fn(u32) -> Option<(u32, u32)>,
+{
+    let current_method_ref = MethodRef::new(current_class, current_method);
+
+    for insn in instructions {
+        collect_usage_from_insn_full(
+            insn,
+            current_method_ref,
+            usage,
+            &resolve_class,
+            &resolve_field,
+            &resolve_method,
+        );
+    }
+}
+
 /// Collect usage from a single instruction
 fn collect_usage_from_insn<F>(
     insn: &InsnNode,
@@ -245,22 +284,25 @@ fn collect_usage_from_insn<F>(
         }
 
         // Field references
+        // NOTE: For proper class resolution, use collect_usage_from_instructions_full()
+        // JADX Reference: UsageInfoVisitor.java - field handling with class resolution
         InsnType::InstanceGet { field_idx, .. } |
         InsnType::InstancePut { field_idx, .. } |
         InsnType::StaticGet { field_idx, .. } |
         InsnType::StaticPut { field_idx, .. } => {
-            // For field references, we would need to resolve field_idx to (class_idx, field_idx)
-            // For now, we assume field_idx encodes both
-            // In a full implementation, this would look up the field in the DEX file
-            let field_ref = FieldRef::new(0, *field_idx); // TODO: proper class resolution
+            // Without resolver, use field_idx as both class and field (legacy behavior)
+            // For proper resolution, use collect_usage_from_instructions_full() with resolve_field
+            let field_ref = FieldRef::new(0, *field_idx);
             usage.add_field_use(field_ref, current_method);
         }
 
         // Method references
+        // NOTE: For proper class resolution, use collect_usage_from_instructions_full()
+        // JADX Reference: UsageInfoVisitor.java - method handling with class resolution
         InsnType::Invoke { method_idx, .. } => {
-            // For method references, we would need to resolve method_idx to (class_idx, method_idx)
-            // In a full implementation, this would look up the method in the DEX file
-            let called_method = MethodRef::new(0, *method_idx); // TODO: proper class resolution
+            // Without resolver, use method_idx as both class and method (legacy behavior)
+            // For proper resolution, use collect_usage_from_instructions_full() with resolve_method
+            let called_method = MethodRef::new(0, *method_idx);
             usage.add_method_use(called_method, current_method);
         }
 
@@ -274,6 +316,81 @@ fn collect_usage_from_insn<F>(
                 usage.add_class_use_in_method(class_idx, current_method);
                 let called_method = MethodRef::new(class_idx, *method_idx);
                 usage.add_method_use(called_method, current_method);
+            }
+        }
+
+        // Other instructions don't create usage relationships
+        _ => {}
+    }
+}
+
+/// Collect usage from a single instruction with full DEX context
+///
+/// JADX Reference: UsageInfoVisitor.java - processInsn()
+fn collect_usage_from_insn_full<FC, FF, FM>(
+    insn: &InsnNode,
+    current_method: MethodRef,
+    usage: &mut UsageInfo,
+    resolve_class: &FC,
+    resolve_field: &FF,
+    resolve_method: &FM,
+) where
+    FC: Fn(u32) -> Option<u32>,
+    FF: Fn(u32) -> Option<(u32, u32)>,
+    FM: Fn(u32) -> Option<(u32, u32)>,
+{
+    match &insn.insn_type {
+        // Type references
+        InsnType::ConstClass { type_idx, .. } |
+        InsnType::NewInstance { type_idx, .. } |
+        InsnType::NewArray { type_idx, .. } |
+        InsnType::CheckCast { type_idx, .. } |
+        InsnType::InstanceOf { type_idx, .. } => {
+            if let Some(class_idx) = resolve_class(*type_idx) {
+                usage.add_class_use_in_method(class_idx, current_method);
+            }
+        }
+
+        InsnType::FilledNewArray { type_idx, .. } => {
+            if let Some(class_idx) = resolve_class(*type_idx) {
+                usage.add_class_use_in_method(class_idx, current_method);
+            }
+        }
+
+        // Field references - JADX parity: resolve declaring class from field_idx
+        // JADX Reference: UsageInfoVisitor.processInsn() - field handling
+        InsnType::InstanceGet { field_idx, .. } |
+        InsnType::InstancePut { field_idx, .. } |
+        InsnType::StaticGet { field_idx, .. } |
+        InsnType::StaticPut { field_idx, .. } => {
+            if let Some((declaring_class, field_id)) = resolve_field(*field_idx) {
+                let field_ref = FieldRef::new(declaring_class, field_id);
+                usage.add_field_use(field_ref, current_method);
+            }
+        }
+
+        // Method references - JADX parity: resolve declaring class from method_idx
+        // JADX Reference: UsageInfoVisitor.processInsn() - method handling
+        InsnType::Invoke { method_idx, .. } => {
+            if let Some((declaring_class, method_id)) = resolve_method(*method_idx) {
+                let called_method = MethodRef::new(declaring_class, method_id);
+                usage.add_method_use(called_method, current_method);
+            }
+        }
+
+        InsnType::InvokeCustom { .. } => {
+            // Lambda/method references - would need call site resolution
+            // JADX handles this via CallSite resolution
+        }
+
+        InsnType::Constructor { type_idx, method_idx, .. } => {
+            if let Some(class_idx) = resolve_class(*type_idx) {
+                usage.add_class_use_in_method(class_idx, current_method);
+                // For constructors, the method_idx is relative to the type
+                if let Some((_, method_id)) = resolve_method(*method_idx) {
+                    let called_method = MethodRef::new(class_idx, method_id);
+                    usage.add_method_use(called_method, current_method);
+                }
             }
         }
 

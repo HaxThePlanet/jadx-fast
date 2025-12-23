@@ -155,7 +155,7 @@ pub use override_method::{
 // New passes for JADX parity
 pub use check_code::{check_code, CheckCodeError, CheckCodeResult, CheckCodeWarning};
 pub use check_regions::{check_regions, has_missing_blocks, CheckRegionsResult, LoopWarning, MissingBlock};
-pub use usage_info::{collect_usage_from_instructions, FieldRef, MethodRef, UsageInfo};
+pub use usage_info::{collect_usage_from_instructions, collect_usage_from_instructions_full, FieldRef, MethodRef, UsageInfo};
 pub use process_anonymous::{
     process_anonymous, AnonymousClassInfo, ClassInfo, InlineType, ProcessAnonymousResult,
 };
