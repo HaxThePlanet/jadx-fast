@@ -162,6 +162,47 @@ fn mark_associative_chains(block: &mut SsaBlock, result: &mut PrepareForCodeGenR
     }
 }
 
+/// Clone of JADX PrepareForCodeGen.java:229-250
+/// Replace arithmetic operation with short form ('a = a + 2' => 'a += 2')
+///
+/// Pattern detected:
+/// - ARITH instruction without ARITH_ONEARG flag and without DECLARE_VAR flag
+/// - Result register equals first argument, OR same code variable in SSA
+///
+/// Reference: modifyArith(BlockNode)
+fn modify_arith(block: &mut SsaBlock, result: &mut PrepareForCodeGenResult) {
+    for insn in &mut block.instructions {
+        // Check for Binary (ARITH) instructions
+        if let InsnType::Binary { dest, left, .. } = &insn.insn_type {
+            // Skip if already marked as one-arg or if it's a variable declaration
+            // JADX: if (insn.contains(AFlag.ARITH_ONEARG) || insn.contains(AFlag.DECLARE_VAR))
+            if insn.has_flag(AFlag::ArithOneArg) || insn.has_flag(AFlag::DeclareVar) {
+                continue;
+            }
+
+            // Check if result equals first argument
+            // JADX: res.equals(arg) || (arg.isRegister() && res.sameCodeVar(regArg))
+            let should_convert = match left {
+                InsnArg::Register(left_reg) => {
+                    // In SSA form, sameCodeVar means same reg_num (different ssa_version is ok)
+                    // If they share the same base register number, they represent the same
+                    // source-level variable, so `a = a + 2` becomes `a += 2`
+                    dest.reg_num == left_reg.reg_num
+                }
+                _ => false,
+            };
+
+            if should_convert {
+                // JADX: insn.setResult(null); insn.add(AFlag.ARITH_ONEARG);
+                // In Dexterity, we keep the result but mark with flag
+                // Codegen will handle the flag appropriately
+                insn.add_flag(AFlag::ArithOneArg);
+                result.arith_onearg_converted += 1;
+            }
+        }
+    }
+}
+
 /// Extract generic type parameters from an ArgType if present
 fn extract_generic_params(arg_type: &ArgType) -> Option<Vec<ArgType>> {
     match arg_type {
@@ -283,6 +324,8 @@ mod tests {
             result_type: None,
             source_line: None,
             flags: 0,
+            extended_switch_info: None,
+            extended_if_info: None,
         }
     }
 

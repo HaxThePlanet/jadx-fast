@@ -263,7 +263,7 @@ fn simplify_insn(
                            then_value.clone(), else_value.clone(), insn.offset, cmp_defs)
         }
         InsnType::Cast { dest, cast_type, arg } => {
-            simplify_cast(*dest, *cast_type, arg.clone(), insn.offset, cast_defs)
+            simplify_cast(*dest, *cast_type, arg.clone(), insn.offset, cast_defs, types)
         }
         InsnType::CheckCast { object, type_idx } => {
             simplify_check_cast(object.clone(), *type_idx, insn.offset, types, check_cast_defs)
@@ -428,13 +428,22 @@ fn simplify_ternary(
 /// - Double cast elimination: (int)(int)x → (int)x (then potentially just x via move)
 /// - Round-trip cast elimination: (int)(long)(int)x → (int)x
 /// - Inverse cast elimination: (long)(int)x where the inner cast widens and outer narrows back
+/// - Boolean→primitive conversion: (long)bool → bool ? 1L : 0L (JADX ModVisitor.fixPrimitiveCast)
 fn simplify_cast(
     dest: RegisterArg,
     cast_type: CastType,
     arg: InsnArg,
     offset: u32,
     cast_defs: &HashMap<(u16, u32), (CastType, InsnArg)>,
+    types: Option<&HashMap<(u16, u32), ArgType>>,
 ) -> Option<InsnNode> {
+    // Clone of JADX ModVisitor.java:252-277
+    // Check for boolean→primitive cast - convert to ternary
+    // (long)booleanVar → booleanVar ? 1L : 0L
+    if let Some(ternary) = fix_primitive_cast(&arg, dest, cast_type, offset, types) {
+        return Some(ternary);
+    }
+
     // Check if the argument is a register defined by another cast
     if let InsnArg::Register(reg) = &arg {
         if let Some((inner_cast, inner_arg)) = cast_defs.get(&(reg.reg_num, reg.ssa_version)) {
@@ -446,6 +455,88 @@ fn simplify_cast(
     }
 
     None
+}
+
+/// Clone of JADX ModVisitor.java:252-277
+/// Replace boolean to (byte/char/short/long/double/float) cast with ternary
+///
+/// Pattern: (long)booleanVar
+/// Result:  booleanVar ? 1L : 0L
+///
+/// Reference: fixPrimitiveCast(MethodNode, BlockNode, int, InsnNode)
+fn fix_primitive_cast(
+    arg: &InsnArg,
+    dest: RegisterArg,
+    cast_type: CastType,
+    offset: u32,
+    types: Option<&HashMap<(u16, u32), ArgType>>,
+) -> Option<InsnNode> {
+    // Check if the source argument has type BOOLEAN
+    let is_boolean = match arg {
+        InsnArg::Register(reg) => {
+            types.and_then(|t| t.get(&(reg.reg_num, reg.ssa_version)))
+                .map(|ty| matches!(ty, ArgType::Boolean))
+                .unwrap_or(false)
+        }
+        _ => false,
+    };
+
+    if !is_boolean {
+        return None;
+    }
+
+    // Create ternary: booleanVar ? 1 : 0 (with appropriate type)
+    // JADX: TernaryInsn ternary = makeBooleanConvertInsn(insn.getResult(), castArg, type);
+    let (one_value, zero_value) = get_boolean_convert_literals(cast_type);
+
+    Some(InsnNode::new(
+        InsnType::Ternary {
+            dest,
+            condition: IfCondition::Ne, // bool != 0 means true
+            left: arg.clone(),
+            right: Some(InsnArg::Literal(LiteralArg::Int(0))),
+            then_value: one_value,
+            else_value: zero_value,
+        },
+        offset,
+    ))
+}
+
+/// Get the literal values for boolean→primitive conversion
+/// JADX: makeBooleanConvertInsn uses 1 for true, 0 for false
+/// For float/double, uses bit representation of 1.0
+fn get_boolean_convert_literals(cast_type: CastType) -> (InsnArg, InsnArg) {
+    match cast_type {
+        CastType::IntToLong => (
+            InsnArg::Literal(LiteralArg::Int(1)),
+            InsnArg::Literal(LiteralArg::Int(0)),
+        ),
+        CastType::IntToFloat => (
+            InsnArg::Literal(LiteralArg::Float(1.0)),
+            InsnArg::Literal(LiteralArg::Float(0.0)),
+        ),
+        CastType::IntToDouble => (
+            InsnArg::Literal(LiteralArg::Double(1.0)),
+            InsnArg::Literal(LiteralArg::Double(0.0)),
+        ),
+        CastType::IntToByte => (
+            InsnArg::Literal(LiteralArg::Int(1)),
+            InsnArg::Literal(LiteralArg::Int(0)),
+        ),
+        CastType::IntToChar => (
+            InsnArg::Literal(LiteralArg::Int(1)),
+            InsnArg::Literal(LiteralArg::Int(0)),
+        ),
+        CastType::IntToShort => (
+            InsnArg::Literal(LiteralArg::Int(1)),
+            InsnArg::Literal(LiteralArg::Int(0)),
+        ),
+        // Other casts don't apply to boolean sources
+        _ => (
+            InsnArg::Literal(LiteralArg::Int(1)),
+            InsnArg::Literal(LiteralArg::Int(0)),
+        ),
+    }
 }
 
 /// Check if two casts can be simplified when chained
@@ -621,10 +712,20 @@ fn convert_field_arith_iput(
     // JADX: if (wrapType != InsnType.ARITH && wrapType != InsnType.STR_CONCAT) return null;
     let (op, arith_left, arith_right) = match &arith_insn.insn_type {
         InsnType::Binary { op, left, right, .. } => (*op, left, right),
-        InsnType::StrConcat { args, .. } if !args.is_empty() => {
+        InsnType::StrConcat { args, .. } if args.len() >= 2 => {
             // For STR_CONCAT, use ADD operation with first arg as left
             // JADX handles this for string field concatenation
-            return None; // TODO: Handle STR_CONCAT case
+            // Pattern: IPUT(obj, field, STR_CONCAT([IGET(obj, field), values...]))
+            // Result: obj.field += values (string concatenation compound assignment)
+            if args.len() == 2 {
+                // Simple case: field + value -> can treat as binary ADD
+                (BinaryOp::Add, &args[0], &args[1])
+            } else {
+                // Complex case: field + val1 + val2 + ...
+                // For now, skip compound assignment optimization for multi-value concat
+                // as it would require creating a wrapped StrConcat for the remaining values
+                return None;
+            }
         }
         _ => return None,
     };

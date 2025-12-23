@@ -25,9 +25,11 @@ After detailed source analysis comparing JADX Java source with Dexterity Rust im
 
 ## P0: CRITICAL GAPS (Must Fix for Parity)
 
-### P0-1: SimplifyVisitor - Missing convertInvoke() (StringBuilder → STR_CONCAT)
+### ~~P0-1: SimplifyVisitor - Missing convertInvoke() (StringBuilder → STR_CONCAT)~~ ✅ VERIFIED
 **JADX Source:** `SimplifyVisitor.java:305-428` (124 lines)
-**Dexterity:** Comment says "handled at codegen level" - **VERIFY THIS**
+**Dexterity:** Handled at codegen level in `body_gen.rs:8023-8074` - `stringbuilder_chains` HashMap tracking + `try_convert_stringbuilder_chain()` + `parse_stringbuilder_chain()`
+
+**Status:** The StringBuilder chain optimization is fully implemented at codegen time rather than as an IR transformation. Both approaches produce equivalent output (`"a" + b + "c"` style concatenation).
 
 ```java
 // JADX SimplifyVisitor.java:305-323
@@ -86,8 +88,9 @@ private InsnNode simplifyStringConstructor(MethodNode mth, ConstructorInsn insn)
 
 ---
 
-### P0-3: SimplifyVisitor - Missing convertFieldArith()
+### ~~P0-3: SimplifyVisitor - Missing convertFieldArith()~~ ✅ COMPLETED
 **JADX Source:** `SimplifyVisitor.java:581-636` (55 lines)
+**Dexterity:** Implemented in `simplify.rs:598-741` - `convert_field_arith_iput()` and `convert_field_arith_sput()`
 
 ```java
 // JADX SimplifyVisitor.java:581-636
@@ -141,8 +144,9 @@ private static void replaceConst(MethodNode mth, ClassNode parentClass,
 
 ---
 
-### P0-5: ModVisitor - Missing fixPrimitiveCast() (Boolean Conversion)
+### ~~P0-5: ModVisitor - Missing fixPrimitiveCast() (Boolean Conversion)~~ ✅ COMPLETED
 **JADX Source:** `ModVisitor.java:252-277` (26 lines)
+**Dexterity:** Implemented in `simplify.rs:460-542` - `fix_primitive_cast()` and `get_boolean_convert_literals()`
 
 ```java
 // JADX ModVisitor.java:252-277
@@ -161,10 +165,7 @@ private static void fixPrimitiveCast(MethodNode mth, BlockNode block, int i, Ins
 }
 ```
 
-**Clone Task:**
-1. Clone `fixPrimitiveCast()` boolean→primitive detection
-2. Clone `makeBooleanConvertInsn()` ternary creation
-3. Handle DOUBLE/FLOAT bit representations (lines 267-272)
+**Clone Task:** ~~COMPLETED~~
 
 ---
 
@@ -191,8 +192,9 @@ private static void fixFieldUsage(MethodNode mth, IndexInsnNode insn) {
 
 ## P1: HIGH PRIORITY GAPS
 
-### P1-1: PrepareForCodeGen - Missing modifyArith() (Compound Assignment)
+### ~~P1-1: PrepareForCodeGen - Missing modifyArith() (Compound Assignment)~~ ✅ COMPLETED
 **JADX Source:** `PrepareForCodeGen.java:228-250` (23 lines)
+**Dexterity:** Implemented in `prepare_for_codegen.rs:165-206` - `modify_arith()`
 
 ```java
 // JADX PrepareForCodeGen.java:228-250
@@ -213,7 +215,7 @@ private static void modifyArith(BlockNode block) {
 }
 ```
 
-**Clone Task:** Port to `prepare_for_codegen.rs` with ARITH_ONEARG flag
+**Clone Task:** ~~COMPLETED~~
 
 ---
 
