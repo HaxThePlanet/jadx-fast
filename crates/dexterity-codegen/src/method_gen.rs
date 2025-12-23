@@ -1183,6 +1183,36 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<
     code.add(")");
 }
 
+/// Java reserved keywords that cannot be used as identifiers
+const JAVA_RESERVED_WORDS: &[&str] = &[
+    "abstract", "assert", "boolean", "break", "byte", "case", "catch",
+    "char", "class", "const", "continue", "default", "do", "double",
+    "else", "enum", "extends", "false", "final", "finally", "float",
+    "for", "goto", "if", "implements", "import", "instanceof", "int",
+    "interface", "long", "native", "new", "null", "package", "private",
+    "protected", "public", "return", "short", "static", "strictfp",
+    "super", "switch", "synchronized", "this", "throw", "throws",
+    "transient", "true", "try", "void", "volatile", "while", "_",
+];
+
+/// Escape Java reserved words to valid identifier names (P0-KEYWORD01 fix)
+/// Uses JADX-compatible escape patterns:
+/// - `class` → `clazz` (standard Java convention)
+/// - Other reserved words get underscore suffix (e.g., `new` → `new_`)
+fn escape_reserved_word(name: &str) -> String {
+    if !JAVA_RESERVED_WORDS.contains(&name) {
+        return name.to_string();
+    }
+
+    // JADX convention: class -> clazz
+    if name == "class" {
+        return "clazz".to_string();
+    }
+
+    // For other reserved words, add underscore suffix
+    format!("{}_", name)
+}
+
 /// Generate base parameter name from type (with "Var" suffix for short class names)
 /// This matches JADX's ApplyVariableNames.fromName() logic
 fn generate_base_param_name(ty: &ArgType) -> String {
@@ -1253,15 +1283,35 @@ fn generate_base_param_name(ty: &ArgType) -> String {
         ArgType::Char => "c".to_string(),
         ArgType::Short => "s".to_string(),
         ArgType::Generic { base, .. } => {
+            // P0-KEYWORD01: Apply same type-based mappings as Object case
+            // e.g., Class<T> should become "cls" not "class"
+            if base.contains("Class") && !base.contains("ClassLoader") {
+                return "cls".to_string();
+            }
+            if base.contains("StringBuilder") || base.contains("StringBuffer") {
+                return "sb".to_string();
+            }
+            if base.contains("String") {
+                return "str".to_string();
+            }
+            if base.contains("Exception") {
+                return "exc".to_string();
+            }
+            if base.contains("Throwable") || base.contains("Error") {
+                return "th".to_string();
+            }
+
             let simple = get_innermost_name(base);
             let mut chars = simple.chars();
             match chars.next() {
                 Some(c) => {
-                    let base: String = c.to_lowercase().chain(chars).collect();
-                    if base.len() < 3 {
-                        format!("{}Var", base)
+                    let base_name: String = c.to_lowercase().chain(chars).collect();
+                    // P0-KEYWORD01: Escape reserved words
+                    let escaped = escape_reserved_word(&base_name);
+                    if escaped.len() < 3 && !escaped.ends_with('_') {
+                        format!("{}Var", escaped)
                     } else {
-                        base
+                        escaped
                     }
                 }
                 None => "obj".to_string(),
@@ -1287,9 +1337,11 @@ fn generate_param_names(arg_types: &[ArgType], arg_names: &[Option<String>]) -> 
     use std::collections::HashSet;
 
     // First, generate base names for all parameters
+    // P0-KEYWORD01 fix: Escape reserved words from debug info (e.g., "class" -> "clazz")
     let base_names: Vec<String> = arg_types.iter().enumerate().map(|(i, ty)| {
         arg_names.get(i)
             .and_then(|n| n.clone())
+            .map(|n| escape_reserved_word(&n))
             .unwrap_or_else(|| generate_base_param_name(ty))
     }).collect();
 

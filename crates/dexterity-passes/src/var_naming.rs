@@ -16,6 +16,109 @@ use dexterity_ir::types::ArgType;
 use crate::ssa::SsaResult;
 use crate::type_inference::TypeInferenceResult;
 
+/// Check if SSA debug output is enabled for a specific method
+/// Set DEXTERITY_DEBUG_SSA=method_name to enable
+fn should_debug_ssa(method_name: &str) -> bool {
+    std::env::var("DEXTERITY_DEBUG_SSA")
+        .map(|v| v == "*" || method_name.contains(&v))
+        .unwrap_or(false)
+}
+
+/// Debug dump for PHI nodes and variable grouping
+fn debug_dump_phi_grouping(
+    method_name: &str,
+    ssa: &SsaResult,
+    connections: &HashMap<(u16, u32), HashSet<(u16, u32)>>,
+    ssa_to_code_var: &HashMap<(u16, u32), usize>,
+    type_info: &TypeInferenceResult,
+) {
+    if !should_debug_ssa(method_name) {
+        return;
+    }
+
+    eprintln!("\n[SSA_DEBUG] Method: {}", method_name);
+
+    // Dump ALL SSA blocks with instructions
+    eprintln!("[SSA_DEBUG] SSA Blocks:");
+    for block in &ssa.blocks {
+        eprintln!("  Block {}:", block.id);
+        for phi in &block.phi_nodes {
+            let sources: Vec<_> = phi.sources.iter()
+                .map(|(blk, src)| format!("b{}:r{}_v{}", blk, src.reg_num, src.ssa_version))
+                .collect();
+            eprintln!("    PHI: r{}_v{} = phi({})", phi.dest.reg_num, phi.dest.ssa_version, sources.join(", "));
+        }
+        for insn in &block.instructions {
+            eprintln!("    {:?}", insn.insn_type);
+        }
+    }
+
+    // Dump PHI nodes
+    eprintln!("[SSA_DEBUG] PHI Nodes:");
+    for block in &ssa.blocks {
+        for phi in &block.phi_nodes {
+            let dest = (phi.dest.reg_num, phi.dest.ssa_version);
+            let sources: Vec<_> = phi.sources.iter()
+                .map(|(blk, src)| format!("b{}:r{}_v{}", blk, src.reg_num, src.ssa_version))
+                .collect();
+            let dest_type = type_info.types.get(&dest)
+                .map(|t| format!("{:?}", t))
+                .unwrap_or_else(|| "Unknown".to_string());
+            eprintln!("  Block {}: r{}_v{} ({}) = phi({})",
+                block.id, dest.0, dest.1, dest_type, sources.join(", "));
+        }
+    }
+
+    // Dump connections
+    eprintln!("[SSA_DEBUG] Variable Connections (edges):");
+    let mut sorted_conns: Vec<_> = connections.iter().collect();
+    sorted_conns.sort_by_key(|(k, _)| *k);
+    for ((r, v), neighbors) in sorted_conns.iter().take(20) {
+        let mut sorted_neighbors: Vec<_> = neighbors.iter().collect();
+        sorted_neighbors.sort();
+        let neighbor_strs: Vec<_> = sorted_neighbors.iter()
+            .map(|(nr, nv)| format!("r{}_v{}", nr, nv))
+            .collect();
+        eprintln!("  r{}_v{} <-> [{}]", r, v, neighbor_strs.join(", "));
+    }
+    if connections.len() > 20 {
+        eprintln!("  ... and {} more connections", connections.len() - 20);
+    }
+
+    // Dump CodeVar groups
+    eprintln!("[SSA_DEBUG] CodeVar Groups:");
+    let mut groups: HashMap<usize, Vec<(u16, u32)>> = HashMap::new();
+    for ((r, v), &cv) in ssa_to_code_var {
+        groups.entry(cv).or_default().push((*r, *v));
+    }
+    let mut sorted_groups: Vec<_> = groups.into_iter().collect();
+    sorted_groups.sort_by_key(|(cv, _)| *cv);
+    for (cv, mut members) in sorted_groups.into_iter().take(15) {
+        members.sort();
+        let member_strs: Vec<_> = members.iter()
+            .map(|(r, v)| {
+                let ty = type_info.types.get(&(*r, *v))
+                    .map(|t| format!("{:?}", t))
+                    .unwrap_or_else(|| "?".to_string());
+                format!("r{}_v{}({})", r, v, ty)
+            })
+            .collect();
+        eprintln!("  CodeVar {}: [{}]", cv, member_strs.join(", "));
+    }
+
+    // Dump ALL SSA vars that are in CodeVar groups with their assignments
+    eprintln!("[SSA_DEBUG] All assigned CodeVars:");
+    let mut cv_list: Vec<_> = ssa_to_code_var.iter().map(|((r, v), cv)| (*r, *v, *cv)).collect();
+    cv_list.sort();
+    for (reg, ver, cv) in &cv_list {
+        let ty = type_info.types.get(&(*reg, *ver))
+            .map(|t| format!("{:?}", t))
+            .unwrap_or_else(|| "?".to_string());
+        eprintln!("  r{}_v{}: CodeVar={}, type={}", reg, ver, cv, ty);
+    }
+    eprintln!("");
+}
+
 /// Check if a name is a valid Java identifier and printable
 /// (like JADX's NameMapper.isValidAndPrintable)
 fn is_valid_identifier(name: &str) -> bool {
@@ -409,7 +512,7 @@ fn origins_compatible(o1: SemanticOrigin, o2: SemanticOrigin) -> bool {
 ///
 /// Returns a map: (reg, version) -> code_var_index
 /// Variables with the same index should get the same name.
-fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<(u16, u32), usize> {
+fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult, method_name: &str) -> HashMap<(u16, u32), usize> {
     use dexterity_ir::instructions::{InsnType, InsnArg};
 
     let mut ssa_to_code_var: HashMap<(u16, u32), usize> = HashMap::new();
@@ -435,22 +538,26 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
         let t2 = type_info.types.get(&v2);
         match (t1, t2) {
             (Some(t1), Some(t2)) => types_compatible_for_naming(t1, t2),
-            // CRITICAL FIX (Dec 2025): Be more conservative when type info is missing.
-            // Only allow grouping if BOTH types are missing (they might be the same variable).
-            // If one has a known type and the other is missing, we can't safely group
-            // because the missing one might have an incompatible type (e.g., StringBuilder vs int).
-            // This prevents the bug where obj6 is declared as StringBuilder then reassigned to int.
-            (None, None) => true,
-            _ => false,
+            // P0-PHANTOM-FIX (Dec 2025): When type info is missing on one or both sides,
+            // only connect if they're the SAME register. This handles PHI sources
+            // where one path may have a null literal or untyped value - they still
+            // represent the same logical variable.
+            (None, None) | (Some(_), None) | (None, Some(_)) => v1.0 == v2.0,
         }
     };
 
+    let debug_ssa = should_debug_ssa(method_name);
+
     // Helper to add bidirectional connection if types AND semantic origins are compatible
-    let mut add_connection = |v1: (u16, u32), v2: (u16, u32), connections: &mut HashMap<(u16, u32), HashSet<(u16, u32)>>| {
+    let mut add_connection = |v1: (u16, u32), v2: (u16, u32), connections: &mut HashMap<(u16, u32), HashSet<(u16, u32)>>, debug: bool| {
         // Check semantic origins first (P1-S07 fix)
         let o1 = semantic_origins.get(&v1).copied().unwrap_or(SemanticOrigin::Other);
         let o2 = semantic_origins.get(&v2).copied().unwrap_or(SemanticOrigin::Other);
         if !origins_compatible(o1, o2) {
+            if debug {
+                eprintln!("[SSA_DEBUG]   REJECT r{}_v{} <-> r{}_v{}: origins incompatible ({:?} vs {:?})",
+                    v1.0, v1.1, v2.0, v2.1, o1, o2);
+            }
             return;
         }
 
@@ -459,19 +566,29 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
         let t2 = type_info.types.get(&v2);
         let compatible = match (t1, t2) {
             (Some(t1), Some(t2)) => types_compatible_for_naming(t1, t2),
-            // CRITICAL FIX (Dec 2025): Same fix as check_compatible above.
-            // Only connect if both types are missing. If one is known and one is missing,
-            // we can't verify compatibility, so don't create the connection.
-            (None, None) => true,
-            _ => false,
+            // P0-PHANTOM-FIX (Dec 2025): When type info is missing on one or both sides,
+            // only connect if they're the SAME register. This handles PHI sources
+            // where one path may have a null literal or untyped value - they still
+            // represent the same logical variable.
+            (None, None) | (Some(_), None) | (None, Some(_)) => v1.0 == v2.0,
         };
         if compatible {
+            if debug {
+                eprintln!("[SSA_DEBUG]   ACCEPT r{}_v{} <-> r{}_v{}: types={:?}/{:?}",
+                    v1.0, v1.1, v2.0, v2.1, t1, t2);
+            }
             connections.entry(v1).or_default().insert(v2);
             connections.entry(v2).or_default().insert(v1);
+        } else if debug {
+            eprintln!("[SSA_DEBUG]   REJECT r{}_v{} <-> r{}_v{}: types incompatible ({:?} vs {:?})",
+                v1.0, v1.1, v2.0, v2.1, t1, t2);
         }
     };
 
     // Phase 1: Build connections from PHI nodes
+    // PHI nodes represent merge points where multiple SSA versions flow into the same
+    // logical variable. We MUST connect dest <-> sources regardless of type compatibility
+    // because they're definitionally the same variable in Java.
     for block in &ssa.blocks {
         for phi in &block.phi_nodes {
             let dest = (phi.dest.reg_num, phi.dest.ssa_version);
@@ -481,20 +598,32 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
                 .map(|(_, source)| (source.reg_num, source.ssa_version))
                 .collect();
 
-            // Connect dest <-> all sources (bidirectional)
+            // FORCE connect dest <-> all sources (bidirectional) WITHOUT type check
+            // PHI means these are the same logical variable, so they MUST share names.
+            // Type mismatches are a type inference bug, not a naming bug.
             for &src in &sources {
-                add_connection(dest, src, &mut connections);
+                if debug_ssa {
+                    eprintln!("[SSA_DEBUG]   PHI FORCE r{}_v{} <-> r{}_v{}",
+                        dest.0, dest.1, src.0, src.1);
+                }
+                connections.entry(dest).or_default().insert(src);
+                connections.entry(src).or_default().insert(dest);
             }
 
-            // Connect all sources to each other (PHI source transitivity)
-            // If multiple variables all flow into the same PHI, they're the same logical variable
-            // This is key to reducing "SSA version explosion" - variables like i, i2, i3 that
-            // all feed the same loop PHI should share one name
-            for i in 0..sources.len() {
-                for j in (i + 1)..sources.len() {
-                    add_connection(sources[i], sources[j], &mut connections);
-                }
-            }
+            // P0-PHANTOM-FIX (Dec 2025): REMOVED PHI source transitivity
+            // The old code connected ALL PHI sources to each other:
+            //   for i in 0..sources.len() {
+            //       for j in (i + 1)..sources.len() {
+            //           add_connection(sources[i], sources[j], &mut connections);
+            //       }
+            //   }
+            // This caused phantom variables (mAdapter2, mAdapter22, etc.) because
+            // unrelated values flowing into the same PHI got grouped together.
+            // Example: PHI([null_const, invoke_result, field_read]) grouped them all,
+            // when they represent completely different values.
+            //
+            // Now we only connect dest <-> each source. If sources need to share names,
+            // they will be connected transitively through the dest anyway.
         }
     }
 
@@ -507,7 +636,7 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
                 if let InsnArg::Register(src_reg) = src {
                     let dest_key = (dest.reg_num, dest.ssa_version);
                     let src_key = (src_reg.reg_num, src_reg.ssa_version);
-                    add_connection(dest_key, src_key, &mut connections);
+                    add_connection(dest_key, src_key, &mut connections, debug_ssa);
                 }
             }
         }
@@ -536,13 +665,16 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
                 continue;
             }
 
-            // Double-check type compatibility before adding to group
-            let compatible = check_compatible(start, current);
-
-            if !compatible {
-                // Don't add to this group - it will get its own group later
-                continue;
-            }
+            // P0-PHANTOM-FIX (Dec 2025): REMOVED type check during BFS.
+            // The connections HashMap already encodes compatibility - if a connection
+            // exists, it was either type-checked when added (for Move instructions)
+            // or forced for PHI nodes. Re-checking here breaks PHI grouping because
+            // PHI sources may have different types (e.g., Object vs Boolean when a
+            // null check short-circuits).
+            //
+            // Old code that was removed:
+            // let compatible = check_compatible(start, current);
+            // if !compatible { continue; }
 
             visited.insert(current);
             connected.push(current);
@@ -566,6 +698,9 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
             }
         }
     }
+
+    // Debug dump PHI nodes and variable grouping if enabled
+    debug_dump_phi_grouping(method_name, ssa, &connections, &ssa_to_code_var, type_info);
 
     ssa_to_code_var
 }
@@ -1634,7 +1769,7 @@ pub fn assign_var_names(
     first_param_reg: u16,
     num_params: u16,
 ) -> VarNamingResult {
-    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, true, None, None, None, None, None, None)
+    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, true, None, None, None, None, None, None, None)
 }
 
 /// Assign names to all variables in an SSA result with optional method/type/field lookups
@@ -1650,6 +1785,7 @@ pub fn assign_var_names_with_lookups<'a>(
     field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
     debug_info: Option<&'a DebugInfo>,
     inner_class_names: Option<&'a [String]>,
+    method_name: Option<&str>,  // For SSA debug output
 ) -> VarNamingResult {
     let mut naming = VarNaming::with_lookups(first_param_reg, method_lookup, type_lookup, field_lookup, inner_class_names);
 
@@ -1684,12 +1820,13 @@ pub fn assign_var_names_with_lookups<'a>(
     // Build CodeVar groups - prefer SSAContext if populated (from init_code_variables)
     // Fall back to PHI-based grouping (like JADX's InitCodeVariables)
     // TYPE-AWARE: Variables with incompatible types get separate names
+    let method_name_str = method_name.unwrap_or("<unknown>");
     let (code_var_map, mut code_var_names) = if let Some((map, names)) = build_code_vars_from_context(&ssa.ssa_context) {
         // SSAContext is populated - use its CodeVars
         (map, names)
     } else {
         // Fall back to PHI-based grouping
-        (build_code_vars(ssa, type_info), HashMap::new())
+        (build_code_vars(ssa, type_info, method_name_str), HashMap::new())
     };
 
     // Build assignment map: (reg, version) -> (block_idx, insn_idx, insn_offset)

@@ -1,34 +1,58 @@
 # Quality Status
 
-**Status:** 2 P0, 3 P1, 0 P2 | Kotlin 100% | Type Inference ~90% JADX parity | **f.java audit FAILED** (Dec 22, 2025)
+**Status:** CRITICAL - Non-compilable output | Manual audit Dec 22, 2025
 **Goal:** 1:1 identical decompilation output with JADX
-**Output Refresh:** Dec 21, 2025 - All 5 APK samples refreshed (~8,858 Java files)
+**Output Refresh:** Dec 22, 2025 - All 5 APK samples refreshed
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
 
-## f.java Comparison Audit (Dec 22, 2025)
+## Manual Side-by-Side Audit (Dec 22, 2025)
 
-**Result: NOT NEAR 1:1 PARITY**
+**Result: PRODUCTION BLOCKING - Code won't compile**
 
-| Metric | Count |
-|--------|-------|
-| Total f.java files in JADX | 151 |
-| Identical | **7 (4.6%)** |
-| Different | 130 (86.1%) |
-| Missing (filtered by design) | 14 |
+### File Coverage
 
-Critical bugs produce **non-compilable code** that also loses semantic meaning.
+| APK | JADX | Dexterity | Coverage |
+|-----|------|-----------|----------|
+| small | 2 | 1 | 50% (R.java filtered by design) |
+| medium | 5,933 | 2,891 | 48.7% |
+| large | 8,161 | 5,901 | 72.3% |
+| badboy | 86 | 53 | 61.6% |
+| badboy-x86 | 46 | 13 | 28.3% |
+
+### Critical P0 Bugs Found
+
+| Issue | Example | File |
+|-------|---------|------|
+| Missing field names | `private final DogoApiClient ;` | ProgramRepository.java (large) |
+| Type descriptor as identifier | `private final o3 Lapp/.../TricksRepository;` | ProgramRepository.java (large) |
+| Reserved keyword as param | `Class<T> class` | Claims.java (large) |
+| Undefined variables | `cache2`, `size`, `str5`, `file` | LruCache.java, MaliciousPatterns.java |
+| Typos in identifiers | `inkedHashMap` | LruCache.java (medium) |
+| Empty if-else bodies | `if (...) { } else { }` | MaliciousPatterns.java (badboy) |
+| Unreachable code | Code after `return null;` | LruCache.java (medium) |
+| Wrong constructor chain | `super(x,y,z)` should be `this(x,y,z)` | NanoHTTPD.java (medium) |
 
 ## Current Grades
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | **C+** | 2 P0 open (CFG01, CFG03); 3 P0 fixed Dec 22 (CFG02, CFG04, TYPE01) |
-| **Type Inference** | **B+** | ~85% JADX parity (up from ~60%), 7 files / ~7,100 lines |
-| **IR/Control Flow** | **C-** | CFG bugs: broken try-catch, missing branches; empty if-bodies fixed Dec 22 |
-| **Variable Naming** | **B** | 13 mappings, but JADX scores 0.93 vs Dexterity 0.70-0.81 on complex methods |
-| **Kotlin Support** | **A** | 100% parity - BitEncoding ported |
+| **Codegen** | **F** | Non-compilable output: missing identifiers, undefined variables |
+| **Type Inference** | **D** | Type descriptors appear in code, wrong variable names |
+| **IR/Control Flow** | **F** | Empty if-bodies, unreachable code, wrong constructor calls |
+| **Variable Naming** | **F** | Variables named after method params, undefined everywhere |
+| **Kotlin Support** | **A** | Still working for simple cases |
 | **Resources** | **A+** | 1:1 JADX parity - 103 dirs, 152 files, zero diff |
-| **Overall** | **C+** | Major CFG/codegen issues blocking production use |
+| **Overall** | **D-** | Only small APK produces usable output |
+
+### Per-APK Grades
+
+| APK | Grade | Status |
+|-----|-------|--------|
+| small | **A** | Near-identical to JADX (only `/* compiled from: */` comment added) |
+| medium | **F** | Won't compile - undefined vars, typos, garbled constructors |
+| large | **F** | Won't compile - missing field names, type descriptors in code |
+| badboy | **F** | Won't compile - empty if-bodies, undefined variables throughout |
+| badboy-x86 | **F** | Won't compile - same issues as badboy |
 
 ## Bug Status
 

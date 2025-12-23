@@ -1,12 +1,346 @@
 # Issue Tracker
 
-**Status:** Open: 0 P0, 0 P1, 0 P2 | IR 100% Complete | **SSA Clone + 8 JADX Passes** (Dec 22, 2025)
+**Status:** Open: 5 P0, 3 P1 | **CRITICAL - Non-compilable output** (Dec 23, 2025 audit)
 **Reference Files:**
-- `io/grpc/j1/f.java` (ApplicationThreadDeframer - 185 lines) - try-catch/control flow bugs
-- `net/time4j/f.java` (CalendarUnit - 380 lines) - enum/switch/literal bugs
-- `com/geetest/sdk/f.java` (BaseScreenDialog - 56 lines) - boolean/branch bugs
+- `com/bumptech/glide/util/LruCache.java` (medium) - undefined vars, typos
+- `app/dogo/.../ProgramRepository.java` (large) - missing field names, type descriptors
+- ~~`io/jsonwebtoken/Claims.java` (large) - reserved keyword as param~~ ✅ FIXED
+- `com/prototype/badboy/MaliciousPatterns.java` (badboy) - empty bodies, undefined vars
+- `fi/iki/elonen/NanoHTTPD.java` (medium) - wrong constructor chaining
 
-## Recent Accomplishments (Dec 22, 2025)
+---
+
+## Fresh Audit Bugs (Dec 22, 2025)
+
+### P0 Critical - Code Won't Compile (6 bugs, 2 fixed)
+
+| ID | Issue | Difficulty | Example | File | Root Cause |
+|----|-------|------------|---------|------|------------|
+| **P0-FIELD01** | Missing field names | **HARD** | `private final DogoApiClient ;` | ProgramRepository.java (large) | Field name extraction fails for renamed fields |
+| **P0-FIELD02** | Type descriptor as identifier | **HARD** | `Lapp/.../TricksRepository;` as field name | ProgramRepository.java (large) | Raw DEX type not converted to Java name |
+| ~~**P0-KEYWORD01**~~ | ~~Reserved keyword as parameter~~ | ~~**MEDIUM**~~ | ~~`Class<T> class`~~ | ~~Claims.java~~ | **✅ FIXED** Dec 22 |
+| **P0-VAR01** | Undefined variables | **VERY HARD** | `cache2`, `size`, `str5`, `file` | LruCache.java, MaliciousPatterns.java | SSA var naming fails for complex expressions |
+| **P0-TYPO01** | Typos in identifiers | **MEDIUM** | `inkedHashMap` missing 'L' | LruCache.java (medium) | String slice error in name extraction |
+| **P0-BODY01** | Empty if-else bodies | **MEDIUM** | `if (...) { } else { }` | MaliciousPatterns.java (badboy) | CFG block not generating content |
+| ~~**P0-REACH01**~~ | ~~Unreachable code after return~~ | ~~**EASY**~~ | ~~Code after `return null;`~~ | ~~LruCache.java~~ | **✅ FIXED** Dec 23 |
+| **P0-CTOR01** | Wrong constructor chaining | **MEDIUM** | `super(x,y,z)` should be `this(x,y,z)` | NanoHTTPD.java (medium) | Constructor target detection wrong |
+
+### P1 Semantic - Wrong Behavior (3 bugs)
+
+| ID | Issue | Difficulty | Example | File | Root Cause |
+|----|-------|------------|---------|------|------------|
+| **P1-STATIC01** | Empty static initializer | **EASY** | `static { }` with no body | MaliciousPatterns.java (badboy) | Static init content not generated |
+| **P1-RETURN01** | Method returns undefined var | **HARD** | `return declaredMethod;` undefined | MaliciousPatterns.java (badboy) | Variable not assigned before return |
+| **P1-LOGIC01** | Boolean logic inverted | **MEDIUM** | `isBeingDebugged()` returns wrong value | MaliciousPatterns.java (badboy) | Boolean expression reduction error |
+
+---
+
+## Difficulty Grades
+
+| Grade | Meaning | Estimated Effort |
+|-------|---------|------------------|
+| **EASY** | Isolated fix, clear root cause | 1-2 hours |
+| **MEDIUM** | Multiple files, some investigation | 4-8 hours |
+| **HARD** | Core system changes, complex debugging | 1-3 days |
+| **VERY HARD** | Architecture changes, extensive testing | 3-7 days |
+
+---
+
+## Ticket Details
+
+### P0-FIELD01: Missing Field Names
+
+**Severity:** P0 | **Difficulty:** HARD | **Status:** OPEN
+**Files:** `app/dogo/com/dogo_android/s/b/ProgramRepository.java` (large APK)
+
+**Dexterity (broken):**
+```java
+/* renamed from: a */
+private final DogoApiClient ;  // <-- MISSING NAME
+```
+
+**Expected:**
+```java
+private final DogoApiClient apiClient;
+```
+
+**Root Cause:** Field rename comments (`/* renamed from: a */`) indicate the original name is `a`, but the field declaration has no identifier after the type.
+
+**Likely Location:** `class_gen.rs` field generation, or `info.rs` field name extraction
+
+---
+
+### P0-FIELD02: Type Descriptor as Identifier
+
+**Severity:** P0 | **Difficulty:** HARD | **Status:** OPEN
+**Files:** `app/dogo/com/dogo_android/s/b/ProgramRepository.java` (large APK)
+
+**Dexterity (broken):**
+```java
+/* renamed from: b */
+private final o3 Lapp/dogo/com/dogo_android/repository/local/TricksRepository;;
+```
+
+**Expected:**
+```java
+private final TricksRepository tracker;
+```
+
+**Root Cause:** DEX type descriptor (`Lapp/.../TricksRepository;`) used directly instead of converting to Java class name.
+
+**Likely Location:** `class_gen.rs` or type conversion utilities
+
+---
+
+### P0-KEYWORD01: Reserved Keyword as Parameter - FIXED (Dec 22, 2025)
+
+**Severity:** P0 | **Difficulty:** MEDIUM | **Status:** ✅ FIXED
+**Files:** `io/jsonwebtoken/Claims.java` (large APK)
+
+**Dexterity (was broken):**
+```java
+<T> T get(String str, Class<T> class);  // 'class' is reserved!
+```
+
+**Now outputs:**
+```java
+<T> T get(String str, Class<T> clazz);
+```
+
+**Root Cause:** No reserved word escaping for parameter names from debug info.
+
+**Fix Applied (Dec 22, 2025):**
+1. Added `JAVA_RESERVED_WORDS` constant with all 50+ Java reserved words
+2. Added `escape_reserved_word()` function with JADX-compatible escaping:
+   - `class` → `clazz` (standard Java convention)
+   - Other reserved words → `name_` (underscore suffix)
+3. Applied escape in `generate_param_names()` in both `body_gen.rs` and `method_gen.rs`
+4. Added unit test `test_escape_reserved_word`
+
+**Files Changed:** `body_gen.rs`, `method_gen.rs`
+
+---
+
+### P0-VAR01: Undefined Variables
+
+**Severity:** P0 | **Difficulty:** VERY HARD | **Status:** OPEN
+**Files:** `LruCache.java` (medium), `MaliciousPatterns.java` (badboy)
+
+**Dexterity (broken):**
+```java
+Object t2 = this.cache.put(t, y);
+return null;
+cache2 = this.cache;  // cache2 never defined
+size2 = this.cache;   // size2 never defined
+```
+
+**Expected:** All variables declared before use
+
+**Root Cause:** SSA variable naming/codegen failing for complex multi-block control flow. Variables referenced but never assigned.
+
+**Likely Location:** `var_naming.rs`, `body_gen.rs` SSA handling
+
+---
+
+### P0-TYPO01: Typos in Identifiers
+
+**Severity:** P0 | **Difficulty:** MEDIUM | **Status:** OPEN
+**Files:** `LruCache.java` (medium APK)
+
+**Dexterity (broken):**
+```java
+inkedHashMap = new LinkedHashMap<>(100, 0.75f, true);  // Missing 'L'
+```
+
+**Expected:**
+```java
+linkedHashMap = new LinkedHashMap<>(100, 0.75f, true);
+```
+
+**Root Cause:** String slicing error when extracting class name for variable naming. Off-by-one error cutting first character.
+
+**Likely Location:** `var_naming.rs` - `extract_simple_name()` or similar
+
+---
+
+### P0-BODY01: Empty If-Else Bodies
+
+**Severity:** P0 | **Difficulty:** MEDIUM | **Status:** OPEN
+**Files:** `MaliciousPatterns.java` (badboy APK)
+
+**Dexterity (broken):**
+```java
+if ((Reader)inputStreamReader instanceof BufferedReader) {
+} else {
+}
+return TextStreamsKt.readText(inputStreamReader);
+```
+
+**Expected:**
+```java
+BufferedReader reader = inputStreamReader instanceof BufferedReader
+    ? (BufferedReader) inputStreamReader
+    : new BufferedReader(inputStreamReader, 8192);
+return TextStreamsKt.readText(reader);
+```
+
+**Root Cause:** If-else branch content not being generated. CFG blocks marked as processed but content not emitted.
+
+**Likely Location:** `body_gen.rs` or `region_builder.rs`
+
+---
+
+### P0-REACH01: Unreachable Code After Return - FIXED (Dec 23, 2025)
+
+**Severity:** P0 | **Difficulty:** EASY | **Status:** ✅ FIXED
+**Files:** `LruCache.java` (medium APK)
+
+**Dexterity (was broken):**
+```java
+return null;
+Object t2 = this.cache.put(t, y);  // Unreachable!
+```
+
+**Now outputs:** No code after return statement
+
+**Root Cause:** The `emitted_exit` tracking in `generate_block()` was LOCAL to each block. When a try region contained multiple blocks in a sequence, and one block ended with `return`, subsequent blocks in the same sequence were still generated because each `generate_block()` call had its own `emitted_exit` variable.
+
+**Fix Applied (Dec 23, 2025):**
+1. Added `content_ends_with_exit()` helper function to check if a RegionContent ends with an exit instruction (return/throw)
+2. Modified `Region::Sequence` handling in `generate_region_impl()` to track `sequence_exited` flag
+3. After generating each content in a sequence, check if it ended with an exit
+4. Skip all remaining content in the sequence after an exit is detected
+5. Updated `emitted_exit` check to include ALL return types (`Return { .. }` instead of just `Return { value: Some(_) }`)
+
+**Files Changed:** `body_gen.rs`
+
+**Test Results:**
+- All 690+ tests pass
+- LruCache.java: 15 lines of unreachable code removed
+
+---
+
+### P0-PHANTOM01: PHI Node Variable Grouping - PARTIALLY FIXED (Dec 23, 2025)
+
+**Severity:** P0 | **Difficulty:** VERY HARD | **Status:** PARTIAL FIX
+
+**Problem:** Phantom variables like `mAdapter2`, `flexibleAdapterPosition` appearing in output for methods with short-circuit boolean conditions.
+
+**Example (broken):**
+```java
+public final boolean isDraggable() {
+    boolean i = false;
+    f draggable = this.mAdapter.O0(getFlexibleAdapterPosition());
+    int i2 = mAdapter2.O0(flexibleAdapterPosition) != null && draggable.isDraggable();
+    return i;  // Always false!
+}
+```
+
+**Expected (JADX output):**
+```java
+public final boolean isDraggable() {
+    f fVarO0 = this.mAdapter.O0(getFlexibleAdapterPosition());
+    return fVarO0 != null && fVarO0.isDraggable();
+}
+```
+
+**Root Causes Identified (Dec 23, 2025):**
+
+1. **PHI Source Transitivity (FIXED):** The old code connected ALL PHI sources to each other:
+   ```rust
+   for i in 0..sources.len() {
+       for j in (i + 1)..sources.len() {
+           add_connection(sources[i], sources[j], &mut connections);
+       }
+   }
+   ```
+   This caused unrelated values (null_const, invoke_result, field_read) to be grouped together.
+
+2. **BFS Type Check (FIXED):** The BFS phase did a redundant type compatibility check:
+   ```rust
+   let compatible = check_compatible(start, current);
+   if !compatible { continue; }
+   ```
+   This rejected forced PHI connections even when they were intentionally added.
+
+3. **Type Mismatch in PHI (FIXED):** When one type was known and one unknown:
+   ```rust
+   (Some(_), None) | (None, Some(_)) => false  // OLD: Rejected!
+   (Some(_), None) | (None, Some(_)) => v1.0 == v2.0  // NEW: Allow same register
+   ```
+
+4. **Code Generator Bug (OPEN):** Even with correct PHI grouping, the code generator emits duplicate statements with phantom variable names. This is a separate issue in `body_gen.rs` region processing.
+
+**Fixes Applied (Dec 23, 2025):**
+1. Removed PHI source transitivity - only connect dest ↔ sources
+2. Force PHI dest ↔ source connections regardless of type compatibility
+3. Removed redundant type check during BFS graph traversal
+4. Added `DEXTERITY_DEBUG_SSA=method_name` env var for debugging
+
+**Files Changed:** `var_naming.rs`
+
+**Test Results:**
+- All 288 tests pass
+- PHI grouping now correctly groups all PHI-related SSA variables
+- Phantom variable issue persists due to separate code generator bug (see P0-CODEGEN01)
+
+---
+
+### P0-CODEGEN01: Code Generator Duplicate Statement Emission
+
+**Severity:** P0 | **Difficulty:** VERY HARD | **Status:** OPEN
+
+**Problem:** Code generator emits the same expression twice with different variable names.
+
+**Example:**
+```java
+// First statement - correct variable names
+f draggable = this.mAdapter.O0(getFlexibleAdapterPosition());
+
+// Second statement - phantom variable names
+int i2 = mAdapter2.O0(flexibleAdapterPosition) != null && draggable.isDraggable();
+```
+
+**Root Cause:** The region builder creates a structure where:
+- Block 0's prelude is correctly emitted
+- Block 3's PHI processing somehow generates a duplicate statement
+- The condition expression is assigned to a variable instead of being used in a return
+
+**Investigation Needed:**
+1. How region structure is built for short-circuit AND patterns
+2. How `detect_return_ternary_pattern` interacts with compound conditions
+3. Why PHI node processing generates assignment statements
+
+**Likely Location:** `body_gen.rs` - region processing, ternary detection, or PHI handling
+
+---
+
+### P0-CTOR01: Wrong Constructor Chaining
+
+**Severity:** P0 | **Difficulty:** MEDIUM | **Status:** OPEN
+**Files:** `NanoHTTPD.java` (medium APK)
+
+**Dexterity (broken):**
+```java
+public Cookie(String str, String str2) {
+    super(str, str2, 30);  // WRONG - calls superclass
+}
+```
+
+**Expected:**
+```java
+public Cookie(String str, String str2) {
+    this(str, str2, 30);  // Correct - chains to 3-arg constructor
+}
+```
+
+**Root Cause:** Constructor invoke target detection choosing superclass constructor when it should be same-class constructor.
+
+**Likely Location:** `body_gen.rs` - `InvokeKind::Direct` handling for constructors
+
+---
+
+## Previous Accomplishments (Dec 22, 2025)
 
 ### SSA System Clone - P0-CFG03 Fix Foundation
 Completed all 5 phases of cloning JADX's SSA system:
@@ -46,7 +380,7 @@ Completed all 5 phases of cloning JADX's SSA system:
 |----|-------|------------|---------|----------|
 | ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | body_gen.rs |
 | ~~P1-CFG06~~ | ~~Missing if-else branch bodies~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | region_builder.rs |
-| **P1-CFG07** | Switch case bodies with undefined variables | **HARD** | NOT FIXED (see net/time4j/f.java) | var_naming.rs |
+| **P1-CFG07** | Switch case bodies with undefined variables | **VERY HARD** | PARTIALLY FIXED (Dec 22-23) - Binary operands still undefined | body_gen.rs |
 | ~~P1-ENUM01~~ | ~~Enum reconstruction failures~~ | ~~MEDIUM~~ | **FIXED** Dec 22 | class_gen.rs |
 
 ---
@@ -304,31 +638,59 @@ if (d.a) {
 
 ---
 
-### P1-CFG07: Switch case bodies with undefined variables - FIXED (Dec 22, 2025)
+### P1-CFG07: Switch case bodies with undefined variables - PARTIALLY FIXED (Dec 22-23, 2025)
 
-**Severity:** HIGH | **Difficulty:** HARD | **Status:** ✅ FIXED
+**Severity:** HIGH | **Difficulty:** VERY HARD | **Status:** 🔄 PARTIALLY FIXED
 **Files:** `net/time4j/f.java`
 
 **JADX (correct):**
 ```java
-case 1: jE = e(g0Var, g0Var2) / 7; break;
-case 2: jE = e(g0Var, g0Var2); break;
+switch (i.a[this.a.ordinal()]) {
+    case 1: jE = e(g0Var, g0Var2) / 7; break;
+    case 2: jE = e(g0Var, g0Var2); break;
 ```
 
-**Dexterity (was broken):**
+**Dexterity (current):**
 ```java
-case 1: l4 /= i5; break;  // ERROR: l4, i5 undefined
-case 2: long l = f.j.e(obj2, obj); break;  // Partial
+switch (f.i.a[ordinal]) {  // ✅ Switch expression now correct
+    case 1: l = l5 / l2; break;  // ❌ Binary operands still undefined
+    case 2: l = f.j.e(obj2, obj); break;  // ✅ Direct invoke works!
 ```
 
-**Root Cause:** Compound assignment detection (`detect_increment_decrement`) was generating patterns like `l4 /= i5` even when the left operand used a fallback register name (`l4`, `r5`), which indicates the SSA variable wasn't properly named.
+**What's Fixed:**
+1. Switch expression now correctly shows `f.i.a[ordinal]` (was `i3` before)
+2. Simple invoke cases work (case 2, case 8)
+3. PHI sources no longer inflate use counts (prevents false `should_inline=false`)
 
-**Fix Applied (Dec 22, 2025):**
-1. Added `is_fallback_register_name()` helper to detect fallback names like `l0`, `r5`
-2. Modified `detect_increment_decrement()` to reject compound assignments when the left operand is a fallback name
-3. Modified commutative case handling to also reject fallback names
+**What's Still Broken:**
+- Binary expressions with Invoke and Const operands (case 1, 3, 4, 5, 6, 7)
+- Shows `l5 / l2` instead of `e(g0Var, g0Var2) / 7`
+
+**Root Cause Analysis:**
+The issue is complex and involves multiple interacting systems:
+1. **Use count inflation:** Variables used in multiple switch cases appear to have `use_count > 1`
+2. **Prelude consumption:** `process_block_prelude_for_inlining` was consuming inline expressions
+3. **Block structure:** Invoke/Const may be in different blocks than the Binary that uses them
+
+**Fixes Applied (Dec 22-23, 2025):**
+1. **PHI source skipping** - `count_uses_in_insn` now skips `InsnType::Phi` to prevent use count inflation
+2. **Non-consuming prelude** - Added `gen_arg_inline_peek()` for prelude processing (clone instead of take)
+3. **Unconditional storing** - Const and ConstString now stored unconditionally in prelude (like Invoke)
+4. **Invoke should_inline check** - `generate_insn` for Invoke now checks `should_inline` before emitting
+5. **Updated prelude calls** - All `gen_arg_inline` calls in prelude changed to `gen_arg_inline_peek`
 
 **Files Changed:** `body_gen.rs`
+
+**Remaining Work:**
+The fundamental issue is that switch case Binary expressions can't find their inline operands. Possible causes:
+1. Invoke/Const are in a predecessor block not processed by `process_region_for_inlining`
+2. Use counts are computed globally (across all switch cases) inflating single-case variables
+3. SSA version tracking loses connection between definition and use sites
+
+**Investigation Notes:**
+- Direct Invoke assignments work (case 2, 8) - proves Invoke inlining works for simple cases
+- Binary with operands fails - suggests the operand lookup in `gen_arg_inline` fails
+- All variables share same divisor name (`l2`) - indicates possible SSA version confusion
 
 ---
 

@@ -347,11 +347,21 @@ impl BodyGenContext {
         }
         // Check instruction use count (excludes PHI sources) - only inline if used exactly once
         // PHI sources don't appear in Java output, so they shouldn't prevent inlining
-        self.insn_use_counts.get(&(reg, version)).copied().unwrap_or(0) == 1
+        let use_count = self.insn_use_counts.get(&(reg, version)).copied().unwrap_or(0);
+        let result = use_count == 1;
+        // DEBUG: Trace should_inline decisions
+        if std::env::var("DEBUG_INLINE").is_ok() && !result {
+            eprintln!("[SKIP] r{}v{} use_count={} (not 1)", reg, version, use_count);
+        }
+        result
     }
 
     /// Store an expression for potential inlining
     pub fn store_inline_expr(&mut self, reg: u16, version: u32, expr: String) {
+        // DEBUG: Trace inline expression storage
+        if std::env::var("DEBUG_INLINE").is_ok() {
+            eprintln!("[STORE] r{}v{} = {}", reg, version, expr);
+        }
         tracing::debug!(
             reg = reg,
             version = version,
@@ -375,6 +385,14 @@ impl BodyGenContext {
     /// Get inlined expression if available, removing it from storage
     pub fn take_inline_expr(&mut self, reg: u16, version: u32) -> Option<String> {
         let result = self.inlined_exprs.remove(&(reg, version));
+        // DEBUG: Trace inline expression retrieval
+        if std::env::var("DEBUG_INLINE").is_ok() {
+            if let Some(ref expr) = result {
+                eprintln!("[TAKE] r{}v{} -> {}", reg, version, expr);
+            } else {
+                eprintln!("[MISS] r{}v{} - no inline expr found", reg, version);
+            }
+        }
         if result.is_some() {
             tracing::debug!(
                 reg = reg,
@@ -389,6 +407,21 @@ impl BodyGenContext {
     /// Peek at inlined expression without removing it (for checking if it's a constant)
     pub fn peek_inline_expr(&self, reg: u16, version: u32) -> Option<&String> {
         self.inlined_exprs.get(&(reg, version))
+    }
+
+    /// Generate argument expression by peeking at (not consuming) inlined expressions.
+    /// Used in process_block_prelude_for_inlining to avoid consuming expressions before
+    /// actual code generation. This fixes P1-CFG07 where Binary instructions in prelude
+    /// would consume Const/Invoke expressions, making them unavailable for generation.
+    pub fn gen_arg_inline_peek(&self, arg: &InsnArg) -> String {
+        if let InsnArg::Register(reg) = arg {
+            // Check if we have an inlined expression for this register (peek, don't consume)
+            if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                return expr.clone();
+            }
+        }
+        // Fall back to normal expression generation
+        self.expr_gen.gen_arg(arg)
     }
 
     /// Get constant integer value from an argument, checking both literals and inlined expressions
@@ -992,10 +1025,14 @@ fn count_uses_in_insn(insn: &InsnType, counts: &mut HashMap<(u16, u32), usize>) 
             count_arg(else_value);
         }
         InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } => count_arg(value),
-        InsnType::Phi { sources, .. } => {
-            for (_, arg) in sources {
-                count_arg(arg);
-            }
+        // P1-CFG07 FIX: Do NOT count PHI sources as uses.
+        // PHI nodes don't appear in Java output - they represent merge points.
+        // Counting PHI sources inflates use counts and prevents inlining of
+        // single-use variables in switch cases (each case's value becomes a PHI source).
+        // Example: `l2 = e(...) / 7` in case 1 feeds into PHI at merge -> use_count=2
+        // Without this fix, constants and method results show as undefined variables.
+        InsnType::Phi { .. } => {
+            // Skip - PHI sources should not count toward instruction use counts
         }
         // Instructions that don't use registers as sources
         InsnType::Nop | InsnType::Return { value: None } | InsnType::Const { .. }
@@ -2145,6 +2182,7 @@ fn generate_body_impl<W: CodeWriter>(
             Some(&field_lookup),
             method.debug_info.as_ref(),
             None, // No inner class names in this context (use generate_body_with_inner_classes for full support)
+            Some(&method.name), // For SSA debug output
         )
     } else {
         dexterity_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
@@ -2488,6 +2526,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
             Some(&field_lookup),
             method.debug_info.as_ref(),
             if inner_class_short_names.is_empty() { None } else { Some(&inner_class_short_names) },
+            Some(&method.name), // For SSA debug output
         )
     } else {
         dexterity_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
@@ -5232,7 +5271,18 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             // Check for two-switch pattern (switch-over-string merge)
             let two_switch_info = detect_two_switch_in_sequence(contents, ctx);
 
+            // P0-REACH01 FIX: Track when sequence has exited to skip unreachable content
+            let mut sequence_exited = false;
+
             for (idx, content) in contents.iter().enumerate() {
+                // P0-REACH01 FIX: Skip all content after an exit instruction
+                // This prevents unreachable code like:
+                //   return null;
+                //   Object t2 = this.cache.put(t, y);  // Unreachable!
+                if sequence_exited {
+                    continue;
+                }
+
                 if let Some((first_idx, ref info)) = two_switch_info {
                     // Skip the first switch entirely (it's the hashCode switch)
                     if idx == first_idx {
@@ -5245,6 +5295,11 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                     }
                 }
                 generate_content(content, ctx, code);
+
+                // P0-REACH01 FIX: Check if this content ended with an exit
+                if content_ends_with_exit(content, ctx) {
+                    sequence_exited = true;
+                }
             }
         }
 
@@ -6166,8 +6221,9 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
         }
 
         // Check if we just emitted an exit instruction
-        // Note: Return { value: None } at last_idx was already skipped above
-        if matches!(&insn.insn_type, InsnType::Return { value: Some(_) } | InsnType::Throw { .. }) {
+        // Note: Return { value: None } at last_idx at region_depth==1 was already skipped above,
+        // but void returns in nested regions ARE exit points
+        if matches!(&insn.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }) {
             emitted_exit = true;
         }
     }
@@ -6415,40 +6471,43 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
         // Process assignment instructions to store inline expressions
         match &insn.insn_type {
             InsnType::Const { dest, value } => {
-                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    // Use inferred type to properly format literals (e.g., long bits as double)
-                    let expr = if let Some(ref ti) = ctx.type_info {
-                        if let Some(inferred_type) = ti.types.get(&(dest.reg_num, dest.ssa_version)) {
-                            match value {
-                                LiteralArg::Int(v) => crate::type_gen::literal_to_string(*v, inferred_type),
-                                _ => ctx.expr_gen.gen_literal(value),
-                            }
-                        } else {
-                            ctx.expr_gen.gen_literal(value)
+                // P1-CFG07 FIX: Store Const expressions unconditionally, like Invoke.
+                // In switch case blocks, use_count may be inflated (e.g., same constant
+                // pattern in multiple cases), but we still want inlining for readability:
+                // `l2 = e(a, b) / 7` instead of `int l3 = 7; l2 = l6 / l3;`
+                // Use inferred type to properly format literals (e.g., long bits as double)
+                let expr = if let Some(ref ti) = ctx.type_info {
+                    if let Some(inferred_type) = ti.types.get(&(dest.reg_num, dest.ssa_version)) {
+                        match value {
+                            LiteralArg::Int(v) => crate::type_gen::literal_to_string(*v, inferred_type),
+                            _ => ctx.expr_gen.gen_literal(value),
                         }
                     } else {
                         ctx.expr_gen.gen_literal(value)
-                    };
-                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
-                }
+                    }
+                } else {
+                    ctx.expr_gen.gen_literal(value)
+                };
+                ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
             }
             InsnType::ConstString { dest, string_idx } => {
-                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let expr = ctx.expr_gen.get_string_value(*string_idx)
-                        .map(|s| format!("\"{}\"", s.replace('\\', "\\\\").replace('"', "\\\"")))
-                        .unwrap_or_else(|| format!("string#{}", string_idx));
-                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
-                }
+                // P1-CFG07 FIX: Store ConstString unconditionally, like Invoke and Const
+                let expr = ctx.expr_gen.get_string_value(*string_idx)
+                    .map(|s| format!("\"{}\"", s.replace('\\', "\\\\").replace('"', "\\\"")))
+                    .unwrap_or_else(|| format!("string#{}", string_idx));
+                ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
             }
             InsnType::Move { dest, src } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let expr = ctx.gen_arg_inline(src);
+                    // P1-CFG07 FIX: Use peek to avoid consuming expressions before generation
+                    let expr = ctx.gen_arg_inline_peek(src);
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
                 }
             }
             InsnType::InstanceGet { dest, object, field_idx } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let obj_str = ctx.gen_arg_inline(object);
+                    // P1-CFG07 FIX: Use peek to avoid consuming expressions before generation
+                    let obj_str = ctx.gen_arg_inline_peek(object);
                     let field_name = ctx.expr_gen.get_field_value(*field_idx)
                         .map(|f| f.field_name.to_string())
                         .unwrap_or_else(|| format!("field#{}", field_idx));
@@ -6466,8 +6525,9 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
             }
             InsnType::Binary { dest, op, left, right, .. } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let left_str = ctx.gen_arg_inline(left);
-                    let right_str = ctx.gen_arg_inline(right);
+                    // P1-CFG07 FIX: Use peek to avoid consuming expressions before generation
+                    let left_str = ctx.gen_arg_inline_peek(left);
+                    let right_str = ctx.gen_arg_inline_peek(right);
                     let op_str = binary_op_to_string(op);
                     let expr = format!("{} {} {}", left_str, op_str, right_str);
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
@@ -6475,7 +6535,8 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
             }
             InsnType::Unary { dest, op, arg } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let arg_str = ctx.gen_arg_inline(arg);
+                    // P1-CFG07 FIX: Use peek to avoid consuming expressions before generation
+                    let arg_str = ctx.gen_arg_inline_peek(arg);
                     let op_str = unary_op_to_string(op);
                     let expr = format!("{}{}", op_str, arg_str);
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
@@ -6483,7 +6544,8 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
             }
             InsnType::Cast { dest, cast_type, arg } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let arg_str = ctx.gen_arg_inline(arg);
+                    // P1-CFG07 FIX: Use peek to avoid consuming expressions before generation
+                    let arg_str = ctx.gen_arg_inline_peek(arg);
                     let type_str = cast_type_to_string(cast_type);
                     let expr = format!("({}){}", type_str, arg_str);
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
@@ -6491,23 +6553,26 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
             }
             InsnType::Compare { dest, left, right, .. } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let left_str = ctx.gen_arg_inline(left);
-                    let right_str = ctx.gen_arg_inline(right);
+                    // P1-CFG07 FIX: Use peek to avoid consuming expressions before generation
+                    let left_str = ctx.gen_arg_inline_peek(left);
+                    let right_str = ctx.gen_arg_inline_peek(right);
                     let expr = format!("Long.compare({}, {})", left_str, right_str);
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
                 }
             }
             InsnType::ArrayGet { dest, array, index, elem_type: _ } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let arr_str = ctx.gen_arg_inline(array);
-                    let idx_str = ctx.gen_arg_inline(index);
+                    // P1-CFG07 FIX: Use peek to avoid consuming expressions before generation
+                    let arr_str = ctx.gen_arg_inline_peek(array);
+                    let idx_str = ctx.gen_arg_inline_peek(index);
                     let expr = format!("{}[{}]", arr_str, idx_str);
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
                 }
             }
             InsnType::ArrayLength { dest, array } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    let arr_str = ctx.gen_arg_inline(array);
+                    // P1-CFG07 FIX: Use peek to avoid consuming expressions before generation
+                    let arr_str = ctx.gen_arg_inline_peek(array);
                     let expr = format!("{}.length", arr_str);
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
                 }
@@ -6873,6 +6938,31 @@ fn cast_type_to_string(cast_type: &CastType) -> &'static str {
         CastType::DoubleToInt => "int",
         CastType::DoubleToLong => "long",
         CastType::DoubleToFloat => "float",
+    }
+}
+
+/// P0-REACH01 FIX: Check if a RegionContent ends with an exit instruction (return, throw)
+/// Used to skip unreachable content in sequences after an exit.
+fn content_ends_with_exit(content: &RegionContent, ctx: &BodyGenContext) -> bool {
+    match content {
+        RegionContent::Block(block_id) => {
+            if let Some(block) = ctx.blocks.get(block_id) {
+                // Check if the block's last meaningful instruction is an exit
+                for insn in block.instructions.iter().rev() {
+                    // Skip control flow instructions
+                    if is_control_flow(&insn.insn_type) {
+                        continue;
+                    }
+                    // Check for exit instructions
+                    return matches!(
+                        insn.insn_type,
+                        InsnType::Return { .. } | InsnType::Throw { .. }
+                    );
+                }
+            }
+            false
+        }
+        RegionContent::Region(region) => case_ends_with_exit(region, ctx),
     }
 }
 
@@ -8082,18 +8172,30 @@ fn generate_insn<W: CodeWriter>(
                 LiteralArg::Null => None, // null can be any object type
             });
 
-            // DEAD CODE ELIMINATION: For boolean constants (0/1), always inline them
-            // This prevents unused declarations like `final int i = 1;` when all uses
-            // get converted to `true` in boolean contexts (method args, returns)
-            // Store as "0" or "1" - write_arg_inline_typed will convert to false/true
-            // based on target type context
-            if let LiteralArg::Int(v) = value {
-                if *v == 0 || *v == 1 {
-                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, v.to_string());
-                    return true;
-                }
+            // P1-CFG07 FIX: Check should_inline for ALL const values, not just 0/1
+            // This ensures constants like 7, 12000 are inlined when single-use,
+            // producing `e(a, b) / 7` instead of `int l3 = 7; l2 = l6 / l3;`
+            let reg = dest.reg_num;
+            let version = dest.ssa_version;
+
+            // DEBUG: Trace generate_insn const processing
+            if std::env::var("DEBUG_INLINE").is_ok() {
+                eprintln!("[GEN-CONST] r{}v{} value={:?} should_inline={}",
+                    reg, version, value, ctx.should_inline(reg, version));
             }
 
+            if ctx.should_inline(reg, version) {
+                // Generate literal using type-aware function for proper boolean/char handling
+                let val_str = if let (Some(ref ty), LiteralArg::Int(v)) = (&type_hint, value) {
+                    literal_to_string(*v, ty)
+                } else {
+                    ctx.expr_gen.gen_literal(value)
+                };
+                ctx.store_inline_expr(reg, version, val_str);
+                return true;
+            }
+
+            // Multi-use constant - emit normal assignment
             // Generate literal using type-aware function for proper boolean/char handling
             let val_str = if let (Some(ref ty), LiteralArg::Int(v)) = (&type_hint, value) {
                 literal_to_string(*v, ty)
@@ -8502,7 +8604,18 @@ fn generate_insn<W: CodeWriter>(
             // When dest is Some, we need to emit: var = method();
             // When dest is None, we just emit: method();
             if let Some(d) = dest {
-                // Emit as assignment: var = invoke(...)
+                // P1-CFG07 FIX: Check should_inline for Invoke results
+                // If single-use, store expression for inlining instead of emitting assignment.
+                // This enables patterns like `l2 = e(a, b) / 7` instead of:
+                //   l6 = e(a, b);
+                //   l2 = l6 / 7;
+                if ctx.should_inline(d.reg_num, d.ssa_version) {
+                    if let Some(expr) = ctx.gen_invoke_expr(*kind, *method_idx, args, proto_idx.unwrap_or(0)) {
+                        ctx.store_inline_expr(d.reg_num, d.ssa_version, expr);
+                        return true; // Stored for inlining, don't emit
+                    }
+                }
+                // Multi-use or no expression - emit as assignment: var = invoke(...)
                 let expr = gen_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx);
                 emit_assignment(d, &expr, ctx, code);
             } else {
@@ -8927,6 +9040,36 @@ fn add_default_return<W: CodeWriter>(return_type: &ArgType, code: &mut W) {
     }
 }
 
+/// Java reserved keywords that cannot be used as identifiers
+const JAVA_RESERVED_WORDS: &[&str] = &[
+    "abstract", "assert", "boolean", "break", "byte", "case", "catch",
+    "char", "class", "const", "continue", "default", "do", "double",
+    "else", "enum", "extends", "false", "final", "finally", "float",
+    "for", "goto", "if", "implements", "import", "instanceof", "int",
+    "interface", "long", "native", "new", "null", "package", "private",
+    "protected", "public", "return", "short", "static", "strictfp",
+    "super", "switch", "synchronized", "this", "throw", "throws",
+    "transient", "true", "try", "void", "volatile", "while", "_",
+];
+
+/// Escape Java reserved words to valid identifier names (P0-KEYWORD01 fix)
+/// Uses JADX-compatible escape patterns:
+/// - `class` → `clazz` (standard Java convention)
+/// - Other reserved words get underscore suffix (e.g., `new` → `new_`)
+fn escape_reserved_word(name: &str) -> String {
+    if !JAVA_RESERVED_WORDS.contains(&name) {
+        return name.to_string();
+    }
+
+    // JADX convention: class -> clazz
+    if name == "class" {
+        return "clazz".to_string();
+    }
+
+    // For other reserved words, add underscore suffix
+    format!("{}_", name)
+}
+
 /// Generate base parameter name from type (with "Var" suffix for short class names)
 /// This matches JADX's ApplyVariableNames.fromName() logic
 fn generate_base_param_name(ty: &ArgType) -> String {
@@ -8999,16 +9142,36 @@ fn generate_base_param_name(ty: &ArgType) -> String {
         ArgType::Char => "c".to_string(),
         ArgType::Short => "s".to_string(),
         ArgType::Generic { base, .. } => {
+            // P0-KEYWORD01: Apply same type-based mappings as Object case
+            // e.g., Class<T> should become "cls" not "class"
+            if base.contains("Class") && !base.contains("ClassLoader") {
+                return "cls".to_string();
+            }
+            if base.contains("StringBuilder") || base.contains("StringBuffer") {
+                return "sb".to_string();
+            }
+            if base.contains("String") {
+                return "str".to_string();
+            }
+            if base.contains("Exception") {
+                return "exc".to_string();
+            }
+            if base.contains("Throwable") || base.contains("Error") {
+                return "th".to_string();
+            }
+
             let simple = base.rsplit('/').next().unwrap_or(base);
             let simple = simple.rsplit('$').next().unwrap_or(simple);
             let mut chars = simple.chars();
             match chars.next() {
                 Some(c) => {
-                    let base: String = c.to_lowercase().chain(chars).collect();
-                    if base.len() < 3 {
-                        format!("{}Var", base)
+                    let base_name: String = c.to_lowercase().chain(chars).collect();
+                    // P0-KEYWORD01: Escape reserved words
+                    let escaped = escape_reserved_word(&base_name);
+                    if escaped.len() < 3 && !escaped.ends_with('_') {
+                        format!("{}Var", escaped)
                     } else {
-                        base
+                        escaped
                     }
                 }
                 None => "obj".to_string(),
@@ -9034,9 +9197,11 @@ fn generate_param_names(arg_types: &[ArgType], arg_names: &[Option<String>]) -> 
     use std::collections::HashSet;
 
     // First, generate base names for all parameters
+    // P0-KEYWORD01 fix: Escape reserved words from debug info (e.g., "class" -> "clazz")
     let base_names: Vec<String> = arg_types.iter().enumerate().map(|(i, ty)| {
         arg_names.get(i)
             .and_then(|n| n.clone())
+            .map(|n| escape_reserved_word(&n))
             .unwrap_or_else(|| generate_base_param_name(ty))
     }).collect();
 
@@ -9892,5 +10057,29 @@ mod tests {
         assert_eq!(elements.len(), 2);
         assert_eq!(elements[0], r#""say \"hello\"""#);
         assert_eq!(elements[1], r#""test""#);
+    }
+
+    // P0-KEYWORD01: Reserved word escaping tests
+    #[test]
+    fn test_escape_reserved_word() {
+        // 'class' should become 'clazz' (standard Java convention)
+        assert_eq!(escape_reserved_word("class"), "clazz");
+
+        // Other reserved words should get underscore suffix
+        assert_eq!(escape_reserved_word("new"), "new_");
+        assert_eq!(escape_reserved_word("int"), "int_");
+        assert_eq!(escape_reserved_word("void"), "void_");
+        assert_eq!(escape_reserved_word("return"), "return_");
+        assert_eq!(escape_reserved_word("this"), "this_");
+        assert_eq!(escape_reserved_word("super"), "super_");
+        assert_eq!(escape_reserved_word("null"), "null_");
+        assert_eq!(escape_reserved_word("true"), "true_");
+        assert_eq!(escape_reserved_word("false"), "false_");
+
+        // Non-reserved words should pass through unchanged
+        assert_eq!(escape_reserved_word("myVar"), "myVar");
+        assert_eq!(escape_reserved_word("className"), "className");
+        assert_eq!(escape_reserved_word("str"), "str");
+        assert_eq!(escape_reserved_word("clazz"), "clazz"); // already escaped
     }
 }
