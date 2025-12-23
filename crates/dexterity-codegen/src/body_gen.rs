@@ -9565,24 +9565,103 @@ fn generate_insn<W: CodeWriter>(
             code.add(";").newline();
             true
         }
-        InsnType::Constructor { dest, type_idx, method_idx, args, generic_types } => {
+        InsnType::Constructor { dest, type_idx, method_idx, args, generic_info } => {
             // Constructor: dest = new Type<T>(args)
+            // Clone of JADX InsnGen.makeConstructor with diamond operator support
+            // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:765-780
             let reg = dest.reg_num;
             let version = dest.ssa_version;
 
             // Get type name from type_idx
-            let type_name = ctx.expr_gen.get_type_value(*type_idx)
+            let full_type_name = ctx.expr_gen.get_type_value(*type_idx)
                 .unwrap_or_else(|| format!("UnknownType{}", type_idx));
 
-            // Build generic type suffix if present (JADX GenericTypesVisitor parity)
-            let generic_suffix = if let Some(generics) = generic_types {
-                if !generics.is_empty() {
-                    let types: Vec<_> = generics.iter()
+            /// Clone of JADX InsnGen.addOuterClassInstance()
+            /// Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:785-804
+            ///
+            /// For inner class constructors with an outer class instance argument:
+            /// - Instead of: `new Outer$Inner(outer, args...)`
+            /// - Generate:   `outer.new Inner(args...)`
+            ///
+            /// This pattern applies when:
+            /// 1. The class is an inner class (name contains '$')
+            /// 2. First argument is the outer class instance (not 'this')
+            /// 3. The first argument's type matches the outer class
+            let (type_name, outer_prefix, skip_first_arg) = if full_type_name.contains('$') {
+                // Inner class - check if first arg is outer instance
+                if let Some(first_arg) = args.first() {
+                    let first_arg_str = ctx.gen_arg_inline(first_arg);
+                    // Skip if first arg is 'this' - no prefix needed
+                    if first_arg_str != "this" {
+                        // Extract outer class name and inner class short name
+                        // e.g., "Outer$Inner" -> outer="Outer", inner="Inner"
+                        if let Some(dollar_pos) = full_type_name.rfind('$') {
+                            let _outer_class = &full_type_name[..dollar_pos]; // Used for type matching in JADX
+                            let inner_short = &full_type_name[dollar_pos + 1..];
+
+                            // Check if first arg type matches outer class
+                            // This is a heuristic - we check if the arg could be the outer instance
+                            // In JADX, they check if arg.getType().equals(ctrCls.getDeclaringClass().getType())
+                            // We'll use a simpler heuristic based on naming
+                            let use_prefix = !first_arg_str.starts_with("new ");
+
+                            if use_prefix {
+                                (inner_short.to_string(), Some(format!("{}.", first_arg_str)), true)
+                            } else {
+                                (full_type_name.clone(), None, false)
+                            }
+                        } else {
+                            (full_type_name.clone(), None, false)
+                        }
+                    } else {
+                        // First arg is 'this' - use short name but no prefix
+                        if let Some(dollar_pos) = full_type_name.rfind('$') {
+                            let inner_short = &full_type_name[dollar_pos + 1..];
+                            (inner_short.to_string(), None, true)
+                        } else {
+                            (full_type_name.clone(), None, false)
+                        }
+                    }
+                } else {
+                    (full_type_name.clone(), None, false)
+                }
+            } else {
+                (full_type_name.clone(), None, false)
+            };
+
+            /// Clone of JADX InsnGen.java:765-780 diamond operator generation
+            ///
+            /// When GenericInfoAttr.isExplicit() is true:  `new ArrayList<String>()`
+            /// When GenericInfoAttr.isExplicit() is false: `new ArrayList<>()`
+            ///
+            /// JADX Reference: InsnGen.java:765-780
+            /// ```java
+            /// GenericInfoAttr genericInfoAttr = insn.get(AType.GENERIC_INFO);
+            /// if (genericInfoAttr != null) {
+            ///     code.add('<');
+            ///     if (genericInfoAttr.isExplicit()) {
+            ///         boolean first = true;
+            ///         for (ArgType type : genericInfoAttr.getGenericTypes()) {
+            ///             if (!first) { code.add(','); }
+            ///             else { first = false; }
+            ///             mgen.getClassGen().useType(code, type);
+            ///         }
+            ///     }
+            ///     code.add('>');
+            /// }
+            /// ```
+            let generic_suffix = if let Some(info) = generic_info {
+                if info.is_empty() {
+                    String::new()
+                } else if info.is_explicit {
+                    // Explicit types: <String, Integer>
+                    let types: Vec<_> = info.generic_types.iter()
                         .map(|gt| type_to_string_with_imports_and_package(gt, ctx.imports.as_ref(), ctx.current_package.as_deref()))
                         .collect();
                     format!("<{}>", types.join(", "))
                 } else {
-                    String::new()
+                    // Diamond operator: <>
+                    "<>".to_string()
                 }
             } else {
                 String::new()
@@ -9594,9 +9673,17 @@ fn generate_insn<W: CodeWriter>(
                 .unwrap_or_default();
 
             // Build args string with inlining support
-            let args_str: Vec<_> = args.iter().enumerate()
+            // Clone of JADX InsnGen.java:785-804: Skip first arg if it's the outer class instance
+            let args_to_use = if skip_first_arg && !args.is_empty() {
+                &args[1..]
+            } else {
+                &args[..]
+            };
+            let param_offset = if skip_first_arg { 1 } else { 0 };
+
+            let args_str: Vec<_> = args_to_use.iter().enumerate()
                 .map(|(i, arg)| {
-                    if let Some(param_type) = param_types.get(i) {
+                    if let Some(param_type) = param_types.get(i + param_offset) {
                         ctx.gen_arg_inline_typed(arg, param_type)
                     } else {
                         ctx.gen_arg_inline(arg)
@@ -9605,7 +9692,14 @@ fn generate_insn<W: CodeWriter>(
                 .collect();
 
             // Build the constructor expression
-            let ctor_expr = format!("new {}{}{}{}", type_name, generic_suffix, "(", args_str.join(", ") + ")");
+            // Clone of JADX InsnGen.java:785-804: Use outer.new Inner() syntax for inner classes
+            let ctor_expr = if let Some(prefix) = &outer_prefix {
+                // outer.new Inner(args...)
+                format!("{}new {}{}{}{}", prefix, type_name, generic_suffix, "(", args_str.join(", ") + ")")
+            } else {
+                // new Type(args...)
+                format!("new {}{}{}{}", type_name, generic_suffix, "(", args_str.join(", ") + ")")
+            };
 
             // Check if result should be inlined (single-use variable)
             if ctx.should_inline(reg, version) {
@@ -9632,7 +9726,8 @@ fn generate_insn<W: CodeWriter>(
                     code.add(&type_str).add(" ");
                 } else {
                     // Use the constructed type as the declaration type
-                    code.add(&type_name).add(&generic_suffix).add(" ");
+                    // Note: Use full_type_name for declarations, not the shortened inner class name
+                    code.add(&full_type_name).add(&generic_suffix).add(" ");
                 }
                 ctx.mark_declared(reg, version);
                 ctx.mark_name_declared(&var_name, &ArgType::Unknown);

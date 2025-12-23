@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  # Main Dexterity service for decompiling APKs
+  dexterity:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: dexterity:latest
+    container_name: dexterity
+    volumes:
+      # Mount local directories for input/output
+      - ./apks:/workspace/apks:ro          # Read-only input APKs
+      - ./output:/output:rw                 # Read-write output directory
+    environment:
+      - RUST_LOG=info                       # Logging level (debug, info, warn, error)
+      - RUST_BACKTRACE=1                    # Enable backtraces for debugging
+    # Override default command to process APKs
+    # Example: Decompile all APKs in /workspace/apks to /output
+    command: >
+      --help
+    # Uncomment below for actual decompilation:
+    # command: >
+    #   --input /workspace/apks
+    #   --output /output
+    #   --threads 8
+    #   --deobfuscate
+    user: "1000:1000"                       # Run as user dexterity (UID:GID)
+    restart: "no"                           # Don't restart automatically
+    deploy:
+      resources:
+        limits:
+          cpus: '8'                         # Limit to 8 CPUs
+          memory: 16G                       # Limit to 16GB RAM
+        reservations:
+          cpus: '4'                         # Reserve 4 CPUs
+          memory: 8G                        # Reserve 8GB RAM
+
+  # Builder service - for development/debugging
+  dexterity-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    image: dexterity:builder
+    container_name: dexterity-builder
+    volumes:
+      - ./crates:/build/crates
+      - builder-target:/build/crates/target  # Persist build cache
+    command: cargo build --release --package dexterity-cli
+    profiles:
+      - dev                                 # Only start with --profile dev
+
+  # Batch processing service - for parallel APK processing
+  dexterity-batch:
+    image: dexterity:latest
+    volumes:
+      - ./apks:/workspace/apks:ro
+      - ./output:/output:rw
+    environment:
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+    # Process APKs in parallel using multiple container instances
+    command: >
+      --input /workspace/apks
+      --output /output
+      --threads 16
+      --deobfuscate
+    user: "1000:1000"
+    restart: "no"
+    deploy:
+      mode: replicated
+      replicas: 4                           # Run 4 parallel instances
+      resources:
+        limits:
+          cpus: '16'
+          memory: 32G
+    profiles:
+      - batch                               # Only start with --profile batch
+
+volumes:
+  builder-target:                           # Named volume for build cache
+    driver: local
+
+# Usage Examples:
+# ================
+#
+# 1. Build the image:
+#    docker-compose build
+#
+# 2. Run single decompilation (show help):
+#    docker-compose up dexterity
+#
+# 3. Run single APK decompilation:
+#    docker-compose run --rm dexterity \
+#      --input /workspace/apks/app.apk \
+#      --output /output \
+#      --threads 8
+#
+# 4. Run batch processing with 4 parallel workers:
+#    docker-compose --profile batch up dexterity-batch
+#
+# 5. Development build:
+#    docker-compose --profile dev up dexterity-builder
+#
+# 6. Clean up:
+#    docker-compose down -v

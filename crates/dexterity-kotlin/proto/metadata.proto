@@ -17,6 +17,7 @@
 package org.jetbrains.kotlin.metadata;
 
 import "ext_options.proto";
+import "jvm_metadata.proto";
 
 // Changes to this proto are tracked by versions of proto files that include `import metadata.proto`.
 // Namely BuiltInsBinaryVersion, MetadataVersion, JsMetadataVersion, KlibMetadataVersion, and probably something else.
@@ -303,7 +304,9 @@ message Constructor {
 
   repeated Annotation annotation = 3;
 
-  extensions 100 to 18999;
+  // JVM extension fields (field numbers 100+)
+  // JADX Reference: JvmProtoBuf.constructorSignature - used for constructor matching
+  optional org.jetbrains.kotlin.metadata.jvm.JvmMethodSignature constructor_signature = 100;
 }
 
 message Function {
@@ -352,7 +355,11 @@ message Function {
   repeated Annotation annotation = 12;
   repeated Annotation extension_receiver_annotation = 34;
 
-  extensions 100 to 18999;
+  // JVM extension fields (field numbers 100+)
+  // JADX Reference: KmExt.kt:8 - inline val KmFunction.shortId: String? get() = signature?.toString()
+  optional org.jetbrains.kotlin.metadata.jvm.JvmMethodSignature method_signature = 100;
+  // Lambda class origin name (for lambdas)
+  optional int32 lambda_class_origin_name = 101;
 }
 
 message Property {
@@ -420,7 +427,11 @@ message Property {
   optional Contract getterContract = 40;
   optional Contract setterContract = 41;
 
-  extensions 100 to 18999;
+  // JVM extension fields (field numbers 100+)
+  // JADX Reference: KmExt.kt:9 - inline val KmProperty.shortId: String? get() = fieldSignature?.toString()
+  optional org.jetbrains.kotlin.metadata.jvm.JvmPropertySignature property_signature = 100;
+  // JVM property flags (isMovedFromInterfaceCompanion, etc.)
+  optional int32 jvm_flags = 101;
 }
 
 message ValueParameter {

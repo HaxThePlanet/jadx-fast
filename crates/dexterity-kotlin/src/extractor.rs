@@ -6,6 +6,7 @@ use dexterity_ir::{ClassData, FieldData, KotlinClassInfo, TypeParameter};
 use dexterity_ir::instructions::InsnType;
 use crate::types::{KotlinClassMetadata, KotlinKind, KotlinProperty};
 use crate::tostring_parser::{self, TypeResolver};
+use crate::KotlinProcessingOptions;
 
 /// Apply Kotlin metadata names to IR class structure
 pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -> Result<()> {
@@ -25,6 +26,8 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
         // Only set alias if it differs from the DEX simple name
         if simple_name != cls.simple_name() {
             cls.alias = Some(simple_name.to_string());
+            // JADX Reference: RenameReasonAttr pattern
+            cls.add_rename_reason("from kotlin metadata");
         }
     }
 
@@ -95,6 +98,8 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
             // Set method alias if not already set
             if method.alias.is_none() {
                 method.alias = Some(kotlin_func.name.clone());
+                // JADX Reference: RenameReasonAttr pattern
+                method.add_rename_reason("from kotlin metadata");
             }
 
             // Set parameter names
@@ -166,6 +171,157 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
     Ok(())
 }
 
+/// Apply Kotlin metadata names to IR with options
+/// JADX Reference: KotlinMetadataDecompilePass.kt
+///
+/// This is the options-aware version of `apply_kotlin_names`.
+pub fn apply_kotlin_names_with_options(
+    cls: &mut ClassData,
+    metadata: &KotlinClassMetadata,
+    options: &KotlinProcessingOptions,
+) -> Result<()> {
+    // 1. Set class name alias - only for actual classes (kind=1), not file facades
+    // Controlled by options.class_alias
+    if options.class_alias && cls.alias.is_none() && matches!(metadata.kind, KotlinKind::Class) {
+        let simple_name = metadata.class_name
+            .rsplit('/')
+            .next()
+            .unwrap_or(&metadata.class_name);
+        let simple_name = simple_name
+            .rsplit('$')
+            .next()
+            .unwrap_or(simple_name);
+        if simple_name != cls.simple_name() {
+            cls.alias = Some(simple_name.to_string());
+            cls.add_rename_reason("from kotlin metadata");
+        }
+    }
+
+    // 2. Set Kotlin class info (data class, sealed class, etc.)
+    // Controlled by options.data_class
+    if options.data_class {
+        let kotlin_info = KotlinClassInfo {
+            is_data_class: metadata.is_data_class,
+            is_sealed: metadata.flags.is_sealed,
+            is_inline: metadata.flags.is_inline,
+            is_companion: metadata.flags.is_fun_interface,
+            companion_name: metadata.companion_object.clone(),
+            sealed_subclasses: metadata.sealed_subclasses.clone(),
+        };
+        cls.set_kotlin_class_info(kotlin_info);
+    }
+
+    // 2.5. Apply type parameters with variance and bounds from Kotlin metadata
+    // Always applied (affects type correctness)
+    if !metadata.type_parameters.is_empty() {
+        use crate::parser::parse_kotlin_type_name;
+        use dexterity_ir::ArgType;
+
+        let type_params: Vec<TypeParameter> = metadata.type_parameters.iter().map(|ktp| {
+            let bounds: Vec<ArgType> = ktp.upper_bounds.iter()
+                .map(|type_name| parse_kotlin_type_name(type_name))
+                .filter(|t| !matches!(t, ArgType::Object(s) if s == "java/lang/Object"))
+                .collect();
+
+            TypeParameter {
+                name: ktp.name.clone(),
+                bounds,
+                variance: ktp.variance.to_ir(),
+                reified: ktp.reified,
+            }
+        }).collect();
+
+        if !type_params.is_empty() {
+            for (i, ktp) in type_params.iter().enumerate() {
+                if i < cls.type_parameters.len() {
+                    if !ktp.bounds.is_empty() {
+                        cls.type_parameters[i].bounds = ktp.bounds.clone();
+                    }
+                    cls.type_parameters[i].variance = ktp.variance;
+                    cls.type_parameters[i].reified = ktp.reified;
+                } else {
+                    cls.type_parameters.push(ktp.clone());
+                }
+            }
+        }
+    }
+
+    // 3. Apply method names and parameter names
+    // Controlled by options.method_args
+    if options.method_args {
+        for kotlin_func in &metadata.functions {
+            if let Some(method) = find_method_by_signature(cls, kotlin_func) {
+                if method.alias.is_none() {
+                    method.alias = Some(kotlin_func.name.clone());
+                    method.add_rename_reason("from kotlin metadata");
+                }
+
+                // Set parameter names
+                for (param_idx, kotlin_param) in kotlin_func.parameters.iter().enumerate() {
+                    if param_idx < method.arg_names.len() && method.arg_names[param_idx].is_none() {
+                        method.arg_names[param_idx] = Some(kotlin_param.name.clone());
+                    }
+                }
+
+                // Apply Kotlin function modifiers to IR (always applied)
+                if kotlin_func.flags.is_suspend {
+                    method.is_suspend = true;
+                }
+                if kotlin_func.flags.is_inline {
+                    method.is_inline_function = true;
+                }
+                if kotlin_func.flags.is_infix {
+                    method.is_infix = true;
+                }
+                if kotlin_func.flags.is_operator {
+                    method.is_operator = true;
+                }
+                if kotlin_func.flags.is_tailrec {
+                    method.is_tailrec = true;
+                }
+
+                // Apply extension function receiver type
+                if let Some(ref receiver) = kotlin_func.receiver_type {
+                    use dexterity_ir::ArgType;
+                    let arg_type = if receiver.starts_with('[') {
+                        ArgType::Array(Box::new(ArgType::Object(receiver.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';').replace('/', ".").into())))
+                    } else if receiver.contains('/') || receiver.contains('.') {
+                        ArgType::Object(receiver.replace('/', ".").into())
+                    } else {
+                        ArgType::Object(receiver.clone().into())
+                    };
+                    method.receiver_type = Some(arg_type);
+                }
+            }
+        }
+    }
+
+    // 4. Apply property (field) names using improved matching
+    // Controlled by options.fields
+    if options.fields {
+        apply_property_names(cls, &metadata.properties);
+    }
+
+    // 5. Handle companion object if present
+    // Controlled by options.companion
+    if options.companion {
+        if let Some(companion_name) = &metadata.companion_object {
+            apply_companion_object_name(cls, companion_name);
+        }
+    }
+
+    // 6. Log data class detection
+    if metadata.is_data_class {
+        tracing::debug!("Class {} is a data class", cls.class_type);
+    }
+    if metadata.flags.is_sealed {
+        tracing::debug!("Class {} is a sealed class with {} subclasses",
+            cls.class_type, metadata.sealed_subclasses.len());
+    }
+
+    Ok(())
+}
+
 /// Apply property (field) names with improved matching logic
 fn apply_property_names(cls: &mut ClassData, properties: &[KotlinProperty]) {
     // Track which properties have been matched to avoid duplicates
@@ -178,6 +334,8 @@ fn apply_property_names(cls: &mut ClassData, properties: &[KotlinProperty]) {
         for (i, field) in cls.instance_fields.iter_mut().enumerate() {
             if !matched_instance[i] && field.alias.is_none() && field_matches(field, kotlin_prop) {
                 field.alias = Some(kotlin_prop.name.clone());
+                // JADX Reference: RenameReasonAttr pattern
+                field.add_rename_reason("from kotlin metadata");
                 matched_instance[i] = true;
                 found = true;
                 tracing::debug!(
@@ -193,6 +351,8 @@ fn apply_property_names(cls: &mut ClassData, properties: &[KotlinProperty]) {
             for (i, field) in cls.static_fields.iter_mut().enumerate() {
                 if !matched_static[i] && field.alias.is_none() && field_matches(field, kotlin_prop) {
                     field.alias = Some(kotlin_prop.name.clone());
+                    // JADX Reference: RenameReasonAttr pattern
+                    field.add_rename_reason("from kotlin metadata");
                     matched_static[i] = true;
                     tracing::debug!(
                         "Matched static field '{}' -> '{}'",
@@ -216,6 +376,8 @@ fn apply_companion_object_name(cls: &mut ClassData, companion_name: &str) {
         if field.name == "Companion" || field.name.ends_with("$Companion") {
             if field.alias.is_none() && companion_name != "Companion" {
                 field.alias = Some(companion_name.to_string());
+                // JADX Reference: RenameReasonAttr pattern
+                field.add_rename_reason("from kotlin metadata");
                 tracing::debug!(
                     "Set companion object alias: '{}' -> '{}'",
                     field.name, companion_name
@@ -451,6 +613,8 @@ pub fn apply_tostring_names(cls: &mut ClassData, dex: &DexReader) -> Result<()> 
                 class_alias, cls.class_type
             );
             cls.alias = Some(class_alias);
+            // JADX Reference: RenameReasonAttr pattern
+            cls.add_rename_reason("from toString");
         }
     }
 
@@ -466,6 +630,8 @@ pub fn apply_tostring_names(cls: &mut ClassData, dex: &DexReader) -> Result<()> 
             for field in &mut cls.instance_fields {
                 if field.name == field_name && field.alias.is_none() {
                     field.alias = Some(alias.clone());
+                    // JADX Reference: RenameReasonAttr pattern
+                    field.add_rename_reason("from toString");
                     tracing::debug!(
                         "toString() extracted field alias: '{}' -> '{}' in {}",
                         field_name, alias, cls.class_type
@@ -515,6 +681,8 @@ pub fn find_getters_jadx_style(cls: &mut ClassData) {
                         method.name, getter_alias, field_alias
                     );
                     method.alias = Some(getter_alias);
+                    // JADX Reference: RenameReasonAttr pattern
+                    method.add_rename_reason("from getter");
                 }
             }
         }
@@ -683,6 +851,8 @@ pub fn rename_companion_jadx_style(cls: &mut ClassData, metadata: &KotlinClassMe
         if field.name == *companion_name && field.alias.is_none() {
             // Standard Kotlin companion field name
             field.alias = Some("Companion".to_string());
+            // JADX Reference: RenameReasonAttr pattern
+            field.add_rename_reason("from kotlin metadata");
             tracing::debug!(
                 "JADX-style companion field rename: '{}' -> 'Companion'",
                 field.name
@@ -767,6 +937,8 @@ pub fn find_default_methods_jadx_style(cls: &mut ClassData) {
         if let Some(method) = cls.methods.get_mut(method_idx) {
             if method.alias.is_none() {
                 method.alias = Some(alias);
+                // JADX Reference: RenameReasonAttr pattern
+                method.add_rename_reason("from default method");
             }
         }
     }

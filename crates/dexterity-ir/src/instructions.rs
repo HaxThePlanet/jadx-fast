@@ -40,6 +40,14 @@ pub struct InsnNode {
     ///
     /// JADX Reference: SwitchInsn.java:19-26 (modifiedKeys, targetBlocks, defTargetBlock, def)
     pub extended_switch_info: Option<Box<ExtendedSwitchInfo>>,
+
+    /// Extended if info for block bindings (JADX: IfNode fields)
+    ///
+    /// Lazily initialized when if block methods are called.
+    /// Only valid for If instructions.
+    ///
+    /// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/IfNode.java:21-22
+    pub extended_if_info: Option<Box<ExtendedIfInfo>>,
 }
 
 impl InsnNode {
@@ -52,6 +60,7 @@ impl InsnNode {
             offset,
             flags: 0,
             extended_switch_info: None,
+            extended_if_info: None,
         }
     }
 
@@ -345,17 +354,50 @@ impl InsnNode {
         self.insn_type.get_dest().is_some()
     }
 
-    /// Deep equality check comparing all arguments (JADX: isDeepEquals)
+    /// Deep equality check including all arguments (JADX: isDeepEquals)
+    ///
+    /// Checks instruction type, result, and all arguments recursively.
+    /// This is a more thorough comparison than is_same().
+    ///
+    /// Copied from JADX: jadx-core/src/main/java/jadx/core/dex/nodes/InsnNode.java:397-407
+    /// ```java
+    /// public boolean isDeepEquals(InsnNode other) {
+    ///     if (this == other) {
+    ///         return true;
+    ///     }
+    ///     return isSame(other)
+    ///             && Objects.equals(result, other.result)
+    ///             && Objects.equals(arguments, other.arguments);
+    /// }
+    /// ```
     pub fn is_deep_equals(&self, other: &InsnNode) -> bool {
+        // Quick pointer check
+        if std::ptr::eq(self, other) {
+            return true;
+        }
+
+        // Check basic instruction sameness
         if !self.is_same(other) {
             return false;
         }
+
         // Compare result types
         if self.result_type != other.result_type {
             return false;
         }
-        // Compare arguments (need to implement proper InsnType comparison)
-        std::mem::discriminant(&self.insn_type) == std::mem::discriminant(&other.insn_type)
+
+        // Compare all arguments deeply
+        let self_args = self.insn_type.get_args();
+        let other_args = other.insn_type.get_args();
+
+        if self_args.len() != other_args.len() {
+            return false;
+        }
+
+        // Deep comparison of each argument
+        self_args.iter().zip(other_args.iter()).all(|(a, b)| {
+            args_deep_equal(a, b)
+        })
     }
 
     /// Copy common parameters to another instruction (JADX: copyCommonParams)
@@ -387,6 +429,7 @@ impl InsnNode {
             offset: 0,         // Will be set by copy_common_params
             flags: 0,          // Will be set by copy_common_params
             extended_switch_info: self.extended_switch_info.clone(),
+            extended_if_info: self.extended_if_info.clone(),
         };
         self.copy_common_params(&mut copy);
         copy
@@ -475,9 +518,9 @@ impl InsnNode {
     /// ```
     pub fn copy_with_result(&self, new_result: RegisterArg) -> InsnNode {
         let mut copy = self.copy();
-        // Set the result type
-        copy.result_type = Some(new_result.arg_type.clone());
         // Update the destination in the instruction type
+        // Note: result_type is preserved from the original copy
+        // RegisterArg doesn't contain type info, the type comes from the instruction
         if let Some(dest) = copy.insn_type.get_dest_mut() {
             *dest = new_result;
         }
@@ -643,6 +686,41 @@ impl InsnNode {
     /// ```
     pub fn remove_arg(&mut self, index: usize) -> Option<InsnArg> {
         self.insn_type.remove_arg(index)
+    }
+}
+
+/// Helper function for deep equality comparison of instruction arguments
+///
+/// Recursively compares arguments, handling wrapped instructions.
+fn args_deep_equal(a: &InsnArg, b: &InsnArg) -> bool {
+    match (a, b) {
+        (InsnArg::Register(r1), InsnArg::Register(r2)) => {
+            r1.reg_num == r2.reg_num && r1.ssa_version == r2.ssa_version
+        }
+        (InsnArg::Literal(l1), InsnArg::Literal(l2)) => {
+            // Compare literal values directly using discriminant + value
+            std::mem::discriminant(l1) == std::mem::discriminant(l2) && match (l1, l2) {
+                (LiteralArg::Int(v1), LiteralArg::Int(v2)) => v1 == v2,
+                (LiteralArg::Float(v1), LiteralArg::Float(v2)) => v1.to_bits() == v2.to_bits(),
+                (LiteralArg::Double(v1), LiteralArg::Double(v2)) => v1.to_bits() == v2.to_bits(),
+                (LiteralArg::Null, LiteralArg::Null) => true,
+                _ => false,
+            }
+        }
+        (InsnArg::Type(t1), InsnArg::Type(t2)) => t1 == t2,
+        (InsnArg::Field(f1), InsnArg::Field(f2)) => f1 == f2,
+        (InsnArg::Method(m1), InsnArg::Method(m2)) => m1 == m2,
+        (InsnArg::String(s1), InsnArg::String(s2)) => s1 == s2,
+        (InsnArg::Wrapped(w1), InsnArg::Wrapped(w2)) => {
+            // Deep compare wrapped instructions
+            match (&w1.inline_insn, &w2.inline_insn) {
+                (Some(i1), Some(i2)) => i1.is_deep_equals(i2),
+                (None, None) => true,
+                _ => false,
+            }
+        }
+        (InsnArg::This { .. }, InsnArg::This { .. }) => true,
+        _ => false, // Different variants
     }
 }
 
@@ -1459,9 +1537,10 @@ pub enum InsnType {
         type_idx: u32,
         method_idx: u32,
         args: Vec<InsnArg>,
-        /// Generic type parameters (e.g., <String> for ArrayList<String>)
-        /// Matches JADX's GenericInfoAttr
-        generic_types: Option<Vec<ArgType>>,
+        /// Generic type parameters with diamond operator support
+        /// Clone of JADX's GenericInfoAttr (InsnGen.java:765-780)
+        /// Reference: jadx-core/src/main/java/jadx/core/dex/attributes/nodes/GenericInfoAttr.java
+        generic_info: Option<crate::attributes::GenericInfoAttr>,
     },
 
     /// Java JSR (Jump SubRoutine) - legacy finally implementation
@@ -3584,6 +3663,90 @@ impl InsnType {
         }
     }
 
+    /// Bind a new argument to a PHI instruction (JADX: PhiInsn.bindArg)
+    ///
+    /// Creates a new phi argument for the given predecessor block.
+    /// Returns error if duplicate predecessor or not a PHI instruction.
+    ///
+    /// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/PhiInsn.java:42-51
+    /// ```java
+    /// public void bindArg(RegisterArg arg, BlockNode pred) {
+    ///     if (blockBinds.contains(pred)) {
+    ///         throw new JadxRuntimeException("Duplicate predecessors in PHI insn: " + pred);
+    ///     }
+    ///     if (pred == null) {
+    ///         throw new JadxRuntimeException("Null bind block in PHI insn");
+    ///     }
+    ///     super.addArg(arg);
+    ///     blockBinds.add(pred);
+    /// }
+    /// ```
+    pub fn phi_bind_arg(&mut self, arg: InsnArg, pred_block_id: u32) -> Result<(), &'static str> {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                // Check for duplicate predecessor
+                if sources.iter().any(|(bid, _)| *bid == pred_block_id) {
+                    return Err("Duplicate predecessor in PHI insn");
+                }
+                sources.push((pred_block_id, arg));
+                Ok(())
+            }
+            _ => Err("Not a PHI instruction"),
+        }
+    }
+
+    /// Get PHI argument by SSA variable (JADX: PhiInsn.getArgBySsaVar)
+    ///
+    /// Finds which PHI argument corresponds to a given SSA variable.
+    ///
+    /// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/PhiInsn.java:91-102
+    /// ```java
+    /// public RegisterArg getArgBySsaVar(SSAVar ssaVar) {
+    ///     if (getArgsCount() == 0) {
+    ///         return null;
+    ///     }
+    ///     for (InsnArg insnArg : getArguments()) {
+    ///         RegisterArg reg = (RegisterArg) insnArg;
+    ///         if (reg.getSVar() == ssaVar) {
+    ///             return reg;
+    ///         }
+    ///     }
+    ///     return null;
+    /// }
+    /// ```
+    pub fn get_phi_arg_by_ssa_var(&self, reg_num: u16, version: u32) -> Option<&InsnArg> {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                for (_, arg) in sources {
+                    if let InsnArg::Register(reg) = arg {
+                        if reg.reg_num == reg_num && reg.ssa_version == version {
+                            return Some(arg);
+                        }
+                    }
+                }
+                None
+            }
+            _ => None,
+        }
+    }
+
+    /// Get mutable PHI argument by SSA variable
+    pub fn get_phi_arg_by_ssa_var_mut(&mut self, reg_num: u16, version: u32) -> Option<&mut InsnArg> {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                for (_, arg) in sources.iter_mut() {
+                    if let InsnArg::Register(reg) = arg {
+                        if reg.reg_num == reg_num && reg.ssa_version == version {
+                            return Some(arg);
+                        }
+                    }
+                }
+                None
+            }
+            _ => None,
+        }
+    }
+
     // =========================================================================
     // JADX Parity: FillArrayData methods (P11)
     // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/FillArrayData.java
@@ -3973,6 +4136,44 @@ impl std::fmt::Display for SwitchKey {
     }
 }
 
+// ============================================================================
+// ExtendedIfInfo - Block bindings for If instructions (JADX: IfNode fields)
+// ============================================================================
+
+/// Extended If instruction info for block bindings after CFG construction
+///
+/// JADX's IfNode stores `thenBlock` and `elseBlock` references that are resolved
+/// after CFG is built. This struct holds those block IDs.
+///
+/// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/IfNode.java:18-22
+/// ```java
+/// protected IfOp op;
+/// private BlockNode thenBlock;
+/// private BlockNode elseBlock;
+/// ```
+#[derive(Debug, Clone, Default)]
+pub struct ExtendedIfInfo {
+    /// Then branch block ID (resolved after CFG construction)
+    ///
+    /// Cloned from JADX: IfNode.java:21
+    /// ```java
+    /// private BlockNode thenBlock;
+    /// ```
+    pub then_block: Option<u32>,
+
+    /// Else branch block ID (resolved after CFG construction)
+    ///
+    /// Cloned from JADX: IfNode.java:22
+    /// ```java
+    /// private BlockNode elseBlock;
+    /// ```
+    pub else_block: Option<u32>,
+}
+
+// ============================================================================
+// ExtendedSwitchInfo - Switch instruction extended data
+// ============================================================================
+
 /// Extended switch instruction info for pass transformations (JADX: SwitchInsn fields)
 ///
 /// This struct holds additional data that JADX's SwitchInsn class stores beyond
@@ -4266,6 +4467,120 @@ impl InsnNode {
     pub fn replace_switch_target_block(&mut self, origin: u32, replace: u32) -> bool {
         if let Some(info) = self.get_switch_info_mut() {
             info.replace_target_block(origin, replace)
+        } else {
+            false
+        }
+    }
+
+    // =========================================================================
+    // JADX Parity: IfNode block binding methods (100% PARITY)
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/IfNode.java
+    // =========================================================================
+
+    /// Get or create extended if info for this instruction
+    ///
+    /// Returns None if this is not an If instruction.
+    pub fn get_if_info(&self) -> Option<&ExtendedIfInfo> {
+        self.extended_if_info.as_ref().map(|b| b.as_ref())
+    }
+
+    /// Get mutable extended if info
+    pub fn get_if_info_mut(&mut self) -> Option<&mut ExtendedIfInfo> {
+        if matches!(self.insn_type, InsnType::If { .. }) {
+            if self.extended_if_info.is_none() {
+                self.extended_if_info = Some(Box::new(ExtendedIfInfo::default()));
+            }
+            self.extended_if_info.as_mut().map(|b| b.as_mut())
+        } else {
+            None
+        }
+    }
+
+    /// Get then block ID (JADX: IfNode.getThenBlock)
+    ///
+    /// Returns the block ID for the "then" branch after CFG construction.
+    ///
+    /// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/IfNode.java:114-116
+    /// ```java
+    /// public BlockNode getThenBlock() {
+    ///     return thenBlock;
+    /// }
+    /// ```
+    pub fn get_then_block(&self) -> Option<u32> {
+        self.extended_if_info.as_ref().and_then(|info| info.then_block)
+    }
+
+    /// Get else block ID (JADX: IfNode.getElseBlock)
+    ///
+    /// Returns the block ID for the "else" branch after CFG construction.
+    ///
+    /// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/IfNode.java:118-120
+    /// ```java
+    /// public BlockNode getElseBlock() {
+    ///     return elseBlock;
+    /// }
+    /// ```
+    pub fn get_else_block(&self) -> Option<u32> {
+        self.extended_if_info.as_ref().and_then(|info| info.else_block)
+    }
+
+    /// Initialize if block bindings from CFG (JADX: IfNode.initBlocks)
+    ///
+    /// Called after CFG construction to resolve offset-based targets to block IDs.
+    ///
+    /// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/IfNode.java:89-98
+    /// ```java
+    /// public void initBlocks(BlockNode curBlock) {
+    ///     List<BlockNode> successors = curBlock.getSuccessors();
+    ///     thenBlock = getBlockByOffset(target, successors);
+    ///     if (successors.size() == 1) {
+    ///         elseBlock = thenBlock;
+    ///     } else {
+    ///         elseBlock = selectOther(thenBlock, successors);
+    ///     }
+    /// }
+    /// ```
+    pub fn init_if_blocks(&mut self, then_block: u32, else_block: u32) -> bool {
+        if matches!(self.insn_type, InsnType::If { .. }) {
+            self.extended_if_info = Some(Box::new(ExtendedIfInfo {
+                then_block: Some(then_block),
+                else_block: Some(else_block),
+            }));
+            true
+        } else {
+            false
+        }
+    }
+
+    /// Replace an if target block (JADX: IfNode.replaceTargetBlock)
+    ///
+    /// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/IfNode.java:100-112
+    /// ```java
+    /// public boolean replaceTargetBlock(BlockNode origin, BlockNode replace) {
+    ///     boolean replaced = false;
+    ///     if (thenBlock == origin) {
+    ///         thenBlock = replace;
+    ///         replaced = true;
+    ///     }
+    ///     if (elseBlock == origin) {
+    ///         elseBlock = replace;
+    ///         replaced = true;
+    ///     }
+    ///     return replaced;
+    /// }
+    /// ```
+    pub fn replace_if_target_block(&mut self, origin: u32, replace: u32) -> bool {
+        if let Some(ref mut info) = self.extended_if_info {
+            let mut replaced = false;
+            if info.then_block == Some(origin) {
+                info.then_block = Some(replace);
+                replaced = true;
+            }
+            if info.else_block == Some(origin) {
+                info.else_block = Some(replace);
+                replaced = true;
+            }
+            replaced
         } else {
             false
         }
@@ -4980,7 +5295,7 @@ mod tests {
             type_idx: 0,
             method_idx: 0,
             args: vec![],
-            generic_types: None,
+            generic_info: None,
         };
 
         // Normal constructor

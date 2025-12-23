@@ -391,6 +391,97 @@ impl BlockNode {
     pub fn is_mth_exit_block(&self) -> bool {
         self.attrs.has_flag(crate::attributes::AFlag::MthExitBlock)
     }
+
+    /// Update clean successors (filter exception handlers and loop backs) (JADX: updateCleanSuccessors)
+    ///
+    /// Computes clean_successors by filtering out exception handler blocks and
+    /// loop back edges from the regular successors list.
+    ///
+    /// JADX Reference: BlockNode.java:111-113
+    /// ```java
+    /// public void updateCleanSuccessors() {
+    ///     cleanSuccessors = cleanSuccessors(this);
+    /// }
+    /// ```
+    pub fn update_clean_successors(&mut self, blocks: &[BlockNode]) {
+        self.clean_successors = Some(self.clean_successors_internal(blocks));
+    }
+
+    /// Filter successors to exclude exception handlers and loop backs (JADX: cleanSuccessors)
+    ///
+    /// Creates a filtered list of successors that excludes:
+    /// - Exception handler paths
+    /// - Loop back edges (when this is a LOOP_END block)
+    ///
+    /// JADX Reference: BlockNode.java:140-163
+    /// ```java
+    /// private static List<BlockNode> cleanSuccessors(BlockNode block) {
+    ///     List<BlockNode> sucList = block.getSuccessors();
+    ///     if (sucList.isEmpty()) {
+    ///         return sucList;
+    ///     }
+    ///     List<BlockNode> toRemove = new ArrayList<>(sucList.size());
+    ///     for (BlockNode b : sucList) {
+    ///         if (BlockUtils.isExceptionHandlerPath(b)) {
+    ///             toRemove.add(b);
+    ///         }
+    ///     }
+    ///     if (block.contains(AFlag.LOOP_END)) {
+    ///         List<LoopInfo> loops = block.getAll(AType.LOOP);
+    ///         for (LoopInfo loop : loops) {
+    ///             toRemove.add(loop.getStart());
+    ///         }
+    ///     }
+    ///     if (toRemove.isEmpty()) {
+    ///         return sucList;
+    ///     }
+    ///     List<BlockNode> result = new ArrayList<>(sucList);
+    ///     result.removeAll(toRemove);
+    ///     return result;
+    /// }
+    /// ```
+    fn clean_successors_internal(&self, blocks: &[BlockNode]) -> Vec<BlockId> {
+        if self.successors.is_empty() {
+            return self.successors.clone();
+        }
+
+        let mut to_remove = Vec::new();
+
+        // Remove exception handler paths
+        for &succ_id in &self.successors {
+            if let Some(succ_block) = blocks.get(succ_id.index() as usize) {
+                // Check if exception handler using relevant flags
+                if succ_block.attrs.has_flag(crate::attributes::AFlag::ExcTopSplitter)
+                    || succ_block.attrs.has_flag(crate::attributes::AFlag::ExcBottomSplitter)
+                {
+                    to_remove.push(succ_id);
+                }
+            }
+        }
+
+        // Remove loop back edges if this is a LOOP_END block
+        if self.attrs.has_flag(crate::attributes::AFlag::LoopEnd) {
+            // In a full implementation, this would get LoopInfo attributes via AType.LOOP
+            // and remove edges back to loop start blocks
+            // For now, we skip this as it requires the AType attribute system (P3-1)
+            // When P3-1 is implemented, uncomment and implement:
+            // if let Some(loops) = self.attrs.get_typed::<Vec<LoopInfo>>(AType::Loop) {
+            //     for loop_info in loops {
+            //         to_remove.push(loop_info.start);
+            //     }
+            // }
+        }
+
+        if to_remove.is_empty() {
+            return self.successors.clone();
+        }
+
+        self.successors
+            .iter()
+            .filter(|id| !to_remove.contains(id))
+            .copied()
+            .collect()
+    }
 }
 
 impl std::cmp::PartialEq for BlockNode {

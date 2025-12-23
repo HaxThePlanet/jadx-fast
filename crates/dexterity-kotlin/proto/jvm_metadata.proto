@@ -1,5 +1,8 @@
 // JVM-specific Kotlin metadata extensions
 // Extracted from https://github.com/JetBrains/kotlin/blob/master/core/metadata.jvm/src/jvm_metadata.proto
+//
+// JADX Clone Reference: This file provides JVM signature extraction needed for
+// KmExt.kt:shortId equivalents - the foundation for accurate method/field matching.
 
 syntax = "proto2";
 package org.jetbrains.kotlin.metadata.jvm;
@@ -42,4 +45,43 @@ message StringTableTypes {
 
   // Indices of local class and anonymous object names
   repeated int32 local_name = 5 [packed = true];
+}
+
+// JVM method signature - name and descriptor
+// JADX Reference: KmExt.kt:8 - inline val KmFunction.shortId: String? get() = signature?.toString()
+// Format: "methodName(Ljava/lang/String;)V"
+message JvmMethodSignature {
+  // Method name - index into string table
+  optional int32 name = 1;
+  // JVM descriptor of the method, e.g. "(Ljava/util/List;)[Ljava/lang/Object;"
+  optional int32 desc = 2;
+}
+
+// JVM field signature - name and type descriptor
+// JADX Reference: KmExt.kt:9 - inline val KmProperty.shortId: String? get() = fieldSignature?.toString()
+// Format: "fieldName:Ljava/lang/String;"
+message JvmFieldSignature {
+  // Field name - index into string table
+  optional int32 name = 1;
+  // JVM descriptor of the field type, e.g. "Ljava/lang/String;"
+  optional int32 desc = 2;
+}
+
+// JVM property signature - combines field, getter, setter, and synthetic method signatures
+// JADX Reference: KotlinMetadataUtils.kt - used for property matching
+message JvmPropertySignature {
+  // Backing field signature (may be absent if property is computed)
+  optional JvmFieldSignature field = 1;
+
+  // Synthetic method for annotations on properties
+  optional JvmMethodSignature synthetic_method = 2;
+
+  // Getter method signature
+  optional JvmMethodSignature getter = 3;
+
+  // Setter method signature (absent for val properties)
+  optional JvmMethodSignature setter = 4;
+
+  // Delegate method signature (for optimized delegated properties)
+  optional JvmMethodSignature delegate_method = 5;
 }

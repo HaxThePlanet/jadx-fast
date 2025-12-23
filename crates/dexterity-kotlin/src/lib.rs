@@ -23,12 +23,15 @@ pub use extractor::{
     apply_getter_recognition, apply_tostring_names,
     find_getters_jadx_style, find_default_methods_jadx_style,
     analyze_companion_for_hiding, rename_companion_jadx_style,
+    apply_kotlin_names_with_options,
     CompanionAnalysis,
 };
 pub use tostring_parser::TypeResolver;
 pub use types::{KotlinClassMetadata, KotlinFunction, KotlinProperty, KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags, KotlinTypeParameter, KotlinVariance};
 pub use smap_types::{SMAP, FileMapping, RangeMapping, SourcePosition, ClassAliasRename};
 pub use smap_parser::parse_or_null as parse_smap;
+
+// Re-export options for CLI integration
 
 // Re-export generated protobuf types
 pub mod proto {
@@ -43,6 +46,137 @@ pub mod jvm_proto {
 use anyhow::Result;
 use dexterity_dex::DexReader;
 use dexterity_ir::{ClassData, Annotation, AnnotationValue};
+
+// ============================================================================
+// JADX-Style Kotlin Processing Options
+// ============================================================================
+// Cloned from JADX: jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/KotlinMetadataOptions.kt
+
+/// Options for Kotlin metadata processing
+/// JADX Reference: KotlinMetadataOptions.kt:6-76
+///
+/// All options default to `true` to match JADX's default behavior.
+/// These can be wired to CLI flags like `--kotlin-class-alias`, `--kotlin-method-args`, etc.
+#[derive(Debug, Clone, Copy)]
+pub struct KotlinProcessingOptions {
+    /// Apply class alias from d2 array or SMAP
+    /// JADX Reference: KotlinMetadataOptions.kt:16-22
+    pub class_alias: bool,
+
+    /// Apply method argument names from Kotlin metadata
+    /// JADX Reference: KotlinMetadataOptions.kt:24-30
+    pub method_args: bool,
+
+    /// Apply field names from Kotlin metadata (properties)
+    /// JADX Reference: KotlinMetadataOptions.kt:32-38
+    pub fields: bool,
+
+    /// Process companion objects
+    /// JADX Reference: KotlinMetadataOptions.kt:40-46
+    pub companion: bool,
+
+    /// Apply data class flag for proper toString/equals/hashCode
+    /// JADX Reference: KotlinMetadataOptions.kt:48-54
+    pub data_class: bool,
+
+    /// Use toString() bytecode analysis for field renames
+    /// JADX Reference: KotlinMetadataOptions.kt:56-62
+    pub to_string: bool,
+
+    /// Recognize and rename getter methods
+    /// JADX Reference: KotlinMetadataOptions.kt:64-70
+    pub getters: bool,
+
+    /// Use SMAP (SourceDebugExtension) for class alias
+    /// JADX Reference: KotlinSmapOptions.kt
+    pub smap_class_alias: bool,
+}
+
+impl Default for KotlinProcessingOptions {
+    /// Default options match JADX defaults (all enabled)
+    fn default() -> Self {
+        Self {
+            class_alias: true,
+            method_args: true,
+            fields: true,
+            companion: true,
+            data_class: true,
+            to_string: true,
+            getters: true,
+            smap_class_alias: true,
+        }
+    }
+}
+
+impl KotlinProcessingOptions {
+    /// Create options with all features enabled (JADX defaults)
+    pub fn all_enabled() -> Self {
+        Self::default()
+    }
+
+    /// Create options with all features disabled
+    pub fn all_disabled() -> Self {
+        Self {
+            class_alias: false,
+            method_args: false,
+            fields: false,
+            companion: false,
+            data_class: false,
+            to_string: false,
+            getters: false,
+            smap_class_alias: false,
+        }
+    }
+
+    /// Builder pattern: enable class alias processing
+    pub fn with_class_alias(mut self, enabled: bool) -> Self {
+        self.class_alias = enabled;
+        self
+    }
+
+    /// Builder pattern: enable method args processing
+    pub fn with_method_args(mut self, enabled: bool) -> Self {
+        self.method_args = enabled;
+        self
+    }
+
+    /// Builder pattern: enable field processing
+    pub fn with_fields(mut self, enabled: bool) -> Self {
+        self.fields = enabled;
+        self
+    }
+
+    /// Builder pattern: enable companion processing
+    pub fn with_companion(mut self, enabled: bool) -> Self {
+        self.companion = enabled;
+        self
+    }
+
+    /// Builder pattern: enable data class processing
+    pub fn with_data_class(mut self, enabled: bool) -> Self {
+        self.data_class = enabled;
+        self
+    }
+
+    /// Builder pattern: enable toString processing
+    pub fn with_to_string(mut self, enabled: bool) -> Self {
+        self.to_string = enabled;
+        self
+    }
+
+    /// Builder pattern: enable getters processing
+    pub fn with_getters(mut self, enabled: bool) -> Self {
+        self.getters = enabled;
+        self
+    }
+
+    /// Builder pattern: enable SMAP class alias processing
+    pub fn with_smap_class_alias(mut self, enabled: bool) -> Self {
+        self.smap_class_alias = enabled;
+        self
+    }
+}
+
 use dexterity_ir::kotlin_metadata::get_class_alias;
 
 /// SourceDebugExtension annotation type
@@ -90,7 +224,17 @@ fn get_smap_from_annotation(annot: &Annotation) -> Option<String> {
 
 /// Get class alias from SMAP (SourceDebugExtension)
 /// JADX Reference: jadx-plugins/jadx-kotlin-source-debug-extension/src/main/kotlin/jadx/plugins/kotlin/smap/utils/KotlinSmapUtils.kt:17-39
-fn get_class_alias_from_smap(smap: &smap_types::SMAP, cls: &ClassData) -> Option<smap_types::ClassAliasRename> {
+///
+/// The `class_exists` function is used to check if a class with the target name already exists.
+/// JADX Reference: KotlinMetadataUtils.kt:68-71 - collision check
+fn get_class_alias_from_smap<F>(
+    smap: &smap_types::SMAP,
+    cls: &ClassData,
+    class_exists: F,
+) -> Option<smap_types::ClassAliasRename>
+where
+    F: Fn(&str) -> bool,
+{
     let first_file = smap.first_file()?;
 
     // Get the path and convert "/" to "."
@@ -155,6 +299,31 @@ fn get_class_alias_from_smap(smap: &smap_types::SMAP, cls: &ClassData) -> Option
         return None;
     }
 
+    // P0.2 FIX: Check if a class with the alias name already exists
+    // JADX Reference: KotlinMetadataUtils.kt:68-71
+    // ```kotlin
+    // val newClsNode = originCls.root().resolveClass(fullClsName)
+    // return if (newClsNode != null) {
+    //     // class with alias name already exist
+    //     null  // Return null to prevent rename
+    // } else {
+    //     ClassAliasRename(pkg, name)
+    // }
+    // ```
+    let full_target_name = if pkg.is_empty() {
+        name.clone()
+    } else {
+        format!("{}.{}", pkg, name)
+    };
+
+    if class_exists(&full_target_name) {
+        tracing::debug!(
+            "Skipping class alias '{}' - class already exists",
+            full_target_name
+        );
+        return None;
+    }
+
     Some(smap_types::ClassAliasRename::new(pkg, name))
 }
 
@@ -189,21 +358,77 @@ fn is_valid_identifier(name: &str) -> bool {
 ///
 /// If `dex` is provided, also applies toString() bytecode analysis as a fallback
 /// for extracting field names when protobuf metadata is unavailable.
+///
+/// This is a convenience wrapper that uses default options (all features enabled).
 pub fn process_kotlin_metadata(cls: &mut ClassData, dex: Option<&DexReader>) -> Result<()> {
+    process_kotlin_metadata_with_options(cls, dex, &KotlinProcessingOptions::default())
+}
 
+/// Process Kotlin metadata for a class with custom options
+///
+/// JADX Reference: KotlinMetadataDecompilePass.kt, KotlinMetadataOptions.kt
+///
+/// If `dex` is provided, also applies toString() bytecode analysis as a fallback
+/// for extracting field names when protobuf metadata is unavailable.
+///
+/// # Arguments
+/// * `cls` - The class data to process
+/// * `dex` - Optional DEX reader for toString() bytecode analysis
+/// * `options` - Processing options controlling which features are enabled
+///
+/// # Example
+/// ```ignore
+/// let options = KotlinProcessingOptions::default()
+///     .with_to_string(false)  // Disable toString analysis
+///     .with_getters(true);    // Enable getter recognition
+/// process_kotlin_metadata_with_options(&mut cls, Some(&dex), &options)?;
+/// ```
+pub fn process_kotlin_metadata_with_options(
+    cls: &mut ClassData,
+    dex: Option<&DexReader>,
+    options: &KotlinProcessingOptions,
+) -> Result<()> {
+    // Use the new version with no collision check (backwards compatible)
+    process_kotlin_metadata_with_collision_check(cls, dex, options, |_| false)
+}
+
+/// Process Kotlin metadata with collision checking
+///
+/// JADX Reference: KotlinMetadataDecompilePass.kt, KotlinMetadataOptions.kt
+/// P0.2 FIX: Implements collision check from KotlinMetadataUtils.kt:68-71
+///
+/// # Arguments
+/// * `cls` - The class data to process
+/// * `dex` - Optional DEX reader for toString() bytecode analysis
+/// * `options` - Processing options controlling which features are enabled
+/// * `class_exists` - Function that returns true if a class with the given FQ name exists
+///
+/// The `class_exists` function prevents class name collisions by checking if the
+/// target alias name already exists in the codebase.
+pub fn process_kotlin_metadata_with_collision_check<F>(
+    cls: &mut ClassData,
+    dex: Option<&DexReader>,
+    options: &KotlinProcessingOptions,
+    class_exists: F,
+) -> Result<()>
+where
+    F: Fn(&str) -> bool,
+{
     // STEP 1: Try SourceDebugExtension (SMAP) first for class alias
     // This is higher priority than d2 array for multifile classes
     // JADX Reference: jadx-plugins/jadx-kotlin-source-debug-extension/src/main/kotlin/jadx/plugins/kotlin/smap/pass/KotlinSourceDebugExtensionPass.kt
-    if cls.alias.is_none() {
+    if options.smap_class_alias && cls.alias.is_none() {
         if let Some(sde_annot) = find_source_debug_extension(&cls.annotations) {
             if let Some(smap_str) = get_smap_from_annotation(sde_annot) {
                 if let Some(smap) = smap_parser::parse_or_null(&smap_str) {
-                    if let Some(alias_rename) = get_class_alias_from_smap(&smap, cls) {
+                    if let Some(alias_rename) = get_class_alias_from_smap(&smap, cls, &class_exists) {
                         tracing::debug!(
                             "SMAP extracted class alias for {}: {} (pkg: {})",
                             cls.class_type, alias_rename.name, alias_rename.pkg
                         );
                         cls.alias = Some(alias_rename.name);
+                        // JADX Reference: RenameReasonAttr pattern
+                        cls.add_rename_reason("from SMAP");
                         if cls.pkg_alias.is_none() && !alias_rename.pkg.is_empty() {
                             cls.pkg_alias = Some(alias_rename.pkg);
                         }
@@ -216,12 +441,32 @@ pub fn process_kotlin_metadata(cls: &mut ClassData, dex: Option<&DexReader>) -> 
     // STEP 2: Attempt to extract class alias from Kotlin metadata (d2 array)
     // This runs before protobuf parsing to ensure we have the correct class name
     // even if protobuf parsing fails or is incomplete.
-    if let Some(alias_info) = get_class_alias(cls) {
-        if cls.alias.is_none() {
-            cls.alias = Some(alias_info.name);
-        }
-        if cls.pkg_alias.is_none() {
-            cls.pkg_alias = Some(alias_info.pkg);
+    if options.class_alias {
+        if let Some(alias_info) = get_class_alias(cls) {
+            // P0.2 FIX: Check for collision before applying alias
+            // JADX Reference: KotlinMetadataUtils.kt:68-71
+            let full_target_name = if alias_info.pkg.is_empty() {
+                alias_info.name.clone()
+            } else {
+                format!("{}.{}", alias_info.pkg, alias_info.name)
+            };
+
+            let collision = class_exists(&full_target_name);
+            if collision {
+                tracing::debug!(
+                    "Skipping d2 class alias '{}' - class already exists",
+                    full_target_name
+                );
+            } else {
+                if cls.alias.is_none() {
+                    cls.alias = Some(alias_info.name);
+                    // JADX Reference: RenameReasonAttr pattern
+                    cls.add_rename_reason("from kotlin metadata");
+                }
+                if cls.pkg_alias.is_none() {
+                    cls.pkg_alias = Some(alias_info.pkg);
+                }
+            }
         }
     }
 
@@ -274,42 +519,70 @@ pub fn process_kotlin_metadata(cls: &mut ClassData, dex: Option<&DexReader>) -> 
     };
 
     // Extract and apply names to IR
-    extractor::apply_kotlin_names(cls, &kotlin_metadata)?;
+    // This applies class alias, method args, and field names based on options
+    extractor::apply_kotlin_names_with_options(cls, &kotlin_metadata, options)?;
 
     // Apply getter/setter recognition (metadata-based)
-    extractor::apply_getter_recognition(cls, &kotlin_metadata);
+    if options.getters {
+        extractor::apply_getter_recognition(cls, &kotlin_metadata);
+    }
 
     // STEP 3: Apply JADX-style getter recognition (bytecode-based)
     // JADX Reference: KotlinUtils.kt:25-44
     // This uses exact instruction count and field matching like JADX
-    extractor::find_getters_jadx_style(cls);
+    if options.getters {
+        extractor::find_getters_jadx_style(cls);
+    }
 
     // STEP 4: Apply JADX-style default method recognition
     // JADX Reference: KotlinUtils.kt:53-89
     // Renames synthetic $default methods to match original method alias
-    extractor::find_default_methods_jadx_style(cls);
+    if options.method_args {
+        extractor::find_default_methods_jadx_style(cls);
+    }
 
     // STEP 5: Apply JADX-style companion object renaming
     // JADX Reference: KotlinMetadataDecompilePass.kt:71-88
     // Renames companion field to "Companion" and detects empty companions for hiding
-    extractor::rename_companion_jadx_style(cls, &kotlin_metadata);
+    if options.companion {
+        extractor::rename_companion_jadx_style(cls, &kotlin_metadata);
 
-    // Analyze companion for potential hiding
-    // JADX Reference: KotlinMetadataUtils.kt:118-141
-    if let Some(analysis) = extractor::analyze_companion_for_hiding(cls, &kotlin_metadata) {
-        if analysis.should_hide {
-            tracing::debug!(
-                "Companion object '{}' in {} should be hidden",
-                analysis.field_name, cls.class_type
-            );
-            // Note: To fully implement hiding, we would need to add DONT_GENERATE flags
-            // to both the companion field and the companion inner class
+        // Analyze companion for potential hiding
+        // JADX Reference: KotlinMetadataUtils.kt:118-141
+        if let Some(analysis) = extractor::analyze_companion_for_hiding(cls, &kotlin_metadata) {
+            if analysis.should_hide {
+                tracing::debug!(
+                    "Companion object '{}' in {} should be hidden",
+                    analysis.field_name, cls.class_type
+                );
+
+                // P1.1 FIX: Apply DONT_GENERATE flag to companion field
+                // JADX Reference: KotlinMetadataUtils.kt:137-138
+                // ```kotlin
+                // compField.add(AFlag.DONT_GENERATE)
+                // compCls.add(AFlag.DONT_GENERATE)
+                // ```
+                if let Some(companion_field) = cls.static_fields.iter_mut().find(|f| f.name == analysis.field_name) {
+                    companion_field.dont_generate = true;
+                    tracing::debug!(
+                        "Marked companion field '{}' for hiding (dont_generate=true)",
+                        analysis.field_name
+                    );
+                }
+
+                // Mark companion class for hiding if it's an inner class
+                // We store the companion class type for the codegen to handle
+                let companion_type = format!("{}${}", cls.class_type.trim_start_matches('L').trim_end_matches(';'), analysis.field_name);
+                cls.hidden_inner_classes.push(companion_type);
+            }
         }
     }
 
     // Apply toString() bytecode analysis (fallback for obfuscated metadata)
-    if let Some(dex_reader) = dex {
-        extractor::apply_tostring_names(cls, dex_reader)?;
+    if options.to_string {
+        if let Some(dex_reader) = dex {
+            extractor::apply_tostring_names(cls, dex_reader)?;
+        }
     }
 
     Ok(())

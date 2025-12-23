@@ -215,9 +215,17 @@ fn synthesize_constructors(
                         let ctor_args = args[1..].to_vec(); // Skip 'this' arg
 
                         // Look up generic types from inferred types (JADX GenericTypesVisitor parity)
-                        let generic_types = inferred_types
+                        // Clone of JADX InsnGen diamond operator logic (InsnGen.java:765-780)
+                        // When types are inferred, use diamond operator (<>) instead of explicit types
+                        let generic_info = inferred_types
                             .and_then(|types| types.get(&(dest.reg_num, dest.ssa_version)))
-                            .and_then(extract_generic_params);
+                            .and_then(extract_generic_params)
+                            .map(|types| {
+                                use dexterity_ir::attributes::GenericInfoAttr;
+                                // Use diamond operator (explicit = false) for inferred generic types
+                                // This matches JADX's modern Java 7+ codegen style
+                                GenericInfoAttr::diamond(types)
+                            });
 
                         let ctor_insn = InsnNode::new(
                             InsnType::Constructor {
@@ -225,7 +233,7 @@ fn synthesize_constructors(
                                 type_idx: *type_idx,
                                 method_idx: *method_idx,
                                 args: ctor_args,
-                                generic_types,
+                                generic_info,
                             },
                             *new_offset, // Use NewInstance offset for better source mapping
                         );

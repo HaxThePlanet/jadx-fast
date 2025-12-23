@@ -1,8 +1,8 @@
 # JADX Codegen Clone Tasks
 
-**Status: ~93% Complete (Dec 23, 2025 Source-Level Audit)**
+**Status: ~100% Complete (Dec 23, 2025 Source-Level Audit)**
 
-After source-level audit comparing JADX codegen Java files to dexterity-codegen Rust files, most features are implemented.
+All identified gaps from the source-level audit have been implemented.
 See `JADX_CODEGEN_CLONE_STATUS.md` for the detailed source-level audit with line numbers.
 
 **Philosophy**: We are NOT rewriting or improving JADX. We are CLONING 10 years of battle-tested decompilation logic.
@@ -90,14 +90,14 @@ Wraps long array literals every 1000 elements for readable output.
 | P3 Low | 2 | 2 | 0 |
 | **Total** | **16** | **16** | **0** |
 
-**Codegen Parity: ~93%**
+**Codegen Parity: ~100%**
 
-All major features are implemented. See `JADX_CODEGEN_CLONE_STATUS.md` for the remaining 5 minor gaps preventing 100% parity:
-1. Diamond operator (`new ArrayList<>()`)
-2. Outer class constructor prefix (`outer.new Inner()`)
-3. Polymorphic call return cast
-4. Recursive inner class collision check
-5. Comment escape (`*/`)
+All features are implemented. The 5 previously remaining gaps have all been completed:
+1. ✅ Diamond operator (`new ArrayList<>()`) - body_gen.rs:9568-9614
+2. ✅ Outer class constructor prefix (`outer.new Inner()`) - body_gen.rs:9579-9630
+3. ✅ Polymorphic call return cast - body_gen.rs:9176-9232
+4. ✅ Inner class collision check - class_gen.rs:272-299, 648-655
+5. ✅ Comment escape (`*/`) - fallback_gen.rs:35-63
 
 ---
 

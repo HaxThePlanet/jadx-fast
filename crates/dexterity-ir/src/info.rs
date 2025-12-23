@@ -1095,6 +1095,12 @@ pub struct ClassData {
     /// Methods which use this class by instructions (like JADX's ClassNode.useInMth)
     /// Format: (class_type, method_name) tuples
     pub use_in_mth: Vec<(String, String)>,
+
+    // === JADX Parity: Hidden Classes (P1.1) ===
+    /// Inner classes that should not be generated in output code
+    /// JADX Reference: AFlag.DONT_GENERATE on companion classes
+    /// Used for empty Kotlin companion objects that are only used in <clinit>
+    pub hidden_inner_classes: Vec<String>,
 }
 
 impl ClassData {
@@ -1129,6 +1135,7 @@ impl ClassData {
             codegen_deps: Vec::new(),
             use_in: Vec::new(),
             use_in_mth: Vec::new(),
+            hidden_inner_classes: Vec::new(),
         }
     }
 
@@ -1419,6 +1426,10 @@ pub struct FieldData {
     /// Methods which use this field (like JADX's FieldNode.useIn)
     /// Format: (class_type, method_name) tuples
     pub use_in: Vec<(String, String)>,
+    /// Don't generate this field in output code
+    /// JADX Reference: AFlag.DONT_GENERATE - used for hidden companion objects
+    /// P1.1: Companion hiding flag
+    pub dont_generate: bool,
 }
 
 impl FieldData {
@@ -1434,6 +1445,7 @@ impl FieldData {
             annotations: Vec::new(),
             dex_field_idx: None,
             use_in: Vec::new(),
+            dont_generate: false,
         }
     }
 

@@ -23,8 +23,13 @@ lazy_static! {
 }
 
 /// Constants matching JADX
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/Consts.java
 pub mod consts {
+    /// Prefix for anonymous inner classes
     pub const ANONYMOUS_CLASS_PREFIX: &str = "AnonymousClass";
+    /// Name for the default (empty) package
+    /// JADX Reference: jadx-core/src/main/java/jadx/core/Consts.java:DEFAULT_PACKAGE_NAME
     pub const DEFAULT_PACKAGE_NAME: &str = "defpackage";
 }
 
@@ -334,6 +339,84 @@ pub fn find_case_collisions(classes: &[ClassData]) -> Vec<usize> {
     }
 
     collisions
+}
+
+/// Fix case-insensitive filesystem collisions
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/dex/visitors/rename/RenameVisitor.java:62-72
+///
+/// On case-insensitive filesystems (Windows, macOS default), class paths like
+/// "com/example/MyClass" and "com/example/Myclass" would map to the same file.
+/// This function detects and fixes such collisions by renaming conflicting classes.
+///
+/// # Arguments
+/// * `classes` - Classes to check for collisions
+/// * `alias_provider` - Provider to generate new aliases for colliding classes
+/// * `fs_case_sensitive` - Whether the filesystem is case-sensitive
+///
+/// # Returns
+/// Number of classes that were renamed
+pub fn fix_case_sensitive_collisions<A: AliasProvider>(
+    classes: &mut [ClassData],
+    alias_provider: &A,
+    fs_case_sensitive: bool,
+) -> usize {
+    if fs_case_sensitive {
+        return 0;
+    }
+
+    let mut renamed_count = 0;
+    let mut paths_lower: HashSet<String> = HashSet::new();
+
+    for cls in classes.iter_mut() {
+        // Get the full alias path (package + class name)
+        let path = get_full_alias_path(cls);
+        let path_lower = path.to_lowercase();
+
+        if !paths_lower.insert(path_lower.clone()) {
+            // Collision detected - rename this class
+            if cls.alias.is_none() {
+                cls.alias = Some(alias_provider.for_class(cls));
+                renamed_count += 1;
+
+                // Re-add with new path
+                let new_path = get_full_alias_path(cls);
+                paths_lower.insert(new_path.to_lowercase());
+            }
+        }
+    }
+
+    renamed_count
+}
+
+/// Get the full alias path for a class (package + class name)
+fn get_full_alias_path(cls: &ClassData) -> String {
+    let class_type = cls.class_type.trim_start_matches('L').trim_end_matches(';');
+    if let Some(ref alias) = cls.alias {
+        // Replace just the class name part
+        if let Some(last_slash) = class_type.rfind('/') {
+            let pkg = &class_type[..last_slash];
+            format!("{}/{}", pkg, alias)
+        } else {
+            alias.clone()
+        }
+    } else {
+        class_type.to_string()
+    }
+}
+
+/// Check if a package is the default (empty) package
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/dex/visitors/rename/RenameVisitor.java:116-118
+pub fn is_default_package(package: &str) -> bool {
+    package.is_empty()
+}
+
+/// Get the default package name for classes in the default package
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/Consts.java:DEFAULT_PACKAGE_NAME
+pub fn get_default_package_name() -> &'static str {
+    consts::DEFAULT_PACKAGE_NAME
 }
 
 /// Collect all root package names (first segment of package paths)

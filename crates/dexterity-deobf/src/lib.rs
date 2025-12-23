@@ -8,6 +8,8 @@
 //! - Mapping file parsing (ProGuard format)
 //! - Source file-based class renaming
 //! - JADX .jobf format support
+//! - Mapping export (Tiny, SRG, TSRG, ProGuard formats)
+//! - Dalvik to JVM bytecode conversion utilities
 
 pub mod name_mapper;
 pub mod conditions;
@@ -22,13 +24,20 @@ pub mod rename_validator;
 pub mod tlds;
 pub mod user_renames;
 pub mod code_rename;
+pub mod file_type_detector;
+pub mod mapping_exporter;
+pub mod dalvik_to_jvm;
 
 pub use name_mapper::NameMapper;
 pub use conditions::{
     DeobfCondition, Action, LengthCondition, ValidityCondition, CombinedCondition,
     PrintableCondition, PackageWhitelistCondition, RenameFlag, build_conditions_from_flags,
     ExcludeAndroidRClass, AvoidClsAndPkgNamesCollision, BaseDeobfCondition,
+    // JADX parity additions
+    AlwaysRename, DeobfWhitelist, JADX_DEFAULT_WHITELIST, RenameReason,
+    PredicateCondition, rename_matching_pattern, rename_shorter_than,
 };
+pub use file_type_detector::{detect_file_extension, get_file_type_name};
 pub use alias_provider::{AliasProvider, DeobfAliasProvider};
 pub use visitor::DeobfuscatorVisitor;
 pub use registry::AliasRegistry;
@@ -37,10 +46,27 @@ pub use signature::{arg_type_to_descriptor, method_proto_to_descriptor};
 pub use source_file_rename::{
     apply_source_file_renames, UseSourceNameAsClassNameAlias, get_better_class_name,
 };
-pub use jobf::{JobfPresets, JobfMode, get_class_alias, get_field_alias, get_method_alias};
+pub use jobf::{
+    JobfPresets, JobfMode, get_class_alias, get_field_alias, get_method_alias,
+    // JADX parity: SaveDeobfMapping visitor functions
+    save_deobf_mapping, load_deobf_mapping,
+};
 pub use rename_validator::{
     fix_class_short_name, validate_fields, validate_methods, find_case_collisions,
     collect_root_packages, fix_root_package_collisions,
+    // JADX parity additions
+    fix_case_sensitive_collisions, is_default_package, get_default_package_name,
+    consts as rename_consts,
 };
 pub use tlds::ExcludePackageWithTLDNames;
 pub use user_renames::{UserRenames, UserRenamesBuilder};
+pub use code_rename::{
+    CodeRenames, CodeRename, CodeRefType, CodeRenameVisitor, apply_code_renames,
+};
+pub use mapping_exporter::{
+    MappingExporter, MappingFormat, collect_mappings,
+};
+pub use dalvik_to_jvm::{
+    get_method_arg_lv_index, get_method_arg_lvt_index, get_method_var_lv_index,
+    get_type_slot_count, dalvik_reg_to_lv_index, VarInfo, collect_method_vars,
+};

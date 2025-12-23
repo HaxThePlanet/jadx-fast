@@ -11,7 +11,7 @@
 //!
 //! When generating code for an outer class, inner classes can be embedded within.
 
-use std::collections::{BTreeMap, BTreeSet, HashMap};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
 use dexterity_ir::{ArgType, ClassData, FieldData, FieldValue};
 
@@ -252,6 +252,10 @@ pub struct ImportCollector {
     /// Maps simple names to list of fully qualified names (for conflict detection)
     /// P0-C01 fix: When multiple FQNs have the same simple name, none are imported
     simple_name_map: HashMap<String, Vec<String>>,
+    /// Inner class simple names (for JADX checkInnerCollision parity)
+    /// Clone of JADX ClassGen.java:785-802 - types whose simple name matches any inner class
+    /// cannot use short names and must be fully qualified
+    inner_class_names: HashSet<String>,
 }
 
 impl ImportCollector {
@@ -261,6 +265,36 @@ impl ImportCollector {
             imports: BTreeSet::new(),
             current_package: get_package(class_type),
             simple_name_map: HashMap::new(),
+            inner_class_names: HashSet::new(),
+        }
+    }
+
+    /// Clone of JADX ClassGen.checkInnerCollision()
+    /// Reference: jadx-core/src/main/java/jadx/core/codegen/ClassGen.java:785-802
+    ///
+    /// Register inner class names to prevent import collision.
+    /// Types with simple names matching any inner class cannot be imported.
+    pub fn add_inner_class_name(&mut self, inner_class_type: &str) {
+        // Extract simple name from inner class type (e.g., "Outer$Inner" -> "Inner")
+        let simple_name = if let Some(dollar_pos) = inner_class_type.rfind('$') {
+            &inner_class_type[dollar_pos + 1..]
+        } else {
+            inner_class_type.rsplit('/').next().unwrap_or(inner_class_type)
+        };
+        self.inner_class_names.insert(simple_name.to_string());
+    }
+
+    /// Register all inner classes from a class
+    pub fn register_inner_classes(&mut self, class: &ClassData) {
+        // Note: In JADX, this would recursively walk up parent classes
+        // For now, we register the class's own inner classes based on naming convention
+        for method in &class.methods {
+            // Lambda classes show up as inner classes in some patterns
+            if let Some(info) = get_inner_class_info(&class.class_type) {
+                if info.kind == InnerClassKind::Named {
+                    self.add_inner_class_name(&class.class_type);
+                }
+            }
         }
     }
 
@@ -562,6 +596,7 @@ impl ImportCollector {
 
     /// Get sorted import statements
     /// P0-C01 fix: Excludes types with conflicting simple names (e.g., f.a.a.a and f.a.b.a)
+    /// JADX parity: Also excludes types that conflict with inner class names
     pub fn get_imports(&self) -> Vec<String> {
         // Build set of conflicting FQNs (types whose simple names conflict with others)
         let conflicting_fqns: BTreeSet<&str> = self.simple_name_map
@@ -576,7 +611,16 @@ impl ImportCollector {
 
         self.imports
             .iter()
-            .filter(|name| !conflicting_fqns.contains(name.as_str()))
+            .filter(|name| {
+                // Exclude types with conflicting simple names
+                if conflicting_fqns.contains(name.as_str()) {
+                    return false;
+                }
+                // Clone of JADX ClassGen.checkInnerCollision()
+                // Reference: jadx-core/src/main/java/jadx/core/codegen/ClassGen.java:785-802
+                // Exclude types whose simple name matches an inner class
+                !self.has_inner_class_collision(name)
+            })
             .map(|name| replace_inner_class_separator(&name.replace('/', ".")))
             .collect()
     }
@@ -594,6 +638,14 @@ impl ImportCollector {
         }
         // Check if this type has a conflicting simple name
         let simple_name = stripped.rsplit('/').next().unwrap_or(stripped);
+
+        // Clone of JADX ClassGen.checkInnerCollision()
+        // Reference: jadx-core/src/main/java/jadx/core/codegen/ClassGen.java:785-802
+        // If simple name matches any inner class, can't use short form
+        if self.inner_class_names.contains(simple_name) {
+            return false;
+        }
+
         if let Some(fqns) = self.simple_name_map.get(simple_name) {
             let unique: BTreeSet<&str> = fqns.iter().map(String::as_str).collect();
             if unique.len() > 1 {
@@ -603,10 +655,20 @@ impl ImportCollector {
         true
     }
 
+    /// Clone of JADX ClassGen.checkInnerCollision() for a specific type
+    /// Reference: jadx-core/src/main/java/jadx/core/codegen/ClassGen.java:785-802
+    ///
+    /// Returns true if the type's simple name conflicts with an inner class name
+    fn has_inner_class_collision(&self, internal_name: &str) -> bool {
+        let simple_name = internal_name.rsplit('/').next().unwrap_or(internal_name);
+        self.inner_class_names.contains(simple_name)
+    }
+
     /// Get the set of non-conflicting imports for type resolution
     /// P0-C01 fix: Excludes types with conflicting simple names
+    /// JADX parity: Also excludes types that conflict with inner class names
     pub fn get_non_conflicting_imports(&self) -> BTreeSet<String> {
-        // Build set of conflicting FQNs
+        // Build set of conflicting FQNs (same simple name, different FQN)
         let conflicting_fqns: BTreeSet<&str> = self.simple_name_map
             .values()
             .filter(|fqns| {
@@ -618,7 +680,16 @@ impl ImportCollector {
 
         self.imports
             .iter()
-            .filter(|name| !conflicting_fqns.contains(name.as_str()))
+            .filter(|name| {
+                // Exclude types with conflicting simple names
+                if conflicting_fqns.contains(name.as_str()) {
+                    return false;
+                }
+                // Clone of JADX ClassGen.checkInnerCollision()
+                // Reference: jadx-core/src/main/java/jadx/core/codegen/ClassGen.java:785-802
+                // Exclude types whose simple name matches an inner class
+                !self.has_inner_class_collision(name)
+            })
             .cloned()
             .collect()
     }
@@ -785,6 +856,16 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
     // Also collect from nested inner classes
     let (imports, current_package) = if config.use_imports && !is_nested {
         let mut collector = ImportCollector::new(&class.class_type);
+
+        // Clone of JADX ClassGen.checkInnerCollision()
+        // Reference: jadx-core/src/main/java/jadx/core/codegen/ClassGen.java:785-802
+        // Register inner class names to prevent import collisions
+        if let Some(nested) = nested_inner_classes {
+            for inner in nested {
+                collector.add_inner_class_name(&inner.class_type);
+            }
+        }
+
         collector.collect_from_class_with_dex(class, dex_info.as_ref());
         // Collect imports from nested inner classes too
         if let Some(nested) = nested_inner_classes {
@@ -1715,6 +1796,7 @@ mod tests {
         class.instance_fields.push(FieldData {
             name: "value".to_string(),
             alias: None,
+            rename_reasons: Vec::new(),
             access_flags: 0x0002, // private
             field_type: ArgType::Int,
             initial_value: None,
@@ -1734,6 +1816,7 @@ mod tests {
         class.static_fields.push(FieldData {
             name: "MAX_VALUE".to_string(),
             alias: None,
+            rename_reasons: Vec::new(),
             access_flags: 0x0019, // public static final
             field_type: ArgType::Int,
             initial_value: Some(FieldValue::Int(100)),
@@ -1834,6 +1917,7 @@ mod tests {
         class.instance_fields.push(FieldData {
             name: "view".to_string(),
             alias: None,
+            rename_reasons: Vec::new(),
             access_flags: 0x0002,
             field_type: ArgType::Object("android/view/View".to_string()),
             initial_value: None,
@@ -1949,6 +2033,7 @@ mod tests {
         class.instance_fields.push(FieldData {
             name: "view".to_string(),
             alias: None,
+            rename_reasons: Vec::new(),
             access_flags: 0x0002,
             field_type: ArgType::Object("android/view/View".to_string()),
             initial_value: None,

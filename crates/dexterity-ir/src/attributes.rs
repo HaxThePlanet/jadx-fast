@@ -972,10 +972,44 @@ impl JumpInfo {
     }
 }
 
-/// Generic type info for instructions
+/// Generic type info for instructions (JADX parity)
+///
+/// Clone of JADX GenericInfoAttr - stores generic type information with explicit flag.
+/// Reference: jadx-core/src/main/java/jadx/core/dex/attributes/nodes/GenericInfoAttr.java
+///
+/// The `is_explicit` flag controls diamond operator generation:
+/// - `true`: Emit explicit types: `new ArrayList<String>()`
+/// - `false`: Emit diamond operator: `new ArrayList<>()`
 #[derive(Debug, Clone)]
 pub struct GenericInfoAttr {
-    pub type_args: Vec<String>,
+    /// The generic type arguments (e.g., [String, Integer] for Map<String, Integer>)
+    pub generic_types: Vec<crate::types::ArgType>,
+    /// Whether to emit explicit types (true) or use diamond operator <> (false)
+    /// JADX Reference: GenericInfoAttr.java:11,21-23
+    pub is_explicit: bool,
+}
+
+impl GenericInfoAttr {
+    /// Create with explicit types
+    pub fn explicit(generic_types: Vec<crate::types::ArgType>) -> Self {
+        Self {
+            generic_types,
+            is_explicit: true,
+        }
+    }
+
+    /// Create with diamond operator (inferred types)
+    pub fn diamond(generic_types: Vec<crate::types::ArgType>) -> Self {
+        Self {
+            generic_types,
+            is_explicit: false,
+        }
+    }
+
+    /// Check if empty (no generic types)
+    pub fn is_empty(&self) -> bool {
+        self.generic_types.is_empty()
+    }
 }
 
 /// Region reference attribute

@@ -10,6 +10,53 @@ use std::collections::HashSet;
 use dexterity_ir::{ClassData, FieldData, MethodData};
 use crate::name_mapper::NameMapper;
 
+/// Reason why a name was renamed
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/dex/attributes/nodes/RenameReasonAttr.java
+/// Tracks why each rename happened for debugging and logging purposes.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum RenameReason {
+    /// Name contained invalid characters for Java identifier
+    NotValid,
+    /// Name contained non-printable characters
+    NotPrintable,
+    /// Inner class name collided with parent class name
+    InnerClassCollision,
+    /// Field name collided with another field in same class
+    FieldNameCollision,
+    /// Method signature collided with another method in same class
+    MethodSignatureCollision,
+    /// Class path collided due to case-insensitive filesystem
+    CaseSensitiveCollision,
+    /// Field name collided with root package name
+    RootPackageCollision,
+    /// Renamed from source file name
+    SourceFileName,
+    /// User-provided rename via codedata
+    UserRename,
+    /// Invalid class name (anonymous pattern, leading digit)
+    InvalidClassName,
+    /// Custom reason
+    Custom(String),
+}
+
+impl RenameReason {
+    /// Create a reason for not valid + not printable combination
+    ///
+    /// JADX Reference: RenameReasonAttr constructor with notValid/notPrintable params
+    pub fn from_validity(not_valid: bool, not_printable: bool) -> Self {
+        if not_valid && not_printable {
+            Self::NotValid // Prioritize not valid
+        } else if not_valid {
+            Self::NotValid
+        } else if not_printable {
+            Self::NotPrintable
+        } else {
+            Self::Custom("unknown".to_string())
+        }
+    }
+}
+
 /// Rename flags that control deobfuscation behavior
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum RenameFlag {
@@ -80,6 +127,118 @@ pub trait DeobfCondition: Send + Sync {
     fn check_method(&self, method: &MethodData) -> Action {
         let _ = method;
         Action::NoAction
+    }
+}
+
+/// Always rename condition - singleton
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/api/deobf/impl/AlwaysRename.java
+/// Returns ForceRename for all nodes, used when applying preset mappings.
+pub struct AlwaysRename;
+
+/// Predicate-based rename condition for custom rename logic
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/api/deobf/impl/AnyRenameCondition.java
+///
+/// Allows users to define custom rename conditions using a closure.
+/// The predicate receives the name and returns whether to rename.
+pub struct PredicateCondition<F>
+where
+    F: Fn(&str) -> bool + Send + Sync,
+{
+    predicate: F,
+}
+
+impl<F> PredicateCondition<F>
+where
+    F: Fn(&str) -> bool + Send + Sync,
+{
+    /// Create a new predicate condition
+    pub fn new(predicate: F) -> Self {
+        Self { predicate }
+    }
+}
+
+impl<F> DeobfCondition for PredicateCondition<F>
+where
+    F: Fn(&str) -> bool + Send + Sync,
+{
+    fn check_package(&self, name: &str) -> Action {
+        if (self.predicate)(name) {
+            Action::ForceRename
+        } else {
+            Action::NoAction
+        }
+    }
+
+    fn check_class(&self, cls: &ClassData) -> Action {
+        let name = cls.alias.as_deref().unwrap_or(cls.simple_name());
+        if (self.predicate)(name) {
+            Action::ForceRename
+        } else {
+            Action::NoAction
+        }
+    }
+
+    fn check_field(&self, field: &FieldData) -> Action {
+        let name = field.alias.as_deref().unwrap_or(&field.name);
+        if (self.predicate)(name) {
+            Action::ForceRename
+        } else {
+            Action::NoAction
+        }
+    }
+
+    fn check_method(&self, method: &MethodData) -> Action {
+        let name = method.alias.as_deref().unwrap_or(&method.name);
+        if (self.predicate)(name) {
+            Action::ForceRename
+        } else {
+            Action::NoAction
+        }
+    }
+}
+
+/// Create a condition that renames names matching a regex pattern
+///
+/// JADX Reference: Inspired by AnyRenameCondition usage patterns
+pub fn rename_matching_pattern(pattern: &str) -> impl DeobfCondition {
+    let regex = regex::Regex::new(pattern).expect("Invalid regex pattern");
+    PredicateCondition::new(move |name: &str| regex.is_match(name))
+}
+
+/// Create a condition that renames names shorter than a given length
+pub fn rename_shorter_than(min_len: usize) -> impl DeobfCondition {
+    PredicateCondition::new(move |name: &str| name.len() < min_len)
+}
+
+impl AlwaysRename {
+    pub fn new() -> Self {
+        Self
+    }
+}
+
+impl Default for AlwaysRename {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl DeobfCondition for AlwaysRename {
+    fn check_package(&self, _name: &str) -> Action {
+        Action::ForceRename
+    }
+
+    fn check_class(&self, _cls: &ClassData) -> Action {
+        Action::ForceRename
+    }
+
+    fn check_field(&self, _field: &FieldData) -> Action {
+        Action::ForceRename
+    }
+
+    fn check_method(&self, _method: &MethodData) -> Action {
+        Action::ForceRename
     }
 }
 
@@ -244,19 +403,45 @@ impl CombinedCondition {
     /// 4. ExcludeAndroidRClass - skip Android R classes
     /// 5. AvoidClsAndPkgNamesCollision - force rename if class collides with package
     /// 6. DeobfLengthCondition - force rename if name too short/long
+    /// Create default JADX conditions in exact JADX order
+    ///
+    /// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/JadxRenameConditions.java
+    /// Order is critical - first definitive action wins!
     pub fn default_jadx(min_length: usize, max_length: usize) -> Self {
         Self::new(vec![
             // 1. BaseDeobfCondition - forbid if already has alias or is constructor
+            // JADX: list.add(new BaseDeobfCondition());
             Box::new(BaseDeobfCondition::new()),
-            // 2. DeobfWhitelist equivalent (common package names)
-            Box::new(PackageWhitelistCondition::new()),
-            // 3. ExcludePackageWithTLDNames
+            // 2. DeobfWhitelist - JADX's exact whitelist patterns
+            // JADX: list.add(new DeobfWhitelist());
+            Box::new(DeobfWhitelist::default_jadx()),
+            // 3. ExcludePackageWithTLDNames - don't rename packages starting with TLDs
+            // JADX: list.add(new ExcludePackageWithTLDNames());
             Box::new(crate::tlds::ExcludePackageWithTLDNames::new()),
-            // 4. ExcludeAndroidRClass
+            // 4. ExcludeAndroidRClass - don't rename Android R.* classes
+            // JADX: list.add(new ExcludeAndroidRClass());
             Box::new(ExcludeAndroidRClass::new()),
-            // 5. AvoidClsAndPkgNamesCollision - initialized empty, caller should populate
+            // 5. AvoidClsAndPkgNamesCollision - force rename if class name = package name
+            // JADX: list.add(new AvoidClsAndPkgNamesCollision());
             Box::new(AvoidClsAndPkgNamesCollision::new()),
-            // 6. DeobfLengthCondition - force rename if too short/long
+            // 6. DeobfLengthCondition - force rename if name too short/long
+            // JADX: list.add(new DeobfLengthCondition());
+            Box::new(LengthCondition::new(min_length, max_length)),
+        ])
+    }
+
+    /// Create conditions with dexterity extensions (includes PackageWhitelistCondition)
+    ///
+    /// This adds dexterity's extra package whitelist on top of JADX's defaults.
+    /// Use `default_jadx()` for strict JADX parity.
+    pub fn default_dexterity(min_length: usize, max_length: usize) -> Self {
+        Self::new(vec![
+            Box::new(BaseDeobfCondition::new()),
+            Box::new(DeobfWhitelist::default_jadx()),
+            Box::new(PackageWhitelistCondition::new()), // Dexterity extension
+            Box::new(crate::tlds::ExcludePackageWithTLDNames::new()),
+            Box::new(ExcludeAndroidRClass::new()),
+            Box::new(AvoidClsAndPkgNamesCollision::new()),
             Box::new(LengthCondition::new(min_length, max_length)),
         ])
     }
@@ -349,6 +534,97 @@ impl DeobfCondition for PrintableCondition {
     }
 }
 
+/// Deobfuscation whitelist matching JADX's DeobfWhitelist
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/DeobfWhitelist.java
+///
+/// Forbids renaming of packages and classes matching user-configured patterns.
+/// Supports two pattern types:
+/// - Package patterns ending with `.*` (e.g., "android.support.v4.*")
+/// - Exact class names (e.g., "androidx.annotation.Px")
+pub struct DeobfWhitelist {
+    /// Package patterns (without the .* suffix, using / separators)
+    packages: HashSet<String>,
+    /// Exact class names (using / separators)
+    classes: HashSet<String>,
+}
+
+/// JADX's default whitelist patterns
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/DeobfWhitelist.java:15-21
+pub const JADX_DEFAULT_WHITELIST: &[&str] = &[
+    "android.support.v4.*",
+    "android.support.v7.*",
+    "android.support.v4.os.*",
+    "android.support.annotation.Px",
+    "androidx.core.os.*",
+    "androidx.annotation.Px",
+];
+
+impl DeobfWhitelist {
+    /// Create with JADX default patterns
+    pub fn default_jadx() -> Self {
+        Self::from_patterns(JADX_DEFAULT_WHITELIST.iter().copied())
+    }
+
+    /// Create from pattern list
+    pub fn from_patterns<'a>(patterns: impl IntoIterator<Item = &'a str>) -> Self {
+        let mut packages = HashSet::new();
+        let mut classes = HashSet::new();
+
+        for pattern in patterns {
+            let pattern = pattern.trim();
+            if pattern.is_empty() {
+                continue;
+            }
+            // Convert dots to slashes for internal representation
+            let converted = pattern.replace('.', "/");
+            if let Some(pkg) = converted.strip_suffix("/*") {
+                packages.insert(pkg.to_string());
+            } else {
+                classes.insert(converted);
+            }
+        }
+
+        Self { packages, classes }
+    }
+
+    /// Create empty whitelist
+    pub fn new() -> Self {
+        Self {
+            packages: HashSet::new(),
+            classes: HashSet::new(),
+        }
+    }
+}
+
+impl Default for DeobfWhitelist {
+    fn default() -> Self {
+        Self::default_jadx()
+    }
+}
+
+impl DeobfCondition for DeobfWhitelist {
+    fn check_package(&self, name: &str) -> Action {
+        // JADX Reference: DeobfWhitelist.check(PackageNode):44-48
+        // Check if the full package name is in the whitelist
+        if self.packages.contains(name) {
+            return Action::ForbidRename;
+        }
+        Action::NoAction
+    }
+
+    fn check_class(&self, cls: &ClassData) -> Action {
+        // JADX Reference: DeobfWhitelist.check(ClassNode):51-56
+        // Check if the full class name matches a whitelisted class
+        let full_name = cls.class_type.trim_start_matches('L').trim_end_matches(';');
+        if self.classes.contains(full_name) {
+            return Action::ForbidRename;
+        }
+        Action::NoAction
+    }
+}
+
 /// Condition that whitelists common short package names
 ///
 /// Prevents renaming of well-known short package prefixes like:
@@ -361,6 +637,8 @@ impl DeobfCondition for PrintableCondition {
 ///
 /// These are legitimate package names that should NOT be treated as obfuscated
 /// even though they are shorter than the typical min_length threshold.
+///
+/// NOTE: This is a dexterity extension, not from JADX. JADX uses DeobfWhitelist instead.
 pub struct PackageWhitelistCondition {
     /// Set of whitelisted package name segments
     whitelist: HashSet<&'static str>,
@@ -726,12 +1004,13 @@ mod tests {
     fn test_combined_with_whitelist() {
         let cond = CombinedCondition::default_jadx(3, 64);
 
-        // "io" is short but whitelisted, so should NOT be renamed
-        // JADX: First FORBID_RENAME wins (from PackageWhitelistCondition)
+        // "io" is a TLD, so gets FORBID_RENAME from ExcludePackageWithTLDNames
+        // JADX: ExcludePackageWithTLDNames returns FORBID_RENAME for TLD roots
         assert_eq!(cond.check_package("io"), Action::ForbidRename);
 
-        // "rx" is short but whitelisted
-        assert_eq!(cond.check_package("rx"), Action::ForbidRename);
+        // "rx" is NOT a TLD and short (2 chars < 3), so should be renamed
+        // JADX: LengthCondition returns FORCE_RENAME for short names
+        assert_eq!(cond.check_package("rx"), Action::ForceRename);
 
         // "a" is short and NOT whitelisted, so should be renamed
         // JADX: LengthCondition returns FORCE_RENAME
@@ -743,6 +1022,26 @@ mod tests {
         // "example" is long enough and valid, so should NOT be renamed
         // JADX: All conditions return NO_ACTION, default is don't rename
         assert_eq!(cond.check_package("example"), Action::NoAction);
+
+        // Test JADX DeobfWhitelist packages (android.support.*)
+        // These should get ForbidRename from DeobfWhitelist
+        assert_eq!(cond.check_package("android/support/v4"), Action::ForbidRename);
+        assert_eq!(cond.check_package("androidx/core/os"), Action::ForbidRename);
+    }
+
+    #[test]
+    fn test_combined_dexterity_extension() {
+        // default_dexterity includes PackageWhitelistCondition with "io", "rx", etc.
+        let cond = CombinedCondition::default_dexterity(3, 64);
+
+        // "io" is whitelisted in PackageWhitelistCondition
+        assert_eq!(cond.check_package("io"), Action::ForbidRename);
+
+        // "rx" is whitelisted in PackageWhitelistCondition
+        assert_eq!(cond.check_package("rx"), Action::ForbidRename);
+
+        // "kotlin" is whitelisted in PackageWhitelistCondition
+        assert_eq!(cond.check_package("kotlin"), Action::ForbidRename);
     }
 
     #[test]
@@ -805,5 +1104,116 @@ mod tests {
         // Class named "MainActivity" should not collide
         let main_class = ClassData::new("Lcom/example/MainActivity;".to_string(), 0);
         assert_eq!(cond.check_class(&main_class), Action::NoAction);
+    }
+
+    #[test]
+    fn test_always_rename() {
+        // JADX Reference: jadx-core/src/main/java/jadx/api/deobf/impl/AlwaysRename.java
+        let cond = AlwaysRename::new();
+
+        // All nodes should be force renamed
+        assert_eq!(cond.check_package("anything"), Action::ForceRename);
+
+        let cls = ClassData::new("Lcom/example/Any;".to_string(), 0);
+        assert_eq!(cond.check_class(&cls), Action::ForceRename);
+
+        let field = FieldData::new("field".to_string(), 0, dexterity_ir::ArgType::Int);
+        assert_eq!(cond.check_field(&field), Action::ForceRename);
+
+        let method = MethodData::new("method".to_string(), 0, dexterity_ir::ArgType::Void);
+        assert_eq!(cond.check_method(&method), Action::ForceRename);
+    }
+
+    #[test]
+    fn test_deobf_whitelist_jadx_default() {
+        // JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/DeobfWhitelist.java
+        let whitelist = DeobfWhitelist::default_jadx();
+
+        // Check package patterns (ending with .*)
+        // android.support.v4.* -> forbid rename
+        assert_eq!(whitelist.check_package("android/support/v4"), Action::ForbidRename);
+        assert_eq!(whitelist.check_package("android/support/v7"), Action::ForbidRename);
+        assert_eq!(whitelist.check_package("android/support/v4/os"), Action::ForbidRename);
+        assert_eq!(whitelist.check_package("androidx/core/os"), Action::ForbidRename);
+
+        // Check exact class patterns
+        // androidx.annotation.Px -> forbid rename (stored as class, not package)
+        let px_class = ClassData::new("Landroidx/annotation/Px;".to_string(), 0);
+        assert_eq!(whitelist.check_class(&px_class), Action::ForbidRename);
+
+        let support_px_class = ClassData::new("Landroid/support/annotation/Px;".to_string(), 0);
+        assert_eq!(whitelist.check_class(&support_px_class), Action::ForbidRename);
+
+        // Non-whitelisted packages should get NoAction
+        assert_eq!(whitelist.check_package("com/example"), Action::NoAction);
+        assert_eq!(whitelist.check_package("org/test"), Action::NoAction);
+
+        // Non-whitelisted classes should get NoAction
+        let other_class = ClassData::new("Lcom/example/MyClass;".to_string(), 0);
+        assert_eq!(whitelist.check_class(&other_class), Action::NoAction);
+    }
+
+    #[test]
+    fn test_deobf_whitelist_custom_patterns() {
+        // Test custom patterns
+        let patterns = vec![
+            "com.mycompany.*",
+            "org.internal.util.*",
+            "com.mycompany.special.SpecificClass",
+        ];
+        let whitelist = DeobfWhitelist::from_patterns(patterns);
+
+        // Package patterns
+        assert_eq!(whitelist.check_package("com/mycompany"), Action::ForbidRename);
+        assert_eq!(whitelist.check_package("org/internal/util"), Action::ForbidRename);
+
+        // Exact class
+        let specific_class = ClassData::new("Lcom/mycompany/special/SpecificClass;".to_string(), 0);
+        assert_eq!(whitelist.check_class(&specific_class), Action::ForbidRename);
+
+        // Other packages/classes not affected
+        assert_eq!(whitelist.check_package("com/other"), Action::NoAction);
+    }
+
+    #[test]
+    fn test_rename_reason() {
+        // JADX Reference: jadx-core/src/main/java/jadx/core/dex/attributes/nodes/RenameReasonAttr.java
+
+        // Test from_validity helper
+        assert_eq!(RenameReason::from_validity(true, false), RenameReason::NotValid);
+        assert_eq!(RenameReason::from_validity(false, true), RenameReason::NotPrintable);
+        assert_eq!(RenameReason::from_validity(true, true), RenameReason::NotValid);
+
+        // Test various reason types
+        let reasons = vec![
+            RenameReason::NotValid,
+            RenameReason::NotPrintable,
+            RenameReason::InnerClassCollision,
+            RenameReason::FieldNameCollision,
+            RenameReason::MethodSignatureCollision,
+            RenameReason::CaseSensitiveCollision,
+            RenameReason::RootPackageCollision,
+            RenameReason::SourceFileName,
+            RenameReason::UserRename,
+            RenameReason::InvalidClassName,
+            RenameReason::Custom("test reason".to_string()),
+        ];
+
+        for reason in reasons {
+            // Just verify they can be created and compared
+            assert_eq!(reason.clone(), reason);
+        }
+    }
+
+    #[test]
+    fn test_jadx_default_whitelist_constant() {
+        // Verify the exact JADX default list
+        assert_eq!(JADX_DEFAULT_WHITELIST.len(), 6);
+        assert!(JADX_DEFAULT_WHITELIST.contains(&"android.support.v4.*"));
+        assert!(JADX_DEFAULT_WHITELIST.contains(&"android.support.v7.*"));
+        assert!(JADX_DEFAULT_WHITELIST.contains(&"android.support.v4.os.*"));
+        assert!(JADX_DEFAULT_WHITELIST.contains(&"android.support.annotation.Px"));
+        assert!(JADX_DEFAULT_WHITELIST.contains(&"androidx.core.os.*"));
+        assert!(JADX_DEFAULT_WHITELIST.contains(&"androidx.annotation.Px"));
     }
 }

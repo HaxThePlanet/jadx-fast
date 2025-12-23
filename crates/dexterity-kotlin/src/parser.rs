@@ -464,10 +464,15 @@ pub fn parse_d1_protobuf(annot: &KotlinMetadataAnnotation) -> Result<KotlinClass
     let bytes = bit_encoding_decode(&annot.data1)?;
 
     // Parse based on kind
+    // JADX Reference: KotlinClassMetadata.Kind values
+    // 1 = Class, 2 = FileFacade, 3 = SyntheticClass
+    // 4 = MultiFileClassFacade, 5 = MultiFileClassPart
     match annot.kind {
         1 => parse_class_metadata(&bytes, annot),  // Class
         2 => parse_package_metadata(&bytes, annot), // Package (file facade)
         3 => parse_synthetic_class_metadata(&bytes, annot), // Synthetic class (lambdas)
+        4 => parse_multifile_class_facade(&bytes, annot), // P0.3: MultiFileClassFacade
+        5 => parse_multifile_class_part(&bytes, annot), // P0.3: MultiFileClassPart
         _ => Err(anyhow!("Unsupported Kotlin metadata kind: {}", annot.kind)),
     }
 }
@@ -612,6 +617,116 @@ fn parse_synthetic_class_metadata(_bytes: &[u8], _annot: &KotlinMetadataAnnotati
         flags: crate::types::KotlinClassFlags::default(),
         sealed_subclasses: vec![],
         type_parameters: vec![], // Synthetic classes don't have type parameters
+    })
+}
+
+/// Parse MultiFileClassFacade metadata (kind = 4)
+/// JADX Reference: kotlinx.metadata.jvm.KotlinClassMetadata.MultiFileClassFacade
+///
+/// This represents a facade class that combines multiple file-level declarations.
+/// The d1 array contains the list of part class internal names.
+/// Example: FileKt which combines Foo.kt and Bar.kt
+///
+/// P0.3 FIX: Adds support for multi-file class facades
+fn parse_multifile_class_facade(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Result<KotlinClassMetadata> {
+    // For MultiFileClassFacade, d1 contains StringTableTypes followed by a list of part class names
+    // The facade class itself has no functions/properties - those are in the parts
+    let mut remaining = bytes;
+
+    // First, read StringTableTypes
+    let string_table_types = jvm_proto::StringTableTypes::decode_length_delimited(&mut remaining)
+        .map_err(|e| anyhow!("Failed to decode StringTableTypes for MultiFileClassFacade: {}", e))?;
+
+    // Build string resolver
+    let strings = build_string_resolver(&string_table_types, &annot.data2)?;
+
+    // The facade class name comes from xs field (cross-module)
+    let class_name = annot.extra_string.clone()
+        .or_else(|| annot.package_name.clone())
+        .unwrap_or_else(|| "MultiFileClassFacade".to_string());
+
+    tracing::debug!(
+        "Parsed MultiFileClassFacade: {} with {} part references in d2",
+        class_name,
+        strings.len()
+    );
+
+    // Return facade metadata - functions/properties are in the parts
+    Ok(KotlinClassMetadata {
+        kind: KotlinKind::MultiFileClassFacade,
+        class_name,
+        functions: vec![],
+        properties: vec![],
+        companion_object: None,
+        is_data_class: false,
+        flags: crate::types::KotlinClassFlags::default(),
+        sealed_subclasses: strings, // Store part class names in sealed_subclasses field (repurposed)
+        type_parameters: vec![],
+    })
+}
+
+/// Parse MultiFileClassPart metadata (kind = 5)
+/// JADX Reference: kotlinx.metadata.jvm.KotlinClassMetadata.MultiFileClassPart
+///
+/// This represents one part of a multi-file class. Contains Package-level
+/// declarations plus reference to the facade class.
+/// Example: FileKt__FooKt is a part of FileKt facade
+///
+/// P0.3 FIX: Adds support for multi-file class parts
+fn parse_multifile_class_part(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Result<KotlinClassMetadata> {
+    // For MultiFileClassPart, d1 contains StringTableTypes followed by Package message
+    // Similar to FileFacade but with facade reference
+    let mut remaining = bytes;
+
+    // First, read StringTableTypes
+    let string_table_types = jvm_proto::StringTableTypes::decode_length_delimited(&mut remaining)
+        .map_err(|e| anyhow!("Failed to decode StringTableTypes for MultiFileClassPart: {}", e))?;
+
+    // Build string resolver
+    let strings = build_string_resolver(&string_table_types, &annot.data2)?;
+
+    // Parse Package message (same as FileFacade)
+    let proto_pkg = proto::Package::decode(remaining)
+        .map_err(|e| anyhow!("Failed to decode Package for MultiFileClassPart: {}", e))?;
+
+    // Extract top-level functions
+    let functions = proto_pkg
+        .function
+        .iter()
+        .enumerate()
+        .map(|(idx, f)| parse_function(f, &strings, idx as u32))
+        .collect::<Result<Vec<_>>>()?;
+
+    // Extract top-level properties
+    let properties = proto_pkg
+        .property
+        .iter()
+        .enumerate()
+        .map(|(idx, p)| parse_property(p, &strings, idx as u32))
+        .collect::<Result<Vec<_>>>()?;
+
+    // The class name comes from xs field or package name
+    let class_name = annot.extra_string.clone()
+        .or_else(|| annot.package_name.clone())
+        .unwrap_or_else(|| "MultiFileClassPart".to_string());
+
+    tracing::debug!(
+        "Parsed MultiFileClassPart: {} with {} functions, {} properties",
+        class_name,
+        functions.len(),
+        properties.len()
+    );
+
+    Ok(KotlinClassMetadata {
+        kind: KotlinKind::MultiFileClassPart,
+        class_name,
+        functions,
+        properties,
+        companion_object: None,
+        is_data_class: false,
+        flags: crate::types::KotlinClassFlags::default(),
+        sealed_subclasses: vec![],
+        type_parameters: vec![],
     })
 }
 
@@ -761,6 +876,40 @@ fn split_type_params(params: &str) -> Vec<&str> {
     result
 }
 
+/// Build JVM method signature string from proto JvmMethodSignature
+/// JADX Reference: KmExt.kt:8 - inline val KmFunction.shortId: String? get() = signature?.toString()
+/// Format: "methodName(Ljava/lang/String;)V"
+fn build_jvm_method_signature(
+    sig: &crate::jvm_proto::JvmMethodSignature,
+    strings: &[String],
+) -> Option<String> {
+    let name_idx = sig.name? as usize;
+    let desc_idx = sig.desc? as usize;
+
+    let name = strings.get(name_idx)?;
+    let desc = strings.get(desc_idx)?;
+
+    // JADX format: "name(params)return" e.g., "methodName(Ljava/lang/String;)V"
+    Some(format!("{}{}", name, desc))
+}
+
+/// Build JVM field signature string from proto JvmFieldSignature
+/// JADX Reference: KmExt.kt:9 - inline val KmProperty.shortId: String? get() = fieldSignature?.toString()
+/// Format: "fieldName:Ljava/lang/String;"
+fn build_jvm_field_signature(
+    sig: &crate::jvm_proto::JvmFieldSignature,
+    strings: &[String],
+) -> Option<String> {
+    let name_idx = sig.name? as usize;
+    let desc_idx = sig.desc? as usize;
+
+    let name = strings.get(name_idx)?;
+    let desc = strings.get(desc_idx)?;
+
+    // JADX format: "name:type" e.g., "myField:Ljava/lang/String;"
+    Some(format!("{}:{}", name, desc))
+}
+
 fn parse_function(func: &proto::Function, strings: &[String], _idx: u32) -> Result<KotlinFunction> {
     let name = strings
         .get(func.name as usize)
@@ -788,8 +937,17 @@ fn parse_function(func: &proto::Function, strings: &[String], _idx: u32) -> Resu
     }
 
     // Build JVM signature for matching with MethodData
-    // This is a simplified version; full signature matching will be done in extractor
-    let jvm_signature = format!("{}()", name);
+    // JADX Reference: KmExt.kt:8 - uses signature?.toString() for exact JVM signature
+    // This is the CRITICAL fix for P0.1 - proper JVM signature extraction
+    let jvm_signature = func.method_signature
+        .as_ref()
+        .and_then(|sig| build_jvm_method_signature(sig, strings))
+        .unwrap_or_else(|| {
+            // Fallback to simplified signature if JVM extension not present
+            // This happens with older Kotlin metadata versions
+            tracing::trace!("No JVM method signature for {}, using fallback", name);
+            format!("{}()", name)
+        });
 
     Ok(KotlinFunction {
         name,
@@ -810,18 +968,53 @@ fn parse_property(prop: &proto::Property, strings: &[String], _idx: u32) -> Resu
     let raw_flags = prop.flags.unwrap_or(518); // default: public final property with getter
     let flags = parse_property_flags(raw_flags);
 
-    // JVM field signature - simplified
-    let jvm_field_signature = name.clone();
-
-    // Check if property has getter/setter
+    // Check if property has getter/setter from flags
     let has_getter = raw_flags & PROP_FLAG_HAS_GETTER != 0;
     let has_setter = raw_flags & PROP_FLAG_HAS_SETTER != 0;
+
+    // Extract JVM signatures from property_signature extension
+    // JADX Reference: KmExt.kt:9 - uses fieldSignature, getterSignature, setterSignature
+    // This is the CRITICAL fix for P0.1 - proper JVM signature extraction
+    let (jvm_field_signature, getter_signature, setter_signature) = prop.property_signature
+        .as_ref()
+        .map(|sig| {
+            // Extract field signature
+            let field_sig = sig.field.as_ref()
+                .and_then(|f| build_jvm_field_signature(f, strings))
+                .unwrap_or_else(|| name.clone());
+
+            // Extract getter signature
+            let getter_sig = sig.getter.as_ref()
+                .and_then(|g| build_jvm_method_signature(g, strings));
+
+            // Extract setter signature
+            let setter_sig = sig.setter.as_ref()
+                .and_then(|s| build_jvm_method_signature(s, strings));
+
+            (field_sig, getter_sig, setter_sig)
+        })
+        .unwrap_or_else(|| {
+            // Fallback to simplified signatures if JVM extension not present
+            tracing::trace!("No JVM property signature for {}, using fallback", name);
+            let field_sig = name.clone();
+            let getter_sig = if has_getter {
+                Some(format!("get{}()V", capitalize_first(&name)))
+            } else {
+                None
+            };
+            let setter_sig = if has_setter {
+                Some(format!("set{}()V", capitalize_first(&name)))
+            } else {
+                None
+            };
+            (field_sig, getter_sig, setter_sig)
+        });
 
     Ok(KotlinProperty {
         name: name.clone(),
         jvm_field_signature,
-        getter_signature: if has_getter { Some(format!("get{}", capitalize_first(&name))) } else { None },
-        setter_signature: if has_setter { Some(format!("set{}", capitalize_first(&name))) } else { None },
+        getter_signature,
+        setter_signature,
         flags,
     })
 }

@@ -18,6 +18,8 @@ pub mod attributes;
 pub mod builder;
 pub mod class_hierarchy;
 pub mod info;
+pub mod insn_remover;
+pub mod insn_utils;
 pub mod instructions;
 pub mod kotlin_metadata;
 pub mod nodes;
@@ -37,7 +39,7 @@ pub use info::{
 };
 pub use instructions::{
     ConstValue, ConstructorCallType, InsnArg, InsnArgs, InsnNode, InsnType, LambdaHandleType,
-    LambdaInfo, PhiSources, RegisterArg, WrappedInsn, insn_remover, insn_utils,
+    LambdaInfo, PhiSources, RegisterArg, WrappedInsn,
 };
 pub use kotlin_metadata::{
     ClassAlias, ClassResolver, FnClassResolver, KotlinMetadata, SetClassResolver,

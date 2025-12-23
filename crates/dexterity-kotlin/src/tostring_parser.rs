@@ -72,6 +72,10 @@ enum RegisterSource {
     InstanceGet(u32),
     /// MoveResult from invoke (StringBuilder.append returns StringBuilder)
     MoveResult,
+    /// MoveResult from static invoke on a field (e.g., Arrays.toString(arrayField))
+    /// P1.2 FIX: Handle Arrays.toString() wrapping of array fields
+    /// JADX Reference: ToStringParser.kt:66-74
+    StaticInvokeOnField(u32),
     /// Other/unknown
     Other,
 }

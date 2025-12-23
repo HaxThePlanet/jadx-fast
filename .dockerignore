@@ -1,0 +1,84 @@
+# Git and version control
+.git/
+.gitignore
+.gitattributes
+.github/
+.gitlab-ci.yml
+
+# Build artifacts
+crates/target/
+**/target/
+*.so
+*.dylib
+*.dll
+*.a
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+.run/
+
+# Documentation and development files
+docs/
+*.md
+!README.md
+ROADMAP.md
+CHANGELOG.md
+CONTRIBUTING.md
+
+# Test files
+test-apks/
+apks/
+output/
+qa_reports/
+large-jadx/
+performance-report.md
+
+# Python files (if any)
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+venv/
+.python-version
+
+# Rust development files
+Cargo.lock
+**/*.rs.bk
+**/.cargo/
+
+# CI/CD
+.gitlab-ci.yml
+.github/
+
+# Scripts (unless needed)
+scripts/
+enhance_with_llm.rs
+test_llm_output.py
+test_llm_postproc.rs
+
+# Claims and temporary files
+.claims/
+.claude/
+*.tmp
+*.temp
+*.log
+
+# JADX comparison directories
+jadx-cli/
+jadx-core/
+jadx-gui/
+jadx-plugins/
+jadx-plugins-tools/
+jadx-commons/
+jadx-fast/
+
+# Other
+.typos.toml
+.jitpack.yml
+.editorconfig

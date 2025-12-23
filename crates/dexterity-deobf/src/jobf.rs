@@ -18,17 +18,55 @@ use std::path::Path;
 use crate::registry::AliasRegistry;
 
 /// JOBF file mode for how to handle the mapping file
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/api/args/GeneratedRenamesMappingFileMode.java
+/// Cloned from JADX's GeneratedRenamesMappingFileMode enum exactly.
+///
+/// Controls how the .jobf mapping file is handled during deobfuscation.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum JobfMode {
-    /// Read existing mappings from file
-    Read,
-    /// Save mappings to file after deobfuscation
-    Save,
-    /// Read if file exists, otherwise save after deobfuscation
+    /// Load if found, don't save (default in JADX)
+    ///
+    /// JADX: READ - Load existing mappings but never write them back
     #[default]
+    Read,
+    /// Load if found, save only if new (don't overwrite)
+    ///
+    /// JADX: READ_OR_SAVE - Load existing mappings if present, save new mappings only if file doesn't exist
     ReadOrSave,
-    /// Ignore .jobf files entirely
+    /// Don't load, always save (overwrite existing)
+    ///
+    /// JADX: OVERWRITE - Ignore existing mappings, regenerate and save
+    Overwrite,
+    /// Don't load and don't save
+    ///
+    /// JADX: IGNORE - Completely skip .jobf file handling
     Ignore,
+}
+
+impl JobfMode {
+    /// Get the default mode (matches JADX's getDefault())
+    ///
+    /// JADX Reference: GeneratedRenamesMappingFileMode.getDefault() returns READ
+    pub fn get_default() -> Self {
+        Self::Read
+    }
+
+    /// Check if this mode should read existing mappings
+    ///
+    /// JADX Reference: GeneratedRenamesMappingFileMode.shouldRead()
+    /// Returns true for READ and READ_OR_SAVE
+    pub fn should_read(&self) -> bool {
+        matches!(self, Self::Read | Self::ReadOrSave)
+    }
+
+    /// Check if this mode should write mappings
+    ///
+    /// JADX Reference: GeneratedRenamesMappingFileMode.shouldWrite()
+    /// Returns true for READ_OR_SAVE and OVERWRITE
+    pub fn should_write(&self) -> bool {
+        matches!(self, Self::ReadOrSave | Self::Overwrite)
+    }
 }
 
 /// JOBF preset mappings
@@ -243,6 +281,94 @@ pub fn get_method_alias<'a>(
 ) -> Option<&'a str> {
     let key = format!("{}:{}{}", class_name, method_name, proto);
     presets.methods.get(&key).map(|s| s.as_str())
+}
+
+/// Save deobfuscation mappings to a file
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/SaveDeobfMapping.java
+/// Cloned from JADX's SaveDeobfMapping visitor.
+///
+/// This function handles saving generated deobfuscation mappings to a .jobf file
+/// according to the specified mode:
+/// - `JobfMode::Read` - Don't save (read-only mode)
+/// - `JobfMode::ReadOrSave` - Save only if file doesn't exist
+/// - `JobfMode::Overwrite` - Always save (overwrite existing)
+/// - `JobfMode::Ignore` - Don't save (ignored mode)
+///
+/// # Arguments
+/// * `registry` - The alias registry containing all generated mappings
+/// * `deobf_map_file` - Path to the .jobf file
+/// * `mode` - How to handle the mapping file
+///
+/// # Returns
+/// * `Ok(true)` - Mappings were saved successfully
+/// * `Ok(false)` - Mappings were not saved (mode doesn't require saving, or file exists for READ_OR_SAVE)
+/// * `Err(...)` - IO error occurred while saving
+///
+/// # Example
+/// ```ignore
+/// let registry = AliasRegistry::new();
+/// // ... populate registry with aliases ...
+/// save_deobf_mapping(&registry, Path::new("app.jobf"), JobfMode::ReadOrSave)?;
+/// ```
+pub fn save_deobf_mapping<P: AsRef<Path>>(
+    registry: &AliasRegistry,
+    deobf_map_file: P,
+    mode: JobfMode,
+) -> io::Result<bool> {
+    // Check if we should write based on mode
+    // JADX Reference: SaveDeobfMapping.init() lines 27-34
+    if !mode.should_write() {
+        return Ok(false);
+    }
+
+    let path = deobf_map_file.as_ref();
+
+    // READ_OR_SAVE mode: don't overwrite existing file
+    // JADX Reference: SaveDeobfMapping.init() line 30
+    if mode == JobfMode::ReadOrSave && path.exists() {
+        return Ok(false);
+    }
+
+    // Fill presets from registry and save
+    // JADX Reference: SaveDeobfMapping.init() lines 32-33
+    let mut presets = JobfPresets::new();
+    presets.fill_from_registry(registry);
+    presets.save(path)?;
+
+    Ok(true)
+}
+
+/// Load deobfuscation mappings from a file if appropriate for the mode
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/DeobfuscatorVisitor.java lines 47-52
+/// Cloned from JADX's DeobfuscatorVisitor.loadPresets() logic.
+///
+/// # Arguments
+/// * `deobf_map_file` - Path to the .jobf file
+/// * `mode` - How to handle the mapping file
+///
+/// # Returns
+/// * `Some(presets)` - Presets were loaded successfully
+/// * `None` - Mode doesn't require loading, or file doesn't exist
+pub fn load_deobf_mapping<P: AsRef<Path>>(
+    deobf_map_file: P,
+    mode: JobfMode,
+) -> Option<JobfPresets> {
+    // Check if we should read based on mode
+    // JADX Reference: DeobfuscatorVisitor uses args.getGeneratedRenamesMappingFileMode().shouldRead()
+    if !mode.should_read() {
+        return None;
+    }
+
+    let path = deobf_map_file.as_ref();
+    if !path.exists() {
+        return None;
+    }
+
+    // Load presets, returning None on error
+    // JADX Reference: DeobfPresets.load() is called in DeobfuscatorVisitor
+    JobfPresets::load(path).ok()
 }
 
 #[cfg(test)]
