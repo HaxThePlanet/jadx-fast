@@ -5,12 +5,14 @@
 pub mod algorithms;
 pub mod anonymous_class_visitor;
 pub mod attach_method_details;
+pub mod block_exception_handler; // NEW: JADX BlockExceptionHandler clone (P0 Critical - 640 lines)
 pub mod block_split;
 pub mod clean_regions;
 pub mod check_code;
 pub mod check_regions;
 pub mod class_modifier;  // NEW: JADX ClassModifier clone
 pub mod constructor_visitor;
+pub mod debug_info;  // NEW: JADX DebugInfoAttachVisitor + DebugInfoApplyVisitor clone (P1)
 pub mod process_instructions;
 pub mod cfg;
 pub mod code_shrink;
@@ -18,9 +20,11 @@ pub mod conditionals;
 pub mod const_inline;
 pub mod deboxing;
 pub mod enum_visitor;
+pub mod exc_handlers_region;  // NEW: JADX ExcHandlersRegionMaker clone
 pub mod extract_field_init;
 pub mod finally_extract;
 pub mod finish_type_inference;
+pub mod fix_multi_entry_loops; // NEW: JADX FixMultiEntryLoops clone
 pub mod fix_switch_over_enum;  // NEW: JADX FixSwitchOverEnum clone
 pub mod fix_types;
 pub mod generic_types;
@@ -39,13 +43,19 @@ pub mod override_method;
 pub mod post_process_regions;
 pub mod prepare_for_codegen;
 pub mod process_anonymous;
+pub mod process_try_catch_regions; // NEW: JADX ProcessTryCatchRegions clone
 pub mod process_variables;
 pub mod region_builder;
+pub mod rename_visitor;     // NEW: JADX RenameVisitor + NameMapper clone (deobfuscation)
+pub mod replace_new_array;  // NEW: JADX ReplaceNewArray clone
 pub mod return_visitor;
 pub mod shadow_field;
+pub mod signature_processor;   // NEW: JADX SignatureProcessor clone
 pub mod simplify;
 pub mod ssa;
 pub mod switch_break_visitor;  // NEW: JADX SwitchBreakVisitor clone
+pub mod switch_over_string;    // NEW: JADX SwitchOverStringVisitor clone
+pub mod synchronized_region;   // NEW: JADX SynchronizedRegionMaker clone
 pub mod ternary_mod;
 pub mod type_bound;
 pub mod type_inference;
@@ -201,6 +211,45 @@ pub use inline_methods::{
 pub use loop_analysis::{
     analyze_loop_patterns_with_iterables, detect_iterator_foreach, EnhancedLoopPatternResult,
     IteratorForEachPattern,
+};
+pub use switch_over_string::{
+    process_switch_over_string, SwitchOverStringResult,
+};
+pub use replace_new_array::{
+    build_filled_array, process_replace_new_array, FilledArrayData, ReplaceNewArrayResult,
+};
+pub use fix_multi_entry_loops::{
+    detect_special_edges, fix_multi_entry_loops, FixMultiEntryLoopsResult, SpecialEdge, SpecialEdgeType,
+};
+pub use process_try_catch_regions::{
+    process_try_catch_regions, HandlerInfo, ProcessTryCatchRegionsResult, TryCatchBlockInfo,
+};
+pub use exc_handlers_region::{
+    find_handlers_out_blocks, get_top_splitter_for_handler, process_exc_handlers,
+    ExcHandlersRegionResult, ExceptionHandlerInfo, TryCatchBlockAttr as ExcTryCatchBlockAttr,
+};
+pub use signature_processor::{
+    check_method_arg_types, fix_type_param_declarations, process_interfaces, process_super_type,
+    validate_full_class_name, validate_inner_type, validate_parsed_type,
+    InnerClassInfo, SignatureProcessorResult,
+};
+pub use synchronized_region::{
+    can_remove_sync_block, create_synchronized_region, process_synchronized_regions,
+    remove_synchronized_from_method, MonitorInfo, SyncBlockInfo, SynchronizedRegionResult,
+};
+pub use rename_visitor::{
+    // NameMapper functions (JADX clone)
+    is_reserved, is_valid_identifier, is_valid_full_identifier,
+    is_valid_identifier_start, is_valid_identifier_part,
+    is_printable_ascii, is_all_chars_printable, is_valid_and_printable,
+    remove_invalid_chars, remove_invalid_chars_middle, remove_non_printable_chars,
+    // RenameVisitor functions (JADX clone)
+    fix_class_short_name, fix_field_name, fix_method_name, fix_package_name,
+    check_class_name, check_case_insensitive_collision,
+    // Types
+    AliasProvider, RenameReason, RenameReasonType, RenameResult,
+    // Constants
+    ANONYMOUS_CLASS_PREFIX, DEFAULT_PACKAGE_NAME,
 };
 
 /// Pass trait for decompilation passes
