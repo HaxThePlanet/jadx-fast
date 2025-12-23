@@ -404,8 +404,8 @@ mod tests {
             is_synthetic: false,
             super_class: Some(0),
             interfaces: vec![],
-            constructors,
-            methods: constructors.clone(),
+            constructors: constructors.clone(),
+            methods: constructors,
             fields: vec![],
         }
     }

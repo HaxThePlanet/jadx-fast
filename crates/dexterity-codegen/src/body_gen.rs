@@ -1552,6 +1552,16 @@ fn detect_increment_decrement(
             _ => return None,
         };
 
+        // P0-CFG03 FIX: Check if left operand is declared before generating compound assignment.
+        // Compound assignments like `l += 1` require `l` to be already declared.
+        // If not declared, return None to let normal declaration flow handle it.
+        // Clone JADX's NameGen.useArg() pattern: fallback when name not found.
+        let left_var_name = ctx.expr_gen.get_var_name(left_reg);
+        if !ctx.is_name_declared(&left_var_name) && !ctx.is_parameter(left_reg.reg_num, left_reg.ssa_version) {
+            // Variable not declared - can't use compound assignment
+            return None;
+        }
+
         // Check if left operand is the same variable as destination (same reg, different SSA version)
         // This handles the common case: i_v2 = i_v1 + 1
         if left_reg.reg_num != dest.reg_num {
@@ -1560,6 +1570,12 @@ fn detect_increment_decrement(
                 if let InsnArg::Register(right_reg) = right {
                     if right_reg.reg_num == dest.reg_num {
                         let var_name = ctx.expr_gen.get_var_name(right_reg);
+
+                        // P0-CFG03 FIX: Check if right operand is declared in commutative case
+                        if !ctx.is_name_declared(&var_name) && !ctx.is_parameter(right_reg.reg_num, right_reg.ssa_version) {
+                            return None;
+                        }
+
                         let right_str = ctx.expr_gen.gen_arg(left);
 
                         // For Add with literal 1/-1, use ++ or --
@@ -5655,7 +5671,43 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                                 }
                             }
                         }
-                        _ => {} // simplified - just collect top-level sequence blocks
+                        Region::If { then_region, else_region, condition, .. } => {
+                            // Collect blocks from condition
+                            for b in condition.get_blocks() {
+                                blocks.push(b);
+                            }
+                            collect_blocks(then_region, blocks);
+                            if let Some(ref e) = else_region {
+                                collect_blocks(e, blocks);
+                            }
+                        }
+                        Region::Loop { body, header_block, .. } => {
+                            if let Some(h) = header_block {
+                                blocks.push(*h);
+                            }
+                            collect_blocks(body, blocks);
+                        }
+                        Region::Switch { cases, header_block, .. } => {
+                            blocks.push(*header_block);
+                            for case in cases {
+                                collect_blocks(&case.container, blocks);
+                            }
+                        }
+                        Region::TryCatch { try_region, handlers, finally, .. } => {
+                            collect_blocks(try_region, blocks);
+                            for h in handlers {
+                                collect_blocks(&h.region, blocks);
+                            }
+                            if let Some(ref f) = finally {
+                                collect_blocks(f, blocks);
+                            }
+                        }
+                        Region::Synchronized { enter_block, body, .. } => {
+                            blocks.push(*enter_block);
+                            collect_blocks(body, blocks);
+                        }
+                        Region::Break { .. } | Region::Continue { .. } => {}
+                        Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => {}
                     }
                 }
                 let mut try_blocks = Vec::new();

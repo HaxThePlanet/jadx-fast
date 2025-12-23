@@ -1109,17 +1109,18 @@ impl<'a> RegionBuilder<'a> {
 
     /// Process a try-catch region (like Java's TryCatchRegionMaker)
     fn process_try_catch(&mut self, try_info: &TryInfo) -> (Region, Option<u32>) {
-        // Mark all try blocks as processed
-        for &block in &try_info.try_blocks {
-            self.processed.insert(block);
-        }
+        // CRITICAL FIX (P0-CFG01): Do NOT pre-mark try blocks as processed here.
+        // build_try_body needs to call process_if -> build_branch_region -> traverse,
+        // and traverse checks self.processed to decide whether to process a block.
+        // If we pre-mark all try blocks, traverse will skip them all, resulting in
+        // empty nested regions. Instead, build_try_body marks blocks as it processes them.
 
         self.stack.push();
 
         // Add merge point as exit
         self.stack.add_exit(try_info.merge_block);
 
-        // Build try body region
+        // Build try body region - this will mark blocks as processed
         let try_body = self.build_try_body(try_info);
 
         // Detect finally block from catch-all handler
@@ -1252,6 +1253,7 @@ impl<'a> RegionBuilder<'a> {
     fn build_try_body(&mut self, try_info: &TryInfo) -> Region {
         let mut contents = Vec::new();
         let mut processed_in_try = BTreeSet::new();
+        let debug = std::env::var("DEXTERITY_DEBUG_TRYCATCH").is_ok();
 
         // Build blocks in order
         let mut sorted_blocks: Vec<u32> = try_info.try_blocks.iter().copied().collect();
@@ -1260,16 +1262,25 @@ impl<'a> RegionBuilder<'a> {
         for block_id in sorted_blocks {
             // Skip already processed (in case of nested structures)
             if !try_info.try_blocks.contains(&block_id) {
+                if debug {
+                    eprintln!("[BUILD_TRY_BODY] Block {} skipped: not in try_blocks", block_id);
+                }
                 continue;
             }
             // Skip blocks already processed as part of nested structures
             if processed_in_try.contains(&block_id) {
+                if debug {
+                    eprintln!("[BUILD_TRY_BODY] Block {} skipped: in processed_in_try", block_id);
+                }
                 continue;
             }
 
             // Check for nested loops/conditionals within try
             if let Some(loop_info) = self.loop_map.get(&block_id).copied() {
                 if loop_info.blocks.iter().all(|b| try_info.try_blocks.contains(b)) {
+                    if debug {
+                        eprintln!("[BUILD_TRY_BODY] Block {} is loop header, loop_blocks={:?}", block_id, loop_info.blocks);
+                    }
                     let body = self.build_loop_body(loop_info);
                     contents.push(RegionContent::Region(Box::new(Region::Loop {
                         kind: loop_info.kind,
@@ -1281,11 +1292,18 @@ impl<'a> RegionBuilder<'a> {
                         header_block: Some(loop_info.header),
                         pre_condition_block: None,
                     })));
-                    // Mark all loop blocks as processed
+                    // Mark all loop blocks as processed (both local and global)
                     for &b in &loop_info.blocks {
                         processed_in_try.insert(b);
+                        self.processed.insert(b);
                     }
                     continue;
+                } else if debug {
+                    let missing: Vec<u32> = loop_info.blocks.iter()
+                        .filter(|b| !try_info.try_blocks.contains(b))
+                        .copied()
+                        .collect();
+                    eprintln!("[BUILD_TRY_BODY] Block {} loop NOT fully contained, missing={:?}", block_id, missing);
                 }
             }
 
@@ -1293,19 +1311,46 @@ impl<'a> RegionBuilder<'a> {
                 if cond.then_blocks.iter().all(|b| try_info.try_blocks.contains(b))
                     && cond.else_blocks.iter().all(|b| try_info.try_blocks.contains(b))
                 {
+                    if debug {
+                        eprintln!("[BUILD_TRY_BODY] Block {} is cond header, then={:?}, else={:?}",
+                            block_id, cond.then_blocks, cond.else_blocks);
+                    }
+                    // Mark the condition block as globally processed before calling process_if
+                    // (process_if also marks it, but this ensures it's marked even if process_if
+                    // returns early, e.g., for ternary transformation)
+                    self.processed.insert(block_id);
                     let (if_region, _) = self.process_if(cond);
                     contents.push(RegionContent::Region(Box::new(if_region)));
-                    // Mark all then/else blocks as processed to prevent duplication
+                    // Mark all then/else blocks as processed (both local and global)
+                    // Note: process_if marks these via traverse, but we also need local tracking
                     for &b in &cond.then_blocks {
                         processed_in_try.insert(b);
+                        self.processed.insert(b);
                     }
                     for &b in &cond.else_blocks {
                         processed_in_try.insert(b);
+                        self.processed.insert(b);
                     }
                     continue;
+                } else if debug {
+                    let then_missing: Vec<u32> = cond.then_blocks.iter()
+                        .filter(|b| !try_info.try_blocks.contains(b))
+                        .copied()
+                        .collect();
+                    let else_missing: Vec<u32> = cond.else_blocks.iter()
+                        .filter(|b| !try_info.try_blocks.contains(b))
+                        .copied()
+                        .collect();
+                    eprintln!("[BUILD_TRY_BODY] Block {} cond NOT fully contained, then_missing={:?}, else_missing={:?}",
+                        block_id, then_missing, else_missing);
                 }
             }
 
+            if debug {
+                eprintln!("[BUILD_TRY_BODY] Block {} added as plain block", block_id);
+            }
+            // Mark block as globally processed (prevents re-traversal after try-catch returns)
+            self.processed.insert(block_id);
             contents.push(RegionContent::Block(block_id));
         }
 

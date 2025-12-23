@@ -328,7 +328,7 @@ mod tests {
     #[test]
     fn test_parse_type_variable() {
         let (ty, consumed) = parse_type_at("TT;");
-        assert!(matches!(ty, ArgType::TypeVariable(name) if name == "T"));
+        assert!(matches!(ty, ArgType::TypeVariable { name, .. } if name == "T"));
         assert_eq!(consumed, 3);
     }
 
