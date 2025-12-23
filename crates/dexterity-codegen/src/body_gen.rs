@@ -5650,6 +5650,9 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                     }
                 }
                 code.inc_indent();
+                // P1-CFG07 FIX: Process case region for inlining before generating
+                // This ensures method calls and constants are stored for inlining
+                process_region_for_inlining(&case.container, ctx);
                 generate_region(&case.container, ctx, code);
 
                 // Only add break if case doesn't end with return/throw/continue/break
@@ -5670,6 +5673,8 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             if let Some(def) = default_case {
                 code.start_line().add("default:").newline();
                 code.inc_indent();
+                // P1-CFG07 FIX: Process default case region for inlining
+                process_region_for_inlining(&def.container, ctx);
                 generate_region(&def.container, ctx, code);
                 // Don't add break after default - it's the last case
                 code.dec_indent();
@@ -6268,6 +6273,51 @@ fn process_all_condition_blocks_for_inlining(condition: &Condition, ctx: &mut Bo
             process_all_condition_blocks_for_inlining(if_false, ctx);
         }
         Condition::Unknown => {}
+    }
+}
+
+/// P1-CFG07 FIX: Process all blocks in a region for inlining before generating
+/// This ensures that expressions like method calls and constants are stored for inlining
+/// so that they can be retrieved when generating binary expressions like `e(a, b) / 7`
+fn process_region_for_inlining(region: &Region, ctx: &mut BodyGenContext) {
+    match region {
+        Region::Sequence(contents) => {
+            for content in contents {
+                match content {
+                    RegionContent::Block(block_id) => {
+                        // Process entire block for inlining (no final_insn_idx limit)
+                        process_block_prelude_for_inlining(*block_id, None, ctx);
+                    }
+                    RegionContent::Region(nested) => {
+                        process_region_for_inlining(nested, ctx);
+                    }
+                }
+            }
+        }
+        Region::If { condition, then_region, else_region } => {
+            process_all_condition_blocks_for_inlining(condition, ctx);
+            process_region_for_inlining(then_region, ctx);
+            if let Some(else_reg) = else_region {
+                process_region_for_inlining(else_reg, ctx);
+            }
+        }
+        Region::Loop { body, .. } => {
+            process_region_for_inlining(body, ctx);
+        }
+        Region::Switch { cases, .. } => {
+            for case in cases {
+                process_region_for_inlining(&case.container, ctx);
+            }
+        }
+        Region::TryCatch { try_region, handlers, finally } => {
+            process_region_for_inlining(try_region, ctx);
+            for handler in handlers {
+                process_region_for_inlining(&handler.catch_region, ctx);
+            }
+            if let Some(finally_region) = finally {
+                process_region_for_inlining(finally_region, ctx);
+            }
+        }
     }
 }
 
