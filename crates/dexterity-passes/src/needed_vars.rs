@@ -249,6 +249,7 @@ mod tests {
             dominators: Default::default(),
             dom_frontiers: Default::default(),
             max_versions: Default::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let needed = collect_needed_variables(&ssa);
@@ -282,6 +283,7 @@ mod tests {
             dominators: Default::default(),
             dom_frontiers: Default::default(),
             max_versions: Default::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let needed = collect_needed_variables(&ssa);
@@ -329,6 +331,7 @@ mod tests {
             dominators: Default::default(),
             dom_frontiers: Default::default(),
             max_versions: Default::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let needed = collect_needed_variables(&ssa);

@@ -522,6 +522,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = run_mod_visitor(&mut ssa);
@@ -568,6 +569,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = run_mod_visitor(&mut ssa);
@@ -609,6 +611,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = run_mod_visitor(&mut ssa);
@@ -678,6 +681,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = run_mod_visitor(&mut ssa);
@@ -762,6 +766,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = run_mod_visitor(&mut ssa);
@@ -819,6 +824,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = run_mod_visitor(&mut ssa);

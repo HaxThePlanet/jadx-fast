@@ -2224,7 +2224,17 @@ pub fn generate_body_with_inner_classes_and_lambdas<W: CodeWriter>(
         )
     }));
 
-    if let Err(_payload) = result {
+    if let Err(payload) = result {
+         // Debug: log panic message if DEXTERITY_DEBUG_PANIC is set
+         if std::env::var("DEXTERITY_DEBUG_PANIC").is_ok() {
+             if let Some(s) = payload.downcast_ref::<&str>() {
+                 eprintln!("[PANIC] {}: {}", method.name, s);
+             } else if let Some(s) = payload.downcast_ref::<String>() {
+                 eprintln!("[PANIC] {}: {}", method.name, s);
+             } else {
+                 eprintln!("[PANIC] {}: unknown panic type", method.name);
+             }
+         }
          code.start_line().add("/* Dexterity WARNING: Method generation error */").newline();
          if let Some(insns) = method.instructions() {
              crate::fallback_gen::generate_fallback_body(insns, code);
@@ -5633,6 +5643,31 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                 return;
             }
 
+            // Debug output for P0-CFG01
+            if std::env::var("DEXTERITY_DEBUG_TRYCATCH").is_ok() {
+                fn collect_blocks(r: &Region, blocks: &mut Vec<u32>) {
+                    match r {
+                        Region::Sequence(contents) => {
+                            for c in contents {
+                                match c {
+                                    RegionContent::Block(b) => blocks.push(*b),
+                                    RegionContent::Region(nr) => collect_blocks(nr, blocks),
+                                }
+                            }
+                        }
+                        _ => {} // simplified - just collect top-level sequence blocks
+                    }
+                }
+                let mut try_blocks = Vec::new();
+                collect_blocks(try_region, &mut try_blocks);
+                eprintln!("[CODEGEN] try_region blocks: {:?}", try_blocks);
+                for (i, h) in handlers.iter().enumerate() {
+                    let mut handler_blocks = Vec::new();
+                    collect_blocks(&h.region, &mut handler_blocks);
+                    eprintln!("[CODEGEN] handler[{}] region blocks: {:?}", i, handler_blocks);
+                }
+            }
+
             code.start_line().add("try {").newline();
             code.inc_indent();
             generate_region(try_region, ctx, code);
@@ -6007,8 +6042,16 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
             continue;
         }
 
-        // Skip trailing void return - unnecessary in Java (common in constructors and void methods)
-        if i == last_idx {
+        // P0-CFG02 FIX: Skip trailing void return ONLY at top-level method body.
+        // At region_depth == 1 (method body), trailing void return is unnecessary in Java.
+        // At region_depth >= 2 (inside conditionals/loops), void returns are CRITICAL early exits!
+        //
+        // Example:
+        //   if (condition) { return; }  // This return MUST be preserved
+        //   doSomethingElse();          // Only executes if condition is false
+        //
+        // Without this check, we'd generate empty if-bodies: if (condition) { }
+        if i == last_idx && ctx.region_depth == 1 {
             if let InsnType::Return { value: None } = &insn.insn_type {
                 continue;
             }

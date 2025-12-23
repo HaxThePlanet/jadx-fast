@@ -3,7 +3,11 @@
 //! This crate contains the visitor passes that transform the IR.
 
 pub mod algorithms;
+pub mod attach_method_details;
 pub mod block_split;
+pub mod check_code;
+pub mod check_regions;
+pub mod constructor_visitor;
 pub mod process_instructions;
 pub mod cfg;
 pub mod code_shrink;
@@ -17,6 +21,7 @@ pub mod finish_type_inference;
 pub mod fix_types;
 pub mod generic_types;
 pub mod if_region_visitor;
+pub mod init_code_vars;
 pub mod kotlin_intrinsics;
 pub mod loop_analysis;
 pub mod loops;
@@ -24,8 +29,12 @@ pub mod method_inline;
 pub mod method_invoke;
 pub mod mod_visitor;
 pub mod override_method;
+pub mod post_process_regions;
 pub mod prepare_for_codegen;
+pub mod process_anonymous;
+pub mod process_variables;
 pub mod region_builder;
+pub mod return_visitor;
 pub mod shadow_field;
 pub mod simplify;
 pub mod ssa;
@@ -34,6 +43,7 @@ pub mod type_bound;
 pub mod type_inference;
 pub mod type_search;
 pub mod type_update;
+pub mod usage_info;
 pub mod var_naming;
 pub mod visitor;
 
@@ -108,6 +118,8 @@ pub use generic_types::{
     attach_generic_types, class_has_generics, resolve_constructor_generics, GenericTypesResult,
 };
 pub use if_region_visitor::{process_if_regions, IfRegionVisitorResult};
+pub use init_code_vars::{init_code_variables, rerun_code_variables};
+pub use process_variables::{process_variables, get_code_var_name, merge_code_var_type, ProcessVariablesResult};
 pub use shadow_field::{
     apply_shadow_field_fixes, get_field_fix, is_instance_field_access, search_shadowed_fields,
     FieldFixInfo, FieldFixType, ShadowFieldResult,
@@ -120,6 +132,31 @@ pub use override_method::{
     analyze_overrides, collect_super_types, find_overridden_methods, fix_method_arg_types,
     fix_method_return_type, make_method_signature, should_add_override, MethodOverrideAttr,
     OverriddenMethod, OverrideAnalysisResult, SuperTypesData,
+};
+
+// New passes for JADX parity
+pub use check_code::{check_code, CheckCodeError, CheckCodeResult, CheckCodeWarning};
+pub use check_regions::{check_regions, has_missing_blocks, CheckRegionsResult, LoopWarning, MissingBlock};
+pub use usage_info::{collect_usage_from_instructions, FieldRef, MethodRef, UsageInfo};
+pub use process_anonymous::{
+    process_anonymous, AnonymousClassInfo, ClassInfo, InlineType, ProcessAnonymousResult,
+};
+pub use post_process_regions::{
+    insert_edge_insn, post_process_regions, region_ends_with_return_or_throw,
+    PostProcessRegionsResult,
+};
+pub use return_visitor::{
+    block_ends_with_return, ends_with_return, is_void_return_block, optimize_returns,
+    ReturnVisitorResult,
+};
+pub use constructor_visitor::{
+    analyze_class_constructors, is_constructor, is_implicit_default_constructor,
+    is_static_initializer, process_constructor, ClassConstructorAnalysis, ConstructorCallType,
+    ConstructorInfo, ConstructorVisitorResult, FieldInit,
+};
+pub use attach_method_details::{
+    attach_param_names, is_lambda_impl, is_synthetic_accessor, parse_method_signature,
+    AttachMethodDetailsResult, MethodDetails as AttachedMethodDetails, MethodSignature, TypeParameter,
 };
 
 /// Pass trait for decompilation passes

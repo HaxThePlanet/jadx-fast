@@ -113,8 +113,8 @@ cargo build --release -p dexterity-cli
 |-------|---------|--------|
 | dexterity-dex | DEX binary parsing | 100% |
 | dexterity-ir | Intermediate representation | 100% |
-| dexterity-passes | Decompilation passes | 90% |
-| dexterity-codegen | Java source generation | 85% |
+| dexterity-passes | Decompilation passes | 93% |
+| dexterity-codegen | Java source generation | 90% |
 | dexterity-resources | Resource decoding | 100% |
 | dexterity-deobf | Deobfuscation | 90% |
 | dexterity-kotlin | Kotlin metadata | 100% |

@@ -10,6 +10,7 @@
 use std::collections::{HashMap, HashSet, VecDeque};
 
 use dexterity_ir::info::DebugInfo;
+use dexterity_ir::ssa::{SSAContext, SSAVarRef, CodeVarId};
 use dexterity_ir::types::ArgType;
 
 use crate::ssa::SsaResult;
@@ -547,6 +548,49 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult) -> HashMap<
     }
 
     ssa_to_code_var
+}
+
+/// Build CodeVar groups from SSAContext (if populated from init_code_variables).
+/// This is the preferred path when SSAContext has been properly initialized.
+///
+/// Returns a map: (reg, version) -> code_var_index
+/// Also returns a map: code_var_index -> pre-assigned name (if any)
+fn build_code_vars_from_context(ctx: &SSAContext) -> Option<(HashMap<(u16, u32), usize>, HashMap<usize, String>)> {
+    // Check if SSAContext has code vars populated
+    if ctx.code_vars.is_empty() {
+        return None;
+    }
+
+    // Check if any SSA vars are linked to code vars
+    let has_links = ctx.vars.values().any(|v| v.code_var.is_some());
+    if !has_links {
+        return None;
+    }
+
+    let mut ssa_to_code_var: HashMap<(u16, u32), usize> = HashMap::new();
+    let mut code_var_names: HashMap<usize, String> = HashMap::new();
+
+    // Map each SSA var to its code var index
+    for (var_ref, var) in &ctx.vars {
+        if let Some(cv_id) = var.code_var {
+            ssa_to_code_var.insert((var_ref.reg_num, var_ref.version), cv_id as usize);
+        }
+    }
+
+    // Extract pre-assigned names from code vars
+    for cv in &ctx.code_vars {
+        if let Some(ref name) = cv.name {
+            code_var_names.insert(cv.id as usize, name.clone());
+        }
+    }
+
+    Some((ssa_to_code_var, code_var_names))
+}
+
+/// Get the type from SSAContext for a variable
+fn get_type_from_context(ctx: &SSAContext, reg: u16, version: u32) -> Option<&ArgType> {
+    let var_ref = SSAVarRef::new(reg, version);
+    ctx.get_var(var_ref).map(|v| &v.type_info.var_type)
 }
 
 /// Result of variable naming pass
@@ -1617,11 +1661,16 @@ pub fn assign_var_names_with_lookups<'a>(
         }
     }
 
-    // Build CodeVar groups from PHI nodes (like JADX's InitCodeVariables)
-    // Variables connected through PHI nodes should share the same name
+    // Build CodeVar groups - prefer SSAContext if populated (from init_code_variables)
+    // Fall back to PHI-based grouping (like JADX's InitCodeVariables)
     // TYPE-AWARE: Variables with incompatible types get separate names
-    let code_var_map = build_code_vars(ssa, type_info);
-    let mut code_var_names: HashMap<usize, String> = HashMap::new();
+    let (code_var_map, mut code_var_names) = if let Some((map, names)) = build_code_vars_from_context(&ssa.ssa_context) {
+        // SSAContext is populated - use its CodeVars
+        (map, names)
+    } else {
+        // Fall back to PHI-based grouping
+        (build_code_vars(ssa, type_info), HashMap::new())
+    };
 
     // Build assignment map: (reg, version) -> (block_idx, insn_idx, insn_offset)
     // (like JADX's SSAVar.getAssignInsn())

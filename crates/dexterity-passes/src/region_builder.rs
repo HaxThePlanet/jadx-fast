@@ -403,6 +403,15 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
             }
         }
 
+        // Debug output for P0-CFG01 investigation
+        if std::env::var("DEXTERITY_DEBUG_TRYCATCH").is_ok() {
+            eprintln!("[P0-CFG01 DEBUG] try_block range: {}..{}", try_block.start_addr, try_block.end_addr);
+            eprintln!("[P0-CFG01 DEBUG] try_blocks after handler removal: {:?}", try_block_ids);
+            for (i, handler) in handlers.iter().enumerate() {
+                eprintln!("[P0-CFG01 DEBUG] handler[{}] addr={}, blocks={:?}", i, handler.handler_block, handler.handler_blocks);
+            }
+        }
+
         // Find merge block (first block after all try and handler blocks)
         let all_blocks: BTreeSet<u32> = try_block_ids.iter()
             .chain(handlers.iter().flat_map(|h| h.handler_blocks.iter()))

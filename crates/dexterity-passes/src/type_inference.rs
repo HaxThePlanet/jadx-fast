@@ -2832,6 +2832,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::from_iter([(0, 1), (1, 1)]),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         }
     }
 
@@ -2900,6 +2901,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::from_iter([(0, 3)]),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = infer_types(&ssa);
@@ -2933,6 +2935,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::from_iter([(0, 1)]),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = infer_types(&ssa);
@@ -2976,6 +2979,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::from_iter([(0, 1), (1, 1)]),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = infer_types(&ssa);
@@ -2991,6 +2995,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::default(),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = infer_types(&ssa);
@@ -3079,6 +3084,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::from_iter([(0, 3)]),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         // Create a class hierarchy for LCA computation
@@ -3330,6 +3336,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::from_iter([(0, 1), (1, 1), (2, 1)]),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let result = infer_types(&ssa);
@@ -3385,6 +3392,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::from_iter([(0, 1)]),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         // Use the inference function with method return type = Double

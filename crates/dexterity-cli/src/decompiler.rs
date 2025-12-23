@@ -11,9 +11,10 @@
 use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{
-    assign_var_names, split_blocks_with_handlers, transform_to_ssa, transform_to_ssa_owned, infer_types, simplify_instructions,
+    assign_var_names, split_blocks_with_handlers, transform_to_ssa_owned, infer_types, simplify_instructions,
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, process_instructions, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
+    init_code_variables,
 };
 use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_duplicated_finally, refine_loops_with_patterns};
 
@@ -84,6 +85,19 @@ pub fn decompile_method(
     let blocks = cfg.take_blocks();
     let mut ssa = transform_to_ssa_owned(blocks);
 
+    // Stage 4.1: Initialize code variables (JADX parity - links SSAVars to CodeVars)
+    // Compute parameter register info for code var initialization
+    let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
+    let is_static = (method.access_flags & 0x0008) != 0; // ACC_STATIC
+    let this_reg = if is_static { None } else { Some(first_param_reg) };
+    let param_regs: Vec<u16> = if is_static {
+        (first_param_reg..method.regs_count).collect()
+    } else {
+        // Skip 'this' register for instance methods
+        ((first_param_reg + 1)..method.regs_count).take(method.arg_types.len()).collect()
+    };
+    init_code_variables(&mut ssa, this_reg, &param_regs);
+
     // Stage 4.25: ModVisitor - array initialization fusion, dead code removal
     // Combines NEW_ARRAY + FILL_ARRAY_DATA into FILLED_NEW_ARRAY
     let _ = run_mod_visitor(&mut ssa);
@@ -135,8 +149,7 @@ pub fn decompile_method(
     // Updates Loop regions with ForLoop/ForEach information for proper codegen
     refine_loops_with_patterns(&mut regions, &loop_patterns);
 
-    // Stage 6: Variable naming
-    let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
+    // Stage 6: Variable naming (first_param_reg computed above for init_code_variables)
     let num_params = method.arg_types.len() as u16;
     let var_names = assign_var_names(&ssa, &types, first_param_reg, num_params);
 

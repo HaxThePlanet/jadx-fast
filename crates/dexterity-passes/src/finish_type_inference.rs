@@ -207,6 +207,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::from_iter([(0, 2), (1, 1)]),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         }
     }
 
@@ -248,6 +249,7 @@ mod tests {
             dominators: FxHashMap::default(),
             dom_frontiers: FxHashMap::default(),
             max_versions: FxHashMap::from_iter([(0, 0)]),
+            ssa_context: dexterity_ir::ssa::SSAContext::new(),
         };
 
         let mut types = HashMap::new();
