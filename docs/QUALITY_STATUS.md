@@ -43,14 +43,14 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
 
 ## New Bugs from f.java Audit (Dec 22, 2025)
 
-### P0 Critical (Code Won't Compile) - 4 bugs (1 fixed Dec 22)
+### P0 Critical (Code Won't Compile) - 4 bugs (2 fixed Dec 22)
 
 | ID | Issue | Difficulty | Example File |
 |----|-------|------------|--------------|
 | **P0-CFG01** | Try-catch exception variable scope corruption | **HARD** | io/grpc/j1/f.java |
 | **P0-CFG02** | Empty if-body for early returns | **MEDIUM** | io/grpc/j1/f.java |
 | **P0-CFG03** | Undefined variables in complex expressions | **HARD** | net/time4j/f.java |
-| **P0-TYPE01** | Double literals as raw long bits | **EASY** | net/time4j/f.java |
+| ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 |
 | ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
 
 ### P1 Semantic (Wrong Behavior) - 3 bugs (1 fixed Dec 22)
