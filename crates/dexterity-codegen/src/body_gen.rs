@@ -382,6 +382,44 @@ impl BodyGenContext {
         self.current_class_type = Some(class_type);
     }
 
+    /// JADX parity: addNamesUsedInClass - reserve static fields, inner class names
+    /// This prevents variable names from colliding with these class-level names
+    pub fn add_class_level_reserved_names(&mut self, class: &dexterity_ir::ClassData) {
+
+        // Reserve static field names (JADX: for field in parentClass.getFields() if field.isStatic())
+        for field in &class.static_fields {
+            if !field.name.is_empty() {
+                self.declared_name_types.insert(field.name.clone(), field.field_type.clone());
+            }
+        }
+
+        // Reserve inner class short names (JADX: for innerClass in parentClass.getInnerClasses())
+        // Extract short name from inner class type: "Lcom/example/Outer$Inner;" -> "Inner"
+        for inner in &class.inner_classes {
+            if let Some(dollar_pos) = inner.rfind('$') {
+                let short_name = inner[dollar_pos + 1..]
+                    .trim_end_matches(';')
+                    .to_string();
+                if !short_name.is_empty() && !short_name.chars().all(|c| c.is_ascii_digit()) {
+                    // Skip numeric names (anonymous classes like $1, $2)
+                    self.declared_name_types.insert(
+                        short_name,
+                        dexterity_ir::ArgType::Object(inner.clone()),
+                    );
+                }
+            }
+        }
+
+        // Reserve Java root package names to avoid collisions
+        // e.g., prevent "java" or "android" as variable names
+        for pkg in ["java", "javax", "android", "kotlin", "kotlinx", "dalvik", "com", "org", "io", "net"] {
+            self.declared_name_types.insert(
+                pkg.to_string(),
+                dexterity_ir::ArgType::Unknown, // Placeholder type for reserved names
+            );
+        }
+    }
+
     /// Get inlined expression if available, removing it from storage
     pub fn take_inline_expr(&mut self, reg: u16, version: u32) -> Option<String> {
         let result = self.inlined_exprs.remove(&(reg, version));
@@ -755,7 +793,16 @@ impl BodyGenContext {
             InsnType::InstanceGet { object, field_idx, .. } => {
                 let obj_str = self.gen_arg_inline(object);
                 if let Some(info) = self.expr_gen.get_field_value(*field_idx) {
-                    if obj_str == "this" {
+                    // JADX parity: FieldReplaceAttr - replace this$N with OuterClass.this
+                    if obj_str == "this" && is_outer_this_field(&info.field_name) {
+                        // Field is synthetic outer class reference (this$0, this$1, etc.)
+                        // Replace "this.this$0" with "OuterClass.this"
+                        if let Some(outer_class) = get_outer_class_from_field_type(&info.field_type) {
+                            Some(format!("{}.this", outer_class))
+                        } else {
+                            Some(format!("this.{}", info.field_name))
+                        }
+                    } else if obj_str == "this" {
                         Some(format!("this.{}", info.field_name))
                     } else {
                         Some(format!("{}.{}", obj_str, info.field_name))
@@ -7423,6 +7470,47 @@ fn generate_anonymous_class_inline<W: CodeWriter>(
 }
 
 // =============================================================================
+// Field Replace Support (JADX parity: FieldReplaceAttr)
+// =============================================================================
+
+/// Check if a field name is a synthetic outer class reference (this$0, this$1, etc.)
+/// JADX parity: These fields should be replaced with OuterClass.this
+fn is_outer_this_field(field_name: &str) -> bool {
+    // Match this$N pattern where N is a number
+    if field_name.starts_with("this$") {
+        let suffix = &field_name[5..];
+        suffix.chars().all(|c| c.is_ascii_digit()) && !suffix.is_empty()
+    } else {
+        false
+    }
+}
+
+/// Get the simple class name from a field type for OuterClass.this replacement
+/// Returns the simple class name (e.g., "Outer" from "Lcom/example/Outer;")
+fn get_outer_class_from_field_type(field_type: &ArgType) -> Option<String> {
+    match field_type {
+        ArgType::Object(class_name) => {
+            // Extract simple name from internal format: com/example/Outer -> Outer
+            let simple = class_name
+                .rsplit('/')
+                .next()
+                .unwrap_or(class_name)
+                .trim_end_matches(';')
+                .trim_start_matches('L');
+
+            // If it contains $, get the part before $ (for nested classes)
+            // e.g., Outer$Inner -> Outer
+            if let Some(pos) = simple.find('$') {
+                Some(simple[..pos].to_string())
+            } else {
+                Some(simple.to_string())
+            }
+        }
+        _ => None,
+    }
+}
+
+// =============================================================================
 // Varargs Expansion Support
 // =============================================================================
 
@@ -8128,9 +8216,35 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                 .unwrap_or(false);
 
                             if is_anon {
+                                // JADX parity: Recursion detection
+                                // Check if the anonymous class is the same as the current class
+                                // This prevents infinite recursion when an anonymous class references itself
+                                let type_internal = type_desc.as_ref()
+                                    .map(|t| t.trim_start_matches('L').trim_end_matches(';').to_string());
+                                let is_recursive = ctx.current_class_type.as_ref()
+                                    .zip(type_internal.as_ref())
+                                    .map(|(current, anon)| {
+                                        let current_norm = current.trim_start_matches('L').trim_end_matches(';');
+                                        current_norm == anon
+                                    })
+                                    .unwrap_or(false);
+
+                                if is_recursive {
+                                    // Emit comment warning instead of infinite recursion
+                                    code.start_line();
+                                    code.add("/* ERROR: Anonymous inner class unlimited recursion detected */");
+                                    code.newline();
+                                    code.start_line();
+                                    code.add("/* Convert to named inner class: ");
+                                    code.add(type_desc.as_deref().unwrap_or("unknown"));
+                                    code.add(" */");
+                                    code.newline();
+                                    // Fall through to regular constructor handling
+                                }
+
                                 // Check if we have this anonymous class registered
                                 let anon_class_key = type_desc.clone();
-                                if anon_class_key.as_ref().map(|k| ctx.anonymous_classes.contains_key(k)).unwrap_or(false) {
+                                if !is_recursive && anon_class_key.as_ref().map(|k| ctx.anonymous_classes.contains_key(k)).unwrap_or(false) {
                                     // Get needed info before taking the class out
                                     let var_name = ctx.expr_gen.get_var_name(recv_reg);
                                     let reg = recv_reg.reg_num;
@@ -9002,19 +9116,18 @@ fn generate_insn<W: CodeWriter>(
                     generate_lambda_expression(info, args, ctx, code);
                 }
             } else {
-                // Fallback - no lambda info available
-                code.add("/* invoke-custom #").add(&call_site_idx.to_string());
-                if !args.is_empty() {
-                    code.add("(");
-                    for (i, arg) in args.iter().enumerate() {
-                        if i > 0 {
-                            code.add(", ");
-                        }
-                        ctx.write_arg_inline(code, arg);
+                // JADX parity: makeInvokeCustomRaw fallback
+                // When lambda info isn't available, generate a dynamic invoker call
+                // Format: invoke_custom_#N.dynamicInvoker().invoke(args) /* invoke-custom */
+                code.add("invoke_custom_#").add(&call_site_idx.to_string());
+                code.add(".dynamicInvoker().invoke(");
+                for (i, arg) in args.iter().enumerate() {
+                    if i > 0 {
+                        code.add(", ");
                     }
-                    code.add(")");
+                    ctx.write_arg_inline(code, arg);
                 }
-                code.add(" */");
+                code.add(") /* invoke-custom */");
             }
 
             code.add(";").newline();

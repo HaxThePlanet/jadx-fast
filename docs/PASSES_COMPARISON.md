@@ -6,11 +6,11 @@ This document provides a detailed comparison between JADX's visitor passes and D
 
 | Metric | JADX | Dexterity | Status |
 |--------|------|-----------|--------|
-| Total Passes | 63+ | 32+ | ~51% |
+| Total Passes | 63+ | 36+ | ~57% |
 | Type Inference Files | 26 | 7 | **~85% Parity** |
-| Region Analysis Files | 8 | 5 | Enhanced (Dec 22) |
-| Code Optimization Passes | 15+ | 12 | Enhanced |
-| SSA/Variable Passes | 4 | 4 | **JADX Parity** (Dec 22) |
+| Region Analysis Files | 8 | 6 | Enhanced (Dec 23) |
+| Code Optimization Passes | 15+ | 13 | Enhanced |
+| SSA/Variable Passes | 4 | 5 | **JADX Parity** (Dec 23) |
 
 ---
 
@@ -44,7 +44,7 @@ BLOCKS IR STAGE
 
 SSA & EARLY OPTIMIZATION
 ├── SSATransform                - Convert to SSA form
-├── MoveInlineVisitor           - Inline redundant moves
+├── MoveInlineVisitor           - Inline redundant moves (DONE - move_inline.rs)
 ├── ConstructorVisitor          - Replace invoke with new
 ├── InitCodeVariables           - Initialize code variables
 ├── MarkFinallyVisitor          - Detect duplicate finally
@@ -65,19 +65,19 @@ POST-TYPE INFERENCE
 └── DeboxingVisitor             - Remove boxing
 
 STRUCTURAL OPTIMIZATION
-├── AnonymousClassVisitor       - Anonymous class inline prep
+├── AnonymousClassVisitor       - Anonymous class inline prep (DONE - anonymous_class_visitor.rs)
 ├── ModVisitor                  - Instruction modifications
 ├── CodeShrinkVisitor           - Inline variables
 ├── ReplaceNewArray             - Array initialization
 ├── SimplifyVisitor             - Simplify expressions
-└── MethodThrowsVisitor         - Collect exceptions
+└── MethodThrowsVisitor         - Collect exceptions (DONE - method_throws_visitor.rs)
 
 REGIONS IR STAGE
 ├── RegionMakerVisitor          - Pack blocks into regions
 ├── IfRegionVisitor             - Optimize if-else
 ├── SwitchOverStringVisitor     - String switch patterns
 ├── ReturnVisitor               - Optimize returns
-├── CleanRegions                - Remove empty regions
+├── CleanRegions                - Remove empty regions (DONE - clean_regions.rs)
 ├── CodeShrinkVisitor (2nd)     - Final inlining
 ├── MethodInvokeVisitor         - Overload/varargs
 ├── SimplifyVisitor (2nd)       - Final simplification
@@ -178,13 +178,14 @@ limit is `5 × block_count`, same as JADX's `DepthRegionTraversal.java:13`.
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
 | `SSATransform.java` (467 lines) | `ssa.rs` (1,294 lines) | DONE | Full SSA with phi nodes |
-| `MoveInlineVisitor.java` | `ssa.rs` | PARTIAL | Basic move inlining |
+| `MoveInlineVisitor.java` (141 lines) | `move_inline.rs` | **DONE** (Dec 23) | Full move inlining with copy propagation |
 | `InitCodeVariables.java` | `init_code_vars.rs` (306 lines) | **DONE** (Dec 22) | Link SSAVars to CodeVars |
 | `ProcessVariables.java` | `process_variables.rs` (344 lines) | **DONE** (Dec 22) | Remove unused vars, finalize |
 | `ConstructorVisitor.java` | `constructor_visitor.rs` (271 lines) | **DONE** (Dec 22) | super/this call processing |
 
 **Dexterity Implementation:**
 - `ssa.rs`: 1,294 lines, complete SSA transformation with SSAContext integration
+- `move_inline.rs`: Move inlining with copy propagation (JADX parity, Dec 23)
 - `init_code_vars.rs`: 306 lines, initializes CodeVars from SSAVars (JADX parity)
 - `process_variables.rs`: 344 lines, removes unused variables, finalizes CodeVars
 - `constructor_visitor.rs`: 271 lines, identifies super()/this() calls, field initializers
@@ -210,8 +211,9 @@ Dexterity SSA:
 3. insert_phi_nodes() - Place phi functions
 4. rename_variables() - Apply versioning
 5. cleanup_phis() - Remove redundant phis
-6. init_code_vars() - Link SSAVars to CodeVars (NEW Dec 22)
-7. process_variables() - Remove unused, finalize (NEW Dec 22)
+6. inline_moves() - Move inlining with copy propagation (NEW Dec 23)
+7. init_code_vars() - Link SSAVars to CodeVars (NEW Dec 22)
+8. process_variables() - Remove unused, finalize (NEW Dec 22)
 ```
 
 ---

@@ -598,7 +598,7 @@ private void addCompare(ICodeWriter code, CondStack stack, Compare compare) {
 - `bool != true` → `!bool`
 - `bool != false` → `bool`
 
-**Dexterity Gap:** Boolean condition simplification not fully implemented.
+**Dexterity Status:** ✅ IMPLEMENTED - All boolean simplifications in `gen_condition_expr()` (body_gen.rs)
 
 ---
 

@@ -356,6 +356,424 @@ impl InsnNode {
         target.source_line = self.source_line;
         target.offset = self.offset;
     }
+
+    // === JADX InsnNode mutation methods for 100% parity ===
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/nodes/InsnNode.java
+
+    /// Copy this instruction to a new instruction (JADX: copy)
+    ///
+    /// Creates a deep copy of the instruction including all arguments.
+    /// The copy has the same type, arguments, and metadata.
+    ///
+    /// JADX Reference: InsnNode.java:364-373
+    /// ```java
+    /// public InsnNode copy() {
+    ///     return copyCommonParams(new InsnNode(insnType, getArgsCount()));
+    /// }
+    /// ```
+    pub fn copy(&self) -> InsnNode {
+        let mut copy = InsnNode {
+            insn_type: self.insn_type.clone(),
+            result_type: self.result_type.clone(),
+            source_line: None, // Will be set by copy_common_params
+            offset: 0,         // Will be set by copy_common_params
+            flags: 0,          // Will be set by copy_common_params
+        };
+        self.copy_common_params(&mut copy);
+        copy
+    }
+
+    /// Copy this instruction without the result register (JADX: copyWithoutResult)
+    ///
+    /// Creates a copy with no destination register. Used when inlining
+    /// an expression where the result is not needed separately.
+    ///
+    /// JADX Reference: InsnNode.java:375-381
+    /// ```java
+    /// public InsnNode copyWithoutResult() {
+    ///     InsnNode copy = copy();
+    ///     copy.setResult(null);
+    ///     return copy;
+    /// }
+    /// ```
+    pub fn copy_without_result(&self) -> InsnNode {
+        let mut copy = self.copy();
+        copy.result_type = None;
+        // Clear the destination in the instruction type
+        if let Some(dest) = copy.insn_type.get_dest_mut() {
+            // We can't easily "remove" the dest, but we can mark it as unused
+            dest.ssa_version = u32::MAX; // Sentinel for "no result"
+        }
+        copy
+    }
+
+    /// Inherit metadata from another instruction (JADX: inheritMetadata)
+    ///
+    /// Copies the offset and source line from the source instruction.
+    /// Used when creating synthetic instructions that should have the
+    /// same location info as their source.
+    ///
+    /// JADX Reference: InsnNode.java:400-416
+    /// ```java
+    /// public void inheritMetadata(InsnNode sourceInsn) {
+    ///     setOffset(sourceInsn.getOffset());
+    ///     setSourceLine(sourceInsn.getSourceLine());
+    /// }
+    /// ```
+    pub fn inherit_metadata(&mut self, source: &InsnNode) {
+        self.offset = source.offset;
+        self.source_line = source.source_line;
+    }
+
+    /// Set the source line number
+    pub fn set_source_line(&mut self, line: Option<u32>) {
+        self.source_line = line;
+    }
+
+    /// Get the source line number
+    pub fn get_source_line(&self) -> Option<u32> {
+        self.source_line
+    }
+
+    /// Set the bytecode offset
+    pub fn set_offset(&mut self, offset: u32) {
+        self.offset = offset;
+    }
+
+    /// Get the bytecode offset
+    pub fn get_offset(&self) -> u32 {
+        self.offset
+    }
+
+    /// Get the number of arguments (JADX: getArgsCount)
+    pub fn get_args_count(&self) -> usize {
+        self.insn_type.get_args().len()
+    }
+
+    /// Get argument at index (JADX: getArg)
+    pub fn get_arg(&self, index: usize) -> Option<&InsnArg> {
+        self.insn_type.get_args().get(index)
+    }
+
+    /// Set the result type
+    pub fn set_result_type(&mut self, result_type: Option<ArgType>) {
+        self.result_type = result_type;
+    }
+
+    /// Get the result type
+    pub fn get_result_type(&self) -> Option<&ArgType> {
+        self.result_type.as_ref()
+    }
+}
+
+// === JADX InsnNode mutation methods on InsnType ===
+// These methods modify the instruction arguments in place
+
+impl InsnType {
+    /// Replace an argument at a specific index (JADX-style setArg)
+    ///
+    /// JADX Reference: InsnNode.java:142-153
+    /// ```java
+    /// public void setArg(int n, InsnArg arg) {
+    ///     arg.setParentInsn(this);
+    ///     arguments.set(n, arg);
+    /// }
+    /// ```
+    pub fn set_arg(&mut self, index: usize, new_arg: InsnArg) -> bool {
+        match self {
+            InsnType::Move { src, .. } if index == 0 => {
+                *src = new_arg;
+                true
+            }
+            InsnType::Return { value, .. } if index == 0 => {
+                *value = Some(new_arg);
+                true
+            }
+            InsnType::Throw { exception, .. } if index == 0 => {
+                *exception = new_arg;
+                true
+            }
+            InsnType::MonitorEnter { object, .. } | InsnType::MonitorExit { object, .. } if index == 0 => {
+                *object = new_arg;
+                true
+            }
+            InsnType::CheckCast { object, .. } if index == 0 => {
+                *object = new_arg;
+                true
+            }
+            InsnType::InstanceOf { object, .. } if index == 0 => {
+                *object = new_arg;
+                true
+            }
+            InsnType::ArrayLength { array, .. } if index == 0 => {
+                *array = new_arg;
+                true
+            }
+            InsnType::NewArray { size, .. } if index == 0 => {
+                *size = new_arg;
+                true
+            }
+            InsnType::FilledNewArray { args, .. } => {
+                if index < args.len() {
+                    args[index] = new_arg;
+                    true
+                } else {
+                    false
+                }
+            }
+            InsnType::FillArrayData { array, .. } if index == 0 => {
+                *array = new_arg;
+                true
+            }
+            InsnType::ArrayGet { array, index: idx, .. } => {
+                match index {
+                    0 => { *array = new_arg; true }
+                    1 => { *idx = new_arg; true }
+                    _ => false
+                }
+            }
+            InsnType::ArrayPut { array, index: idx, value, .. } => {
+                match index {
+                    0 => { *array = new_arg; true }
+                    1 => { *idx = new_arg; true }
+                    2 => { *value = new_arg; true }
+                    _ => false
+                }
+            }
+            InsnType::InstanceGet { object, .. } if index == 0 => {
+                *object = new_arg;
+                true
+            }
+            InsnType::InstancePut { object, value, .. } => {
+                match index {
+                    0 => { *object = new_arg; true }
+                    1 => { *value = new_arg; true }
+                    _ => false
+                }
+            }
+            InsnType::StaticPut { value, .. } if index == 0 => {
+                *value = new_arg;
+                true
+            }
+            InsnType::Invoke { args, .. } | InsnType::InvokeCustom { args, .. } => {
+                if index < args.len() {
+                    args[index] = new_arg;
+                    true
+                } else {
+                    false
+                }
+            }
+            InsnType::Unary { arg, .. } if index == 0 => {
+                *arg = new_arg;
+                true
+            }
+            InsnType::Binary { left, right, .. } => {
+                match index {
+                    0 => { *left = new_arg; true }
+                    1 => { *right = new_arg; true }
+                    _ => false
+                }
+            }
+            InsnType::Cast { arg, .. } if index == 0 => {
+                *arg = new_arg;
+                true
+            }
+            InsnType::Compare { left, right, .. } => {
+                match index {
+                    0 => { *left = new_arg; true }
+                    1 => { *right = new_arg; true }
+                    _ => false
+                }
+            }
+            InsnType::If { left, right, .. } => {
+                match index {
+                    0 => { *left = new_arg; true }
+                    1 => { *right = Some(new_arg); true }
+                    _ => false
+                }
+            }
+            InsnType::Ternary { left, right, then_value, else_value, .. } => {
+                match index {
+                    0 => { *left = new_arg; true }
+                    1 => { *right = Some(new_arg); true }
+                    2 => { *then_value = new_arg; true }
+                    3 => { *else_value = new_arg; true }
+                    _ => false
+                }
+            }
+            InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } if index == 0 => {
+                *value = new_arg;
+                true
+            }
+            InsnType::StrConcat { args, .. } | InsnType::RegionArg { args, .. } => {
+                if index < args.len() {
+                    args[index] = new_arg;
+                    true
+                } else {
+                    false
+                }
+            }
+            InsnType::OneArg { arg, .. } if index == 0 => {
+                *arg = new_arg;
+                true
+            }
+            InsnType::Constructor { args, .. } => {
+                if index < args.len() {
+                    args[index] = new_arg;
+                    true
+                } else {
+                    false
+                }
+            }
+            _ => false,
+        }
+    }
+
+    /// Replace an argument by reference (JADX: replaceArg)
+    ///
+    /// Recursively searches for the `from` argument and replaces it with `to`.
+    /// Returns true if replacement was successful.
+    ///
+    /// JADX Reference: InsnNode.java:166-184
+    /// ```java
+    /// public boolean replaceArg(InsnArg from, InsnArg to) {
+    ///     int count = getArgsCount();
+    ///     for (int i = 0; i < count; i++) {
+    ///         InsnArg arg = arguments.get(i);
+    ///         if (arg == from) {
+    ///             arguments.set(i, to);
+    ///             return true;
+    ///         }
+    ///         if (arg.isInsnWrap()) {
+    ///             if (((InsnWrapArg) arg).getWrapInsn().replaceArg(from, to)) {
+    ///                 return true;
+    ///             }
+    ///         }
+    ///     }
+    ///     return false;
+    /// }
+    /// ```
+    pub fn replace_arg(&mut self, from: &InsnArg, to: InsnArg) -> bool {
+        // Get mutable args and search for match
+        self.replace_arg_recursive(from, to)
+    }
+
+    /// Internal recursive argument replacement
+    fn replace_arg_recursive(&mut self, from: &InsnArg, to: InsnArg) -> bool {
+        // Check each argument position
+        let args = self.get_args();
+        for i in 0..args.len() {
+            // Check if this arg matches (by content, not pointer)
+            if self.arg_matches_at(i, from) {
+                return self.set_arg(i, to);
+            }
+            // Check wrapped instructions recursively
+            if let Some(InsnArg::Wrapped(wrapped)) = self.get_args().get(i) {
+                if let Some(ref inner) = wrapped.inline_insn {
+                    // Need mutable access to inner - clone and replace
+                    let mut inner_clone = (**inner).clone();
+                    if inner_clone.insn_type.replace_arg(from, to.clone()) {
+                        // Replace the wrapped arg with updated version
+                        let new_wrapped = InsnArg::Wrapped(Box::new(WrappedInsn {
+                            insn_idx: wrapped.insn_idx,
+                            result_type: wrapped.result_type.clone(),
+                            inline_insn: Some(Box::new(inner_clone)),
+                        }));
+                        return self.set_arg(i, new_wrapped);
+                    }
+                }
+            }
+        }
+        false
+    }
+
+    /// Check if argument at index matches the target
+    fn arg_matches_at(&self, index: usize, target: &InsnArg) -> bool {
+        if let Some(arg) = self.get_args().get(index) {
+            // Compare by content
+            match (arg, target) {
+                (InsnArg::Register(a), InsnArg::Register(b)) => a.same_reg_and_ssa(b),
+                (InsnArg::Literal(a), InsnArg::Literal(b)) => a.same_value(b),
+                (InsnArg::Type(a), InsnArg::Type(b)) => a == b,
+                (InsnArg::Field(a), InsnArg::Field(b)) => a == b,
+                (InsnArg::Method(a), InsnArg::Method(b)) => a == b,
+                (InsnArg::String(a), InsnArg::String(b)) => a == b,
+                (InsnArg::Named { name: a, .. }, InsnArg::Named { name: b, .. }) => a == b,
+                (InsnArg::This { class_type: a }, InsnArg::This { class_type: b }) => a == b,
+                _ => false,
+            }
+        } else {
+            false
+        }
+    }
+
+    /// Add an argument to the end (for variable-arg instructions) (JADX: addArg)
+    ///
+    /// JADX Reference: InsnNode.java:121-126
+    pub fn add_arg(&mut self, arg: InsnArg) -> bool {
+        match self {
+            InsnType::Invoke { args, .. }
+            | InsnType::InvokeCustom { args, .. }
+            | InsnType::FilledNewArray { args, .. } => {
+                args.push(arg);
+                true
+            }
+            InsnType::StrConcat { args, .. }
+            | InsnType::RegionArg { args }
+            | InsnType::Constructor { args, .. } => {
+                args.push(arg);
+                true
+            }
+            _ => false, // Fixed-arg instructions can't add args
+        }
+    }
+
+    /// Remove an argument at index (JADX: removeArg)
+    ///
+    /// JADX Reference: InsnNode.java:204-211
+    pub fn remove_arg(&mut self, index: usize) -> Option<InsnArg> {
+        match self {
+            InsnType::Invoke { args, .. }
+            | InsnType::InvokeCustom { args, .. }
+            | InsnType::FilledNewArray { args, .. } => {
+                if index < args.len() {
+                    Some(args.remove(index))
+                } else {
+                    None
+                }
+            }
+            InsnType::StrConcat { args, .. }
+            | InsnType::RegionArg { args }
+            | InsnType::Constructor { args, .. } => {
+                if index < args.len() {
+                    Some(args.remove(index))
+                } else {
+                    None
+                }
+            }
+            InsnType::Phi { sources, .. } => {
+                if index < sources.len() {
+                    Some(sources.remove(index).1)
+                } else {
+                    None
+                }
+            }
+            _ => None, // Fixed-arg instructions can't remove args
+        }
+    }
+
+    /// Get mutable access to all arguments as a slice
+    pub fn get_args_mut(&mut self) -> Option<&mut [InsnArg]> {
+        match self {
+            InsnType::Invoke { args, .. }
+            | InsnType::InvokeCustom { args, .. }
+            | InsnType::FilledNewArray { args, .. } => Some(args.as_mut_slice()),
+            InsnType::StrConcat { args, .. }
+            | InsnType::RegionArg { args }
+            | InsnType::Constructor { args, .. } => Some(args.as_mut_slice()),
+            _ => None,
+        }
+    }
 }
 
 /// Method handle type for lambdas
@@ -1658,6 +2076,372 @@ pub enum IfCondition {
     Ge,
     Gt,
     Le,
+}
+
+// === JADX IfOp methods for 100% parity ===
+// Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/IfOp.java
+
+impl IfCondition {
+    /// Invert this condition (JADX: invert)
+    ///
+    /// Returns the opposite condition. Used when inverting if branches.
+    ///
+    /// JADX Reference: IfOp.java:34-46
+    /// ```java
+    /// public IfOp invert() {
+    ///     switch (this) {
+    ///         case EQ: return NE;
+    ///         case NE: return EQ;
+    ///         case LT: return GE;
+    ///         case LE: return GT;
+    ///         case GT: return LE;
+    ///         case GE: return LT;
+    ///     }
+    /// }
+    /// ```
+    pub fn invert(&self) -> IfCondition {
+        match self {
+            IfCondition::Eq => IfCondition::Ne,
+            IfCondition::Ne => IfCondition::Eq,
+            IfCondition::Lt => IfCondition::Ge,
+            IfCondition::Ge => IfCondition::Lt,
+            IfCondition::Gt => IfCondition::Le,
+            IfCondition::Le => IfCondition::Gt,
+        }
+    }
+
+    /// Mirror this condition (swap operand order) (JADX: mirror)
+    ///
+    /// Returns the equivalent condition after swapping left/right operands.
+    /// E.g., `a < b` becomes `b > a`
+    ///
+    /// JADX Reference: IfOp.java:48-60
+    /// ```java
+    /// public IfOp mirror() {
+    ///     switch (this) {
+    ///         case LT: return GT;
+    ///         case LE: return GE;
+    ///         case GT: return LT;
+    ///         case GE: return LE;
+    ///         default: return this; // EQ and NE are symmetric
+    ///     }
+    /// }
+    /// ```
+    pub fn mirror(&self) -> IfCondition {
+        match self {
+            IfCondition::Lt => IfCondition::Gt,
+            IfCondition::Le => IfCondition::Ge,
+            IfCondition::Gt => IfCondition::Lt,
+            IfCondition::Ge => IfCondition::Le,
+            _ => *self, // EQ and NE are symmetric
+        }
+    }
+
+    /// Get the operator symbol for code generation
+    pub fn symbol(&self) -> &'static str {
+        match self {
+            IfCondition::Eq => "==",
+            IfCondition::Ne => "!=",
+            IfCondition::Lt => "<",
+            IfCondition::Ge => ">=",
+            IfCondition::Gt => ">",
+            IfCondition::Le => "<=",
+        }
+    }
+
+    /// Check if this is an equality comparison (JADX usage pattern)
+    pub fn is_equality(&self) -> bool {
+        matches!(self, IfCondition::Eq | IfCondition::Ne)
+    }
+
+    /// Check if this is an ordered comparison (JADX usage pattern)
+    pub fn is_ordered(&self) -> bool {
+        !self.is_equality()
+    }
+}
+
+// === JADX IfNode methods on InsnType ===
+// Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/IfNode.java
+
+impl InsnType {
+    /// Invert the condition of an If instruction (JADX: invertCondition)
+    ///
+    /// Inverts the condition and swaps the arguments if needed.
+    ///
+    /// JADX Reference: IfNode.java:72-82
+    /// ```java
+    /// public void invertCondition() {
+    ///     op = op.invert();
+    ///     if (getArgsCount() == 2) {
+    ///         InsnArg tmp = getArg(0);
+    ///         setArg(0, getArg(1));
+    ///         setArg(1, tmp);
+    ///     }
+    /// }
+    /// ```
+    pub fn invert_if_condition(&mut self) -> bool {
+        match self {
+            InsnType::If { condition, left, right, .. } => {
+                *condition = condition.invert();
+                // Swap arguments for 2-arg comparisons
+                if let Some(ref mut r) = right {
+                    std::mem::swap(left, r);
+                }
+                true
+            }
+            InsnType::Ternary { condition, left, right, then_value, else_value, .. } => {
+                *condition = condition.invert();
+                // Swap condition arguments
+                if let Some(ref mut r) = right {
+                    std::mem::swap(left, r);
+                }
+                // Swap then/else values
+                std::mem::swap(then_value, else_value);
+                true
+            }
+            _ => false,
+        }
+    }
+
+    /// Change the condition of an If instruction (JADX: changeCondition)
+    ///
+    /// JADX Reference: IfNode.java:93-100
+    pub fn change_if_condition(&mut self, new_condition: IfCondition, a: InsnArg, b: Option<InsnArg>) -> bool {
+        match self {
+            InsnType::If { condition, left, right, .. } => {
+                *condition = new_condition;
+                *left = a;
+                *right = b;
+                true
+            }
+            _ => false,
+        }
+    }
+
+    /// Get the condition from an If/Ternary instruction
+    pub fn get_if_condition(&self) -> Option<&IfCondition> {
+        match self {
+            InsnType::If { condition, .. } | InsnType::Ternary { condition, .. } => Some(condition),
+            _ => None,
+        }
+    }
+
+    /// Get mutable condition from an If/Ternary instruction
+    pub fn get_if_condition_mut(&mut self) -> Option<&mut IfCondition> {
+        match self {
+            InsnType::If { condition, .. } | InsnType::Ternary { condition, .. } => Some(condition),
+            _ => None,
+        }
+    }
+
+    /// Get the If target offset
+    pub fn get_if_target(&self) -> Option<u32> {
+        match self {
+            InsnType::If { target, .. } => Some(*target),
+            _ => None,
+        }
+    }
+
+    /// Set the If target offset
+    pub fn set_if_target(&mut self, new_target: u32) -> bool {
+        match self {
+            InsnType::If { target, .. } => {
+                *target = new_target;
+                true
+            }
+            _ => false,
+        }
+    }
+
+    /// Normalize the If condition (JADX: normalize)
+    ///
+    /// Ensures the argument order is canonical (result variable on left).
+    /// This helps with consistent pattern matching in passes.
+    ///
+    /// JADX Reference: IfNode.java:84-92
+    pub fn normalize_if_condition(&mut self) -> bool {
+        match self {
+            InsnType::If { condition, left, right: Some(right_arg), .. } => {
+                // Check if right arg has a result (is a defined variable)
+                // and left doesn't - if so, swap them
+                let should_swap = matches!(
+                    (&*left, &*right_arg),
+                    (InsnArg::Literal(_), InsnArg::Register(_))
+                );
+                if should_swap {
+                    std::mem::swap(left, right_arg);
+                    *condition = condition.mirror();
+                }
+                true
+            }
+            _ => false,
+        }
+    }
+}
+
+// === JADX PhiInsn methods on InsnType ===
+// Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/PhiInsn.java
+
+impl InsnType {
+    /// Bind an argument to a predecessor block (JADX: bindArg)
+    ///
+    /// Adds a new argument coming from the specified predecessor block.
+    ///
+    /// JADX Reference: PhiInsn.java:36-50
+    /// ```java
+    /// public void bindArg(RegisterArg arg, BlockNode pred) {
+    ///     if (blockBinds.contains(pred)) {
+    ///         throw new JadxRuntimeException("Duplicate predecessors in PHI insn");
+    ///     }
+    ///     super.addArg(arg);
+    ///     blockBinds.add(pred);
+    /// }
+    /// ```
+    pub fn bind_phi_arg(&mut self, block_id: u32, arg: InsnArg) -> bool {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                // Check for duplicates
+                if sources.iter().any(|(id, _)| *id == block_id) {
+                    return false; // Duplicate predecessor
+                }
+                sources.push((block_id, arg));
+                true
+            }
+            _ => false,
+        }
+    }
+
+    /// Get the block ID for an argument by index (JADX: getBlockByArgIndex)
+    ///
+    /// JADX Reference: PhiInsn.java:62-64
+    pub fn get_phi_block_by_index(&self, arg_index: usize) -> Option<u32> {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                sources.get(arg_index).map(|(block_id, _)| *block_id)
+            }
+            _ => None,
+        }
+    }
+
+    /// Get the block ID for a specific argument (JADX: getBlockByArg)
+    ///
+    /// JADX Reference: PhiInsn.java:53-59
+    /// ```java
+    /// public BlockNode getBlockByArg(RegisterArg arg) {
+    ///     int index = getArgIndex(arg);
+    ///     if (index == -1) return null;
+    ///     return blockBinds.get(index);
+    /// }
+    /// ```
+    pub fn get_phi_block_by_arg(&self, target: &InsnArg) -> Option<u32> {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                for (block_id, arg) in sources.iter() {
+                    if Self::args_equal(arg, target) {
+                        return Some(*block_id);
+                    }
+                }
+                None
+            }
+            _ => None,
+        }
+    }
+
+    /// Helper to compare args for equality
+    fn args_equal(a: &InsnArg, b: &InsnArg) -> bool {
+        match (a, b) {
+            (InsnArg::Register(ra), InsnArg::Register(rb)) => ra.same_reg_and_ssa(rb),
+            (InsnArg::Literal(la), InsnArg::Literal(lb)) => la.same_value(lb),
+            (InsnArg::Type(ta), InsnArg::Type(tb)) => ta == tb,
+            (InsnArg::Field(fa), InsnArg::Field(fb)) => fa == fb,
+            (InsnArg::Method(ma), InsnArg::Method(mb)) => ma == mb,
+            (InsnArg::String(sa), InsnArg::String(sb)) => sa == sb,
+            _ => false,
+        }
+    }
+
+    /// Remove a PHI argument at index (JADX: removeArg)
+    ///
+    /// JADX Reference: PhiInsn.java:83-88
+    /// ```java
+    /// public RegisterArg removeArg(int index) {
+    ///     RegisterArg reg = (RegisterArg) super.removeArg(index);
+    ///     blockBinds.remove(index);
+    ///     reg.getSVar().updateUsedInPhiList();
+    ///     return reg;
+    /// }
+    /// ```
+    pub fn remove_phi_arg(&mut self, index: usize) -> Option<(u32, InsnArg)> {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                if index < sources.len() {
+                    Some(sources.remove(index))
+                } else {
+                    None
+                }
+            }
+            _ => None,
+        }
+    }
+
+    /// Remove a PHI argument by block ID
+    pub fn remove_phi_arg_by_block(&mut self, block_id: u32) -> Option<InsnArg> {
+        match self {
+            InsnType::Phi { sources, .. } => {
+                if let Some(idx) = sources.iter().position(|(id, _)| *id == block_id) {
+                    Some(sources.remove(idx).1)
+                } else {
+                    None
+                }
+            }
+            _ => None,
+        }
+    }
+
+    /// Get all PHI sources as a slice (block_id, arg)
+    pub fn get_phi_sources(&self) -> &[(u32, InsnArg)] {
+        match self {
+            InsnType::Phi { sources, .. } => sources.as_slice(),
+            _ => &[],
+        }
+    }
+
+    /// Get mutable PHI sources
+    pub fn get_phi_sources_mut(&mut self) -> Option<&mut PhiSources> {
+        match self {
+            InsnType::Phi { sources, .. } => Some(sources),
+            _ => None,
+        }
+    }
+
+    /// Get PHI argument count
+    pub fn get_phi_arg_count(&self) -> usize {
+        match self {
+            InsnType::Phi { sources, .. } => sources.len(),
+            _ => 0,
+        }
+    }
+
+    /// Check if this is a PHI instruction
+    pub fn is_phi(&self) -> bool {
+        matches!(self, InsnType::Phi { .. })
+    }
+
+    /// Get PHI destination register
+    pub fn get_phi_dest(&self) -> Option<&RegisterArg> {
+        match self {
+            InsnType::Phi { dest, .. } => Some(dest),
+            _ => None,
+        }
+    }
+
+    /// Get mutable PHI destination register
+    pub fn get_phi_dest_mut(&mut self) -> Option<&mut RegisterArg> {
+        match self {
+            InsnType::Phi { dest, .. } => Some(dest),
+            _ => None,
+        }
+    }
 }
 
 #[cfg(test)]

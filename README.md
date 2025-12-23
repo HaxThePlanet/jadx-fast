@@ -113,7 +113,7 @@ cargo build --release -p dexterity-cli
 |-------|---------|--------|
 | dexterity-dex | DEX binary parsing | 100% |
 | dexterity-ir | Intermediate representation | 100% |
-| dexterity-passes | Decompilation passes | 93% |
+| dexterity-passes | Decompilation passes | 95% |
 | dexterity-codegen | Java source generation | 90% |
 | dexterity-resources | Resource decoding | 100% |
 | dexterity-deobf | Deobfuscation | 90% |

@@ -49,12 +49,14 @@ private void parseFieldSignature(FieldNode field) {
 
 ---
 
-## Missing Pass #2: AnonymousClassVisitor
+## ~~Missing Pass #2: AnonymousClassVisitor~~ COMPLETED
 
 **File:** `/mnt/nvme4tb/dexterity/jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/AnonymousClassVisitor.java`
 **Lines:** 133
-**Priority:** HIGH
+**Priority:** ~~HIGH~~ **DONE**
 **Stage:** Post-Type Inference (runs before ModVisitor)
+**Dexterity Implementation:** `crates/dexterity-passes/src/anonymous_class_visitor.rs`
+**Status:** COMPLETED - Exported in lib.rs, tests passing
 
 ### What It Does
 Prepares anonymous class constructors for inlining by:
@@ -93,12 +95,14 @@ private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
 
 ---
 
-## Missing Pass #3: CleanRegions
+## ~~Missing Pass #3: CleanRegions~~ COMPLETED
 
 **File:** `/mnt/nvme4tb/dexterity/jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/regions/CleanRegions.java`
 **Lines:** 65
-**Priority:** MEDIUM
+**Priority:** ~~MEDIUM~~ **DONE**
 **Stage:** Regions IR (after ReturnVisitor)
+**Dexterity Implementation:** `crates/dexterity-passes/src/clean_regions.rs`
+**Status:** COMPLETED - Exported in lib.rs, tests passing
 
 ### What It Does
 Removes empty blocks and regions from the region tree using a depth-first traversal.
@@ -126,12 +130,14 @@ private static boolean canRemoveRegion(IContainer container) {
 
 ---
 
-## Missing Pass #4: MethodThrowsVisitor
+## ~~Missing Pass #4: MethodThrowsVisitor~~ COMPLETED
 
 **File:** `/mnt/nvme4tb/dexterity/jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/MethodThrowsVisitor.java`
 **Lines:** 325
-**Priority:** MEDIUM
+**Priority:** ~~MEDIUM~~ **DONE**
 **Stage:** Regions IR (after RegionMakerVisitor)
+**Dexterity Implementation:** `crates/dexterity-passes/src/method_throws_visitor.rs`
+**Status:** COMPLETED - Exported in lib.rs, tests passing
 
 ### What It Does
 Scans methods to collect thrown exceptions for the `throws` clause in method signatures.
@@ -373,12 +379,14 @@ private static boolean isSyntheticAccessPattern(MethodNode mth, InsnNode firstIn
 
 ---
 
-## Missing Pass #11: MoveInlineVisitor
+## ~~Missing Pass #11: MoveInlineVisitor~~ COMPLETED
 
 **File:** `/mnt/nvme4tb/dexterity/jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/MoveInlineVisitor.java`
 **Lines:** 141
-**Priority:** MEDIUM
+**Priority:** ~~MEDIUM~~ **DONE**
 **Stage:** SSA (after SSATransform, before CodeShrinkVisitor)
+**Dexterity Implementation:** `crates/dexterity-passes/src/move_inline.rs`
+**Status:** COMPLETED - Exported in lib.rs, tests passing
 
 ### What It Does
 Inlines redundant MOVE instructions by replacing all uses with the source.
@@ -717,16 +725,16 @@ These passes only matter for obfuscated APKs:
 | # | Pass | File | Lines | Priority | Stage |
 |---|------|------|-------|----------|-------|
 | 1 | SignatureProcessor | SignatureProcessor.java | 337 | HIGH | Pre-Decompile |
-| 2 | AnonymousClassVisitor | AnonymousClassVisitor.java | 133 | HIGH | Post-Type |
-| 3 | CleanRegions | regions/CleanRegions.java | 65 | MEDIUM | Regions |
-| 4 | MethodThrowsVisitor | MethodThrowsVisitor.java | 325 | MEDIUM | Regions |
+| ~~2~~ | ~~AnonymousClassVisitor~~ | ~~AnonymousClassVisitor.java~~ | 133 | **DONE** | Post-Type |
+| ~~3~~ | ~~CleanRegions~~ | ~~regions/CleanRegions.java~~ | 65 | **DONE** | Regions |
+| ~~4~~ | ~~MethodThrowsVisitor~~ | ~~MethodThrowsVisitor.java~~ | 325 | **DONE** | Regions |
 | 5 | DebugInfoAttachVisitor | debuginfo/DebugInfoAttachVisitor.java | 199 | MEDIUM | Instructions |
 | 6 | DebugInfoApplyVisitor | debuginfo/DebugInfoApplyVisitor.java | 243 | MEDIUM | Post-Type |
 | 7 | CollectConstValues | prepare/CollectConstValues.java | 64 | MEDIUM | Pre-Decompile |
 | 8 | ProcessMethodsForInline | ProcessMethodsForInline.java | 79 | MEDIUM | Pre-Decompile |
 | 9 | InlineMethods | InlineMethods.java | 194 | MEDIUM | Post-Type |
 | 10 | MarkMethodsForInline | MarkMethodsForInline.java | 185 | LOW | Final |
-| 11 | MoveInlineVisitor | MoveInlineVisitor.java | 141 | MEDIUM | SSA |
+| ~~11~~ | ~~MoveInlineVisitor~~ | ~~MoveInlineVisitor.java~~ | 141 | **DONE** | SSA |
 | 12 | FixSwitchOverEnum | FixSwitchOverEnum.java | 297 | MEDIUM | Specialized |
 | 13 | SwitchBreakVisitor | regions/SwitchBreakVisitor.java | 267 | MEDIUM | Final |
 | 14 | ClassModifier | ClassModifier.java | 358 | LOW | Specialized |
@@ -737,7 +745,8 @@ These passes only matter for obfuscated APKs:
 | 19 | NonFinalResIdsVisitor | gradle/NonFinalResIdsVisitor.java | 118 | LOW | Specialized |
 | 20-24 | Deobfuscation (5) | Various | ~600 | LOW | Pre-Decompile |
 
-**Total Missing Lines:** ~3,700 lines of Java
+**Total Missing Lines:** ~3,036 lines of Java (4 passes completed: 133+65+325+141=664 lines)
+**Completed Passes (Dec 2025):** AnonymousClassVisitor, CleanRegions, MethodThrowsVisitor, MoveInlineVisitor
 
 ---
 
