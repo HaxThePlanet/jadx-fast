@@ -6312,12 +6312,14 @@ fn process_region_for_inlining(region: &Region, ctx: &mut BodyGenContext) {
         Region::TryCatch { try_region, handlers, finally } => {
             process_region_for_inlining(try_region, ctx);
             for handler in handlers {
-                process_region_for_inlining(&handler.catch_region, ctx);
+                process_region_for_inlining(&handler.region, ctx);
             }
             if let Some(finally_region) = finally {
                 process_region_for_inlining(finally_region, ctx);
             }
         }
+        // These region types don't need prelude processing
+        Region::Continue { .. } | Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => {}
     }
 }
 
