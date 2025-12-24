@@ -1076,6 +1076,11 @@ fn convert_method(
         method.arg_types.push(parse_type_descriptor(&param_type_str));
     }
 
+    // Initialize arg_names with None for all parameters
+    // This allows Kotlin metadata to set names even for native/abstract methods
+    // (which don't have debug info from bytecode)
+    method.arg_names = vec![None; method.arg_types.len()];
+
     // Parse code_item for instructions
     if encoded.code_off != 0 {
         if let Ok(code_item) = CodeItem::parse(dex, encoded.code_off) {
