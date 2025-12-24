@@ -117,7 +117,7 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 | Priority | Status |
 |----------|--------|
 | P0 Bugs | **1 OPEN** - P0-SYNTHETIC (synthetic classes not output) |
-| P1 Bugs | **2 IN PROGRESS** - Kotlin field aliases, Lambda inlining |
+| P1 Bugs | **1 IN PROGRESS** - Lambda inlining (Kotlin field aliases FIXED Dec 24) |
 | P2 Bugs | **ALL FIXED** |
 | P3 Polish | **ALL DONE** |
 
@@ -128,7 +128,7 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 | Issue | Priority | Status | Description |
 |-------|----------|--------|-------------|
 | Lambda inlining | P1 | 🔄 IN PROGRESS | JADX inlines lambdas, Dexterity outputs separate files |
-| Kotlin field aliases | P1 | 🔄 IN PROGRESS | Field usages use obfuscated names |
+| ~~Kotlin field aliases~~ | P1 | ✅ FIXED | Field usages now use aliased names |
 | `this$0` replacement | P1 | OPEN | Inner class `this$0` → `OuterClass.this` |
 | Synthetic member handling | P2 | OPEN | Better synthetic field detection |
 

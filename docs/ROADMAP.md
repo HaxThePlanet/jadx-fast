@@ -83,31 +83,13 @@ list.forEach(new Lambda$1());
 - `jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:806-1090`
 - `jadx-core/src/main/java/jadx/core/dex/visitors/ProcessLambdas.java`
 
-### P1: Kotlin Field Alias References in Code (Dec 24, 2025 Investigation)
+### ~~P1: Kotlin Field Alias References in Code~~ - FIXED (Dec 24, 2025)
 
-**Status:** 🔄 IN PROGRESS | **Priority:** P1 (HIGH)
+**Status:** ✅ FIXED | **Commit:** `6fedd6abe`
 
-**Investigation Results:**
+**Fix:** Added `register_kotlin_aliases()` in `deobf.rs` to copy Kotlin-derived field/method aliases from IR into `AliasRegistry` after metadata processing. Now `AliasAwareDexInfo.get_field()` returns aliased names for field usages.
 
-| Component | Status | Notes |
-|-----------|--------|-------|
-| JVM field signature extraction | **✅ WORKING** | `parser.rs:parse_property()` correctly extracts field signatures from Kotlin metadata protobuf |
-| Index-based fallback matching | **✅ WORKING** | `extractor.rs:field_matches()` correctly matches obfuscated fields by index when signatures are empty |
-| Field alias assignment | **✅ WORKING** | `FieldData.alias` is correctly set from Kotlin property names |
-| Field declaration codegen | **✅ WORKING** | Field declarations show aliased name with rename comments (e.g., `private final p2 breedEntityDao;`) |
-| **Field reference codegen** | **🔄 IN PROGRESS** | `body_gen.rs` generates IGET/IPUT/SGET/SPUT using original field names instead of aliases |
-
-**Current State:** Field DECLARATIONS are correctly aliased, but field USAGES still use obfuscated names.
-
-**Example from BreedRepository.java:**
-```java
-/* renamed from: a, reason: from kotlin metadata */
-private final p2 breedEntityDao;  // ✅ Declaration uses alias
-
-this.a = p2Var;  // ❌ Usage still uses obfuscated name "a"
-```
-
-**Fix Location:** `crates/dexterity-codegen/src/body_gen.rs` - when emitting IGET/IPUT/SGET/SPUT instructions, check if `field.alias` is set and use that instead of `field.name`.
+**JADX Reference:** `KotlinMetadataDecompilePass.renameFields()` → `field.rename(alias)` → `fieldInfo.setAlias(alias)`
 
 ### Remaining JADX Parity Items (Dec 23, 2025)
 
