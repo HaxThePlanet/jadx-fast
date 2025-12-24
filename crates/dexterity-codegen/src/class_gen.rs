@@ -1264,9 +1264,10 @@ fn add_fields<W: CodeWriter>(
             add_enum_constants_fallback(class, code);
         }
 
-        // Generate instance fields (not static enum fields)
+        // Generate instance fields (not static enum fields or synthetic inner class fields)
+        // JADX parity: Filter synthetic fields like this$0, val$
         let instance_fields: Vec<_> = class.instance_fields.iter()
-            .filter(|f| !is_enum_synthetic_field(f, is_enum))
+            .filter(|f| !is_enum_synthetic_field(f, is_enum) && !is_inner_class_synthetic_field(f))
             .collect();
 
         if !instance_fields.is_empty() {
@@ -1284,12 +1285,13 @@ fn add_fields<W: CodeWriter>(
     }
 
     // Non-enum class: regular field generation
-    // Filter out synthetic enum fields
+    // JADX parity: Filter out synthetic fields (enum $VALUES, inner class this$0, val$)
+    // Reference: ClassModifier.java:80-110 - removeSyntheticFields()
     let static_fields: Vec<_> = class.static_fields.iter()
-        .filter(|f| !is_enum_synthetic_field(f, is_enum))
+        .filter(|f| !is_enum_synthetic_field(f, is_enum) && !is_inner_class_synthetic_field(f))
         .collect();
     let instance_fields: Vec<_> = class.instance_fields.iter()
-        .filter(|f| !is_enum_synthetic_field(f, is_enum))
+        .filter(|f| !is_enum_synthetic_field(f, is_enum) && !is_inner_class_synthetic_field(f))
         .collect();
 
     let has_fields = !static_fields.is_empty() || !instance_fields.is_empty();
@@ -1658,6 +1660,39 @@ fn is_enum_synthetic_field(field: &dexterity_ir::FieldData, is_enum_class: bool)
 
     // Filter $VALUES field (array holding all enum values)
     if field.name == "$VALUES" {
+        return true;
+    }
+
+    false
+}
+
+/// Check if a field is a synthetic inner class field that should be filtered
+///
+/// JADX Reference: ClassModifier.java:80-110 - removeSyntheticFields()
+/// Inner classes have synthetic fields for:
+/// - Outer class reference: this$0, this$1, etc.
+/// - Captured variables in anonymous classes: val$name
+///
+/// These are compiler-generated and should be hidden in decompiled output.
+fn is_inner_class_synthetic_field(field: &dexterity_ir::FieldData) -> bool {
+    // Must be synthetic
+    if !access_flags::is_synthetic(field.access_flags) {
+        return false;
+    }
+
+    // Filter this$N fields (outer class reference)
+    // Pattern: this$0, this$1, etc.
+    if field.name.starts_with("this$") {
+        if let Some(suffix) = field.name.strip_prefix("this$") {
+            if suffix.chars().all(|c| c.is_ascii_digit()) {
+                return true;
+            }
+        }
+    }
+
+    // Filter val$name fields (captured variables in anonymous/local classes)
+    // Pattern: val$someVariable
+    if field.name.starts_with("val$") {
         return true;
     }
 

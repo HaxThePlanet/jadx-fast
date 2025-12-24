@@ -57,6 +57,71 @@ fn is_empty_clinit(method: &MethodData) -> bool {
     false
 }
 
+/// Check if a constructor argument type is synthetic and should be filtered
+///
+/// JADX Reference: ClassModifier.java:181-208 - isRemovedClassInArgs()
+/// Synthetic constructor arguments include:
+/// - Outer class reference (first arg for inner class constructors)
+/// - Anonymous class markers (e.g., Outer$1, Outer$$Lambda$1)
+/// - Synthetic helper classes (empty synthetic classes)
+///
+/// Returns true if the argument should be skipped in parameter list.
+fn is_synthetic_constructor_arg(arg_type: &ArgType, arg_index: usize, method: &MethodData, class: &ClassData) -> bool {
+    // Only filter for constructors
+    if !method.is_constructor() {
+        return false;
+    }
+
+    // Only filter if the method is synthetic
+    if !crate::access_flags::is_synthetic(method.access_flags) {
+        return false;
+    }
+
+    // Get the type descriptor for analysis
+    let type_desc = match arg_type {
+        ArgType::Object(desc) => desc,
+        _ => return false,
+    };
+
+    // Pattern 1: First arg is the outer class reference
+    // For inner class constructors, the first arg is typically the outer class
+    if arg_index == 0 {
+        // Check if class is an inner class and arg type is the parent
+        let class_name = &class.class_type;
+        if class_name.contains('$') {
+            // Extract potential outer class: Lcom/example/Outer$Inner; -> Lcom/example/Outer;
+            if let Some(dollar_pos) = class_name.rfind('$') {
+                let outer_prefix = &class_name[..dollar_pos];
+                let outer_type = format!("{};", outer_prefix);
+                if type_desc == &outer_type {
+                    return true;
+                }
+            }
+        }
+    }
+
+    // Pattern 2: Anonymous class markers (Outer$1, Outer$2, $$Lambda$, etc.)
+    // These are compiler-generated classes used as constructor markers
+    if type_desc.contains("$") {
+        // Check for numeric suffix pattern: Outer$1, Outer$2, etc.
+        if let Some(dollar_pos) = type_desc.rfind('$') {
+            let suffix = &type_desc[dollar_pos + 1..];
+            // Remove trailing semicolon
+            let suffix_trimmed = suffix.trim_end_matches(';');
+            // If suffix is all digits, it's an anonymous class marker
+            if !suffix_trimmed.is_empty() && suffix_trimmed.chars().all(|c| c.is_ascii_digit()) {
+                return true;
+            }
+            // Lambda markers
+            if suffix.contains("Lambda") {
+                return true;
+            }
+        }
+    }
+
+    false
+}
+
 use dexterity_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData, TypeParameter};
 
 use crate::access_flags::{self, flags::*, AccessContext};
@@ -639,7 +704,7 @@ pub fn generate_method_with_dex<W: CodeWriter>(
 
     // Parameters (except for static initializer)
     if !method.is_class_init() {
-        add_parameters(method, imports, pkg, code);
+        add_parameters(method, class, imports, pkg, code);
     }
 
     // Throws clause (except for static initializer)
@@ -814,7 +879,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
 
     // Parameters (except for static initializer)
     if !method.is_class_init() {
-        add_parameters(method, imports, pkg, code);
+        add_parameters(method, class, imports, pkg, code);
     }
 
     // Throws clause (except for static initializer)
@@ -1173,24 +1238,48 @@ fn add_throws_clause<W: CodeWriter>(throws: &[String], imports: Option<&BTreeSet
 }
 
 /// Add method parameters
-fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<String>>, current_package: Option<&str>, code: &mut W) {
+///
+/// JADX parity: Filters synthetic constructor arguments for inner class constructors.
+/// Reference: ClassModifier.java:181-208 - isRemovedClassInArgs()
+fn add_parameters<W: CodeWriter>(
+    method: &MethodData,
+    class: &ClassData,
+    imports: Option<&BTreeSet<String>>,
+    current_package: Option<&str>,
+    code: &mut W,
+) {
     code.add("(");
 
     let is_varargs = method.access_flags & ACC_VARARGS != 0;
     let params = &method.arg_types;
-    let param_count = params.len();
 
-    // Generate all parameter names with collision detection (JADX parity)
-    let param_names = generate_param_names(params, &method.arg_names);
+    // JADX parity: Filter synthetic constructor arguments
+    // Build list of (original_index, param_type) for non-synthetic params
+    let filtered_params: Vec<(usize, &ArgType)> = params
+        .iter()
+        .enumerate()
+        .filter(|(i, param_type)| !is_synthetic_constructor_arg(param_type, *i, method, class))
+        .collect();
 
-    for (i, param_type) in params.iter().enumerate() {
-        if i > 0 {
+    let param_count = filtered_params.len();
+
+    // Generate parameter names only for non-filtered params
+    // First, collect the filtered arg_types for naming
+    let filtered_types: Vec<ArgType> = filtered_params.iter().map(|(_, t)| (*t).clone()).collect();
+    let filtered_names: Vec<Option<String>> = filtered_params
+        .iter()
+        .map(|(orig_idx, _)| method.arg_names.get(*orig_idx).cloned().flatten())
+        .collect();
+    let param_names = generate_param_names(&filtered_types, &filtered_names);
+
+    for (output_idx, (orig_idx, param_type)) in filtered_params.iter().enumerate() {
+        if output_idx > 0 {
             code.add(", ");
         }
 
         // Parameter annotations (emit before the type, like JADX)
-        if i < method.parameter_annotations.len() {
-            for annotation in &method.parameter_annotations[i] {
+        if *orig_idx < method.parameter_annotations.len() {
+            for annotation in &method.parameter_annotations[*orig_idx] {
                 if should_emit_annotation(annotation) {
                     generate_annotation(annotation, code);
                     code.add(" ");
@@ -1198,7 +1287,7 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<
             }
         }
 
-        let is_last = i == param_count - 1;
+        let is_last = output_idx == param_count - 1;
         let is_last_vararg = is_last && is_varargs;
 
         // Type (convert last array to varargs if needed, use simple names when imports available or same package)
@@ -1216,7 +1305,7 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<
 
         // Parameter name: use collision-detected name
         code.add(" ");
-        code.add(&param_names[i]);
+        code.add(&param_names[output_idx]);
     }
 
     code.add(")");
