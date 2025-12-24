@@ -1,7 +1,7 @@
 # LLM Agent Guide: Autonomous Development Toward JADX Parity
 
-**Status:** 1 P0 Bug Remains (P0-LOOP-VAR) | Kotlin 100% | Dec 24, 2025 - See QUALITY_STATUS.md
-**Issues:** 1 P0 bug remains, P0-BOOL-CHAIN FIXED Dec 24, P1-CONTROL-FLOW FIXED Dec 24, Kotlin 100% parity
+**Status:** 3 P0 Bugs | ~50-60% Quality | Dec 24, 2025 - See QUALITY_STATUS.md
+**Issues:** 3 P0 bugs: LOOP-VAR (undefined vars), BOOL-CHAIN (REOPENED - return inverted), WRONG-RETURN (int not bool)
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**

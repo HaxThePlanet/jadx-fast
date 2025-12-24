@@ -6,7 +6,7 @@
 
 ## f.java Audit Results (Dec 22-24, 2025)
 
-**Status:** MOSTLY RESOLVED - 1 P0 bug remains (P0-LOOP-VAR) (Dec 24, 2025)
+**Status:** 3 P0 BUGS REMAIN after Dec 24 audit (P0-LOOP-VAR, P0-BOOL-CHAIN reopened, P0-WRONG-RETURN new)
 
 A comprehensive comparison of all 151 f.java files between JADX and Dexterity outputs revealed issues that have since been fixed.
 
@@ -38,11 +38,17 @@ A comprehensive comparison of all 151 f.java files between JADX and Dexterity ou
 
 All P0 bugs from the f.java audit have been resolved (Dec 24, 2025).
 
-**Note:** Two new P0 bugs were discovered from other APK testing:
-- **P0-LOOP-VAR** - For-each loops over arrays don't declare the iterator variable (IN PROGRESS)
-- ~~**P0-BOOL-CHAIN**~~ - ✅ FIXED Dec 24 - Complex boolean OR chains were truncated; fixed in region_builder.rs
+**Note:** Three P0 bugs discovered from badboy APK testing (Dec 24 audit):
 
-See [ROADMAP.md](ROADMAP.md) for details on the remaining P0 bug.
+| Bug | Status | Issue |
+|-----|--------|-------|
+| **P0-LOOP-VAR** | ❌ OPEN | For-each body missing `new File(str)` - uses undefined `file` |
+| **P0-BOOL-CHAIN** | ❌ REOPENED | Return logic inverted - returns `z=false` when should return `true` |
+| **P0-WRONG-RETURN** | ❌ NEW | Methods return `int i` instead of `boolean` |
+
+**Affected file:** `MaliciousPatterns.java` - 12+ compilation errors in isRooted(), checkMagisk(), checkSuBinary(), checkBusybox(), detectEmulator$lambda$1()
+
+See [ROADMAP.md](ROADMAP.md) for details on all 3 P0 bugs.
 
 ---
 

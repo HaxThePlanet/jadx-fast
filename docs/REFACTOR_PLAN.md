@@ -535,7 +535,7 @@ if (x) { throw e; }
 7. **Day 3:** GAP-03 (Nested if declarations)
 8. **Day 4:** GAP-04 (Field init) + GAP-05 (Ternary)
 
-**Checkpoint:** All GAP-01 through GAP-10 FIXED (Dec 24). 1 P0 bug remains: P0-LOOP-VAR. P0-BOOL-CHAIN FIXED Dec 24.
+**Checkpoint:** All GAP-01 through GAP-10 FIXED (Dec 24). 3 P0 bugs remain: LOOP-VAR, BOOL-CHAIN (REOPENED), WRONG-RETURN (NEW).
 
 ### Week 3: Gap Fixes (Phase 2 - P1)
 
@@ -580,7 +580,7 @@ diff -rq output/jadx/large/sources output/dexterity/large/sources | head -50
 | body_gen.rs lines | 11,314 | ~11,300 | <5,000 |
 | Total codegen lines | 21,199 | ~21,200 | <15,000 |
 | GAP-xx Fixes | 0/10 | **10/10** (ALL FIXED) | 10/10 |
-| P0 Bugs | 4 | **1** (P0-LOOP-VAR) | 0 |
+| P0 Bugs | 4 | **3** (LOOP-VAR, BOOL-CHAIN reopened, WRONG-RETURN new) | 0 |
 | Output parity | 70-85% | **85-87%** | 95%+ |
 
 ---

@@ -1,6 +1,6 @@
 # Quality Status
 
-**Status:** 1 P0 Bug | ~90% Syntax Quality | 64% File Coverage | Dec 24, 2025
+**Status:** 3 P0 Bugs | ~50-60% Syntax Quality | 64% File Coverage | Dec 24, 2025
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Output Refresh:** Dec 24, 2025 - All GAP-01 through GAP-10 fixes applied
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
@@ -34,7 +34,7 @@
 
 ## Output Quality Audit (Dec 24, 2025)
 
-**Result: PRODUCTION READY for ALL APKs**
+**Result: BETA QUALITY - 3 P0 bugs prevent compilation in affected methods**
 
 ### Code Quality (from actual output/ comparison)
 
@@ -42,7 +42,7 @@
 |-----|-------------|-------|---------|-------|
 | **small** | 1 | 1 | **100%** | Near-identical to JADX |
 | **large** | 5,897 | 5,901 | **99.93%** | 4 minor issues |
-| **badboy** | 54 | 55 | **98%** | 1 minor issue |
+| **badboy** | ~40 | 55 | **~70%** | 3 P0 bugs: undefined vars, wrong returns, inverted logic |
 | **medium** | 2,834 | 2,891 | **98%** | Hot-reload fixed Dec 23 |
 
 ### File Coverage (UPDATED Dec 24, 2025)
@@ -74,17 +74,17 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 | Category | Previous | Actual | Evidence |
 |----------|----------|--------|----------|
-| **Codegen** | C+ (78%) | **B+ (90%)** | GAP-01 through GAP-10 FIXED; P0-BOOL-CHAIN FIXED; 1 P0 bug remains (loop vars) |
+| **Codegen** | C+ (78%) | **D (50-60%)** | GAP-01 through GAP-10 FIXED; 3 P0 bugs: LOOP-VAR, BOOL-CHAIN (reopened), WRONG-RETURN |
 | **Type Inference** | B+ (85%) | **C (70%)** | Enum constants as raw ints, Unknown type warnings |
-| **IR/Control Flow** | B+ (88%) | **B (85%)** | P0-BOOL-CHAIN FIXED; minor orphan braces in complex methods |
+| **IR/Control Flow** | B+ (88%) | **D (55%)** | P0-BOOL-CHAIN NOT FIXED - return logic inverted; orphan braces |
 | **Variable Naming** | A- | **C+ (73%)** | GAP-01 FIXED (peek vs take) |
 | **Kotlin Support** | D (60%) | **B+ (85-90%)** | Rename reasons FIXED, field alias references FIXED (Dec 24) |
 | **Deobfuscation** | A (95%) | **A- (90%)** | Kotlin field alias references FIXED (Dec 24) |
 | **Passes** | C+ (75%) | **C+ (78%)** | GAP-02 iterator for-each FIXED |
 | **Resources** | **A+** | **A+** | 1:1 JADX parity (verified) |
-| **Overall** | C+ (78%) | **B (90%)** | 1 P0 bug remains (P0-LOOP-VAR: undefined for-each vars) |
+| **Overall** | C+ (78%) | **D (50-60%)** | 3 P0 bugs: LOOP-VAR, BOOL-CHAIN (reopened), WRONG-RETURN |
 
-**Reality:** Codegen improved significantly (~90% JADX parity). 1 P0 bug remains: P0-LOOP-VAR (undefined variables in for-each loops). P0-BOOL-CHAIN fixed Dec 24.
+**Reality:** 3 P0 bugs remain after Dec 24 audit: P0-LOOP-VAR (undefined for-each vars), P0-BOOL-CHAIN (return logic inverted - REOPENED), P0-WRONG-RETURN (methods return int instead of boolean). MaliciousPatterns.java has 12+ compilation errors.
 
 ### Kotlin Status Update (Dec 24, 2025 Investigation Complete)
 
@@ -109,14 +109,14 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 |-----|-------|--------|
 | small | **A+** | Near-identical to JADX |
 | large | **A** | 99.93% clean, 4 minor issues |
-| badboy | **B+** | ~90% clean, P0-LOOP-VAR (for-each vars) - bool chains FIXED |
+| badboy | **D** | ~70% clean, 3 P0 bugs: LOOP-VAR, BOOL-CHAIN (reopened), WRONG-RETURN |
 | medium | **A-** | 98%+ clean - hot-reload fixed Dec 23 |
 
 ## Bug Status
 
 | Priority | Status |
 |----------|--------|
-| P0 Bugs | **1 OPEN** - P0-LOOP-VAR (undefined vars in for-each loops); ~~P0-BOOL-CHAIN~~ FIXED Dec 24, ~~P0-LAMBDA-SUPPRESS~~ FIXED Dec 24 |
+| P0 Bugs | **3 OPEN** - P0-LOOP-VAR (undefined vars), P0-BOOL-CHAIN (return logic inverted - REOPENED), P0-WRONG-RETURN (int instead of boolean - NEW); ~~P0-LAMBDA-SUPPRESS~~ FIXED |
 | P1 Bugs | **0 OPEN** - ~~P1-CONTROL-FLOW~~ FIXED Dec 24 |
 | P2 Bugs | **0 OPEN** - All FIXED: ~~P2-SIMPLE-MODE~~ Dec 24, ~~P2-UNKNOWN-TYPE~~ Dec 24, ~~P2-BOOL-SIMP~~, ~~P2-NAME-COLLISION~~, ~~P2-MULTI-CATCH~~, ~~P2-SUPER-QUAL~~ |
 | P3 Polish | **ALL DONE** - ~~P3-PARAM-ANNOT~~ verified working |

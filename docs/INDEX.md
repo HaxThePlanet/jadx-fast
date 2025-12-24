@@ -2,7 +2,7 @@
 
 High-performance Android decompiler written in Rust, targeting JADX parity.
 
-**Current Status:** 1 P0 Bug | ~90% Syntax Quality | 64% File Coverage | Dec 24, 2025
+**Current Status:** 3 P0 Bugs | ~50-60% Syntax Quality | 64% File Coverage | Dec 24, 2025
 
 ## Core Status Docs
 

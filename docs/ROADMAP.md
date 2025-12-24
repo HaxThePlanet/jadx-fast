@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 1 P0 Bug | All P1/P2 Fixed | ~90% Syntax Quality | 64% File Coverage | Dec 24, 2025
+**Status:** 3 P0 Bugs | All P1/P2 Fixed | ~50-60% Syntax Quality | 64% File Coverage | Dec 24, 2025
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 **Kotlin Parity:** ~85-90% - Field alias references FIXED (Dec 24), see [KOTLIN_PARITY.md](KOTLIN_PARITY.md)
 **Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
@@ -8,7 +8,7 @@
 
 ---
 
-## P0 Critical Bugs - 1 OPEN (Dec 24, 2025)
+## P0 Critical Bugs - 3 OPEN (Dec 24, 2025)
 
 ### P0-LOOP-VAR: Undefined Loop Variables - PARTIAL FIX
 
@@ -52,20 +52,61 @@ for (String str : rootPaths) {
 
 ---
 
-### ~~P0-BOOL-CHAIN: Truncated Boolean Chains~~ - FIXED
+### P0-BOOL-CHAIN: Return Logic Inverted - REOPENED
 
-**Status:** ✅ FIXED (Dec 24, 2025) | **Priority:** P0 (CRITICAL - Wrong behavior)
-**Location:** `crates/dexterity-passes/src/region_builder.rs`
+**Status:** ❌ OPEN (Dec 24, 2025 - REOPENED after audit) | **Priority:** P0 (CRITICAL - Wrong behavior)
+**Location:** `crates/dexterity-passes/src/region_builder.rs`, `crates/dexterity-codegen/src/body_gen.rs`
 
-**Bug:** Complex boolean OR chains (like `detectEmulator$lambda$1` with 14 nested conditions) were truncated to just the first condition.
+**Bug:** Nested if structure is generated but return logic is inverted. Method returns `false` when it should return `true`.
 
-**Root Cause:** In `region_builder.rs:process_if()`, else_blocks were incorrectly added to the exit barrier when building then_region. This prevented nested conditionals from including the shared "true" target in their else_regions.
+**Evidence from `detectEmulator$lambda$1()`:**
 
-**JADX Reference:** `IfRegionMaker.java:88` only adds outBlock (merge point) as exit, NOT the else_block.
+```java
+// JADX (correct - lines 154-197):
+if (!startsWith("generic")) {
+    if (!startsWith("unknown")) {
+        ... // 12 more nested ifs
+        return false;  // Only if ALL checks pass (not emulator)
+    }
+}
+return true;  // If ANY check matches (is emulator)
 
-**Fix (Dec 24):** Removed code that added else_blocks to the exit set (lines 2065-2072). The merge point is still added as exit, but else_blocks now remain accessible for nested conditionals.
+// Dexterity (broken - lines 410-476):
+z = false;  // Wrong initial value
+if (!startsWith("generic")) {
+    ... // Nested ifs exist
+    if (contains("ranchu")) {
+        z = true;  // Only LAST condition sets true
+    }
+}
+return z;  // Returns false for first 13 conditions!
+```
 
-**Result:** Before: 12 lines → After: ~50 lines with all 14 nested conditions matching JADX's nested if pattern.
+**Root Cause:** When a condition matches (short-circuit), Dexterity returns `z=false` instead of `true`. The nested if structure is correct but the return value is wrong.
+
+**Affected Methods:** `detectEmulator$lambda$1()` - returns false for 13/14 emulator checks
+
+---
+
+### P0-WRONG-RETURN: Methods Return Wrong Type - NEW
+
+**Status:** ❌ OPEN | **Priority:** P0 (CRITICAL - Code won't compile)
+**Location:** `crates/dexterity-codegen/src/body_gen.rs` - return statement generation
+
+**Bug:** Methods with for-each loops return the loop index variable instead of boolean result.
+
+**Evidence:**
+```java
+// isRooted() - line 668
+return i;  // ERROR: returns int, method signature is boolean
+
+// checkMagisk() - line 705
+return i;  // ERROR: returns int, method signature is boolean
+```
+
+**Root Cause:** Return statement uses loop index `i` instead of boolean result variable.
+
+**Affected Methods:** `isRooted()`, `checkMagisk()`, `checkSuBinary()`, `checkBusybox()`
 
 ---
 
