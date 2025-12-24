@@ -490,25 +490,31 @@ pub fn try_transform_to_ternary(
 
     // JADX TernaryMod.java lines 195-209: getTernaryInsnBlock() requires exactly 1 instruction
     // After block splitting, JADX removes GOTO/NOP via removeInsns() (BlockSplitter.java:375-385)
-    // Our block_split.rs now does the same with remove_goto_nop(), so we check total count.
-    if then_block.instructions.len() != 1 || else_block.instructions.len() != 1 {
+    // JADX Clone: Also handle constructor pattern (NewInstance + InvokeDirect<init>) as one instruction.
+    // In JADX, ConstructorVisitor runs before TernaryMod and merges these into ConstructorInsn.
+    // In Dexterity, prepare_for_codegen runs AFTER region building, so we handle it here.
+    let (then_insn_opt, then_count) = get_effective_insn_from_block(then_block);
+    let (else_insn_opt, else_count) = get_effective_insn_from_block(else_block);
+
+    if then_count != 1 || else_count != 1 {
         debug!(
             then_block_id,
             else_block_id,
-            then_insn_count = then_block.instructions.len(),
-            else_insn_count = else_block.instructions.len(),
-            "Ternary rejected: blocks must have exactly 1 instruction (JADX parity)"
+            then_insn_count = then_count,
+            else_insn_count = else_count,
+            "Ternary rejected: blocks must have exactly 1 effective instruction (JADX parity)"
         );
         return TernaryTransformResult::NotTernary;
     }
 
-    let then_insn = &then_block.instructions[0];
-    let else_insn = &else_block.instructions[0];
+    let then_insn = then_insn_opt.expect("effective count is 1");
+    let else_insn = else_insn_opt.expect("effective count is 1");
 
     // Try Pattern 1: Assignment in both branches (lines 97-135)
+    // Use effective assignment dest which handles constructor pattern
     if let (Some(then_dest), Some(else_dest)) = (
-        get_assignment_dest_with_version(&then_insn.insn_type),
-        get_assignment_dest_with_version(&else_insn.insn_type),
+        get_effective_assignment_dest(then_block),
+        get_effective_assignment_dest(else_block),
     ) {
         // Both must assign to the same register (they'll merge at a PHI node)
         if then_dest.0 == else_dest.0 {
@@ -638,6 +644,92 @@ fn has_return_value(insn_type: &InsnType) -> bool {
         InsnType::Return { value } => value.is_some(),
         _ => false,
     }
+}
+
+/// Get the effective instruction from a block, handling constructor patterns.
+/// JADX Clone: Mirrors ConstructorVisitor.java behavior where NewInstance + InvokeDirect<init>
+/// is treated as a single ConstructorInsn. In our IR, we haven't merged them yet at this stage.
+///
+/// Returns (effective_insn, effective_count) where effective_count is:
+/// - 1 if there's a single logical instruction (including constructor pattern)
+/// - The actual count otherwise
+fn get_effective_insn_from_block<'a>(
+    block: &'a crate::block_split::BasicBlock,
+) -> (Option<&'a dexterity_ir::instructions::InsnNode>, usize) {
+    use dexterity_ir::instructions::{InsnArg, InvokeKind};
+
+    // Filter out Nop instructions
+    let non_nop: Vec<_> = block.instructions.iter()
+        .filter(|insn| !matches!(insn.insn_type, InsnType::Nop))
+        .collect();
+
+    // Check for constructor pattern: NewInstance followed by InvokeDirect<init>
+    if non_nop.len() == 2 {
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Invoke { kind: InvokeKind::Direct, args, .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type) {
+            // Check if invoke is a constructor (<init>) calling on the new instance
+            if let Some(InsnArg::Register(recv)) = args.first() {
+                if recv.reg_num == new_dest.reg_num {
+                    // This is NewInstance + InvokeDirect<init> pattern
+                    // Treat as single instruction, return the NewInstance as it has the dest
+                    return (Some(non_nop[0]), 1);
+                }
+            }
+        }
+    }
+
+    // Check for CheckCast (simple case - already 1 instruction)
+    if non_nop.len() == 1 {
+        return (Some(non_nop[0]), 1);
+    }
+
+    (non_nop.first().copied(), non_nop.len())
+}
+
+/// Get destination from an instruction, including constructor pattern.
+/// For constructor pattern (NewInstance), returns the NewInstance's destination.
+/// For CheckCast, returns the object register (cast operates in place).
+fn get_effective_assignment_dest(
+    block: &crate::block_split::BasicBlock,
+) -> Option<(u16, u32)> {
+    use dexterity_ir::instructions::{InsnArg, InvokeKind};
+
+    // Filter out Nop instructions
+    let non_nop: Vec<_> = block.instructions.iter()
+        .filter(|insn| !matches!(insn.insn_type, InsnType::Nop))
+        .collect();
+
+    // Check for constructor pattern: NewInstance followed by InvokeDirect<init>
+    if non_nop.len() == 2 {
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Invoke { kind: InvokeKind::Direct, args, .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type) {
+            if let Some(InsnArg::Register(recv)) = args.first() {
+                if recv.reg_num == new_dest.reg_num {
+                    // Constructor pattern - dest is the NewInstance dest
+                    return Some((new_dest.reg_num, new_dest.ssa_version));
+                }
+            }
+        }
+    }
+
+    // Single instruction case
+    if non_nop.len() == 1 {
+        // JADX Clone: CheckCast operates in place - the object register IS the dest
+        // In instanceof ternary: cond ? (Type)obj : new Type(obj)
+        // The CheckCast result is the casted object in the same register
+        if let InsnType::CheckCast { object, .. } = &non_nop[0].insn_type {
+            if let InsnArg::Register(reg) = object {
+                return Some((reg.reg_num, reg.ssa_version));
+            }
+        }
+        return get_assignment_dest_with_version(&non_nop[0].insn_type);
+    }
+
+    None
 }
 
 #[cfg(test)]

@@ -4921,6 +4921,11 @@ fn detect_single_branch_ternary_pattern(
 }
 
 /// Detect simple ternary pattern (both branches are single blocks with one assignment)
+///
+/// JADX Clone: TernaryMod.java lines 79-135
+/// Handles standard assignment patterns plus constructor patterns:
+/// - Pattern 1: `if (x) { r = a; } else { r = b; }` -> `r = x ? a : b`
+/// - Pattern 2: `if (x instanceof Y) { (Y)x } else { new Y(x) }` -> `x instanceof Y ? (Y)x : new Y(x)`
 fn detect_simple_ternary(
     then_region: &Region,
     else_region: &Region,
@@ -4941,8 +4946,20 @@ fn detect_simple_ternary(
         .filter(|i| !is_control_flow(&i.insn_type))
         .collect();
 
+    // DEBUG: Log ternary detection attempts for BufferedReader patterns
+    if std::env::var("DEXTERITY_DEBUG_TERNARY").is_ok() {
+        eprintln!("[TERNARY_DEBUG] detect_simple_ternary: then_block={}, else_block={}", then_block_id, else_block_id);
+        eprintln!("[TERNARY_DEBUG]   then_insns={}, else_insns={}", then_insns.len(), else_insns.len());
+        for (i, insn) in then_insns.iter().enumerate() {
+            eprintln!("[TERNARY_DEBUG]   then[{}]: {:?}", i, insn.insn_type);
+        }
+        for (i, insn) in else_insns.iter().enumerate() {
+            eprintln!("[TERNARY_DEBUG]   else[{}]: {:?}", i, insn.insn_type);
+        }
+    }
+
     // Allow up to 2 instructions if the last one is an assignment
-    // (handles cases like loading a constant then using it)
+    // (handles cases like loading a constant then using it, or NewInstance+InvokeDirect)
     if then_insns.is_empty() || else_insns.is_empty() || then_insns.len() > 2 || else_insns.len() > 2 {
         return None;
     }
@@ -4951,16 +4968,21 @@ fn detect_simple_ternary(
     let then_insn = then_insns.last()?;
     let else_insn = else_insns.last()?;
 
-    let then_dest = get_insn_dest(&then_insn.insn_type)?;
-    let else_dest = get_insn_dest(&else_insn.insn_type)?;
+    // JADX Clone: Handle constructor pattern (NewInstance + InvokeDirect)
+    // When the last instruction is a constructor call (invoke-direct <init>),
+    // the destination is the first arg (the newly created object), not a result register.
+    // Reference: JADX ConstructorVisitor.java - merges new-instance + invoke-direct into ConstructorInsn
+    let then_dest = get_block_dest(&then_insns)?;
+    let else_dest = get_block_dest(&else_insns)?;
 
     if then_dest.0 != else_dest.0 {
         return None;
     }
 
     // Get the value expressions
-    let then_value = get_insn_value_expr(&then_insn.insn_type, ctx)?;
-    let else_value = get_insn_value_expr(&else_insn.insn_type, ctx)?;
+    // For constructor patterns, generate "new Type(args)" expression
+    let then_value = get_block_value_expr(&then_insns, ctx)?;
+    let else_value = get_block_value_expr(&else_insns, ctx)?;
 
     Some(TernaryExprInfo {
         dest_reg: then_dest.0,
@@ -4968,6 +4990,73 @@ fn detect_simple_ternary(
         then_value,
         else_value,
     })
+}
+
+/// Get destination register from a block's instructions.
+/// Handles constructor pattern: NewInstance + InvokeDirect -> dest is NewInstance's dest
+/// JADX Clone: Mirrors ConstructorVisitor.java behavior
+fn get_block_dest(insns: &[&InsnNode]) -> Option<(u16, u32)> {
+    let last_insn = insns.last()?;
+
+    // Try normal dest extraction first
+    if let Some(dest) = get_insn_dest(&last_insn.insn_type) {
+        return Some(dest);
+    }
+
+    // Check for constructor pattern: last is InvokeDirect <init>, first is NewInstance
+    if let InsnType::Invoke { kind: InvokeKind::Direct, args, .. } = &last_insn.insn_type {
+        // Constructor calls have the new instance as first arg
+        if let Some(InsnArg::Register(inst_reg)) = args.first() {
+            // Check if first instruction is NewInstance creating this register
+            if insns.len() >= 2 {
+                if let InsnType::NewInstance { dest, .. } = &insns[0].insn_type {
+                    if dest.reg_num == inst_reg.reg_num {
+                        // This is a constructor pattern: new-instance + invoke-direct <init>
+                        return Some((dest.reg_num, dest.ssa_version));
+                    }
+                }
+            }
+        }
+    }
+
+    None
+}
+
+/// Get value expression from a block's instructions.
+/// Handles constructor pattern: NewInstance + InvokeDirect -> "new Type(args)"
+/// JADX Clone: Mirrors ConstructorInsn code generation
+fn get_block_value_expr(insns: &[&InsnNode], ctx: &BodyGenContext) -> Option<String> {
+    let last_insn = insns.last()?;
+
+    // Check for constructor pattern first
+    if let InsnType::Invoke { kind: InvokeKind::Direct, method_idx, args, .. } = &last_insn.insn_type {
+        // Constructor calls have the new instance as first arg
+        if args.len() >= 1 {
+            if let Some(InsnArg::Register(inst_reg)) = args.first() {
+                // Verify first instruction is NewInstance for this register
+                if insns.len() >= 2 {
+                    if let InsnType::NewInstance { dest, type_idx } = &insns[0].insn_type {
+                        if dest.reg_num == inst_reg.reg_num {
+                            // Generate "new Type(arg1, arg2, ...)" expression
+                            let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                                .unwrap_or_else(|| format!("Type#{}", type_idx));
+
+                            // Skip first arg (the instance) when generating constructor args
+                            let ctor_args: Vec<String> = args.iter()
+                                .skip(1)
+                                .map(|arg| ctx.expr_gen.gen_arg(arg))
+                                .collect();
+
+                            return Some(format!("new {}({})", type_name, ctor_args.join(", ")));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Fall back to normal expression extraction
+    get_insn_value_expr(&last_insn.insn_type, ctx)
 }
 
 /// Get assignment info from a branch region (dest_reg, dest_version, value_expr)
@@ -8176,10 +8265,11 @@ fn write_typed_args_with_varargs<W: CodeWriter>(
     }
 
     // Check if we should attempt varargs expansion:
-    // 1. Method is known to be varargs, OR
-    // 2. Method varargs status unknown but heuristic suggests expansion
-    let should_try_varargs = is_varargs.unwrap_or(false)
-        || (is_varargs.is_none() && should_heuristic_expand_varargs(param_types, &args_to_process, ctx));
+    // ONLY expand when method is KNOWN to be varargs (is_varargs == Some(true))
+    // Do NOT use heuristic expansion for unknown methods, as this incorrectly expands
+    // non-varargs array parameters like Runtime.exec(String[]) to exec("a", "b", "c")
+    // JADX Clone: JADX only expands when method is definitively marked as varargs
+    let should_try_varargs = is_varargs.unwrap_or(false);
 
     // If we have param_types, use them to properly handle wide types
     // Wide types (Long, Double) use TWO consecutive registers for one parameter
