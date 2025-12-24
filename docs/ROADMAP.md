@@ -1,9 +1,9 @@
 # Roadmap
 
-**Status:** 1 P0 Open (Kotlin) | **Production Ready for most APKs** | Grade: C+ (~75%) | Dec 24, 2025
+**Status:** Production Ready | **Grade:** B- (~80%) | Dec 24, 2025
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
-**Kotlin Parity:** ~70-75% - See [KOTLIN_JADX_PARITY_AUDIT.md](KOTLIN_JADX_PARITY_AUDIT.md) for detailed audit
-**Deobf Parity:** ~80% - Kotlin field aliases broken, see [JADX_KOTLIN_REAL_GAPS.md](JADX_KOTLIN_REAL_GAPS.md)
+**Kotlin Parity:** ~80% - Field declarations aliased, but usages use old names (codegen issue)
+**Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
 
 ---
 
@@ -15,19 +15,24 @@
 - badboy APK: 98% clean
 - medium APK: 98%+ clean (hot-reload fix applied Dec 23)
 
-**JADX Codegen Parity:** ~75% (C+ Grade) - Kotlin field aliases NOT working
+**JADX Codegen Parity:** ~80% (B- Grade) - Field declarations aliased, references need fixing
 
 ## Open Work
 
-### P0 Critical: Kotlin Field Aliases Not Applied
+### P1: Kotlin Field Alias References in Code
 
 | Task | Priority | Description | Status |
 |------|----------|-------------|--------|
-| **Fix JVM field signature extraction** | **P0** | `parser.rs:parse_property()` - extract fieldSignature | **OPEN** |
-| **Add fallback field matching** | **P0** | `extractor.rs:field_matches()` - match by index if sig None | **OPEN** |
+| JVM field signature extraction | P0 | `parser.rs:parse_property()` - extract fieldSignature | **DONE** ✅ |
+| Fallback field matching | P0 | `extractor.rs:field_matches()` - match by index if sig None | **DONE** ✅ |
+| **Field alias in references** | **P1** | `body_gen.rs` - use field.alias for `this.field` refs | **OPEN** |
 
-**Evidence:** `output/dexterity/large/sources/l/a0.java` shows `w`, `x` instead of `segments`, `directory`
-**JADX Reference:** `KotlinMetadataUtils.kt:111-116` - uses `searchFieldByShortId(kmProperty.shortId)`
+**Current State:** Field DECLARATIONS are correctly aliased (e.g., `private final p2 breedEntityDao;`),
+but field USAGES still use obfuscated names (e.g., `this.a = p2Var;` instead of `this.breedEntityDao = ...`)
+
+**Evidence:** `BreedRepository.java` shows correct declaration but wrong usage:
+- Declaration: `/* renamed from: a */ private final p2 breedEntityDao;` ✅
+- Usage: `this.a = p2Var;` ❌ (should be `this.breedEntityDao = p2Var;`)
 
 ### Remaining JADX Parity Items (Dec 23, 2025)
 

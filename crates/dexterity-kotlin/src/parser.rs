@@ -979,10 +979,13 @@ fn parse_property(prop: &proto::Property, strings: &[String], _idx: u32) -> Resu
     // Extract JVM signatures from property_signature extension
     // JADX Reference: KmExt.kt:9 - uses fieldSignature, getterSignature, setterSignature
     // This is the CRITICAL fix for P0.1 - proper JVM signature extraction
+
     let (jvm_field_signature, getter_signature, setter_signature) = prop.property_signature
         .as_ref()
         .map(|sig| {
             // Extract field signature
+            // For unobfuscated code, the Kotlin compiler often omits the field signature
+            // (field message is present but empty). In this case, we fall back to the property name.
             let field_sig = sig.field.as_ref()
                 .and_then(|f| build_jvm_field_signature(f, strings))
                 .unwrap_or_else(|| name.clone());
