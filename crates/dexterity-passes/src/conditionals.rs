@@ -46,7 +46,7 @@ fn has_non_inlinable_prelude(cfg: &CFG, block_id: u32) -> bool {
     for insn in &block.instructions[..if_idx] {
         // Skip control flow instructions (goto, nop)
         match &insn.insn_type {
-            InsnType::Goto | InsnType::Nop => continue,
+            InsnType::Goto { .. } | InsnType::Nop => continue,
             _ => {}
         }
 

@@ -37,7 +37,7 @@
 - badboy APK: 98% clean, 81 files output (was 53)
 - medium APK: 98%+ clean (hot-reload fix applied Dec 23)
 
-**JADX Codegen Parity:** ~80% (B- Grade) for syntax quality
+**JADX Codegen Parity:** ~83% (B Grade) for syntax quality
 **File Coverage:** Now 180% of JADX (81 vs 45) - outputs lambda classes separately (P1-LAMBDA will inline them)
 
 ## Open Work
@@ -148,22 +148,22 @@ See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) for comprehensive a
 Most JADX codegen functionality implemented. Source-level audit complete.
 See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed audit.
 
-**Codegen P0/P1 Gaps Progress: 8 of 10 FIXED (80%) - Dec 24, 2025**
+**Codegen P0/P1 Gaps Progress: 10 of 10 FIXED (100%) - Dec 24, 2025**
 
 | Gap | Description | Status | Lines |
 |-----|-------------|--------|-------|
 | GAP-01 | SSA->CodeVar variable mapping (peek vs take) | **FIXED** Dec 24 | N/A |
 | GAP-02 | Iterator for-each loop pattern detection | **FIXED** Dec 24 | N/A |
-| **GAP-03** | Nested if declarations | **🔄 IN PROGRESS** | ~150 |
+| ~~**GAP-03**~~ | ~~Nested if declarations~~ | ✅ **FIXED** Dec 24 | N/A |
 | GAP-04 | Static final primitive field defaults (= 0, = false, etc.) | **FIXED** Dec 24 | N/A |
-| **GAP-05** | Ternary conversion (if-then-else → a ? b : c) | **🔄 IN PROGRESS** | ~150 |
+| ~~**GAP-05**~~ | ~~Ternary conversion (if-then-else → a ? b : c)~~ | ✅ **FIXED** Dec 24 | N/A |
 | GAP-06 | For-each type casts | **FIXED** Dec 24 | N/A |
 | GAP-07 | Boolean return | **VERIFIED** | N/A |
 | GAP-08 | Invoke arg arrays (pending varargs emit as literals) | **FIXED** Dec 24 | N/A |
 | GAP-09 | StringBuilder chain | **VERIFIED** | N/A |
 | GAP-10 | else-return elimination | **VERIFIED** | N/A |
 
-**Total remaining:** ~200 lines of JADX logic (GAP-03 + GAP-05)
+**All codegen gaps fixed!**
 
 **Verified Implementations:**
 - Negative literal wrapping (`maybe_paren_wrap`)
@@ -189,7 +189,7 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 
 **P2 (Medium Priority) - 4 tasks:**
 - ~~**P2-BOOL-SIMP**~~ - ✅ FIXED (Dec 24, 2025) - Non-0/1 integer literals no longer displayed as true/false
-- **P2-NAME-COLLISION** - 🔄 IN PROGRESS - Class-level reserved names (static fields, inner classes, packages)
+- ~~**P2-NAME-COLLISION**~~ - ✅ FIXED (Dec 24) - Class-level reserved names (static fields, inner classes, packages)
 - **P2-SIMPLE-MODE** - Complete SimpleModeHelper rewrite in `fallback_gen.rs` (~500 lines)
 - ~~**P2-MULTI-CATCH**~~ - ✅ FIXED - Multi-catch separator (`Type1 | Type2`)
 - ~~**P2-SUPER-QUAL**~~ - ✅ FIXED - Qualified super calls (`OuterClass.super.method()`)

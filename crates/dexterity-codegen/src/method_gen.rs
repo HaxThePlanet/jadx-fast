@@ -1024,7 +1024,8 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     add_debug_lines: bool,
     code: &mut W,
 ) {
-    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+    let current_class_type = current_class.map(|c| c.class_type.as_str());
+    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
 }
 
 /// Extract throws types from dalvik/annotation/Throws annotation
