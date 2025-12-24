@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="59"
+    android:versionName="1.6.0"
+    android:installLocation="preferExternal"
+    android:compileSdkVersion="33"
+    android:compileSdkVersionCodename="13"
+    package="com.HoYoverse.hkrpgoversea"
+    platformBuildVersionCode="33"
+    platformBuildVersionName="13"
+    xmlns:ns1="http://schemas.android.com/apk/distribution" 
+    ns1:requiredSplitTypes="base__abi"
+    ns1:splitTypes="">
+    <uses-sdk xmlns:ns1="http://schemas.android.com/apk/distribution"
+        android:minSdkVersion="23"
+        android:targetSdkVersion="33"/>
+    <supports-screens
+        android:anyDensity="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <queries>
+        <package android:name="com.facebook.katana"/>
+        <package android:name="com.twitter.android"/>
+        <package android:name="com.instagram.android"/>
+        <package android:name="com.kakao.story"/>
+        <package android:name="com.mihoyo.hoyolab"/>
+        <package android:name="com.zhiliaoapp.musically"/>
+        <package android:name="com.ss.android.ugc.trill"/>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="https"/>
+        </intent>
+        <intent>
+            <action android:name="com.appsflyer.referrer.INSTALL_PROVIDER"/>
+        </intent>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE"/>
+        </intent>
+        <package android:name="com.mihoyo.combo.logcat"/>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+        </intent>
+        <package android:name="com.mihoyo.hoyolabdebug"/>
+        <package android:name="com.mihoyo.hoyolabue"/>
+        <package android:name="com.mihoyo.hoyolabpre"/>
+        <intent>
+            <action android:name="com.android.vending.billing.InAppBillingService.BIND"/>
+        </intent>
+    </queries>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <uses-feature android:glEsVersion="0x30000"/>
+    <uses-feature
+        android:name="android.hardware.vulkan.version"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch.distinct"
+        android:required="false"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/app_icon"
+        android:name="com.combosdk.openapi.ComboApplication"
+        android:supportsRtl="true"
+        android:banner="@drawable/app_banner"
+        android:isGame="true"
+        android:extractNativeLibs="false"
+        android:fullBackupContent="@xml/appsflyer_backup_rules"
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/app_icon_round"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:isSplitRequired="true">
+        <activity
+            android:theme="@style/webStyle"
+            android:name="com.miHoYo.sdk.webview.framework.activity.WebActivity"
+            android:launchMode="singleTop"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|density|layoutDirection"/>
+        <provider
+            android:name="com.combosdk.module.share.sora.ShareProvider"
+            android:exported="false"
+            android:authorities="com.HoYoverse.hkrpgoversea.combosdk.ShareProvider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/mihoyo_share_file_paths"/>
+        </provider>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/share_facebook_app_id"/>
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"
+            android:authorities="com.facebook.app.FacebookContentProvider623266168718305"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:name="com.mihoyo.sora.share.facebook.FacebookShareActivity"
+            android:launchMode="singleTask"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <meta-data
+            android:name="TwitterKey"
+            android:value="58LHUPcdtK3z3qrGhghqybrPa"/>
+        <meta-data
+            android:name="TwitterSecret"
+            android:value="hwlYnotCV39cLdPoJY2ETY7hw"/>
+        <meta-data
+            android:name="TikTokClientKey"
+            android:value="awsnsip9pmwe3wnr"/>
+        <activity
+            android:name="com.mihoyo.sora.share.tiktok.TikTokCallActivity"
+            android:exported="true"
+            android:launchMode="singleTask"/>
+        <receiver
+            android:name="com.mihoyo.sora.share.tiktok.StayInTikTokReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.aweme.opensdk.action.stay.in.dy"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="ShareFileProvider"
+            android:value="com.HoYoverse.hkrpgoversea.combosdk.ShareProvider"/>
+        <activity
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
+            android:name="com.combosdk.module.platform.zxing.android.CaptureActivity"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="com.mihoyoos.sdk.platform.SdkActivity"
+            android:screenOrientation="behind"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
+        <activity
+            android:theme="@style/com_facebook_activity_theme"
+            android:label="@string/app_name"
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize"/>
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/fb_login_protocol_scheme"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="fbconnect"
+                    android:host="cct.com.HoYoverse.hkrpgoversea"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.combosdk.module.push.impl.MiHoYoFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.combosdk.module.push.impl.localpush.internal.NotificationReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.HoYoverse.hkrpgoversea.localpush"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.combosdk.module.push.impl.localpush.internal.ReceiverAlarmService"
+            android:enabled="true"
+            android:exported="true"/>
+        <meta-data
+            android:name="apps_flyer_dev_key"
+            android:value="ecCCF93fgWmX4aviagK833"/>
+        <meta-data
+            android:name="aerial_app_id"
+            android:value="c90n0zl5efpc"/>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="com.combosdk.module.ua.ProtocolActivity"
+            android:screenOrientation="behind"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="com.combosdk.module.ua.OverseaProtocolActivity"
+            android:screenOrientation="behind"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="com.combosdk.module.ua.WebActivity"
+            android:screenOrientation="behind"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
+        <service
+            android:name="com.combosdk.module.download.LiveService"
+            android:stopWithTask="true"/>
+        <service android:name="com.combosdk.module.download.ReceiveClickService"/>
+        <provider
+            android:name="com.mihoyo.platform.sdk.devicefp.os.internal.OSParamsProvider"
+            android:exported="false"
+            android:authorities="com.HoYoverse.hkrpgoversea.OSParamsProvider"/>
+        <activity
+            android:theme="@style/ActivityTheme"
+            android:name="com.mihoyo.combosdk.ComboSDKActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|density|layoutDirection"
+            android:hardwareAccelerated="false"
+            android:resizeableActivity="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="honkaistarrail"/>
+            </intent-filter>
+            <meta-data
+                android:name="unityplayer.UnityActivity"
+                android:value="true"/>
+            <meta-data
+                android:name="android.notch_support"
+                android:value="true"/>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="oig.hoyoverse.com"
+                    android:pathPrefix="/hsr_android/"/>
+                <data android:scheme="http"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="honkaistarrail"/>
+            </intent-filter>
+        </activity>
+        <meta-data
+            android:name="unityplayer.SkipPermissionsDialog"
+            android:value="true"/>
+        <receiver
+            android:name="com.adjust.sdk.AdjustReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="unity.splash-mode"
+            android:value="0"/>
+        <meta-data
+            android:name="unity.splash-enable"
+            android:value="true"/>
+        <meta-data
+            android:name="unity.allow-resizable-window"
+            android:value="true"/>
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape"/>
+        <meta-data
+            android:name="unity.build-id"
+            android:value="fd848896-ae4c-46ce-bb01-9ccd80218838"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:name="com.combosdk.support.basewebview.WebViewFileChooserActivity"
+            android:launchMode="singleTop"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|density|layoutDirection"/>
+        <provider
+            android:name="com.combosdk.support.basewebview.WebViewFileProvider"
+            android:exported="false"
+            android:authorities="com.HoYoverse.hkrpgoversea.miHoYo.sdk.webview.fileprovider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/mihoyo_webview_file_paths"/>
+        </provider>
+        <meta-data
+            android:name="COMBO_SDK_VERSION"
+            android:value="2.19.0.1"/>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="com.mihoyo.combo.ConfirmActivity"
+            android:screenOrientation="behind"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="com.mihoyo.combo.AlertActivity"
+            android:screenOrientation="behind"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
+        <receiver
+            android:name="com.mihoyo.hoyolab.share.core.callback.HoYoLabShareCallbackReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.mihoyo.hoyolab.share.HoYoLabShareCallbackReceiver"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="com.mihoyo.hoyolab.share.core.callback.HoYoLabShareCallbackActivity"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="hoylabsharesdkcom.HoYoverse.hkrpgoversea"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="com.facebook.CustomTabMainActivity"/>
+        <provider
+            android:name="com.facebook.internal.FacebookInitProvider"
+            android:exported="false"
+            android:authorities="com.HoYoverse.hkrpgoversea.FacebookInitProvider"/>
+        <receiver
+            android:name="com.facebook.CurrentAccessTokenExpirationBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.facebook.AuthenticationTokenManager$CurrentAuthenticationTokenChangedBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.facebook.sdk.ACTION_CURRENT_AUTHENTICATION_TOKEN_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="com.mihoyo.astrolabe.monitor.AstrolabeProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:authorities="com.HoYoverse.hkrpgoversea.AstrolabeProvider"/>
+        <activity
+            android:name="com.twitter.sdk.android.tweetcomposer.ComposerActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustUnspecified"/>
+        <service
+            android:name="com.twitter.sdk.android.tweetcomposer.TweetUploadService"
+            android:enabled="true"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/MediaTheme"
+            android:name="com.twitter.sdk.android.tweetui.PlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity
+            android:theme="@style/MediaTheme"
+            android:name="com.twitter.sdk.android.tweetui.GalleryActivity"/>
+        <activity
+            android:name="com.twitter.sdk.android.core.identity.OAuthActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:configChanges="orientation|screenSize"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:name="com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity"
+            android:screenOrientation="behind"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:exported="true"/>
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="5.2.0"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:exported="false"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false"
+            android:directBootAware="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="com.HoYoverse.hkrpgoversea.firebaseinitprovider"
+            android:initOrder="100"
+            android:directBootAware="true"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <provider
+            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="com.HoYoverse.hkrpgoversea.lifecycle-process"/>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.android.vending.splits.required"
+            android:value="true"/>
+        <meta-data
+            android:name="com.android.stamp.source"
+            android:value="https://play.google.com/store"/>
+        <meta-data
+            android:name="com.android.stamp.type"
+            android:value="STAMP_TYPE_DISTRIBUTION_APK"/>
+        <meta-data
+            android:name="com.android.vending.splits"
+            android:resource="@xml/splits0"/>
+        <meta-data
+            android:name="com.android.vending.derived.apk.id"
+            android:value="4"/>
+    </application>
+</manifest>
