@@ -27,8 +27,9 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/`:
 
 | Priority | Task | JADX Source | Est. Lines | Status |
 |----------|------|-------------|------------|--------|
-| **P0** | Fix R.java filter bug | main.rs:1837 | ~10 | OPEN |
 | **P0** | Output synthetic classes | ClassGen.java:157 | ~50 | OPEN |
+
+**Note:** R.java/BuildConfig exclusion is intentional (not needed for reverse engineering).
 
 ### P1 Lambda/Anonymous Inlining Clone Tasks
 

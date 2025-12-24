@@ -22,10 +22,11 @@
 
 | Priority | Bug/Gap | JADX Reference | Impact |
 |----------|---------|----------------|--------|
-| **P0** | R.java filter bug | `main.rs:1837` | App R.java files filtered |
 | **P0** | Synthetic classes not output | `ClassGen.java:157` | 27KB+ missing |
 | **P1** | Lambda inlining missing | `InsnGen.java:952-1090` | Separate files vs inline |
 | **P1** | Anonymous class inlining | `InsnGen.java:806-848` | Readability gap |
+
+**Note:** R.java and BuildConfig are intentionally excluded (not needed for reverse engineering).
 
 ---
 
@@ -301,24 +302,6 @@ Now correctly shows private/protected constructors.
 
 ## P0-CRITICAL: File Coverage Bugs (Dec 24, 2025 Discovery)
 
-### P0-RJAVA: R.java Filter Bug
-
-**JADX Reference:** N/A - Dexterity-specific bug
-**Location:** `crates/dexterity-main/src/main.rs:1837-1838`
-**Lines to fix:** ~10
-
-**Current (Broken):**
-```rust
-if output_path.ends_with("/R.java") { continue; }
-```
-
-**Fix:**
-```rust
-// Only skip framework R.java, not app R.java
-if (output_path.contains("/android/") || output_path.contains("/androidx/"))
-    && output_path.ends_with("/R.java") { continue; }
-```
-
 ### P0-SYNTHETIC: Synthetic Classes Not Output
 
 **JADX Reference:** `ClassGen.java:157` - `addClassCode()` handles synthetic classes
@@ -472,8 +455,9 @@ Anonymous class constructor inlining with recursion detection:
 
 | Priority | Gap ID | Description | JADX Source | Est. Lines | Status |
 |----------|--------|-------------|-------------|------------|--------|
-| **P0** | P0-RJAVA | Fix R.java filter bug | main.rs:1837 | ~10 | **OPEN** |
 | **P0** | P0-SYNTHETIC | Output synthetic classes | ClassGen.java:157 | ~50 | **OPEN** |
+
+**Note:** R.java/BuildConfig exclusion is intentional (not needed for reverse engineering).
 
 ### P1 High (Lambda/Anonymous Inlining)
 
@@ -501,10 +485,10 @@ Anonymous class constructor inlining with recursion detection:
 | P1 | GAP-10 | else-return | ~50 | ~80 | body_gen.rs | **FIXED** (already implemented) |
 
 **Remaining Work Summary:**
-- P0 Bugs (File Coverage): ~60 lines
+- P0 Bugs (File Coverage): ~50 lines (P0-SYNTHETIC only)
 - P0 Codegen (GAP-03 + GAP-05): ~200 lines
 - P1 Lambda/Anonymous Inlining: ~410 lines
-- **Total Remaining:** ~670 lines of JADX logic to clone
+- **Total Remaining:** ~660 lines of JADX logic to clone
 
 ---
 

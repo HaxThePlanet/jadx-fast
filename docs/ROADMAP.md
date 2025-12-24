@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 2 P0 Bugs | ~80% Syntax Quality | ~62% File Coverage | Dec 24, 2025
+**Status:** 1 P0 Bug | ~80% Syntax Quality | ~62% File Coverage | Dec 24, 2025
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 **Kotlin Parity:** ~70-75% - Field declarations aliased, but USAGES use obfuscated names (P1 bug in body_gen.rs)
 **Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
@@ -16,31 +16,6 @@
 | JADX | 86 | 3,559 | 100% |
 | Dexterity | 53 | 2,861 | 62% files, 80% lines |
 | **Gap** | 33 files | 698 lines | **38% files missing** |
-
-### P0-RJAVA: R.java Filtering Bug
-
-**Status:** OPEN | **Priority:** P0 (CRITICAL)
-**Location:** `crates/dexterity-main/src/main.rs:1837-1838`
-
-**Bug:** Current code skips ALL classes matching `*/R.java` pattern regardless of package:
-```rust
-// CURRENT (BROKEN):
-if output_path.ends_with("/R.java") { continue; }
-```
-
-**Problem:** This incorrectly skips app R.java files like `com/prototype/badboy/R.java`.
-Should only skip framework R.java (`android/R.java`, `androidx/*/R.java`).
-
-**Evidence:** `output/jadx_badboy/` has `com/prototype/badboy/R.java` but `output/dex_badboy/` does not.
-
-**Fix:** Change filter to only skip framework R.java:
-```rust
-// CORRECT:
-if output_path.ends_with("/android/R.java")
-    || output_path.contains("/androidx/") && output_path.ends_with("/R.java") {
-    continue;
-}
-```
 
 ### P0-SYNTHETIC: Synthetic Classes Not Output
 
@@ -75,7 +50,7 @@ But it's actually a TOP-LEVEL Kotlin synthetic class - the `$` is part of its na
 - medium APK: 98%+ clean (hot-reload fix applied Dec 23)
 
 **JADX Codegen Parity:** ~80% (B- Grade) for syntax quality WHEN files are generated
-**File Coverage Gap:** 38% of files missing due to P0-RJAVA and P0-SYNTHETIC bugs
+**File Coverage Gap:** R.java/BuildConfig excluded by design (not needed for RE); P0-SYNTHETIC causes additional gap
 
 ## Open Work
 
@@ -196,7 +171,6 @@ See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) for comprehensive a
 - Case-insensitive collision handling for Windows
 
 **Minor Gaps (P2/P3):**
-- R.java synthetic generation (resources feature, not deobf)
 - METHOD_OVERRIDE attribute detection without annotations
 
 ---
