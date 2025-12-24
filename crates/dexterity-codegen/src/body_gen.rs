@@ -580,16 +580,34 @@ impl BodyGenContext {
     pub fn gen_arg_with_inline_peek(&self, arg: &InsnArg) -> String {
         if let InsnArg::Register(reg) = arg {
             // CG-002 FIX: Check for inline expression with SSA version fallback.
-            // Sometimes condition blocks reference version 0 while IGET stores version 1.
-            // We try the exact version first, then fall back to searching nearby versions.
+            // Clone of JADX NameGen behavior: field access is always inlined.
+            //
+            // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:478-492
+            //
+            // Problem: Condition blocks may reference a different SSA version than
+            // where SGET/IGET stored the expression. This causes "undefined variable"
+            // errors when we fall back to var_naming which generates names like
+            // "fINGERPRINT2" that were never declared.
+            //
+            // Solution: For field access expressions (side-effect-free), search all
+            // stored versions of the same register. JADX always inlines field access.
             let expr_opt = self.peek_inline_expr(reg.reg_num, reg.ssa_version)
                 .or_else(|| {
-                    // Fallback: check version 1 if looking for version 0 (common pattern)
-                    if reg.ssa_version == 0 {
-                        self.peek_inline_expr(reg.reg_num, 1)
-                    } else {
-                        None
-                    }
+                    // Fallback: Search all versions of this register for field access expressions.
+                    // This is safe because field access (IGET/SGET) is side-effect-free.
+                    // JADX parity: Field access is always inlined, never uses intermediate vars.
+                    self.inlined_exprs.iter()
+                        .filter(|((r, _v), _expr)| *r == reg.reg_num)
+                        .filter_map(|((_r, _v), expr)| {
+                            // Only use expressions that look like field access (not method calls)
+                            let is_field_access = expr.contains('.') && !expr.contains('(');
+                            if is_field_access {
+                                Some(expr)
+                            } else {
+                                None
+                            }
+                        })
+                        .next()
                 });
 
             if let Some(expr) = expr_opt {
@@ -643,8 +661,9 @@ impl BodyGenContext {
             }
             InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
                 // For instance methods, use receiver.method() format
+                // P0-CG-001 FIX: Use inline peek for receiver to handle field access
                 if let Some(receiver) = args.first() {
-                    expr.push_str(&self.expr_gen.gen_arg(receiver));
+                    expr.push_str(&self.gen_arg_with_inline_peek(receiver));
                     expr.push('.');
                 }
             }
@@ -654,9 +673,14 @@ impl BodyGenContext {
         expr.push_str(&sanitize_method_name(&info.method_name));
         expr.push('(');
 
+        // P0-CG-001 FIX: Use gen_arg_with_inline_peek to pick up SGET/IGET expressions.
+        // Without this, field access like Build.FINGERPRINT falls back to var_naming
+        // which generates undefined names like "fINGERPRINT2".
+        //
+        // Reference: JADX InsnGen.java always inlines field access expressions.
         let arg_strs: Vec<String> = args.iter()
             .skip(skip_count)
-            .map(|arg| self.expr_gen.gen_arg(arg))
+            .map(|arg| self.gen_arg_with_inline_peek(arg))
             .collect();
         expr.push_str(&arg_strs.join(", "));
         expr.push(')');
@@ -1818,6 +1842,55 @@ fn is_fallback_register_name(name: &str) -> bool {
     let rest = &name[1..];
     // Fallback patterns: r0, r1, r2... (raw register) or l0, l1, l2... (long register)
     (first == 'l' || first == 'r') && rest.chars().all(|c| c.is_ascii_digit())
+}
+
+/// Check if a method call is "pure" (no side effects).
+/// Pure methods can be skipped when their result isn't used.
+/// JADX Reference: Similar to how JADX's CodeShrink removes useless instructions
+/// Clone Date: Dec 2025
+fn is_pure_method_call(method_idx: u32, ctx: &BodyGenContext) -> bool {
+    if let Some(method_info) = ctx.expr_gen.get_method_value(method_idx) {
+        let method_name = &*method_info.method_name;
+        let class_type = &*method_info.class_type;
+
+        // Known pure methods on common classes
+        // These methods have no side effects and can be skipped if result unused
+        match method_name {
+            // Object methods
+            "hashCode" | "toString" | "getClass" => true,
+
+            // String methods (String is immutable)
+            "length" | "isEmpty" | "charAt" | "indexOf" | "lastIndexOf"
+            | "substring" | "trim" | "toLowerCase" | "toUpperCase"
+            | "startsWith" | "endsWith" | "contains" | "matches"
+            | "split" | "replace" | "replaceAll" | "replaceFirst"
+            | "compareTo" | "compareToIgnoreCase" | "equalsIgnoreCase"
+            | "intern" | "getBytes" | "toCharArray"
+                if class_type.contains("String") => true,
+
+            // Collection size/isEmpty checks (generally pure)
+            "size" | "isEmpty" if class_type.contains("Collection")
+                || class_type.contains("List") || class_type.contains("Set")
+                || class_type.contains("Map") => true,
+
+            // Primitive wrapper valueOf and parse (pure)
+            "valueOf" | "parseInt" | "parseLong" | "parseDouble" | "parseFloat"
+            | "intValue" | "longValue" | "doubleValue" | "floatValue"
+            | "booleanValue" | "byteValue" | "shortValue" | "charValue"
+                if class_type.contains("Integer") || class_type.contains("Long")
+                || class_type.contains("Double") || class_type.contains("Float")
+                || class_type.contains("Boolean") || class_type.contains("Byte")
+                || class_type.contains("Short") || class_type.contains("Character") => true,
+
+            // equals - pure but usually has a use (comparison result)
+            // Skip it as standalone though - why call equals without checking result?
+            "equals" => true,
+
+            _ => false,
+        }
+    } else {
+        false
+    }
 }
 
 /// Generate a variable name for a CheckCast result based on the type name.
@@ -9552,7 +9625,15 @@ fn generate_insn<W: CodeWriter>(
 
                 emit_assignment(d, &expr, ctx, code);
             } else {
-                // No result used - just emit the call
+                // No result used - check if this is a pure method that can be skipped
+                // JADX Reference: Similar to how JADX removes useless method calls
+                // Pure methods have no side effects - if result isn't used, call is useless
+                if is_pure_method_call(*method_idx, ctx) {
+                    // Skip emitting pure method calls with no result (e.g., str.hashCode();)
+                    return true;
+                }
+
+                // Side-effect method - emit the call
                 code.start_line();
 
                 // Add polymorphic cast if result type exists (rare case)
