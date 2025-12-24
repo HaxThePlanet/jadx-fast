@@ -8,7 +8,37 @@ We are **CLONING** JADX, not reimplementing it. Each task below includes:
 - Rust target file and structure
 - JADX reference comments to include
 
-**Last Updated:** Dec 23, 2025 (MAJOR UPDATE)
+**Last Updated:** Dec 24, 2025 (Output Comparison Update)
+
+---
+
+## CRITICAL: Dec 24, 2025 Output Comparison Findings
+
+### File Coverage Gap Analysis
+
+Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/`:
+
+| Metric | JADX | Dexterity | Gap |
+|--------|------|-----------|-----|
+| Java Files | 86 | 53 | **33 files (38%) missing** |
+| Total Lines | 3,559 | 2,861 | 698 lines (20%) missing |
+
+### P0 Critical Clone Tasks (Dec 24, 2025)
+
+| Priority | Task | JADX Source | Est. Lines | Status |
+|----------|------|-------------|------------|--------|
+| **P0** | Fix R.java filter bug | main.rs:1837 | ~10 | OPEN |
+| **P0** | Output synthetic classes | ClassGen.java:157 | ~50 | OPEN |
+
+### P1 Lambda/Anonymous Inlining Clone Tasks
+
+| Priority | Task | JADX Source | Est. Lines | Status |
+|----------|------|-------------|------------|--------|
+| **P1** | makeInvokeLambda() | InsnGen.java:952-963 | ~100 | OPEN |
+| **P1** | makeRefLambda() | InsnGen.java:965-983 | ~50 | OPEN |
+| **P1** | makeSimpleLambda() | InsnGen.java:985-1030 | ~80 | OPEN |
+| **P1** | makeInlinedLambdaMethod() | InsnGen.java:1032-1090 | ~100 | OPEN |
+| **P1** | inlineAnonymousConstructor() | InsnGen.java:806-848 | ~80 | OPEN |
 
 ---
 
@@ -17,23 +47,26 @@ We are **CLONING** JADX, not reimplementing it. Each task below includes:
 | Category | JADX Total | Dexterity | Coverage |
 |----------|-----------|-----------|----------|
 | Root Visitors | 38 | 33 | 87% |
-| Block Processing | 8 | 7 | **88%** ✅ |
-| Debug Info | 2 | 2 | **100%** ✅ |
+| Block Processing | 8 | 7 | **88%** |
+| Debug Info | 2 | 2 | **100%** |
 | Regions | 21 | 19 | 90% |
 | Type Inference | 27 | 24 | 89% |
 | Rename/Prepare | 8 | 0 | 0% |
-| **TOTAL** | **124** | **85** | **~86%** |
+| **Lambda/Anonymous** | 5 | 0 | **0%** |
+| **TOTAL** | **129** | **85** | **~66%** |
 
-### Codegen Parity: ~93% (Dec 23, 2025 audit)
-See `JADX_CODEGEN_CLONE_STATUS.md` for detailed source-level audit.
+### Codegen Parity: ~80% (Dec 24, 2025 verified)
+- Syntax quality when files ARE generated: 80% (B- Grade) - ACCURATE
+- File coverage: 62% due to P0 bugs - NEEDS FIXING
 
 ### Critical Gaps - RESOLVED (Dec 2025)
-1. ~~**BlockExceptionHandler** (640 lines)~~ ✅ IMPLEMENTED - `block_exception_handler.rs`
-2. ~~**DebugInfoVisitors** (2 files, ~400 lines)~~ ✅ IMPLEMENTED - `debug_info.rs`
+1. ~~**BlockExceptionHandler** (640 lines)~~ IMPLEMENTED - `block_exception_handler.rs`
+2. ~~**DebugInfoVisitors** (2 files, ~400 lines)~~ IMPLEMENTED - `debug_info.rs`
 
-### Remaining Gaps
-3. **RenameVisitors** (4 files, ~400 lines) - Deobfuscation naming
-4. **PrepareVisitors** (2 files, ~200 lines) - Android constants
+### Remaining Critical Gaps (Dec 24, 2025)
+3. **Lambda/Anonymous Inlining** (5 methods, ~410 lines) - InsnGen.java:806-1090
+4. **RenameVisitors** (4 files, ~400 lines) - Deobfuscation naming
+5. **PrepareVisitors** (2 files, ~200 lines) - Android constants
 
 ---
 

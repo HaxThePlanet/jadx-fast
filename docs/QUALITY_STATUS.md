@@ -7,6 +7,35 @@
 **Codegen:** ~80% parity (B- Grade) - GAP-01, 02, 04, 06, 07, 08, 09, 10 FIXED; Only GAP-03, 05 remain (~200 lines)
 **Kotlin:** ~70-75% parity (C Grade) - Field alias references NOT applied (P1), rename reasons FIXED
 
+## CRITICAL: Output Comparison Discovery (Dec 24, 2025)
+
+### P0 Bugs Causing File Coverage Gap
+
+**Direct comparison of `output/jadx_badboy` vs `output/dex_badboy` reveals:**
+
+| Metric | JADX | Dexterity | Gap |
+|--------|------|-----------|-----|
+| Java Files | 86 | 53 | **33 files missing (38%)** |
+| Total Lines | 3,559 | 2,861 | 698 lines missing (20%) |
+
+**Root Causes (P0 Bugs):**
+
+1. **P0-RJAVA:** R.java Filter Bug (`main.rs:1837-1838`)
+   - Current code skips ALL `*/R.java` regardless of package
+   - Should only skip framework R.java (`android/R.java`, `androidx/*/R.java`)
+   - App R.java like `com/prototype/badboy/R.java` incorrectly filtered
+
+2. **P0-SYNTHETIC:** Synthetic Classes Not Output (`ClassGen.java:157`)
+   - `ComposableSingletons$MainActivityKt.java` (27KB) missing
+   - Various `$` inner classes not output as separate files
+
+**Impact Assessment:**
+- Codegen quality when files ARE generated: ~80% (B- Grade) - ACCURATE
+- Overall file coverage: 62% (C- Grade) - NEEDS P0 FIXES
+- The 80% claim for syntax quality is accurate, but overstates completeness
+
+---
+
 ## Output Quality Audit (Dec 23, 2025)
 
 **Result: PRODUCTION READY for ALL APKs (hot-reload issues fixed Dec 23)**
@@ -17,19 +46,19 @@
 |-----|-------------|-------|---------|-------|
 | **small** | 1 | 1 | **100%** | Near-identical to JADX |
 | **large** | 5,897 | 5,901 | **99.93%** | 4 minor issues |
-| **badboy** | 52 | 53 | **98%** | 1 issue |
+| **badboy** | 52 | 53 | **98%** | 1 issue (when files ARE generated) |
 | **medium** | 2,834 | 2,891 | **98%** | Hot-reload fixed Dec 23 |
 
-### File Coverage (intentional library filtering)
+### File Coverage (UPDATED Dec 24, 2025)
 
-| APK | JADX | Dexterity | Coverage | Notes |
-|-----|------|-----------|----------|-------|
-| small | 2 | 1 | 50% | R.java filtered by design |
-| medium | 5,933 | 2,891 | 49% | Libraries filtered (okhttp3, retrofit2, rx) |
-| large | 8,161 | 5,901 | 72% | Libraries filtered by design |
-| badboy | 86 | 53 | 62% | Libraries filtered |
+| APK | JADX | Dexterity | Coverage | Root Cause |
+|-----|------|-----------|----------|------------|
+| small | 2 | 1 | 50% | P0-RJAVA bug filters app R.java |
+| medium | 5,933 | 2,891 | 49% | Libraries filtered + P0 bugs |
+| large | 8,161 | 5,901 | 72% | Libraries filtered + P0 bugs |
+| badboy | 86 | 53 | **62%** | **P0-RJAVA + P0-SYNTHETIC bugs** |
 
-**Note:** File count difference is **intentional** - see [DESIGN_DECISIONS.md](DESIGN_DECISIONS.md) for library filtering rationale.
+**IMPORTANT:** File count gap is NOT fully intentional. While library filtering is by design, the P0-RJAVA and P0-SYNTHETIC bugs cause additional unintended file loss. See [ROADMAP.md](ROADMAP.md) for bug details.
 
 ### Root Cause of Medium APK Issues - RESOLVED (Dec 23, 2025)
 

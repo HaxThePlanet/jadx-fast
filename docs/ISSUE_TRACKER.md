@@ -1,11 +1,105 @@
 # Issue Tracker
 
-**Status:** 0 P1 Open | **Dec 23 Output Audit: 98-100% clean for all APKs**
+**Status:** 2 P0 Open | 0 P1 Open | **Dec 24 Output Comparison: Critical file coverage gaps discovered**
 **Real Quality (from output/ comparison):**
-- small APK: 100% clean (1/1 files)
+- small APK: 100% clean (1/1 files) - but only 50% file coverage due to P0-RJAVA bug
 - large APK: 99.93% clean (5,897/5,901 files)
-- badboy APK: 98% clean (52/53 files)
+- badboy APK: 98% clean (52/53 files) - but only 62% file coverage (53/86 files)
 - medium APK: 98%+ clean (hot-reload fix applied Dec 23)
+
+**CRITICAL Dec 24 Discovery:** 38% of files missing from badboy APK output (33 of 86 files)
+
+---
+
+## P0 Critical Bugs (Dec 24, 2025 - Output Comparison Discovery)
+
+### P0-RJAVA: R.java Filter Bug
+
+**Severity:** P0 | **Priority:** CRITICAL | **Status:** OPEN
+**Location:** `crates/dexterity-main/src/main.rs:1837-1838`
+**Discovered:** Dec 24, 2025 (output comparison)
+
+**Problem:**
+Current code skips ALL classes matching `*/R.java` pattern regardless of package:
+```rust
+// CURRENT (BROKEN):
+if output_path.ends_with("/R.java") { continue; }
+```
+
+**Evidence:**
+- `output/jadx_badboy/sources/com/prototype/badboy/R.java` exists
+- `output/dex_badboy/sources/com/prototype/badboy/R.java` does NOT exist
+- App R.java files are incorrectly filtered
+
+**Expected Behavior:**
+Only framework R.java should be filtered (`android/R.java`, `androidx/*/R.java`).
+App R.java like `com/prototype/badboy/R.java` should be OUTPUT.
+
+**Fix:**
+```rust
+// Only skip framework R.java, not app R.java
+if (output_path.contains("/android/") || output_path.contains("/androidx/"))
+    && output_path.ends_with("/R.java") { continue; }
+```
+
+**Impact:** Missing app resource class affects file coverage metrics.
+
+---
+
+### P0-SYNTHETIC: Synthetic Classes Not Output
+
+**Severity:** P0 | **Priority:** CRITICAL | **Status:** OPEN
+**Location:** `crates/dexterity-codegen/src/class_gen.rs`
+**JADX Reference:** `ClassGen.java:157` - `addClassCode()` handles synthetic classes
+**Discovered:** Dec 24, 2025 (output comparison)
+
+**Problem:**
+Synthetic classes like `ComposableSingletons$MainActivityKt.java` (27KB) are not output as separate files.
+
+**Evidence:**
+- JADX outputs 86 Java files for badboy APK
+- Dexterity outputs 53 Java files for badboy APK
+- Missing files include `$` inner classes and synthetic companions
+
+**Root Cause:**
+Synthetic classes may be:
+1. Incorrectly filtered during class enumeration
+2. Not traversed due to inner class handling
+3. Filtered by ACC_SYNTHETIC flag incorrectly
+
+**Impact:** 33 files (38%) missing from badboy APK output.
+
+---
+
+## P1 High Priority Gaps (Lambda/Anonymous Inlining)
+
+### P1-LAMBDA: Lambda Inlining Missing
+
+**Severity:** P1 | **Priority:** HIGH | **Status:** OPEN
+**JADX Reference:** `InsnGen.java:952-1090`
+
+**Problem:**
+JADX inlines lambdas into containing methods. Dexterity outputs them as separate class files.
+
+**Missing Methods:**
+| Method | JADX Lines | Description |
+|--------|-----------|-------------|
+| `makeInvokeLambda()` | 952-963 | Invoke-custom lambda generation |
+| `makeRefLambda()` | 965-983 | Method reference (`String::new`) |
+| `makeSimpleLambda()` | 985-1030 | Simple lambda body |
+| `makeInlinedLambdaMethod()` | 1032-1090 | Full lambda inlining |
+| `inlineAnonymousConstructor()` | 806-848 | Anonymous class inlining |
+
+**Example Difference:**
+```java
+// JADX (inlined):
+list.forEach(item -> System.out.println(item));
+
+// Dexterity (separate class):
+list.forEach(new Lambda$1());  // Lambda$1.java is separate file
+```
+
+**Impact:** Significant readability difference in decompiled output.
 
 ---
 

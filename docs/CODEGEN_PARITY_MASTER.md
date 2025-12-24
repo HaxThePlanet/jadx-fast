@@ -8,14 +8,24 @@
 
 ## Executive Summary
 
-| Metric | Claimed (Docs) | Verified (Output) |
-|--------|----------------|-------------------|
-| Overall Parity | 93-95% | **70-85%** |
-| Compiles Correctly | Yes | **NO** - undefined variables |
-| Semantic Correctness | Yes | **NO** - broken loops, wrong types |
-| JADX Codegen Cloned | Yes | **PARTIAL** |
+| Metric | Claimed (Docs) | Verified (Output Dec 24) |
+|--------|----------------|--------------------------|
+| Overall Parity | 93-95% | **62-80%** |
+| File Coverage | 100% | **62%** (38% files missing) |
+| Syntax Quality (when generated) | 80% | **80%** (B- Grade - ACCURATE) |
+| Compiles Correctly | Yes | **MOSTLY** - some undefined vars |
+| JADX Codegen Cloned | Yes | **PARTIAL** - lambda/anon missing |
 
-**Evidence:** Direct output comparison `output/dexterity/` vs `output/jadx/` on badboy.apk, large.apk
+**Evidence:** Direct comparison `output/jadx_badboy/` (86 files, 3559 lines) vs `output/dex_badboy/` (53 files, 2861 lines)
+
+### Critical Gaps Discovered (Dec 24, 2025)
+
+| Priority | Bug/Gap | JADX Reference | Impact |
+|----------|---------|----------------|--------|
+| **P0** | R.java filter bug | `main.rs:1837` | App R.java files filtered |
+| **P0** | Synthetic classes not output | `ClassGen.java:157` | 27KB+ missing |
+| **P1** | Lambda inlining missing | `InsnGen.java:952-1090` | Separate files vs inline |
+| **P1** | Anonymous class inlining | `InsnGen.java:806-848` | Readability gap |
 
 ---
 
@@ -289,6 +299,98 @@ Now correctly shows private/protected constructors.
 
 ---
 
+## P0-CRITICAL: File Coverage Bugs (Dec 24, 2025 Discovery)
+
+### P0-RJAVA: R.java Filter Bug
+
+**JADX Reference:** N/A - Dexterity-specific bug
+**Location:** `crates/dexterity-main/src/main.rs:1837-1838`
+**Lines to fix:** ~10
+
+**Current (Broken):**
+```rust
+if output_path.ends_with("/R.java") { continue; }
+```
+
+**Fix:**
+```rust
+// Only skip framework R.java, not app R.java
+if (output_path.contains("/android/") || output_path.contains("/androidx/"))
+    && output_path.ends_with("/R.java") { continue; }
+```
+
+### P0-SYNTHETIC: Synthetic Classes Not Output
+
+**JADX Reference:** `ClassGen.java:157` - `addClassCode()` handles synthetic classes
+**Location:** `crates/dexterity-codegen/src/class_gen.rs`
+**Lines to fix:** ~50
+
+**Evidence:** `ComposableSingletons$MainActivityKt.java` (27KB) exists in JADX output but not in Dexterity.
+
+---
+
+## P1-HIGH: Lambda/Anonymous Class Inlining Gap
+
+This is the most significant JADX parity gap for code readability. JADX inlines lambdas and anonymous classes into their containing methods, while Dexterity outputs them as separate class files.
+
+### GAP-LAMBDA-INVOKE: makeInvokeLambda()
+
+**JADX Reference:** `InsnGen.java:952-963`
+**Est. Lines:** ~100 Rust
+**Status:** NOT IMPLEMENTED
+
+Handles `invoke-custom` for lambda method handles:
+```java
+// JADX: list.forEach(item -> process(item))
+// Dexterity: list.forEach(new Lambda$1())  // Lambda$1 is separate file
+```
+
+### GAP-LAMBDA-REF: makeRefLambda()
+
+**JADX Reference:** `InsnGen.java:965-983`
+**Est. Lines:** ~50 Rust
+**Status:** NOT IMPLEMENTED
+
+Generates method references:
+```java
+// JADX: list.map(String::toUpperCase)
+// Dexterity: list.map(new Lambda$2())  // Missing method ref syntax
+```
+
+### GAP-LAMBDA-SIMPLE: makeSimpleLambda()
+
+**JADX Reference:** `InsnGen.java:985-1030`
+**Est. Lines:** ~80 Rust
+**Status:** NOT IMPLEMENTED
+
+Simple lambda body generation:
+```java
+// JADX: () -> { return value; }
+// Dexterity: Separate class file
+```
+
+### GAP-LAMBDA-INLINE: makeInlinedLambdaMethod()
+
+**JADX Reference:** `InsnGen.java:1032-1090`
+**Est. Lines:** ~100 Rust
+**Status:** NOT IMPLEMENTED
+
+Full lambda inlining with captured variable handling and name inheritance.
+
+### GAP-ANON-INLINE: inlineAnonymousConstructor()
+
+**JADX Reference:** `InsnGen.java:806-848`
+**Est. Lines:** ~80 Rust
+**Status:** NOT IMPLEMENTED
+
+Anonymous class constructor inlining with recursion detection:
+```java
+// JADX: new Runnable() { @Override public void run() { ... } }
+// Dexterity: Separate anonymous class file
+```
+
+---
+
 ## P2-MEDIUM Gaps
 
 | Gap | Description | JADX Reference |
@@ -366,6 +468,25 @@ Now correctly shows private/protected constructors.
 
 ## Clone Priority Matrix
 
+### P0 Critical (File Coverage Bugs)
+
+| Priority | Gap ID | Description | JADX Source | Est. Lines | Status |
+|----------|--------|-------------|-------------|------------|--------|
+| **P0** | P0-RJAVA | Fix R.java filter bug | main.rs:1837 | ~10 | **OPEN** |
+| **P0** | P0-SYNTHETIC | Output synthetic classes | ClassGen.java:157 | ~50 | **OPEN** |
+
+### P1 High (Lambda/Anonymous Inlining)
+
+| Priority | Gap ID | Description | JADX Source | Est. Lines | Status |
+|----------|--------|-------------|-------------|------------|--------|
+| **P1** | GAP-LAMBDA-INVOKE | makeInvokeLambda() | InsnGen.java:952-963 | ~100 | **OPEN** |
+| **P1** | GAP-LAMBDA-REF | makeRefLambda() | InsnGen.java:965-983 | ~50 | **OPEN** |
+| **P1** | GAP-LAMBDA-SIMPLE | makeSimpleLambda() | InsnGen.java:985-1030 | ~80 | **OPEN** |
+| **P1** | GAP-LAMBDA-INLINE | makeInlinedLambdaMethod() | InsnGen.java:1032-1090 | ~100 | **OPEN** |
+| **P1** | GAP-ANON-INLINE | inlineAnonymousConstructor() | InsnGen.java:806-848 | ~80 | **OPEN** |
+
+### Previously Tracked Gaps
+
 | Priority | Gap ID | Description | JADX Lines | Est. Rust Lines | File | Status |
 |----------|--------|-------------|------------|-----------------|------|--------|
 | P0 | GAP-01 | SSA->CodeVar mapping | 50-60 | ~100 | body_gen.rs | **FIXED** |
@@ -379,7 +500,11 @@ Now correctly shows private/protected constructors.
 | P1 | GAP-09 | StringBuilder | ~150 | ~200 | simplify_stringbuilder.rs | **FIXED** (already implemented) |
 | P1 | GAP-10 | else-return | ~50 | ~80 | body_gen.rs | **FIXED** (already implemented) |
 
-**Remaining P0+P1 Total:** ~200 lines of JADX logic to clone (GAP-03 + GAP-05 remaining)
+**Remaining Work Summary:**
+- P0 Bugs (File Coverage): ~60 lines
+- P0 Codegen (GAP-03 + GAP-05): ~200 lines
+- P1 Lambda/Anonymous Inlining: ~410 lines
+- **Total Remaining:** ~670 lines of JADX logic to clone
 
 ---
 

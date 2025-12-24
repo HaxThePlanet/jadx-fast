@@ -7,17 +7,97 @@
 
 ---
 
+## P0 Critical Bugs (Dec 24, 2025 - Output Comparison Discovery)
+
+### Output Comparison Stats (badboy APK)
+| Tool | Java Files | Total Lines | Coverage |
+|------|------------|-------------|----------|
+| JADX | 86 | 3,559 | 100% |
+| Dexterity | 53 | 2,861 | 62% files, 80% lines |
+| **Gap** | 33 files | 698 lines | **38% files missing** |
+
+### P0-RJAVA: R.java Filtering Bug
+
+**Status:** OPEN | **Priority:** P0 (CRITICAL)
+**Location:** `crates/dexterity-main/src/main.rs:1837-1838`
+
+**Bug:** Current code skips ALL classes matching `*/R.java` pattern regardless of package:
+```rust
+// CURRENT (BROKEN):
+if output_path.ends_with("/R.java") { continue; }
+```
+
+**Problem:** This incorrectly skips app R.java files like `com/prototype/badboy/R.java`.
+Should only skip framework R.java (`android/R.java`, `androidx/*/R.java`).
+
+**Evidence:** `output/jadx_badboy/` has `com/prototype/badboy/R.java` but `output/dex_badboy/` does not.
+
+**Fix:** Change filter to only skip framework R.java:
+```rust
+// CORRECT:
+if output_path.ends_with("/android/R.java")
+    || output_path.contains("/androidx/") && output_path.ends_with("/R.java") {
+    continue;
+}
+```
+
+### P0-SYNTHETIC: Synthetic Classes Not Output
+
+**Status:** OPEN | **Priority:** P0 (CRITICAL)
+**Location:** `crates/dexterity-codegen/src/class_gen.rs`
+**JADX Reference:** `ClassGen.java:157` - Synthetic class handling
+
+**Bug:** Synthetic classes like `ComposableSingletons$MainActivityKt.java` (27KB) are not output as separate files.
+
+**Evidence:** JADX outputs 86 files, Dexterity outputs 53 files. Missing files include:
+- `ComposableSingletons$MainActivityKt.java` (synthetic companion)
+- Various `$` inner classes that should be separate files
+
+**Root Cause:** Synthetic classes may be incorrectly filtered or not traversed during class enumeration.
+
+---
+
 ## Current State
 
 **Output Quality (from actual comparison):**
 - small APK: 100% clean
 - large APK: 99.93% clean (but Kotlin field names obfuscated)
-- badboy APK: 98% clean
+- badboy APK: 98% clean (when files ARE generated - but 38% files missing)
 - medium APK: 98%+ clean (hot-reload fix applied Dec 23)
 
-**JADX Codegen Parity:** ~80% (B- Grade) - Field declarations aliased, references need fixing
+**JADX Codegen Parity:** ~80% (B- Grade) for syntax quality WHEN files are generated
+**File Coverage Gap:** 38% of files missing due to P0-RJAVA and P0-SYNTHETIC bugs
 
 ## Open Work
+
+### P1: Lambda/Anonymous Class Inlining (Major JADX Parity Gap)
+
+**Status:** NOT IMPLEMENTED | **Priority:** P1 (HIGH)
+**Impact:** Significant readability difference - JADX inlines lambdas, Dexterity outputs separate classes
+
+**Missing JADX Methods (InsnGen.java):**
+
+| Method | JADX Lines | Est. Rust Lines | Description |
+|--------|-----------|-----------------|-------------|
+| `makeInvokeLambda()` | 952-963 | ~100 | Invoke-custom lambda generation |
+| `makeRefLambda()` | 965-983 | ~50 | Method reference (`String::new`, `obj::method`) |
+| `makeSimpleLambda()` | 985-1030 | ~80 | Simple lambda body (`() -> { expr }`) |
+| `makeInlinedLambdaMethod()` | 1032-1090 | ~100 | Full lambda inlining with name inheritance |
+| `inlineAnonymousConstructor()` | 806-848 | ~80 | Anonymous class constructor inlining |
+
+**Example Difference:**
+```java
+// JADX (inlined):
+list.forEach(item -> System.out.println(item));
+
+// Dexterity (separate class):
+// Lambda$1.java file generated separately
+list.forEach(new Lambda$1());
+```
+
+**JADX Reference Files:**
+- `jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:806-1090`
+- `jadx-core/src/main/java/jadx/core/dex/visitors/ProcessLambdas.java`
 
 ### P1: Kotlin Field Alias References in Code (Dec 24, 2025 Investigation)
 
