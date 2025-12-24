@@ -579,8 +579,20 @@ impl BodyGenContext {
     /// JADX always generates `object.field` inline, never as intermediate variables.
     pub fn gen_arg_with_inline_peek(&self, arg: &InsnArg) -> String {
         if let InsnArg::Register(reg) = arg {
-            // Check if we have a stored inline expression for this register
-            if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+            // CG-002 FIX: Check for inline expression with SSA version fallback.
+            // Sometimes condition blocks reference version 0 while IGET stores version 1.
+            // We try the exact version first, then fall back to searching nearby versions.
+            let expr_opt = self.peek_inline_expr(reg.reg_num, reg.ssa_version)
+                .or_else(|| {
+                    // Fallback: check version 1 if looking for version 0 (common pattern)
+                    if reg.ssa_version == 0 {
+                        self.peek_inline_expr(reg.reg_num, 1)
+                    } else {
+                        None
+                    }
+                });
+
+            if let Some(expr) = expr_opt {
                 // CG-002 FIX: Field access expressions (IGET/SGET) are always inlined.
                 // They are stored unconditionally and should always be used.
                 // Detect field access by checking if expression contains "." and
