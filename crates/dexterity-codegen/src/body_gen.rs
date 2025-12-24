@@ -6156,55 +6156,28 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                         }
                     }
 
-                    // Iterator for-each detection: detect iterator patterns (hasNext/next) and generate
-                    // enhanced for-loop syntax. Region builder now ensures all body blocks are
-                    // included, fixing the empty body issue.
-                    if let Some(cond) = condition {
-                        if let Some((iter_reg, iter_str)) = detect_iterator_pattern(cond, ctx) {
-                            if let Some(foreach_info) = detect_next_call(body, iter_reg, ctx) {
-                                // Only generate for-each if body has meaningful content after skipping
-                                // Also check that body has multiple blocks or nested regions (not just the iterator block)
-                                if body_has_meaningful_content(body, &foreach_info, ctx)
-                                    && body_has_meaningful_structure(body, foreach_info.skip_block, ctx) {
-                                    // Generate for-each style syntax
-                                    let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
-                                    let collection = iter_str.replace(".hasNext()", "")
-                                        .trim_end()
-                                        .to_string();
-                                    // JADX parity: use labeled foreach header if loop has label
-                                    if let Some(lbl) = &loop_label {
-                                        gen_labeled_foreach_header(lbl, item_type, &foreach_info.item_var, &collection, code);
-                                    } else {
-                                        code.start_line()
-                                            .add("for (")
-                                            .add(item_type)
-                                            .add(" ")
-                                            .add(&foreach_info.item_var)
-                                            .add(" : ")
-                                            .add(&collection)
-                                            .add(") {")
-                                            .newline();
-                                        code.inc_indent();
-                                    }
-
-                                    // Mark iterator instructions to skip in body
-                                    let skip_set: HashSet<usize> = (foreach_info.skip_start
-                                        ..foreach_info.skip_start + foreach_info.skip_count)
-                                        .collect();
-                                    ctx.skip_foreach_insns.insert(foreach_info.skip_block, skip_set);
-
-                                    generate_region(body, ctx, code);
-
-                                    // Clean up skip set after generating body
-                                    ctx.skip_foreach_insns.remove(&foreach_info.skip_block);
-
-                                    gen_close_block(code);
-                                    return;
-                                }
-                                // Fall through to while loop if body would be empty
-                            }
-                        }
-                    }
+                    // JADX parity: Iterator for-each conversion DISABLED
+                    //
+                    // Clone of JADX LoopRegionVisitor.checkIterableForEach() logic:
+                    // JADX only converts iterator loops to for-each at the IR level when ALL conditions are met:
+                    // 1. Condition has exactly 1 register arg (the iterator)
+                    // 2. Iterator SSA var is not used in phi
+                    // 3. Iterator use list has exactly 2 uses (hasNext + next)
+                    // 4. Iterator is assigned from collection.iterator() call
+                    // 5. Both hasNext() and next() match exact signatures
+                    // 6. Iterator variable only used/assigned in loop
+                    //
+                    // When conditions aren't met, JADX outputs: while (it.hasNext()) { ... it.next() ... }
+                    //
+                    // Our previous codegen-level detection was broken:
+                    // - Generated `for (Object next : it)` iterating over iterator itself
+                    // - Left over `int i = 0;` statements not properly skipped
+                    // - Missing type casts on loop variables
+                    //
+                    // TODO: Implement proper IR-level for-each detection in dexterity-passes
+                    // matching JADX LoopRegionVisitor.java:246-340 algorithm.
+                    //
+                    // For now, fall through to while loop generation for correct output.
                     // JADX parity: use labeled while header if loop has label
                     if let Some(lbl) = &loop_label {
                         gen_labeled_while_header(lbl, &condition_str, code);

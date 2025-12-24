@@ -69,17 +69,24 @@ For-each loop detection/body generation is losing content.
 ---
 
 ### P0-CG-003: For-Each Loop Body Issues
-**Status:** Critical
+**Status:** PARTIALLY FIXED (2025-12-24)
 **Files:** `body_gen.rs`
 
 **Problem:**
 ```java
-// DEXTERITY (BROKEN):
+// DEXTERITY (BROKEN - BEFORE FIX):
 final Iterator it = paths2.iterator();
-for (Object next : it) {
+for (Object next : it) {  // WRONG: iterating over iterator!
     int i = 0;  // LEFTOVER - SHOULD BE SKIPPED!
     (Collection)arrayList.add(new DexClassLoader(next, ...));
     //         ^^^^^^ Missing (String) cast on 'next'
+}
+
+// DEXTERITY (AFTER PARTIAL FIX):
+while (it.hasNext()) {  // FIXED: proper while loop now
+    int i = 0;  // STILL LEFTOVER
+    (Collection)arrayList.add(new DexClassLoader(next, ...));
+    //         ^^^^^^ 'next' still undefined - needs it.next()
 }
 
 // JADX (CORRECT):
@@ -89,10 +96,24 @@ while (it.hasNext()) {
 }
 ```
 
-**Issues:**
-1. `int i = 0;` leftover not being skipped
-2. Missing type cast on iterator item
-3. Unnecessary `(Collection)` cast being added
+**Fix Applied (2025-12-24):**
+Disabled broken iterator for-each detection at codegen level in `body_gen.rs:6159-6180`.
+Added JADX parity comment referencing `LoopRegionVisitor.java:246-340`.
+
+**Remaining Issues:**
+1. `it.next()` call not being generated - `next` variable is undefined
+2. `int i = 0;` leftover not being skipped
+3. Missing type cast on iterator item
+4. Unnecessary `(Collection)` cast being added
+
+**Root Cause Analysis:**
+JADX implements iterator for-each detection at IR level (`LoopRegionVisitor.checkIterableForEach`)
+with strict validation (iterator use count == 2, etc.) and marks instructions with DONT_GENERATE.
+Dexterity's codegen-level approach is fundamentally different and cannot properly handle the transformation.
+
+**Required Fix:**
+Clone JADX `LoopRegionVisitor.java:246-340` to `dexterity-passes` as a proper IR pass.
+Apply DONT_GENERATE equivalent flags before codegen.
 
 ---
 

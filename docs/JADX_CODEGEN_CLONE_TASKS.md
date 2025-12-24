@@ -322,6 +322,72 @@ Key methods:
 
 ## REMAINING GAPS - Clone Tasks
 
+### GAP-00: Iterator For-Each Loop Detection (CRITICAL)
+**JADX Source**: `LoopRegionVisitor.java:246-340`
+**Status**: ❌ CRITICAL - Causes Non-Compiling Code
+**Priority**: P0-CRITICAL
+**Date Added**: 2025-12-24
+
+**Problem:**
+Dexterity's codegen-level iterator for-each detection produces broken code:
+```java
+// DEXTERITY (BROKEN):
+while (it.hasNext()) {
+    int i = 0;  // LEFTOVER
+    (Collection)arrayList.add(new DexClassLoader(next, ...));  // 'next' UNDEFINED!
+}
+
+// JADX (CORRECT):
+while (it.hasNext()) {
+    arrayList.add(new DexClassLoader((String) it.next(), ...));
+}
+```
+
+**Root Cause:**
+JADX implements iterator for-each detection at IR level (`LoopRegionVisitor.checkIterableForEach`)
+with strict validation:
+1. Condition has exactly 1 register arg (iterator)
+2. Iterator SSA var not used in phi
+3. Iterator use list has exactly 2 uses (hasNext + next)
+4. Iterator assigned from collection.iterator()
+5. Both hasNext() and next() match exact signatures
+6. Iterator variable only used/assigned in loop
+
+When ALL conditions are met, JADX converts to for-each.
+When ANY condition fails, JADX outputs: `while (it.hasNext()) { ... it.next() ... }`
+
+Dexterity's codegen-level approach cannot properly handle this transformation.
+
+**Fix Applied (2025-12-24):**
+Disabled broken iterator for-each header generation in `body_gen.rs:6159-6180`.
+Now generates `while (it.hasNext())` but body still broken.
+
+**Required Full Fix:**
+Clone `LoopRegionVisitor.java:246-340` to `dexterity-passes` as proper IR pass:
+1. Implement `check_iterator_foreach()` with all JADX validation rules
+2. Use IR-level DONT_GENERATE flags instead of codegen-level skip sets
+3. Ensure `it.next()` calls are preserved in while loop body
+
+**JADX Reference Code:**
+```java
+// LoopRegionVisitor.java:246-260
+private static boolean checkIterableForEach(MethodNode mth, LoopRegion loopRegion, IfCondition condition) {
+    List<RegisterArg> condArgs = condition.getRegisterArgs();
+    if (condArgs.size() != 1) return false;
+
+    RegisterArg iteratorArg = condArgs.get(0);
+    SSAVar sVar = iteratorArg.getSVar();
+    if (sVar == null || sVar.isUsedInPhi()) return false;
+
+    List<RegisterArg> itUseList = sVar.getUseList();
+    if (itUseList.size() != 2) return false;  // hasNext + next only
+
+    InsnNode assignInsn = iteratorArg.getAssignInsn();
+    if (!checkInvoke(assignInsn, null, "iterator()Ljava/util/Iterator;")) return false;
+    // ... more validation
+}
+```
+
 ### GAP-01: Inconsistent Code Multi-Line Warning
 **JADX Source**: `MethodGen.java:117-130`
 **Status**: ❌ NOT IMPLEMENTED
@@ -593,20 +659,23 @@ if (fld != null && mth.checkCommentsLevel(CommentsLevel.INFO)) {
 
 | Priority | Total | Complete | Notes |
 |----------|-------|----------|-------|
-| P0 Critical | 3 | 3 | Lambda, Anon class, Multi-catch |
+| P0 Critical | 4 | 3 | Lambda, Anon class, Multi-catch OK; **Iterator for-each BROKEN** |
 | P1 High | 5 | 5 | Switch, Sync, TypeGen, CMP |
 | P2 Medium | 7 | 7 | Field replace, Varargs, Diamond |
 | P3 Low | 4 | 4 | TypeGen fallback, Array wrap, SimpleModeHelper, DONT_WRAP |
-| **Total** | **19** | **19** | 100% core complete |
+| **Total** | **20** | **19** | **95% core complete - 1 critical gap** |
 
-### Remaining Gaps (4 items)
+### Remaining Gaps (5 items)
 
 | Gap | Description | Priority | JADX Location |
 |-----|-------------|----------|---------------|
+| **GAP-00** | **Iterator for-each loop detection** | **P0-CRITICAL** | `LoopRegionVisitor.java:246-340` |
 | GAP-01 | Inconsistent code multi-line warning | P3-LOW | `MethodGen.java:117-130` |
 | GAP-02 | Stack trace in error comments | P3-LOW | `CodeGenUtils.java:46-51` |
 | GAP-03 | Parameter alias lookup in annotations | P3-LOW | `AnnotationGen.java:110-119` |
 | GAP-04 | Switch enum field value comment | P4-MINIMAL | `RegionGen.java:304-310` |
+
+**NOTE:** GAP-00 causes non-compiling code. See CODEGEN_CLONE_AUDIT.md for full parity analysis.
 
 ### Verification Summary
 
