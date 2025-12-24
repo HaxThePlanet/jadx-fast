@@ -1512,9 +1512,19 @@ fn add_field<W: CodeWriter>(
     }
 
     // Initial value
+    // Clone of JADX ClassGen.java - field initialization handling (GAP-04)
+    // Reference: jadx-core/src/main/java/jadx/core/codegen/ClassGen.java
+    // For static final primitive fields with no explicit init value, JADX adds the default.
+    // This makes the output compilable and matches Java semantics where static finals must be initialized.
     if let Some(ref value) = field.initial_value {
         code.add(" = ");
         add_field_value(value, &field.field_type, escape_unicode, code);
+    } else if access_flags::is_static(field.access_flags) && access_flags::is_final(field.access_flags) {
+        // Static final field with no init value - add default for primitive types
+        if let Some(default_value) = get_primitive_default_value(&field.field_type) {
+            code.add(" = ");
+            code.add(default_value);
+        }
     }
 
     code.add(";").newline();
@@ -1588,6 +1598,23 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &dexterity_ir:
             code.add(")")
         }
     };
+}
+
+/// Get the default initialization value for primitive types
+/// Clone of JADX TypeGen.literalToString behavior for null/default values (GAP-04)
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/TypeGen.java
+fn get_primitive_default_value(field_type: &dexterity_ir::ArgType) -> Option<&'static str> {
+    match field_type {
+        dexterity_ir::ArgType::Boolean => Some("false"),
+        dexterity_ir::ArgType::Byte => Some("0"),
+        dexterity_ir::ArgType::Char => Some("'\\u0000'"),
+        dexterity_ir::ArgType::Short => Some("0"),
+        dexterity_ir::ArgType::Int => Some("0"),
+        dexterity_ir::ArgType::Long => Some("0L"),
+        dexterity_ir::ArgType::Float => Some("0.0f"),
+        dexterity_ir::ArgType::Double => Some("0.0d"),
+        _ => None, // Object/array types don't get default values
+    }
 }
 
 /// Check if a method is a default constructor (just calls super(), no other code)

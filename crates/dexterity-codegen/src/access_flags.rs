@@ -153,6 +153,16 @@ pub fn is_public(flags: u32) -> bool {
     flags & ACC_PUBLIC != 0
 }
 
+/// Check if this element is static
+pub fn is_static(flags: u32) -> bool {
+    flags & ACC_STATIC != 0
+}
+
+/// Check if this element is final
+pub fn is_final(flags: u32) -> bool {
+    flags & ACC_FINAL != 0
+}
+
 /// Get the class type keyword (class, interface, enum, @interface)
 pub fn class_type_keyword(flags: u32) -> &'static str {
     if is_annotation(flags) {

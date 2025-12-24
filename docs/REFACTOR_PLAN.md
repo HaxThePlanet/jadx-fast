@@ -63,7 +63,7 @@ Note: JADX bundles everything in jadx-core (99,428 LOC). They also have jadx-gui
 | P0 | GAP-01 | Undefined variables (SSA mismatch) | **FIXED** Dec 24 |
 | P0 | GAP-02 | Iterator for-each broken | **FIXED** Dec 24 |
 | P0 | GAP-03 | Flattened ifs lose declarations | TODO |
-| P0 | GAP-04 | Empty static initializers | PARTIAL |
+| P0 | GAP-04 | Empty static initializers | **FIXED** Dec 24 |
 | P0 | GAP-05 | Ternary not generated | TODO |
 | P1 | GAP-06 | For-each missing type casts | **FIXED** Dec 24 |
 | P1 | GAP-07 | Boolean return as int | **VERIFIED** |
@@ -491,14 +491,14 @@ if (x) { throw e; }
 | GAP-01 | P0 | ~100 | body_gen.rs | **FIXED** |
 | GAP-02 | P0 | ~200 | loop_analysis.rs, region_builder.rs, body_gen.rs | **FIXED** |
 | GAP-03 | P0 | ~150 | region_builder.rs | TODO |
-| GAP-04 | P0 | ~100 | class_gen.rs | PARTIAL |
+| GAP-04 | P0 | N/A | class_gen.rs | **FIXED** Dec 24 |
 | GAP-05 | P0 | ~150 | ternary_mod.rs | TODO |
 | GAP-06 | P1 | N/A | body_gen.rs | **FIXED** Dec 24 |
 | GAP-07 | P1 | N/A | body_gen.rs | **VERIFIED** |
 | GAP-08 | P1 | N/A | body_gen.rs | **FIXED** Dec 24 |
 | GAP-09 | P1 | N/A | simplify_stringbuilder.rs | **VERIFIED** |
 | GAP-10 | P1 | N/A | return_visitor.rs | **VERIFIED** |
-| **Remaining Total** | | **~400** | | (7 FIXED/VERIFIED) |
+| **Remaining Total** | | **~200** | | (8 FIXED/VERIFIED) |
 
 ---
 

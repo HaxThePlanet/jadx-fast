@@ -108,7 +108,7 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 | GAP-01 | SSA->CodeVar variable mapping (peek vs take) | **FIXED** Dec 24 | N/A |
 | GAP-02 | Iterator for-each loop pattern detection | **FIXED** Dec 24 | N/A |
 | **GAP-03** | Nested if declarations | OPEN | ~150 |
-| **GAP-04** | Field init body | PARTIAL | ~100 |
+| GAP-04 | Field init body | **FIXED** Dec 24 | N/A |
 | **GAP-05** | Ternary conversion | OPEN | ~150 |
 | GAP-06 | For-each type casts | **FIXED** Dec 24 (c2812b69a) | N/A |
 | GAP-07 | Boolean return | **VERIFIED** | N/A |
@@ -116,7 +116,7 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 | GAP-09 | StringBuilder chain | **VERIFIED** | N/A |
 | GAP-10 | else-return elimination | **VERIFIED** | N/A |
 
-**Total remaining:** ~310 lines of JADX logic
+**Total remaining:** ~200 lines of JADX logic (GAP-03 + GAP-05)
 
 **Verified Implementations:**
 - Negative literal wrapping (`maybe_paren_wrap`)
