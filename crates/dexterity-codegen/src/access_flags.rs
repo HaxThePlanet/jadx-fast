@@ -148,6 +148,11 @@ pub fn is_varargs(flags: u32) -> bool {
     flags & ACC_VARARGS != 0
 }
 
+/// Check if this element is public
+pub fn is_public(flags: u32) -> bool {
+    flags & ACC_PUBLIC != 0
+}
+
 /// Get the class type keyword (class, interface, enum, @interface)
 pub fn class_type_keyword(flags: u32) -> &'static str {
     if is_annotation(flags) {

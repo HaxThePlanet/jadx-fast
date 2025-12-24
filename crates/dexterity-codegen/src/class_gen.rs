@@ -1592,9 +1592,20 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &dexterity_ir:
 
 /// Check if a method is a default constructor (just calls super(), no other code)
 /// These are implicit in Java and can be omitted for cleaner output
+///
+/// JADX Parity: Only skip public default constructors, not private/protected ones.
+/// Private no-arg constructors (like in singletons) must be shown explicitly.
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/MethodGen.java
 fn is_default_constructor(method: &dexterity_ir::MethodData) -> bool {
     // Must be a constructor
     if !method.is_constructor() {
+        return false;
+    }
+
+    // JADX Parity: Only skip PUBLIC default constructors
+    // Private/protected constructors must always be shown (e.g., singletons, utility classes)
+    // Java only implicitly generates public default constructors
+    if !access_flags::is_public(method.access_flags) {
         return false;
     }
 
