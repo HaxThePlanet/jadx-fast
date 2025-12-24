@@ -414,32 +414,76 @@ fn find_method_by_signature<'a>(cls: &'a mut ClassData, kotlin_func: &crate::typ
     index.map(|i| &mut cls.methods[i])
 }
 
-/// Check if a field matches a Kotlin property using multiple strategies
+/// Check if a field matches a Kotlin property using JVM signature matching
+///
+/// JADX Clone Reference: jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/utils/
+/// - KotlinMetadataUtils.kt:111-116 - mapFields() uses searchFieldByShortId(kmProperty.shortId)
+/// - KmExt.kt:10 - inline val KmProperty.shortId: String? get() = fieldSignature?.toString()
+/// - FieldInfo.java:68-70 - getShortId() returns "name:type_descriptor"
+///
+/// The key insight is that JADX matches by EXACT JVM field signature, not by heuristics.
 fn field_matches(field: &FieldData, property: &KotlinProperty) -> bool {
-    // Strategy 1: Exact name match
+    // Strategy 1: JVM signature match (JADX approach - most reliable)
+    // KmProperty.fieldSignature gives us "fieldName:Ljava/lang/Type;"
+    // We build the same from FieldData and compare
+    let jvm_sig = &property.jvm_field_signature;
+    if !jvm_sig.is_empty() {
+        // jvm_field_signature format: "name:Ltype;" or just "name" if no type info
+        // Parse the field name part from the signature
+        if let Some(colon_pos) = jvm_sig.find(':') {
+            let sig_name = &jvm_sig[..colon_pos];
+            let sig_type = &jvm_sig[colon_pos + 1..];
+
+            // Match by field name from signature
+            if field.name == sig_name {
+                // Verify type matches if we have type info
+                let field_type_desc = field.field_type.to_descriptor();
+                if sig_type == field_type_desc {
+                    tracing::trace!(
+                        "Field matched by JVM signature: '{}' == '{}'",
+                        jvm_sig, format!("{}:{}", field.name, field_type_desc)
+                    );
+                    return true;
+                }
+                // Name matches but type differs - still match by name if obfuscated
+                // This handles cases where type info in metadata might differ slightly
+                if looks_obfuscated(&field.name) {
+                    tracing::trace!(
+                        "Field matched by JVM sig name only (type mismatch): {} vs {}",
+                        sig_type, field_type_desc
+                    );
+                    return true;
+                }
+            }
+        } else {
+            // No colon - jvm_sig is just the field name
+            if field.name == *jvm_sig {
+                return true;
+            }
+        }
+    }
+
+    // Strategy 2: Exact name match (fast path for unobfuscated code)
     if field.name == property.name {
         return true;
     }
 
-    // Strategy 2: Name matches with $ prefix (backing field pattern)
+    // Strategy 3: Backing field pattern
     // Kotlin often generates backing fields like "name$delegate" for delegated properties
     if field.name.starts_with(&property.name) && field.name.contains('$') {
         return true;
     }
 
-    // Strategy 3: Obfuscated field name matching
-    // If IR name looks obfuscated and Kotlin name is meaningful, match by position/type
-    if looks_obfuscated(&field.name) && !looks_obfuscated(&property.name) {
-        // Additional heuristic: match if the field type descriptor ends with the property name
-        // e.g., field type "Lcom/example/UserData;" might match property "userData"
+    // Strategy 4: Underscore prefix pattern
+    // Properties with custom getters/setters may have backing field like "_name"
+    if field.name.starts_with("_") && field.name.len() > 1 && field.name[1..] == property.name {
         return true;
     }
 
-    // Strategy 4: Handle common Kotlin patterns
-    // Properties with custom getters/setters may have different backing field names
-    if field.name.starts_with("_") && field.name[1..] == property.name {
-        return true;
-    }
+    // NO unconditional matching for obfuscated names!
+    // This was the bug - we can't match by "looks obfuscated" alone because
+    // multiple obfuscated fields would all match the first property in the list.
+    // JADX uses signature matching, not heuristics.
 
     false
 }
@@ -836,6 +880,15 @@ pub fn analyze_companion_for_hiding(cls: &ClassData, metadata: &KotlinClassMetad
     })
 }
 
+// ============================================================================
+// JADX Companion Object Naming Constants
+// ============================================================================
+// Cloned from JADX: jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/pass/KotlinMetadataDecompilePass.kt:137-138
+/// Companion object field name (the static field holding the companion instance)
+const COMPANION_FIELD: &str = "INSTANCE";
+/// Companion object class name (the inner class)
+const COMPANION_CLASS: &str = "Companion";
+
 /// Rename companion object field and class
 /// JADX Reference: KotlinMetadataDecompilePass.kt:71-88
 pub fn rename_companion_jadx_style(cls: &mut ClassData, metadata: &KotlinClassMetadata) {
@@ -845,24 +898,29 @@ pub fn rename_companion_jadx_style(cls: &mut ClassData, metadata: &KotlinClassMe
         None => return,
     };
 
-    // Find and rename the companion field to "Companion"
+    // Find and rename the companion field to "INSTANCE"
     // JADX Reference: KotlinMetadataDecompilePass.kt:74-77
+    // JADX uses COMPANION_FIELD = "INSTANCE" for the field
     for field in &mut cls.static_fields {
         if field.name == *companion_name && field.alias.is_none() {
-            // Standard Kotlin companion field name
-            field.alias = Some("Companion".to_string());
+            // JADX Reference: KotlinMetadataDecompilePass.kt:76
+            // field.rename(COMPANION_FIELD) where COMPANION_FIELD = "INSTANCE"
+            field.alias = Some(COMPANION_FIELD.to_string());
             // JADX Reference: RenameReasonAttr pattern
             field.add_rename_reason("from kotlin metadata");
             tracing::debug!(
-                "JADX-style companion field rename: '{}' -> 'Companion'",
-                field.name
+                "JADX-style companion field rename: '{}' -> '{}'",
+                field.name, COMPANION_FIELD
             );
             break;
         }
     }
 
-    // Note: Full companion class rename requires access to the inner class
-    // which is handled separately in the class processing pipeline
+    // Note: Companion CLASS rename to "Companion" requires access to the inner class
+    // JADX Reference: KotlinMetadataDecompilePass.kt:78-80
+    // cls.rename(COMPANION_CLASS) where COMPANION_CLASS = "Companion"
+    // This is handled separately in the class processing pipeline when inner classes
+    // are processed - the inner class matching companion_name should be renamed to "Companion"
 }
 
 /// Find and rename default parameter methods

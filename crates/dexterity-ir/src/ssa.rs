@@ -420,21 +420,31 @@ pub enum TypeBound {
 ///
 /// After SSA analysis, we need to merge SSA variables back into source-level
 /// variables for code generation. CodeVar represents this merged variable.
+///
+/// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/args/CodeVar.java
 #[derive(Debug, Clone)]
 pub struct CodeVar {
     /// Unique ID
     pub id: CodeVarId,
     /// Variable name (from debug info or generated)
+    /// JADX Reference: CodeVar.java:10
     pub name: Option<String>,
-    /// Final resolved type
+    /// Final resolved type (before type inference can be None)
+    /// JADX Reference: CodeVar.java:11
     pub var_type: ArgType,
     /// SSA variables that belong to this code variable
+    /// JADX Reference: CodeVar.java:12
     pub ssa_vars: Vec<SSAVarRef>,
     /// Is this a method parameter?
     pub is_param: bool,
     /// Is this the 'this' reference?
+    /// JADX Reference: CodeVar.java:15
     pub is_this: bool,
+    /// Is this variable declared (method args are pre-declared)?
+    /// JADX Reference: CodeVar.java:16
+    pub is_declared: bool,
     /// Is this a final variable (assigned once)?
+    /// JADX Reference: CodeVar.java:14
     pub is_final: bool,
 }
 
@@ -447,6 +457,7 @@ impl CodeVar {
             ssa_vars: Vec::new(),
             is_param: false,
             is_this: false,
+            is_declared: false,
             is_final: false,
         }
     }
@@ -459,8 +470,73 @@ impl CodeVar {
             ssa_vars: Vec::new(),
             is_param: false,
             is_this: false,
+            is_declared: false,
             is_final: false,
         }
+    }
+
+    /// Create CodeVar from a method argument (JADX: fromMthArg)
+    ///
+    /// JADX Reference: CodeVar.java:20-31
+    /// ```java
+    /// public static CodeVar fromMthArg(RegisterArg mthArg, boolean linkRegister) {
+    ///     CodeVar var = new CodeVar();
+    ///     var.setType(mthArg.getInitType());
+    ///     var.setName(mthArg.getName());
+    ///     var.setThis(mthArg.isThis());
+    ///     var.setDeclared(true);
+    ///     // ...
+    /// }
+    /// ```
+    pub fn from_mth_arg(id: CodeVarId, name: Option<String>, var_type: ArgType, is_this: bool) -> Self {
+        CodeVar {
+            id,
+            name,
+            var_type,
+            ssa_vars: Vec::new(),
+            is_param: true,
+            is_this,
+            is_declared: true, // Method args are always pre-declared
+            is_final: false,
+        }
+    }
+
+    /// Merge flags from another CodeVar with OR operator (JADX: mergeFlagsFrom)
+    ///
+    /// JADX Reference: CodeVar.java:108-118
+    /// ```java
+    /// public void mergeFlagsFrom(CodeVar other) {
+    ///     if (other.isDeclared()) { setDeclared(true); }
+    ///     if (other.isThis()) { setThis(true); }
+    ///     if (other.isFinal()) { setFinal(true); }
+    /// }
+    /// ```
+    pub fn merge_flags_from(&mut self, other: &CodeVar) {
+        if other.is_declared {
+            self.is_declared = true;
+        }
+        if other.is_this {
+            self.is_this = true;
+        }
+        if other.is_final {
+            self.is_final = true;
+        }
+    }
+
+    /// Add an SSA variable to this CodeVar (JADX: addSsaVar)
+    ///
+    /// JADX Reference: CodeVar.java:53-59
+    pub fn add_ssa_var(&mut self, ssa_ref: SSAVarRef) {
+        if !self.ssa_vars.contains(&ssa_ref) {
+            self.ssa_vars.push(ssa_ref);
+        }
+    }
+
+    /// Get any SSA variable (first one) for this CodeVar (JADX: getAnySsaVar)
+    ///
+    /// JADX Reference: CodeVar.java:66-70
+    pub fn get_any_ssa_var(&self) -> Option<SSAVarRef> {
+        self.ssa_vars.first().copied()
     }
 
     /// Get the display name (name or generated)
@@ -493,6 +569,29 @@ pub struct SSAContext {
     pub code_vars: Vec<CodeVar>,
     /// Next code variable ID
     next_code_var_id: CodeVarId,
+
+    // =========================================================================
+    // JADX Parity: Parent instruction tracking (P0 - CRITICAL)
+    // Clone of: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/args/InsnArg.java:27-28
+    //
+    // ```java
+    // @Nullable("Null for method arguments")
+    // protected InsnNode parentInsn;
+    // ```
+    //
+    // Every instruction argument maintains a reference to its containing instruction.
+    // This is used for:
+    // 1. wrapInstruction() - Finding the parent to modify when inlining expressions
+    // 2. Type propagation - Understanding context of variable usage
+    // 3. SSA rebinding - Updating use-def chains after modifications
+    // =========================================================================
+
+    /// Maps (insn_idx, arg_position) -> parent instruction index
+    /// Key: (instruction index, argument position within that instruction)
+    /// Value: instruction index of the parent instruction
+    ///
+    /// Note: Method arguments have no parent (parentInsn is null in JADX)
+    arg_parents: HashMap<(u32, u8), u32>,
 }
 
 impl SSAContext {
@@ -502,6 +601,7 @@ impl SSAContext {
             version_counters: HashMap::new(),
             code_vars: Vec::new(),
             next_code_var_id: 0,
+            arg_parents: HashMap::new(),
         }
     }
 
@@ -786,6 +886,156 @@ impl SSAContext {
         match (name1, name2) {
             (Some(a), Some(b)) => a == b,
             _ => false,
+        }
+    }
+
+    // =========================================================================
+    // JADX Parity: SSA variable grouping check
+    // Cloned from: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/args/RegisterArg.java:196-198
+    // =========================================================================
+
+    /// Check if SSA variable is linked to other SSA variables (JADX: isLinkedToOtherSsaVars)
+    ///
+    /// Returns true if this SSA variable is grouped with other SSA variables
+    /// into the same source-level CodeVar.
+    ///
+    /// Used for variable declaration placement - only declare where first assigned
+    /// if not linked to other SSA vars.
+    ///
+    /// JADX Reference: RegisterArg.java:196-198
+    /// ```java
+    /// public boolean isLinkedToOtherSsaVars() {
+    ///     return getSVar().getCodeVar().getSsaVars().size() > 1;
+    /// }
+    /// ```
+    pub fn is_linked_to_other_ssa_vars(&self, reg_num: u16, version: u32) -> bool {
+        let var_ref = SSAVarRef::new(reg_num, version);
+        if let Some(var) = self.vars.get(&var_ref) {
+            if let Some(code_var_id) = var.code_var {
+                if let Some(code_var) = self.code_vars.get(code_var_id as usize) {
+                    return code_var.ssa_vars.len() > 1;
+                }
+            }
+        }
+        false
+    }
+
+    /// Check if two SSA variables share the same CodeVar (JADX: sameCodeVar)
+    ///
+    /// Returns true if both SSA variables belong to the same source-level variable.
+    ///
+    /// JADX Reference: RegisterArg.java:192-194
+    /// ```java
+    /// public boolean sameCodeVar(RegisterArg arg) {
+    ///     return this.getSVar().getCodeVar() == arg.getSVar().getCodeVar();
+    /// }
+    /// ```
+    pub fn same_code_var(&self, reg1: u16, ssa1: u32, reg2: u16, ssa2: u32) -> bool {
+        let var_ref1 = SSAVarRef::new(reg1, ssa1);
+        let var_ref2 = SSAVarRef::new(reg2, ssa2);
+
+        let code_var1 = self.vars.get(&var_ref1).and_then(|v| v.code_var);
+        let code_var2 = self.vars.get(&var_ref2).and_then(|v| v.code_var);
+
+        match (code_var1, code_var2) {
+            (Some(cv1), Some(cv2)) => cv1 == cv2,
+            _ => false,
+        }
+    }
+
+    // =========================================================================
+    // JADX Parity: Parent Instruction Tracking (P0 - CRITICAL)
+    // Clone of: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/args/InsnArg.java
+    // =========================================================================
+
+    /// Set the parent instruction for an argument (JADX: setParentInsn)
+    ///
+    /// Every instruction argument tracks which instruction contains it.
+    /// This is used for expression inlining (wrapInstruction) and SSA rebinding.
+    ///
+    /// JADX Reference: InsnArg.java:54-56
+    /// ```java
+    /// public void setParentInsn(InsnNode parentInsn) {
+    ///     this.parentInsn = parentInsn;
+    /// }
+    /// ```
+    ///
+    /// Parameters:
+    /// - `insn_idx`: The instruction containing the argument
+    /// - `arg_pos`: The argument position within the instruction (0-based)
+    /// - `parent_insn_idx`: The parent instruction's index
+    pub fn set_arg_parent(&mut self, insn_idx: u32, arg_pos: u8, parent_insn_idx: u32) {
+        self.arg_parents.insert((insn_idx, arg_pos), parent_insn_idx);
+    }
+
+    /// Get the parent instruction for an argument (JADX: getParentInsn)
+    ///
+    /// Returns the instruction index that contains this argument, or None
+    /// if this is a method argument (which has no parent).
+    ///
+    /// JADX Reference: InsnArg.java:50-52
+    /// ```java
+    /// @Nullable
+    /// public InsnNode getParentInsn() {
+    ///     return parentInsn;
+    /// }
+    /// ```
+    pub fn get_arg_parent(&self, insn_idx: u32, arg_pos: u8) -> Option<u32> {
+        self.arg_parents.get(&(insn_idx, arg_pos)).copied()
+    }
+
+    /// Remove parent tracking for an argument
+    ///
+    /// Used when arguments are removed or replaced.
+    pub fn remove_arg_parent(&mut self, insn_idx: u32, arg_pos: u8) {
+        self.arg_parents.remove(&(insn_idx, arg_pos));
+    }
+
+    /// Clear all parent tracking for an instruction
+    ///
+    /// Used when an instruction is removed.
+    pub fn clear_insn_parents(&mut self, insn_idx: u32) {
+        // Remove all entries where this instruction is referenced
+        self.arg_parents.retain(|(idx, _), _| *idx != insn_idx);
+    }
+
+    /// Get argument index within parent instruction (JADX: getArgIndex)
+    ///
+    /// Searches for which argument position contains the given SSA variable.
+    /// Returns the 0-based index or None if not found.
+    ///
+    /// JADX Reference: InsnArg.java:70-82
+    /// ```java
+    /// public static int getArgIndex(InsnNode parentInsn, InsnArg arg) {
+    ///     int count = parentInsn.getArgsCount();
+    ///     for (int i = 0; i < count; i++) {
+    ///         if (parentInsn.getArg(i) == arg) {
+    ///             return i;
+    ///         }
+    ///     }
+    ///     return -1;
+    /// }
+    /// ```
+    ///
+    /// Note: This requires the instruction list to be passed in since we store
+    /// indices, not instruction references.
+    pub fn get_arg_index(&self, parent_insn_idx: u32, target_insn_idx: u32) -> Option<u8> {
+        for (&(insn_idx, arg_pos), &parent) in &self.arg_parents {
+            if parent == parent_insn_idx && insn_idx == target_insn_idx {
+                return Some(arg_pos);
+            }
+        }
+        None
+    }
+
+    /// Bulk set parent instructions for all args in an instruction
+    ///
+    /// This is a convenience method for use during IR construction.
+    /// For an instruction at `insn_idx` with `arg_count` arguments,
+    /// sets the parent to `insn_idx` for all argument positions.
+    pub fn set_all_arg_parents(&mut self, insn_idx: u32, arg_count: u8) {
+        for pos in 0..arg_count {
+            self.arg_parents.insert((insn_idx, pos), insn_idx);
         }
     }
 }
@@ -1171,5 +1421,93 @@ mod tests {
         assert!(var.used_in_phi.contains(&10));
         assert!(var.used_in_phi.contains(&30));
         assert!(!var.used_in_phi.contains(&20));
+    }
+
+    // =========================================================================
+    // JADX Parity Tests: SSA variable grouping
+    // Tests for is_linked_to_other_ssa_vars and same_code_var methods
+    // =========================================================================
+
+    #[test]
+    fn test_is_linked_to_other_ssa_vars_single() {
+        let mut ctx = SSAContext::new();
+
+        // Create a single SSA var linked to a CodeVar
+        let v0 = ctx.new_var(0); // r0v0
+        let cv_id = ctx.new_code_var();
+        ctx.link_to_code_var(v0, cv_id);
+
+        // Single SSA var should NOT be linked to others
+        assert!(!ctx.is_linked_to_other_ssa_vars(v0.reg_num, v0.version));
+    }
+
+    #[test]
+    fn test_is_linked_to_other_ssa_vars_multiple() {
+        let mut ctx = SSAContext::new();
+
+        // Create multiple SSA vars linked to the same CodeVar
+        let v0 = ctx.new_var(0); // r0v0
+        let v1 = ctx.new_var(0); // r0v1
+        let cv_id = ctx.new_code_var();
+
+        ctx.link_to_code_var(v0, cv_id);
+        ctx.link_to_code_var(v1, cv_id);
+
+        // Both should be linked to other SSA vars
+        assert!(ctx.is_linked_to_other_ssa_vars(v0.reg_num, v0.version));
+        assert!(ctx.is_linked_to_other_ssa_vars(v1.reg_num, v1.version));
+    }
+
+    #[test]
+    fn test_is_linked_to_other_ssa_vars_no_code_var() {
+        let mut ctx = SSAContext::new();
+
+        // Create SSA var without a CodeVar
+        let v0 = ctx.new_var(0);
+
+        // No CodeVar means not linked
+        assert!(!ctx.is_linked_to_other_ssa_vars(v0.reg_num, v0.version));
+    }
+
+    #[test]
+    fn test_same_code_var_true() {
+        let mut ctx = SSAContext::new();
+
+        let v0 = ctx.new_var(0); // r0v0
+        let v1 = ctx.new_var(0); // r0v1
+        let cv_id = ctx.new_code_var();
+
+        ctx.link_to_code_var(v0, cv_id);
+        ctx.link_to_code_var(v1, cv_id);
+
+        assert!(ctx.same_code_var(v0.reg_num, v0.version, v1.reg_num, v1.version));
+    }
+
+    #[test]
+    fn test_same_code_var_false() {
+        let mut ctx = SSAContext::new();
+
+        let v0 = ctx.new_var(0); // r0v0
+        let v1 = ctx.new_var(1); // r1v0
+
+        let cv0 = ctx.new_code_var();
+        let cv1 = ctx.new_code_var();
+
+        ctx.link_to_code_var(v0, cv0);
+        ctx.link_to_code_var(v1, cv1);
+
+        // Different CodeVars
+        assert!(!ctx.same_code_var(v0.reg_num, v0.version, v1.reg_num, v1.version));
+    }
+
+    #[test]
+    fn test_same_code_var_no_code_var() {
+        let mut ctx = SSAContext::new();
+
+        let v0 = ctx.new_var(0);
+        let v1 = ctx.new_var(1);
+
+        // Neither has CodeVar
+        assert!(!ctx.same_code_var(v0.reg_num, v0.version, v1.reg_num, v1.version));
     }
 }

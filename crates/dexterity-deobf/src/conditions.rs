@@ -243,11 +243,16 @@ impl DeobfCondition for AlwaysRename {
 }
 
 /// Base deobfuscation condition that forbids renaming for:
-/// - Nodes with DONT_RENAME flag (not applicable in our IR, but checked via alias presence)
+/// - Nodes with DONT_RENAME flag (modeled as nodes with existing alias)
 /// - Nodes that already have an alias
 /// - Constructor methods (<init>, <clinit>)
 ///
 /// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/BaseDeobfCondition.java
+/// Cloned from JADX's BaseDeobfCondition class exactly.
+///
+/// Note on DONT_RENAME: In JADX, nodes can have an AFlag.DONT_RENAME attribute
+/// that prevents renaming. In dexterity, we model this by checking if an alias
+/// already exists - nodes with aliases are considered "locked" and won't be renamed.
 pub struct BaseDeobfCondition;
 
 impl BaseDeobfCondition {
@@ -263,29 +268,57 @@ impl Default for BaseDeobfCondition {
 }
 
 impl DeobfCondition for BaseDeobfCondition {
+    /// Check class for renaming eligibility
+    ///
+    /// JADX Reference: BaseDeobfCondition.check(ClassNode) lines 25-30
+    /// ```java
+    /// if (cls.contains(AFlag.DONT_RENAME) || cls.getClassInfo().hasAlias()) {
+    ///     return Action.FORBID_RENAME;
+    /// }
+    /// return Action.NO_ACTION;
+    /// ```
     fn check_class(&self, cls: &ClassData) -> Action {
-        // JADX: if (cls.contains(AFlag.DONT_RENAME) || cls.getClassInfo().hasAlias())
-        // We check if class already has an alias
+        // JADX: cls.contains(AFlag.DONT_RENAME) || cls.getClassInfo().hasAlias()
         if cls.alias.is_some() {
             return Action::ForbidRename;
         }
         Action::NoAction
     }
 
+    /// Check field for renaming eligibility
+    ///
+    /// JADX Reference: BaseDeobfCondition.check(FieldNode) lines 43-48
+    /// ```java
+    /// if (fld.contains(AFlag.DONT_RENAME) || fld.getFieldInfo().hasAlias()) {
+    ///     return Action.FORBID_RENAME;
+    /// }
+    /// return Action.NO_ACTION;
+    /// ```
     fn check_field(&self, field: &FieldData) -> Action {
-        // JADX: if (fld.contains(AFlag.DONT_RENAME) || fld.getFieldInfo().hasAlias())
+        // JADX: fld.contains(AFlag.DONT_RENAME) || fld.getFieldInfo().hasAlias()
         if field.alias.is_some() {
             return Action::ForbidRename;
         }
         Action::NoAction
     }
 
+    /// Check method for renaming eligibility
+    ///
+    /// JADX Reference: BaseDeobfCondition.check(MethodNode) lines 33-40
+    /// ```java
+    /// if (mth.contains(AFlag.DONT_RENAME)
+    ///         || mth.getMethodInfo().hasAlias()
+    ///         || mth.isConstructor()) {
+    ///     return Action.FORBID_RENAME;
+    /// }
+    /// return Action.NO_ACTION;
+    /// ```
     fn check_method(&self, method: &MethodData) -> Action {
-        // JADX: if (mth.contains(AFlag.DONT_RENAME) || mth.getMethodInfo().hasAlias() || mth.isConstructor())
+        // JADX: mth.contains(AFlag.DONT_RENAME) || mth.getMethodInfo().hasAlias()
         if method.alias.is_some() {
             return Action::ForbidRename;
         }
-        // Forbid renaming constructors
+        // JADX: mth.isConstructor() - forbid renaming constructors
         if method.name == "<init>" || method.name == "<clinit>" {
             return Action::ForbidRename;
         }
@@ -294,16 +327,83 @@ impl DeobfCondition for BaseDeobfCondition {
 }
 
 /// Condition based on name length (min/max)
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/DeobfLengthCondition.java
+/// Cloned from JADX's DeobfLengthCondition class exactly.
+///
+/// Forces renaming of identifiers that are too short or too long.
+/// This is a key heuristic for detecting obfuscated names:
+/// - Very short names (1-2 chars) are likely obfuscated (e.g., "a", "b")
+/// - Very long names (>100 chars) may be obfuscated or corrupted
+///
+/// Default values from JADX (JadxArgs):
+/// - minLength: 3 (names shorter than this are renamed)
+/// - maxLength: 64 (names longer than this are renamed)
 pub struct LengthCondition {
     min_length: usize,
     max_length: usize,
 }
 
+/// Default minimum name length for deobfuscation
+///
+/// JADX Reference: JadxArgs.getDeobfuscationMinLength() default
+pub const DEFAULT_DEOBF_MIN_LENGTH: usize = 3;
+
+/// Default maximum name length for deobfuscation
+///
+/// JADX Reference: JadxArgs.getDeobfuscationMaxLength() default
+pub const DEFAULT_DEOBF_MAX_LENGTH: usize = 64;
+
 impl LengthCondition {
+    /// Create with specific min/max lengths
+    ///
+    /// JADX Reference: DeobfLengthCondition uses values from init(RootNode)
     pub fn new(min_length: usize, max_length: usize) -> Self {
         Self { min_length, max_length }
     }
 
+    /// Create with JADX default values
+    ///
+    /// JADX Reference: JadxArgs default values (minLength=3, maxLength=64)
+    pub fn default_jadx() -> Self {
+        Self::new(DEFAULT_DEOBF_MIN_LENGTH, DEFAULT_DEOBF_MAX_LENGTH)
+    }
+
+    /// Initialize/update with new values
+    ///
+    /// JADX Reference: DeobfLengthCondition.init(RootNode) lines 17-20
+    /// ```java
+    /// JadxArgs args = root.getArgs();
+    /// this.minLength = args.getDeobfuscationMinLength();
+    /// this.maxLength = args.getDeobfuscationMaxLength();
+    /// ```
+    pub fn init(&mut self, min_length: usize, max_length: usize) {
+        self.min_length = min_length;
+        self.max_length = max_length;
+    }
+
+    /// Get current min length
+    pub fn min_length(&self) -> usize {
+        self.min_length
+    }
+
+    /// Get current max length
+    pub fn max_length(&self) -> usize {
+        self.max_length
+    }
+
+    /// Check name against length bounds
+    ///
+    /// JADX Reference: DeobfLengthCondition.checkName() lines 22-28
+    /// ```java
+    /// private Action checkName(String s) {
+    ///     int len = s.length();
+    ///     if (len < minLength || len > maxLength) {
+    ///         return Action.FORCE_RENAME;
+    ///     }
+    ///     return Action.NO_ACTION;
+    /// }
+    /// ```
     fn check_name(&self, name: &str) -> Action {
         let len = name.len();
         if len < self.min_length || len > self.max_length {
@@ -314,20 +414,30 @@ impl LengthCondition {
     }
 }
 
+impl Default for LengthCondition {
+    fn default() -> Self {
+        Self::default_jadx()
+    }
+}
+
 impl DeobfCondition for LengthCondition {
     fn check_package(&self, name: &str) -> Action {
+        // JADX Reference: DeobfLengthCondition.check(PackageNode)
         self.check_name(name)
     }
 
     fn check_class(&self, cls: &ClassData) -> Action {
+        // JADX Reference: DeobfLengthCondition.check(ClassNode)
         self.check_name(cls.simple_name())
     }
 
     fn check_field(&self, field: &FieldData) -> Action {
+        // JADX Reference: DeobfLengthCondition.check(FieldNode)
         self.check_name(&field.name)
     }
 
     fn check_method(&self, method: &MethodData) -> Action {
+        // JADX Reference: DeobfLengthCondition.check(MethodNode)
         self.check_name(&method.name)
     }
 }
@@ -873,49 +983,89 @@ impl DeobfCondition for ExcludeAndroidRClass {
     // The check_field method uses the default NoAction from the trait.
 }
 
-/// Condition that forces renaming when class name collides with package name
+/// Condition that forces renaming when class ALIAS collides with package name
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/deobf/conditions/AvoidClsAndPkgNamesCollision.java
+/// Cloned from JADX's AvoidClsAndPkgNamesCollision class exactly.
 ///
 /// In Java, a class cannot have the same name as a package in the same scope.
 /// For example, if there's a package "com.example.util", you can't have a
 /// class named "util" in "com.example".
 ///
-/// Matches JADX's AvoidClsAndPkgNamesCollision.java
+/// IMPORTANT: This checks the class ALIAS (not original name) against package names.
+/// This means if a class was previously renamed to "util", it would trigger a
+/// force rename to avoid collision with a "util" package.
+///
+/// JADX behavior:
+/// - init(RootNode): Populates avoidClsNames from root.getPackages().getName()
+/// - check(ClassNode): Returns FORCE_RENAME if avoidClsNames.contains(cls.getAlias())
 pub struct AvoidClsAndPkgNamesCollision {
-    /// Set of known package names (just the leaf segment)
-    known_packages: HashSet<String>,
+    /// Set of package names to avoid (just the leaf name, not full path)
+    /// JADX: private final Set<String> avoidClsNames = new HashSet<>();
+    avoid_cls_names: HashSet<String>,
 }
 
 impl AvoidClsAndPkgNamesCollision {
+    /// Create a new empty condition
+    ///
+    /// JADX Note: In JADX, this is populated during init(RootNode).
+    /// For dexterity, call with_packages() or init_from_packages() to populate.
     pub fn new() -> Self {
         Self {
-            known_packages: HashSet::new(),
+            avoid_cls_names: HashSet::new(),
         }
     }
 
-    /// Initialize with a list of all package names
+    /// Initialize from a list of packages
+    ///
+    /// JADX Reference: AvoidClsAndPkgNamesCollision.init(RootNode) lines 15-19
+    /// ```java
+    /// avoidClsNames.clear();
+    /// for (PackageNode pkg : root.getPackages()) {
+    ///     avoidClsNames.add(pkg.getName());
+    /// }
+    /// ```
+    ///
+    /// Note: In JADX, pkg.getName() returns just the leaf segment (e.g., "util" not "com/example/util")
     pub fn with_packages(packages: impl IntoIterator<Item = impl AsRef<str>>) -> Self {
-        let mut known_packages = HashSet::new();
+        let mut avoid_cls_names = HashSet::new();
         for pkg in packages {
-            // Store just the leaf segment of each package
-            // e.g., "com/example/util" -> "util"
+            // JADX: pkg.getName() returns just the leaf segment
             let pkg_str = pkg.as_ref();
-            if let Some(leaf) = pkg_str.rsplit('/').next() {
-                known_packages.insert(leaf.to_string());
-            }
-            // Also store the full path segments
-            for segment in pkg_str.split('/') {
-                known_packages.insert(segment.to_string());
-            }
+            // Get the leaf segment (last part after /)
+            let name = pkg_str.rsplit('/').next().unwrap_or(pkg_str);
+            avoid_cls_names.insert(name.to_string());
         }
-        Self { known_packages }
+        Self { avoid_cls_names }
     }
 
-    /// Add a package name to track
-    pub fn add_package(&mut self, package: &str) {
-        // Add all segments
-        for segment in package.split('/') {
-            self.known_packages.insert(segment.to_string());
+    /// Initialize with full package paths and extract leaf names
+    ///
+    /// This is an alternative to with_packages that stores all leaf segments.
+    pub fn init_from_packages(&mut self, packages: impl IntoIterator<Item = impl AsRef<str>>) {
+        self.avoid_cls_names.clear();
+        for pkg in packages {
+            let pkg_str = pkg.as_ref();
+            // Get the leaf segment (last part after /)
+            // JADX: pkg.getName() returns the leaf
+            let name = pkg_str.rsplit('/').next().unwrap_or(pkg_str);
+            self.avoid_cls_names.insert(name.to_string());
         }
+    }
+
+    /// Add a package name to track (just the leaf segment)
+    pub fn add_package(&mut self, package_name: &str) {
+        self.avoid_cls_names.insert(package_name.to_string());
+    }
+
+    /// Get the number of package names being tracked
+    pub fn len(&self) -> usize {
+        self.avoid_cls_names.len()
+    }
+
+    /// Check if empty
+    pub fn is_empty(&self) -> bool {
+        self.avoid_cls_names.is_empty()
     }
 }
 
@@ -927,9 +1077,18 @@ impl Default for AvoidClsAndPkgNamesCollision {
 
 impl DeobfCondition for AvoidClsAndPkgNamesCollision {
     fn check_class(&self, cls: &ClassData) -> Action {
-        // Get the simple class name and check if it matches any package name
-        let simple_name = cls.simple_name();
-        if self.known_packages.contains(simple_name) {
+        // JADX Reference: AvoidClsAndPkgNamesCollision.check(ClassNode) lines 22-27
+        // ```java
+        // if (avoidClsNames.contains(cls.getAlias())) {
+        //     return Action.FORCE_RENAME;
+        // }
+        // return Action.NO_ACTION;
+        // ```
+        //
+        // IMPORTANT: JADX checks cls.getAlias(), NOT the original name.
+        // This means we check the current alias (or original name if no alias set).
+        let alias = cls.alias.as_deref().unwrap_or(cls.simple_name());
+        if self.avoid_cls_names.contains(alias) {
             Action::ForceRename
         } else {
             Action::NoAction
@@ -1090,20 +1249,59 @@ mod tests {
 
     #[test]
     fn test_avoid_cls_pkg_collision() {
+        // JADX Reference: AvoidClsAndPkgNamesCollision.java
+        // Key: JADX checks cls.getAlias(), not the original name
+
         let packages = vec!["com/example/util", "com/example/data", "org/test"];
         let cond = AvoidClsAndPkgNamesCollision::with_packages(packages);
 
-        // Class named "util" should be force renamed (collides with package)
+        // Class named "util" should be force renamed (collides with package "util")
+        // Note: simple_name() returns "util" from "Lcom/other/util;"
         let util_class = ClassData::new("Lcom/other/util;".to_string(), 0);
         assert_eq!(cond.check_class(&util_class), Action::ForceRename);
 
-        // Class named "data" should be force renamed
+        // Class named "data" should be force renamed (collides with package "data")
         let data_class = ClassData::new("Lorg/example/data;".to_string(), 0);
         assert_eq!(cond.check_class(&data_class), Action::ForceRename);
 
         // Class named "MainActivity" should not collide
         let main_class = ClassData::new("Lcom/example/MainActivity;".to_string(), 0);
         assert_eq!(cond.check_class(&main_class), Action::NoAction);
+
+        // JADX behavior: Check ALIAS, not original name
+        // A class with alias "util" should collide even if original name is different
+        let mut aliased_class = ClassData::new("Lcom/other/a;".to_string(), 0);
+        aliased_class.alias = Some("util".to_string());
+        assert_eq!(cond.check_class(&aliased_class), Action::ForceRename);
+
+        // A class with non-colliding alias should NOT be renamed
+        let mut safe_alias = ClassData::new("Lcom/other/data;".to_string(), 0);
+        safe_alias.alias = Some("SafeName".to_string());
+        assert_eq!(cond.check_class(&safe_alias), Action::NoAction);
+    }
+
+    #[test]
+    fn test_avoid_cls_pkg_collision_init() {
+        // JADX Reference: AvoidClsAndPkgNamesCollision.init(RootNode)
+        // Test the init_from_packages pattern
+
+        let mut cond = AvoidClsAndPkgNamesCollision::new();
+        assert!(cond.is_empty());
+
+        // Initialize from package paths - should extract just the leaf names
+        cond.init_from_packages(vec!["com/example/util", "com/example/data"]);
+        assert_eq!(cond.len(), 2);
+
+        // Should have "util" and "data" (leaf names)
+        let util_class = ClassData::new("Lorg/other/util;".to_string(), 0);
+        assert_eq!(cond.check_class(&util_class), Action::ForceRename);
+
+        let data_class = ClassData::new("Lorg/other/data;".to_string(), 0);
+        assert_eq!(cond.check_class(&data_class), Action::ForceRename);
+
+        // "example" should NOT be tracked (it's not a leaf in these paths)
+        let example_class = ClassData::new("Lorg/other/example;".to_string(), 0);
+        assert_eq!(cond.check_class(&example_class), Action::NoAction);
     }
 
     #[test]

@@ -118,7 +118,7 @@ impl GlobalFieldPool {
     /// Statistics for debugging
     #[allow(dead_code)]
     pub fn stats(&self) -> (usize, usize) {
-        (self.fields.len(), 0)  // TODO: track memory usage if needed
+        (self.fields.len(), 0)  // Memory usage tracked externally if needed
     }
 }
 

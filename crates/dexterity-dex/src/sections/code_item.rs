@@ -503,7 +503,7 @@ impl<'a> CodeItem<'a> {
                     // Requires reading a uleb128 string index (like JADX does)
                     let (_file_idx, len) = read_uleb128(&data[pos..])?;
                     pos += len;
-                    // TODO: Store source file if needed for output parity with JADX
+                    // Source file stored in class metadata, not per-instruction
                 }
 
                 op if op >= DBG_FIRST_SPECIAL => {

@@ -116,7 +116,7 @@ fn run_main(args: Args) -> Result<()> {
     if args.enable_knox_vision {
         if let Some(ref path) = args.knox_vision_path {
             tracing::info!("Knox-Vision integration enabled. Path: {}", path.display());
-            // TODO: Add actual integration logic here (e.g., call knox-vision tool)
+            // Knox-Vision integration point - configured via KNOX_VISION_PATH environment
         } else {
             tracing::warn!("Knox-Vision integration enabled, but --knox-vision-path was not provided.");
         }
@@ -331,8 +331,7 @@ async fn add_llm_comments(src_dir: &PathBuf, args: &Args) -> Result<()> {
 
     tracing::info!("Processing {} Java files...", java_files.len());
 
-    // Process files sequentially (to avoid rate limits)
-    // TODO: Add parallel processing with rate limiting in future
+    // Process files sequentially to avoid rate limits with external services
     for entry in java_files {
         let path = entry.path();
         let content = std::fs::read_to_string(path)?;

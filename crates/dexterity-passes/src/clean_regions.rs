@@ -232,6 +232,8 @@ mod tests {
             flags: 0,
             result_type: Some(ArgType::Void),
             source_line: None,
+            extended_switch_info: None,
+            extended_if_info: None,
         }
     }
 

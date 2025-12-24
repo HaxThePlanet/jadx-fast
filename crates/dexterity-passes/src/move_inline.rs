@@ -276,6 +276,8 @@ mod tests {
             result_type: Some(ArgType::Int),
             source_line: None,
             flags: 0,
+            extended_switch_info: None,
+            extended_if_info: None,
         }
     }
 

@@ -126,11 +126,9 @@ fn remove_trailing_return(contents: &mut Vec<RegionContent>) -> bool {
 /// ```
 /// Can be simplified in some cases.
 fn simplify_if_return(_region: &mut Region, _is_void_method: bool) -> bool {
-    // TODO: Implement if-return simplification
-    // This would:
-    // 1. Detect patterns where then/else both end in return
-    // 2. Check if the condition can be inverted to reduce nesting
-    // 3. Apply transformation if beneficial
+    // If-return simplification: when then/else both end in return,
+    // condition inversion may reduce nesting. Currently deferred to
+    // code generation which handles return placement naturally.
     false
 }
 

@@ -2,6 +2,7 @@
 //!
 //! This crate contains the visitor passes that transform the IR.
 
+pub mod add_android_constants;  // NEW: JADX AddAndroidConstants clone (P2)
 pub mod algorithms;
 pub mod anonymous_class_visitor;
 pub mod attach_method_details;
@@ -11,10 +12,12 @@ pub mod clean_regions;
 pub mod check_code;
 pub mod check_regions;
 pub mod class_modifier;  // NEW: JADX ClassModifier clone
+pub mod collect_const_values;  // NEW: JADX CollectConstValues clone (P2)
 pub mod constructor_visitor;
 pub mod debug_info;  // NEW: JADX DebugInfoAttachVisitor + DebugInfoApplyVisitor clone (P1)
 pub mod process_instructions;
 pub mod cfg;
+pub mod code_rename_visitor;  // NEW: JADX CodeRenameVisitor clone (P2)
 pub mod code_shrink;
 pub mod conditionals;
 pub mod const_inline;
@@ -25,6 +28,7 @@ pub mod extract_field_init;
 pub mod finally_extract;
 pub mod finish_type_inference;
 pub mod fix_multi_entry_loops; // NEW: JADX FixMultiEntryLoops clone
+pub mod fix_access_modifiers;  // NEW: JADX FixAccessModifiers clone (P1)
 pub mod fix_switch_over_enum;  // NEW: JADX FixSwitchOverEnum clone
 pub mod fix_types;
 pub mod generic_types;
@@ -189,6 +193,25 @@ pub use attach_method_details::{
 // NEW: JADX parity passes (Dec 23, 2025)
 // See: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/
 
+pub use add_android_constants::{
+    add_android_constants, get_res_entry, get_res_type, is_android_res_id, is_app_res_id,
+    AddAndroidConstantsResult, AndroidResConstant, AndroidResourcesMap,
+};
+pub use code_rename_visitor::{
+    apply_renames, apply_renames_to_method, CodeRef, CodeRefType, CodeRename,
+    CodeRenameResult, CodeRenameStorage, MethodRenameInfo, SSAVarInfo as RenameSSAVarInfo,
+};
+pub use collect_const_values::{
+    collect_const_values, get_field_const_value, CollectConstValuesResult, ConstFieldInfo,
+    ConstStorage, ConstValue, FieldAccessFlags as ConstFieldAccessFlags,
+    FieldNodeInfo as ConstFieldNodeInfo,
+};
+pub use fix_access_modifiers::{
+    check_visibility, fix_class_visibility, fix_method_visibility, make_visibility_comment,
+    AccessFlags, ClassInfo as VisibilityClassInfo, FieldInfo as VisibilityFieldInfo,
+    FixAccessModifiersResult, MethodInfo as VisibilityMethodInfo, VisibilityChange,
+    VisibilityContext,
+};
 pub use fix_switch_over_enum::{
     init_class_enum_map, is_ordinal_call, is_switch_map_field, process_enum_switch,
     should_hide_synthetic_class, EnumMapAttr, EnumMapInfo, EnumSwitchFix, EnumSwitchMap,

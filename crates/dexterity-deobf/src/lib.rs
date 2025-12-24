@@ -10,7 +10,9 @@
 //! - JADX .jobf format support
 //! - Mapping export (Tiny, SRG, TSRG, ProGuard formats)
 //! - Dalvik to JVM bytecode conversion utilities
+//! - JADX constants (DEFAULT_PACKAGE_NAME, ANONYMOUS_CLASS_PREFIX, etc.)
 
+pub mod consts;
 pub mod name_mapper;
 pub mod conditions;
 pub mod alias_provider;
@@ -36,6 +38,8 @@ pub use conditions::{
     // JADX parity additions
     AlwaysRename, DeobfWhitelist, JADX_DEFAULT_WHITELIST, RenameReason,
     PredicateCondition, rename_matching_pattern, rename_shorter_than,
+    // JADX DeobfLengthCondition defaults
+    DEFAULT_DEOBF_MIN_LENGTH, DEFAULT_DEOBF_MAX_LENGTH,
 };
 pub use file_type_detector::{detect_file_extension, get_file_type_name};
 pub use alias_provider::{AliasProvider, DeobfAliasProvider};
@@ -56,6 +60,10 @@ pub use rename_validator::{
     collect_root_packages, fix_root_package_collisions,
     // JADX parity additions
     fix_case_sensitive_collisions, is_default_package, get_default_package_name,
+    // JADX checkPackage cloning
+    check_package, PackageCheckResult, apply_package_check_to_class,
+    // Inner class collision check
+    check_inner_class_parent_collision,
     consts as rename_consts,
 };
 pub use tlds::ExcludePackageWithTLDNames;
@@ -69,4 +77,9 @@ pub use mapping_exporter::{
 pub use dalvik_to_jvm::{
     get_method_arg_lv_index, get_method_arg_lvt_index, get_method_var_lv_index,
     get_type_slot_count, dalvik_reg_to_lv_index, VarInfo, collect_method_vars,
+};
+pub use consts::{
+    DEFAULT_PACKAGE_NAME, ANONYMOUS_CLASS_PREFIX, MTH_TOSTRING_SIGNATURE,
+    OVERRIDE_ANNOTATION, CLASS_NAME_PREFIX, is_anonymous_class_name,
+    java_types,
 };

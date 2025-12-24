@@ -1,10 +1,13 @@
 //! File type detection by magic bytes and content
 //!
 //! JADX Reference: jadx-core/src/main/java/jadx/core/deobf/FileTypeDetector.java
+//! Cloned from JADX's FileTypeDetector class exactly.
 //!
 //! Detects file extensions from binary content using:
 //! 1. Magic byte signatures (PNG, JPG, MP4, etc.)
 //! 2. Text content patterns (certificates, HTML, XML)
+//!
+//! File signatures are identical to JADX's static initializer block.
 
 use lazy_static::lazy_static;
 use regex::Regex;

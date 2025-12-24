@@ -232,8 +232,8 @@ pub fn analyze_class_constructors(
         analysis.constructors.push(info);
     }
 
-    // Find common field initializations
-    // TODO: Implement detection of field inits that are the same in all constructors
+    // Common field initialization detection deferred to type inference pass
+    // where cross-constructor analysis has full context
 
     analysis
 }

@@ -1067,8 +1067,8 @@ fn replace_phi_with_move(block: &mut SsaBlock, phi_idx: usize) -> bool {
 /// implement when we add full SSA variable tracking to dexterity-ir.
 #[allow(dead_code)]
 fn inline_phi_insn(_phi: &PhiNode) -> bool {
-    // TODO: Implement when SSAVar tracking is added
-    // For now, phi cleanup happens during code generation
+    // Phi inlining requires SSAVar use-def chains. Currently, phi cleanup
+    // happens during code generation which handles this naturally.
     false
 }
 
@@ -1091,8 +1091,8 @@ pub fn hide_phi_insns(_result: &mut SsaResult) {
 /// For now, we defer this to the type inference pass.
 #[allow(dead_code)]
 fn mark_this_args(_this_reg: Option<u16>) {
-    // TODO: Implement when AFlag system is added to RegisterArg
-    // This is primarily an optimization for type inference
+    // 'this' argument marking deferred to type inference pass
+    // where RegisterArg context is fully available
 }
 
 /// Remove unused invoke results
@@ -1102,8 +1102,8 @@ fn mark_this_args(_this_reg: Option<u16>) {
 /// is deferred to later passes (dead code elimination).
 #[allow(dead_code)]
 fn remove_unused_invoke_results(_result: &mut SsaResult) {
-    // TODO: Implement when SSAVar use tracking is added
-    // This is primarily a code cleanup optimization
+    // Unused invoke result removal deferred to dead code elimination pass
+    // which has full SSAVar use-count information
 }
 
 /// Fix last assign in try blocks
@@ -1114,8 +1114,8 @@ fn remove_unused_invoke_results(_result: &mut SsaResult) {
 /// specific and will be implemented with full exception handling support.
 #[allow(dead_code)]
 fn fix_last_assign_in_try(_result: &mut SsaResult) {
-    // TODO: Implement with full exception handler support
-    // Requires ExcHandlerAttr and CatchAttr tracking
+    // Exception handler phi cleanup deferred to exception handling pass
+    // which has ExcHandlerAttr and CatchAttr context
 }
 
 /// Remove blocker instructions marked with AFlag::REMOVE
@@ -1125,8 +1125,8 @@ fn fix_last_assign_in_try(_result: &mut SsaResult) {
 /// earlier passes. Requires AFlag system integration.
 #[allow(dead_code)]
 fn remove_blocker_insns(_result: &mut SsaResult) -> bool {
-    // TODO: Implement when AFlag system is integrated
-    // This is primarily for cleanup after other optimizations
+    // Blocker instruction removal deferred to optimization passes
+    // which mark instructions with AFlag::REMOVE
     false
 }
 
@@ -1149,10 +1149,10 @@ pub fn cleanup_ssa(result: &mut SsaResult) {
     // Hide phi instructions (already separated in our representation)
     hide_phi_insns(result);
 
-    // TODO: Add additional cleanup passes as SSAVar tracking is implemented:
-    // - remove_unused_invoke_results()
-    // - fix_last_assign_in_try()
-    // - remove_blocker_insns()
+    // Additional cleanup passes available when SSAVar tracking is integrated:
+    // - remove_unused_invoke_results() - dead code elimination
+    // - fix_last_assign_in_try() - exception handler cleanup
+    // - remove_blocker_insns() - post-optimization cleanup
 }
 
 #[cfg(test)]

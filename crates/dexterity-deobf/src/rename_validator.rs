@@ -1,36 +1,30 @@
 //! Rename validation and collision handling
 //!
-//! Ported from jadx-core/src/main/java/jadx/core/dex/visitors/rename/RenameVisitor.java
+//! JADX Reference: jadx-core/src/main/java/jadx/core/dex/visitors/rename/RenameVisitor.java
+//! Cloned from JADX's RenameVisitor class for exact parity.
 //!
 //! This module provides validation functions to detect and fix:
-//! - Duplicate field names within a class
-//! - Method signature collisions
-//! - Invalid class names (anonymous patterns, leading digits)
-//! - Case-insensitive path collisions (for Windows filesystem support)
+//! - Duplicate field names within a class (checkFields)
+//! - Method signature collisions (checkMethods)
+//! - Invalid class names: anonymous patterns, leading digits (fixClsShortName)
+//! - Case-insensitive path collisions for Windows filesystem (checkNames)
+//! - Inner class name collision with parent (checkClassName)
+//! - Default package renaming (checkPackage)
+//! - Root package name collision with field names (processRootPackages)
 
 use std::collections::{HashSet, HashMap};
 
 use dexterity_ir::{ClassData, MethodData};
-use regex::Regex;
-use lazy_static::lazy_static;
 
 use crate::alias_provider::AliasProvider;
 use crate::name_mapper::NameMapper;
+use crate::consts::{ANONYMOUS_CLASS_PREFIX, DEFAULT_PACKAGE_NAME, is_anonymous_class_name, CLASS_NAME_PREFIX};
 
-lazy_static! {
-    /// Pattern for anonymous class names (just digits like "1", "2", "123")
-    static ref ANONYMOUS_CLASS_PATTERN: Regex = Regex::new(r"^\d+$").unwrap();
-}
-
-/// Constants matching JADX
+/// Constants re-exported from centralized consts module
 ///
 /// JADX Reference: jadx-core/src/main/java/jadx/core/Consts.java
 pub mod consts {
-    /// Prefix for anonymous inner classes
-    pub const ANONYMOUS_CLASS_PREFIX: &str = "AnonymousClass";
-    /// Name for the default (empty) package
-    /// JADX Reference: jadx-core/src/main/java/jadx/core/Consts.java:DEFAULT_PACKAGE_NAME
-    pub const DEFAULT_PACKAGE_NAME: &str = "defpackage";
+    pub use crate::consts::{ANONYMOUS_CLASS_PREFIX, DEFAULT_PACKAGE_NAME, is_anonymous_class_name, CLASS_NAME_PREFIX};
 }
 
 /// Check if an inner class name collides with any of its parent class names
@@ -79,57 +73,82 @@ pub fn check_inner_class_parent_collision(class_type: &str, alias: Option<&str>)
 
 /// Fix class name if it's invalid
 ///
+/// JADX Reference: RenameVisitor.fixClsShortName() lines 131-159
+/// Cloned from JADX's fixClsShortName method exactly.
+///
 /// Returns:
 /// - Some(fixed_name) if the name was fixed
-/// - None if the name couldn't be fixed (needs complete rename)
+/// - None if the name couldn't be fixed (needs complete rename from deobfuscator)
+///
+/// JADX behavior:
+/// 1. Empty name -> null (needs deobfuscation)
+/// 2. Anonymous class pattern (^\d+$) -> "AnonymousClass" + cleaned name
+/// 3. Leading $ or digit -> 'C' + cleaned name
+/// 4. Non-printable chars -> removed
+/// 5. Invalid identifier -> 'C' + name
 pub fn fix_class_short_name(
     class_name: &str,
     rename_valid: bool,
     rename_printable: bool,
 ) -> Option<String> {
+    // JADX: if (StringUtils.isEmpty(clsName)) { return null; }
     if class_name.is_empty() {
         return None;
     }
 
-    let mut result = class_name.to_string();
-
+    // JADX: if (renameValid && ANONYMOUS_CLASS_PATTERN.matcher(clsName).matches())
     // Handle anonymous classes (pure digit names like "1", "2")
-    if rename_valid && ANONYMOUS_CLASS_PATTERN.is_match(class_name) {
+    if rename_valid && is_anonymous_class_name(class_name) {
+        // JADX: return Consts.ANONYMOUS_CLASS_PREFIX + NameMapper.removeInvalidCharsMiddle(clsName);
         return Some(format!(
             "{}{}",
-            consts::ANONYMOUS_CLASS_PREFIX,
+            ANONYMOUS_CLASS_PREFIX,
             NameMapper::remove_invalid_chars_middle(class_name)
         ));
     }
 
+    // JADX: char firstChar = clsName.charAt(0);
+    // JADX: if (firstChar == '$' || Character.isDigit(firstChar))
     // Handle names starting with $ or digit
     if rename_valid {
         let first_char = class_name.chars().next().unwrap();
         if first_char == '$' || first_char.is_ascii_digit() {
+            // JADX: return 'C' + NameMapper.removeInvalidCharsMiddle(clsName);
             return Some(format!(
-                "C{}",
+                "{}{}",
+                CLASS_NAME_PREFIX,
                 NameMapper::remove_invalid_chars_middle(class_name)
             ));
         }
     }
 
-    // Remove non-printable characters if requested
-    if rename_printable {
-        result = NameMapper::remove_non_printable(&result);
-    }
+    // JADX: String cleanClsName = args.isRenamePrintable()
+    //         ? NameMapper.removeNonPrintableCharacters(clsName) : clsName;
+    let mut result = if rename_printable {
+        NameMapper::remove_non_printable(class_name)
+    } else {
+        class_name.to_string()
+    };
 
+    // JADX: if (cleanClsName.isEmpty()) { return null; }
     if result.is_empty() {
         return None;
     }
 
-    // Remove invalid characters if requested
+    // JADX: if (renameValid) {
+    //         cleanClsName = NameMapper.removeInvalidChars(clsName, "C");
+    //         if (!NameMapper.isValidIdentifier(cleanClsName)) {
+    //             return 'C' + cleanClsName;
+    //         }
+    //     }
     if rename_valid {
-        result = NameMapper::remove_invalid_chars(&result, "C");
+        result = NameMapper::remove_invalid_chars(class_name, "C");
         if !NameMapper::is_valid_identifier(&result) {
-            return Some(format!("C{}", result));
+            return Some(format!("{}{}", CLASS_NAME_PREFIX, result));
         }
     }
 
+    // JADX: return cleanClsName;
     Some(result)
 }
 
@@ -344,10 +363,26 @@ pub fn find_case_collisions(classes: &[ClassData]) -> Vec<usize> {
 /// Fix case-insensitive filesystem collisions
 ///
 /// JADX Reference: jadx-core/src/main/java/jadx/core/dex/visitors/rename/RenameVisitor.java:62-72
+/// Cloned from JADX's case-insensitive handling in checkNames() exactly.
 ///
 /// On case-insensitive filesystems (Windows, macOS default), class paths like
 /// "com/example/MyClass" and "com/example/Myclass" would map to the same file.
 /// This function detects and fixes such collisions by renaming conflicting classes.
+///
+/// JADX behavior:
+/// ```java
+/// if (!args.isFsCaseSensitive() && args.isRenameCaseSensitive()) {
+///     Set<String> clsFullPaths = new HashSet<>(classes.size());
+///     for (ClassNode cls : classes) {
+///         ClassInfo clsInfo = cls.getClassInfo();
+///         if (!clsFullPaths.add(clsInfo.getAliasFullPath().toLowerCase())) {
+///             clsInfo.changeShortName(aliasProvider.forClass(cls));
+///             cls.addAttr(new RenameReasonAttr(cls).append("case insensitive filesystem"));
+///             clsFullPaths.add(clsInfo.getAliasFullPath().toLowerCase());
+///         }
+///     }
+/// }
+/// ```
 ///
 /// # Arguments
 /// * `classes` - Classes to check for collisions
@@ -361,28 +396,35 @@ pub fn fix_case_sensitive_collisions<A: AliasProvider>(
     alias_provider: &A,
     fs_case_sensitive: bool,
 ) -> usize {
+    // JADX: if (!args.isFsCaseSensitive() && args.isRenameCaseSensitive())
+    // We assume isRenameCaseSensitive is true when calling this function
     if fs_case_sensitive {
         return 0;
     }
 
     let mut renamed_count = 0;
-    let mut paths_lower: HashSet<String> = HashSet::new();
+    // JADX: Set<String> clsFullPaths = new HashSet<>(classes.size());
+    let mut paths_lower: HashSet<String> = HashSet::with_capacity(classes.len());
 
     for cls in classes.iter_mut() {
-        // Get the full alias path (package + class name)
+        // JADX: clsInfo.getAliasFullPath() - gets the full path including package alias
         let path = get_full_alias_path(cls);
         let path_lower = path.to_lowercase();
 
+        // JADX: if (!clsFullPaths.add(clsInfo.getAliasFullPath().toLowerCase()))
         if !paths_lower.insert(path_lower.clone()) {
+            // JADX: clsInfo.changeShortName(aliasProvider.forClass(cls));
             // Collision detected - rename this class
-            if cls.alias.is_none() {
-                cls.alias = Some(alias_provider.for_class(cls));
-                renamed_count += 1;
+            cls.alias = Some(alias_provider.for_class(cls));
+            renamed_count += 1;
 
-                // Re-add with new path
-                let new_path = get_full_alias_path(cls);
-                paths_lower.insert(new_path.to_lowercase());
-            }
+            // JADX: cls.addAttr(new RenameReasonAttr(cls).append("case insensitive filesystem"));
+            // Note: RenameReason tracking is stored in the conditions module's RenameReason enum
+
+            // JADX: clsFullPaths.add(clsInfo.getAliasFullPath().toLowerCase());
+            // Re-add with new path to avoid cascading collisions
+            let new_path = get_full_alias_path(cls);
+            paths_lower.insert(new_path.to_lowercase());
         }
     }
 
@@ -416,7 +458,82 @@ pub fn is_default_package(package: &str) -> bool {
 ///
 /// JADX Reference: jadx-core/src/main/java/jadx/core/Consts.java:DEFAULT_PACKAGE_NAME
 pub fn get_default_package_name() -> &'static str {
-    consts::DEFAULT_PACKAGE_NAME
+    DEFAULT_PACKAGE_NAME
+}
+
+/// Result of checking a package for validity
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum PackageCheckResult {
+    /// Package is valid, no changes needed
+    NoChange,
+    /// Package should use DEFAULT_PACKAGE_NAME (empty package case)
+    UseDefaultPackage,
+    /// Package needs a new alias (invalid/non-printable)
+    NeedsAlias(String),
+}
+
+/// Check if a package needs renaming
+///
+/// JADX Reference: RenameVisitor.checkPackage() lines 115-128
+/// Cloned from JADX's checkPackage method exactly.
+///
+/// This function checks:
+/// 1. If package is empty (default package), returns DEFAULT_PACKAGE_NAME
+/// 2. If package name is not a valid identifier, returns a generated alias
+/// 3. If package name contains non-printable chars, returns a generated alias
+///
+/// # Arguments
+/// * `package_name` - The current package name (or alias if already renamed)
+/// * `alias_provider` - Provider to generate a new package alias if needed
+/// * `rename_valid` - Whether to check for valid identifiers
+/// * `rename_printable` - Whether to check for printable characters
+///
+/// # Returns
+/// The result indicating what action to take
+pub fn check_package<A: AliasProvider>(
+    package_name: &str,
+    alias_provider: &A,
+    rename_valid: bool,
+    rename_printable: bool,
+) -> PackageCheckResult {
+    // JADX: if (args.isRenameValid() && pkg.getAliasPkgInfo().isDefaultPkg())
+    // Check for default (empty) package
+    if rename_valid && is_default_package(package_name) {
+        // JADX: pkg.setFullAlias(Consts.DEFAULT_PACKAGE_NAME, false);
+        return PackageCheckResult::UseDefaultPackage;
+    }
+
+    // JADX: boolean notValid = args.isRenameValid() && !NameMapper.isValidIdentifier(pkgName);
+    let not_valid = rename_valid && !NameMapper::is_valid_identifier(package_name);
+
+    // JADX: boolean notPrintable = args.isRenamePrintable() && !NameMapper.isAllCharsPrintable(pkgName);
+    let not_printable = rename_printable && !NameMapper::is_all_chars_printable(package_name);
+
+    // JADX: if (notValid || notPrintable) { pkg.setLeafAlias(aliasProvider.forPackage(pkg), false); }
+    if not_valid || not_printable {
+        let new_alias = alias_provider.for_package(package_name);
+        return PackageCheckResult::NeedsAlias(new_alias);
+    }
+
+    PackageCheckResult::NoChange
+}
+
+/// Apply package check result to a class
+///
+/// This is a helper to apply the result of check_package to a class's package alias.
+/// Returns true if the class's package was modified.
+pub fn apply_package_check_to_class(cls: &mut ClassData, result: &PackageCheckResult) -> bool {
+    match result {
+        PackageCheckResult::NoChange => false,
+        PackageCheckResult::UseDefaultPackage => {
+            cls.pkg_alias = Some(DEFAULT_PACKAGE_NAME.to_string());
+            true
+        }
+        PackageCheckResult::NeedsAlias(alias) => {
+            cls.pkg_alias = Some(alias.clone());
+            true
+        }
+    }
 }
 
 /// Collect all root package names (first segment of package paths)

@@ -1,11 +1,11 @@
 # Quality Status
 
-**Status:** **82% Overall JADX Parity (B Grade)** - Usable but not complete
+**Status:** **~75% Overall JADX Parity (C+ Grade)** - HONEST REASSESSMENT
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
-**Output Refresh:** Dec 23, 2025 - All APK samples compared against JADX
+**Output Refresh:** Dec 23, 2025 - Balloon.java deep comparison performed
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
-**Codegen:** 92% parity (A- Grade) - See JADX_CODEGEN_CLONE_STATUS.md for gaps
-**Kotlin:** 70% parity (C+ Grade) - CRITICAL: JVM signature matching broken
+**Codegen:** ~75% parity (C+ Grade) - Field names, enum inits BROKEN
+**Kotlin:** ~60% parity (D Grade) - CRITICAL: d2 field names NOT APPLIED
 
 ## Output Quality Audit (Dec 23, 2025)
 
@@ -45,19 +45,21 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 **Result:** Medium APK now 98%+ clean (was 89%).
 
-## Current Grades (Honest Assessment Dec 23, 2025)
+## Current Grades (Balloon.java Reality Check Dec 23, 2025)
 
-| Category | Grade | Notes |
-|----------|-------|-------|
-| **Codegen** | **A-** | 92% parity - solid but gaps remain |
-| **Type Inference** | **B+** | ~85% JADX parity |
-| **IR/Control Flow** | **B+** | 88% - SSA renaming deferred |
-| **Variable Naming** | **A-** | Name collision detection done |
-| **Kotlin Support** | **C+** | 70% - JVM signatures BROKEN |
-| **Deobfuscation** | **A** | 95% - honest about SSA gap |
-| **Passes** | **B** | 85% - missing some visitors |
-| **Resources** | **A+** | 1:1 JADX parity |
-| **Overall** | **B** | 82% - usable, not complete |
+| Category | Previous | Actual | Evidence |
+|----------|----------|--------|----------|
+| **Codegen** | A- (92%) | **C+ (75%)** | Field names, enum inits wrong |
+| **Type Inference** | B+ (85%) | **C (70%)** | Enum constants as raw ints |
+| **IR/Control Flow** | B+ (88%) | **B- (80%)** | Switch case ordering reversed |
+| **Variable Naming** | A- | **C (70%)** | Wrong names from Kotlin |
+| **Kotlin Support** | C+ (70%) | **D (60%)** | d2 field names NOT APPLIED |
+| **Deobfuscation** | A (95%) | **B- (80%)** | Kotlin rename hints ignored |
+| **Passes** | B (85%) | **C+ (75%)** | Missing CollectConstValues effect |
+| **Resources** | **A+** | **A+** | 1:1 JADX parity (verified) |
+| **Overall** | B (82%) | **C+ (75%)** | Visible output differences |
+
+**Reality:** Output differs visibly from JADX on Kotlin files. Resources is the only true A+.
 
 ### Per-APK Grades
 

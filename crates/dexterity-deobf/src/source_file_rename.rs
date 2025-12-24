@@ -113,14 +113,22 @@ fn get_better_name(
 
 /// Compare two class names and return the "better" one
 ///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/utils/BetterName.java
+/// Cloned from JADX's getBetterClassName/getBetterName methods exactly.
+///
 /// Prefers names with:
-/// 1. Lower digit ratio (fewer numbers)
-/// 2. Longer length (if digit ratios are similar)
+/// 1. Lower digit ratio (fewer numbers = less obfuscated)
+/// 2. Longer length (if digit ratios are similar = more descriptive)
+///
+/// This helps choose the better source file name when multiple classes share
+/// the same source file, or when comparing a class name to its source file name.
 pub fn get_better_class_name(first: &str, second: &str) -> String {
+    // JADX: if (Objects.equals(firstName, secondName)) { return firstName; }
     if first == second {
         return first.to_string();
     }
 
+    // JADX: if (StringUtils.isEmpty(firstName) || StringUtils.isEmpty(secondName))
     if first.is_empty() || second.is_empty() {
         return if !first.is_empty() {
             first.to_string()
@@ -129,17 +137,24 @@ pub fn get_better_class_name(first: &str, second: &str) -> String {
         };
     }
 
+    // JADX: final var firstResult = analyze(firstName);
+    // JADX: final var secondResult = analyze(secondName);
     let first_analysis = analyze_name(first);
     let second_analysis = analyze_name(second);
 
+    // JADX: private static final double TOLERANCE = 0.001;
     const TOLERANCE: f32 = 0.001;
 
+    // JADX: if (firstResult.digitCount != 0 || secondResult.digitCount != 0)
     // Compare digit ratios
     if first_analysis.digit_count != 0 || second_analysis.digit_count != 0 {
+        // JADX: final var firstRatio = (float) firstResult.digitCount / firstResult.length;
         let first_ratio = first_analysis.digit_count as f32 / first_analysis.length as f32;
         let second_ratio = second_analysis.digit_count as f32 / second_analysis.length as f32;
 
+        // JADX: if (Math.abs(secondRatio - firstRatio) >= TOLERANCE)
         if (second_ratio - first_ratio).abs() >= TOLERANCE {
+            // JADX: return firstRatio <= secondRatio ? firstName : secondName;
             return if first_ratio <= second_ratio {
                 first.to_string()
             } else {
@@ -148,6 +163,7 @@ pub fn get_better_class_name(first: &str, second: &str) -> String {
         }
     }
 
+    // JADX: return firstResult.length >= secondResult.length ? firstName : secondName;
     // Prefer longer names
     if first_analysis.length >= second_analysis.length {
         first.to_string()
@@ -157,18 +173,40 @@ pub fn get_better_class_name(first: &str, second: &str) -> String {
 }
 
 /// Analysis result for a name
+///
+/// JADX Reference: BetterName.AnalyzeResult inner class
 struct NameAnalysis {
+    /// Total number of code points
+    /// JADX: result.length++;
     length: usize,
+    /// Count of digit code points
+    /// JADX: if (Character.isDigit(cp)) { result.digitCount++; }
     digit_count: usize,
 }
 
 /// Analyze a name for length and digit count
+///
+/// JADX Reference: BetterName.analyze() lines 66-78
+/// ```java
+/// StringUtils.visitCodePoints(name, cp -> {
+///     if (Character.isDigit(cp)) {
+///         result.digitCount++;
+///     }
+///     result.length++;
+/// });
+/// ```
 fn analyze_name(name: &str) -> NameAnalysis {
     let mut length = 0;
     let mut digit_count = 0;
 
+    // JADX: StringUtils.visitCodePoints(name, cp -> { ... })
+    // We iterate over chars (code points in Rust)
     for c in name.chars() {
-        if c.is_ascii_digit() {
+        // JADX: if (Character.isDigit(cp))
+        // Java's Character.isDigit() includes Unicode digits, but for practical
+        // APK class names, ASCII digits are sufficient. Use is_numeric() for
+        // stricter Unicode parity if needed.
+        if c.is_numeric() {
             digit_count += 1;
         }
         length += 1;

@@ -1,57 +1,55 @@
 # Dexterity-Codegen JADX Parity Assessment
 
-**Last Updated**: 2025-12-23 (0 P0, 0 P1 open, 0 P2 | Type Inference ~90% | JADX Codegen Parity ~93%)
+**Last Updated**: 2025-12-23 - HONEST REASSESSMENT
 **Reference**: `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/`
-**Overall Parity**: **A Grade** (~93% codegen parity - source-level audit Dec 23, 2025)
-**Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
+**Overall Parity**: **C+ Grade** (~75% real-world parity based on Balloon.java comparison)
+**Benchmark**: Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (faster but output differs)
 
 ---
 
-## Dec 23, 2025: JADX Codegen Parity ~93%
+## Dec 23, 2025: Reality Check - JADX Codegen Parity ~75%
 
-**Source-level audit complete.** Most JADX codegen functionality implemented.
-See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed audit and remaining gaps.
+**Previous claims of 93% were based on structural coverage, not output comparison.**
 
-### Completed Tasks Summary
+### Real-World Balloon.java Comparison Results
 
-**P1 (High Priority) - 6 tasks:**
-| ID | Feature | Implementation |
-|----|---------|----------------|
-| P1-LAMBDA-REF | Method reference (`String::new`, `obj::method`) | `generate_method_reference()` in body_gen.rs |
-| P1-LAMBDA-SIMPLE | Simple lambda (`() -> { return expr; }`) | Lambda expression codegen with parameter list |
-| P1-LAMBDA-INLINE | Inlined lambda with name inheritance | `try_generate_inlined_lambda()` with `inherit_used_names()` |
-| P1-ANON-INLINE | Anonymous class inlining with recursion detection | `generate_anonymous_class_inline()` with recursion check |
-| P1-INVOKE-RAW | InvokeCustom raw `.dynamicInvoker().invoke()` | body_gen.rs InvokeCustom handling |
-| P1-FIELD-REPLACE | `this$0` -> `OuterClass.this` replacement | `is_outer_class_reference()` + `get_outer_class_name()` |
+| Aspect | Claimed | Actual | Evidence |
+|--------|---------|--------|----------|
+| Codegen | 93% | ~75% | Field names, enum inits wrong |
+| Type Inference | 90% | ~70% | Enum constants as raw ints |
+| Kotlin Support | 100% | ~60% | d2 metadata NOT used for field names |
+| Variable Naming | 100% | ~70% | Wrong names from metadata parsing |
 
-**P2 (Medium Priority) - 5 tasks:**
-| ID | Feature | Implementation |
-|----|---------|----------------|
-| P2-BOOL-SIMP | Boolean simplification (`bool==true` -> `bool`) | `gen_condition_expr()` in body_gen.rs |
-| P2-NAME-COLLISION | Class-level reserved names | `add_class_level_reserved_names()` in body_gen.rs |
-| P2-SIMPLE-MODE | Complete SimpleModeHelper rewrite | fallback_gen.rs (~500 lines): DFS sorting, labels, gotos |
-| P2-MULTI-CATCH | Multi-catch separator (`Type1 \| Type2`) | `is_multi_catch()` handling in body_gen.rs |
-| P2-SUPER-QUAL | Qualified super calls (`OuterClass.super.method()`) | `needs_qualified_super()` in body_gen.rs |
+### Critical Bugs Found (Balloon.java)
 
-**P3 (Lower Priority) - 1 task:**
-| ID | Feature | Implementation |
-|----|---------|----------------|
-| P3-PARAM-ANNOT | Parameter annotations (`@NonNull arg`) | method_gen.rs `parameter_annotations` handling |
+1. **Type descriptor in field names** - `Lcom/skydoves/balloon/d;` appearing in names
+2. **Enum constants as integers** - `1056964608` instead of `ALIGN_BALLOON`
+3. **Kotlin d2 field names not applied** - `onBalloonClickListener` instead of `context`
+4. **Assertion strings wrong** - `"resources"` instead of `"binding.balloonCard"`
+5. **Switch case ordering reversed** - Control flow structure differs
 
-### Key Files Modified
-- `crates/dexterity-codegen/src/body_gen.rs` - Super call qualification, name collision detection, field replacement
-- `crates/dexterity-codegen/src/fallback_gen.rs` - Complete rewrite with SimpleModeHelper (~500 lines)
+### Tasks Previously Claimed Complete (Need Verification)
 
-### Current Quality Grades (Updated)
+**P1 (High Priority) - 6 tasks (STATUS UNCERTAIN):**
+| ID | Feature | Claimed | Reality |
+|----|---------|---------|---------|
+| P1-LAMBDA-REF | Method reference | DONE | Needs verification |
+| P1-LAMBDA-SIMPLE | Simple lambda | DONE | Needs verification |
+| P1-LAMBDA-INLINE | Inlined lambda | DONE | Needs verification |
+| P1-ANON-INLINE | Anonymous class inlining | DONE | Needs verification |
+| P1-INVOKE-RAW | InvokeCustom raw | DONE | Needs verification |
+| P1-FIELD-REPLACE | `this$0` replacement | DONE | **BROKEN** - wrong names seen |
 
-| Category | Grade | Notes |
-|----------|-------|-------|
-| **Codegen** | **A** | ~93% parity - source-level audit Dec 23 |
-| **Type Inference** | **A-** | ~90% JADX parity |
-| **IR/Control Flow** | **A** | All major patterns working |
-| **Variable Naming** | **A** | Name collision detection complete |
-| **Kotlin Support** | **A** | 100% parity |
-| **Overall** | **A** | Production ready for all APKs |
+### Honest Quality Grades (Updated)
+
+| Category | Previous | Actual | Notes |
+|----------|----------|--------|-------|
+| **Codegen** | A (93%) | **C+ (75%)** | Field/type bugs |
+| **Type Inference** | A- (90%) | **C (70%)** | Enum const issues |
+| **IR/Control Flow** | A | **B- (80%)** | Ordering differs |
+| **Variable Naming** | A | **C (70%)** | Kotlin names wrong |
+| **Kotlin Support** | A (100%) | **D (60%)** | d2 metadata unused |
+| **Overall** | A | **C+ (75%)** | Visible output differences |
 
 ---
 

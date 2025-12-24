@@ -1,21 +1,36 @@
 # Kotlin Metadata Parity: Dexterity vs JADX
 
-**Last Updated:** December 20, 2025
+**Last Updated:** December 23, 2025 - HONEST REASSESSMENT
 
 ## Executive Summary
 
-| Metric | Value |
-|--------|-------|
-| **Overall Parity** | **100%** |
-| **Proto Parsing** | 100% (complete metadata schema with JVM extensions) |
-| **IR Extraction** | 100% (all modifiers applied to IR) |
-| **Production Impact** | Full - all class/method/field names restored, all modifiers applied |
+| Metric | Previous Claim | Actual (Balloon.java) |
+|--------|----------------|----------------------|
+| **Overall Parity** | 100% | **~60%** |
+| **Proto Parsing** | 100% | ~90% (parsing works) |
+| **IR Extraction** | 100% | **~50%** (d2 names NOT applied) |
+| **Production Impact** | Full | **BROKEN** - field names wrong |
 
-Dexterity has **complete Kotlin metadata parsing** with the **BitEncoding decoder ported from Java to Rust**. The implementation supports:
-- **Two encoding modes:** UTF-8 mode (marker = '\0') and 8-to-7 bit mode (legacy)
-- **StringTableTypes parsing** for proper d2 string resolution via jvm_metadata.proto
-- **68 predefined Kotlin strings** lookup for common types (kotlin/Any, kotlin/collections/*, kotlin/Function0-22, etc.)
-- **All class/function modifiers:** data, sealed, value, suspend, inline, infix, operator, tailrec, etc.
+### Reality Check: Balloon.java Comparison (Dec 23, 2025)
+
+The previous 100% claim was **FALSE**. Real-world output shows:
+
+```java
+// JADX (CORRECT - uses d2 metadata):
+/* renamed from: C, reason: from kotlin metadata */
+private final Context context;
+
+// Dexterity (WRONG - d2 NOT used):
+/* renamed from: C */
+private final Context onBalloonClickListener;  // WRONG NAME!
+```
+
+**The d2 array is parsed but NOT APPLIED to field/method renames.**
+
+Dexterity has Kotlin metadata **parsing** but the **application to IR names is broken**:
+- **Parsing:** BitEncoding decoder works, d2 strings extracted
+- **Application:** Field names from d2 NOT used during rename phase
+- **Result:** Obfuscated names like `onBalloonClickListener` instead of `context`
 
 ---
 
@@ -25,12 +40,14 @@ Dexterity has **complete Kotlin metadata parsing** with the **BitEncoding decode
 
 | Feature | JADX | Dexterity | Status | Notes |
 |---------|:----:|:---------:|:------:|-------|
-| Class aliasing (d2 array) | YES | YES | **DONE** | `precompute_kotlin_aliases()` in deobf.rs |
+| Class aliasing (d2 array) | YES | PARTIAL | **BROKEN** | Parsed but NOT applied - Balloon.java shows wrong names |
 | Method parameter names | YES | YES | **DONE** | `extract_names_to_ir()` in extractor.rs |
-| Field name extraction | YES | YES | **DONE** | Multi-strategy matching (exact, backing field, obfuscated) |
+| Field name extraction | YES | NO | **BROKEN** | Balloon.java: `onBalloonClickListener` instead of `context` |
 | toString() parsing | YES | YES | **DONE** | `tostring_parser.rs` bytecode analysis |
-| Getter method recognition | YES | YES | **DONE** | `apply_getter_recognition()` matches getXxx()/isXxx() |
-| Kotlin intrinsics vars | YES | YES | **DONE** | `process_kotlin_intrinsics_with_context()` extracts names |
+| Getter method recognition | YES | PARTIAL | **UNVERIFIED** | `apply_getter_recognition()` - needs real-world test |
+| Kotlin intrinsics vars | YES | PARTIAL | **BROKEN** | Wrong assertion strings in Balloon.java |
+
+**Critical Bug:** Field names from d2 metadata are parsed but NOT applied during rename.
 
 ### Class Modifier Features
 

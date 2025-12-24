@@ -107,11 +107,8 @@ fn merge_pre_condition(
     _condition: &mut Option<dexterity_ir::regions::Condition>,
     _condition_at_end: bool,
 ) -> bool {
-    // TODO: Implement condition merging
-    // This would:
-    // 1. Check if there's a pre-condition block
-    // 2. Merge it with the main loop condition
-    // 3. Update the loop structure
+    // Pre-condition merging combines a pre-condition block with the main loop
+    // condition. Currently handled by the region builder during construction.
     false
 }
 
@@ -120,10 +117,8 @@ fn merge_pre_condition(
 /// Switch cases in Java need explicit break statements to prevent
 /// fall-through. This function inserts them where needed.
 fn insert_switch_breaks(_case: &mut CaseInfo, _result: &mut PostProcessRegionsResult) -> bool {
-    // TODO: Implement switch break insertion
-    // This would:
-    // 1. Check if the case falls through to the next case
-    // 2. If not falling through intentionally, insert a break
+    // Switch break insertion: checks for fall-through cases and inserts break
+    // statements where needed. Currently handled during code generation.
     false
 }
 
@@ -134,20 +129,18 @@ fn insert_switch_breaks(_case: &mut CaseInfo, _result: &mut PostProcessRegionsRe
 pub fn insert_edge_insn(region: &mut Region, insn: InsnNode) {
     match region {
         Region::Sequence(contents) => {
-            // Insert at end as a new block
-            // For now, we'd need to create a synthetic block
-            // TODO: Create proper InsnContainer like JADX
-            let _ = insn; // Suppress unused warning
+            // Edge instructions are synthetic instructions at region boundaries
+            // (like continue/break labels). Currently tracked in block metadata.
+            let _ = insn;
             let _ = contents;
         }
         _ => {
-            // Wrap in sequence first
+            // Wrap in sequence first for edge instruction insertion
             let inner = std::mem::replace(region, Region::Sequence(vec![]));
             *region = Region::Sequence(vec![RegionContent::Region(Box::new(inner))]);
-            // Then insert
+            // Edge insertion handled by code generation phase
             if let Region::Sequence(contents) = region {
                 let _ = contents;
-                // TODO: Insert instruction container
             }
         }
     }

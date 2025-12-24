@@ -177,6 +177,119 @@ impl KotlinProcessingOptions {
     }
 }
 
+// ============================================================================
+// JADX-Style Identifier Validation
+// ============================================================================
+// Cloned from JADX: jadx-core/src/main/java/jadx/core/deobf/NameMapper.java
+
+/// Java reserved keywords that cannot be used as identifiers
+/// JADX Reference: NameMapper.java
+const JAVA_KEYWORDS: &[&str] = &[
+    "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
+    "class", "const", "continue", "default", "do", "double", "else", "enum",
+    "extends", "final", "finally", "float", "for", "goto", "if", "implements",
+    "import", "instanceof", "int", "interface", "long", "native", "new", "package",
+    "private", "protected", "public", "return", "short", "static", "strictfp",
+    "super", "switch", "synchronized", "this", "throw", "throws", "transient",
+    "try", "void", "volatile", "while", "true", "false", "null",
+];
+
+/// Check if a name is a valid Java identifier
+/// JADX Reference: NameMapper.isValidIdentifier
+///
+/// Validates:
+/// - Name is not empty
+/// - First char is valid identifier start (letter, '_', '$')
+/// - All subsequent chars are valid identifier parts (letter, digit, '_', '$')
+/// - Name is not a Java reserved keyword
+pub fn is_valid_identifier(name: &str) -> bool {
+    if name.is_empty() {
+        return false;
+    }
+
+    let mut chars = name.chars();
+
+    // First char must be valid Java identifier start
+    // JADX Reference: Character.isJavaIdentifierStart
+    let first = chars.next().unwrap();
+    if !first.is_alphabetic() && first != '_' && first != '$' {
+        return false;
+    }
+
+    // Remaining chars must be valid Java identifier parts
+    // JADX Reference: Character.isJavaIdentifierPart
+    for c in chars {
+        if !c.is_alphanumeric() && c != '_' && c != '$' {
+            return false;
+        }
+    }
+
+    // Check not a Java keyword
+    !is_java_keyword(name)
+}
+
+/// Check if a name is a Java reserved keyword
+/// JADX Reference: NameMapper.isReserved
+fn is_java_keyword(name: &str) -> bool {
+    JAVA_KEYWORDS.contains(&name)
+}
+
+/// Check if a full qualified name is valid (e.g., "com.example.MyClass")
+/// JADX Reference: NameMapper.isValidFullIdentifier
+pub fn is_valid_full_identifier(name: &str) -> bool {
+    if name.is_empty() {
+        return false;
+    }
+
+    // Split by '.' and validate each part
+    for part in name.split('.') {
+        if !is_valid_identifier(part) {
+            return false;
+        }
+    }
+
+    true
+}
+
+/// Clean object name from Kotlin/JVM descriptor format
+/// JADX Reference: Utils.cleanObjectName
+///
+/// Handles:
+/// - "Lcom/example/Foo;" -> "com.example.Foo"
+/// - "com/example/Foo" -> "com.example.Foo"
+/// - "[Lcom/example/Foo;" -> "com.example.Foo[]"
+pub fn clean_object_name(name: &str) -> Option<String> {
+    let name = name.trim();
+    if name.is_empty() {
+        return None;
+    }
+
+    // Handle array types
+    let (name, is_array) = if name.starts_with('[') {
+        let inner = name.trim_start_matches('[');
+        (inner, true)
+    } else {
+        (name, false)
+    };
+
+    // Handle "Lcom/example/Foo;" format
+    let cleaned = if name.starts_with('L') && name.ends_with(';') {
+        &name[1..name.len() - 1]
+    } else {
+        name
+    };
+
+    // Convert / to .
+    let mut result = cleaned.replace('/', ".");
+
+    // Add array suffix if needed
+    if is_array {
+        result.push_str("[]");
+    }
+
+    Some(result)
+}
+
 use dexterity_ir::kotlin_metadata::get_class_alias;
 
 /// SourceDebugExtension annotation type
@@ -336,23 +449,8 @@ fn count_pkg_parts(pkg: &str) -> usize {
     pkg.matches('.').count() + 1
 }
 
-/// Check if a string is a valid Java identifier
-fn is_valid_identifier(name: &str) -> bool {
-    if name.is_empty() {
-        return false;
-    }
-
-    let mut chars = name.chars();
-    if let Some(first) = chars.next() {
-        // First character must be letter or underscore
-        if !first.is_alphabetic() && first != '_' {
-            return false;
-        }
-    }
-
-    // Remaining characters must be alphanumeric or underscore
-    chars.all(|c| c.is_alphanumeric() || c == '_')
-}
+// Note: is_valid_identifier() moved to line ~205 with JADX Reference comments
+// and extended to support '$' and Java keyword checking
 
 /// Process Kotlin metadata for a class, extracting and applying names
 ///

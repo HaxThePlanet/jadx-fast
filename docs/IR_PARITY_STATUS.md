@@ -8,14 +8,22 @@
 
 ## Executive Summary
 
-**Current Parity: 88% (B+ Grade)**
+**Current Parity: ~70% (C Grade) - HONEST ASSESSMENT**
 
-Dexterity-IR has **~8,900 lines** of well-structured IR implementation with strong JADX parity foundations. Recent work (Dec 23, 2025) completed critical P0/P1 tasks including PhiInsn block bindings, SwitchInsn transformations, and InvokeNode analysis.
+Based on real-world Balloon.java output comparison, the IR layer has significant gaps affecting output quality. Previous 88% claim was theoretical structural coverage, not functional parity.
+
+**Reality Check (Balloon.java Dec 23, 2025):**
+- Type descriptors appearing in field names (BUG)
+- Enum constants rendered as raw integers
+- Control flow structure differs from JADX
+- Kotlin metadata d2 field names not applied
 
 **Key Remaining Gaps:**
 - SSA variable renaming NOT exposed for code_rename.rs
 - AType typed attribute system NOT implemented
 - 26 TODO/FIXME markers still present
+- **Region ordering differs from JADX**
+- **Type formatting bugs**
 
 ### What's Working ✅
 - Core IR structures (InsnNode, BlockNode, MethodNode, SSAVar)
@@ -23,7 +31,6 @@ Dexterity-IR has **~8,900 lines** of well-structured IR implementation with stro
 - Dominator analysis (doms, postDoms, domFrontier)
 - Region system (Sequence, If, Loop, Switch, TryCatch, Synchronized)
 - 128-bit attribute flags (100+ flags)
-- Kotlin metadata support
 - Lambda/method reference IR
 - Visitor patterns (RegionVisitor, RegionIterativeVisitor)
 - Depth-first traversal utilities
@@ -31,9 +38,10 @@ Dexterity-IR has **~8,900 lines** of well-structured IR implementation with stro
 ### Critical Remaining Gaps 🔧
 1. **SSAVar-CodeVar integration** - High-level variable merging (P0)
 2. **InsnNode rebind_args()** - SSA fixing after mutations (P0)
-3. **InsnRemover utilities** - Safe instruction removal (P2)
-4. **BlockNode lock() mechanism** - Freeze after analysis (P1)
-5. **SSAVar immutable types** - Type immutability enforcement (P1)
+3. **Region case ordering** - Switch/if order differs from JADX (P0)
+4. **InsnRemover utilities** - Safe instruction removal (P2)
+5. **BlockNode lock() mechanism** - Freeze after analysis (P1)
+6. **SSAVar immutable types** - Type immutability enforcement (P1)
 
 ---
 

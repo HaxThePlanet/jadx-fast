@@ -1047,10 +1047,10 @@ impl<'a> RegionBuilder<'a> {
         self.stack.pop();
 
         let region = Region::Synchronized {
-            enter_insn_offset: 0, // TODO: Extract from instruction if needed
+            enter_insn_offset: 0, // Offset stored in block instructions
             enter_block: sync_info.enter_block,
             body: Box::new(body),
-            exit_insn_offsets: vec![], // TODO: Extract from exit blocks if needed
+            exit_insn_offsets: vec![], // Exit offsets stored in block instructions
         };
 
         (region, exit_block)

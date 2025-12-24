@@ -2733,15 +2733,27 @@ pub enum ArrayElemType {
 }
 
 /// Method invocation kind
+///
+/// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/InvokeType.java
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum InvokeKind {
+    /// invoke-virtual: virtual method dispatch
     Virtual,
+    /// invoke-super: super class method call
     Super,
+    /// invoke-direct: direct method call (constructors, private)
     Direct,
+    /// invoke-static: static method call
     Static,
+    /// invoke-interface: interface method call
     Interface,
+    /// invoke-polymorphic: polymorphic invoke (MethodHandle/VarHandle)
     Polymorphic,
+    /// invoke-custom: processed lambda/method reference
     Custom,
+    /// invoke-custom-raw: raw invoke-custom before processing
+    /// JADX Reference: InvokeType.java:11
+    CustomRaw,
 }
 
 /// Unary operation
@@ -4094,6 +4106,365 @@ impl InsnArg {
     /// the wrapped instruction.
     pub fn wrap_by_idx(insn_idx: u32, result_type: ArgType) -> Self {
         InsnArg::Wrapped(Box::new(WrappedInsn::new(insn_idx, result_type)))
+    }
+}
+
+// ============================================================================
+// JADX Expression Inlining (wrapInstruction) - P1 CRITICAL
+// Clone of: jadx-fast/jadx-core/src/main/java/jadx/core/dex/instructions/args/InsnArg.java:100-149
+// ============================================================================
+
+use crate::ssa::SSAContext;
+
+/// Wrap an instruction into an argument, replacing the register use in the parent instruction.
+///
+/// This is the core mechanism for expression inlining. When we have:
+/// ```text
+/// v0 = add v1, v2   ; instruction to wrap
+/// v3 = mul v0, v4   ; parent instruction using v0
+/// ```
+///
+/// We transform to:
+/// ```text
+/// v3 = mul (add v1, v2), v4   ; v0 is now a wrapped expression
+/// ```
+///
+/// JADX Reference: InsnArg.java:100-149
+/// ```java
+/// public InsnArg wrapInstruction(MethodNode mth, InsnNode insn, boolean unbind) {
+///     InsnNode parent = parentInsn;
+///     if (parent == null) return null;
+///     if (parent == insn) return null;  // Can't wrap into itself
+///
+///     int i = getArgIndex(parent, this);
+///     if (i == -1) return null;
+///
+///     // Handle variable name preservation for MOVE insns
+///     if (insn.getType() == InsnType.MOVE && this.isRegister()) {
+///         String name = ((RegisterArg) this).getName();
+///         if (name != null) {
+///             // ... preserve name logic
+///         }
+///     }
+///
+///     InsnArg arg = wrapInsnIntoArg(insn);
+///     parent.setArg(i, arg);  // Replace this arg with wrapped version
+///
+///     if (unbind) {
+///         InsnRemover.unbindArgUsage(mth, this);
+///         InsnRemover.unbindResult(mth, insn);
+///         insn.setResult(null);
+///     }
+///     return arg;
+/// }
+/// ```
+///
+/// Parameters:
+/// - `instructions`: Mutable slice of all method instructions
+/// - `ssa_ctx`: SSA context for parent tracking and SSA updates
+/// - `use_insn_idx`: Index of instruction where register is used (the use site)
+/// - `arg_pos`: Position of the register argument within use_insn
+/// - `def_insn_idx`: Index of instruction that defines the register (to be wrapped)
+/// - `unbind`: If true, update SSA information (remove uses, clear result)
+///
+/// Returns:
+/// - `Some(())` on success
+/// - `None` if wrapping failed (no parent, self-reference, etc.)
+pub fn wrap_instruction(
+    instructions: &mut [InsnNode],
+    ssa_ctx: &mut SSAContext,
+    use_insn_idx: u32,
+    arg_pos: u8,
+    def_insn_idx: u32,
+    unbind: bool,
+) -> Option<()> {
+    // Get parent instruction for the use site
+    let parent_insn_idx = ssa_ctx.get_arg_parent(use_insn_idx, arg_pos)?;
+
+    // Can't wrap instruction into itself
+    if parent_insn_idx == def_insn_idx {
+        return None;
+    }
+
+    // Get the definition instruction to wrap
+    let def_insn = instructions.get(def_insn_idx as usize)?.clone();
+
+    // Get the parent instruction
+    let parent_insn = instructions.get_mut(parent_insn_idx as usize)?;
+
+    // Handle variable name preservation for MOVE insns (JADX parity)
+    // JADX Reference: InsnArg.java:108-124
+    if let InsnType::Move { src, dest } = &def_insn.insn_type {
+        if let InsnArg::Register(reg) = src {
+            // Check if the source register has a name we should preserve
+            let name = ssa_ctx.get_var_name(reg.reg_num, reg.ssa_version);
+            if let Some(name) = name {
+                // Preserve the name by setting it on the result register
+                let dest_reg = dest;
+                ssa_ctx.set_var_name_if_unknown(
+                    dest_reg.reg_num,
+                    dest_reg.ssa_version,
+                    name.to_string(),
+                );
+            }
+        }
+    }
+
+    // Create the wrapped argument
+    let result_type = def_insn.result_type.clone().unwrap_or(ArgType::Unknown);
+    let wrapped_arg = InsnArg::Wrapped(Box::new(WrappedInsn {
+        insn_idx: def_insn_idx,
+        result_type,
+        inline_insn: Some(Box::new(def_insn.clone())),
+    }));
+
+    // Replace the argument in the parent instruction
+    if !parent_insn.insn_type.set_arg(arg_pos as usize, wrapped_arg) {
+        return None;
+    }
+
+    // Handle unbind (SSA cleanup)
+    if unbind {
+        // Get the use site's original register arg
+        if let Some(InsnArg::Register(use_reg)) = def_insn.insn_type.get_args().get(arg_pos as usize) {
+            // Remove use from SSA var
+            if let Some(var) = ssa_ctx.get_var_mut(crate::ssa::SSAVarRef::new(use_reg.reg_num, use_reg.ssa_version)) {
+                var.remove_use(use_insn_idx);
+            }
+        }
+
+        // Clear the result of the wrapped instruction (mark as DONT_GENERATE)
+        if let Some(wrapped_insn) = instructions.get_mut(def_insn_idx as usize) {
+            wrapped_insn.flags |= AFlag::DontGenerate as u128;
+            wrapped_insn.flags |= AFlag::Wrapped as u128;
+        }
+    }
+
+    // Update parent tracking for the new wrapped arg
+    ssa_ctx.remove_arg_parent(use_insn_idx, arg_pos);
+
+    Some(())
+}
+
+/// Check if an instruction can be wrapped (inlined) into another instruction.
+///
+/// JADX has various checks for when wrapping is safe. This function
+/// implements the common checks.
+///
+/// JADX Reference: Various uses in jadx.core.dex.visitors.ModVisitor
+///
+/// Returns true if the instruction can be safely wrapped.
+pub fn can_wrap_instruction(
+    instructions: &[InsnNode],
+    def_insn_idx: u32,
+    use_insn_idx: u32,
+) -> bool {
+    // Get the definition instruction
+    let def_insn = match instructions.get(def_insn_idx as usize) {
+        Some(insn) => insn,
+        None => return false,
+    };
+
+    // Check if already marked as don't inline
+    if def_insn.has_flag(AFlag::DontInline) {
+        return false;
+    }
+
+    // Check if already wrapped
+    if def_insn.has_flag(AFlag::Wrapped) {
+        return false;
+    }
+
+    // Can't wrap instructions without results
+    if def_insn.get_result().is_none() {
+        return false;
+    }
+
+    // Instructions that can throw may not be safe to wrap past certain points
+    // This is a simplification - JADX has more nuanced checks
+    if def_insn.can_throw_exception() {
+        // Still allow wrapping if into the immediate next instruction
+        // (no control flow changes between def and use)
+        let diff = if use_insn_idx > def_insn_idx {
+            use_insn_idx - def_insn_idx
+        } else {
+            return false; // Use before def - shouldn't happen in valid SSA
+        };
+
+        // Only wrap if immediately adjacent
+        if diff > 1 {
+            return false;
+        }
+    }
+
+    true
+}
+
+// ============================================================================
+// JADX SSA Rebinding (rebindArgs) - P2 MEDIUM
+// Clone of: jadx-fast/jadx-core/src/main/java/jadx/core/dex/nodes/InsnNode.java:493-512
+// ============================================================================
+
+/// Rebuild SSA use-def chains after instruction modifications.
+///
+/// This is called after modifying an instruction to ensure SSA information
+/// remains consistent. It updates:
+/// 1. The SSAVar.assign for the result register (if any)
+/// 2. The SSAVar.use list for each argument register
+/// 3. The usedInPhi list for arguments used in PHI nodes
+///
+/// JADX Reference: InsnNode.java:493-512
+/// ```java
+/// public void rebindArgs() {
+///     RegisterArg resArg = getResult();
+///     if (resArg != null) {
+///         SSAVar ssaVar = resArg.getSVar();
+///         if (ssaVar == null) {
+///             throw new JadxRuntimeException("No SSA var for result arg");
+///         }
+///         ssaVar.setAssign(resArg);
+///     }
+///     for (InsnArg arg : getArguments()) {
+///         if (arg instanceof RegisterArg) {
+///             SSAVar ssaVar = ((RegisterArg) arg).getSVar();
+///             ssaVar.use((RegisterArg) arg);
+///             ssaVar.updateUsedInPhiList();
+///         } else if (arg instanceof InsnWrapArg) {
+///             ((InsnWrapArg) arg).getWrapInsn().rebindArgs();
+///         }
+///     }
+/// }
+/// ```
+///
+/// Parameters:
+/// - `insn`: The instruction to rebind
+/// - `insn_idx`: The instruction's index (for SSA tracking)
+/// - `ssa_ctx`: The SSA context to update
+pub fn rebind_args(insn: &InsnNode, insn_idx: u32, ssa_ctx: &mut SSAContext) {
+    // Handle result register
+    if let Some(result_reg) = insn.get_result() {
+        let var_ref = crate::ssa::SSAVarRef::new(result_reg.reg_num, result_reg.ssa_version);
+        if let Some(var) = ssa_ctx.get_var_mut(var_ref) {
+            var.assign_insn_idx = Some(insn_idx);
+        }
+    }
+
+    // Handle arguments
+    rebind_args_recursive(&insn.insn_type, insn_idx, ssa_ctx);
+}
+
+/// Recursively rebind arguments, handling wrapped instructions
+fn rebind_args_recursive(insn_type: &InsnType, insn_idx: u32, ssa_ctx: &mut SSAContext) {
+    for arg in insn_type.get_args() {
+        match arg {
+            InsnArg::Register(reg) => {
+                // Add this as a use site for the SSA variable
+                let var_ref = crate::ssa::SSAVarRef::new(reg.reg_num, reg.ssa_version);
+                if let Some(var) = ssa_ctx.get_var_mut(var_ref) {
+                    var.add_use(insn_idx);
+                }
+            }
+            InsnArg::Wrapped(wrapped) => {
+                // Recursively rebind wrapped instruction
+                if let Some(ref inner) = wrapped.inline_insn {
+                    rebind_args(inner, wrapped.insn_idx, ssa_ctx);
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
+/// Unbind an argument from SSA tracking (JADX: InsnRemover.unbindArgUsage)
+///
+/// Removes the use relationship between an argument and its SSA variable.
+/// Called when an argument is being replaced or removed.
+///
+/// JADX Reference: InsnRemover.java:133-163
+/// ```java
+/// public static void unbindArgUsage(@Nullable MethodNode mth, InsnArg arg) {
+///     if (arg instanceof RegisterArg) {
+///         RegisterArg reg = (RegisterArg) arg;
+///         SSAVar sVar = reg.getSVar();
+///         if (sVar != null) {
+///             sVar.removeUse(reg);
+///         }
+///     } else if (arg instanceof InsnWrapArg) {
+///         InsnNode wrapInsn = ((InsnWrapArg) arg).getWrapInsn();
+///         unbindInsn(mth, wrapInsn);
+///     }
+/// }
+/// ```
+pub fn unbind_arg_usage(arg: &InsnArg, insn_idx: u32, ssa_ctx: &mut SSAContext) {
+    match arg {
+        InsnArg::Register(reg) => {
+            let var_ref = crate::ssa::SSAVarRef::new(reg.reg_num, reg.ssa_version);
+            if let Some(var) = ssa_ctx.get_var_mut(var_ref) {
+                var.remove_use(insn_idx);
+            }
+        }
+        InsnArg::Wrapped(wrapped) => {
+            // Recursively unbind wrapped instruction's args
+            if let Some(ref inner) = wrapped.inline_insn {
+                unbind_insn_args(inner, wrapped.insn_idx, ssa_ctx);
+            }
+        }
+        _ => {}
+    }
+}
+
+/// Unbind all arguments of an instruction (JADX: unbindInsn helper)
+pub fn unbind_insn_args(insn: &InsnNode, insn_idx: u32, ssa_ctx: &mut SSAContext) {
+    for arg in insn.insn_type.get_args() {
+        unbind_arg_usage(arg, insn_idx, ssa_ctx);
+    }
+}
+
+/// Unbind the result of an instruction (JADX: InsnRemover.unbindResult)
+///
+/// Called when an instruction's result is no longer needed.
+///
+/// JADX Reference: InsnRemover.java:183-196
+/// ```java
+/// public static void unbindResult(@Nullable MethodNode mth, InsnNode insn) {
+///     RegisterArg r = insn.getResult();
+///     if (r == null) {
+///         return;
+///     }
+///     SSAVar ssaVar = r.getSVar();
+///     if (ssaVar == null) {
+///         return;
+///     }
+///     // ... cleanup logic
+/// }
+/// ```
+pub fn unbind_result(insn: &InsnNode, ssa_ctx: &mut SSAContext) {
+    if let Some(result_reg) = insn.get_result() {
+        let var_ref = crate::ssa::SSAVarRef::new(result_reg.reg_num, result_reg.ssa_version);
+        if let Some(var) = ssa_ctx.get_var_mut(var_ref) {
+            var.assign_insn_idx = None;
+        }
+    }
+}
+
+/// Update SSA used_in_phi lists for all variables used by an instruction
+///
+/// This should be called after modifying PHI arguments to keep the
+/// usedInPhi tracking accurate.
+///
+/// JADX Reference: SSAVar.java:158-166
+pub fn update_phi_uses(insn: &InsnNode, insn_idx: u32, is_phi: bool, ssa_ctx: &mut SSAContext) {
+    for arg in insn.insn_type.get_args() {
+        if let InsnArg::Register(reg) = arg {
+            let var_ref = crate::ssa::SSAVarRef::new(reg.reg_num, reg.ssa_version);
+            if let Some(var) = ssa_ctx.get_var_mut(var_ref) {
+                if is_phi {
+                    var.add_phi_use(insn_idx);
+                } else {
+                    var.remove_phi_use(insn_idx);
+                }
+            }
+        }
     }
 }
 

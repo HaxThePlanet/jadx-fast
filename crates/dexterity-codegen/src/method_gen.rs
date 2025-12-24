@@ -1148,9 +1148,8 @@ fn collect_throws_from_instructions(
                     }
                 }
 
-                // TODO: Also check if called method has Throws annotation in DEX
-                // This requires adding get_method_throws() to DexInfoProvider trait
-                // For now, we rely on the KNOWN_THROWING_METHODS list above
+                // NOTE: Additional throws from DEX method annotations not yet extracted
+                // Current implementation uses KNOWN_THROWING_METHODS for common cases
             }
         }
     }

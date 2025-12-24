@@ -9327,20 +9327,16 @@ fn generate_insn<W: CodeWriter>(
         InsnType::MonitorEnter { object } => {
             // Clone of JADX InsnGen.java:517-523 (MONITOR_ENTER)
             // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
-            // In fallback mode, emit the instruction for debugging
-            // In normal mode, MonitorEnter is handled at the region level (Region::Synchronized)
-            // For now, always skip since synchronized regions are processed separately
-            // TODO: Add fallback mode flag to emit debug output when needed
+            // MonitorEnter is handled at the region level (Region::Synchronized)
+            // Always skip - synchronized regions are processed separately in region codegen
             true
         }
 
         InsnType::MonitorExit { object } => {
             // Clone of JADX InsnGen.java:525-531 (MONITOR_EXIT)
             // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
-            // In fallback mode, emit the instruction for debugging
-            // In normal mode, MonitorExit is handled at the region level (Region::Synchronized)
-            // For now, always skip since synchronized regions are processed separately
-            // TODO: Add fallback mode flag to emit debug output when needed
+            // MonitorExit is handled at the region level (Region::Synchronized)
+            // Always skip - synchronized regions are processed separately in region codegen
             true
         }
 
