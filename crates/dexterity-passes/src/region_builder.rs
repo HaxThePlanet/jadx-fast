@@ -2620,6 +2620,8 @@ fn refine_loops_recursive(region: &mut Region, patterns: &LoopPatternResult) {
                                     iterator_call_offset: Some(iter_foreach.iterator_call_offset),
                                     has_next_offset: Some(iter_foreach.has_next_offset),
                                     next_offset: Some(iter_foreach.next_call_offset),
+                                    // GAP-06 FIX: Pass cast type for proper element type
+                                    cast_type_idx: iter_foreach.cast_type_idx,
                                 },
                             })));
                             break;

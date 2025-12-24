@@ -6449,7 +6449,7 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                             }
                             // Handle iterator for-each: for (Type elem : iterable)
                             // JADX Reference: LoopRegionVisitor.checkIterableForEach()
-                            else if let dexterity_ir::regions::IterableSource::Iterator { iterable_reg, iterator_reg, .. } = &foreach_info.iterable {
+                            else if let dexterity_ir::regions::IterableSource::Iterator { iterable_reg, iterator_reg, cast_type_idx, .. } = &foreach_info.iterable {
                                 if let Some(elem_reg) = &foreach_info.elem_var_reg {
                                     let elem_var_reg = dexterity_ir::instructions::RegisterArg::with_ssa(elem_reg.0, elem_reg.1);
                                     let elem_var_name = ctx.expr_gen.get_var_name(&elem_var_reg);
@@ -6458,10 +6458,15 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                                     let iter_reg = dexterity_ir::instructions::RegisterArg::with_ssa(iterable_reg.0, iterable_reg.1);
                                     let iterable_expr = ctx.expr_gen.get_var_name(&iter_reg);
 
-                                    // Get element type from the element variable
-                                    let elem_type = ctx.type_info.as_ref()
-                                        .and_then(|ti| ti.types.get(&(elem_reg.0, elem_reg.1)))
-                                        .map(|t| type_to_string_with_imports_and_package(t, ctx.imports.as_ref(), ctx.current_package.as_deref()))
+                                    // GAP-06 FIX: Get element type from CheckCast type_idx if available,
+                                    // otherwise fall back to type inference
+                                    let elem_type = cast_type_idx
+                                        .and_then(|idx| ctx.expr_gen.get_type_value(idx))
+                                        .or_else(|| {
+                                            ctx.type_info.as_ref()
+                                                .and_then(|ti| ti.types.get(&(elem_reg.0, elem_reg.1)))
+                                                .map(|t| type_to_string_with_imports_and_package(t, ctx.imports.as_ref(), ctx.current_package.as_deref()))
+                                        })
                                         .unwrap_or_else(|| "Object".to_string());
 
                                     // Generate for-each: for (Type elem : iterable)

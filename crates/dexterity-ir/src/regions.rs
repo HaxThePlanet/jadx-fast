@@ -1177,6 +1177,8 @@ pub enum IterableSource {
         has_next_offset: Option<u32>,
         /// Offset of next() call
         next_offset: Option<u32>,
+        /// Type index from CheckCast (for proper element type like "String" instead of "Object")
+        cast_type_idx: Option<u32>,
     },
     /// Unknown iteration source
     Unknown,

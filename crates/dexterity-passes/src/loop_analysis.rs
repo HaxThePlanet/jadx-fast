@@ -609,8 +609,11 @@ pub struct IteratorForEachPattern {
     pub iterable_reg: (u16, u32),
     /// The iterator variable (from .iterator() call)
     pub iterator_reg: (u16, u32),
-    /// The element variable (from .next() call)
+    /// The element variable (from .next() call, or from CheckCast if present)
     pub elem_var: (u16, u32),
+    /// Type index from CheckCast (if element is cast to specific type)
+    /// Used to get proper element type like "String" instead of "Object"
+    pub cast_type_idx: Option<u32>,
     /// Offset of the iterator() call
     pub iterator_call_offset: u32,
     /// Offset of the hasNext() call (in condition)
@@ -690,8 +693,14 @@ pub fn detect_iterator_foreach(
     // Find the next() call in the loop body
     let next_call = find_next_call(ssa, loop_info, iterator_reg)?;
 
-    // Get the element variable
-    let elem_var = get_invoke_result(&next_call)?;
+    // Get the element variable from next() result
+    let next_result = get_invoke_result(&next_call)?;
+
+    // GAP-06 FIX: Look for CheckCast after next() to get proper element type
+    // Pattern: Object tmp = iter.next(); String elem = (String) tmp;
+    // We want to use 'elem' as the element variable with its proper type
+    let (elem_var, cast_type_idx) = find_checkcast_after_next(ssa, loop_info, next_result)
+        .unwrap_or((next_result, None));
 
     // Verify element is used only in loop
     if !used_only_in_loop(loop_info, elem_var, use_locations) {
@@ -703,10 +712,41 @@ pub fn detect_iterator_foreach(
         iterable_reg,
         iterator_reg,
         elem_var,
+        cast_type_idx,
         iterator_call_offset: iterator_assign.offset,
         has_next_offset: has_next_insn.offset,
         next_call_offset: next_call.offset,
     })
+}
+
+/// Find CheckCast instruction that uses the next() result
+/// Returns (casted_var, type_idx) if found, or None
+///
+/// Note: In Dalvik, CheckCast modifies the object in-place, so the "result"
+/// is the same register with potentially a new SSA version
+fn find_checkcast_after_next(
+    ssa: &SsaResult,
+    loop_info: &LoopInfo,
+    next_result: (u16, u32),
+) -> Option<((u16, u32), Option<u32>)> {
+    for block_id in &loop_info.blocks {
+        if let Some(block) = ssa.blocks.iter().find(|b| b.id == *block_id) {
+            for insn in &block.instructions {
+                if let InsnType::CheckCast { object, type_idx } = &insn.insn_type {
+                    // Check if this CheckCast uses the next() result
+                    if let InsnArg::Register(reg) = object {
+                        if (reg.reg_num, reg.ssa_version) == next_result {
+                            // Found it! CheckCast modifies in-place, so the element
+                            // variable is the same register. Return the type_idx for
+                            // proper type resolution.
+                            return Some((next_result, Some(*type_idx)));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    None
 }
 
 /// Method name resolver type for checking method calls
