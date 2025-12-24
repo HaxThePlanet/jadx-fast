@@ -624,9 +624,10 @@ impl BodyGenContext {
 
         match kind {
             InvokeKind::Static => {
-                // For static methods, use class.method() format
-                expr.push_str(&info.class_name);
-                expr.push('.');
+                // CG-004 FIX: JADX InsnGen.java:889-896 - omit class prefix for same-class static calls
+                // e.g., within Assert class: isAssignable() instead of Assert.isAssignable()
+                let prefix = self.expr_gen.get_static_method_prefix_in_class(method_idx, self.current_class_type.as_deref());
+                expr.push_str(&prefix);
             }
             InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
                 // For instance methods, use receiver.method() format
@@ -3064,8 +3065,9 @@ fn generate_array_source_expr(arr_reg_arg: &dexterity_ir::instructions::Register
 
         match kind {
             InvokeKind::Static => {
-                expr.push_str(&info.class_name);
-                expr.push('.');
+                // CG-004 FIX: JADX InsnGen.java:889-896 - omit class prefix for same-class static calls
+                let prefix = ctx.expr_gen.get_static_method_prefix_in_class(method_idx, ctx.current_class_type.as_deref());
+                expr.push_str(&prefix);
             }
             InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
                 if let Some(receiver) = args.first() {
