@@ -44,9 +44,9 @@ if output_path.ends_with("/android/R.java")
 
 ### P0-SYNTHETIC: Synthetic Classes Not Output
 
-**Status:** OPEN | **Priority:** P0 (CRITICAL)
-**Location:** `crates/dexterity-codegen/src/class_gen.rs`
-**JADX Reference:** `ClassGen.java:157` - Synthetic class handling
+**Status:** 🔄 IN PROGRESS (Dec 24) | **Priority:** P0 (CRITICAL)
+**Location:** `crates/dexterity-codegen/src/class_gen.rs:105-112` and `main.rs:1368`
+**JADX Reference:** Uses DEX `InnerClasses` attribute, not naive `$` detection
 
 **Bug:** Synthetic classes like `ComposableSingletons$MainActivityKt.java` (27KB) are not output as separate files.
 
@@ -54,7 +54,15 @@ if output_path.ends_with("/android/R.java")
 - `ComposableSingletons$MainActivityKt.java` (synthetic companion)
 - Various `$` inner classes that should be separate files
 
-**Root Cause:** Synthetic classes may be incorrectly filtered or not traversed during class enumeration.
+**Root Cause (IDENTIFIED Dec 24):** `is_inner_class()` uses naive `$` detection:
+```rust
+// CURRENT (BROKEN) - class_gen.rs:111
+stripped.contains('$')
+```
+This incorrectly treats `ComposableSingletons$MainActivityKt` as an inner class of `MainActivityKt`.
+But it's actually a TOP-LEVEL Kotlin synthetic class - the `$` is part of its name, not an inner class marker.
+
+**Fix:** Use DEX `InnerClasses` attribute to determine true inner class relationships, not just `$` presence.
 
 ---
 
@@ -73,7 +81,7 @@ if output_path.ends_with("/android/R.java")
 
 ### P1: Lambda/Anonymous Class Inlining (Major JADX Parity Gap)
 
-**Status:** NOT IMPLEMENTED | **Priority:** P1 (HIGH)
+**Status:** 🔄 IN PROGRESS | **Priority:** P1 (HIGH)
 **Impact:** Significant readability difference - JADX inlines lambdas, Dexterity outputs separate classes
 
 **Missing JADX Methods (InsnGen.java):**
@@ -102,6 +110,8 @@ list.forEach(new Lambda$1());
 
 ### P1: Kotlin Field Alias References in Code (Dec 24, 2025 Investigation)
 
+**Status:** 🔄 IN PROGRESS | **Priority:** P1 (HIGH)
+
 **Investigation Results:**
 
 | Component | Status | Notes |
@@ -110,7 +120,7 @@ list.forEach(new Lambda$1());
 | Index-based fallback matching | **✅ WORKING** | `extractor.rs:field_matches()` correctly matches obfuscated fields by index when signatures are empty |
 | Field alias assignment | **✅ WORKING** | `FieldData.alias` is correctly set from Kotlin property names |
 | Field declaration codegen | **✅ WORKING** | Field declarations show aliased name with rename comments (e.g., `private final p2 breedEntityDao;`) |
-| **Field reference codegen** | **❌ BROKEN** | `body_gen.rs` generates IGET/IPUT/SGET/SPUT using original field names instead of aliases |
+| **Field reference codegen** | **🔄 IN PROGRESS** | `body_gen.rs` generates IGET/IPUT/SGET/SPUT using original field names instead of aliases |
 
 **Current State:** Field DECLARATIONS are correctly aliased, but field USAGES still use obfuscated names.
 

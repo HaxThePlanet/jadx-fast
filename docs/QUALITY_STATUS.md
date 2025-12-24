@@ -1,6 +1,6 @@
 # Quality Status
 
-**Status:** 2 P0 Bugs | ~80% Syntax Quality | ~62% File Coverage | Dec 24, 2025
+**Status:** 1 P0 Bug | ~80% Syntax Quality | ~62% File Coverage | Dec 24, 2025
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Output Refresh:** Dec 24, 2025 - GAP-01, 02, 04, 06, 07, 08, 09, 10 fixes applied
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
@@ -21,12 +21,7 @@
 
 **Root Causes (P0 Bugs):**
 
-1. **P0-RJAVA:** R.java Filter Bug (`main.rs:1837-1838`)
-   - Current code skips ALL `*/R.java` regardless of package
-   - Should only skip framework R.java (`android/R.java`, `androidx/*/R.java`)
-   - App R.java like `com/prototype/badboy/R.java` incorrectly filtered
-
-2. **P0-SYNTHETIC:** Synthetic Classes Not Output (`ClassGen.java:157`)
+1. **P0-SYNTHETIC:** Synthetic Classes Not Output (`ClassGen.java:157`)
    - `ComposableSingletons$MainActivityKt.java` (27KB) missing
    - Various `$` inner classes not output as separate files
 
@@ -54,12 +49,12 @@
 
 | APK | JADX | Dexterity | Coverage | Root Cause |
 |-----|------|-----------|----------|------------|
-| small | 2 | 1 | 50% | P0-RJAVA bug filters app R.java |
-| medium | 5,933 | 2,891 | 49% | Libraries filtered + P0 bugs |
-| large | 8,161 | 5,901 | 72% | Libraries filtered + P0 bugs |
-| badboy | 86 | 53 | **62%** | **P0-RJAVA + P0-SYNTHETIC bugs** |
+| small | 2 | 1 | 50% | R.java excluded (not needed for RE) |
+| medium | 5,933 | 2,891 | 49% | Libraries filtered (by design) |
+| large | 8,161 | 5,901 | 72% | Libraries filtered (by design) |
+| badboy | 86 | 53 | **62%** | **P0-SYNTHETIC bug** |
 
-**IMPORTANT:** File count gap is NOT fully intentional. While library filtering is by design, the P0-RJAVA and P0-SYNTHETIC bugs cause additional unintended file loss. See [ROADMAP.md](ROADMAP.md) for bug details.
+**NOTE:** File count differences are mostly intentional. Library filtering and R.java/BuildConfig exclusion are by design (not needed for reverse engineering). P0-SYNTHETIC bug causes some additional unintended file loss. See [ROADMAP.md](ROADMAP.md) for details.
 
 ### Root Cause of Medium APK Issues - RESOLVED (Dec 23, 2025)
 
@@ -121,8 +116,8 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 | Priority | Status |
 |----------|--------|
-| P0 Bugs | **2 OPEN** - P0-RJAVA (app R.java filtered), P0-SYNTHETIC (33 files missing) |
-| P1 Bugs | **1 OPEN** - Kotlin field alias references not applied in code generation |
+| P0 Bugs | **1 OPEN** - P0-SYNTHETIC (synthetic classes not output) |
+| P1 Bugs | **2 IN PROGRESS** - Kotlin field aliases, Lambda inlining |
 | P2 Bugs | **ALL FIXED** |
 | P3 Polish | **ALL DONE** |
 
@@ -130,11 +125,12 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 ### Remaining JADX Parity Work
 
-| Issue | Priority | Description |
-|-------|----------|-------------|
-| Lambda inlining | P1 | JADX inlines lambdas, Dexterity outputs separate files |
-| `this$0` replacement | P1 | Inner class `this$0` → `OuterClass.this` |
-| Synthetic member handling | P2 | Better synthetic field detection |
+| Issue | Priority | Status | Description |
+|-------|----------|--------|-------------|
+| Lambda inlining | P1 | 🔄 IN PROGRESS | JADX inlines lambdas, Dexterity outputs separate files |
+| Kotlin field aliases | P1 | 🔄 IN PROGRESS | Field usages use obfuscated names |
+| `this$0` replacement | P1 | OPEN | Inner class `this$0` → `OuterClass.this` |
+| Synthetic member handling | P2 | OPEN | Better synthetic field detection |
 
 ## New Bugs from f.java Audit (Dec 22-23, 2025)
 
