@@ -5,6 +5,7 @@
 pub mod add_android_constants;  // NEW: JADX AddAndroidConstants clone (P2)
 pub mod algorithms;
 pub mod anonymous_class_visitor;
+pub mod apply_variable_names;  // NEW: JADX ApplyVariableNames clone (P1) - Variable name guessing
 pub mod attach_method_details;
 pub mod block_exception_handler; // NEW: JADX BlockExceptionHandler clone (P0 Critical - 640 lines)
 pub mod block_split;
@@ -59,7 +60,8 @@ pub mod simplify;
 pub mod simplify_stringbuilder;  // NEW: JADX SimplifyVisitor.convertStringBuilderChain clone (GAP-1)
 pub mod ssa;
 pub mod switch_break_visitor;  // NEW: JADX SwitchBreakVisitor clone
-pub mod switch_over_string;    // NEW: JADX SwitchOverStringVisitor clone
+// switch_over_string.rs DELETED 2025-12-24: Pass was non-functional (placeholder only).
+// Working implementation is in body_gen.rs:detect_switch_over_string() (~500 lines)
 pub mod synchronized_region;   // NEW: JADX SynchronizedRegionMaker clone
 pub mod ternary_mod;
 pub mod type_bound;
@@ -241,9 +243,7 @@ pub use loop_analysis::{
     analyze_loop_patterns_with_iterables, detect_iterator_foreach, EnhancedLoopPatternResult,
     IteratorForEachPattern,
 };
-pub use switch_over_string::{
-    process_switch_over_string, SwitchOverStringResult,
-};
+// switch_over_string exports removed - pass deleted (non-functional)
 pub use replace_new_array::{
     build_filled_array, process_replace_new_array, FilledArrayData, ReplaceNewArrayResult,
 };

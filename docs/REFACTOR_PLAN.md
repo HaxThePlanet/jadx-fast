@@ -99,6 +99,97 @@ crates/dexterity-passes/src/
 
 ---
 
+## INVESTIGATION FINDINGS (2025-12-24)
+
+### Critical Discovery: Passes vs Render-Time Detection
+
+Upon deep investigation, the original plan assumed simple function extraction. **The reality is more complex:**
+
+#### 1. switch_over_string.rs - EXISTS BUT BROKEN
+
+**Status:** Pass file exists (496 lines) but is NON-FUNCTIONAL.
+
+```rust
+// In switch_over_string.rs line 312:
+fn get_str_hash_code_arg(...) -> Option<(u16, u32)> {
+    None // Placeholder - needs full SSA chain traversal
+}
+```
+
+**body_gen.rs has WORKING code (~500 lines, 3405-3900)** that handles:
+- `detect_switch_over_string()` - finds hashCode/equals pattern
+- `detect_two_switch_in_sequence()` - handles merged switches
+- Helper functions for traversing regions and extracting strings
+
+**Problem:** The body_gen.rs code depends on `BodyGenContext`:
+- `ctx.blocks` - access to instruction blocks
+- `ctx.expr_gen.get_var_name()` - variable name resolution
+- `ctx.expr_gen.get_method_value()` - method info lookup
+
+#### 2. simplify_stringbuilder.rs - EXISTS AND WORKS
+
+**Status:** Pass is FUNCTIONAL and IS CALLED in the pipeline.
+
+```rust
+// body_gen.rs line 2324:
+let _ = simplify_stringbuilder_chains(&mut ssa_result, &method_resolver);
+```
+
+**BUT** body_gen.rs ALSO has ~100 lines of fallback tracking (lines 131-163, 8482-8533) for:
+- Statement-based chain tracking: `sb.append(x); sb.append(y);`
+- Expression chain parsing for edge cases the pass missed
+
+**This is INTENTIONAL REDUNDANCY** - pass handles simple cases, codegen handles edge cases.
+
+#### 3. detect_increment_decrement() - RENDER-TIME ONLY
+
+**Status:** Only exists in body_gen.rs (~130 lines).
+
+**Problem:** Fundamentally tied to render-time context:
+```rust
+fn detect_increment_decrement(dest, insn, ctx) -> Option<String> {
+    // Needs ctx.is_name_declared() - can only know at render time
+    // Needs ctx.expr_gen.get_var_name() - needs full pipeline
+    // Needs ctx.is_parameter() - method-specific context
+}
+```
+
+This is NOT an IR transformation - it's a presentation decision: "Should I render `dest = var + 1` as `var++`?"
+
+#### 4. detect_iterator_pattern() / detect_array_foreach_pattern()
+
+**Status:** Only in body_gen.rs, tightly coupled to codegen.
+
+Same problem - these check render-time conditions that can't be determined until codegen.
+
+### Revised Understanding
+
+The **proper JADX-style architecture** would:
+1. Run passes that SET FLAGS/ATTRIBUTES on instructions
+2. Have codegen just CHECK those flags and render accordingly
+
+But that requires:
+1. New IR attributes (e.g., `AFlag::CompoundAssignment`, `AFlag::SwitchOverString`)
+2. Passes that detect patterns and set these attributes
+3. Codegen that checks attributes instead of re-detecting
+
+**This is a significant architecture change, not a simple function move.**
+
+### Revised Phase 1 Strategy
+
+Given time constraints, focus on **achievable wins**:
+
+| Task | Status | Action |
+|------|--------|--------|
+| switch_over_string.rs | BROKEN | **Delete** (body_gen.rs works) |
+| simplify_stringbuilder.rs | WORKS | Test if pass covers all cases → remove fallback |
+| increment detection | Render-time | Keep in body_gen.rs (architectural) |
+| for-each detection | Render-time | Keep in body_gen.rs (architectural) |
+
+**Alternative focus:** Dead code removal, helper consolidation, comment reduction.
+
+---
+
 ## 3. Phase 1: Extract Pass Logic from body_gen.rs
 
 ### 3.1 Switch-Over-String Detection → switch_over_string.rs
