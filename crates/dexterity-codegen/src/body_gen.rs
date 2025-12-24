@@ -42,7 +42,7 @@ use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_dup
 use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 use dexterity_passes::var_naming::types_compatible_for_naming;
-use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen, process_instructions};
+use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen, process_instructions, simplify_stringbuilder_chains, StringBuilderMethodInfo};
 
 use crate::class_gen::{get_inner_class_simple_name, is_anonymous_class};
 use crate::dex_info::DexInfoProvider;
@@ -2236,6 +2236,21 @@ fn generate_body_impl<W: CodeWriter>(
         .map(|(k, v)| (*k, v.clone()))
         .collect();
     let _ = simplify_instructions(&mut ssa_result, Some(&type_map));
+
+    // StringBuilder chain → STR_CONCAT conversion
+    // Clone of JADX SimplifyVisitor.convertStringBuilderChain()
+    // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java:301-428
+    if let Some(ref dex) = dex_info {
+        let dex_clone = dex.clone();
+        let method_resolver = move |method_idx: u32| {
+            dex_clone.get_method(method_idx).map(|m| StringBuilderMethodInfo {
+                class_name: m.class_name.to_string(),
+                method_name: m.method_name.to_string(),
+            })
+        };
+        let _ = simplify_stringbuilder_chains(&mut ssa_result, &method_resolver);
+    }
+
     let _ = shrink_code(&mut ssa_result);
     let _ = prepare_for_codegen(&mut ssa_result, Some(&type_map));
 
@@ -2565,6 +2580,20 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
         .map(|(k, v)| (*k, v.clone()))
         .collect();
     let _ = simplify_instructions(&mut ssa_result, Some(&type_map));
+
+    // Stage 3.5: StringBuilder chain → STR_CONCAT conversion
+    // Clone of JADX SimplifyVisitor.convertStringBuilderChain()
+    // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java:301-428
+    if let Some(ref dex) = dex_info {
+        let dex_clone = dex.clone();
+        let method_resolver = move |method_idx: u32| {
+            dex_clone.get_method(method_idx).map(|m| StringBuilderMethodInfo {
+                class_name: m.class_name.to_string(),
+                method_name: m.method_name.to_string(),
+            })
+        };
+        let _ = simplify_stringbuilder_chains(&mut ssa_result, &method_resolver);
+    }
 
     // Stage 4: Code shrinking - mark single-use variables for inlining
     let _ = shrink_code(&mut ssa_result);
@@ -7091,10 +7120,27 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
             InsnType::InstanceGet { dest, object, field_idx } => {
                 // Always store - no should_inline check (field access is side-effect-free)
                 let obj_str = ctx.gen_arg_inline_peek(object);
-                let field_name = ctx.expr_gen.get_field_value(*field_idx)
-                    .map(|f| f.field_name.to_string())
-                    .unwrap_or_else(|| format!("field#{}", field_idx));
-                let expr = format!("{}.{}", obj_str, field_name);
+
+                // CG-011 FIX: JADX parity - replace this$N with OuterClass.this
+                // Clone of JADX InsnGen.instanceField() with FieldReplaceAttr handling
+                // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:186-213
+                let expr = if let Some(info) = ctx.expr_gen.get_field_value(*field_idx) {
+                    if obj_str == "this" && is_outer_this_field(&info.field_name) {
+                        // Field is synthetic outer class reference (this$0, this$1, etc.)
+                        // Replace "this.this$0" with "OuterClass.this"
+                        if let Some(outer_class) = get_outer_class_from_field_type(&info.field_type) {
+                            format!("{}.this", outer_class)
+                        } else {
+                            format!("this.{}", info.field_name)
+                        }
+                    } else if obj_str == "this" {
+                        format!("this.{}", info.field_name)
+                    } else {
+                        format!("{}.{}", obj_str, info.field_name)
+                    }
+                } else {
+                    format!("{}.field#{}", obj_str, field_idx)
+                };
                 ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
             }
             // CG-002 FIX: Always store StaticGet expressions unconditionally.
@@ -8311,6 +8357,18 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                             code.add("this(");
                         } else {
                             // Different class → super() call
+                            // Clone of JADX InsnGen.java:745-750 - super() elision
+                            // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
+                            // JADX doesn't emit super() when calling java.lang.Object's default constructor
+                            let is_object_default_ctor =
+                                (info.class_type.as_ref() == "java/lang/Object" ||
+                                 info.class_type.as_ref() == "Ljava/lang/Object;") &&
+                                args.len() <= skip_count; // No args after receiver
+
+                            if is_object_default_ctor {
+                                // Elide super() call to Object's default constructor
+                                return;
+                            }
                             code.add("super(");
                         }
                     } else {
@@ -8341,6 +8399,18 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 // Clone of JADX InsnGen.java:1080-1095 callSuper()
                 // Reference: jadx-core/src/main/java/jadx/core/codegen/InsnGen.java
                 if &*info.method_name == "<init>" {
+                    // Clone of JADX InsnGen.java:745-750 - super() elision (CG-016)
+                    // JADX doesn't emit super() when calling java.lang.Object's default constructor
+                    let is_object_default_ctor =
+                        (info.class_type.as_ref() == "java/lang/Object" ||
+                         info.class_type.as_ref() == "Ljava/lang/Object;") &&
+                        args.len() <= skip_count; // No args after receiver
+
+                    if is_object_default_ctor {
+                        // Elide super() call to Object's default constructor
+                        return;
+                    }
+
                     // Constructor super() call - check if we need qualified form
                     if needs_qualified_super(&info.class_type, ctx) {
                         // OuterClass.super() - rare but valid for invoking outer class's super constructor
@@ -9251,10 +9321,27 @@ fn generate_insn<W: CodeWriter>(
             let version = dest.ssa_version;
             // Always store inline expression - field access is always inlineable
             let obj_str = ctx.gen_arg_inline(object);
-            let field_name = ctx.expr_gen.get_field_value(*field_idx)
-                .map(|f| f.field_name.to_string())
-                .unwrap_or_else(|| format!("field#{}", field_idx));
-            let field_expr = format!("{}.{}", obj_str, field_name);
+
+            // CG-011 FIX: JADX parity - replace this$N with OuterClass.this
+            // Clone of JADX InsnGen.instanceField() with FieldReplaceAttr handling
+            // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:186-213
+            let field_expr = if let Some(info) = ctx.expr_gen.get_field_value(*field_idx) {
+                if obj_str == "this" && is_outer_this_field(&info.field_name) {
+                    // Field is synthetic outer class reference (this$0, this$1, etc.)
+                    // Replace "this.this$0" with "OuterClass.this"
+                    if let Some(outer_class) = get_outer_class_from_field_type(&info.field_type) {
+                        format!("{}.this", outer_class)
+                    } else {
+                        format!("this.{}", info.field_name)
+                    }
+                } else if obj_str == "this" {
+                    format!("this.{}", info.field_name)
+                } else {
+                    format!("{}.{}", obj_str, info.field_name)
+                }
+            } else {
+                format!("{}.field#{}", obj_str, field_idx)
+            };
             ctx.store_inline_expr(reg, version, field_expr);
             true // Don't emit anything, will be inlined at use site
         }

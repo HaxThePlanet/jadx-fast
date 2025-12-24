@@ -132,14 +132,31 @@ use crate::type_gen::{get_innermost_name, get_package, get_simple_name, type_to_
 use crate::writer::CodeWriter;
 
 /// Add a rename comment if the method was renamed during deobfuscation
+/// JADX Clone: jadx-core/src/main/java/jadx/core/dex/attributes/RenameReasonAttr.java:31-50
 fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str, comments_level: CommentsLevel) {
+    add_renamed_comment_with_reasons(code, original_name, &[], comments_level)
+}
+
+/// Add a rename comment with reasons (JADX parity)
+/// JADX Clone: RenameReasonAttr.buildReason() joins reasons with " and "
+fn add_renamed_comment_with_reasons<W: CodeWriter>(
+    code: &mut W,
+    original_name: &str,
+    reasons: &[String],
+    comments_level: CommentsLevel,
+) {
     if !comments_level.show_info() {
         return;
     }
     code.start_line()
         .add("/* renamed from: ")
-        .add(original_name)
-        .add(" */")
+        .add(original_name);
+    if !reasons.is_empty() {
+        // JADX Clone: "reason: " + String.join(" and ", reasons)
+        code.add(", reason: ");
+        code.add(&reasons.join(" and "));
+    }
+    code.add(" */")
         .newline();
 }
 
@@ -621,9 +638,10 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     }
 
     // Add rename comment if method was renamed during deobfuscation (skip constructors)
+    // JADX Clone: Include rename reasons from Kotlin metadata, etc.
     if let Some(ref alias) = method.alias {
         if alias != &method.name && !method.is_constructor() {
-            add_renamed_comment(code, &method.name, CommentsLevel::Info);
+            add_renamed_comment_with_reasons(code, &method.name, &method.rename_reasons, CommentsLevel::Info);
         }
     }
 
@@ -671,6 +689,13 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         let mods = access_flags::access_flags_to_string(effective_flags, AccessContext::Method);
         if !mods.is_empty() {
             code.add(&mods);
+        }
+
+        // Clone of JADX MethodGen.java - synthetic method comment (CG-019)
+        // Reference: jadx-core/src/main/java/jadx/core/codegen/MethodGen.java
+        // JADX adds /* synthetic */ inline for methods with ACC_SYNTHETIC flag
+        if access_flags::is_synthetic(method.access_flags) {
+            code.add("/* synthetic */ ");
         }
 
         // JADX parity: Add 'default' for interface methods with code (non-static, non-abstract)
@@ -797,9 +822,10 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     }
 
     // Add rename comment if method was renamed during deobfuscation (skip constructors)
+    // JADX Clone: Include rename reasons from Kotlin metadata, etc.
     if let Some(ref alias) = method.alias {
         if alias != &method.name && !method.is_constructor() {
-            add_renamed_comment(code, &method.name, comments_level);
+            add_renamed_comment_with_reasons(code, &method.name, &method.rename_reasons, comments_level);
         }
     }
 
@@ -847,6 +873,13 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
         let mods = access_flags::access_flags_to_string(effective_flags, AccessContext::Method);
         if !mods.is_empty() {
             code.add(&mods);
+        }
+
+        // Clone of JADX MethodGen.java - synthetic method comment (CG-019)
+        // Reference: jadx-core/src/main/java/jadx/core/codegen/MethodGen.java
+        // JADX adds /* synthetic */ inline for methods with ACC_SYNTHETIC flag
+        if access_flags::is_synthetic(method.access_flags) {
+            code.add("/* synthetic */ ");
         }
 
         // JADX parity: Add 'default' for interface methods with code (non-static, non-abstract)

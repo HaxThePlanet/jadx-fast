@@ -1068,14 +1068,31 @@ pub fn get_inner_class_simple_name(class_type: &str) -> String {
 use crate::type_gen::{type_to_string_with_imports, type_to_string_with_imports_and_package};
 
 /// Add a rename comment if the entity was renamed during deobfuscation
+/// JADX Clone: jadx-core/src/main/java/jadx/core/dex/attributes/RenameReasonAttr.java:31-50
 fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str, comments_level: CommentsLevel) {
+    add_renamed_comment_with_reasons(code, original_name, &[], comments_level)
+}
+
+/// Add a rename comment with reasons (JADX parity)
+/// JADX Clone: RenameReasonAttr.buildReason() joins reasons with " and "
+fn add_renamed_comment_with_reasons<W: CodeWriter>(
+    code: &mut W,
+    original_name: &str,
+    reasons: &[String],
+    comments_level: CommentsLevel,
+) {
     if !comments_level.show_info() {
         return;
     }
     code.start_line()
         .add("/* renamed from: ")
-        .add(original_name)
-        .add(" */")
+        .add(original_name);
+    if !reasons.is_empty() {
+        // JADX Clone: "reason: " + String.join(" and ", reasons)
+        code.add(", reason: ");
+        code.add(&reasons.join(" and "));
+    }
+    code.add(" */")
         .newline();
 }
 
@@ -1120,9 +1137,10 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
     }
 
     // Add rename comment if class was renamed during deobfuscation (INFO level)
+    // JADX Clone: Include rename reasons from Kotlin metadata, SMAP, etc.
     if let Some(ref alias) = class.alias {
         if alias != &class.simple_name() {
-            add_renamed_comment(code, &class.simple_name(), comments_level);
+            add_renamed_comment_with_reasons(code, &class.simple_name(), &class.rename_reasons, comments_level);
         }
     }
 
@@ -1462,7 +1480,8 @@ fn add_field<W: CodeWriter>(
         }
     } else if let Some(ref alias) = field.alias {
         if alias != &field.name {
-            add_renamed_comment(code, &field.name, comments_level);
+            // JADX Clone: Include rename reasons from Kotlin metadata, toString parsing, etc.
+            add_renamed_comment_with_reasons(code, &field.name, &field.rename_reasons, comments_level);
         }
     }
 
@@ -1472,6 +1491,13 @@ fn add_field<W: CodeWriter>(
     let mods = access_flags::access_flags_to_string(field.access_flags, AccessContext::Field);
     if !mods.is_empty() {
         code.add(&mods);
+    }
+
+    // Clone of JADX ClassGen.java - synthetic field comment (CG-019)
+    // Reference: jadx-core/src/main/java/jadx/core/codegen/ClassGen.java
+    // JADX adds /* synthetic */ inline for fields with ACC_SYNTHETIC flag
+    if access_flags::is_synthetic(field.access_flags) {
+        code.add("/* synthetic */ ");
     }
 
     // Type (use simple name if imported or same package)
@@ -1540,16 +1566,26 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &dexterity_ir:
             code.add(".");
             code.add(field_name)
         }
-        FieldValue::NewInstance(class_name) => {
-            // Format: new ClassName() - for Kotlin object INSTANCE fields
+        FieldValue::NewInstance(class_name, args) => {
+            // Format: new ClassName(args...) - for static field initialization
+            // Clone of JADX FieldInitInsnAttr rendering
+            // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:387-396
             // P0-TYPO01 fix: Strip L prefix and ; suffix BEFORE splitting on '/'
-            // Otherwise "LinkedHashMap;" becomes "inkedHashMap" (L is class name, not descriptor prefix)
             let stripped = class_name.strip_prefix('L').unwrap_or(class_name);
             let stripped = stripped.strip_suffix(';').unwrap_or(stripped);
             let simple_name = stripped.rsplit('/').next().unwrap_or(stripped);
             code.add("new ");
             code.add(simple_name);
-            code.add("()")
+            code.add("(");
+            for (i, arg) in args.iter().enumerate() {
+                if i > 0 {
+                    code.add(", ");
+                }
+                // Recursively render each constructor argument
+                // Pass Unknown type - the arg type is determined by the FieldValue variant
+                add_field_value(arg, &dexterity_ir::ArgType::Unknown, escape_unicode, code);
+            }
+            code.add(")")
         }
     };
 }
@@ -1838,6 +1874,7 @@ mod tests {
             annotations: Vec::new(),
             dex_field_idx: None,
             use_in: Vec::new(),
+            dont_generate: false,
         });
         let config = ClassGenConfig::default();
         let code = generate_class(&class, &config);
@@ -1858,6 +1895,7 @@ mod tests {
             annotations: Vec::new(),
             dex_field_idx: None,
             use_in: Vec::new(),
+            dont_generate: false,
         });
         let config = ClassGenConfig::default();
         let code = generate_class(&class, &config);
@@ -1959,6 +1997,7 @@ mod tests {
             annotations: Vec::new(),
             dex_field_idx: None,
             use_in: Vec::new(),
+            dont_generate: false,
         });
 
         let mut collector = ImportCollector::new(&class.class_type);
@@ -2075,6 +2114,7 @@ mod tests {
             annotations: Vec::new(),
             dex_field_idx: None,
             use_in: Vec::new(),
+            dont_generate: false,
         });
 
         let config = ClassGenConfig::default();
