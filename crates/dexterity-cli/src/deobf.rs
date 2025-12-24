@@ -737,6 +737,34 @@ pub fn apply_aliases_from_registry(class: &mut ClassData, registry: &AliasRegist
     }
 }
 
+/// Register Kotlin-derived aliases from IR into the registry.
+/// This is the reverse of apply_aliases_from_registry - it copies aliases that were
+/// set by Kotlin metadata processing (on FieldData.alias) into the AliasRegistry
+/// so they can be looked up during code generation via AliasAwareDexInfo.get_field().
+pub fn register_kotlin_aliases(class: &ClassData, registry: &AliasRegistry) {
+    let class_desc = normalize_class_descriptor(&class.class_type);
+
+    // Register field aliases from Kotlin metadata
+    for field in class.static_fields.iter().chain(class.instance_fields.iter()) {
+        if let Some(ref alias) = field.alias {
+            // Only register if not already in registry (don't overwrite ProGuard mappings)
+            if registry.get_field_alias(&class_desc, &field.name).is_none() {
+                registry.set_field_alias(&class_desc, &field.name, alias);
+            }
+        }
+    }
+
+    // Register method aliases from Kotlin metadata
+    for method in &class.methods {
+        if let Some(ref alias) = method.alias {
+            let proto_desc = method_proto_to_descriptor(&method.arg_types, &method.return_type);
+            if registry.get_method_alias(&class_desc, &method.name, &proto_desc).is_none() {
+                registry.set_method_alias(&class_desc, &method.name, &proto_desc, alias);
+            }
+        }
+    }
+}
+
 /// Build the output relative path for a class, using deobfuscated package and class aliases.
 pub fn class_output_rel_path(class_desc: &str, registry: &AliasRegistry) -> PathBuf {
     class_output_rel_path_with_kotlin(class_desc, registry, None, None)

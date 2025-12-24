@@ -1332,10 +1332,13 @@ fn process_dex_bytes(
     }
 
     // ========================================================================
-    // OPTIMIZED CLASS COLLECTION - Single-pass for all data
-    // PERF: Previously we were calling class_type().to_string() 5x per class!
-    // Now we collect class_indices, class_descs, inner_class_map, and outer indices
-    // all in ONE loop, eliminating ~4N redundant string allocations.
+    // CLASS COLLECTION - Two-pass for proper inner class detection
+    // Pass 1: Collect all class names to build existence set
+    // Pass 2: Determine inner vs outer (inner class must have existing parent)
+    //
+    // P0-SYNTHETIC FIX: Classes like ComposableSingletons$MainActivityKt should be
+    // treated as outer classes because ComposableSingletons doesn't exist in DEX.
+    // This matches JADX's RootNode.initInnerClasses() behavior.
     // ========================================================================
 
     let mut class_indices: Vec<u32> = Vec::with_capacity(class_count);
@@ -1345,11 +1348,15 @@ fn process_dex_bytes(
     let mut outer_count = 0usize;
     let mut inner_count = 0usize;
 
+    // Pass 1: Collect all class names into a set for existence checking
+    let mut all_class_names: rustc_hash::FxHashSet<String> = rustc_hash::FxHashSet::default();
+    let mut filtered_classes: Vec<(u32, String)> = Vec::with_capacity(class_count);
+
     for (i, class_result) in dex.classes().enumerate() {
         match class_result {
             Ok(class) => {
                 if let Ok(class_type) = class.class_type() {
-                    let class_name = class_type.to_string();  // Only call to_string() ONCE per class
+                    let class_name = class_type.to_string();
 
                     // Apply filters
                     if let Some(ref single) = args.single_class {
@@ -1357,33 +1364,51 @@ fn process_dex_bytes(
                             continue;
                         }
                     } else if !args.include_framework && should_skip_class(&class_name) {
-                        // Skip framework classes by default (android.*, androidx.*, kotlin.*, etc.)
-                        // Use --include-framework to include them
                         continue;
                     }
 
-                    let idx = i as u32;
-
-                    // Track outer vs inner and build inner_class_map in same pass
-                    let is_inner = dexterity_codegen::is_inner_class(&class_name);
-                    if is_inner {
-                        inner_count += 1;
-                        if let Some(outer) = dexterity_codegen::get_outer_class(&class_name) {
-                            inner_class_map.entry(outer).or_default().push((idx, class_name.clone()));
-                        }
-                    } else {
-                        outer_count += 1;
-                        outer_class_indices.push(idx);
-                    }
-
-                    class_descs.insert(idx, class_name);
-                    class_indices.push(idx);
+                    all_class_names.insert(class_name.clone());
+                    filtered_classes.push((i as u32, class_name));
                 }
             }
             Err(e) => {
                 tracing::warn!("Failed to parse class {}: {}", i, e);
             }
         }
+    }
+
+    // Pass 2: Determine inner vs outer with parent existence validation
+    for (idx, class_name) in filtered_classes {
+        // Check if this could be an inner class (has $ in name)
+        let is_inner = dexterity_codegen::is_inner_class(&class_name);
+        let mut treat_as_outer = !is_inner;
+
+        if is_inner {
+            // JADX Parity: Only treat as inner class if the parent class actually exists
+            // If parent doesn't exist, this is a top-level class with $ in its name
+            // (e.g., Kotlin synthetic classes like ComposableSingletons$MainActivityKt)
+            if let Some(outer) = dexterity_codegen::get_outer_class(&class_name) {
+                if all_class_names.contains(&outer) {
+                    // Parent exists - this is a true inner class
+                    inner_count += 1;
+                    inner_class_map.entry(outer).or_default().push((idx, class_name.clone()));
+                } else {
+                    // Parent doesn't exist - treat as outer class (P0-SYNTHETIC fix)
+                    treat_as_outer = true;
+                    tracing::debug!("Class {} has no parent {} in DEX, treating as outer", class_name, outer);
+                }
+            } else {
+                treat_as_outer = true;
+            }
+        }
+
+        if treat_as_outer {
+            outer_count += 1;
+            outer_class_indices.push(idx);
+        }
+
+        class_descs.insert(idx, class_name);
+        class_indices.push(idx);
     }
 
     let count = class_indices.len();
@@ -1570,6 +1595,9 @@ fn process_dex_bytes(
                                 if let Err(e) = dexterity_kotlin::process_kotlin_metadata(&mut class_data, Some(&dex)) {
                                     tracing::debug!("Kotlin metadata processing failed for {}: {}", class_desc, e);
                                 }
+                                // Register Kotlin-derived field/method aliases into the registry
+                                // so AliasAwareDexInfo.get_field() can look them up during codegen
+                                deobf::register_kotlin_aliases(&class_data, &alias_registry);
                             }
 
                             // Apply aliases from deterministic prepass (if any)
@@ -1596,6 +1624,8 @@ fn process_dex_bytes(
                                         // Process Kotlin metadata
                                         if process_kotlin {
                                             let _ = dexterity_kotlin::process_kotlin_metadata(&mut inner_data, Some(&dex));
+                                            // Register Kotlin aliases into registry
+                                            deobf::register_kotlin_aliases(&inner_data, &alias_registry);
                                         }
                                         // Apply aliases
                                         deobf::apply_aliases_from_registry(&mut inner_data, &alias_registry);
