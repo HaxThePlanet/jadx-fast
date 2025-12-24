@@ -724,6 +724,55 @@ fn get_effective_insn_from_block<'a>(
         }
     }
 
+    // Check for 4-instruction constructor pattern with inlined const args:
+    // NewInstance + Const + Constructor + Move
+    // This happens when constructor takes literal args like: new BufferedReader(reader, 8192)
+    //   insn[0]: NewInstance { dest: r1, type_idx: BufferedReader }
+    //   insn[1]: Const { dest: r2, value: 8192 }
+    //   insn[2]: Constructor { dest: r1, args: [reader, r2] }
+    //   insn[3]: Move { dest: r3, src: r1 }
+    if non_nop.len() == 4 {
+        let debug_ternary = std::env::var("DEXTERITY_DEBUG_TERNARY").is_ok();
+        if debug_ternary {
+            eprintln!("[TERNARY DEBUG] Checking 4-insn constructor pattern:");
+            for (i, insn) in non_nop.iter().enumerate() {
+                eprintln!("[TERNARY DEBUG]   insn[{}]: {:?}", i, insn.insn_type.name());
+            }
+        }
+        // Pattern: NewInstance + Const + Constructor + Move
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Const { .. },
+            InsnType::Constructor { dest: ctor_dest, .. },
+            InsnType::Move { dest: _move_dest, src: InsnArg::Register(move_src) }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type, &non_nop[3].insn_type) {
+            // Verify chain: NewInstance creates obj, Constructor uses it, Move copies result
+            if new_dest.reg_num == ctor_dest.reg_num && ctor_dest.reg_num == move_src.reg_num {
+                if debug_ternary {
+                    eprintln!("[TERNARY DEBUG]   4-insn pattern verified! Returning 1 effective insn");
+                }
+                // Return the Move as it defines the effective destination
+                return (Some(non_nop[3]), 1);
+            }
+        }
+        // Also check NewInstance + Const + InvokeDirect + Move (pre-merge constructor)
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Const { .. },
+            InsnType::Invoke { kind: InvokeKind::Direct, args, .. },
+            InsnType::Move { dest: _move_dest, src: InsnArg::Register(move_src) }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type, &non_nop[3].insn_type) {
+            if let Some(InsnArg::Register(recv)) = args.first() {
+                if new_dest.reg_num == recv.reg_num && recv.reg_num == move_src.reg_num {
+                    if debug_ternary {
+                        eprintln!("[TERNARY DEBUG]   4-insn InvokeDirect pattern verified! Returning 1 effective insn");
+                    }
+                    return (Some(non_nop[3]), 1);
+                }
+            }
+        }
+    }
+
     // Check for constructor pattern:
     // NewInstance + InvokeDirect<init> + Move (when assigning to a different register for PHI merge)
     // This is the instanceof ternary pattern:
@@ -826,6 +875,34 @@ fn get_effective_assignment_dest(
                 if recv.reg_num == new_dest.reg_num {
                     // Constructor pattern - dest is the NewInstance dest
                     return Some((new_dest.reg_num, new_dest.ssa_version));
+                }
+            }
+        }
+    }
+
+    // Check for 4-instruction constructor pattern with const args:
+    // NewInstance + Const + Constructor + Move
+    if non_nop.len() == 4 {
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Const { .. },
+            InsnType::Constructor { dest: ctor_dest, .. },
+            InsnType::Move { dest: move_dest, src: InsnArg::Register(move_src) }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type, &non_nop[3].insn_type) {
+            if new_dest.reg_num == ctor_dest.reg_num && ctor_dest.reg_num == move_src.reg_num {
+                return Some((move_dest.reg_num, move_dest.ssa_version));
+            }
+        }
+        // Also NewInstance + Const + InvokeDirect + Move (pre-merge)
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Const { .. },
+            InsnType::Invoke { kind: InvokeKind::Direct, args, .. },
+            InsnType::Move { dest: move_dest, src: InsnArg::Register(move_src) }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type, &non_nop[3].insn_type) {
+            if let Some(InsnArg::Register(recv)) = args.first() {
+                if new_dest.reg_num == recv.reg_num && recv.reg_num == move_src.reg_num {
+                    return Some((move_dest.reg_num, move_dest.ssa_version));
                 }
             }
         }

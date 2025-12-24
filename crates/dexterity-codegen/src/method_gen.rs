@@ -975,7 +975,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     } else if method.is_class_init() {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
@@ -1001,7 +1001,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
             // Regular method with body
             code.add(" {").newline();
             code.inc_indent();
-            add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+            add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
             code.dec_indent();
             code.start_line().add("}").newline();
         }
@@ -1015,7 +1015,7 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
     hierarchy: Option<&dexterity_ir::ClassHierarchy>,
-    current_class_type: Option<&str>,
+    current_class: Option<&ClassData>,
     deobf_min_length: usize,
     deobf_max_length: usize,
     fallback: bool,
@@ -1024,7 +1024,7 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     add_debug_lines: bool,
     code: &mut W,
 ) {
-    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
 }
 
 /// Extract throws types from dalvik/annotation/Throws annotation

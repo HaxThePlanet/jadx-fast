@@ -189,13 +189,13 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 
 **P2 (Medium Priority) - 4 tasks:**
 - ~~**P2-BOOL-SIMP**~~ - ✅ FIXED (Dec 24, 2025) - Non-0/1 integer literals no longer displayed as true/false
-- **P2-NAME-COLLISION** - Class-level reserved names (static fields, inner classes, packages)
+- **P2-NAME-COLLISION** - 🔄 IN PROGRESS - Class-level reserved names (static fields, inner classes, packages)
 - **P2-SIMPLE-MODE** - Complete SimpleModeHelper rewrite in `fallback_gen.rs` (~500 lines)
 - ~~**P2-MULTI-CATCH**~~ - ✅ FIXED - Multi-catch separator (`Type1 | Type2`)
-- **P2-SUPER-QUAL** - 🔄 IN PROGRESS - Qualified super calls (`OuterClass.super.method()`)
+- ~~**P2-SUPER-QUAL**~~ - ✅ FIXED - Qualified super calls (`OuterClass.super.method()`)
 
 **P3 (Lower Priority) - 1 task:**
-- **P3-PARAM-ANNOT** - Parameter annotations (`@NonNull arg`)
+- ~~**P3-PARAM-ANNOT**~~ - ✅ FIXED - Parameter annotations (`@NonNull arg`)
 
 **Key Files Modified:**
 - `crates/dexterity-codegen/src/body_gen.rs` - Super call qualification, name collision detection

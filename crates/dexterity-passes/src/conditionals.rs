@@ -11,6 +11,59 @@ use tracing::{debug, trace};
 use crate::cfg::CFG;
 use crate::loops::LoopInfo;
 
+/// GAP-03 FIX: Check if a condition block has prelude instructions that define variables
+/// which cannot be safely inlined during condition merging.
+///
+/// Clone of JADX's IfRegionMaker.checkInsnsInline() logic.
+/// Reference: jadx-core/src/main/java/jadx/core/dex/visitors/regions/maker/IfRegionMaker.java:492-523
+///
+/// When merging conditions like `if (a) { String s = ...; if (b) { } }` into `if (a && b)`,
+/// the prelude instructions in the second block (String s = ...) would be lost because
+/// emit_condition_block_prelude only emits prelude for the FIRST block.
+///
+/// This function returns true if the block has prelude instructions that:
+/// 1. Define a register (have a result/destination)
+/// 2. Are not the IF instruction itself
+///
+/// If true, the conditions should NOT be merged - keep them as nested ifs.
+fn has_non_inlinable_prelude(cfg: &CFG, block_id: u32) -> bool {
+    let Some(block) = cfg.get_block(block_id) else {
+        return false;
+    };
+
+    // Find the IF instruction (should be last meaningful instruction)
+    let if_idx = block
+        .instructions
+        .iter()
+        .position(|insn| matches!(insn.insn_type, InsnType::If { .. }));
+
+    let Some(if_idx) = if_idx else {
+        // No IF instruction - not a condition block
+        return false;
+    };
+
+    // Check instructions BEFORE the IF
+    for insn in &block.instructions[..if_idx] {
+        // Skip control flow instructions (goto, nop)
+        match &insn.insn_type {
+            InsnType::Goto | InsnType::Nop => continue,
+            _ => {}
+        }
+
+        // Check if this instruction defines a register (has a destination)
+        // Such instructions are variable declarations that would be lost in merge
+        if insn.insn_type.get_dest().is_some() {
+            trace!(
+                "GAP-03: Block {} has prelude instruction defining register - refusing merge",
+                block_id
+            );
+            return true;
+        }
+    }
+
+    false
+}
+
 /// Information about a detected if-else region
 #[derive(Debug, Clone)]
 pub struct IfInfo {
@@ -437,7 +490,20 @@ impl MergedCondition {
     }
 
     /// Check if another condition can be merged with this one
-    pub fn can_merge(&self, other: &IfInfo, _cfg: &CFG) -> Option<MergeMode> {
+    ///
+    /// GAP-03 FIX: Clone JADX's checkInsnsInline() logic - don't merge if the
+    /// condition block has prelude instructions (before IF) that define variables.
+    /// These would be lost during merge since emit_condition_block_prelude only
+    /// emits prelude for the first block in a compound condition.
+    ///
+    /// JADX Reference: IfRegionMaker.java:492-523 checkInsnsInline()
+    pub fn can_merge(&self, other: &IfInfo, cfg: &CFG) -> Option<MergeMode> {
+        // GAP-03 FIX: Check if the other condition block has prelude instructions
+        // that define variables. If so, don't merge - those definitions would be lost.
+        if has_non_inlinable_prelude(cfg, other.condition_block) {
+            return None;
+        }
+
         // Check for AND pattern: this.then leads directly to other.condition
         if let Some(then_block) = self.then_block {
             if then_block == other.condition_block {

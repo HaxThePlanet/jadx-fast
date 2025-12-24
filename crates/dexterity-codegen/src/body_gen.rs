@@ -7801,6 +7801,52 @@ fn extract_block_value_expression(block_id: u32, ctx: &mut BodyGenContext) -> St
         }
     }
 
+    // Check for 4-instruction constructor pattern: NewInstance + Const + Constructor + Move
+    // This is used when constructor takes literal args: new BufferedReader(reader, 8192)
+    if non_nop.len() == 4 {
+        if let (
+            InsnType::NewInstance { type_idx, dest: new_dest },
+            InsnType::Const { .. },
+            InsnType::Constructor { dest: ctor_dest, args, .. },
+            InsnType::Move { src: InsnArg::Register(move_src), .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type, &non_nop[3].insn_type) {
+            if new_dest.reg_num == ctor_dest.reg_num && ctor_dest.reg_num == move_src.reg_num {
+                let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                    .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+
+                // Constructor args already don't include 'this' (it's in dest)
+                let ctor_args: Vec<String> = args.iter()
+                    .map(|a| ctx.gen_arg_inline(a))
+                    .collect();
+
+                return format!("new {}({})", type_name, ctor_args.join(", "));
+            }
+        }
+        // Also check NewInstance + Const + InvokeDirect + Move (pre-merge)
+        if let (
+            InsnType::NewInstance { type_idx, dest: new_dest },
+            InsnType::Const { .. },
+            InsnType::Invoke { kind: InvokeKind::Direct, args, .. },
+            InsnType::Move { src: InsnArg::Register(move_src), .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type, &non_nop[3].insn_type) {
+            if let Some(InsnArg::Register(recv)) = args.first() {
+                if new_dest.reg_num == recv.reg_num && recv.reg_num == move_src.reg_num {
+                    let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                        .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                        .unwrap_or_else(|| format!("Type#{}", type_idx));
+
+                    // Generate constructor args (skip first arg which is 'this')
+                    let ctor_args: Vec<String> = args.iter().skip(1)
+                        .map(|a| ctx.gen_arg_inline(a))
+                        .collect();
+
+                    return format!("new {}({})", type_name, ctor_args.join(", "));
+                }
+            }
+        }
+    }
+
     // Check for constructor pattern: NewInstance + InvokeDirect<init> + Move
     // This is used in instanceof ternary: cond ? (Type)obj : new Type(args)
     if non_nop.len() == 3 {
