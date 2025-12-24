@@ -56,6 +56,7 @@ pub mod return_visitor;
 pub mod shadow_field;
 pub mod signature_processor;   // NEW: JADX SignatureProcessor clone
 pub mod simplify;
+pub mod simplify_stringbuilder;  // NEW: JADX SimplifyVisitor.convertStringBuilderChain clone (GAP-1)
 pub mod ssa;
 pub mod switch_break_visitor;  // NEW: JADX SwitchBreakVisitor clone
 pub mod switch_over_string;    // NEW: JADX SwitchOverStringVisitor clone
@@ -101,6 +102,10 @@ pub use type_inference::{
 };
 pub use var_naming::{assign_var_names, assign_var_names_with_lookups, FieldNameInfo, MethodNameInfo, VarNaming, VarNamingResult};
 pub use simplify::{simplify_instructions, SimplifyResult};
+pub use simplify_stringbuilder::{
+    simplify_stringbuilder_chains, MethodInfo as StringBuilderMethodInfo,
+    MethodResolver as StringBuilderMethodResolver, SimplifyStringBuilderResult,
+};
 pub use const_inline::{inline_constants, ConstInlineResult};
 pub use code_shrink::{shrink_code, CodeShrinkResult, WrapTarget};
 pub use ternary_mod::{

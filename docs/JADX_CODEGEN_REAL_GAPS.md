@@ -14,6 +14,10 @@ The existing documentation claims ~93-95% codegen parity. However, **direct outp
 
 ---
 
+## GAP-1: StringBuilder Chain → String Concatenation (CRITICAL) ✅ IMPLEMENTED
+
+**Status:** Pass created at `simplify_stringbuilder.rs` - needs pipeline integration
+
 ## GAP-1: StringBuilder Chain → String Concatenation (CRITICAL)
 
 ### Evidence (Assert.java comparison)
