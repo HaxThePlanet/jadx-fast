@@ -42,34 +42,32 @@
 
 ## Open Work
 
-### P1: Lambda/Anonymous Class Inlining (Major JADX Parity Gap)
+### P1: Lambda/Anonymous Class Inlining - PARTIAL (Dec 24, 2025)
 
-**Status:** 🔄 IN PROGRESS | **Priority:** P1 (HIGH)
+**Status:** 🔄 PARTIAL | **Priority:** P1 (HIGH)
 **Impact:** Significant readability difference - JADX inlines lambdas, Dexterity outputs separate classes
 
-**Missing JADX Methods (InsnGen.java):**
+**Completed Dec 24:**
+- ✅ Added `MethodData.dont_generate` field (matches JADX's `AFlag.DONT_GENERATE`)
+- ✅ Added `mark_synthetic_lambda_methods()` to mark `lambda$` methods for non-generation
+- ✅ Added check in `class_gen.rs` to skip methods with `dont_generate = true`
+- ✅ Lambda codegen already exists in body_gen.rs: `generate_lambda_expression()`, `try_inline_single_expression_lambda()`, `try_inline_full_lambda_body()`
 
-| Method | JADX Lines | Est. Rust Lines | Description |
-|--------|-----------|-----------------|-------------|
-| `makeInvokeLambda()` | 952-963 | ~100 | Invoke-custom lambda generation |
-| `makeRefLambda()` | 965-983 | ~50 | Method reference (`String::new`, `obj::method`) |
-| `makeSimpleLambda()` | 985-1030 | ~80 | Simple lambda body (`() -> { expr }`) |
-| `makeInlinedLambdaMethod()` | 1032-1090 | ~100 | Full lambda inlining with name inheritance |
-| `inlineAnonymousConstructor()` | 806-848 | ~80 | Anonymous class constructor inlining |
+**JADX Reference:** `CustomLambdaCall.java:97-102` - marks synthetic lambdas with DONT_GENERATE
 
-**Example Difference:**
-```java
-// JADX (inlined):
-list.forEach(item -> System.out.println(item));
+| Method | JADX Lines | Status |
+|--------|-----------|--------|
+| `makeInvokeLambda()` | 952-963 | ✅ Implemented |
+| `makeRefLambda()` | 965-983 | ✅ Implemented (`generate_method_reference`) |
+| `makeSimpleLambda()` | 985-1030 | ✅ Implemented (`generate_lambda_expression`) |
+| `makeInlinedLambdaMethod()` | 1032-1090 | ✅ Implemented (`try_inline_full_lambda_body`) |
+| `inlineAnonymousConstructor()` | 806-848 | ❌ Open |
 
-// Dexterity (separate class):
-// Lambda$1.java file generated separately
-list.forEach(new Lambda$1());
-```
+**Remaining:** Anonymous class constructor inlining, verify with APKs using invoke-custom
 
 **JADX Reference Files:**
 - `jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:806-1090`
-- `jadx-core/src/main/java/jadx/core/dex/visitors/ProcessLambdas.java`
+- `jadx-core/src/main/java/jadx/core/dex/instructions/invokedynamic/CustomLambdaCall.java:97-102`
 
 ### ~~P1: Kotlin Field Alias References in Code~~ - FIXED (Dec 24, 2025)
 
@@ -83,7 +81,7 @@ list.forEach(new Lambda$1());
 
 | Task | Priority | Description | Status |
 |------|----------|-------------|--------|
-| Inner class this$0 → OuterClass.this | P1 | Issue 4 - Field access replacement | Open |
+| ~~Inner class this$0 → OuterClass.this~~ | P1 | Issue 4 - Field access replacement | ✅ FIXED Dec 24 |
 | Synthetic member handling | P2 | Issue 5 - Better synthetic field detection | Open |
 | DebugInfo visitors | P2 | Clone DebugInfoApplyVisitor, DebugInfoAttachVisitor | Open |
 | AttachCommentsVisitor | P3 | Preserve source comments | Open |
@@ -156,9 +154,9 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 |-----|-------------|--------|-------|
 | GAP-01 | SSA->CodeVar variable mapping (peek vs take) | **FIXED** Dec 24 | N/A |
 | GAP-02 | Iterator for-each loop pattern detection | **FIXED** Dec 24 | N/A |
-| **GAP-03** | Nested if declarations | **OPEN** | ~150 |
+| **GAP-03** | Nested if declarations | **🔄 IN PROGRESS** | ~150 |
 | GAP-04 | Static final primitive field defaults (= 0, = false, etc.) | **FIXED** Dec 24 | N/A |
-| **GAP-05** | Ternary conversion (if-then-else → a ? b : c) | **OPEN** | ~150 |
+| **GAP-05** | Ternary conversion (if-then-else → a ? b : c) | **🔄 IN PROGRESS** | ~150 |
 | GAP-06 | For-each type casts | **FIXED** Dec 24 | N/A |
 | GAP-07 | Boolean return | **VERIFIED** | N/A |
 | GAP-08 | Invoke arg arrays (pending varargs emit as literals) | **FIXED** Dec 24 | N/A |
@@ -181,20 +179,20 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 - Recursive inner class collision check
 - Comment escape (`*/`)
 
-**P1 (High Priority) - 6 tasks:**
+**P1 (High Priority) - 5 tasks:**
 - **P1-LAMBDA-REF** - Method reference generation (`String::new`, `obj::method`)
 - **P1-LAMBDA-SIMPLE** - Simple lambda generation (`() -> { return expr; }`)
 - **P1-LAMBDA-INLINE** - Inlined lambda with name inheritance
 - **P1-ANON-INLINE** - Anonymous class inlining with recursion detection
 - **P1-INVOKE-RAW** - InvokeCustom raw fallback using `.dynamicInvoker().invoke()`
-- **P1-FIELD-REPLACE** - `this$0` -> `OuterClass.this` replacement
+- ~~**P1-FIELD-REPLACE**~~ - ✅ FIXED (Dec 24) - `this$0` -> `OuterClass.this` replacement
 
-**P2 (Medium Priority) - 5 tasks:**
-- **P2-BOOL-SIMP** - Boolean simplification (`bool==true` -> `bool`)
+**P2 (Medium Priority) - 4 tasks:**
+- ~~**P2-BOOL-SIMP**~~ - ✅ FIXED (Dec 24, 2025) - Non-0/1 integer literals no longer displayed as true/false
 - **P2-NAME-COLLISION** - Class-level reserved names (static fields, inner classes, packages)
 - **P2-SIMPLE-MODE** - Complete SimpleModeHelper rewrite in `fallback_gen.rs` (~500 lines)
-- **P2-MULTI-CATCH** - Multi-catch separator (`Type1 | Type2`)
-- **P2-SUPER-QUAL** - Qualified super calls (`OuterClass.super.method()`)
+- ~~**P2-MULTI-CATCH**~~ - ✅ FIXED - Multi-catch separator (`Type1 | Type2`)
+- **P2-SUPER-QUAL** - 🔄 IN PROGRESS - Qualified super calls (`OuterClass.super.method()`)
 
 **P3 (Lower Priority) - 1 task:**
 - **P3-PARAM-ANNOT** - Parameter annotations (`@NonNull arg`)
@@ -202,6 +200,72 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 **Key Files Modified:**
 - `crates/dexterity-codegen/src/body_gen.rs` - Super call qualification, name collision detection
 - `crates/dexterity-codegen/src/fallback_gen.rs` - Complete rewrite with SimpleModeHelper
+
+---
+
+### P1-FIELD-REPLACE Fix - Complete (Dec 24, 2025)
+
+Fixed synthetic `this$0` field handling in inner class constructors.
+
+**Problem:** Inner class constructors showed synthetic field assignments like:
+```java
+1(MainActivity mainActivity) {
+    this.this$0 = mainActivity;  // Should not appear
+    super();
+}
+```
+
+**Root Cause:** JADX removes `this$0` assignments in `ClassModifier.removeFieldUsageFromConstructor()` during visitor phase. Dexterity was generating these synthetic field assignments at codegen time.
+
+**Solution:** Added check in `InstancePut` handler to skip synthetic outer class field assignments:
+1. Detect constructor context (`ctx.is_constructor`)
+2. Check if field name matches `this$N` pattern (`is_outer_this_field()`)
+3. Verify object is `this` (register 0)
+4. Skip emitting the assignment
+
+**JADX Reference:** `ClassModifier.java:112-149` - `removeFieldUsageFromConstructor()`
+
+**Files Changed:** `crates/dexterity-codegen/src/body_gen.rs:9917-9932`
+
+**Result:** No more `this.this$0 = ...` assignments in inner class constructors. `OuterClass.this` syntax for reads was already working.
+
+---
+
+### P2-BOOL-SIMP Fix - Complete (Dec 24, 2025)
+
+Fixed integer literals incorrectly displayed as `true`/`false` when type inference marked them as Boolean.
+
+**Problem:** Non-0/1 integer literals were displayed as `true` when type inference incorrectly inferred Boolean type:
+```java
+// Before (incorrect)
+if (i != true) {  // Should be i != 5
+while (fromXmlInner == true) {  // Should be == 4
+
+// After (correct)
+if (i != 5) {
+while (fromXmlInner == 4) {
+```
+
+**Root Cause:** `literal_to_string()` converted any non-zero value to `"true"` when type was Boolean. Values like 5 indicate type inference errors, not actual booleans.
+
+**Solution:** Only format values as `true`/`false` when the value is exactly 0 or 1:
+```rust
+// P2-BOOL-SIMP FIX: Only format as boolean if value is 0 or 1
+if value == 0 {
+    "false".to_string()
+} else if value == 1 {
+    "true".to_string()
+} else {
+    format!("{}", value)  // Non-boolean value
+}
+```
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs` - 4 locations (gen_arg_inline_typed, write_arg_inline_typed, collect_const_values, return handling)
+- `crates/dexterity-codegen/src/type_gen.rs` - literal_to_string_with_fallback()
+- `crates/dexterity-codegen/src/expr_gen.rs` - BoxingType::Boolean.format_literal() and write_literal()
+
+**Result:** Integer comparisons now show correct numeric values instead of `true`.
 
 ---
 

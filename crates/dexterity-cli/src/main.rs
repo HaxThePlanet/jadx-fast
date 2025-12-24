@@ -1667,6 +1667,10 @@ fn process_dex_bytes(
                     let _ = converter::load_method_instructions(method, &dex);
                 }
 
+                // P1-LAMBDA: Mark synthetic lambda methods for non-generation
+                // JADX Ref: CustomLambdaCall.java:97-102 - marks synthetic lambdas with DONT_GENERATE
+                converter::mark_synthetic_lambda_methods(&mut ir_class);
+
                 // Extract static field initializations from <clinit>
                 dexterity_passes::extract_field_init(&mut ir_class, Some(&dex));
                 // Extract instance field initializations from constructors

@@ -199,7 +199,15 @@ impl BoxingType {
         match self {
             BoxingType::Integer => format!("{}", value as i32),
             BoxingType::Boolean => {
-                if value == 0 { "false".to_string() } else { "true".to_string() }
+                // P2-BOOL-SIMP FIX: Only format as boolean if value is 0 or 1
+                if value == 0 {
+                    "false".to_string()
+                } else if value == 1 {
+                    "true".to_string()
+                } else {
+                    // Non-boolean value, format as integer
+                    format!("{}", value)
+                }
             }
             BoxingType::Byte => format!("(byte) {}", value as i8),
             BoxingType::Short => format!("(short) {}", value as i16),
@@ -246,7 +254,15 @@ impl BoxingType {
                 writer.add(&format!("{}", value as i32));
             }
             BoxingType::Boolean => {
-                writer.add(if value == 0 { "false" } else { "true" });
+                // P2-BOOL-SIMP FIX: Only format as boolean if value is 0 or 1
+                if value == 0 {
+                    writer.add("false");
+                } else if value == 1 {
+                    writer.add("true");
+                } else {
+                    // Non-boolean value, format as integer
+                    writer.add(&format!("{}", value));
+                }
             }
             BoxingType::Byte => {
                 writer.add(&format!("(byte) {}", value as i8));
@@ -1610,10 +1626,11 @@ mod tests {
         assert_eq!(BoxingType::Integer.format_literal(42), "42");
         assert_eq!(BoxingType::Integer.format_literal(-1), "-1");
 
-        // Boolean: true/false
+        // Boolean: true/false (only 0/1 are valid boolean values)
         assert_eq!(BoxingType::Boolean.format_literal(0), "false");
         assert_eq!(BoxingType::Boolean.format_literal(1), "true");
-        assert_eq!(BoxingType::Boolean.format_literal(5), "true"); // non-zero is true
+        // P2-BOOL-SIMP FIX: Non-0/1 values indicate type inference error, format as int
+        assert_eq!(BoxingType::Boolean.format_literal(5), "5");
 
         // Byte: with cast
         assert_eq!(BoxingType::Byte.format_literal(127), "(byte) 127");

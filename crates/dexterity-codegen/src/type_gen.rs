@@ -289,7 +289,17 @@ pub fn literal_to_string_with_fallback(value: i64, ty: &ArgType, fallback: bool)
 
     match ty {
         ArgType::Boolean => {
-            if value == 0 { "false" } else { "true" }.to_string()
+            // P2-BOOL-SIMP FIX: Only format as boolean if value is 0 or 1
+            // Values like 5 should NOT be displayed as "true" even if
+            // type inference incorrectly infers Boolean type
+            if value == 0 {
+                "false".to_string()
+            } else if value == 1 {
+                "true".to_string()
+            } else {
+                // Non-boolean value, format as integer
+                format!("{}", value)
+            }
         }
         ArgType::Char => {
             let c = char::from_u32(value as u32).unwrap_or('\u{FFFD}');

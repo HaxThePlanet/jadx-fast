@@ -1811,6 +1811,11 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
     // Collect methods that should be generated, filtering out skipped ones
     let mut methods_to_generate: Vec<&dexterity_ir::MethodData> = class.methods.iter()
         .filter(|method| {
+            // P1-LAMBDA: Skip methods marked for non-generation (e.g., synthetic lambda methods)
+            // JADX Ref: AFlag.DONT_GENERATE - used for inlined synthetic methods
+            if method.dont_generate {
+                return false;
+            }
             // Skip default constructors that just call super() - implicit in Java
             if is_default_constructor(method) {
                 return false;

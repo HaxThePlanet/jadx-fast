@@ -365,6 +365,10 @@ pub struct MethodData {
     pub throws_exceptions: Vec<String>,
     /// Whether throws analysis has been run on this method
     pub throws_visited: bool,
+    /// Don't generate this method in output code
+    /// JADX Reference: AFlag.DONT_GENERATE - used for inlined synthetic methods
+    /// P1-LAMBDA: Synthetic lambda methods are marked for inlining and not generated separately
+    pub dont_generate: bool,
 }
 
 impl MethodData {
@@ -408,6 +412,7 @@ impl MethodData {
             use_in: Vec::new(),
             throws_exceptions: Vec::new(),
             throws_visited: false,
+            dont_generate: false,
         }
     }
 
@@ -459,6 +464,7 @@ impl MethodData {
             use_in: Vec::new(),
             throws_exceptions: Vec::new(),
             throws_visited: false,
+            dont_generate: false,
         }
     }
 

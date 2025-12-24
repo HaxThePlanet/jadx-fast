@@ -591,7 +591,13 @@ impl BodyGenContext {
                             return crate::type_gen::escape_char_pub(c);
                         }
                         ArgType::Boolean => {
-                            return if value == 0 { "false" } else { "true" }.to_string();
+                            // P2-BOOL-SIMP FIX: Only format as boolean if value is 0 or 1
+                            if value == 0 {
+                                return "false".to_string();
+                            } else if value == 1 {
+                                return "true".to_string();
+                            }
+                            // Non-boolean value (2, 3, etc.) - fall through to integer format
                         }
                         // Convert 0 to null for Object/Array types (JADX parity)
                         ArgType::Object(_) | ArgType::Array(_) | ArgType::UnknownObject => {
@@ -817,8 +823,15 @@ impl BodyGenContext {
                             return;
                         }
                         ArgType::Boolean => {
-                            writer.add(if value == 0 { "false" } else { "true" });
-                            return;
+                            // P2-BOOL-SIMP FIX: Only format as boolean if value is 0 or 1
+                            if value == 0 {
+                                writer.add("false");
+                                return;
+                            } else if value == 1 {
+                                writer.add("true");
+                                return;
+                            }
+                            // Non-boolean value (2, 3, etc.) - fall through to normal format
                         }
                         // Convert 0 to null for Object/Array types (JADX parity)
                         ArgType::Object(_) | ArgType::Array(_) | ArgType::UnknownObject => {
@@ -1443,7 +1456,16 @@ fn collect_const_values(
 
                     if let Some(inferred_type) = inferred_type {
                         match value {
-                            LiteralArg::Int(v) => crate::type_gen::literal_to_string(*v, inferred_type),
+                            LiteralArg::Int(v) => {
+                                // P2-BOOL-SIMP FIX: Only format as boolean if value is 0 or 1
+                                // Values like 5 should NOT be displayed as "true" even if
+                                // type inference incorrectly infers Boolean type
+                                if matches!(inferred_type, ArgType::Boolean) && *v != 0 && *v != 1 {
+                                    format!("{}", v)
+                                } else {
+                                    crate::type_gen::literal_to_string(*v, inferred_type)
+                                }
+                            }
                             _ => format_literal_for_init(value),
                         }
                     } else {
@@ -9463,7 +9485,15 @@ fn generate_insn<W: CodeWriter>(
                     // In Dalvik, booleans are stored as int 0/1
                     match v {
                         InsnArg::Literal(LiteralArg::Int(val)) => {
-                            code.add(if *val == 0 { "false" } else { "true" });
+                            // P2-BOOL-SIMP FIX: Only format as boolean if value is 0 or 1
+                            // Values like 5 indicate type inference error
+                            if *val == 0 {
+                                code.add("false");
+                            } else if *val == 1 {
+                                code.add("true");
+                            } else {
+                                code.add(&format!("{}", val));
+                            }
                         }
                         InsnArg::Register(reg) => {
                             // Check for inlined constant "0" or "1"
@@ -9915,6 +9945,22 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::InstancePut { object, field_idx, value } => {
+            // JADX parity: Skip synthetic outer class field assignments in constructors
+            // Pattern: this.this$0 = outerInstance (in inner class constructor)
+            // These are synthetic fields that JADX removes entirely
+            if ctx.is_constructor {
+                if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
+                    if is_outer_this_field(&field_info.field_name) {
+                        // Check if object is 'this' (register 0 for non-static methods)
+                        let is_this = matches!(object, InsnArg::Register(r) if r.reg_num == 0);
+                        if is_this {
+                            // Skip emitting this synthetic field assignment
+                            return true;
+                        }
+                    }
+                }
+            }
+
             // Check for field increment pattern first: obj.field = obj.field + 1 -> obj.field++
             if let Some(increment_expr) = detect_field_increment(*field_idx, Some(object), value, ctx) {
                 code.start_line().add(&increment_expr).add(";").newline();

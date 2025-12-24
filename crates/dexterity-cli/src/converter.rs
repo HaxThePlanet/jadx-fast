@@ -1353,6 +1353,55 @@ fn resolve_lambda_info(dex: &DexReader, call_site_idx: u32) -> Option<LambdaInfo
     })
 }
 
+/// Mark synthetic lambda methods for non-generation
+///
+/// JADX Reference: jadx-core/src/main/java/jadx/core/dex/instructions/invokedynamic/CustomLambdaCall.java:97-102
+///
+/// This scans all methods for InvokeCustom instructions with inline_body=true,
+/// and marks the corresponding synthetic lambda methods with dont_generate=true.
+/// This prevents generating separate Java files for methods that will be inlined as lambdas.
+///
+/// Call this after load_method_instructions() has been called on all methods.
+pub fn mark_synthetic_lambda_methods(class: &mut ClassData) {
+    use std::collections::HashSet;
+
+    // Phase 1: Collect all synthetic lambda method names that should be suppressed
+    let mut lambda_methods_to_suppress: HashSet<String> = HashSet::new();
+
+    for method in &class.methods {
+        if let Some(ref instructions) = method.instructions {
+            for insn in instructions {
+                if let InsnType::InvokeCustom { lambda_info: Some(info), .. } = &insn.insn_type {
+                    // Only suppress if inline_body is true (synthetic lambda$ methods)
+                    if info.inline_body {
+                        lambda_methods_to_suppress.insert(info.impl_method_name.clone());
+                    }
+                }
+            }
+        }
+    }
+
+    // Phase 2: Mark matching methods as dont_generate
+    if !lambda_methods_to_suppress.is_empty() {
+        for method in &mut class.methods {
+            if lambda_methods_to_suppress.contains(&method.name) {
+                // Check if it's a synthetic method (ACC_SYNTHETIC = 0x1000)
+                let is_synthetic = method.access_flags & 0x1000 != 0;
+                // Also check for lambda$ prefix as some compilers don't set ACC_SYNTHETIC
+                let is_lambda_name = method.name.starts_with("lambda$");
+
+                if is_synthetic || is_lambda_name {
+                    method.dont_generate = true;
+                    tracing::debug!(
+                        "Marked synthetic lambda method {} for non-generation",
+                        method.name
+                    );
+                }
+            }
+        }
+    }
+}
+
 /// Build class hierarchy from all classes in the DEX file
 ///
 /// This scans all classes to extract superclass and interface relationships,
