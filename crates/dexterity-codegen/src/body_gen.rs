@@ -496,11 +496,34 @@ impl BodyGenContext {
     }
 
     /// Generate argument expression, substituting inlined expressions for single-use variables
+    ///
+    /// GAP-01 FIX: Field access expressions (side-effect-free) are now peeked, not taken.
+    /// This prevents the bug where `Build.FINGERPRINT` is consumed on first use, causing
+    /// second use to fall back to undefined variable name like `fINGERPRINT2`.
+    ///
+    /// Clone of JADX behavior: field access is always inlined (InsnGen.java:478-492)
     pub fn gen_arg_inline(&mut self, arg: &InsnArg) -> String {
         if let InsnArg::Register(reg) = arg {
-            // Check if we have an inlined expression for this register
-            if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
-                return expr;
+            // First, check if we have an inlined expression for this register
+            // Clone the expression to avoid borrow issues
+            let expr_info = self.peek_inline_expr(reg.reg_num, reg.ssa_version)
+                .map(|e| {
+                    let is_field_access = e.contains('.') && !e.contains('(');
+                    (e.clone(), is_field_access)
+                });
+
+            if let Some((expr, is_field_access)) = expr_info {
+                // GAP-01 FIX: Detect field access expressions (side-effect-free)
+                // These should be peeked (not consumed) so they can be reused
+                if is_field_access {
+                    // Field access: peek only (don't consume) - can be used multiple times
+                    return expr;
+                } else if self.should_inline(reg.reg_num, reg.ssa_version) {
+                    // Single-use non-field: consume the expression
+                    self.take_inline_expr(reg.reg_num, reg.ssa_version);
+                    return expr;
+                }
+                // Multi-use non-field: fall through to variable name
             }
             // Note: If we reach here for a variable that should_inline=true, it means
             // the defining instruction was processed in a different order than expected.
@@ -512,10 +535,18 @@ impl BodyGenContext {
     }
 
     /// Generate argument expression with type-aware formatting (0 -> null for Objects, raw bits -> double, etc.)
+    ///
+    /// GAP-01 FIX: Field access expressions use peek (not take) to allow reuse.
     pub fn gen_arg_inline_typed(&mut self, arg: &InsnArg, target_type: &ArgType) -> String {
         if let InsnArg::Register(reg) = arg {
             // Check if we have an inlined expression for this register
-            if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
+            // Clone early to avoid borrow conflicts with take_inline_expr
+            let expr_data = self.peek_inline_expr(reg.reg_num, reg.ssa_version).cloned();
+            if let Some(expr) = expr_data {
+                // GAP-01 FIX: Detect field access expressions (side-effect-free)
+                let is_field_access = expr.contains('.') && !expr.contains('(');
+                let should_consume = !is_field_access && self.should_inline(reg.reg_num, reg.ssa_version);
+
                 // Check if this is a pure integer literal that needs type conversion
                 // Handle both "12345" and "12345L" formats
                 let value_str = expr.trim();
@@ -528,6 +559,10 @@ impl BodyGenContext {
                 };
 
                 if let Some(value) = value_opt {
+                    // Consume if needed (single-use non-field)
+                    if should_consume {
+                        self.take_inline_expr(reg.reg_num, reg.ssa_version);
+                    }
                     match target_type {
                         ArgType::Double => {
                             // Convert raw bits to double representation
@@ -559,7 +594,19 @@ impl BodyGenContext {
                         _ => {}
                     }
                 }
-                return expr;
+
+                // For field access: always return (peek, don't consume)
+                // For single-use: consume and return
+                if is_field_access {
+                    return expr;
+                } else if should_consume {
+                    // Already consumed above for literals, but consume here for non-literals
+                    if value_opt.is_none() {
+                        self.take_inline_expr(reg.reg_num, reg.ssa_version);
+                    }
+                    return expr;
+                }
+                // Multi-use non-field: fall through to type_gen
             }
         }
         // Fall back to type-aware generation
@@ -690,12 +737,30 @@ impl BodyGenContext {
 
     /// OPTIMIZED: Write arg directly to CodeWriter without String allocation
     /// This is the zero-allocation pattern following Java JADX design
+    ///
+    /// GAP-01 FIX: Field access expressions use peek (not take) to allow reuse.
     pub fn write_arg_inline<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg) {
         if let InsnArg::Register(reg) = arg {
             // Check if we have an inlined expression for this register
-            if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
-                writer.add(&expr);
-                return;
+            // GAP-01 FIX: Clone upfront to check field access before consuming
+            let expr_info = self.peek_inline_expr(reg.reg_num, reg.ssa_version)
+                .map(|e| {
+                    let is_field_access = e.contains('.') && !e.contains('(');
+                    (e.clone(), is_field_access)
+                });
+
+            if let Some((expr, is_field_access)) = expr_info {
+                if is_field_access {
+                    // Field access: peek only (don't consume) - can be used multiple times
+                    writer.add(&expr);
+                    return;
+                } else if self.should_inline(reg.reg_num, reg.ssa_version) {
+                    // Single-use: consume and use
+                    self.take_inline_expr(reg.reg_num, reg.ssa_version);
+                    writer.add(&expr);
+                    return;
+                }
+                // Multi-use non-field: fall through to variable name
             }
         }
         // Fall back to direct write via ExprGen
@@ -709,16 +774,27 @@ impl BodyGenContext {
     /// - For `boolean` type: formats `0`/`1` as `false`/`true`
     /// - For other types: uses default formatting
     ///
-    /// This is essential for method invocations where the parameter type
-    /// differs from how the literal is stored (e.g., `append(char)` receiving an int).
+    /// GAP-01 FIX: Field access expressions use peek (not take) to allow reuse.
     pub fn write_arg_inline_typed<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg, target_type: &ArgType) {
         if let InsnArg::Register(reg) = arg {
             // Check if we have an inlined expression for this register
-            if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
+            // GAP-01 FIX: Clone upfront to check field access before consuming
+            let expr_info = self.peek_inline_expr(reg.reg_num, reg.ssa_version)
+                .map(|e| {
+                    let is_field_access = e.contains('.') && !e.contains('(');
+                    (e.clone(), is_field_access)
+                });
+
+            if let Some((expr, is_field_access)) = expr_info {
+                let should_consume = !is_field_access && self.should_inline(reg.reg_num, reg.ssa_version);
+
                 // Check if this is a pure integer literal that needs type conversion
                 // e.g., "91" should become "'['" when target type is char
                 // e.g., "0" should become "null" when target type is Object
                 if let Ok(value) = expr.trim().parse::<i64>() {
+                    if should_consume {
+                        self.take_inline_expr(reg.reg_num, reg.ssa_version);
+                    }
                     match target_type {
                         ArgType::Char => {
                             let c = char::from_u32(value as u32).unwrap_or('\u{FFFD}');
@@ -739,9 +815,16 @@ impl BodyGenContext {
                         _ => {}
                     }
                 }
-                // Not a convertible literal, use as-is
-                writer.add(&expr);
-                return;
+
+                // For field access or single-use: use the expression
+                if is_field_access || should_consume {
+                    if should_consume {
+                        self.take_inline_expr(reg.reg_num, reg.ssa_version);
+                    }
+                    writer.add(&expr);
+                    return;
+                }
+                // Multi-use non-field: fall through to variable name
             }
 
             // P1-S02 extension: Check const_values for non-inlined constants
