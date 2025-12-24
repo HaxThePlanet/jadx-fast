@@ -3155,6 +3155,10 @@ struct ArrayForEachInfo {
     /// Index register number (to track i++ and array[i])
     #[allow(dead_code)]
     index_reg: u16,
+    /// AGET result register (to register as inline expression for subsequent uses)
+    aget_result_reg: u16,
+    /// AGET result SSA version
+    aget_result_version: u32,
     /// Block containing AGET instruction
     aget_block: u32,
     /// Index of AGET instruction in the block
@@ -3504,20 +3508,19 @@ fn detect_array_foreach_pattern(
     // Find If instruction in condition block to get the comparison
     let mut index_reg: Option<u16> = None;
     let mut array_reg_arg: Option<dexterity_ir::instructions::RegisterArg> = None;
-    let mut array_length_reg: Option<u16> = None;
+    let mut length_reg: Option<u16> = None;
 
-    // First pass: look for ArrayLength instruction to identify the array
+    // First pass: look for ArrayLength instruction in condition block
     for insn in &cond_block.instructions {
         if let InsnType::ArrayLength { dest, array } = &insn.insn_type {
             if let InsnArg::Register(arr_reg) = array {
-                // Keep full RegisterArg to preserve SSA version for tracing
                 array_reg_arg = Some(*arr_reg);
-                array_length_reg = Some(dest.reg_num);
+                length_reg = Some(dest.reg_num);
             }
         }
     }
 
-    // Second pass: find the If instruction comparing index to array.length
+    // Second pass: find the If instruction comparing index to length
     for insn in &cond_block.instructions {
         if let InsnType::If { condition: if_cond, left, right, .. } = &insn.insn_type {
             // For array for-each: i < length (LT) or negated as i >= length (GE)
@@ -3526,13 +3529,29 @@ fn detect_array_foreach_pattern(
                 continue;
             }
 
-            // Extract index register (should be on left of comparison with length)
+            // Extract index register (left) and length register (right)
             if let InsnArg::Register(left_reg) = left {
                 if let Some(right_arg) = right {
                     if let InsnArg::Register(right_reg) = right_arg {
-                        // Check if right side is array.length result
-                        if array_length_reg == Some(right_reg.reg_num) {
+                        // P0-LOOP-VAR FIX: If we already found ArrayLength in this block, use it
+                        // Otherwise, search ALL blocks for the ArrayLength that defines the right register
+                        if length_reg == Some(right_reg.reg_num) {
                             index_reg = Some(left_reg.reg_num);
+                        } else if array_reg_arg.is_none() {
+                            // ArrayLength not in condition block - search all blocks
+                            for block in ctx.blocks.values() {
+                                for block_insn in &block.instructions {
+                                    if let InsnType::ArrayLength { dest, array } = &block_insn.insn_type {
+                                        if dest.reg_num == right_reg.reg_num {
+                                            if let InsnArg::Register(arr_reg) = array {
+                                                array_reg_arg = Some(*arr_reg);
+                                                length_reg = Some(dest.reg_num);
+                                                index_reg = Some(left_reg.reg_num);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -3544,10 +3563,16 @@ fn detect_array_foreach_pattern(
     let arr_reg_arg = array_reg_arg?;
     let arr_reg = arr_reg_arg.reg_num;
 
+    // Debug: log detected pattern
+    if std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok() {
+        eprintln!("[FOREACH] detect_array_foreach: idx_reg={}, arr_reg={}", idx_reg, arr_reg);
+    }
+
     // Now scan body for:
     // 1. AGET instruction using index_reg and array_reg
     // 2. Increment instruction: index_reg = index_reg + 1
-    let mut aget_info: Option<(u32, usize, String, String)> = None; // (block, idx, item_var, item_type)
+    // P0-LOOP-VAR: Added dest_reg and dest_version to register inline expression for for-each variable
+    let mut aget_info: Option<(u32, usize, String, String, u16, u32)> = None; // (block, idx, item_var, item_type, dest_reg, dest_version)
     let mut incr_info: Option<(u32, usize)> = None; // (block, idx)
 
     fn scan_body_for_array_foreach(
@@ -3555,23 +3580,40 @@ fn detect_array_foreach_pattern(
         idx_reg: u16,
         arr_reg: u16,
         ctx: &BodyGenContext,
-        aget_info: &mut Option<(u32, usize, String, String)>,
+        aget_info: &mut Option<(u32, usize, String, String, u16, u32)>,
         incr_info: &mut Option<(u32, usize)>,
     ) {
+        let debug_foreach = std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok();
         match region {
             Region::Sequence(contents) => {
+                if debug_foreach {
+                    eprintln!("[FOREACH SCAN] Sequence with {} items", contents.len());
+                }
                 for content in contents {
                     match content {
                         RegionContent::Block(block_id) => {
                             if let Some(block) = ctx.blocks.get(block_id) {
+                                if debug_foreach {
+                                    eprintln!("[FOREACH SCAN]   Block {} with {} insns", block_id, block.instructions.len());
+                                    for (i, insn) in block.instructions.iter().enumerate() {
+                                        eprintln!("[FOREACH SCAN]     [{i}] {:?}", insn.insn_type);
+                                    }
+                                }
                                 for (insn_idx, insn) in block.instructions.iter().enumerate() {
                                     // Look for AGET: item = array[index]
                                     if let InsnType::ArrayGet { dest, array, index, elem_type } = &insn.insn_type {
                                         if let (InsnArg::Register(arr), InsnArg::Register(idx)) = (array, index) {
                                             if arr.reg_num == arr_reg && idx.reg_num == idx_reg {
                                                 let item_var = ctx.expr_gen.get_var_name(dest);
+                                                // P0-LOOP-VAR FIX: For Object types, use inferred type from dest register
                                                 let item_type = match elem_type {
-                                                    dexterity_ir::instructions::ArrayElemType::Object => "Object".to_string(),
+                                                    dexterity_ir::instructions::ArrayElemType::Object => {
+                                                        // Try to get actual type from type inference on AGET result
+                                                        ctx.get_inferred_type_versioned(dest.reg_num, dest.ssa_version)
+                                                            .map(|t| crate::type_gen::type_to_string_with_imports_and_package(
+                                                                t, ctx.imports.as_ref(), ctx.current_package.as_deref()))
+                                                            .unwrap_or_else(|| "Object".to_string())
+                                                    }
                                                     dexterity_ir::instructions::ArrayElemType::Boolean => "boolean".to_string(),
                                                     dexterity_ir::instructions::ArrayElemType::Byte => "byte".to_string(),
                                                     dexterity_ir::instructions::ArrayElemType::Char => "char".to_string(),
@@ -3579,7 +3621,7 @@ fn detect_array_foreach_pattern(
                                                     dexterity_ir::instructions::ArrayElemType::Int => "int".to_string(),
                                                     dexterity_ir::instructions::ArrayElemType::Wide => "long".to_string(),
                                                 };
-                                                *aget_info = Some((*block_id, insn_idx, item_var, item_type));
+                                                *aget_info = Some((*block_id, insn_idx, item_var, item_type, dest.reg_num, dest.ssa_version));
                                             }
                                         }
                                     }
@@ -3607,7 +3649,63 @@ fn detect_array_foreach_pattern(
                     }
                 }
             }
-            Region::If { then_region, else_region, .. } => {
+            Region::If { condition, then_region, else_region, .. } => {
+                // P0-LOOP-VAR FIX: Also scan condition blocks for AGET/increment
+                // The AGET instruction may be in the condition block (e.g., before if-eqz)
+                // rather than in the then/else branches
+                if debug_foreach {
+                    eprintln!("[FOREACH SCAN] If region, condition blocks: {:?}", condition.get_blocks());
+                }
+                for block_id in condition.get_blocks() {
+                    if let Some(block) = ctx.blocks.get(&block_id) {
+                        if debug_foreach {
+                            eprintln!("[FOREACH SCAN]   If-cond Block {} with {} insns", block_id, block.instructions.len());
+                            for (i, insn) in block.instructions.iter().enumerate() {
+                                eprintln!("[FOREACH SCAN]     [{i}] {:?}", insn.insn_type);
+                            }
+                        }
+                        for (insn_idx, insn) in block.instructions.iter().enumerate() {
+                            // Look for AGET: item = array[index]
+                            if let InsnType::ArrayGet { dest, array, index, elem_type } = &insn.insn_type {
+                                if let (InsnArg::Register(arr), InsnArg::Register(idx)) = (array, index) {
+                                    if arr.reg_num == arr_reg && idx.reg_num == idx_reg {
+                                        let item_var = ctx.expr_gen.get_var_name(dest);
+                                        // P0-LOOP-VAR FIX: For Object types, use inferred type from dest register
+                                        let item_type = match elem_type {
+                                            dexterity_ir::instructions::ArrayElemType::Object => {
+                                                ctx.get_inferred_type_versioned(dest.reg_num, dest.ssa_version)
+                                                    .map(|t| crate::type_gen::type_to_string_with_imports_and_package(
+                                                        t, ctx.imports.as_ref(), ctx.current_package.as_deref()))
+                                                    .unwrap_or_else(|| "Object".to_string())
+                                            }
+                                            dexterity_ir::instructions::ArrayElemType::Boolean => "boolean".to_string(),
+                                            dexterity_ir::instructions::ArrayElemType::Byte => "byte".to_string(),
+                                            dexterity_ir::instructions::ArrayElemType::Char => "char".to_string(),
+                                            dexterity_ir::instructions::ArrayElemType::Short => "short".to_string(),
+                                            dexterity_ir::instructions::ArrayElemType::Int => "int".to_string(),
+                                            dexterity_ir::instructions::ArrayElemType::Wide => "long".to_string(),
+                                        };
+                                        *aget_info = Some((block_id, insn_idx, item_var, item_type, dest.reg_num, dest.ssa_version));
+                                    }
+                                }
+                            }
+                            // Look for increment: i = i + 1
+                            if let InsnType::Binary { dest: incr_dest, op, left, right, .. } = &insn.insn_type {
+                                if *op == BinaryOp::Add && incr_dest.reg_num == idx_reg {
+                                    if let InsnArg::Register(left_reg) = left {
+                                        if left_reg.reg_num == idx_reg {
+                                            if let InsnArg::Literal(LiteralArg::Int(val)) = right {
+                                                if *val == 1 {
+                                                    *incr_info = Some((block_id, insn_idx));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 scan_body_for_array_foreach(then_region, idx_reg, arr_reg, ctx, aget_info, incr_info);
                 if let Some(else_reg) = else_region {
                     scan_body_for_array_foreach(else_reg, idx_reg, arr_reg, ctx, aget_info, incr_info);
@@ -3622,8 +3720,48 @@ fn detect_array_foreach_pattern(
 
     scan_body_for_array_foreach(body, idx_reg, arr_reg, ctx, &mut aget_info, &mut incr_info);
 
+    // P0-LOOP-VAR FIX: If increment wasn't found in the region structure, it may be in a
+    // continuation block that's not part of the region (common when there's an early return/break).
+    // JADX finds increment by looking at the loop "end block" via LoopInfo. We approximate this
+    // by searching ALL blocks for the increment pattern.
+    if incr_info.is_none() {
+        if std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok() {
+            eprintln!("[FOREACH] Increment not in region, searching all blocks...");
+        }
+        for (block_id, block) in ctx.blocks.iter() {
+            for (insn_idx, insn) in block.instructions.iter().enumerate() {
+                // Look for increment: idx_reg = idx_reg + 1
+                if let InsnType::Binary { dest, op, left, right, .. } = &insn.insn_type {
+                    if *op == BinaryOp::Add && dest.reg_num == idx_reg {
+                        if let InsnArg::Register(left_reg) = left {
+                            if left_reg.reg_num == idx_reg {
+                                if let InsnArg::Literal(LiteralArg::Int(val)) = right {
+                                    if *val == 1 {
+                                        if std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok() {
+                                            eprintln!("[FOREACH] Found increment in block {}", block_id);
+                                        }
+                                        incr_info = Some((*block_id, insn_idx));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if incr_info.is_some() {
+                break;
+            }
+        }
+    }
+
+    // Debug: log scan results
+    if std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok() {
+        eprintln!("[FOREACH] scan result: aget_info={:?}, incr_info={:?}", aget_info.is_some(), incr_info.is_some());
+    }
+
     // Both AGET and increment must be found
-    let (aget_block, aget_idx, item_var, item_type) = aget_info?;
+    let (aget_block, aget_idx, item_var, item_type, aget_dest_reg, aget_dest_version) = aget_info?;
     let (incr_block, incr_idx) = incr_info?;
 
     // Generate array expression - trace back to method calls if array comes from invoke result
@@ -3634,6 +3772,8 @@ fn detect_array_foreach_pattern(
         item_var,
         item_type,
         index_reg: idx_reg,
+        aget_result_reg: aget_dest_reg,
+        aget_result_version: aget_dest_version,
         aget_block,
         aget_insn_idx: aget_idx,
         incr_block,
@@ -6364,11 +6504,11 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             let condition_str = generate_condition(condition, ctx);
 
             // P1-HOTRELOAD DEBUG: Log what we're generating
-            if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() {
+            if std::env::var("DEBUG_CONDITIONALS").is_ok() {
                 // Log condition blocks for debugging
                 let cond_blocks = condition.get_blocks();
-                eprintln!("[CODEGEN_IF] condition='{}', cond_blocks={:?}, has_else={}",
-                    condition_str, cond_blocks, else_region.is_some());
+                eprintln!("[CODEGEN_IF] condition='{}', cond_blocks={:?}, has_else={}, then_region={:?}",
+                    condition_str, cond_blocks, else_region.is_some(), format!("{:?}", then_region).chars().take(100).collect::<String>());
             }
 
             gen_if_header(&condition_str, code);
@@ -6482,6 +6622,13 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                             let mut skip_set_aget: HashSet<usize> = HashSet::new();
                             skip_set_aget.insert(arr_foreach.aget_insn_idx);
                             ctx.skip_foreach_insns.insert(arr_foreach.aget_block, skip_set_aget);
+
+                            // Register for-each variable as inline expression for AGET result
+                            // This ensures subsequent uses of the AGET result register use the for-each variable name
+                            ctx.inlined_exprs.insert(
+                                (arr_foreach.aget_result_reg, arr_foreach.aget_result_version),
+                                arr_foreach.item_var.clone()
+                            );
 
                             let mut skip_set_incr: HashSet<usize> = HashSet::new();
                             skip_set_incr.insert(arr_foreach.incr_insn_idx);
@@ -7163,7 +7310,12 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
             // Generate: type varName = cond ? thenExpr : elseExpr;
             let var_name = ctx.expr_gen.get_var_name_by_ids(*dest_reg, *dest_version);
+
+            // P2-UNKNOWN-TYPE FIX: Use fallback type extraction when type inference fails.
+            // First try the normal type lookup, then try extracting from branch blocks.
             let var_type = ctx.expr_gen.get_var_type(*dest_reg, *dest_version)
+                .or_else(|| extract_block_value_type(*then_value_block, ctx))
+                .or_else(|| extract_block_value_type(*else_value_block, ctx))
                 .unwrap_or(ArgType::Unknown);
 
             code.start_line();
@@ -7503,6 +7655,8 @@ fn process_region_for_inlining(region: &Region, ctx: &mut BodyGenContext) {
 /// Subsequent blocks in the chain are protected by short-circuit evaluation - their
 /// prelude instructions should NOT be hoisted before the if statement.
 fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut BodyGenContext, code: &mut W) {
+    let debug_prelude = std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok();
+
     // For compound conditions (AND, OR), only emit prelude for the first block.
     // This is because short-circuit evaluation means subsequent blocks are only
     // reached if prior conditions are true/false, so their prelude is protected.
@@ -7528,16 +7682,43 @@ fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut 
             None => continue,
         };
 
+        // P0-LOOP-VAR FIX: Check if this block has instructions to skip (for-each loop inlining)
+        let skip_insns = ctx.skip_foreach_insns.get(&block_id).cloned();
+
+        if debug_prelude {
+            eprintln!("[PRELUDE] Block {} with {} insns, skip_set={:?}", block_id, instructions.len(), skip_insns);
+        }
+
         let num_insns = instructions.len();
         for (i, insn) in instructions.iter().enumerate() {
+            // P0-LOOP-VAR FIX: Skip instructions marked for for-each elimination
+            if let Some(ref skip_set) = skip_insns {
+                if skip_set.contains(&i) {
+                    if debug_prelude {
+                        eprintln!("[PRELUDE]   [{i}] SKIPPED (for-each): {:?}", insn.insn_type);
+                    }
+                    continue;
+                }
+            }
+
             // Skip control flow instructions (If, Goto, Switch)
             if is_control_flow(&insn.insn_type) {
+                if debug_prelude {
+                    eprintln!("[PRELUDE]   [{i}] SKIPPED (control): {:?}", insn.insn_type);
+                }
                 continue;
             }
 
             // Skip instructions marked with DONT_GENERATE
             if insn.has_flag(AFlag::DontGenerate) {
+                if debug_prelude {
+                    eprintln!("[PRELUDE]   [{i}] SKIPPED (DONT_GEN): {:?}", insn.insn_type);
+                }
                 continue;
+            }
+
+            if debug_prelude {
+                eprintln!("[PRELUDE]   [{i}] GENERATING: {:?}", insn.insn_type);
             }
 
             // Peek at next instruction for MoveResult handling
@@ -7883,6 +8064,113 @@ fn find_phi_output_version_for_ternary(
                     return Some(dest.ssa_version);
                 }
             }
+        }
+    }
+
+    None
+}
+
+/// P2-UNKNOWN-TYPE FIX: Extract the type of a value from a ternary branch block.
+///
+/// When type inference fails to resolve the PHI dest type, we can extract the type
+/// from the branch blocks' instructions:
+/// - CheckCast: returns the cast target type
+/// - NewInstance: returns the instance type
+/// - Move from typed source: returns source type
+/// - Constructor: returns the constructed type
+///
+/// Returns None if type cannot be determined.
+fn extract_block_value_type(block_id: u32, ctx: &BodyGenContext) -> Option<ArgType> {
+    use dexterity_ir::instructions::InsnArg;
+
+    let block = ctx.blocks.get(&block_id)?;
+
+    // Filter out Nop and control flow instructions
+    let non_nop: Vec<_> = block.instructions.iter()
+        .filter(|insn| !matches!(insn.insn_type, InsnType::Nop | InsnType::Goto { .. }))
+        .collect();
+
+    // Check for 4-instruction constructor pattern: NewInstance + Const + Constructor + Move
+    if non_nop.len() == 4 {
+        if let InsnType::NewInstance { type_idx, .. } = &non_nop[0].insn_type {
+            return ctx.expr_gen.get_type_value(*type_idx).map(|s| ArgType::Object(s));
+        }
+    }
+
+    // Check for 3-instruction constructor pattern: NewInstance + InvokeDirect<init> + Move
+    if non_nop.len() == 3 {
+        if let InsnType::NewInstance { type_idx, .. } = &non_nop[0].insn_type {
+            return ctx.expr_gen.get_type_value(*type_idx).map(|s| ArgType::Object(s));
+        }
+    }
+
+    // Check for 2-instruction constructor pattern: NewInstance + InvokeDirect<init>
+    if non_nop.len() == 2 {
+        if let InsnType::NewInstance { type_idx, .. } = &non_nop[0].insn_type {
+            return ctx.expr_gen.get_type_value(*type_idx).map(|s| ArgType::Object(s));
+        }
+    }
+
+    // Single instruction: check for common patterns
+    if non_nop.len() == 1 {
+        let insn = &non_nop[0];
+        match &insn.insn_type {
+            // NewInstance gives the type directly
+            InsnType::NewInstance { type_idx, .. } => {
+                return ctx.expr_gen.get_type_value(*type_idx).map(|s| ArgType::Object(s));
+            }
+            // CheckCast gives the target type
+            InsnType::CheckCast { type_idx, .. } => {
+                return ctx.expr_gen.get_type_value(*type_idx).map(|s| ArgType::Object(s));
+            }
+            // Constructor's result type is the class being constructed
+            InsnType::Constructor { method_idx, .. } => {
+                if let Some(info) = ctx.expr_gen.get_method_value(*method_idx) {
+                    return Some(ArgType::Object(info.class_name.to_string()));
+                }
+            }
+            // Move: check source type
+            InsnType::Move { src: InsnArg::Register(reg), .. } => {
+                return ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version);
+            }
+            _ => {}
+        }
+    }
+
+    // Check for CheckCast anywhere in the block (it's the defining type)
+    for insn in &block.instructions {
+        if let InsnType::CheckCast { type_idx, .. } = &insn.insn_type {
+            return ctx.expr_gen.get_type_value(*type_idx).map(|s| ArgType::Object(s));
+        }
+    }
+
+    // Check for Move as last non-control-flow instruction (the value being passed)
+    for insn in block.instructions.iter().rev() {
+        if is_control_flow(&insn.insn_type) {
+            continue;
+        }
+        match &insn.insn_type {
+            InsnType::Move { src: InsnArg::Register(reg), .. } => {
+                // Try to get type of the source register
+                if let Some(ty) = ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version) {
+                    return Some(ty);
+                }
+                // Fall through to check type_info
+                if let Some(ref ti) = ctx.type_info {
+                    if let Some(ty) = ti.types.get(&(reg.reg_num, reg.ssa_version)) {
+                        return Some(ty.clone());
+                    }
+                }
+            }
+            InsnType::Const { dest, .. } => {
+                // For constants, try to infer type from context
+                if let Some(ref ti) = ctx.type_info {
+                    if let Some(ty) = ti.types.get(&(dest.reg_num, dest.ssa_version)) {
+                        return Some(ty.clone());
+                    }
+                }
+            }
+            _ => break,
         }
     }
 

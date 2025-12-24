@@ -990,6 +990,10 @@ impl<'a> RegionBuilder<'a> {
 
         // Check for conditional
         if let Some(cond_info) = self.cond_map.get(&block_id).copied() {
+            if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+                eprintln!("[REGION] block={} is conditional, then={:?} else={:?}",
+                    block_id, cond_info.then_blocks, cond_info.else_blocks);
+            }
             let (if_region, next) = self.process_if(cond_info);
             contents.push(RegionContent::Region(Box::new(if_region)));
             return next;
@@ -1905,6 +1909,12 @@ impl<'a> RegionBuilder<'a> {
             self.extract_condition_with_negation(cond.condition_block, cond.negate_condition)
         };
 
+        // P0-BOOL-CHAIN DEBUG
+        if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+            eprintln!("[PROCESS_IF] block={} negate_condition={} then_blocks={:?} else_blocks={:?}",
+                cond.condition_block, cond.negate_condition, cond.then_blocks, cond.else_blocks);
+        }
+
         // For merged conditions (AND/OR), try to use the MergedCondition's then_block/else_block
         // which are the VALUE blocks, not all the condition blocks.
         // But only if BOTH are available - otherwise fall back to IfInfo blocks.
@@ -2046,13 +2056,20 @@ impl<'a> RegionBuilder<'a> {
             (then_blocks, else_blocks)
         };
 
-        // CRITICAL: Add else_blocks as exits when building then_region.
-        // This prevents nested conditionals from including else_blocks in their
-        // then branches, which would cause them to be marked as processed and
-        // skipped when building the else region.
-        for &else_block in &filtered_else_blocks {
-            self.stack.add_exit(Some(else_block));
+        // P0-BOOL-CHAIN DEBUG
+        if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+            eprintln!("[PROCESS_IF] block={} filtered_then_blocks={:?} filtered_else_blocks={:?} is_merged_or={}",
+                cond.condition_block, filtered_then_blocks, filtered_else_blocks, is_merged_or);
         }
+
+        // P0-BOOL-CHAIN FIX: DON'T add else_blocks as exits!
+        // JADX only adds the merge point (outBlock) as exit, not the else_block.
+        // Reference: IfRegionMaker.java:88 - only `stack.addExit(outBlock)`
+        //
+        // Adding else_blocks as exits was incorrectly preventing nested conditionals
+        // from including them in their else_regions, causing truncated boolean chains.
+        // The else_blocks should remain accessible for nested conditionals that share
+        // the same "true" target (OR pattern: if-nez a, :true; if-nez b, :true; ...)
 
         // Build then region
         // Note: Don't pre-mark blocks as processed - let traverse() discover
@@ -2078,6 +2095,14 @@ impl<'a> RegionBuilder<'a> {
 
         self.stack.pop();
 
+        // P0-BOOL-CHAIN DEBUG: Log what regions we actually built
+        if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+            eprintln!("[PROCESS_IF] block={} BUILT then_region={:?}",
+                cond.condition_block, format!("{:?}", then_region).chars().take(200).collect::<String>());
+            eprintln!("[PROCESS_IF] block={} BUILT else_region={:?}",
+                cond.condition_block, format!("{:?}", else_region).chars().take(200).collect::<String>());
+        }
+
         let region = Region::If {
             condition,
             then_region: Box::new(then_region),
@@ -2100,12 +2125,21 @@ impl<'a> RegionBuilder<'a> {
         let first = blocks[0];
         let mut contents = Vec::new();
 
+        if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+            eprintln!("[BUILD_BRANCH] blocks={:?}, starting at {}", blocks, first);
+        }
+
         // Traverse starting from the first block - this will:
         // 1. Detect switches and process them as Region::Switch
         // 2. Detect nested ifs and process them as Region::If
         // 3. Handle regular blocks as RegionContent::Block
         let mut current = Some(first);
         while let Some(block_id) = current {
+            if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+                let is_cond = self.cond_map.contains_key(&block_id);
+                let is_proc = self.processed.contains(&block_id);
+                eprintln!("[BUILD_BRANCH] traverse block={} is_cond={} is_processed={}", block_id, is_cond, is_proc);
+            }
             current = self.traverse(&mut contents, block_id);
         }
 

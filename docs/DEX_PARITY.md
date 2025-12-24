@@ -1,6 +1,6 @@
 # DEX Binary Parsing Parity: dexterity-dex vs jadx-dex
 
-**Last Updated**: 2025-12-21
+**Last Updated**: 2025-12-24
 **Overall Parity**: **100%** (all debug opcodes implemented, JADX parity achieved)
 
 ---

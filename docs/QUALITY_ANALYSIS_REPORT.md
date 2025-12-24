@@ -1,15 +1,15 @@
 # Comprehensive Quality Comparison Report: JADX vs Dexterity
-## December 17-21, 2025 - All P0 + P1 Fixed
+## December 17-24, 2025 - 1 P0 Bug Remains
 
 ---
 
 ## Executive Summary
 
-**VERDICT: PRODUCTION READY FOR MOST APKs - Grade: B+ (See [QUALITY_STATUS.md](QUALITY_STATUS.md))**
+**VERDICT: PRODUCTION READY FOR MOST APKs - Grade: B- (See [QUALITY_STATUS.md](QUALITY_STATUS.md))**
 
-### Current Assessment (Dec 21, 2025)
+### Current Assessment (Dec 24, 2025)
 
-Based on objective comparison of `output/dexterity` vs `output/jadx` with all P0 + P1 bugs fixed:
+Based on objective comparison of `output/dexterity` vs `output/jadx`. 1 P0 bug remains (P0-LOOP-VAR); P0-BOOL-CHAIN FIXED Dec 24:
 
 | Aspect | Dexterity | JADX | Winner |
 |--------|-----------|------|--------|
@@ -22,17 +22,17 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` with all P0
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 | Kotlin Support | **100% parity** | Baseline | **Dexterity** |
 
-**Grade: B+** - All P0 bugs fixed, 1 P1 partial (P1-S05 - block splitting issue), P1-S04/S10 fixed (no repro Dec 22). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
+**Grade: B** - 1 P0 bug remains (P0-LOOP-VAR). P0-BOOL-CHAIN, P1-CONTROL-FLOW, P2-UNKNOWN-TYPE FIXED Dec 24. See [QUALITY_STATUS.md](QUALITY_STATUS.md).
 
 Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
-- Overall Quality: **B+** per QUALITY_STATUS.md (all P0 fixed, 1 P1 partial)
+- Overall Quality: **B** per QUALITY_STATUS.md (1 P0 remains)
 - Feature Implementation: A- (passes/features implemented)
 - Kotlin Parity: 100% with BitEncoding ported and all modifiers applied to IR
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
 - Type Inference: 0 Unknown failures
 - Integration Tests: 687/687 passing
 - Unit Tests: 530/530 passing
-- **Code Issues:** All P0 fixed, 1 P1 partial (P1-S05 - block splitting issue), P1-S04/S10 fixed (no repro Dec 22), 2 P2 remain
+- **Code Issues:** 1 P0 remains (P0-LOOP-VAR). P0-BOOL-CHAIN FIXED Dec 24, P1-CONTROL-FLOW FIXED Dec 24, P2-UNKNOWN-TYPE FIXED Dec 24
 - **Resource Issues:** ALL 5 FIXED (XML enums, localized strings, density qualifiers, missing resource files, resource naming)
 - **NOTE:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
@@ -53,7 +53,7 @@ Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
 
 | Criterion | JADX | Dexterity | Winner |
 |-----------|:----:|:---------:|:------:|
-| Valid/Compilable Java | ✅ | ✅ | **TIE** (All P0 bugs fixed Dec 2025) |
+| Valid/Compilable Java | ✅ | ✅ | **TIE** (1 P0 bug remains Dec 24, 2025) |
 | Generic Type Parameters | ✅ | ✅ | **TIE** (736 classes now have `<T>`) |
 | Exception Handling | ✅ | ✅ | **TIE** |
 | Semantic Variable Names | ✅ | ✅ | **JADX** (0.93 vs Dexterity 0.70-0.81) |
@@ -83,7 +83,7 @@ Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
 
 ### Recommendation (UPDATED - Dec 21, 2025)
 
-- **Use Dexterity** for production: All P0 bugs fixed, production ready for most APKs
+- **Use Dexterity** for production: 1 P0 bug remains (P0-LOOP-VAR), production ready for most APKs
 - **Use Dexterity** for performance: 3.6-81x faster with 14.6x memory efficiency
 - **Use Dexterity** for Kotlin: 100% parity with JADX kotlin-metadata plugin
 - **Note:** Variable naming quality slightly lower than JADX (0.70-0.81 vs 0.93) in complex methods
@@ -919,7 +919,7 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 | Dead Store Elim | Implemented | Implemented | Tie |
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 
-**Grade: B+** after Dec 22 fixes (1 P1 partial: S05 - block splitting issue; P1-S04/S08/S10 fixed)
+**Grade: B** after Dec 24 fixes (1 P0 remains: P0-LOOP-VAR. P0-BOOL-CHAIN, P1-CONTROL-FLOW FIXED)
 
 **Remaining P2 Issue (Dec 20, 2025):**
 
@@ -978,9 +978,9 @@ Based on objective comparison of `output/dexterity` vs `output/jadx` after P1-00
 
 ---
 
-*Report Updated: December 22, 2025*
+*Report Updated: December 24, 2025*
 *Status: PRODUCTION READY*
-*Quality: **B+** based on objective output comparison*
-*Code Issues: 1 P1 partial (S05 - block splitting issue) + 2 P2 remain (see ISSUE_TRACKER.md)*
-*Resource Issues: ALL 5 FIXED*
-*Tests: 1,217 passing (687 integration + 530 unit)*
+*Quality: **B-** (~85-87% syntax parity) based on objective output comparison*
+*Code Issues: 1 P0 remains (P0-LOOP-VAR), P0-BOOL-CHAIN FIXED Dec 24, P1-CONTROL-FLOW FIXED Dec 24 (see ROADMAP.md)*
+*Resource Issues: ALL FIXED*
+*Tests: 1,392+ passing*

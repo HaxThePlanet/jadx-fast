@@ -12,7 +12,7 @@
 |--------|------|-----------|--------|
 | **Total Passes** | 65 | 74 files | ~90% structural |
 | **Output Quality** | Compilable Java | Improving | **~78% real parity** |
-| **Critical Bugs** | 0 | 4 remaining | **2 Fixed, 4 P0** |
+| **Critical Bugs** | 0 | 1 remaining | **1 P0 OPEN** (P0-LOOP-VAR); P0-BOOL-CHAIN FIXED Dec 24 |
 
 **Progress (Dec 24, 2025):**
 - **BUG-3 FIXED:** Array parameter expansion - no longer incorrectly expands arrays as varargs

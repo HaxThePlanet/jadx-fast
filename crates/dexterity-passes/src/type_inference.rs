@@ -1621,6 +1621,27 @@ impl TypeInference {
         // about what types are actually needed (from UseBound constraints)
         self.resolve_bounds();
 
+        // P2-UNKNOWN-TYPE FIX: Re-process Same constraints after resolve_bounds()
+        //
+        // Problem: CheckCast/NewInstance add AssignBound constraints which set type_bounds
+        // but not resolved types. Same constraints (used by Ternary) only propagate from
+        // resolved types. So ternary destinations stay unresolved.
+        //
+        // Fix: After resolve_bounds() converts bounds to resolved types, run another pass
+        // to propagate those newly resolved types through Same constraints.
+        //
+        // Example: `r = cond ? (BufferedReader)obj : new BufferedReader()`
+        // - CheckCast sets type_bounds[obj].upper_bound = BufferedReader
+        // - Same(dest, obj) can't propagate because obj isn't in resolved
+        // - resolve_bounds() sets resolved[obj] = BufferedReader
+        // - This second pass propagates resolved[obj] to dest via Same constraint
+        let constraint_count = self.constraints.len();
+        for i in 0..constraint_count {
+            if let Constraint::Same(v1, v2) = &self.constraints[i] {
+                self.unify_vars(*v1, *v2);
+            }
+        }
+
         // BOUNDS-BASED PHI RESOLUTION: Compute LCA for incompatible PHI types
         // This happens AFTER bounds resolution so we have more specific type info
         // for computing the least common ancestor (e.g., PHI(Cursor, String) -> Object)

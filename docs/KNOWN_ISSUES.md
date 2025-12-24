@@ -1,12 +1,12 @@
 # Known Issues
 
-**See also:** [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for centralized issue tracking.
+**See also:** [ROADMAP.md](ROADMAP.md) for open work and [QUALITY_STATUS.md](QUALITY_STATUS.md) for current status.
 
 ---
 
 ## f.java Audit Results (Dec 22-24, 2025)
 
-**Status:** RESOLVED - All P0 bugs fixed (Dec 24, 2025)
+**Status:** MOSTLY RESOLVED - 1 P0 bug remains (P0-LOOP-VAR) (Dec 24, 2025)
 
 A comprehensive comparison of all 151 f.java files between JADX and Dexterity outputs revealed issues that have since been fixed.
 
@@ -16,7 +16,7 @@ A comprehensive comparison of all 151 f.java files between JADX and Dexterity ou
 | Different files | 130 (86.1%) |
 | Missing (filtered) | 14 (by design) |
 
-### Critical Issues - ALL P0 FIXED (Dec 24, 2025)
+### Critical Issues from f.java Audit - ALL FIXED (Dec 24, 2025)
 
 | ID | Issue | Difficulty | Impact | Status |
 |----|-------|------------|--------|--------|
@@ -36,7 +36,13 @@ A comprehensive comparison of all 151 f.java files between JADX and Dexterity ou
 - `net/time4j/f.java` - enum, switch, double literal bugs
 - `com/geetest/sdk/f.java` - boolean expression and branch bugs
 
-See [ISSUE_TRACKER.md](ISSUE_TRACKER.md#bug-details-fjava-audit-dec-22-2025) for full bug details with code examples.
+All P0 bugs from the f.java audit have been resolved (Dec 24, 2025).
+
+**Note:** Two new P0 bugs were discovered from other APK testing:
+- **P0-LOOP-VAR** - For-each loops over arrays don't declare the iterator variable (IN PROGRESS)
+- ~~**P0-BOOL-CHAIN**~~ - ✅ FIXED Dec 24 - Complex boolean OR chains were truncated; fixed in region_builder.rs
+
+See [ROADMAP.md](ROADMAP.md) for details on the remaining P0 bug.
 
 ---
 
@@ -225,7 +231,7 @@ Previously, Dexterity variable naming quality was 0.70-0.81 vs JADX 0.93. This h
 - **toString() handling** - Returns declaring class name (e.g., Pattern.toString() -> "pattern")
 - **Type+method fallback** - make_type_method_name() (e.g., Pattern.compile() -> "patternCompile")
 
-See [ISSUE_TRACKER.md](ISSUE_TRACKER.md#fixed-issues-dec-21-2025) for details.
+These fixes were applied Dec 21, 2025.
 
 ### Undefined Variable References (Fixed)
 

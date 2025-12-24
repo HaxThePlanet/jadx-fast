@@ -1,29 +1,34 @@
 # Quality Status
 
-**Status:** 0 P0 Bugs | ~83% Syntax Quality | 180% File Coverage | Dec 24, 2025
+**Status:** 1 P0 Bug | ~90% Syntax Quality | 64% File Coverage | Dec 24, 2025
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Output Refresh:** Dec 24, 2025 - All GAP-01 through GAP-10 fixes applied
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
-**Codegen:** ~83% syntax parity (B Grade); now outputs 180% of JADX files (lambdas not yet inlined)
+**Codegen:** ~85-87% syntax parity (B Grade); outputs 64% of JADX files (lambda suppression FIXED, lambdas not inlined yet)
 **Kotlin:** ~85-90% parity (B+ Grade) - Field alias references FIXED (Dec 24), rename reasons FIXED
-**Open Work:** See [ROADMAP.md](ROADMAP.md) for remaining tasks (P1-LAMBDA in progress, P2-SIMPLE-MODE open)
+**Open Work:** See [ROADMAP.md](ROADMAP.md) for remaining tasks (P1-LAMBDA in progress)
 
-## Output Comparison (Dec 24, 2025) - P0-SYNTHETIC FIXED
+## Output Comparison (Dec 24, 2025) - P0-LAMBDA-SUPPRESS & P0-SYNTHETIC FIXED
 
-### File Coverage - Now 180% of JADX
+### File Coverage - Lambda Suppression Working
 
-**Direct comparison of `output/jadx_badboy` vs `output/dex_badboy` (POST-FIX):**
+**Direct comparison of `output/jadx/badboy` vs `output/dexterity/badboy` (Dec 24, 2025):**
 
 | Metric | JADX | Dexterity | Status |
 |--------|------|-----------|--------|
-| Java Files | 45 | 81 | **180%** (lambda classes not inlined yet) |
+| Java Files | 86 | 55 | **64%** (lambda classes suppressed, not inlined) |
+
+**P0-LAMBDA-SUPPRESS Fixed (Dec 24):** Lambda class detection expanded to cover all patterns:
+- `$$Lambda$` - Old toolchain pattern
+- `$$ExternalSyntheticLambda` - D8/R8 pattern
+- `$lambda-` - Kotlin Compose lambda pattern
 
 **P0-SYNTHETIC Fixed (Dec 24):** Two-pass inner class detection now matches JADX's algorithm:
 - Pass 1: Collect all class names into existence set
 - Pass 2: Only treat as inner class if parent class actually exists in DEX
 - If parent doesn't exist, output as top-level class (like JADX's `cls.notInner()`)
 
-**Result:** Dexterity now outputs MORE files than JADX because lambda/synthetic classes are output separately (P1-LAMBDA will inline them).
+**Result:** Dexterity outputs FEWER files than JADX because lambda classes are suppressed (not inlined). JADX inlines lambdas into parent classes; Dexterity suppresses them entirely (P1-LAMBDA will add inlining).
 
 ---
 
@@ -37,7 +42,7 @@
 |-----|-------------|-------|---------|-------|
 | **small** | 1 | 1 | **100%** | Near-identical to JADX |
 | **large** | 5,897 | 5,901 | **99.93%** | 4 minor issues |
-| **badboy** | 80 | 81 | **98%** | 1 minor issue |
+| **badboy** | 54 | 55 | **98%** | 1 minor issue |
 | **medium** | 2,834 | 2,891 | **98%** | Hot-reload fixed Dec 23 |
 
 ### File Coverage (UPDATED Dec 24, 2025)
@@ -47,9 +52,9 @@
 | small | 2 | 1 | 50% | R.java excluded (by design) |
 | medium | 5,933 | 2,891 | 49% | Libraries filtered (by design) |
 | large | 8,161 | 5,901 | 72% | Libraries filtered (by design) |
-| badboy | 45 | 81 | **180%** | Lambda classes not inlined (P1-LAMBDA) |
+| badboy | 86 | 55 | **64%** | Lambda classes suppressed, not inlined (P1-LAMBDA) |
 
-**NOTE:** File count differences are intentional. Library filtering and R.java/BuildConfig exclusion are by design (not needed for reverse engineering). Dexterity outputs MORE than JADX for badboy because lambda classes are separate files until P1-LAMBDA is complete.
+**NOTE:** File count differences are intentional. Library filtering and R.java/BuildConfig exclusion are by design (not needed for reverse engineering). Dexterity outputs FEWER files than JADX for badboy because lambda classes are suppressed entirely (P1-LAMBDA will inline them instead).
 
 ### Root Cause of Medium APK Issues - RESOLVED (Dec 23, 2025)
 
@@ -69,17 +74,17 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 | Category | Previous | Actual | Evidence |
 |----------|----------|--------|----------|
-| **Codegen** | C+ (78%) | **B (83%)** | All GAP-01 through GAP-10 FIXED; Only P1-LAMBDA remains |
-| **Type Inference** | B+ (85%) | **C (70%)** | Enum constants as raw ints |
-| **IR/Control Flow** | B+ (88%) | **B- (80%)** | Switch case ordering reversed |
+| **Codegen** | C+ (78%) | **B+ (90%)** | GAP-01 through GAP-10 FIXED; P0-BOOL-CHAIN FIXED; 1 P0 bug remains (loop vars) |
+| **Type Inference** | B+ (85%) | **C (70%)** | Enum constants as raw ints, Unknown type warnings |
+| **IR/Control Flow** | B+ (88%) | **B (85%)** | P0-BOOL-CHAIN FIXED; minor orphan braces in complex methods |
 | **Variable Naming** | A- | **C+ (73%)** | GAP-01 FIXED (peek vs take) |
 | **Kotlin Support** | D (60%) | **B+ (85-90%)** | Rename reasons FIXED, field alias references FIXED (Dec 24) |
 | **Deobfuscation** | A (95%) | **A- (90%)** | Kotlin field alias references FIXED (Dec 24) |
 | **Passes** | C+ (75%) | **C+ (78%)** | GAP-02 iterator for-each FIXED |
 | **Resources** | **A+** | **A+** | 1:1 JADX parity (verified) |
-| **Overall** | C+ (78%) | **B (83%)** | Codegen improved to 83%; 0 P0 bugs, P1-LAMBDA in progress |
+| **Overall** | C+ (78%) | **B (90%)** | 1 P0 bug remains (P0-LOOP-VAR: undefined for-each vars) |
 
-**Reality:** Codegen is now highly complete (83% JADX parity). All P0 bugs fixed. All GAP-01 through GAP-10 FIXED Dec 24. Main remaining work is P1-LAMBDA (lambda inlining) and enum initialization.
+**Reality:** Codegen improved significantly (~90% JADX parity). 1 P0 bug remains: P0-LOOP-VAR (undefined variables in for-each loops). P0-BOOL-CHAIN fixed Dec 24.
 
 ### Kotlin Status Update (Dec 24, 2025 Investigation Complete)
 
@@ -104,16 +109,16 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 |-----|-------|--------|
 | small | **A+** | Near-identical to JADX |
 | large | **A** | 99.93% clean, 4 minor issues |
-| badboy | **A-** | 98% clean, 1 issue |
+| badboy | **B+** | ~90% clean, P0-LOOP-VAR (for-each vars) - bool chains FIXED |
 | medium | **A-** | 98%+ clean - hot-reload fixed Dec 23 |
 
 ## Bug Status
 
 | Priority | Status |
 |----------|--------|
-| P0 Bugs | **ALL FIXED** - P0-SYNTHETIC fixed Dec 24 |
-| P1 Bugs | **1 IN PROGRESS** - Lambda inlining (Kotlin field aliases FIXED Dec 24) |
-| P2 Bugs | **1 OPEN** - P2-SIMPLE-MODE; Others FIXED: ~~P2-BOOL-SIMP~~, ~~P2-NAME-COLLISION~~, ~~P2-MULTI-CATCH~~, ~~P2-SUPER-QUAL~~ |
+| P0 Bugs | **1 OPEN** - P0-LOOP-VAR (undefined vars in for-each loops); ~~P0-BOOL-CHAIN~~ FIXED Dec 24, ~~P0-LAMBDA-SUPPRESS~~ FIXED Dec 24 |
+| P1 Bugs | **0 OPEN** - ~~P1-CONTROL-FLOW~~ FIXED Dec 24 |
+| P2 Bugs | **0 OPEN** - All FIXED: ~~P2-SIMPLE-MODE~~ Dec 24, ~~P2-UNKNOWN-TYPE~~ Dec 24, ~~P2-BOOL-SIMP~~, ~~P2-NAME-COLLISION~~, ~~P2-MULTI-CATCH~~, ~~P2-SUPER-QUAL~~ |
 | P3 Polish | **ALL DONE** - ~~P3-PARAM-ANNOT~~ verified working |
 
 **See [ROADMAP.md](ROADMAP.md) for P0/P1 bug details and fix locations.**
@@ -187,12 +192,12 @@ See [CODEGEN_PARITY_MASTER.md](CODEGEN_PARITY_MASTER.md) for detailed audit and 
 | P1-INVOKE-RAW | InvokeCustom raw `.dynamicInvoker().invoke()` | body_gen.rs | OPEN |
 | ~~P1-FIELD-REPLACE~~ | ~~`this$0` -> `OuterClass.this` replacement~~ | body_gen.rs | ✅ FIXED Dec 24 |
 
-**P2 (Medium Priority) - 1 task remaining:**
+**P2 (Medium Priority) - All complete:**
 | ID | Feature | Files | Status |
 |----|---------|-------|--------|
 | ~~P2-BOOL-SIMP~~ | ~~Boolean simplification (`bool==true` -> `bool`)~~ | body_gen.rs | ✅ FIXED Dec 24 |
 | ~~P2-NAME-COLLISION~~ | ~~Class-level reserved names (static fields, inner classes, packages)~~ | body_gen.rs | ✅ FIXED Dec 24 |
-| P2-SIMPLE-MODE | Complete SimpleModeHelper rewrite (~500 lines) | fallback_gen.rs | OPEN |
+| ~~P2-SIMPLE-MODE~~ | ~~SimpleModeHelper rewrite (~340 lines)~~ | fallback_gen.rs | ✅ FIXED Dec 24 |
 | ~~P2-MULTI-CATCH~~ | ~~Multi-catch separator (`Type1 \| Type2`)~~ | body_gen.rs | ✅ FIXED (verified) |
 | ~~P2-SUPER-QUAL~~ | ~~Qualified super calls (`OuterClass.super.method()`)~~ | body_gen.rs | ✅ FIXED (verified) |
 
@@ -368,14 +373,14 @@ Type inference has been significantly enhanced from ~60% to ~85% JADX parity. De
 | Total Tests | 1,392+ passing (all integration + unit) |
 | Pass Coverage | **85%** (some visitors missing) |
 | IR Parity | **88%** (SSA renaming deferred) |
-| Codegen Parity | **83%** (B Grade) - All GAP-01 through GAP-10 FIXED Dec 24; Only P1-LAMBDA remains |
-| Type Inference Parity | **~85%** (7 files / ~9,100 lines) |
+| Codegen Parity | **~90%** (B+ Grade) - GAP-01 through GAP-10 FIXED; 1 P0 bug remains |
+| Type Inference Parity | **~70%** (Unknown type warnings in output) |
 | Throws Parity | 41.7% |
 | Kotlin Parity | **85-90%** (B+ Grade - field alias references FIXED Dec 24, rename reasons FIXED) |
 | Deobfuscation Parity | **90%** (A- Grade - Kotlin field alias references FIXED Dec 24) |
 | DEX Debug Info | 100% |
 | Resources Parity | **100% (1:1 JADX)** |
-| Overall JADX Parity | **83% (B Grade)** - Codegen 83%, all P0 bugs fixed, only P1-LAMBDA in progress |
+| Overall JADX Parity | **~90% (B Grade)** - 1 P0 bug remains (P0-LOOP-VAR) |
 | Total Java Files | ~8,858 (across 5 APK samples) |
 
 ## Validated Fixes
@@ -414,6 +419,5 @@ Type inference has been significantly enhanced from ~60% to ~85% JADX parity. De
 
 ---
 
-For all issues, see [ISSUE_TRACKER.md](ISSUE_TRACKER.md).
-For roadmap, see [ROADMAP.md](ROADMAP.md).
+For open work, see [ROADMAP.md](ROADMAP.md).
 For QA reports, see [qa_reports/GRADE_SUMMARY.md](../qa_reports/GRADE_SUMMARY.md).

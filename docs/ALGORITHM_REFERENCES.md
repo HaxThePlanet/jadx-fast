@@ -2,7 +2,7 @@
 
 High-level algorithm overviews to help autonomous agents understand how decompilation works.
 
-See `CODE_NAVIGATION.md` for file locations and `ISSUE_TRACKER.md` for specific problems.
+See `CODE_NAVIGATION.md` for file locations and `ROADMAP.md` for open work.
 
 ---
 
@@ -732,6 +732,6 @@ struct DominatorTree {
 
 ---
 
-**Last Updated: 2025-12-16**
+**Last Updated: 2025-12-24**
 **For file locations, see: `CODE_NAVIGATION.md`**
-**For specific issues, see: `ISSUE_TRACKER.md`**
+**For open work, see: `ROADMAP.md`**

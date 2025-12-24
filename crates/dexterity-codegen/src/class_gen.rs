@@ -128,7 +128,11 @@ pub fn get_inner_class_info(class_type: &str) -> Option<InnerClassInfo> {
     }
 
     // Determine kind
-    let kind = if stripped.contains("$$Lambda$") {
+    // D8/R8 generates $$ExternalSyntheticLambda, older toolchains generate $$Lambda$
+    // Kotlin generates $lambda-N (with hyphen) for composable lambda classes
+    let kind = if stripped.contains("$$Lambda$")
+        || stripped.contains("$$ExternalSyntheticLambda")
+        || stripped.contains("$lambda-") {
         InnerClassKind::Lambda
     } else if inner_part.chars().next().map(|c| c.is_ascii_digit()).unwrap_or(false) {
         // Starts with digit: could be anonymous or local
@@ -2225,8 +2229,15 @@ mod tests {
     fn test_is_lambda_class() {
         assert!(!is_lambda_class("Lcom/example/Outer;"));
         assert!(!is_lambda_class("Lcom/example/Outer$1;"));
+        // Old toolchain pattern ($$Lambda$)
         assert!(is_lambda_class("Lcom/example/Outer$$Lambda$1;"));
         assert!(is_lambda_class("Lcom/example/Outer$$Lambda$42;"));
+        // D8/R8 pattern ($$ExternalSyntheticLambda)
+        assert!(is_lambda_class("Lcom/example/MainActivity$$ExternalSyntheticLambda0;"));
+        assert!(is_lambda_class("Lcom/example/Outer$$ExternalSyntheticLambda5;"));
+        // Kotlin Compose lambda pattern ($lambda-N)
+        assert!(is_lambda_class("Lcom/example/ComposableSingletons$MainActivityKt$lambda-1$1;"));
+        assert!(is_lambda_class("Lcom/example/Outer$lambda-5;"));
     }
 
     #[test]

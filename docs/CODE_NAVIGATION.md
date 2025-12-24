@@ -2,9 +2,9 @@
 
 Maps issue categories to relevant source files and provides context for code exploration.
 
-See `LLM_AGENT_GUIDE.md` for workflow and `ISSUE_TRACKER.md` for issue details.
+See `LLM_AGENT_GUIDE.md` for workflow and `ROADMAP.md` for open work.
 
-**Status:** All P0 + P1 Fixed (Dec 21, 2025)
+**Status:** 1 P0 Bug Remains (P0-LOOP-VAR) | Dec 24, 2025
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
 ---
@@ -447,7 +447,7 @@ Detailed:
 
 ### For CRITICAL-001 (Undefined loop bounds `i2`)
 
-1. **Start:** `LLM_AGENT_GUIDE.md` → `ISSUE_TRACKER.md` → This file
+1. **Start:** `LLM_AGENT_GUIDE.md` → `ROADMAP.md` → This file
 2. **Understand:** `ALGORITHM_REFERENCES.md` → "SSA Transformation" + "Region Building"
 3. **Navigate:**
    - `region_builder.rs::build_loop_region()` - See loop region construction
@@ -535,12 +535,12 @@ grep -n "^pub fn\|^fn" region_builder.rs | head -20
 
 ## Next Steps
 
-1. **Pick an issue** from `ISSUE_TRACKER.md`
+1. **Pick a task** from `ROADMAP.md`
 2. **Read algorithm** from `ALGORITHM_REFERENCES.md`
 3. **Find code** using this guide
 4. **Implement fix** following patterns
 5. **Test thoroughly**
-6. **Update** `ISSUE_TRACKER.md` and `PROGRESS.md`
+6. **Update** `ROADMAP.md` and `QUALITY_STATUS.md`
 
 ---
 
@@ -608,7 +608,7 @@ grep -n "AFlag\|AType\|contains\|get(" jadx-fast/jadx-core/src/main/java/jadx/co
 
 ---
 
-**Last Updated: 2025-12-19**
+**Last Updated: 2025-12-24**
 **For algorithm context, see: `ALGORITHM_REFERENCES.md`**
-**For codegen parity, see: `JADX_CODEGEN_REFERENCE.md` Part 4**
-**For issues, see: `ISSUE_TRACKER.md`**
+**For codegen parity, see: `CODEGEN_PARITY_MASTER.md`**
+**For open work, see: `ROADMAP.md`**

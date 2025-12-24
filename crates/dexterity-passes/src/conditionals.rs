@@ -26,6 +26,10 @@ use crate::loops::LoopInfo;
 /// 2. Are not the IF instruction itself
 ///
 /// If true, the conditions should NOT be merged - keep them as nested ifs.
+///
+/// NOTE (P0-BOOL-CHAIN): JADX's checkInsnsInline also checks use-count - only merging
+/// when instructions have useCount > 1. We don't have use-count info here, so we use
+/// a conservative approach that keeps nested ifs (matching JADX's output for most cases).
 fn has_non_inlinable_prelude(cfg: &CFG, block_id: u32) -> bool {
     let Some(block) = cfg.get_block(block_id) else {
         return false;
@@ -141,6 +145,12 @@ pub fn detect_conditionals(cfg: &CFG, loops: &[LoopInfo]) -> Vec<IfInfo> {
             is_simple_if,
             "Detected conditional"
         );
+
+        // P0-BOOL-CHAIN DEBUG
+        if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+            eprintln!("[COND] block={} then={:?} else={:?} merge={:?} simple={}",
+                block_id, then_blocks, else_blocks, updated_merge, is_simple_if);
+        }
 
         conditionals.push(IfInfo {
             condition_block: block_id,
@@ -626,11 +636,17 @@ pub fn merge_nested_conditions(
         };
 
         let Some(next) = next_block else {
+            if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+                eprintln!("[MERGE] first_block={} no next_block (mode={:?})", merged.first_block, merged.mode);
+            }
             break;
         };
 
         // Avoid re-merging the same block (cycle detection)
         if merged.merged_blocks.contains(&next) {
+            if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+                eprintln!("[MERGE] first_block={} next={} already merged", merged.first_block, next);
+            }
             break;
         }
 
@@ -640,14 +656,23 @@ pub fn merge_nested_conditions(
             .find(|c| c.condition_block == next);
 
         let Some(next_cond) = next_cond else {
+            if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+                eprintln!("[MERGE] first_block={} next={} not a conditional", merged.first_block, next);
+            }
             break;
         };
 
         // Check if we can merge
         if let Some(mode) = merged.can_merge(next_cond, cfg) {
+            if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+                eprintln!("[MERGE] first_block={} merging next={} mode={:?}", merged.first_block, next, mode);
+            }
             merged.merge(next_cond, mode);
             merge_count += 1;
         } else {
+            if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+                eprintln!("[MERGE] first_block={} cannot merge next={}", merged.first_block, next);
+            }
             break;
         }
     }

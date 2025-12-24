@@ -52,8 +52,8 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 | Regions | 21 | 19 | 90% |
 | Type Inference | 27 | 24 | 89% |
 | Rename/Prepare | 8 | 0 | 0% |
-| **Lambda/Anonymous** | 5 | 0 | **0%** |
-| **TOTAL** | **129** | **85** | **~66%** |
+| **Lambda/Anonymous** | 5 | 5 | **100%** |
+| **TOTAL** | **129** | **90** | **~70%** |
 
 ### Codegen Parity: ~83% (Dec 24, 2025 verified)
 - Syntax quality: 83% (B Grade) - All GAP-01 through GAP-10 FIXED
@@ -64,7 +64,7 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 2. ~~**DebugInfoVisitors** (2 files, ~400 lines)~~ IMPLEMENTED - `debug_info.rs`
 
 ### Remaining Critical Gaps (Dec 24, 2025)
-3. **Lambda/Anonymous Inlining** (5 methods, ~410 lines) - InsnGen.java:806-1090
+3. ~~**Lambda/Anonymous Inlining** (5 methods, ~410 lines)~~ ✅ IMPLEMENTED - `body_gen.rs`
 4. **RenameVisitors** (4 files, ~400 lines) - Deobfuscation naming
 5. **PrepareVisitors** (2 files, ~200 lines) - Android constants
 

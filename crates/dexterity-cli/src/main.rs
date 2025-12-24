@@ -1402,6 +1402,13 @@ fn process_dex_bytes(
             }
         }
 
+        // P0-LAMBDA-SUPPRESS: Skip lambda classes entirely - they get inlined at call sites
+        // D8/R8 generates $$ExternalSyntheticLambda, older toolchains generate $$Lambda$
+        if dexterity_codegen::is_lambda_class(&class_name) {
+            tracing::debug!("Skipping lambda class: {}", class_name);
+            continue;
+        }
+
         if treat_as_outer {
             outer_count += 1;
             outer_class_indices.push(idx);

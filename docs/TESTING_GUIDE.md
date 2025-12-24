@@ -2,7 +2,7 @@
 
 How to test fixes and validate quality improvements toward JADX parity.
 
-See `LLM_AGENT_GUIDE.md` for workflow and `ISSUE_TRACKER.md` for issues.
+See `LLM_AGENT_GUIDE.md` for workflow and `ROADMAP.md` for open work.
 
 ---
 
@@ -573,8 +573,8 @@ Your fix is successful when:
 - [ ] No clippy warnings (if applicable)
 
 ✅ **Documentation**
-- [ ] ISSUE_TRACKER.md updated to RESOLVED
-- [ ] PROGRESS.md updated with metrics
+- [ ] ROADMAP.md updated if applicable
+- [ ] QUALITY_STATUS.md updated with metrics
 - [ ] Commit message clear and concise
 
 ---
@@ -753,6 +753,6 @@ See `qa_reports/` in the project root for pre-generated comparison reports:
 
 ---
 
-**Last Updated: 2025-12-20**
+**Last Updated: 2025-12-24**
 **For workflow, see: `LLM_AGENT_GUIDE.md`**
-**For issues, see: `ISSUE_TRACKER.md`**
+**For open work, see: `ROADMAP.md`**
