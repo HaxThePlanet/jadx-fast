@@ -110,12 +110,12 @@ See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) for comprehensive a
 
 ---
 
-### JADX Codegen Parity - ~90% (Dec 24, 2025)
+### JADX Codegen Parity - ~80% (Dec 24, 2025)
 
 Most JADX codegen functionality implemented. Source-level audit complete.
 See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed audit.
 
-**Codegen P0/P1 Gaps Progress: 9 of 10 FIXED (90%) - Dec 24, 2025**
+**Codegen P0/P1 Gaps Progress: 8 of 10 FIXED (80%) - Dec 24, 2025**
 
 | Gap | Description | Status | Lines |
 |-----|-------------|--------|-------|

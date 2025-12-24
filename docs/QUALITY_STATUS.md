@@ -1,10 +1,10 @@
 # Quality Status
 
-**Status:** **~80% Overall JADX Parity (B Grade)** - VERIFIED DEC 24, 2025
+**Status:** **~80% Overall JADX Parity (B- Grade)** - VERIFIED DEC 24, 2025
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Output Refresh:** Dec 24, 2025 - GAP-01, 02, 04, 06, 07, 08, 09, 10 fixes applied
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
-**Codegen:** ~90% parity (B Grade) - GAP-01, 02, 04, 06, 07, 08, 09, 10 FIXED; Only GAP-03, 05 remain (~200 lines)
+**Codegen:** ~80% parity (B- Grade) - GAP-01, 02, 04, 06, 07, 08, 09, 10 FIXED; Only GAP-03, 05 remain (~200 lines)
 **Kotlin:** ~70-75% parity (C Grade) - Field alias references NOT applied (P1), rename reasons FIXED
 
 ## Output Quality Audit (Dec 23, 2025)
@@ -49,7 +49,7 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 | Category | Previous | Actual | Evidence |
 |----------|----------|--------|----------|
-| **Codegen** | C+ (78%) | **B (90%)** | GAP-01, 02, 04, 06, 07, 08, 09, 10 FIXED; Only GAP-03, 05 remain (~200 lines) |
+| **Codegen** | C+ (78%) | **B- (80%)** | GAP-01, 02, 04, 06, 07, 08, 09, 10 FIXED; Only GAP-03, 05 remain (~200 lines) |
 | **Type Inference** | B+ (85%) | **C (70%)** | Enum constants as raw ints |
 | **IR/Control Flow** | B+ (88%) | **B- (80%)** | Switch case ordering reversed |
 | **Variable Naming** | A- | **C+ (73%)** | GAP-01 FIXED (peek vs take) |
@@ -57,9 +57,9 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 | **Deobfuscation** | A (95%) | **B- (80%)** | Kotlin field alias references not applied (new P1 issue) |
 | **Passes** | C+ (75%) | **C+ (78%)** | GAP-02 iterator for-each FIXED |
 | **Resources** | **A+** | **A+** | 1:1 JADX parity (verified) |
-| **Overall** | C+ (78%) | **B (80%)** | Codegen improved to 90%; only 2 P0 gaps remain |
+| **Overall** | C+ (78%) | **B- (80%)** | Codegen improved to 80%; only 2 P0 gaps remain |
 
-**Reality:** Codegen is now highly complete (90% JADX parity on P0/P1 gaps). Main blockers are Kotlin field alias references and enum initialization.
+**Reality:** Codegen is now highly complete (80% JADX parity on P0/P1 gaps). Main blockers are Kotlin field alias references and enum initialization.
 
 ### Kotlin Status Update (Dec 24, 2025 Investigation Complete)
 
@@ -354,14 +354,14 @@ Type inference has been significantly enhanced from ~60% to ~85% JADX parity. De
 | Total Tests | 1,392+ passing (all integration + unit) |
 | Pass Coverage | **85%** (some visitors missing) |
 | IR Parity | **88%** (SSA renaming deferred) |
-| Codegen Parity | **90%** (B Grade) - GAP-01, 02, 04, 06, 07, 08, 09, 10 FIXED Dec 24; GAP-03, 05 remain (~200 lines) |
+| Codegen Parity | **80%** (B- Grade) - GAP-01, 02, 04, 06, 07, 08, 09, 10 FIXED Dec 24; GAP-03, 05 remain (~200 lines) |
 | Type Inference Parity | **~85%** (7 files / ~9,100 lines) |
 | Throws Parity | 41.7% |
 | Kotlin Parity | **70-75%** (C Grade - field alias references P1 BUG, rename reasons FIXED) |
 | Deobfuscation Parity | **80%** (B- Grade - Kotlin field alias references broken) |
 | DEX Debug Info | 100% |
 | Resources Parity | **100% (1:1 JADX)** |
-| Overall JADX Parity | **80% (B Grade)** - Codegen 90%, only 2 P0 gaps remain |
+| Overall JADX Parity | **80% (B- Grade)** - Codegen 80%, only 2 P0 gaps remain |
 | Total Java Files | ~8,858 (across 5 APK samples) |
 
 ## Validated Fixes
