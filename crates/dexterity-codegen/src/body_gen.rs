@@ -512,6 +512,14 @@ impl BodyGenContext {
                     (e.clone(), is_field_access)
                 });
 
+            // Debug: trace inline lookups
+            if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() {
+                if reg.reg_num == 1 {  // trace register 1 (bufferedReader)
+                    eprintln!("[INLINE_DEBUG] gen_arg_inline looking for r{}v{}, found={:?}",
+                        reg.reg_num, reg.ssa_version, expr_info.as_ref().map(|(e, _)| e.chars().take(50).collect::<String>()));
+                }
+            }
+
             if let Some((expr, is_field_access)) = expr_info {
                 // GAP-01 FIX: Detect field access expressions (side-effect-free)
                 // These should be peeked (not consumed) so they can be reused
@@ -762,6 +770,13 @@ impl BodyGenContext {
                 }
                 // Multi-use non-field: fall through to variable name
             }
+
+            // GAP-08 FIX: Check for pending vararg array that should be emitted as literal
+            // This handles the case where ArrayPuts were absorbed but method is NOT varargs
+            if let Some(literal) = try_emit_pending_array_literal(arg, self) {
+                writer.add(&literal);
+                return;
+            }
         }
         // Fall back to direct write via ExprGen
         self.expr_gen.write_arg(writer, arg);
@@ -839,6 +854,13 @@ impl BodyGenContext {
                         return;
                     }
                 }
+            }
+
+            // GAP-08 FIX: Check for pending vararg array that should be emitted as literal
+            // This handles the case where ArrayPuts were absorbed but method is NOT varargs
+            if let Some(literal) = try_emit_pending_array_literal(arg, self) {
+                writer.add(&literal);
+                return;
             }
         }
         // Use type-aware formatting for the argument
@@ -6943,7 +6965,8 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             else_value_block,
         } => {
             // DEBUG: Track TernaryAssignment processing
-            if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() {
+            let ternary_debug = std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok();
+            if ternary_debug {
                 eprintln!("[TERNARY_DEBUG] TernaryAssignment: then_block={}, else_block={}, dest_reg={}",
                     then_value_block, else_value_block, dest_reg);
             }
@@ -6956,6 +6979,9 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
             // Find the merge block for this ternary
             let merge_block = find_merge_block_for_ternary(*then_value_block, *else_value_block, ctx);
+            if ternary_debug {
+                eprintln!("[TERNARY_DEBUG] merge_block = {:?}", merge_block);
+            }
 
             // P1-S05 FIX: Process merge block prelude BEFORE extracting ternary values.
             // This ensures inline expressions for operands (like field accesses) are available
@@ -6971,58 +6997,37 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             let then_expr = extract_block_value_expression(*then_value_block, ctx);
             let else_expr = extract_block_value_expression(*else_value_block, ctx);
 
+            if ternary_debug {
+                eprintln!("[TERNARY_DEBUG] cond_str = {}", cond_str);
+                eprintln!("[TERNARY_DEBUG] then_expr = {}", then_expr);
+                eprintln!("[TERNARY_DEBUG] else_expr = {}", else_expr);
+            }
+
             // Build the ternary expression
             let ternary_expr = format!("{} ? {} : {}", cond_str, then_expr, else_expr);
 
-            // P1-S05 FIX (ENHANCED): Check if the ternary result should be inlined.
-            //
-            // The TernaryAssignment dest_version comes from the then block, but the actual
-            // use in the merge block often references the PHI output (different SSA version).
-            //
-            // Strategy:
-            // 1. Find the PHI output version in the merge block (most reliable)
-            // 2. Fall back to finding all single-use versions of this register
-            //
-            // This handles patterns like: return x - y < (cond ? a : b);
-
-            // First, try to find the PHI output version in the merge block
-            let phi_version = merge_block.and_then(|mb| {
-                find_phi_output_version_for_ternary(mb, *then_value_block, *else_value_block, *dest_reg, ctx)
-            });
-
-            if let Some(phi_ver) = phi_version {
-                // Store the ternary expression at the PHI output version
-                // This ensures the ternary can be inlined where it's actually used
-                ctx.store_inline_expr(*dest_reg, phi_ver, ternary_expr.clone());
-
-                // Also store at the original dest_version for cases where it's directly used
-                ctx.store_inline_expr(*dest_reg, *dest_version, ternary_expr.clone());
-
-                tracing::debug!(
-                    dest_reg = *dest_reg,
-                    dest_version = *dest_version,
-                    phi_version = phi_ver,
-                    ternary_expr = %ternary_expr,
-                    "P1-S05: Stored ternary for inlining at PHI version"
-                );
-                return; // Don't emit a statement
+            if ternary_debug {
+                eprintln!("[TERNARY_DEBUG] ternary_expr = {}", ternary_expr);
             }
 
-            // Fallback: Find all single-use versions of this register
-            let single_use_versions: Vec<u32> = ctx.insn_use_counts.iter()
-                .filter(|((reg, _), count)| *reg == *dest_reg && **count == 1)
-                .map(|((_, version), _)| *version)
-                .collect();
+            // BUG-1 FIX: Always emit the ternary as a variable declaration statement.
+            //
+            // Previous approach tried to store the ternary for inlining at various SSA versions,
+            // but this fails because:
+            // 1. PHI nodes are already resolved/removed by codegen time
+            // 2. Other expressions get stored at the same versions before ternary processing
+            // 3. Version lookup at use site finds the wrong expression
+            //
+            // The reliable approach is to always emit a statement like JADX does:
+            //   BufferedReader bufferedReader = cond ? (BufferedReader)obj : new BufferedReader(obj);
+            //
+            // This avoids all version mismatch issues and produces clean, readable output.
 
-            if !single_use_versions.is_empty() {
-                // Store for inlining at ALL single-use versions
-                for version in single_use_versions {
-                    ctx.store_inline_expr(*dest_reg, version, ternary_expr.clone());
-                }
-                return; // Don't emit a statement
+            if ternary_debug {
+                eprintln!("[TERNARY_DEBUG] Emitting ternary as variable declaration statement");
             }
 
-            // Multi-use: Generate: type varName = cond ? thenExpr : elseExpr;
+            // Generate: type varName = cond ? thenExpr : elseExpr;
             let var_name = ctx.expr_gen.get_var_name_by_ids(*dest_reg, *dest_version);
             let var_type = ctx.expr_gen.get_var_type(*dest_reg, *dest_version)
                 .unwrap_or(ArgType::Unknown);
@@ -7703,13 +7708,33 @@ fn find_phi_output_version_for_ternary(
 ) -> Option<u32> {
     let instructions = ctx.blocks.get(&merge_block_id)?.instructions.clone();
 
+    let debug_on = std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok();
+    if debug_on {
+        eprintln!("[PHI_DEBUG] Looking for PHI in merge_block={} for reg={}, then={}, else={}",
+            merge_block_id, dest_reg, then_block_id, else_block_id);
+        eprintln!("[PHI_DEBUG] Merge block has {} instructions", instructions.len());
+        // Show first few instructions to see if there's a PHI
+        for (i, insn) in instructions.iter().take(5).enumerate() {
+            eprintln!("[PHI_DEBUG]   insn[{}]: {:?}", i, std::mem::discriminant(&insn.insn_type));
+        }
+    }
+
     for insn in &instructions {
         if let InsnType::Phi { dest, sources } = &insn.insn_type {
+            if debug_on {
+                eprintln!("[PHI_DEBUG] Found PHI: dest=r{}v{}, sources={:?}",
+                    dest.reg_num, dest.ssa_version, sources);
+            }
             // Check if this PHI is for our destination register
             if dest.reg_num == dest_reg {
                 // Verify that sources come from our then/else blocks
                 let has_then_source = sources.iter().any(|(block, _)| *block == then_block_id);
                 let has_else_source = sources.iter().any(|(block, _)| *block == else_block_id);
+
+                if debug_on {
+                    eprintln!("[PHI_DEBUG] Matching reg, has_then={}, has_else={}",
+                        has_then_source, has_else_source);
+                }
 
                 if has_then_source && has_else_source {
                     tracing::debug!(
@@ -7718,6 +7743,9 @@ fn find_phi_output_version_for_ternary(
                         phi_version = dest.ssa_version,
                         "Found PHI output version for ternary"
                     );
+                    if debug_on {
+                        eprintln!("[PHI_DEBUG] SUCCESS: Returning version {}", dest.ssa_version);
+                    }
                     return Some(dest.ssa_version);
                 }
             }
@@ -7731,10 +7759,120 @@ fn find_phi_output_version_for_ternary(
 /// The block should contain a single meaningful assignment instruction.
 /// Returns the RHS expression as a string.
 fn extract_block_value_expression(block_id: u32, ctx: &mut BodyGenContext) -> String {
+    use dexterity_ir::instructions::{InsnArg, InvokeKind};
+
     let instructions = match ctx.blocks.get(&block_id) {
         Some(block) => block.instructions.clone(),
         None => return "/* unknown */".to_string(),
     };
+
+    // Filter out Nop and control flow instructions for pattern matching
+    let non_nop: Vec<_> = instructions.iter()
+        .filter(|insn| !matches!(insn.insn_type, InsnType::Nop | InsnType::Goto { .. }))
+        .collect();
+
+    let ternary_debug = std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok();
+    if ternary_debug {
+        eprintln!("[TERNARY_DEBUG] extract_block_value_expression block_id={}, non_nop.len()={}", block_id, non_nop.len());
+        for (i, insn) in non_nop.iter().enumerate() {
+            eprintln!("[TERNARY_DEBUG]   non_nop[{}]: {:?}", i, std::mem::discriminant(&insn.insn_type));
+        }
+    }
+
+    // Check for constructor pattern: NewInstance + InvokeDirect<init> + Move
+    // This is used in instanceof ternary: cond ? (Type)obj : new Type(args)
+    if non_nop.len() == 3 {
+        if let (
+            InsnType::NewInstance { type_idx, dest: new_dest },
+            InsnType::Invoke { kind: InvokeKind::Direct, method_idx, args, .. },
+            InsnType::Move { src: InsnArg::Register(move_src), .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type) {
+            // Verify the chain: NewInstance creates obj, Invoke calls <init>, Move copies result
+            if let Some(InsnArg::Register(recv)) = args.first() {
+                if new_dest.reg_num == recv.reg_num && recv.reg_num == move_src.reg_num {
+                    // This is a constructor pattern - generate new Type(args)
+                    let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                        .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                        .unwrap_or_else(|| format!("Type#{}", type_idx));
+
+                    // Generate constructor args (skip first arg which is 'this')
+                    let ctor_args: Vec<String> = args.iter().skip(1)
+                        .map(|a| ctx.gen_arg_inline(a))
+                        .collect();
+
+                    return format!("new {}({})", type_name, ctor_args.join(", "));
+                }
+            }
+        }
+    }
+
+    // Check for 3-instruction pattern with merged Constructor: NewInstance + Constructor + Move
+    // (when the constructor merge pass has already run)
+    if non_nop.len() == 3 {
+        if let (
+            InsnType::NewInstance { type_idx, dest: new_dest },
+            InsnType::Constructor { dest: ctor_dest, args, .. },
+            InsnType::Move { src: InsnArg::Register(move_src), .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type) {
+            // Verify chain: NewInstance creates obj, Constructor initializes it, Move copies result
+            if new_dest.reg_num == ctor_dest.reg_num && ctor_dest.reg_num == move_src.reg_num {
+                let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                    .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+
+                // Constructor args already don't include 'this' (it's in dest)
+                let ctor_args: Vec<String> = args.iter()
+                    .map(|a| ctx.gen_arg_inline(a))
+                    .collect();
+
+                return format!("new {}({})", type_name, ctor_args.join(", "));
+            }
+        }
+    }
+
+    // Check for 2-instruction constructor pattern: NewInstance + InvokeDirect<init>
+    if non_nop.len() == 2 {
+        if let (
+            InsnType::NewInstance { type_idx, dest: new_dest },
+            InsnType::Invoke { kind: InvokeKind::Direct, method_idx, args, .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type) {
+            if let Some(InsnArg::Register(recv)) = args.first() {
+                if new_dest.reg_num == recv.reg_num {
+                    // Constructor pattern - generate new Type(args)
+                    let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                        .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                        .unwrap_or_else(|| format!("Type#{}", type_idx));
+
+                    // Generate constructor args (skip first arg which is 'this')
+                    let ctor_args: Vec<String> = args.iter().skip(1)
+                        .map(|a| ctx.gen_arg_inline(a))
+                        .collect();
+
+                    return format!("new {}({})", type_name, ctor_args.join(", "));
+                }
+            }
+        }
+    }
+
+    // Check for 2-instruction pattern with merged Constructor: NewInstance + Constructor
+    if non_nop.len() == 2 {
+        if let (
+            InsnType::NewInstance { type_idx, dest: new_dest },
+            InsnType::Constructor { dest: ctor_dest, args, .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type) {
+            if new_dest.reg_num == ctor_dest.reg_num {
+                let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                    .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+
+                let ctor_args: Vec<String> = args.iter()
+                    .map(|a| ctx.gen_arg_inline(a))
+                    .collect();
+
+                return format!("new {}({})", type_name, ctor_args.join(", "));
+            }
+        }
+    }
 
     // Find the index of the final meaningful instruction
     let final_idx = instructions.iter().enumerate().rev()
@@ -7825,6 +7963,15 @@ fn extract_block_value_expression(block_id: u32, ctx: &mut BodyGenContext) -> St
                     .map(|t| crate::type_gen::get_simple_name(&t).to_string())
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
                 format!("{} instanceof {}", obj_str, type_name)
+            }
+
+            // CheckCast - generates a cast expression like (Type)object
+            InsnType::CheckCast { object, type_idx } => {
+                let obj_str = ctx.gen_arg_inline(object);
+                let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                    .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                format!("({}){}", type_name, obj_str)
             }
 
             // NewInstance - should have been handled with constructor
@@ -8302,6 +8449,53 @@ fn try_expand_pending_vararg_array(arg: &InsnArg, ctx: &mut BodyGenContext) -> O
 
                 return Some(elements.join(", "));
             }
+        }
+    }
+    None
+}
+
+/// GAP-08 FIX: Emit a pending vararg array as an array literal.
+///
+/// When ArrayPut statements are absorbed into pending_vararg_arrays expecting varargs
+/// expansion, but the method is NOT varargs (e.g., Runtime.exec(String[])), we need
+/// to emit the array as `new Type[] { elem0, elem1, ... }` instead of just the variable name.
+///
+/// Returns Some(literal) if this is a complete pending array, None otherwise.
+fn try_emit_pending_array_literal(arg: &InsnArg, ctx: &mut BodyGenContext) -> Option<String> {
+    if let InsnArg::Register(reg) = arg {
+        let key = (reg.reg_num, reg.ssa_version);
+
+        // Check if this is a complete pending array
+        let array_info = ctx.pending_vararg_arrays.get(&key)
+            .filter(|p| !p.invalidated && p.filled_count == p.size)
+            .map(|p| (p.type_idx, p.elements.clone()));
+
+        if let Some((type_idx, elements)) = array_info {
+            // Remove from pending since we're using it
+            ctx.pending_vararg_arrays.remove(&key);
+
+            // Get element type from type_idx
+            let elem_type = ctx.expr_gen.get_type_value(type_idx)
+                .map(|t| {
+                    // Type is array type, extract element type
+                    if t.ends_with("[]") {
+                        t.trim_end_matches("[]").to_string()
+                    } else {
+                        // Internal format: [Ljava/lang/Object; -> Object
+                        let inner = t.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';');
+                        // Convert internal format to Java format
+                        inner.replace('/', ".").split('.').last().unwrap_or("Object").to_string()
+                    }
+                })
+                .unwrap_or_else(|| "Object".to_string());
+
+            // Build array literal: new Type[] { elem0, elem1, ... }
+            let element_strs: Vec<String> = elements
+                .into_iter()
+                .map(|opt| opt.unwrap_or_else(|| "null".to_string()))
+                .collect();
+
+            return Some(format!("new {}[] {{ {} }}", elem_type, element_strs.join(", ")));
         }
     }
     None

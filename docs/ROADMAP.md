@@ -112,11 +112,11 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 | **GAP-05** | Ternary conversion | OPEN | ~150 |
 | GAP-06 | For-each type casts | **FIXED** Dec 24 (c2812b69a) | N/A |
 | GAP-07 | Boolean return | **VERIFIED** | N/A |
-| **GAP-08** | Invoke arg arrays | OPEN | ~80 |
+| GAP-08 | Invoke arg arrays | **FIXED** Dec 24 | N/A |
 | GAP-09 | StringBuilder chain | **VERIFIED** | N/A |
 | GAP-10 | else-return elimination | **VERIFIED** | N/A |
 
-**Total remaining:** ~390 lines of JADX logic
+**Total remaining:** ~310 lines of JADX logic
 
 **Verified Implementations:**
 - Negative literal wrapping (`maybe_paren_wrap`)

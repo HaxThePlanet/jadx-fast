@@ -239,12 +239,19 @@ stringBuilder.append(obj != null ? obj.getClass().getName() : "null");
 - const_values lookup for non-inlined constants
 - Ternary simplification `cond ? 1 : 0` → `cond`
 
-### GAP-08: Wrong Method Signature Arrays
+### GAP-08: Wrong Method Signature Arrays (FIXED 2025-12-24)
 ```java
-// DEXTERITY: Runtime.getRuntime().exec("sh", "-c", cmd)  // Wrong!
+// DEXTERITY (Before): String[] strArr = new String[3]; exec(strArr);  // Missing elements!
 // JADX: Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd})
 ```
 **JADX Reference:** `InsnGen.java:850-911`
+
+**Fix Applied:**
+- Added `try_emit_pending_array_literal()` function in body_gen.rs
+- When ArrayPuts are absorbed into `pending_vararg_arrays` but method is NOT varargs,
+  the array is now emitted as `new Type[] { elem0, elem1, ... }` literal
+- Checks in `write_arg_inline()` and `write_arg_inline_typed()` before falling through to variable name
+- Note: May emit redundant array variable declaration (cosmetic only)
 
 ### GAP-09: StringBuilder Chain Not Simplified (FIXED - Already Implemented)
 ```java
