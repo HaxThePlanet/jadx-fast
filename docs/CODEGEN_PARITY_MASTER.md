@@ -213,12 +213,18 @@ stringBuilder.append(obj != null ? obj.getClass().getName() : "null");
 
 ## P1-HIGH Gaps (Wrong Semantics)
 
-### GAP-06: For-Each Type Casts Missing
+### GAP-06: For-Each Type Casts Missing (FIXED 2025-12-24)
 ```java
 // DEXTERITY: for (Object next : it) { ... next ... }
 // JADX: while (it.hasNext()) { ... (String) it.next() ... }
 ```
 **JADX Reference:** `RegionGen.java:199-210`
+
+**Fix Applied:**
+- Added `cast_type_idx: Option<u32>` to IteratorForEachPattern
+- `find_checkcast_after_next()` detects CheckCast after next() call
+- Codegen uses cast_type_idx to get proper element type (e.g., "String")
+- Commit: c2812b69a
 
 ### GAP-07: Boolean Return with Int Literal (FIXED - Already Implemented)
 ```java
@@ -360,13 +366,13 @@ Now correctly shows private/protected constructors.
 | P0 | GAP-03 | Nested if declarations | ~300 | ~150 | region_builder.rs | TODO |
 | P0 | GAP-04 | Field init body | ~80 | ~100 | class_gen.rs | PARTIAL |
 | P0 | GAP-05 | Ternary conversion | ~100 | ~150 | ternary_mod.rs | TODO |
-| P1 | GAP-06 | For-each type casts | ~30 | ~50 | body_gen.rs | TODO |
+| P1 | GAP-06 | For-each type casts | ~30 | ~50 | body_gen.rs | **FIXED** (c2812b69a) |
 | P1 | GAP-07 | Boolean return | ~20 | ~30 | body_gen.rs | **FIXED** (already implemented) |
 | P1 | GAP-08 | Invoke arg arrays | ~60 | ~80 | body_gen.rs | TODO |
 | P1 | GAP-09 | StringBuilder | ~150 | ~200 | simplify_stringbuilder.rs | **FIXED** (already implemented) |
 | P1 | GAP-10 | else-return | ~50 | ~80 | body_gen.rs | **FIXED** (already implemented) |
 
-**Remaining P0+P1 Total:** ~440 lines of JADX logic to clone (2 P0 + 4 P1 gaps fixed)
+**Remaining P0+P1 Total:** ~390 lines of JADX logic to clone (2 P0 + 5 P1 gaps fixed)
 
 ---
 
