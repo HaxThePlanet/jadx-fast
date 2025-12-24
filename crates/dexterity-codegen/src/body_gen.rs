@@ -6407,6 +6407,7 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
                     if let Some(loop_details) = details {
                         if let Some(foreach_info) = &loop_details.foreach_info {
+                            // Handle array for-each: for (Type elem : array)
                             if let dexterity_ir::regions::IterableSource::Array { array_reg, index_reg: Some(_idx_reg) } = &foreach_info.iterable {
                                 // Get element variable name and type from register
                                 if let Some(elem_reg) = &foreach_info.elem_var_reg {
@@ -6439,6 +6440,51 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                                             .newline();
                                         code.inc_indent();
                                     }
+
+                                    generate_region(body, ctx, code);
+
+                                    gen_close_block(code);
+                                    generated_foreach = true;
+                                }
+                            }
+                            // Handle iterator for-each: for (Type elem : iterable)
+                            // JADX Reference: LoopRegionVisitor.checkIterableForEach()
+                            else if let dexterity_ir::regions::IterableSource::Iterator { iterable_reg, iterator_reg, .. } = &foreach_info.iterable {
+                                if let Some(elem_reg) = &foreach_info.elem_var_reg {
+                                    let elem_var_reg = dexterity_ir::instructions::RegisterArg::with_ssa(elem_reg.0, elem_reg.1);
+                                    let elem_var_name = ctx.expr_gen.get_var_name(&elem_var_reg);
+
+                                    // Get iterable collection expression
+                                    let iter_reg = dexterity_ir::instructions::RegisterArg::with_ssa(iterable_reg.0, iterable_reg.1);
+                                    let iterable_expr = ctx.expr_gen.get_var_name(&iter_reg);
+
+                                    // Get element type from the element variable
+                                    let elem_type = ctx.type_info.as_ref()
+                                        .and_then(|ti| ti.types.get(&(elem_reg.0, elem_reg.1)))
+                                        .map(|t| type_to_string_with_imports_and_package(t, ctx.imports.as_ref(), ctx.current_package.as_deref()))
+                                        .unwrap_or_else(|| "Object".to_string());
+
+                                    // Generate for-each: for (Type elem : iterable)
+                                    if let Some(lbl) = &loop_label {
+                                        gen_labeled_foreach_header(lbl, &elem_type, &elem_var_name, &iterable_expr, code);
+                                    } else {
+                                        code.start_line()
+                                            .add("for (")
+                                            .add(&elem_type)
+                                            .add(" ")
+                                            .add(&elem_var_name)
+                                            .add(" : ")
+                                            .add(&iterable_expr)
+                                            .add(") {")
+                                            .newline();
+                                        code.inc_indent();
+                                    }
+
+                                    // Mark iterator-related instructions for skipping
+                                    // The iterator() call, hasNext() call, and next() call should not be emitted
+                                    // TODO: Mark instructions at iterator_call_offset, has_next_offset, next_offset
+                                    // For now, the loop body generation handles this via condition skipping
+                                    let _ = iterator_reg; // suppress unused warning for now
 
                                     generate_region(body, ctx, code);
 

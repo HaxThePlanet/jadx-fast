@@ -60,6 +60,8 @@ pub struct LoopPatternResult {
     pub for_loops: Vec<ForLoopPattern>,
     /// Detected array for-each patterns
     pub array_for_each: Vec<ArrayForEachPattern>,
+    /// Detected iterator for-each patterns (Iterable.iterator/hasNext/next)
+    pub iterator_for_each: Vec<IteratorForEachPattern>,
     /// Map of loop header to detected kind
     pub loop_kinds: HashMap<u32, LoopKind>,
 }
@@ -96,11 +98,24 @@ pub fn analyze_loop_patterns(ssa: &SsaResult, loops: &[LoopInfo]) -> LoopPattern
             if let Some(foreach_pattern) = detect_array_foreach(ssa, &for_pattern, &def_map, &use_counts) {
                 result.array_for_each.push(foreach_pattern);
                 result.loop_kinds.insert(loop_info.header, LoopKind::ForEach);
+                continue;
             } else {
                 result.for_loops.push(for_pattern);
                 result.loop_kinds.insert(loop_info.header, LoopKind::For);
+                continue;
             }
         }
+
+        // Try iterator for-each pattern (Iterable.iterator/hasNext/next)
+        // JADX Reference: LoopRegionVisitor.checkIterableForEach()
+        if let Some(iter_pattern) = detect_iterator_foreach(ssa, loop_info, &def_map, &use_locations) {
+            result.iterator_for_each.push(iter_pattern);
+            result.loop_kinds.insert(loop_info.header, LoopKind::ForEach);
+            continue;
+        }
+
+        // Default: while loop (no pattern detected)
+        result.loop_kinds.insert(loop_info.header, LoopKind::While);
     }
 
     result

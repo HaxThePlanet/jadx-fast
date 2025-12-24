@@ -1167,6 +1167,10 @@ pub enum IterableSource {
     },
     /// Iterating via Iterator: for (T elem : iterable)
     Iterator {
+        /// Register holding the iterable collection (reg_num, ssa_version)
+        iterable_reg: (u16, u32),
+        /// Register holding the iterator (reg_num, ssa_version)
+        iterator_reg: (u16, u32),
         /// Offset of iterator() call
         iterator_call_offset: Option<u32>,
         /// Offset of hasNext() call

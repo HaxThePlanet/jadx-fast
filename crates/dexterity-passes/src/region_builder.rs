@@ -2584,7 +2584,7 @@ fn refine_loops_recursive(region: &mut Region, patterns: &LoopPatternResult) {
             // We need to find the header block from the condition
             // For now, we use the loop_kinds map which is keyed by header
 
-            // Try to find matching ForEach pattern
+            // Try to find matching array ForEach pattern
             for foreach in &patterns.array_for_each {
                 if let Some(detected_kind) = patterns.loop_kinds.get(&foreach.header) {
                     if *detected_kind == LoopKind::ForEach && *kind != LoopKind::ForEach {
@@ -2599,6 +2599,31 @@ fn refine_loops_recursive(region: &mut Region, patterns: &LoopPatternResult) {
                             },
                         })));
                         break;
+                    }
+                }
+            }
+
+            // Try to find matching iterator ForEach pattern (Iterable.iterator/hasNext/next)
+            // JADX Reference: LoopRegionVisitor.checkIterableForEach()
+            if !matches!(kind, LoopKind::ForEach) {
+                for iter_foreach in &patterns.iterator_for_each {
+                    if let Some(detected_kind) = patterns.loop_kinds.get(&iter_foreach.header) {
+                        if *detected_kind == LoopKind::ForEach {
+                            // Update kind and add details for iterator-based for-each
+                            *kind = LoopKind::ForEach;
+                            *details = Some(Box::new(LoopDetails::foreach_loop(ForEachLoopInfo {
+                                elem_var: None,
+                                elem_var_reg: Some(iter_foreach.elem_var),
+                                iterable: IterableSource::Iterator {
+                                    iterable_reg: iter_foreach.iterable_reg,
+                                    iterator_reg: iter_foreach.iterator_reg,
+                                    iterator_call_offset: Some(iter_foreach.iterator_call_offset),
+                                    has_next_offset: Some(iter_foreach.has_next_offset),
+                                    next_offset: Some(iter_foreach.next_call_offset),
+                                },
+                            })));
+                            break;
+                        }
                     }
                 }
             }
