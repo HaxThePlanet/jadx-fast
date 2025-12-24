@@ -123,6 +123,11 @@ pub struct BodyGenContext {
     /// Maps (reg, version) of PHI destination to its constant initializer string
     /// This fixes: `int i;` -> `int i = 0;` when PHI has a constant source
     pub phi_constant_inits: HashMap<(u16, u32), String>,
+    /// P1-CONTROL-FLOW FIX: Maps PHI source (reg, version) -> PHI destination (reg, version)
+    /// When emitting an assignment to a PHI source, we should assign to the PHI destination
+    /// variable instead of creating a new variable declaration.
+    /// Example: PHI(z = Block1:r0v3, Block2:r0v4) -> {(r0,3)->(r0,5), (r0,4)->(r0,5)}
+    pub phi_source_to_dest: HashMap<(u16, u32), (u16, u32)>,
     /// All constant values from Const instructions: (reg, version) -> value string
     /// Used for boolean return conversion (P1-S02 fix)
     pub const_values: HashMap<(u16, u32), String>,
@@ -292,6 +297,7 @@ impl BodyGenContext {
             current_package: None,
             phi_declarations: HashSet::new(),
             phi_constant_inits: HashMap::new(),
+            phi_source_to_dest: HashMap::new(),
             const_values: HashMap::new(),
             skip_foreach_insns: HashMap::new(),
             stringbuilder_chains: HashMap::new(),
@@ -1425,6 +1431,53 @@ fn collect_phi_constant_inits(
     inits
 }
 
+/// P1-CONTROL-FLOW FIX: Build mapping from PHI sources to PHI destinations.
+/// When we're about to emit an assignment to a register that's a PHI source,
+/// we should instead assign to the PHI destination variable.
+///
+/// Example: For PHI(r0v5 = Block1:r0v3, Block2:r0v4), this creates:
+///   (r0, 3) -> (r0, 5)
+///   (r0, 4) -> (r0, 5)
+///
+/// This prevents the broken output:
+///   boolean z = false;
+///   if (cond) { int i2 = 1; }  // Should be: z = true;
+///   return z;
+fn collect_phi_source_to_dest(
+    ssa_result: &dexterity_passes::ssa::SsaResult,
+    exception_handler_blocks: &HashSet<u32>,
+) -> HashMap<(u16, u32), (u16, u32)> {
+    let mut mapping: HashMap<(u16, u32), (u16, u32)> = HashMap::new();
+
+    for block in &ssa_result.blocks {
+        // Skip PHI nodes in exception handler blocks
+        if exception_handler_blocks.contains(&block.id) {
+            continue;
+        }
+
+        for phi in &block.phi_nodes {
+            // Skip 'this' parameter (reg 0, version 0)
+            if phi.dest.reg_num == 0 && phi.dest.ssa_version == 0 {
+                continue;
+            }
+
+            let dest = (phi.dest.reg_num, phi.dest.ssa_version);
+
+            // Map each source to the destination
+            for (_, source) in &phi.sources {
+                let src = (source.reg_num, source.ssa_version);
+                // Only map if source is same register as destination
+                // (This handles the common case of boolean/int merging)
+                if source.reg_num == phi.dest.reg_num {
+                    mapping.insert(src, dest);
+                }
+            }
+        }
+    }
+
+    mapping
+}
+
 /// Collect ALL constant values from Const instructions (P1-S02 fix)
 /// Used for boolean return conversion: `return i;` where i=1 -> `return true;`
 fn collect_const_values(
@@ -1629,20 +1682,37 @@ fn emit_assignment_with_hint<W: CodeWriter>(
     let reg = dest.reg_num;
     let version = dest.ssa_version;
 
+    // P1-CONTROL-FLOW FIX: Check if this is a PHI source that should redirect to PHI destination
+    // Example: PHI(z = Block1:r0v3, Block2:r0v4) - when emitting r0v3, assign to z (r0v5) instead
+    let (effective_reg, effective_version, is_phi_source) =
+        if let Some(&(dest_reg, dest_version)) = ctx.phi_source_to_dest.get(&(reg, version)) {
+            (dest_reg, dest_version, true)
+        } else {
+            (reg, version, false)
+        };
+
     // DEAD VARIABLE ELIMINATION: Skip variables that are never used
-    let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
-    if use_count == 0 {
+    // For PHI sources, check the PHI destination's use count instead
+    let use_count = ctx.use_counts.get(&(effective_reg, effective_version)).copied().unwrap_or(0);
+    if use_count == 0 && !is_phi_source {
         return;  // Skip unused variables - dead code elimination
     }
 
     // Check if this variable should be inlined (used exactly once)
-    if ctx.should_inline(reg, version) {
+    // Skip inlining check for PHI sources - they must assign to the PHI variable
+    if !is_phi_source && ctx.should_inline(reg, version) {
         // Store the expression for later inlining instead of emitting
         ctx.store_inline_expr(reg, version, value_str.to_string());
         return;
     }
 
-    let mut var_name = ctx.expr_gen.get_var_name(dest);
+    // For PHI sources, use the PHI destination's variable name
+    let effective_dest = if is_phi_source {
+        RegisterArg { reg_num: effective_reg, ssa_version: effective_version }
+    } else {
+        *dest
+    };
+    let mut var_name = ctx.expr_gen.get_var_name(&effective_dest);
 
     // Determine the type for this variable (used for declaration and compatibility check)
     // Priority: 1. Type inference, 2. Type hint, 3. Try version 0, 4. Object fallback
@@ -1660,14 +1730,18 @@ fn emit_assignment_with_hint<W: CodeWriter>(
 
     // Check if we need to declare this variable
     // In SSA form, only version 0 of parameter registers are actual parameters
-    let needs_decl = if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
+    // P1-CONTROL-FLOW FIX: PHI sources never need declaration - their PHI destination
+    // is already declared via emit_phi_declarations()
+    let needs_decl = if is_phi_source {
+        false  // PHI destination already declared
+    } else if ctx.is_declared(effective_reg, effective_version) || ctx.is_parameter(effective_reg, effective_version) {
         false
     } else if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
         // Name exists - check type compatibility
         if !types_compatible_for_naming(existing_type, &decl_type) {
             // Incompatible type - generate unique name
             var_name = ctx.generate_unique_name(&var_name);
-            ctx.expr_gen.set_var_name(reg, version, var_name.clone());
+            ctx.expr_gen.set_var_name(effective_reg, effective_version, var_name.clone());
             true  // Needs declaration with new name
         } else {
             false  // Compatible, reuse existing
@@ -1680,7 +1754,7 @@ fn emit_assignment_with_hint<W: CodeWriter>(
 
     if needs_decl {
         // Emit 'final' keyword if this variable is only assigned once
-        if ctx.is_final(reg, version) {
+        if ctx.is_final(effective_reg, effective_version) {
             code.add("final ");
         }
 
@@ -1688,7 +1762,7 @@ fn emit_assignment_with_hint<W: CodeWriter>(
         let type_str = type_to_string_with_imports_and_package(&decl_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
         code.add(&type_str).add(" ");
 
-        ctx.mark_declared(reg, version);
+        ctx.mark_declared(effective_reg, effective_version);
         ctx.mark_name_declared(&var_name, &decl_type);
     }
 
@@ -1712,15 +1786,25 @@ fn emit_assignment_insn<W: CodeWriter>(
     let reg = dest.reg_num;
     let version = dest.ssa_version;
 
+    // P1-CONTROL-FLOW FIX: Check if this is a PHI source that should redirect to PHI destination
+    let (effective_reg, effective_version, is_phi_source) =
+        if let Some(&(dest_reg, dest_version)) = ctx.phi_source_to_dest.get(&(reg, version)) {
+            (dest_reg, dest_version, true)
+        } else {
+            (reg, version, false)
+        };
+
     // DEAD VARIABLE ELIMINATION: Skip variables that are never used
-    let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
-    if use_count == 0 {
+    // For PHI sources, check the PHI destination's use count instead
+    let use_count = ctx.use_counts.get(&(effective_reg, effective_version)).copied().unwrap_or(0);
+    if use_count == 0 && !is_phi_source {
         return false;  // Skip unused variables - dead code elimination
     }
 
     // Check if this variable should be inlined (used exactly once)
+    // Skip inlining check for PHI sources - they must assign to the PHI variable
     // This is the rare case where we need the String for deferred emission
-    if ctx.should_inline(reg, version) {
+    if !is_phi_source && ctx.should_inline(reg, version) {
         // BUG-005 FIX: Do NOT use detect_increment_decrement for inline expressions!
         // Compound assignments like `var &= N` are STATEMENTS, not pure expressions.
         // Using them in conditions produces garbled code like `if (systemUiVisibility &= 4 == 4)`
@@ -1741,12 +1825,21 @@ fn emit_assignment_insn<W: CodeWriter>(
 
     // Check for increment/decrement pattern: i = i + 1 -> i++ or i = i - 1 -> i--
     // This must be checked before the variable is declared as new
-    if let Some(incr_decr) = detect_increment_decrement(dest, insn, ctx) {
-        code.start_line().add(&incr_decr).add(";").newline();
-        return true;
+    // Skip for PHI sources - they need to assign to PHI destination
+    if !is_phi_source {
+        if let Some(incr_decr) = detect_increment_decrement(dest, insn, ctx) {
+            code.start_line().add(&incr_decr).add(";").newline();
+            return true;
+        }
     }
 
-    let mut var_name = ctx.expr_gen.get_var_name(dest);
+    // For PHI sources, use the PHI destination's variable name
+    let effective_dest = if is_phi_source {
+        RegisterArg { reg_num: effective_reg, ssa_version: effective_version }
+    } else {
+        *dest
+    };
+    let mut var_name = ctx.expr_gen.get_var_name(&effective_dest);
 
     // Determine the type for this variable (used for declaration and compatibility check)
     // Priority: 1. Type inference, 2. Type hint, 3. Try version 0, 4. Object fallback
@@ -1763,14 +1856,18 @@ fn emit_assignment_insn<W: CodeWriter>(
         .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
 
     // Check if we need to declare this variable
-    let needs_decl = if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
+    // P1-CONTROL-FLOW FIX: PHI sources never need declaration - their PHI destination
+    // is already declared via emit_phi_declarations()
+    let needs_decl = if is_phi_source {
+        false  // PHI destination already declared
+    } else if ctx.is_declared(effective_reg, effective_version) || ctx.is_parameter(effective_reg, effective_version) {
         false
     } else if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
         // Name exists - check type compatibility
         if !types_compatible_for_naming(existing_type, &decl_type) {
             // Incompatible type - generate unique name
             var_name = ctx.generate_unique_name(&var_name);
-            ctx.expr_gen.set_var_name(reg, version, var_name.clone());
+            ctx.expr_gen.set_var_name(effective_reg, effective_version, var_name.clone());
             true  // Needs declaration with new name
         } else {
             false  // Compatible, reuse existing
@@ -1782,14 +1879,14 @@ fn emit_assignment_insn<W: CodeWriter>(
     code.start_line();
 
     if needs_decl {
-        if ctx.is_final(reg, version) {
+        if ctx.is_final(effective_reg, effective_version) {
             code.add("final ");
         }
 
         let type_str = type_to_string_with_imports_and_package(&decl_type, ctx.imports.as_ref(), ctx.current_package.as_deref());
         code.add(&type_str).add(" ");
 
-        ctx.mark_declared(reg, version);
+        ctx.mark_declared(effective_reg, effective_version);
         ctx.mark_name_declared(&var_name, &decl_type);
     }
 
@@ -1799,7 +1896,19 @@ fn emit_assignment_insn<W: CodeWriter>(
     // This ensures operands (like Invoke results and Constants) are properly inlined.
     // Previous code used ctx.expr_gen.write_insn() which doesn't support inlining,
     // causing undefined variables like `l = l5 / l2` instead of `l = e(...) / 7`.
-    if let Some(expr_str) = ctx.gen_insn_inline(insn) {
+    if let Some(mut expr_str) = ctx.gen_insn_inline(insn) {
+        // P1-CONTROL-FLOW FIX: For PHI sources with boolean destination, format 0/1 as false/true
+        if is_phi_source {
+            if let Some(dest_type) = ctx.get_inferred_type_versioned(effective_reg, effective_version) {
+                if matches!(dest_type, ArgType::Boolean) {
+                    if expr_str == "0" {
+                        expr_str = "false".to_string();
+                    } else if expr_str == "1" {
+                        expr_str = "true".to_string();
+                    }
+                }
+            }
+        }
         code.add(&expr_str);
         code.add(";").newline();
         true
@@ -2290,6 +2399,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
+    ctx.phi_source_to_dest = collect_phi_source_to_dest(&ssa_result, &exception_handler_blocks);
     ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
@@ -2514,6 +2624,7 @@ fn generate_body_impl<W: CodeWriter>(
     // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
+    ctx.phi_source_to_dest = collect_phi_source_to_dest(&ssa_result, &exception_handler_blocks);
     ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
@@ -2874,6 +2985,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     // Collect phi destinations, constant inits, and source uses before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
+    ctx.phi_source_to_dest = collect_phi_source_to_dest(&ssa_result, &exception_handler_blocks);
     ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
@@ -9614,9 +9726,21 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::Const { dest, value } => {
+            let reg = dest.reg_num;
+            let version = dest.ssa_version;
+
+            // P1-CONTROL-FLOW FIX: Check if this is a PHI source - if so, use PHI destination's type
+            let (effective_reg, effective_version, is_phi_source) =
+                if let Some(&(dest_reg, dest_version)) = ctx.phi_source_to_dest.get(&(reg, version)) {
+                    (dest_reg, dest_version, true)
+                } else {
+                    (reg, version, false)
+                };
+
             // Check if type inference determined this register is boolean
+            // For PHI sources, use the PHI destination's type for proper boolean formatting
             let inferred_type = ctx.type_info.as_ref()
-                .and_then(|ti| ti.types.get(&(dest.reg_num, dest.ssa_version)))
+                .and_then(|ti| ti.types.get(&(effective_reg, effective_version)))
                 .cloned();
 
             // Use inferred type if available, otherwise fall back to literal type
@@ -9631,16 +9755,13 @@ fn generate_insn<W: CodeWriter>(
             // P1-CFG07 FIX: Check should_inline for ALL const values, not just 0/1
             // This ensures constants like 7, 12000 are inlined when single-use,
             // producing `e(a, b) / 7` instead of `int l3 = 7; l2 = l6 / l3;`
-            let reg = dest.reg_num;
-            let version = dest.ssa_version;
-
-            // DEBUG: Trace generate_insn const processing
-            if std::env::var("DEBUG_INLINE").is_ok() {
-                eprintln!("[GEN-CONST] r{}v{} value={:?} should_inline={}",
-                    reg, version, value, ctx.should_inline(reg, version));
-            }
-
-            if ctx.should_inline(reg, version) {
+            // Skip inlining for PHI sources - they must assign to the PHI variable
+            if !is_phi_source && ctx.should_inline(reg, version) {
+                // DEBUG: Trace generate_insn const processing
+                if std::env::var("DEBUG_INLINE").is_ok() {
+                    eprintln!("[GEN-CONST] r{}v{} value={:?} should_inline=true",
+                        reg, version, value);
+                }
                 // Generate literal using type-aware function for proper boolean/char handling
                 let val_str = if let (Some(ref ty), LiteralArg::Int(v)) = (&type_hint, value) {
                     literal_to_string(*v, ty)

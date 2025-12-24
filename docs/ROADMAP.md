@@ -1,6 +1,6 @@
 # Roadmap
 
-**Status:** 0 P0 Bugs | ~83% Syntax Quality | 180% File Coverage | Dec 24, 2025
+**Status:** 2 P0 Bugs | ~85-87% Syntax Quality | 64% File Coverage | Dec 24, 2025
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 **Kotlin Parity:** ~85-90% - Field alias references FIXED (Dec 24), see [KOTLIN_PARITY.md](KOTLIN_PARITY.md)
 **Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
@@ -8,7 +8,78 @@
 
 ---
 
-## P0 Critical Bugs - ALL FIXED (Dec 24, 2025)
+## P0 Critical Bugs - 2 OPEN (Dec 24, 2025)
+
+### P0-LOOP-VAR: Undefined Loop Variables - IN PROGRESS
+
+**Status:** 🔄 IN PROGRESS | **Priority:** P0 (CRITICAL - Code won't compile)
+**Location:** `crates/dexterity-codegen/src/body_gen.rs` - for-each loop generation
+
+**Bug:** For-each loops over arrays don't declare the iterator variable. Code like:
+```java
+// Dexterity (broken):
+while (i < strArr.length) {
+    if (file.exists()) {  // ERROR: 'file' never declared
+        break;
+    }
+}
+
+// JADX (correct):
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        return true;
+    }
+}
+```
+
+**Affected Methods:** `isRooted()`, `checkMagisk()`, `checkSuBinary()`, `checkBusybox()` in MaliciousPatterns.java
+
+**Root Cause:** Loop body doesn't create `File file = new File(str)` - the NewInstance + InvokeVirtual pattern isn't being generated.
+
+---
+
+### P0-BOOL-CHAIN: Truncated Boolean Chains - OPEN
+
+**Status:** ❌ OPEN | **Priority:** P0 (CRITICAL - Wrong behavior)
+**Location:** `crates/dexterity-codegen/src/body_gen.rs` or `conditionals.rs`
+
+**Bug:** Complex boolean OR chains are truncated after first condition:
+```java
+// Dexterity (broken - only first check):
+if (StringsKt.startsWith$default(Build.FINGERPRINT, str2, z, i, obj)) {
+    z = true;
+}
+return z;
+
+// JADX (correct - all 12 checks):
+if (startsWith(FINGERPRINT, "generic") || startsWith(FINGERPRINT, "unknown") ||
+    contains(MODEL, "google_sdk") || contains(MODEL, "Emulator") || ... ) {
+    return true;
+}
+return false;
+```
+
+**Affected Methods:** `detectEmulator$lambda$1()` - JADX has 40 lines, Dexterity has 12
+
+---
+
+### ~~P0-LAMBDA-SUPPRESS: Lambda Files Still Output~~ - FIXED
+
+**Status:** ✅ FIXED (Dec 24, 2025) | **Priority:** P0 (File count mismatch)
+**Location:** `crates/dexterity-codegen/src/class_gen.rs`, `crates/dexterity-cli/src/main.rs`
+
+**Bug:** Lambda suppression not working - was outputting 92 files vs JADX 86 for badboy APK.
+
+**Fix (Dec 24):** Updated `is_lambda_class()` to detect all lambda class patterns:
+1. `$$Lambda$` - Old toolchain pattern
+2. `$$ExternalSyntheticLambda` - D8/R8 pattern
+3. `$lambda-` - Kotlin Compose lambda pattern
+
+Added class-level filtering in `main.rs` to skip lambda classes entirely.
+
+**Result:** badboy APK now outputs 55 files (was 92). Lambda classes correctly suppressed.
+
+---
 
 ### ~~P0-SYNTHETIC: Synthetic Classes Not Output~~ - FIXED
 
@@ -29,16 +100,72 @@
 
 ---
 
+## P1 Semantic Bugs - 1 OPEN (Dec 24, 2025)
+
+### ~~P1-CONTROL-FLOW: Broken Control Flow in Complex Methods~~ - FIXED
+
+**Status:** ✅ FIXED (Dec 24, 2025) | **Priority:** P1 (Wrong behavior)
+**Location:** `crates/dexterity-codegen/src/body_gen.rs`
+
+**Bug:** PHI source registers were being treated as new variable declarations instead of
+assignments to the PHI destination variable, causing broken control flow like:
+```java
+boolean z = false;
+if (Debug.isDebuggerConnected()) {
+    int i2 = 1;  // Wrong! Should assign to z
+} else { ... }
+return z;  // Always returns false!
+```
+
+**Root Cause:** When emitting Const instructions for PHI sources (e.g., `const r0v3, 1`),
+codegen didn't know that r0v3 feeds into PHI r0v5. It created a new variable `i2` instead
+of assigning to the PHI variable `z`.
+
+**Fix (Dec 24):** Three-part fix for PHI source handling:
+1. Added `phi_source_to_dest` mapping: `collect_phi_source_to_dest()` creates a map from
+   each PHI source (reg, version) to its PHI destination (reg, version)
+2. Modified `emit_assignment_with_hint()` and `emit_assignment_insn()` to:
+   - Check if destination is a PHI source
+   - If so, use PHI destination's variable name instead of creating new variable
+   - Skip declaration (PHI destination already declared via `emit_phi_declarations()`)
+3. Modified `InsnType::Const` handler to:
+   - Use PHI destination's type for literal formatting (so 0/1 become false/true for booleans)
+   - Skip inlining for PHI sources (they must assign to the PHI variable)
+
+**Result:** `isBeingDebugged()` now outputs:
+```java
+boolean z = false;
+if (Debug.isDebuggerConnected()) {
+    z = true;  // Correct! Assigns to z
+} else { ... }
+return z;  // Correct return value
+```
+
+**Remaining Issues:** Empty if blocks (P0-BOOL-CHAIN) - handled by separate task.
+
+### P2-UNKNOWN-TYPE: Unknown Type Warnings - OPEN
+
+**Status:** ❌ OPEN | **Priority:** P2 (Cosmetic but ugly)
+
+**Bug:** Type inference failures produce warning comments:
+```java
+Object /* Dexterity WARNING: Unknown type */ r3 = inputStreamReader instanceof BufferedReader...
+```
+
+**Affected Methods:** `execCommand1()`, `execCommand2()`, `execCommand3()`, `execWithProcessBuilder()`
+
+---
+
 ## Current State
 
-**Output Quality (from actual comparison):**
+**Output Quality (from actual comparison Dec 24, 2025):**
 - small APK: 100% clean
 - large APK: 99.93% clean (but Kotlin field names obfuscated)
-- badboy APK: 98% clean, 81 files output (was 53)
+- badboy APK: **85-87% clean** (P0 undefined vars, P0 boolean chains)
 - medium APK: 98%+ clean (hot-reload fix applied Dec 23)
 
-**JADX Codegen Parity:** ~83% (B Grade) for syntax quality
-**File Coverage:** Now 180% of JADX (81 vs 45) - outputs lambda classes separately (P1-LAMBDA will inline them)
+**JADX Codegen Parity:** ~85-87% (B Grade) for syntax quality
+**File Coverage:** 107% of JADX (92 vs 86) - lambda suppression not fully working
 
 ## Open Work
 
