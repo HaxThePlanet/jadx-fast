@@ -420,41 +420,36 @@ fn trace_register_constant(reg_num: usize, method: &MethodData, up_to_idx: usize
     trace_register_constant_impl(reg_num, method, up_to_idx, &mut HashSet::new(), 0, dex)
 }
 
-/// Check if there are any side-effect instructions between two instruction indices
-/// Clone of JADX canReorder check from ExtractFieldInit.java
-/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:193
-/// "if (!fieldInsn && canReorder && !insn.canReorder())"
+/// Check if there are any instructions between two indices that write to our register
 ///
-/// Side-effect instructions include:
-/// - Invoke (any method call can have side effects)
-/// - InvokeRange (range-based method call)
-/// - Monitor (synchronization)
-/// - FilledNewArray (allocates and has side effects)
+/// This is a refined version of JADX's canReorder check. Instead of blocking on ANY
+/// side-effect instruction, we only block if an instruction could modify the register
+/// value we're tracing. This allows extracting field inits like:
+///
+///   const/4 v0, 0        ; for $stable
+///   new-instance v1, Foo
+///   invoke-direct {v1}   ; doesn't touch v0, so allowed
+///   sput v0, $stable     ; can still trace back to const/4
+///
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:193
 fn has_side_effect_between(
     from_idx: usize,
     to_idx: usize,
     instructions: &[dexterity_ir::instructions::InsnNode],
+    reg_num: usize,
 ) -> bool {
     for insn in instructions.iter().skip(from_idx + 1).take(to_idx - from_idx - 1) {
-        match &insn.insn_type {
-            // Method invocations are side effects (Intrinsics.checkNotNull, etc.)
-            InsnType::Invoke { .. } | InsnType::InvokeCustom { .. } => {
-                return true;
-            }
-            // Synchronization primitives
-            InsnType::MonitorEnter { .. } | InsnType::MonitorExit { .. } => {
-                return true;
-            }
-            // Filled new array has allocation side effects
-            InsnType::FilledNewArray { .. } => {
-                return true;
-            }
-            // Throw is a control flow change with side effects
-            InsnType::Throw { .. } => {
-                return true;
-            }
-            _ => {}
+        // Check if this instruction could write to our register
+        if insn_writes_to_register(&insn.insn_type, reg_num) {
+            return true;
         }
+
+        // Special case: MoveResult writes to its dest, which we already check above.
+        // But Invoke followed by MoveResult means the invoke "effectively" writes to
+        // the result register. We check MoveResult destination above via insn_writes_to_register.
+
+        // Monitor/Throw change control flow but don't write to registers directly
+        // FilledNewArray writes to its dest, checked above
     }
     false
 }
@@ -492,7 +487,7 @@ fn trace_register_constant_impl(
                 // Clone of JADX ExtractFieldInit.java canReorder check
                 // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:193
                 // Check for side-effect instructions between const and SPUT
-                if has_side_effect_between(idx, up_to_idx, instructions) {
+                if has_side_effect_between(idx, up_to_idx, instructions, reg_num) {
                     return None;
                 }
                 // Found a const instruction that writes to our register
@@ -514,7 +509,7 @@ fn trace_register_constant_impl(
                 // Clone of JADX ExtractFieldInit.java canReorder check
                 // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:193
                 // Check for side-effect instructions between const-string and SPUT
-                if has_side_effect_between(idx, up_to_idx, instructions) {
+                if has_side_effect_between(idx, up_to_idx, instructions, reg_num) {
                     return None;
                 }
                 // Found a const-string instruction - resolve from DEX string pool
@@ -529,7 +524,7 @@ fn trace_register_constant_impl(
                 // Clone of JADX ExtractFieldInit.java canReorder check
                 // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:193
                 // Check for side-effect instructions between const-class and SPUT
-                if has_side_effect_between(idx, up_to_idx, instructions) {
+                if has_side_effect_between(idx, up_to_idx, instructions, reg_num) {
                     return None;
                 }
                 // Found a const-class instruction - resolve from DEX type pool
@@ -594,16 +589,30 @@ fn trace_register_constant_impl(
 /// Check if an instruction writes to a specific register
 fn insn_writes_to_register(insn: &InsnType, reg_num: usize) -> bool {
     match insn {
+        // Const instructions
         InsnType::Const { dest, .. }
         | InsnType::ConstString { dest, .. }
         | InsnType::ConstClass { dest, .. }
+        // Move instructions
         | InsnType::Move { dest, .. }
         | InsnType::MoveResult { dest, .. }
         | InsnType::MoveException { dest, .. }
+        // Unary operations
         | InsnType::InstanceOf { dest, .. }
         | InsnType::ArrayLength { dest, .. }
+        | InsnType::Unary { dest, .. }
+        | InsnType::Cast { dest, .. }
+        // Allocation
         | InsnType::NewInstance { dest, .. }
-        | InsnType::NewArray { dest, .. } => dest.reg_num == reg_num as u16,
+        | InsnType::NewArray { dest, .. }
+        // Field/Array access (reads)
+        | InsnType::InstanceGet { dest, .. }
+        | InsnType::StaticGet { dest, .. }
+        | InsnType::ArrayGet { dest, .. }
+        // Binary operations
+        | InsnType::Binary { dest, .. }
+        // Compare
+        | InsnType::Compare { dest, .. } => dest.reg_num == reg_num as u16,
         _ => false,
     }
 }
