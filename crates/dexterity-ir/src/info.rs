@@ -1508,9 +1508,11 @@ pub enum FieldValue {
     Enum(String, String),
     /// Field reference (class name, field name)
     Field(String, String),
-    /// New instance creation (class name) - for `new ClassName()` pattern
-    /// Used for Kotlin object INSTANCE fields and similar singleton patterns
-    NewInstance(String),
+    /// New instance creation (class name, optional constructor args)
+    /// Clone of JADX FieldInitInsnAttr for constructor call extraction
+    /// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:387-396
+    /// Used for patterns like: static final Base64 DEFAULT = new Base64(false);
+    NewInstance(String, Vec<FieldValue>),
 }
 
 #[cfg(test)]

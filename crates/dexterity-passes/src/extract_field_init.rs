@@ -313,7 +313,7 @@ fn collect_field_inits(
                 field_value = convert_value_to_field_type(&field_value, &fields[array_idx].field_type);
 
                 // For NewInstance patterns, find the related instructions to remove
-                let additional_indices = if let FieldValue::NewInstance(_) = &field_value {
+                let additional_indices = if let FieldValue::NewInstance(_, _) = &field_value {
                     find_new_instance_instructions(value, method, insn_idx)
                 } else {
                     Vec::new()
@@ -386,7 +386,7 @@ fn is_safe_init(field: &FieldData, value: &FieldValue) -> bool {
             | FieldValue::Double(_)
             | FieldValue::String(_)
             | FieldValue::Type(_)
-            | FieldValue::NewInstance(_) // Kotlin object INSTANCE pattern
+            | FieldValue::NewInstance(_, _) // Kotlin object INSTANCE pattern
     )
 }
 
@@ -506,13 +506,15 @@ fn trace_register_constant_impl(
             InsnType::NewInstance { dest, type_idx } if dest.reg_num == reg_num as u16 => {
                 // Found a new-instance instruction that creates our object
                 // Check if there's a corresponding <init> call between here and up_to_idx
-                // Pattern: new-instance vN, Type; invoke-direct {vN}, Type.<init>
+                // Pattern: new-instance vN, Type; invoke-direct {vN, args...}, Type.<init>
+                // Clone of JADX ExtractFieldInit constructor extraction
+                // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:387-396
                 if let Some(dex) = dex {
-                    // Check if constructor is called on this object before SPUT
-                    if has_constructor_call(reg_num, idx, up_to_idx, instructions) {
+                    // Get constructor arguments (also validates constructor is called)
+                    if let Some(ctor_args) = get_constructor_args(reg_num, idx, up_to_idx, instructions, Some(dex)) {
                         // Resolve the class name from type_idx
                         if let Ok(type_desc) = dex.get_type(*type_idx) {
-                            return Some(FieldValue::NewInstance(type_desc.to_string()));
+                            return Some(FieldValue::NewInstance(type_desc.to_string(), ctor_args));
                         }
                     }
                 }
@@ -557,24 +559,98 @@ fn has_constructor_call(
     sput_idx: usize,
     instructions: &[dexterity_ir::instructions::InsnNode],
 ) -> bool {
+    get_constructor_args(reg_num, new_instance_idx, sput_idx, instructions, None).is_some()
+}
+
+/// Get constructor arguments from invoke-direct <init> call
+/// Clone of JADX FieldInitInsnAttr for extracting constructor call arguments
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:387-396
+///
+/// Returns Some(args) if a valid constructor call is found, None otherwise
+fn get_constructor_args(
+    reg_num: usize,
+    new_instance_idx: usize,
+    sput_idx: usize,
+    instructions: &[dexterity_ir::instructions::InsnNode],
+    dex: Option<&DexReader>,
+) -> Option<Vec<FieldValue>> {
     use dexterity_ir::instructions::InvokeKind;
 
     // Scan instructions between new-instance and sput
-    for insn in instructions.iter().skip(new_instance_idx + 1).take(sput_idx - new_instance_idx - 1) {
+    for (insn_idx, insn) in instructions.iter().enumerate().skip(new_instance_idx + 1).take(sput_idx - new_instance_idx - 1) {
         if let InsnType::Invoke { kind: InvokeKind::Direct, args, .. } = &insn.insn_type {
             // Check if first argument is our register (the 'this' for the constructor)
             if let Some(first_arg) = args.first() {
                 if let InsnArg::Register(arg_reg) = first_arg {
                     if arg_reg.reg_num == reg_num as u16 {
-                        // Found an invoke-direct with our object as first arg
-                        // This is the <init> call for our new-instance
-                        return true;
+                        // Found the <init> call - extract constructor arguments (skip 'this' arg)
+                        let mut ctor_args = Vec::new();
+                        for arg in args.iter().skip(1) {
+                            // Try to resolve each argument to a constant value
+                            if let Some(value) = arg_to_field_value(arg, instructions, insn_idx, dex) {
+                                ctor_args.push(value);
+                            } else {
+                                // If any arg can't be resolved, we can't extract this constructor
+                                return Some(Vec::new()); // Return empty args = has constructor but can't extract args
+                            }
+                        }
+                        return Some(ctor_args);
                     }
                 }
             }
         }
     }
-    false
+    None
+}
+
+/// Convert an InsnArg to a FieldValue for constructor argument extraction
+fn arg_to_field_value(
+    arg: &InsnArg,
+    instructions: &[dexterity_ir::instructions::InsnNode],
+    up_to_idx: usize,
+    dex: Option<&DexReader>,
+) -> Option<FieldValue> {
+    match arg {
+        InsnArg::Literal(lit) => {
+            Some(match lit {
+                dexterity_ir::instructions::LiteralArg::Int(v) => FieldValue::Int(*v as i32),
+                dexterity_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
+                dexterity_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
+                dexterity_ir::instructions::LiteralArg::Null => FieldValue::Null,
+            })
+        }
+        InsnArg::Register(reg) => {
+            // Trace back to find the constant that defined this register
+            for insn in instructions.iter().take(up_to_idx).rev() {
+                match &insn.insn_type {
+                    InsnType::Const { dest, value } if dest.reg_num == reg.reg_num => {
+                        return Some(match value {
+                            dexterity_ir::instructions::LiteralArg::Int(v) => FieldValue::Int(*v as i32),
+                            dexterity_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
+                            dexterity_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
+                            dexterity_ir::instructions::LiteralArg::Null => FieldValue::Null,
+                        });
+                    }
+                    InsnType::ConstString { dest, string_idx } if dest.reg_num == reg.reg_num => {
+                        if let Some(dex) = dex {
+                            if let Ok(s) = dex.get_string(*string_idx) {
+                                return Some(FieldValue::String(s.to_string()));
+                            }
+                        }
+                        return None;
+                    }
+                    _ => {
+                        // Check if this instruction writes to our register - if so, not a simple constant
+                        if insn_writes_to_register(&insn.insn_type, reg.reg_num as usize) {
+                            return None;
+                        }
+                    }
+                }
+            }
+            None
+        }
+        _ => None,
+    }
 }
 
 /// Find the new-instance and invoke-direct instruction indices for a NewInstance pattern

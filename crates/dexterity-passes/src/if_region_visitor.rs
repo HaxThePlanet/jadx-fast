@@ -20,6 +20,8 @@ pub struct IfRegionVisitorResult {
     pub else_blocks_removed: usize,
     /// Number of else-if chains marked
     pub else_if_chains_marked: usize,
+    /// Number of nested ifs merged (JADX parity - mergeNestedIfNodes)
+    pub nested_ifs_merged: usize,
 }
 
 /// Process all if regions in a method's region tree
@@ -71,6 +73,13 @@ fn process_region_recursive(
 
             if mark_else_if_chain(then_region, else_region) {
                 result.else_if_chains_marked += 1;
+            }
+
+            // Merge nested ifs: if (a) { if (b) { X } } -> if (a && b) { X }
+            // Clone of JADX IfRegionVisitor pattern for nested condition merging
+            // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/regions/IfRegionVisitor.java
+            if merge_nested_ifs(condition, then_region, else_region) {
+                result.nested_ifs_merged += 1;
             }
         }
 
@@ -456,6 +465,85 @@ fn invert_if_region(
     if let Some(else_r) = else_region.take() {
         let old_then = std::mem::replace(then_region, else_r);
         *else_region = Some(old_then);
+    }
+}
+
+/// Merge nested if statements into compound conditions
+/// Clone of JADX IfRegionVisitor nested condition merging
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/regions/IfRegionVisitor.java
+///
+/// Pattern: if (a) { if (b) { X } } -> if (a && b) { X }
+///
+/// This handles the case where the CFG-level condition merging didn't catch
+/// the pattern (e.g., when the inner if is in a different basic block).
+///
+/// Returns true if merging occurred.
+fn merge_nested_ifs(
+    condition: &mut Condition,
+    then_region: &mut Box<Region>,
+    else_region: &mut Option<Box<Region>>,
+) -> bool {
+    // Only merge if outer has no else branch
+    if else_region.is_some() {
+        return false;
+    }
+
+    // Check if then_region is a single if statement
+    let inner_if = match extract_single_if_from_region(then_region) {
+        Some(info) => info,
+        None => return false,
+    };
+
+    // Only merge if inner if has no else branch
+    if inner_if.has_else {
+        return false;
+    }
+
+    // Merge conditions with AND: outer_condition && inner_condition
+    let inner_condition = inner_if.condition.clone();
+    let merged = Condition::And(
+        Box::new(condition.clone()),
+        Box::new(inner_condition),
+    );
+    *condition = merged;
+
+    // Replace then_region with inner's then_region
+    *then_region = inner_if.then_region.clone();
+
+    true
+}
+
+/// Information about an inner if statement for merging
+struct InnerIfInfo {
+    condition: Condition,
+    then_region: Box<Region>,
+    has_else: bool,
+}
+
+/// Extract a single if statement from a region (if that's all it contains)
+fn extract_single_if_from_region(region: &Region) -> Option<InnerIfInfo> {
+    match region {
+        Region::If {
+            condition,
+            then_region,
+            else_region,
+        } => Some(InnerIfInfo {
+            condition: condition.clone(),
+            then_region: then_region.clone(),
+            has_else: else_region.is_some(),
+        }),
+        Region::Sequence(contents) => {
+            // Check if sequence contains only a single if region
+            if contents.len() != 1 {
+                return None;
+            }
+            if let RegionContent::Region(inner) = &contents[0] {
+                extract_single_if_from_region(inner)
+            } else {
+                None
+            }
+        }
+        _ => None,
     }
 }
 
