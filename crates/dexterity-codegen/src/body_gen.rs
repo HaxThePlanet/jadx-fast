@@ -3816,6 +3816,104 @@ fn is_empty_region_impl(region: &Region, ctx: Option<&BodyGenContext>) -> bool {
     }
 }
 
+/// Check if a region contains only a void return statement
+///
+/// Clone of JADX ReturnVisitor pattern - used to detect `else { return; }` that can be removed
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/regions/ReturnVisitor.java
+fn is_only_void_return_region(region: &Region, ctx: &BodyGenContext) -> bool {
+    use dexterity_ir::attributes::AFlag;
+
+    match region {
+        Region::Sequence(contents) => {
+            // Find non-empty block content
+            let meaningful_contents: Vec<_> = contents.iter().filter(|c| {
+                match c {
+                    RegionContent::Block(block_id) => {
+                        if let Some(block) = ctx.blocks.get(block_id) {
+                            // Block has at least one non-DontGenerate instruction
+                            block.instructions.iter().any(|insn| {
+                                !insn.has_flag(AFlag::DontGenerate) && !insn.has_flag(AFlag::Remove)
+                            })
+                        } else {
+                            false
+                        }
+                    }
+                    RegionContent::Region(_) => true, // Nested regions count
+                }
+            }).collect();
+
+            // Should have exactly one block
+            if meaningful_contents.len() != 1 {
+                return false;
+            }
+
+            // Check if that block contains only a void return
+            if let RegionContent::Block(block_id) = &meaningful_contents[0] {
+                if let Some(block) = ctx.blocks.get(block_id) {
+                    let non_dont_generate: Vec<_> = block.instructions.iter()
+                        .filter(|i| !i.has_flag(AFlag::DontGenerate) && !i.has_flag(AFlag::Remove))
+                        .collect();
+
+                    if non_dont_generate.len() == 1 {
+                        if let InsnType::Return { value: None } = &non_dont_generate[0].insn_type {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            false
+        }
+        _ => false,
+    }
+}
+
+/// Check if a region ends with an exit instruction (throw, return)
+///
+/// Clone of JADX pattern - a region "exits" if control never falls through
+fn region_ends_with_exit(region: &Region, ctx: &BodyGenContext) -> bool {
+    use dexterity_ir::attributes::AFlag;
+
+    match region {
+        Region::Sequence(contents) => {
+            // Check if last meaningful content exits
+            for content in contents.iter().rev() {
+                match content {
+                    RegionContent::Block(block_id) => {
+                        if let Some(block) = ctx.blocks.get(block_id) {
+                            let non_dont_generate: Vec<_> = block.instructions.iter()
+                                .filter(|i| !i.has_flag(AFlag::DontGenerate) && !i.has_flag(AFlag::Remove))
+                                .collect();
+
+                            if !non_dont_generate.is_empty() {
+                                if let Some(last) = non_dont_generate.last() {
+                                    return matches!(
+                                        last.insn_type,
+                                        InsnType::Return { .. } | InsnType::Throw { .. }
+                                    );
+                                }
+                            }
+                        }
+                    }
+                    RegionContent::Region(nested) => {
+                        return region_ends_with_exit(nested, ctx);
+                    }
+                }
+            }
+            false
+        }
+        Region::If { then_region, else_region, .. } => {
+            // If exits if both branches exit
+            if let Some(else_reg) = else_region {
+                region_ends_with_exit(then_region, ctx) && region_ends_with_exit(else_reg, ctx)
+            } else {
+                false
+            }
+        }
+        _ => false,
+    }
+}
+
 /// Check if a variable name suggests it's an object type (used for null comparison heuristic)
 /// This helps detect null comparisons when type inference fails
 fn name_suggests_object_type(name: &str) -> bool {
@@ -5745,7 +5843,12 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
             if let Some(else_reg) = else_region {
                 // Skip empty else blocks for JADX parity (BUG-008)
-                if !is_empty_region_with_ctx(else_reg, ctx) {
+                // Also skip `else { return; }` when then branch exits (JADX ReturnVisitor parity)
+                let skip_else = is_empty_region_with_ctx(else_reg, ctx)
+                    || (is_only_void_return_region(else_reg, ctx)
+                        && region_ends_with_exit(then_region, ctx));
+
+                if !skip_else {
                     // Check if the else region is another If - chain as else-if
                     generate_else_chain(else_reg, ctx, code);
                 }

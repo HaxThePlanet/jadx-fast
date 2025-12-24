@@ -183,7 +183,7 @@ pub use post_process_regions::{
 };
 pub use return_visitor::{
     block_ends_with_return, ends_with_return, is_void_return_block, optimize_returns,
-    ReturnVisitorResult,
+    optimize_returns_with_blocks, ReturnVisitorResult,
 };
 pub use constructor_visitor::{
     analyze_class_constructors, is_constructor, is_implicit_default_constructor,
