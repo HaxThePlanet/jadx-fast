@@ -78,9 +78,11 @@ crates/dexterity-codegen/src/
 
 ## P0-CRITICAL Gaps (Broken Code Output)
 
-### GAP-01: Variable SSA Version Mismatch
+### GAP-01: Variable SSA Version Mismatch - FIXED (2025-12-24)
 
-**Symptom:**
+**Status:** FIXED in commit f82026ec6
+
+**Symptom (Before Fix):**
 ```java
 // DEXTERITY (BROKEN):
 if (StringsKt.startsWith$default(fINGERPRINT2, str2, z, i, obj)...
@@ -94,24 +96,19 @@ if (!StringsKt.startsWith$default(str, "generic", false, 2, (Object) null))
 **Root Cause:** Expression inlining stores at SSA version X, condition retrieves at version Y
 
 **JADX Reference:** `NameGen.java:50-60` - CodeVar system tracks declaration points
-```java
-public void assignArg(CodeVar var) {
-    if (fallback) {
-        var.setName(getFallbackName(var));
-    } else {
-        String name = makeArgName(var);
-        var.setName(getUniqueVarName(name));
-    }
-}
-```
 
-**Fix:** Clone JADX CodeVar system - don't inline when declaration required
+**Fix Applied:**
+- Field access expressions now use `peek` instead of `take` in body_gen.rs
+- Fixed in functions: `gen_arg_inline()`, `gen_arg_inline_typed()`, `write_arg_inline()`, `write_arg_inline_typed()`
+- This preserves inline expressions for later reuse instead of consuming them
 
 ---
 
-### GAP-02: Iterator For-Each Loop Broken
+### GAP-02: Iterator For-Each Loop - FIXED (2025-12-24)
 
-**Symptom:**
+**Status:** FIXED in commit 957ca9f1b
+
+**Symptom (Before Fix):**
 ```java
 // DEXTERITY (BROKEN):
 while (it.hasNext()) {
@@ -130,19 +127,13 @@ while (it.hasNext()) {
 **Root Cause:** JADX does iterator for-each at IR level with 6 validation conditions
 
 **JADX Reference:** `LoopRegionVisitor.java:246-340`
-```java
-private boolean checkIterableForEach(LoopRegion loop, IfRegion ifRegion) {
-    // Condition 1: Single register arg in condition (the iterator)
-    // Condition 2: Iterator SSA var not used in phi
-    // Condition 3: Iterator use list == 2 (hasNext + next)
-    // Condition 4: Iterator from collection.iterator() call
-    // Condition 5: hasNext() and next() signatures match
-    // Condition 6: Iterator only used within loop
-    // ALL conditions must pass for for-each conversion
-}
-```
 
-**Fix:** Clone to `dexterity-passes/src/loop_visitor.rs` as IR pass
+**Fix Applied:**
+- Added `iterator_for_each: Vec<IteratorForEachPattern>` to `LoopPatternResult` in loop_analysis.rs
+- `analyze_loop_patterns()` now calls `detect_iterator_foreach()` when indexed for-loop detection fails
+- Added `iterable_reg` and `iterator_reg` to `IterableSource::Iterator` in regions.rs
+- Added iterator for-each handling in `refine_loops_with_patterns()` in region_builder.rs
+- Added `IterableSource::Iterator` handling in `LoopKind::ForEach` branch of body_gen.rs
 
 ---
 
@@ -229,12 +220,18 @@ stringBuilder.append(obj != null ? obj.getClass().getName() : "null");
 ```
 **JADX Reference:** `RegionGen.java:199-210`
 
-### GAP-07: Boolean Return with Int Literal
+### GAP-07: Boolean Return with Int Literal (FIXED - Already Implemented)
 ```java
 // DEXTERITY: return i;  // Returns int, not boolean!
 // JADX: return true/false;
 ```
 **JADX Reference:** `InsnGen.java:366-372`, TypeGen coercion
+
+**Status:** Already implemented in body_gen.rs:9254-9303
+- Literal 0/1 → false/true
+- Inlined constant "0"/"1" → false/true
+- const_values lookup for non-inlined constants
+- Ternary simplification `cond ? 1 : 0` → `cond`
 
 ### GAP-08: Wrong Method Signature Arrays
 ```java
@@ -243,19 +240,30 @@ stringBuilder.append(obj != null ? obj.getClass().getName() : "null");
 ```
 **JADX Reference:** `InsnGen.java:850-911`
 
-### GAP-09: StringBuilder Chain Not Simplified
+### GAP-09: StringBuilder Chain Not Simplified (FIXED - Already Implemented)
 ```java
 // DEXTERITY: StringBuilder sb = new StringBuilder(); sb.append(a); sb.append(b); throw new X(sb.toString());
 // JADX: throw new X(a + b);
 ```
 **JADX Reference:** `SimplifyVisitor.java:301-428`
 
-### GAP-10: Redundant else-return Not Eliminated
+**Status:** Already implemented
+- `simplify_stringbuilder_chains()` pass in simplify_stringbuilder.rs
+- Called in body_gen.rs:2407 and 2751
+- Converts StringBuilder chains to `StrConcat` IR instruction
+- Codegen at body_gen.rs:10170-10183 emits `arg1 + arg2 + ...`
+
+### GAP-10: Redundant else-return Not Eliminated (FIXED - Already Implemented)
 ```java
 // DEXTERITY: if (x) { throw e; } else { return; }
 // JADX: if (x) { throw e; }
 ```
 **JADX Reference:** `ReturnVisitor.java:41-54`
+
+**Status:** Already implemented in body_gen.rs:6222-6228
+- `is_only_void_return_region()` detects void return regions
+- `region_ends_with_exit()` detects throw/return exits
+- Skip `else { return; }` when then branch exits
 
 ### GAP-13: Native Method Parameter Names Lost (FIXED 2025-12-24)
 ```java
@@ -345,20 +353,20 @@ Now correctly shows private/protected constructors.
 
 ## Clone Priority Matrix
 
-| Priority | Gap ID | Description | JADX Lines | Est. Rust Lines | File |
-|----------|--------|-------------|------------|-----------------|------|
-| P0 | GAP-01 | SSA->CodeVar mapping | 50-60 | ~100 | expr_gen.rs |
-| P0 | GAP-02 | Iterator for-each | 246-340 | ~200 | loop_visitor.rs (NEW) |
-| P0 | GAP-03 | Nested if declarations | ~300 | ~150 | region_builder.rs |
-| P0 | GAP-04 | Field init body | ~80 | ~100 | class_gen.rs |
-| P0 | GAP-05 | Ternary conversion | ~100 | ~150 | ternary_mod.rs |
-| P1 | GAP-06 | For-each type casts | ~30 | ~50 | body_gen.rs |
-| P1 | GAP-07 | Boolean return | ~20 | ~30 | body_gen.rs |
-| P1 | GAP-08 | Invoke arg arrays | ~60 | ~80 | body_gen.rs |
-| P1 | GAP-09 | StringBuilder | ~150 | ~200 | simplify_stringbuilder.rs |
-| P1 | GAP-10 | else-return | ~50 | ~80 | return_visitor.rs |
+| Priority | Gap ID | Description | JADX Lines | Est. Rust Lines | File | Status |
+|----------|--------|-------------|------------|-----------------|------|--------|
+| P0 | GAP-01 | SSA->CodeVar mapping | 50-60 | ~100 | body_gen.rs | **FIXED** |
+| P0 | GAP-02 | Iterator for-each | 246-340 | ~200 | loop_analysis.rs, region_builder.rs, body_gen.rs | **FIXED** |
+| P0 | GAP-03 | Nested if declarations | ~300 | ~150 | region_builder.rs | TODO |
+| P0 | GAP-04 | Field init body | ~80 | ~100 | class_gen.rs | PARTIAL |
+| P0 | GAP-05 | Ternary conversion | ~100 | ~150 | ternary_mod.rs | TODO |
+| P1 | GAP-06 | For-each type casts | ~30 | ~50 | body_gen.rs | TODO |
+| P1 | GAP-07 | Boolean return | ~20 | ~30 | body_gen.rs | **FIXED** (already implemented) |
+| P1 | GAP-08 | Invoke arg arrays | ~60 | ~80 | body_gen.rs | TODO |
+| P1 | GAP-09 | StringBuilder | ~150 | ~200 | simplify_stringbuilder.rs | **FIXED** (already implemented) |
+| P1 | GAP-10 | else-return | ~50 | ~80 | body_gen.rs | **FIXED** (already implemented) |
 
-**P0+P1 Total:** ~1,140 lines of JADX logic to clone
+**Remaining P0+P1 Total:** ~440 lines of JADX logic to clone (2 P0 + 4 P1 gaps fixed)
 
 ---
 
