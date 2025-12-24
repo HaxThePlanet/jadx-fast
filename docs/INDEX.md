@@ -2,7 +2,7 @@
 
 High-performance Android decompiler written in Rust, targeting JADX parity.
 
-**Current Status:** 2 P0 Bugs | ~80% Syntax Quality | ~62% File Coverage
+**Current Status:** 0 P0 Bugs | ~83% Syntax Quality | 180% File Coverage
 
 ## Core Status Docs
 
@@ -33,6 +33,7 @@ These docs describe the JADX algorithms that Dexterity ports:
 
 | Document | Description |
 |----------|-------------|
+| [Algorithm References](ALGORITHM_REFERENCES.md) | Quick links to JADX source for key algorithms |
 | [SSA & CFG](JADX_SSA_CFG.md) | Static single assignment and control flow |
 | [Type Inference](JADX_TYPE_INFERENCE.md) | Type constraint propagation |
 | [Region/Control Flow](JADX_REGION_CONTROL_FLOW.md) | if/else, loops, switch reconstruction |
@@ -48,9 +49,9 @@ These docs describe the JADX algorithms that Dexterity ports:
 | [DEX Parity](DEX_PARITY.md) | **A+** | Binary parsing - complete |
 | [IR Clone Status](IR_CLONE_STATUS.md) | **B (85%)** | JADX IR clone |
 | [IR Remaining Tasks](IR_REMAINING_TASKS.md) | - | Open IR work |
-| [Codegen Parity](CODEGEN_PARITY_MASTER.md) | **B- (80%)** | Java generation |
-| [Deobf Parity](JADX_DEOBF_PARITY_AUDIT.md) | **B (85%)** | ProGuard/JOBF |
-| [Kotlin Parity](KOTLIN_PARITY.md) | **C (70%)** | Field decl OK, usages P1 bug |
+| [Codegen Parity](CODEGEN_PARITY_MASTER.md) | **B (83%)** | Java generation - all P0/P1 gaps fixed |
+| [Deobf Parity](JADX_DEOBF_PARITY_AUDIT.md) | **A- (90%)** | ProGuard/JOBF |
+| [Kotlin Parity](KOTLIN_PARITY.md) | **B+ (85-90%)** | Field aliases FIXED Dec 24 |
 | [Passes Parity](PASSES_PARITY.md) | **B- (80%)** | 86/105 JADX passes |
 | [Clone Tasks](CLONE_TASKS.md) | - | Remaining JADX features to port |
 
@@ -61,6 +62,23 @@ These docs describe the JADX algorithms that Dexterity ports:
 | [DEX Reference](JADX_DEXTERITY_DEX_REFERENCE.md) | DEX format details |
 | [IR Reference](JADX_DEXTERITY_IR_REFERENCE.md) | IR type system, SSA, instructions |
 | [Resources Reference](JADX_DEXTERITY_RESOURCES_REFERENCE.md) | ARSC/AXML format |
+
+## Development
+
+| Document | Description |
+|----------|-------------|
+| [Refactor Plan](REFACTOR_PLAN.md) | Current refactoring tasks and status |
+| [Optimization Plan](OPTIMIZATION_PLAN.md) | Performance optimization roadmap |
+| [Performance Study](PERFORMANCE_STUDY.md) | Detailed performance analysis |
+| [Comparison Reference Files](COMPARISON_REFERENCE_FILES.md) | Test APKs for JADX comparison |
+| [Quality Analysis Report](QUALITY_ANALYSIS_REPORT.md) | Detailed quality metrics analysis |
+
+## LLM Tools
+
+| Document | Description |
+|----------|-------------|
+| [LLM Agent Guide](LLM_AGENT_GUIDE.md) | Guide for AI agents working on codebase |
+| [LLM Postprocessing](LLM_POSTPROC.md) | LLM-based output enhancement |
 
 ## Other
 

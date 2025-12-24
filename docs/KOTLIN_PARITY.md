@@ -186,11 +186,11 @@ Function modifiers are emitted as comments before Java modifiers:
 
 ## Implementation Completeness
 
-### P0: Critical Bugs (Must Fix)
+### ~~P0: Critical Bugs~~ - ALL FIXED
 
 | Bug | Location | Root Cause | JADX Reference | Status |
 |-----|----------|------------|----------------|--------|
-| ~~Field aliases not applied~~ | `deobf.rs:register_kotlin_aliases()` | Now copies aliases to registry | `KotlinMetadataUtils.kt:111-116` | **FIXED Dec 24** |
+| ~~Field aliases not applied~~ | `deobf.rs:register_kotlin_aliases()` | Now copies aliases to registry | `KotlinMetadataUtils.kt:111-116` | ✅ **FIXED Dec 24** |
 
 ### Completed Tasks
 
@@ -361,7 +361,7 @@ fun mapFields(cls: ClassNode, kmClass: KmClass): Map<FieldNode, String> {
 |----------|------|-----------|--------|
 | Obfuscated Kotlin class names | Restored | Restored | **DONE** |
 | Obfuscated method param names | Restored | Restored | **DONE** |
-| Obfuscated field names | Restored | **NOT working** | **P0 BUG** |
+| Obfuscated field names | Restored | Restored | ✅ **FIXED Dec 24** |
 | Rename reason comments | Yes | Yes | **FIXED** |
 | Data class detection | Comment added | Flag stored | **DONE** |
 | Companion object naming | Yes | Yes | **DONE** |

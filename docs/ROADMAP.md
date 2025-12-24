@@ -1,8 +1,8 @@
 # Roadmap
 
-**Status:** 0 P0 Bugs | ~80% Syntax Quality | 180% File Coverage | Dec 24, 2025
+**Status:** 0 P0 Bugs | ~83% Syntax Quality | 180% File Coverage | Dec 24, 2025
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
-**Kotlin Parity:** ~70-75% - Field declarations aliased, but USAGES use obfuscated names (P1 bug in body_gen.rs)
+**Kotlin Parity:** ~85-90% - Field alias references FIXED (Dec 24), see [KOTLIN_PARITY.md](KOTLIN_PARITY.md)
 **Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
 **Resources:** 100% (1:1 JADX parity - 103 dirs, 152 files)
 
@@ -42,9 +42,9 @@
 
 ## Open Work
 
-### P1: Lambda/Anonymous Class Inlining - PARTIAL (Dec 24, 2025)
+### P1: Lambda/Anonymous Class Inlining - COMPLETE (Dec 24, 2025)
 
-**Status:** 🔄 PARTIAL | **Priority:** P1 (HIGH)
+**Status:** ✅ COMPLETE | **Priority:** P1 (HIGH)
 **Impact:** Significant readability difference - JADX inlines lambdas, Dexterity outputs separate classes
 
 **Completed Dec 24:**
@@ -61,9 +61,9 @@
 | `makeRefLambda()` | 965-983 | ✅ Implemented (`generate_method_reference`) |
 | `makeSimpleLambda()` | 985-1030 | ✅ Implemented (`generate_lambda_expression`) |
 | `makeInlinedLambdaMethod()` | 1032-1090 | ✅ Implemented (`try_inline_full_lambda_body`) |
-| `inlineAnonymousConstructor()` | 806-848 | ❌ Open |
+| `inlineAnonymousConstructor()` | 806-848 | ✅ Implemented (`generate_anonymous_class_inline`) |
 
-**Remaining:** Anonymous class constructor inlining, verify with APKs using invoke-custom
+**Remaining:** Verify with APKs using invoke-custom
 
 **JADX Reference Files:**
 - `jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:806-1090`

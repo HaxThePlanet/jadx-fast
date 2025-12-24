@@ -210,7 +210,7 @@ mod tests {
         let mut ctx = SSAContext::new();
 
         // Create a simple instruction with a result
-        let dest = RegisterArg::new_with_version(0, 1);
+        let dest = RegisterArg::with_ssa(0, 1);
 
         let mut insn = InsnNode {
             insn_type: InsnType::Const {
@@ -225,10 +225,10 @@ mod tests {
             extended_if_info: None,
         };
 
-        // Create SSA var with no uses
-        ctx.new_var(dest.reg_num);
+        // Create SSA var with no uses (matching the dest register's version)
+        ctx.new_var_with_version(dest.reg_num, dest.ssa_version);
 
-        // Should mark as don't generate
+        // Should mark as don't generate since var has no uses
         dont_generate_if_not_used(&mut insn, &ctx);
         assert!(insn.has_flag(AFlag::DontGenerate));
     }

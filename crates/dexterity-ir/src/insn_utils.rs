@@ -286,18 +286,15 @@ mod tests {
 
     #[test]
     fn test_get_const_value_string() {
-        let arg = InsnArg::String("hello".to_string());
+        // InsnArg::String takes a string index (u32), returns synthetic string name
+        let arg = InsnArg::String(42);
         let const_val = get_const_value_by_arg(&arg);
-        assert_eq!(const_val, Some(ConstValue::String("hello".to_string())));
+        assert_eq!(const_val, Some(ConstValue::String("str#42".to_string())));
     }
 
     #[test]
     fn test_arg_contains_var() {
-        let reg = RegisterArg {
-            reg_num: 5,
-            ssa_version: 2,
-            arg_type: ArgType::Int,
-        };
+        let reg = RegisterArg::with_ssa(5, 2);
         let arg = InsnArg::Register(reg);
         assert!(arg_contains_var(&arg, 5, 2));
         assert!(!arg_contains_var(&arg, 5, 3));

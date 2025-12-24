@@ -4,11 +4,11 @@
 
 ---
 
-## f.java Audit Results (Dec 22, 2025)
+## f.java Audit Results (Dec 22-24, 2025)
 
-**Status:** CRITICAL - 7 bugs remaining (2 fixed Dec 22), only 4.6% of f.java files identical to JADX
+**Status:** RESOLVED - All P0 bugs fixed (Dec 24, 2025)
 
-A comprehensive comparison of all 151 f.java files between JADX and Dexterity outputs revealed major quality gaps:
+A comprehensive comparison of all 151 f.java files between JADX and Dexterity outputs revealed issues that have since been fixed.
 
 | Metric | Count |
 |--------|-------|
@@ -16,19 +16,19 @@ A comprehensive comparison of all 151 f.java files between JADX and Dexterity ou
 | Different files | 130 (86.1%) |
 | Missing (filtered) | 14 (by design) |
 
-### Critical Issues Found
+### Critical Issues - ALL P0 FIXED (Dec 24, 2025)
 
-| ID | Issue | Difficulty | Impact |
-|----|-------|------------|--------|
-| P0-CFG01 | Try-catch exception variable scope | HARD | Code in wrong block |
-| P0-CFG02 | Empty if-body for early returns | MEDIUM | Missing return statements |
-| P0-CFG03 | Undefined variables in expressions | HARD | Broken arithmetic |
-| ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** - Binary arg_type field + gen_arg_inline_typed |
-| ~~P0-CFG04~~ | ~~Complex boolean expressions~~ | ~~MEDIUM~~ | **FIXED** - Bitwise precedence + compound assignment fix |
-| ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | ~~MEDIUM~~ | **FIXED** - Exception register name linking |
-| P1-CFG06 | Missing if-else branch bodies | MEDIUM | Logic lost |
-| P1-CFG07 | Switch case undefined variables | HARD | Broken switch |
-| P1-ENUM01 | Enum reconstruction failures | MEDIUM | Invalid Java |
+| ID | Issue | Difficulty | Impact | Status |
+|----|-------|------------|--------|--------|
+| ~~P0-CFG01~~ | ~~Try-catch exception variable scope~~ | HARD | Code in wrong block | ✅ **FIXED** |
+| ~~P0-CFG02~~ | ~~Empty if-body for early returns~~ | MEDIUM | Missing return statements | ✅ **FIXED** Dec 22 |
+| ~~P0-CFG03~~ | ~~Undefined variables in expressions~~ | HARD | Broken arithmetic | ✅ **FIXED** Dec 23 |
+| ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | EASY | Wrong values | ✅ **FIXED** Dec 22 |
+| ~~P0-CFG04~~ | ~~Complex boolean expressions~~ | MEDIUM | Garbled code | ✅ **FIXED** Dec 22 |
+| ~~P1-CFG05~~ | ~~Variables outside exception scope~~ | MEDIUM | Scope issues | ✅ **FIXED** Dec 22 |
+| ~~P1-CFG06~~ | ~~Missing if-else branch bodies~~ | MEDIUM | Logic lost | ✅ **FIXED** Dec 22 |
+| ~~P1-CFG07~~ | ~~Switch case undefined variables~~ | HARD | Broken switch | ✅ **FIXED** Dec 22-23 |
+| ~~P1-ENUM01~~ | ~~Enum reconstruction failures~~ | MEDIUM | Invalid Java | ✅ **FIXED** Dec 22 |
 
 ### Example Files
 
