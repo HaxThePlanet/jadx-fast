@@ -1,6 +1,15 @@
 # Dexterity Documentation
 
-High-performance Android decompiler written in Rust, targeting 1:1 JADX parity.
+High-performance Android decompiler written in Rust, targeting JADX parity.
+
+**Current Status:** 2 P0 Bugs | ~80% Syntax Quality | ~62% File Coverage
+
+## Core Status Docs
+
+| Document | Description |
+|----------|-------------|
+| [ROADMAP](ROADMAP.md) | **Authoritative** - Open work, P0/P1 bugs, remaining tasks |
+| [QUALITY_STATUS](QUALITY_STATUS.md) | Current grades, output comparison data, metrics |
 
 ## Getting Started
 
@@ -10,23 +19,17 @@ High-performance Android decompiler written in Rust, targeting 1:1 JADX parity.
 | [CLI Reference](CLI_REFERENCE.md) | Complete command-line options |
 | [Performance](PERFORMANCE.md) | Benchmarks and scaling |
 
-## Project Status
-
-| Document | Description |
-|----------|-------------|
-| [Quality Status](QUALITY_STATUS.md) | Current quality grades and bug status |
-| [Roadmap](ROADMAP.md) | Future work and priorities |
-| [Changelog](CHANGELOG.md) | Development history |
-| [Known Issues](KNOWN_ISSUES.md) | Known limitations and workarounds |
-
 ## Architecture
 
 | Document | Description |
 |----------|-------------|
 | [Architecture](ARCHITECTURE.md) | Crate structure and pipeline |
 | [Design Decisions](DESIGN_DECISIONS.md) | Framework filtering, Compose detection |
+| [Code Navigation](CODE_NAVIGATION.md) | Finding your way around |
 
-## Algorithm References (JADX Ports)
+## JADX Algorithm References
+
+These docs describe the JADX algorithms that Dexterity ports:
 
 | Document | Description |
 |----------|-------------|
@@ -35,27 +38,36 @@ High-performance Android decompiler written in Rust, targeting 1:1 JADX parity.
 | [Region/Control Flow](JADX_REGION_CONTROL_FLOW.md) | if/else, loops, switch reconstruction |
 | [Exception Handling](JADX_EXCEPTION_HANDLING.md) | try-catch-finally |
 | [Variable Naming](JADX_VARIABLE_NAMING.md) | Name generation and deobfuscation |
-| [Optimization Passes](JADX_OPTIMIZATION_PASSES.md) | Code simplification passes |
 | [Deobfuscation](JADX_DEOBFUSCATION.md) | ProGuard mapping support |
-| [Codegen Reference](JADX_CODEGEN_REFERENCE.md) | Java source generation |
+| [Deobfuscation Reference](JADX_DEOBFUSCATION_REFERENCE.md) | Detailed deobf algorithm |
 
-## Parity Documentation
+## Parity Status
+
+| Document | Status | Description |
+|----------|--------|-------------|
+| [DEX Parity](DEX_PARITY.md) | **A+** | Binary parsing - complete |
+| [IR Clone Status](IR_CLONE_STATUS.md) | **B (85%)** | JADX IR clone |
+| [IR Remaining Tasks](IR_REMAINING_TASKS.md) | - | Open IR work |
+| [Codegen Parity](CODEGEN_PARITY_MASTER.md) | **B- (80%)** | Java generation |
+| [Deobf Parity](JADX_DEOBF_PARITY_AUDIT.md) | **B (85%)** | ProGuard/JOBF |
+| [Kotlin Parity](KOTLIN_PARITY.md) | **C (70%)** | Field decl OK, usages P1 bug |
+| [Passes Parity](PASSES_PARITY.md) | **B- (80%)** | 86/105 JADX passes |
+| [Clone Tasks](CLONE_TASKS.md) | - | Remaining JADX features to port |
+
+## JADX Reference Docs
 
 | Document | Description |
 |----------|-------------|
-| [DEX Parity](DEX_PARITY.md) | 100% - Binary parsing |
-| [IR Clone Status](IR_CLONE_STATUS.md) | ~92% - JADX IR clone with dominator infrastructure |
-| [IR Reference](JADX_DEXTERITY_IR_REFERENCE.md) | 100% - Type system, SSA, instructions, regions |
-| [Codegen Parity](CODEGEN_PARITY.md) | B+ Grade - Java generation |
-| [Deobf Parity](JADX_DEOBF_PARITY_AUDIT.md) | ~95% - All core deobf conditions cloned |
-| [Kotlin Parity](KOTLIN_PARITY.md) | 100% - Complete metadata parsing |
-| [Passes Comparison](PASSES_COMPARISON.md) | ~90% - Type inference, ~57% total passes (Dec 23) |
+| [DEX Reference](JADX_DEXTERITY_DEX_REFERENCE.md) | DEX format details |
+| [IR Reference](JADX_DEXTERITY_IR_REFERENCE.md) | IR type system, SSA, instructions |
+| [Resources Reference](JADX_DEXTERITY_RESOURCES_REFERENCE.md) | ARSC/AXML format |
 
 ## Other
 
 | Document | Description |
 |----------|-------------|
+| [Known Issues](KNOWN_ISSUES.md) | Known limitations and workarounds |
+| [Changelog](CHANGELOG.md) | Development history |
 | [Testing Guide](TESTING_GUIDE.md) | Running tests |
-| [Code Navigation](CODE_NAVIGATION.md) | Finding your way around |
 | [Security](SECURITY.md) | Security considerations |
 | [Code of Conduct](CODE_OF_CONDUCT.md) | Community guidelines |

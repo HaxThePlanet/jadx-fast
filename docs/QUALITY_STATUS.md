@@ -1,11 +1,12 @@
 # Quality Status
 
-**Status:** **~80% Overall JADX Parity (B- Grade)** - VERIFIED DEC 24, 2025
+**Status:** 2 P0 Bugs | ~80% Syntax Quality | ~62% File Coverage | Dec 24, 2025
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Output Refresh:** Dec 24, 2025 - GAP-01, 02, 04, 06, 07, 08, 09, 10 fixes applied
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
-**Codegen:** ~80% parity (B- Grade) - GAP-01, 02, 04, 06, 07, 08, 09, 10 FIXED; Only GAP-03, 05 remain (~200 lines)
+**Codegen:** ~80% syntax parity (B- Grade) when files ARE generated; 38% file coverage gap due to P0 bugs
 **Kotlin:** ~70-75% parity (C Grade) - Field alias references NOT applied (P1), rename reasons FIXED
+**Open Work:** See [ROADMAP.md](ROADMAP.md) for remaining tasks and P0/P1 bugs
 
 ## CRITICAL: Output Comparison Discovery (Dec 24, 2025)
 
@@ -120,27 +121,20 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 | Priority | Status |
 |----------|--------|
-| P0 Bugs | **1 OPEN** - Kotlin field aliases not applied (jvm_field_signature None) |
-| P1 Bugs | **ALL FIXED** - P1-HOTRELOAD fixed Dec 23 (extract_field_init.rs register reuse check) |
+| P0 Bugs | **2 OPEN** - P0-RJAVA (app R.java filtered), P0-SYNTHETIC (33 files missing) |
+| P1 Bugs | **1 OPEN** - Kotlin field alias references not applied in code generation |
 | P2 Bugs | **ALL FIXED** |
 | P3 Polish | **ALL DONE** |
 
-### P0-KOTLIN-FIELD: Field Aliases Not Applied
+**See [ROADMAP.md](ROADMAP.md) for P0/P1 bug details and fix locations.**
 
-**Status:** OPEN
-**Location:** `crates/dexterity-kotlin/src/extractor.rs:field_matches()`
-**Evidence:** `output/dexterity/large/sources/l/a0.java` shows `w`, `x` instead of `segments`, `directory`
-**Root Cause:** `property.jvm_field_signature` is often None, and no fallback exists
-**JADX Reference:** `KotlinMetadataUtils.kt:111-116` - uses `searchFieldByShortId(kmProperty.shortId)`
-
-### Remaining JADX Parity Work (Not Bugs)
+### Remaining JADX Parity Work
 
 | Issue | Priority | Description |
 |-------|----------|-------------|
-| Issue 4 | P1 | Inner class `this$0` → `OuterClass.this` replacement |
-| Issue 5 | P2 | Synthetic member handling improvements |
-
-See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for full issue list.
+| Lambda inlining | P1 | JADX inlines lambdas, Dexterity outputs separate files |
+| `this$0` replacement | P1 | Inner class `this$0` → `OuterClass.this` |
+| Synthetic member handling | P2 | Better synthetic field detection |
 
 ## New Bugs from f.java Audit (Dec 22-23, 2025)
 

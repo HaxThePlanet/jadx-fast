@@ -1,9 +1,10 @@
 # Roadmap
 
-**Status:** Production Ready | **Grade:** B- (~80%) | Dec 24, 2025
-**See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
-**Kotlin Parity:** ~80% - Field declarations aliased, but usages use old names (codegen issue)
+**Status:** 2 P0 Bugs | ~80% Syntax Quality | ~62% File Coverage | Dec 24, 2025
+**See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
+**Kotlin Parity:** ~70-75% - Field declarations aliased, but USAGES use obfuscated names (P1 bug in body_gen.rs)
 **Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
+**Resources:** 100% (1:1 JADX parity - 103 dirs, 152 files)
 
 ---
 
@@ -677,14 +678,12 @@ Type inference enhanced from ~60% to ~85% JADX parity. Dexterity now implements 
 - Data/sealed/value class detection
 - **Rename reason comments** - FIXED Dec 23: "reason: from kotlin metadata" now emitted
 
-**P0 Bug (Dec 23, 2025):**
-- Field aliases NOT being applied (w→segments, x→directory fails)
-- Root cause: `jvm_field_signature` often None in parser
-- See [KOTLIN_JADX_PARITY_AUDIT.md](KOTLIN_JADX_PARITY_AUDIT.md) for details
+**P1 Bug (Dec 24, 2025 - Reclassified from P0):**
+- Field aliases NOT being applied in field USAGES (w→segments, x→directory fails)
+- Field DECLARATIONS work correctly, but IGET/IPUT/SGET/SPUT still use obfuscated names
+- **Fix Location:** `crates/dexterity-codegen/src/body_gen.rs` - use `field.alias` instead of `field.name`
 
 ### Bug Fixes (Dec 21, 2025)
 
 - **P0 (6):** Static final init, undefined vars, throw validation, type confusion, enum values, dead code
 - **P1 (5):** Synchronized blocks, imports, boolean comparisons, param/field, constructor result
-
-See [ISSUE_TRACKER.md](ISSUE_TRACKER.md#fixed-issues-dec-21-2025) for details.

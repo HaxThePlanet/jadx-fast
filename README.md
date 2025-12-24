@@ -20,9 +20,9 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** Correct decompilation close to JADX
-**Status:** ~78% JADX Parity | Grade: C+ | GAP-01, GAP-02 FIXED Dec 24 - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** 2 P0 Bugs | ~80% Syntax Quality | ~62% File Coverage - see [ROADMAP.md](docs/ROADMAP.md)
 
-> **Update (Dec 24, 2025):** Fixed GAP-01 (SSA variable mapping) and GAP-02 (iterator for-each loop detection). Parity improved from 75% to 78%.
+> **Update (Dec 24, 2025):** Output comparison revealed 38% file coverage gap (53/86 files for badboy APK). P0-RJAVA and P0-SYNTHETIC bugs identified. Syntax quality is ~80% when files ARE generated.
 
 ## Performance
 
@@ -81,12 +81,12 @@ cargo build --release -p dexterity-cli
 
 - **Input formats:** APK, DEX, JAR, AAR, AAB, XAPK, APKM (APKS not yet supported)
 - **Deobfuscation:** ProGuard mappings, JOBF files
-- **Kotlin support:** ~60% parity (D Grade) - **CRITICAL ISSUES:**
+- **Kotlin support:** ~70-75% parity (C Grade) - **P1 Issues:**
   - Class modifiers: `/* data */`, `/* sealed */`, `/* value */` - works
   - Function modifiers: `/* suspend */`, `/* inline */`, `/* operator */` - works
-  - **BROKEN:** d2 metadata field names parsed but NOT APPLIED (e.g., `onBalloonClickListener` instead of `context`)
-  - **BROKEN:** Enum constants as raw integers (`1056964608` instead of `ALIGN_BALLOON`)
-  - **BROKEN:** Kotlin assertion strings wrong in output
+  - Field declarations: Aliased correctly with rename comments
+  - **P1 BUG:** Field USAGES still use obfuscated names (`this.a` instead of `this.breedEntityDao`)
+  - **P2:** Enum constants as raw integers (type inference gap)
 - **Control flow:** OR condition merging (`a || b` patterns), short-circuit evaluation
 - **Throws declarations:** Parse `dalvik/annotation/Throws` (41.7% parity, 3x improvement)
 - **Resource resolution:** `R.layout.activity_main` (enabled by default)
@@ -111,33 +111,18 @@ cargo build --release -p dexterity-cli
   <img src="docs/architecture.svg" alt="Dexterity Architecture" width="100%">
 </p>
 
-| Crate | Purpose | Claimed | Actual | Notes |
-|-------|---------|---------|--------|-------|
-| dexterity-dex | DEX binary parsing | 100% | **A+** | Verified |
-| dexterity-ir | Intermediate representation | 88% | **C (70%)** | Region ordering differs |
-| dexterity-passes | Decompilation passes | 85% | **C+ (75%)** | Missing CollectConstValues effect |
-| dexterity-codegen | Java source generation | 92% | **C+ (75%)** | Field names, enum inits wrong |
-| dexterity-resources | Resource decoding | 100% | **A+** | 1:1 JADX parity verified |
-| dexterity-deobf | Deobfuscation | 95% | **B- (80%)** | Kotlin rename hints ignored |
-| dexterity-kotlin | Kotlin metadata | 70% | **D (60%)** | d2 field names NOT APPLIED |
-| dexterity-llm-postproc | LLM post-processing | N/A | - | |
-| dexterity-qa | Quality assurance tooling | N/A | - | |
-| dexterity-py | Python bindings | N/A | - | |
-| dexterity-cli | CLI application | 95% | **A** | CLI works fine |
+| Crate | Purpose | Grade | Notes |
+|-------|---------|-------|-------|
+| dexterity-dex | DEX binary parsing | **A+** | Verified complete |
+| dexterity-ir | Intermediate representation | **B (85%)** | SSA + regions working |
+| dexterity-passes | Decompilation passes | **B- (80%)** | 86/105 JADX passes |
+| dexterity-codegen | Java source generation | **B- (80%)** | Syntax quality; file coverage gap |
+| dexterity-resources | Resource decoding | **A+** | 1:1 JADX parity verified |
+| dexterity-deobf | Deobfuscation | **B (85%)** | ProGuard/JOBF working |
+| dexterity-kotlin | Kotlin metadata | **C (70%)** | Field decl aliased; usages P1 bug |
+| dexterity-cli | CLI application | **A** | Drop-in JADX replacement |
 
-*Honest assessment based on Balloon.java comparison (Dec 23, 2025). Overall grade: **C+ (~75%)**. Output differs visibly from JADX on Kotlin files. See [Quality Status](docs/QUALITY_STATUS.md).*
-
-### Critical Bugs (Balloon.java Comparison Dec 23, 2025)
-
-| Bug | Example | Impact |
-|-----|---------|--------|
-| Type descriptor in field names | `private final h Lcom/skydoves/balloon/d;;` | **P0** - Syntax error |
-| Kotlin d2 field names not applied | `onBalloonClickListener` instead of `context` | **P0** - Wrong names |
-| Enum constants as raw integers | `1056964608` instead of `ALIGN_BALLOON` | **P0** - Unreadable |
-| Switch case ordering reversed | Cases appear in reverse order from JADX | **P1** - Confusing |
-| Kotlin assertion strings wrong | `"resources"` instead of `"binding.balloonCard"` | **P2** - Minor |
-
-See [JADX_PASSES_PARITY_AUDIT.md](docs/JADX_PASSES_PARITY_AUDIT.md) for full comparison and [JADX_CLONE_TASKS.md](docs/JADX_CLONE_TASKS.md) for fix tasks.
+*Updated Dec 24, 2025. See [QUALITY_STATUS.md](docs/QUALITY_STATUS.md) for details, [ROADMAP.md](docs/ROADMAP.md) for P0/P1 bugs.*
 
 ### Recent JADX Pass Clones (Dec 2025)
 
