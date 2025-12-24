@@ -1,10 +1,10 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**Status:** 0 P0, 0 P1 | IR 98% | Kotlin 100% | Codegen ~93% | Pass 82% | All tests pass (Dec 23, 2025)
+**Status:** 0 P0, 0 P1 | IR 98% | Kotlin 100% | Codegen ~78% | Pass 82% | All tests pass (Dec 24, 2025)
 **Tests:** 1,392+ passing (all integration + unit)
 **Benchmark:** 3.6-81x faster, 14.6x memory efficiency
 **Resources:** 1:1 JADX parity (103 directories, 152 files, zero differences)
-**Output Refresh:** Dec 23, 2025 - All 5 APK samples (~8,858 Java files)
+**Output Refresh:** Dec 24, 2025 - GAP-01, GAP-02 fixes applied
 
 ---
 
@@ -26,9 +26,27 @@ See [QUALITY_STATUS.md](QUALITY_STATUS.md) for details.
 
 ---
 
-## Recent Work (Dec 23, 2025)
+## Recent Work (Dec 24, 2025)
 
-### JADX Pass Cloning Session - 3 New Passes (~1,200 lines)
+### GAP-01 and GAP-02 Fixes (P0 Critical)
+
+**GAP-01: SSA->CodeVar Variable Mapping - FIXED** (commit f82026ec6)
+- Field access expressions now use `peek` instead of `take` in body_gen.rs
+- Fixed in: gen_arg_inline(), gen_arg_inline_typed(), write_arg_inline(), write_arg_inline_typed()
+- Preserves inline expressions for later reuse instead of consuming them
+
+**GAP-02: Iterator For-Each Loop Pattern Detection - FIXED** (commit 957ca9f1b)
+- Added `IteratorForEachPattern` struct with `iterable_reg`, `iterator_reg`, element info
+- Added `detect_iterator_foreach()` function (~100 lines) matching JADX's 6 conditions
+- Added `IterableSource::Iterator` variant in regions.rs
+- Iterator handling in `refine_loops_with_patterns()` in region_builder.rs
+- `IterableSource::Iterator` handling in ForEach branch of body_gen.rs
+
+**Parity Improvement:** 75% -> 78%
+
+---
+
+### Dec 23, 2025 - JADX Pass Cloning Session - 3 New Passes (~1,200 lines)
 
 | Pass | JADX Source | Lines | Description |
 |------|-------------|-------|-------------|
@@ -197,7 +215,7 @@ See [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for fixed bug details.
 | Total Tests | 1,392+ passing |
 | Pass Coverage | 82% (86/105 JADX passes) |
 | IR Parity | 98% |
-| Codegen Parity | ~93% (source-level audit) |
+| Codegen Parity | **~78%** (GAP-01, GAP-02 FIXED Dec 24) |
 | Resources Parity | **100% (1:1 JADX - 103 dirs, 152 files, zero diff)** |
 | Throws Parity | 41.7% (up from ~13.7%) |
 | Speed Advantage | 3.6-81x faster than JADX |

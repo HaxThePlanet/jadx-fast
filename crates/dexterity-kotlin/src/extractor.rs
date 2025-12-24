@@ -323,23 +323,49 @@ pub fn apply_kotlin_names_with_options(
 }
 
 /// Apply property (field) names with improved matching logic
+/// JADX Clone: jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/utils/KotlinMetadataUtils.kt:111-140
 fn apply_property_names(cls: &mut ClassData, properties: &[KotlinProperty]) {
-    // Track which properties have been matched to avoid duplicates
+    // Debug: Log entry into this function for troubleshooting
+    let debug_class = std::env::var("DEXTERITY_DEBUG_KOTLIN").is_ok()
+        || cls.class_type.contains("Balloon")
+        || cls.class_type.contains("a0");  // SegmentedByteString
+
+    if debug_class {
+        tracing::info!(
+            "apply_property_names for {}: {} properties, {} instance fields, {} static fields",
+            cls.class_type, properties.len(), cls.instance_fields.len(), cls.static_fields.len()
+        );
+        for (i, prop) in properties.iter().enumerate() {
+            tracing::info!("  Property[{}]: name='{}', jvm_sig='{}'", i, prop.name, prop.jvm_field_signature);
+        }
+        for (i, field) in cls.instance_fields.iter().enumerate() {
+            tracing::info!("  InstanceField[{}]: name='{}', type={}", i, field.name, field.field_type.to_descriptor());
+        }
+    }
+
+    // Track which properties and fields have been matched
+    let mut matched_props: Vec<bool> = vec![false; properties.len()];
     let mut matched_instance: Vec<bool> = vec![false; cls.instance_fields.len()];
     let mut matched_static: Vec<bool> = vec![false; cls.static_fields.len()];
 
-    for kotlin_prop in properties {
+    // === PASS 1: JVM signature matching (most reliable) ===
+    // JADX Clone: KotlinMetadataUtils.kt uses fieldSignature for exact matching
+    for (prop_idx, kotlin_prop) in properties.iter().enumerate() {
+        if matched_props[prop_idx] {
+            continue;
+        }
+
         // Try instance fields first
         let mut found = false;
         for (i, field) in cls.instance_fields.iter_mut().enumerate() {
             if !matched_instance[i] && field.alias.is_none() && field_matches(field, kotlin_prop) {
                 field.alias = Some(kotlin_prop.name.clone());
-                // JADX Reference: RenameReasonAttr pattern
                 field.add_rename_reason("from kotlin metadata");
                 matched_instance[i] = true;
+                matched_props[prop_idx] = true;
                 found = true;
                 tracing::debug!(
-                    "Matched instance field '{}' -> '{}'",
+                    "Matched instance field '{}' -> '{}' (JVM sig)",
                     field.name, kotlin_prop.name
                 );
                 break;
@@ -351,11 +377,11 @@ fn apply_property_names(cls: &mut ClassData, properties: &[KotlinProperty]) {
             for (i, field) in cls.static_fields.iter_mut().enumerate() {
                 if !matched_static[i] && field.alias.is_none() && field_matches(field, kotlin_prop) {
                     field.alias = Some(kotlin_prop.name.clone());
-                    // JADX Reference: RenameReasonAttr pattern
                     field.add_rename_reason("from kotlin metadata");
                     matched_static[i] = true;
+                    matched_props[prop_idx] = true;
                     tracing::debug!(
-                        "Matched static field '{}' -> '{}'",
+                        "Matched static field '{}' -> '{}' (JVM sig)",
                         field.name, kotlin_prop.name
                     );
                     break;
@@ -363,6 +389,165 @@ fn apply_property_names(cls: &mut ClassData, properties: &[KotlinProperty]) {
             }
         }
     }
+
+    // === PASS 2: Index-based matching for remaining unmatched obfuscated fields ===
+    // JADX Clone: When JVM signatures aren't available, JADX falls back to order-based matching
+    // This is safe because Kotlin metadata preserves declaration order
+    //
+    // IMPORTANT: Only consider properties that likely have backing fields:
+    // - Property name is not obfuscated (like "segments", "directory")
+    // - Property has a backing field flag or has getter/setter that suggests a field
+    // - Property name doesn't match common method names (hashCode, toString, equals, etc.)
+    let unmatched_props: Vec<(usize, &KotlinProperty)> = properties.iter()
+        .enumerate()
+        .filter(|(i, p)| {
+            !matched_props[*i]
+                && !looks_obfuscated(&p.name)
+                && is_likely_field_property(p)
+        })
+        .collect();
+
+    let unmatched_instance: Vec<usize> = cls.instance_fields.iter()
+        .enumerate()
+        .filter(|(i, f)| !matched_instance[*i] && f.alias.is_none() && looks_obfuscated(&f.name))
+        .map(|(i, _)| i)
+        .collect();
+
+    if debug_class {
+        tracing::info!(
+            "Pass 2: {} unmatched field props, {} unmatched obfuscated instance fields",
+            unmatched_props.len(), unmatched_instance.len()
+        );
+        for (_, prop) in &unmatched_props {
+            tracing::info!("  Unmatched prop: name='{}', jvm_sig='{}'", prop.name, prop.jvm_field_signature);
+        }
+    }
+
+    // Match by index if counts align (order-preserving)
+    for (match_idx, (prop_idx, prop)) in unmatched_props.iter().enumerate() {
+        if match_idx < unmatched_instance.len() {
+            let field_idx = unmatched_instance[match_idx];
+            let field = &mut cls.instance_fields[field_idx];
+
+            // Only match if types are compatible
+            if types_compatible(&field.field_type.to_descriptor(), prop) {
+                field.alias = Some(prop.name.clone());
+                field.add_rename_reason("from kotlin metadata");
+                matched_instance[field_idx] = true;
+                matched_props[*prop_idx] = true;
+
+                if debug_class {
+                    tracing::info!(
+                        "Matched instance field '{}' -> '{}' (index-based)",
+                        field.name, prop.name
+                    );
+                }
+            }
+        }
+    }
+
+    // Same for static fields
+    let unmatched_props: Vec<(usize, &KotlinProperty)> = properties.iter()
+        .enumerate()
+        .filter(|(i, p)| {
+            !matched_props[*i]
+                && !looks_obfuscated(&p.name)
+                && is_likely_field_property(p)
+        })
+        .collect();
+
+    let unmatched_static: Vec<usize> = cls.static_fields.iter()
+        .enumerate()
+        .filter(|(i, f)| !matched_static[*i] && f.alias.is_none() && looks_obfuscated(&f.name))
+        .map(|(i, _)| i)
+        .collect();
+
+    for (match_idx, (prop_idx, prop)) in unmatched_props.iter().enumerate() {
+        if match_idx < unmatched_static.len() {
+            let field_idx = unmatched_static[match_idx];
+            let field = &mut cls.static_fields[field_idx];
+
+            if types_compatible(&field.field_type.to_descriptor(), prop) {
+                field.alias = Some(prop.name.clone());
+                field.add_rename_reason("from kotlin metadata");
+                matched_static[field_idx] = true;
+                matched_props[*prop_idx] = true;
+
+                if debug_class {
+                    tracing::info!(
+                        "Matched static field '{}' -> '{}' (index-based)",
+                        field.name, prop.name
+                    );
+                }
+            }
+        }
+    }
+}
+
+/// Check if a Kotlin property likely represents a backing field
+/// JADX Clone: Properties in Kotlin metadata can be either field-backed or computed
+fn is_likely_field_property(property: &KotlinProperty) -> bool {
+    // Common method names that are NOT field properties
+    const METHOD_NAMES: &[&str] = &[
+        "hashCode", "toString", "equals", "clone", "finalize",
+        "getClass", "notify", "notifyAll", "wait",
+        "compareTo", "iterator", "size", "isEmpty",
+    ];
+
+    // If the property name matches a common method, it's not a field property
+    if METHOD_NAMES.contains(&property.name.as_str()) {
+        return false;
+    }
+
+    // If property has backing field flag set, it's definitely a field property
+    if property.flags.has_backing_field {
+        return true;
+    }
+
+    // If property has a JVM field signature with a type, it's likely a field
+    if property.jvm_field_signature.contains(':') {
+        return true;
+    }
+
+    // If property name follows field naming conventions (lowercase start, no parens)
+    let first_char = property.name.chars().next();
+    if let Some(c) = first_char {
+        if c.is_lowercase() && !property.name.contains('(') {
+            return true;
+        }
+    }
+
+    // Default: assume it's not a field property to be safe
+    false
+}
+
+/// Check if a field type is compatible with a Kotlin property
+/// Uses getter/setter signatures if available to verify type
+fn types_compatible(field_type_desc: &str, property: &KotlinProperty) -> bool {
+    // If we have a getter signature, extract return type and compare
+    if let Some(ref getter_sig) = property.getter_signature {
+        // Getter format: "getXxx()Lcom/example/Type;" or "getXxx()I"
+        if let Some(ret_start) = getter_sig.rfind(')') {
+            let return_type = &getter_sig[ret_start + 1..];
+            if !return_type.is_empty() && return_type != field_type_desc {
+                // Type mismatch - not compatible
+                return false;
+            }
+        }
+    }
+
+    // If we have JVM field signature with type, compare
+    if property.jvm_field_signature.contains(':') {
+        if let Some(colon_pos) = property.jvm_field_signature.find(':') {
+            let sig_type = &property.jvm_field_signature[colon_pos + 1..];
+            if !sig_type.is_empty() && sig_type != field_type_desc {
+                return false;
+            }
+        }
+    }
+
+    // No type info to compare, assume compatible
+    true
 }
 
 /// Apply companion object name to nested class or companion field
@@ -423,6 +608,9 @@ fn find_method_by_signature<'a>(cls: &'a mut ClassData, kotlin_func: &crate::typ
 ///
 /// The key insight is that JADX matches by EXACT JVM field signature, not by heuristics.
 fn field_matches(field: &FieldData, property: &KotlinProperty) -> bool {
+    // Debug logging for Balloon fields
+    let is_balloon = field.name == "C" || field.name == "context" || property.name == "context";
+
     // Strategy 1: JVM signature match (JADX approach - most reliable)
     // KmProperty.fieldSignature gives us "fieldName:Ljava/lang/Type;"
     // We build the same from FieldData and compare
@@ -433,6 +621,13 @@ fn field_matches(field: &FieldData, property: &KotlinProperty) -> bool {
         if let Some(colon_pos) = jvm_sig.find(':') {
             let sig_name = &jvm_sig[..colon_pos];
             let sig_type = &jvm_sig[colon_pos + 1..];
+
+            if is_balloon {
+                tracing::info!(
+                    "field_matches: field.name='{}', field.type='{}', sig_name='{}', sig_type='{}', property.name='{}'",
+                    field.name, field.field_type.to_descriptor(), sig_name, sig_type, property.name
+                );
+            }
 
             // Match by field name from signature
             if field.name == sig_name {

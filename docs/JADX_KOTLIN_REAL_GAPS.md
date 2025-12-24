@@ -1,99 +1,124 @@
-# JADX Kotlin Clone Tasks - REAL GAPS (Not 98%)
+# JADX Kotlin Clone Tasks - REAL GAPS
 
 **Created: 2025-12-23**
+**Last Updated: 2025-12-23**
 **Author: claude-opus-4-5-20251101**
-**Status: HONEST ASSESSMENT - CRITICAL BUGS FOUND**
+**Status: P0 BUG IDENTIFIED - FIELD ALIASING BROKEN**
 
-The previous doc claimed "98% parity" but comparing actual output shows **SEVERE BUGS**.
-This document identifies the REAL differences based on MainActivityKt.java and Balloon.java analysis.
+This document identifies the REAL differences based on a0.java (SegmentedByteString.kt) and other output comparisons.
+
+## Status Update (Dec 23, 2025)
+
+| Issue | Previous Status | Current Status |
+|-------|-----------------|----------------|
+| Rename reason comments | MISSING | **FIXED** - "reason: from kotlin metadata" now emitted |
+| Field aliasing | BROKEN | **STILL BROKEN** - P0 bug |
+| Strategy 3 heuristic | BUG | **FIXED** - Removed unconditional matching |
+| JVM signature matching | NOT WORKING | **STILL NOT WORKING** - `jvm_field_signature` often None |
 
 ---
 
-## CRITICAL BUG: Field Name/Type Corruption
+## CRITICAL BUG: Field Aliases Not Applied
 
 ### What JADX Produces (Correct)
 
+From `output/jadx/large/sources/l/a0.java` (SegmentedByteString.kt):
+
 ```java
-/* renamed from: A, reason: from kotlin metadata */
-private final kotlin.h autoDismissRunnable;
+/* renamed from: w, reason: from kotlin metadata */
+private final transient byte[][] segments;
 
-/* renamed from: C, reason: from kotlin metadata */
-private final Context context;
+/* renamed from: x, reason: from kotlin metadata */
+private final transient int[] directory;
 
-/* renamed from: c, reason: collision with root package name and from kotlin metadata */
-private final PopupWindow bodyWindow;
+/* renamed from: y, reason: from kotlin metadata */
+private final transient int offset;
+
+/* renamed from: z, reason: from kotlin metadata */
+private final transient int byteCount;
 ```
 
 ### What Dexterity Produces (BROKEN)
 
+From `output/dexterity/large/sources/l/a0.java`:
+
 ```java
-/* renamed from: A */
-private final h Lcom/skydoves/balloon/d;;  // BUG: Type descriptor as field name!
-
-/* renamed from: C */
-private final Context onBalloonClickListener;  // BUG: Wrong name
-
-/* renamed from: c */
-private final PopupWindow destroyed = new PopupWindow();  // BUG: Wrong alias
+private final transient byte[][] w;  // NO ALIAS - should be "segments"
+private final transient int[] x;     // NO ALIAS - should be "directory"
+private final transient int y;       // NO ALIAS - should be "offset"
+private final transient int z;       // NO ALIAS - should be "byteCount"
 ```
 
 ### Root Cause Analysis
 
-1. **Type descriptor leaking into field name** - `Lcom/skydoves/balloon/d;` is a JVM type
-2. **Kotlin metadata d2 parsing bug** - Field names from metadata are wrong
-3. **Name mapping corruption** - `autoDismissRunnable` → `Lcom/skydoves/balloon/d;`
+1. **JVM field signature is empty** - `property.jvm_field_signature` is often None
+2. **No fallback for obfuscated names** - When JVM sig is missing, can't match `w` to `segments`
+3. **Parser not extracting fieldSignature** - The protobuf field exists but isn't being populated
 
-### Severity: P0 CRITICAL - This makes the output unusable.
+### Severity: P0 CRITICAL - Field names remain obfuscated in all Kotlin files.
 
 ### Root Cause Location
 
-**File:** `crates/dexterity-kotlin/src/extractor.rs:432-435`
+**File:** `crates/dexterity-kotlin/src/extractor.rs:field_matches()`
 
-```rust
-// Strategy 3: Obfuscated field name matching
-if looks_obfuscated(&field.name) && !looks_obfuscated(&property.name) {
-    return true;  // BUG! Returns true unconditionally - matches ANY field to ANY property!
-}
-```
-
-This causes:
-1. Field "A" (obfuscated) matches first property in list
-2. Field "C" (obfuscated) matches wrong property
-3. Wrong Kotlin property names assigned as aliases
-
-### JADX Reference for Correct Implementation
-
-**File:** `jadx-fast/jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/KotlinMetadataDecompilePass.kt:50-80`
-
-JADX matches fields by:
-1. JVM field signature (from `fieldSignature`)
-2. Getter/setter signatures
-3. Explicit field name from metadata
-
----
-
-## CRITICAL BUG 2: field_matches() Strategy 3
-
-**Location:** `crates/dexterity-kotlin/src/extractor.rs:418-445`
+The issue is that `property.jvm_field_signature` is often empty, and the current code has NO fallback:
 
 ```rust
 fn field_matches(field: &FieldData, property: &KotlinProperty) -> bool {
-    // ... strategies 1-2 ...
+    // Strategy 1: JVM signature match (FAILS - jvm_field_signature often None)
+    if !property.jvm_field_signature.is_empty() { ... }
 
-    // Strategy 3: BROKEN - always returns true!
-    if looks_obfuscated(&field.name) && !looks_obfuscated(&property.name) {
-        return true;  // ← THIS IS THE BUG
-    }
-    // ... strategy 4 ...
+    // Strategy 2: Exact name match (FAILS for obfuscated - "w" != "segments")
+    if field.name == property.name { return true; }
+
+    // Strategy 3: Backing field pattern (FAILS - no "$" in "w")
+    if field.name.starts_with(&property.name) && field.name.contains('$') { return true; }
+
+    // Strategy 4: Underscore prefix (FAILS - "w" doesn't start with "_")
+    if field.name.starts_with("_") && field.name[1..] == property.name { return true; }
+
+    // NO FALLBACK - returns false for obfuscated fields!
+    false
 }
 ```
 
-### Fix Required
+**NOTE:** Strategy 3's unconditional matching bug was FIXED. Now NO fields match at all.
 
-Clone JADX's field matching from:
-**File:** `jadx-fast/jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/utils/KotlinMetadataUtils.kt:63-90`
+### JADX Reference for Correct Implementation
 
-JADX uses `KmProperty.fieldSignature` to get the exact JVM field name/type and matches by signature.
+**File:** `jadx-fast/jadx-plugins/jadx-kotlin-metadata/src/main/kotlin/jadx/plugins/kotlin/metadata/utils/KotlinMetadataUtils.kt:111-116`
+
+```kotlin
+fun mapFields(cls: ClassNode, kmClass: KmClass): Map<FieldNode, String> {
+    return kmClass.properties.mapNotNull { kmProperty ->
+        val fieldNode = cls.searchFieldByShortId(kmProperty.shortId)
+            ?: return@mapNotNull null
+        fieldNode to kmProperty.name
+    }.toMap()
+}
+```
+
+**Key insight:** `kmProperty.shortId` comes from `fieldSignature?.toString()` which gives `"w:[[B"` (field name + type descriptor).
+
+---
+
+## PREVIOUSLY CRITICAL BUG 2: field_matches() Strategy 3 - FIXED
+
+**Status:** FIXED (Dec 23, 2025)
+
+**Previous bug:** Strategy 3 unconditionally returned true for ANY obfuscated field matching ANY property.
+
+**Current state:** Strategy 3 removed. Now the code is correct but incomplete - NO fallback for obfuscated fields when JVM signature is missing.
+
+### What's Needed
+
+Fix the parser to populate `jvm_field_signature` from protobuf:
+
+**File:** `crates/dexterity-kotlin/src/parser.rs` - `parse_property()`
+
+The protobuf `Property` message has a `field_signature` extension that needs to be extracted.
+
+**JADX Reference:** `kotlin-metadata-jvm` library extracts `fieldSignature` from JVM extensions.
 
 ---
 
@@ -397,49 +422,55 @@ Goal: **95%+** parity with JADX output.
 
 ### P0: CRITICAL (Output Broken)
 
-| # | Bug | Location | JADX Reference | Est. Complexity |
-|---|-----|----------|----------------|-----------------|
-| 1 | field_matches() returns true unconditionally | `extractor.rs:432-435` | `KotlinMetadataUtils.kt:63-90` | Medium |
-| 2 | Type descriptor leaking into field name | `extractor.rs` | `KotlinMetadataDecompilePass.kt` | Medium |
+| # | Bug | Location | JADX Reference | Est. Complexity | Status |
+|---|-----|----------|----------------|-----------------|--------|
+| 1 | JVM field signature not populated | `parser.rs:parse_property()` | `kotlin-metadata-jvm` | Medium | **OPEN** |
+| 2 | No fallback for obfuscated fields | `extractor.rs:field_matches()` | `KotlinMetadataUtils.kt:111-116` | Medium | **OPEN** |
+| ~~3~~ | ~~Rename reason comments missing~~ | ~~`class_gen.rs`~~ | ~~`RenameReasonAttr.java`~~ | ~~Low~~ | **FIXED** |
+| ~~4~~ | ~~Strategy 3 unconditional matching~~ | ~~`extractor.rs:432-435`~~ | - | ~~Low~~ | **FIXED** |
 
 ### P1: HIGH (Missing Features)
 
 | # | Feature | Location | JADX Reference | Est. Complexity |
 |---|---------|----------|----------------|-----------------|
-| 3 | Warning/Info comment infrastructure | `info.rs`, `class_gen.rs` | `NotificationAttrNode.java` | Low |
-| 4 | "Access modifiers changed" comments | `fix_access_modifiers.rs` | `FixAccessModifiers.java:118` | Low |
-| 5 | "Removed duplicated region" warnings | `region_builder.rs` | `RegionMaker.java:60` | Low |
-| 6 | Lambda method extraction ($lambda$N) | `body_gen.rs` | `InsnGen.java:1032-1080` | High |
+| 5 | Warning/Info comment infrastructure | `info.rs`, `class_gen.rs` | `NotificationAttrNode.java` | Low |
+| 6 | "Access modifiers changed" comments | `fix_access_modifiers.rs` | `FixAccessModifiers.java:118` | Low |
+| 7 | "Removed duplicated region" warnings | `region_builder.rs` | `RegionMaker.java:60` | Low |
+| 8 | Lambda method extraction ($lambda$N) | `body_gen.rs` | `InsnGen.java:1032-1080` | High |
 
 ### P2: MEDIUM (Polish)
 
 | # | Feature | Location | JADX Reference | Est. Complexity |
 |---|---------|----------|----------------|-----------------|
-| 7 | Import resolution strategy | `class_gen.rs` | `ClassGen.java` imports | Medium |
-| 8 | Rename reason format | `class_gen.rs` | `RenameReasonAttr.java` | Low |
-| 9 | "Code decompiled incorrectly" fallback | `method_gen.rs` | `MethodGen.java` fallback | Low |
+| 9 | Import resolution strategy | `class_gen.rs` | `ClassGen.java` imports | Medium |
+| 10 | "Code decompiled incorrectly" fallback | `method_gen.rs` | `MethodGen.java` fallback | Low |
 
 ---
 
 ## Immediate Next Steps
 
-1. **FIX P0 BUGS FIRST** - The output is currently broken for obfuscated Kotlin code
-2. **Clone JADX field matching** - Use JVM field signatures, not heuristics
-3. **Add warning/info infrastructure** - Enable proper JADX-style comments
-4. **Verify with diff** - Run `diff output/jadx/.../Balloon.java output/dexterity/.../Balloon.java`
+1. **Fix JVM field signature extraction** - `parser.rs:parse_property()` needs to extract `fieldSignature` from JVM extensions
+2. **Add fallback matching** - If JVM sig missing, try index-based matching as last resort
+3. **Verify with a0.java** - Run `diff output/jadx/.../a0.java output/dexterity/.../a0.java`
 
 ---
 
-## Realistic Parity Assessment
+## Realistic Parity Assessment (Dec 23, 2025)
 
 | File Type | Current Parity | After P0 Fix | After P1/P2 |
 |-----------|----------------|--------------|-------------|
-| Kotlin Compose (MainActivityKt) | ~70% | ~80% | ~95% |
-| Kotlin Library (Balloon.java) | ~60% | ~85% | ~95% |
+| Kotlin (SegmentedByteString) | ~70% | ~90% | ~95% |
+| Kotlin Compose (MainActivityKt) | ~70% | ~85% | ~95% |
 | Plain Java | ~90% | ~90% | ~95% |
+
+## What's Fixed (Dec 23, 2025)
+
+1. **Rename reason comments** - Now emits "reason: from kotlin metadata"
+2. **Strategy 3 bug** - Removed unconditional obfuscated field matching
+3. **JADX reference comments** - Added throughout codebase
 
 ---
 
 *Document created by honest analysis of actual output differences.*
-*Don't trust claims - verify with diffs.*
+*Verified by comparing a0.java output between JADX and Dexterity.*
 *Last updated: 2025-12-23*

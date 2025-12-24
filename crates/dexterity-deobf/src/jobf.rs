@@ -88,6 +88,52 @@ impl JobfPresets {
         Self::default()
     }
 
+    /// Initialize alias provider indexes from loaded presets
+    ///
+    /// JADX Reference: DeobfPresets.initIndexes() lines 205-207
+    /// ```java
+    /// public void initIndexes(IAliasProvider aliasProvider) {
+    ///     aliasProvider.initIndexes(pkgPresetMap.size(), clsPresetMap.size(),
+    ///                               fldPresetMap.size(), mthPresetMap.size());
+    /// }
+    /// ```
+    ///
+    /// This ensures that when continuing from a loaded .jobf file, the alias
+    /// provider starts numbering from where the previous deobfuscation left off.
+    /// For example, if the .jobf has 10 class aliases, new classes will start
+    /// at C0010 instead of C0000.
+    ///
+    /// # Returns
+    /// Tuple of (pkg_count, cls_count, fld_count, mth_count)
+    pub fn get_indexes(&self) -> (u32, u32, u32, u32) {
+        (
+            self.packages.len() as u32,
+            self.classes.len() as u32,
+            self.fields.len() as u32,
+            self.methods.len() as u32,
+        )
+    }
+
+    /// Apply index initialization to a DeobfAliasProvider
+    ///
+    /// JADX Reference: DeobfPresets.initIndexes(IAliasProvider)
+    /// Cloned from JADX's initIndexes method exactly.
+    ///
+    /// This should be called after loading presets and before generating new aliases
+    /// to ensure consistent numbering across runs.
+    ///
+    /// # Example
+    /// ```ignore
+    /// let presets = JobfPresets::load("app.jobf")?;
+    /// let provider = DeobfAliasProvider::new(64);
+    /// presets.init_alias_provider(&provider);
+    /// // Now provider will continue numbering from preset counts
+    /// ```
+    pub fn init_alias_provider(&self, provider: &crate::alias_provider::DeobfAliasProvider) {
+        let (pkg, cls, fld, mth) = self.get_indexes();
+        provider.init_indexes(pkg, cls, fld, mth);
+    }
+
     /// Load presets from a .jobf file
     pub fn load<P: AsRef<Path>>(path: P) -> io::Result<Self> {
         let file = fs::File::open(path)?;

@@ -2,6 +2,50 @@
 
 ## December 2025
 
+### Dec 24, 2025 - GAP-01 and GAP-02 Fixes (P0 Critical)
+
+**GAP-01: SSA->CodeVar Variable Mapping - FIXED** (commit f82026ec6)
+
+Field access expressions now use `peek` instead of `take` in body_gen.rs to preserve inline expressions for later reuse instead of consuming them.
+
+**Files Modified:**
+- `crates/dexterity-codegen/src/body_gen.rs` - gen_arg_inline(), gen_arg_inline_typed(), write_arg_inline(), write_arg_inline_typed()
+
+**Before Fix:**
+```java
+// Variables undefined - inline expression consumed before second use
+if (StringsKt.startsWith$default(fINGERPRINT2, str2, z, i, obj)...
+```
+
+**After Fix:**
+```java
+// Variables properly referenced - inline expressions preserved
+String str = Build.FINGERPRINT;
+if (!StringsKt.startsWith$default(str, "generic", false, 2, (Object) null))
+```
+
+---
+
+**GAP-02: Iterator For-Each Loop Pattern Detection - FIXED** (commit 957ca9f1b)
+
+Implemented full iterator for-each pattern detection matching JADX's LoopRegionVisitor.java:246-340.
+
+**Files Modified:**
+- `crates/dexterity-passes/src/loop_analysis.rs` - Added `IteratorForEachPattern`, `detect_iterator_foreach()`
+- `crates/dexterity-passes/src/region_builder.rs` - Iterator handling in `refine_loops_with_patterns()`
+- `crates/dexterity-ir/src/regions.rs` - Added `IterableSource::Iterator` with `iterable_reg`, `iterator_reg`
+- `crates/dexterity-codegen/src/body_gen.rs` - `IterableSource::Iterator` handling in ForEach branch
+
+**Pattern Detection:**
+1. Single register arg in condition (the iterator)
+2. Iterator from collection.iterator() call
+3. hasNext() and next() call signatures match
+4. Iterator only used for hasNext/next within loop
+
+**Parity Improvement:** 75% -> 78%
+
+---
+
 ### Dec 23, 2025 - JADX Pass Cloning Session (3 New Passes, ~1,200 lines)
 
 **Implemented 3 new JADX-compatible passes:**

@@ -1,7 +1,14 @@
 //! Deobfuscation visitor
 //!
-//! Ported from jadx-core/src/main/java/jadx/core/deobf/DeobfuscatorVisitor.java
+//! JADX Reference: jadx-core/src/main/java/jadx/core/deobf/DeobfuscatorVisitor.java
+//! Cloned from JADX's DeobfuscatorVisitor class.
+//!
+//! Key behavior from JADX:
+//! 1. Process packages FIRST (DeobfuscatorVisitor.process() lines 34-47)
+//! 2. If any package was renamed, call root.runPackagesUpdate()
+//! 3. THEN process classes
 
+use std::collections::HashMap;
 use std::sync::Arc;
 use dexterity_ir::ClassData;
 use crate::conditions::DeobfCondition;
@@ -104,6 +111,111 @@ where
             self.process_class(cls);
         }
     }
+
+    /// Process packages first, then classes - matching JADX behavior exactly
+    ///
+    /// JADX Reference: DeobfuscatorVisitor.process() lines 34-47
+    /// ```java
+    /// public static void process(RootNode root, IRenameCondition renameCondition, IAliasProvider aliasProvider) {
+    ///     boolean pkgUpdated = false;
+    ///     // JADX processes packages FIRST
+    ///     for (PackageNode pkg : root.getPackages()) {
+    ///         if (renameCondition.shouldRename(pkg)) {
+    ///             String alias = aliasProvider.forPackage(pkg);
+    ///             if (alias != null) {
+    ///                 pkg.rename(alias, false);
+    ///                 pkgUpdated = true;
+    ///             }
+    ///         }
+    ///     }
+    ///     if (pkgUpdated) {
+    ///         root.runPackagesUpdate();  // <-- Important!
+    ///     }
+    ///     // THEN processes classes...
+    /// }
+    /// ```
+    ///
+    /// Returns the package rename mapping (old_pkg -> new_pkg) for later use
+    pub fn process_with_packages(
+        &self,
+        packages: &mut Vec<String>,
+        classes: &mut [ClassData],
+    ) -> HashMap<String, String> {
+        // JADX: Process packages first
+        let pkg_renames = self.process_packages(packages);
+
+        // JADX: if (pkgUpdated) { root.runPackagesUpdate(); }
+        // In dexterity, this means updating class pkg_alias fields
+        if !pkg_renames.is_empty() {
+            self.update_class_packages(classes, &pkg_renames);
+        }
+
+        // Then process classes
+        self.process_classes(classes);
+
+        pkg_renames
+    }
+
+    /// Process packages for renaming
+    ///
+    /// JADX Reference: DeobfuscatorVisitor.process() package loop lines 36-45
+    ///
+    /// Returns a map of old package names to new package aliases
+    fn process_packages(&self, packages: &mut Vec<String>) -> HashMap<String, String> {
+        let mut renames = HashMap::new();
+
+        for pkg in packages.iter_mut() {
+            let action = self.condition.check_package(pkg);
+            if action.should_rename() {
+                // JADX: String alias = aliasProvider.forPackage(pkg);
+                let alias = self.alias_provider.for_package(pkg);
+
+                // Store the rename mapping
+                renames.insert(pkg.clone(), alias.clone());
+
+                // Register in registry if available
+                if let Some(ref reg) = self.registry {
+                    reg.set_package_alias(pkg, &alias);
+                }
+
+                // Update the package in place
+                *pkg = alias;
+            }
+        }
+
+        renames
+    }
+
+    /// Update class pkg_alias fields based on package renames
+    ///
+    /// JADX Reference: RootNode.runPackagesUpdate()
+    /// In JADX, this updates the package tree and class references.
+    /// In dexterity, we update the pkg_alias field on ClassData.
+    fn update_class_packages(
+        &self,
+        classes: &mut [ClassData],
+        pkg_renames: &HashMap<String, String>,
+    ) {
+        for cls in classes.iter_mut() {
+            // Get the class's package from its class_type
+            // e.g., "Lcom/example/MyClass;" -> "com/example"
+            let class_type = cls.class_type.trim_start_matches('L').trim_end_matches(';');
+            if let Some(last_slash) = class_type.rfind('/') {
+                let pkg = &class_type[..last_slash];
+
+                // Check if this package was renamed
+                if let Some(new_pkg) = pkg_renames.get(pkg) {
+                    // Set the pkg_alias - the new package path for this class
+                    cls.pkg_alias = Some(new_pkg.clone());
+
+                    // Register in registry if available
+                    if let Some(ref reg) = self.registry {
+                        reg.set_class_package_alias(&cls.class_type, new_pkg);
+                    }
+                }
+            }
+        }
+    }
 }
 
 /// Configuration for deobfuscation
@@ -186,5 +298,106 @@ mod tests {
         assert!(cls.alias.is_none(), "Class should not have alias");
         assert!(cls.methods[0].alias.is_none(), "Method should not have alias");
         assert!(cls.instance_fields[0].alias.is_none(), "Field should not have alias");
+    }
+
+    #[test]
+    fn test_process_with_packages() {
+        // JADX Reference: DeobfuscatorVisitor.process() lines 34-47
+        // Test that packages are processed FIRST, then classes
+
+        let condition = CombinedCondition::default_jadx(3, 64);
+        let provider = DeobfAliasProvider::new(64);
+        let visitor = DeobfuscatorVisitor::new(condition, provider);
+
+        // Create packages with short names that should be renamed
+        let mut packages = vec![
+            "a".to_string(),           // Short, should be renamed
+            "ab".to_string(),          // Short, should be renamed
+            "com/example".to_string(), // Valid, should NOT be renamed
+        ];
+
+        // Create classes in those packages
+        let mut classes = vec![
+            ClassData::new("La/MyClass;".to_string(), 0),          // In package "a"
+            ClassData::new("Lab/OtherClass;".to_string(), 0),      // In package "ab"
+            ClassData::new("Lcom/example/MainActivity;".to_string(), 0), // In package "com/example"
+        ];
+
+        // Process with packages
+        let pkg_renames = visitor.process_with_packages(&mut packages, &mut classes);
+
+        // Short packages should be renamed
+        assert!(!pkg_renames.is_empty(), "Some packages should be renamed");
+        assert!(pkg_renames.contains_key("a"), "Package 'a' should be renamed");
+        assert!(pkg_renames.contains_key("ab"), "Package 'ab' should be renamed");
+
+        // Valid package should not be renamed
+        assert!(!pkg_renames.contains_key("com/example"), "Package 'com/example' should not be renamed");
+
+        // Classes in renamed packages should have pkg_alias set
+        assert!(
+            classes[0].pkg_alias.is_some(),
+            "Class in 'a' should have pkg_alias"
+        );
+        assert!(
+            classes[1].pkg_alias.is_some(),
+            "Class in 'ab' should have pkg_alias"
+        );
+
+        // Class in valid package should NOT have pkg_alias set
+        assert!(
+            classes[2].pkg_alias.is_none(),
+            "Class in 'com/example' should not have pkg_alias"
+        );
+
+        // Verify the pkg_alias values match the renamed package names
+        assert_eq!(
+            classes[0].pkg_alias.as_ref().unwrap(),
+            pkg_renames.get("a").unwrap(),
+            "pkg_alias should match renamed package"
+        );
+    }
+
+    #[test]
+    fn test_update_class_packages() {
+        // JADX Reference: RootNode.runPackagesUpdate()
+        // Test that class pkg_alias is updated when packages are renamed
+
+        let condition = CombinedCondition::default_jadx(3, 64);
+        let provider = DeobfAliasProvider::new(64);
+        let visitor = DeobfuscatorVisitor::new(condition, provider);
+
+        // Simulate a package rename
+        let mut pkg_renames = HashMap::new();
+        pkg_renames.insert("a/b".to_string(), "renamed/package".to_string());
+
+        // Create classes
+        let mut classes = vec![
+            ClassData::new("La/b/MyClass;".to_string(), 0),      // In renamed package
+            ClassData::new("La/b/c/Other;".to_string(), 0),      // In subpackage (not directly renamed)
+            ClassData::new("Lcom/example/Main;".to_string(), 0), // Different package
+        ];
+
+        // Apply package updates
+        visitor.update_class_packages(&mut classes, &pkg_renames);
+
+        // Class in renamed package should have pkg_alias
+        assert_eq!(
+            classes[0].pkg_alias,
+            Some("renamed/package".to_string()),
+            "Class in 'a/b' should have pkg_alias set"
+        );
+
+        // Class in subpackage should NOT have pkg_alias (only exact match)
+        assert!(
+            classes[1].pkg_alias.is_none(),
+            "Class in 'a/b/c' should not have pkg_alias (subpackage not renamed)"
+        );
+
+        // Class in different package should NOT have pkg_alias
+        assert!(
+            classes[2].pkg_alias.is_none(),
+            "Class in 'com/example' should not have pkg_alias"
+        );
     }
 }

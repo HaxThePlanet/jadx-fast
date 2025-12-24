@@ -453,6 +453,12 @@ pub fn try_transform_to_ternary(
     else_blocks: &[u32],
     cfg: &CFG,
 ) -> TernaryTransformResult {
+    let debug_ternary = std::env::var("DEXTERITY_DEBUG_TERNARY").is_ok();
+
+    if debug_ternary {
+        eprintln!("[TERNARY DEBUG] try_transform_to_ternary called with then_blocks={:?}, else_blocks={:?}", then_blocks, else_blocks);
+    }
+
     trace!(
         ?then_blocks,
         ?else_blocks,
@@ -496,6 +502,19 @@ pub fn try_transform_to_ternary(
     let (then_insn_opt, then_count) = get_effective_insn_from_block(then_block);
     let (else_insn_opt, else_count) = get_effective_insn_from_block(else_block);
 
+    if debug_ternary {
+        eprintln!("[TERNARY DEBUG] then_block {} has {} raw insns, {} effective insns",
+            then_block_id, then_block.instructions.len(), then_count);
+        eprintln!("[TERNARY DEBUG] else_block {} has {} raw insns, {} effective insns",
+            else_block_id, else_block.instructions.len(), else_count);
+        for (i, insn) in then_block.instructions.iter().enumerate() {
+            eprintln!("[TERNARY DEBUG]   then_block insn[{}]: {:?}", i, std::mem::discriminant(&insn.insn_type));
+        }
+        for (i, insn) in else_block.instructions.iter().enumerate() {
+            eprintln!("[TERNARY DEBUG]   else_block insn[{}]: {:?}", i, std::mem::discriminant(&insn.insn_type));
+        }
+    }
+
     if then_count != 1 || else_count != 1 {
         debug!(
             then_block_id,
@@ -504,6 +523,10 @@ pub fn try_transform_to_ternary(
             else_insn_count = else_count,
             "Ternary rejected: blocks must have exactly 1 effective instruction (JADX parity)"
         );
+        if debug_ternary {
+            eprintln!("[TERNARY DEBUG] REJECTED: then_count={}, else_count={} (need both == 1)",
+                then_count, else_count);
+        }
         return TernaryTransformResult::NotTernary;
     }
 
@@ -512,10 +535,20 @@ pub fn try_transform_to_ternary(
 
     // Try Pattern 1: Assignment in both branches (lines 97-135)
     // Use effective assignment dest which handles constructor pattern
-    if let (Some(then_dest), Some(else_dest)) = (
-        get_effective_assignment_dest(then_block),
-        get_effective_assignment_dest(else_block),
-    ) {
+    let then_dest_opt = get_effective_assignment_dest(then_block);
+    let else_dest_opt = get_effective_assignment_dest(else_block);
+
+    if debug_ternary {
+        eprintln!("[TERNARY DEBUG] then_dest_opt = {:?}", then_dest_opt);
+        eprintln!("[TERNARY DEBUG] else_dest_opt = {:?}", else_dest_opt);
+    }
+
+    if let (Some(then_dest), Some(else_dest)) = (then_dest_opt, else_dest_opt) {
+        if debug_ternary {
+            eprintln!("[TERNARY DEBUG] then_dest = ({}, {}), else_dest = ({}, {})",
+                then_dest.0, then_dest.1, else_dest.0, else_dest.1);
+            eprintln!("[TERNARY DEBUG] regs match? {}", then_dest.0 == else_dest.0);
+        }
         // Both must assign to the same register (they'll merge at a PHI node)
         if then_dest.0 == else_dest.0 {
             // JADX TernaryMod.java lines 100-104: Verify PHI merge
@@ -526,6 +559,10 @@ pub fn try_transform_to_ternary(
                 then_dest.0,
                 cfg,
             ) {
+                if debug_ternary {
+                    eprintln!("[TERNARY DEBUG] PHI verified! merge_block={}, phi_version={}", _merge_block, phi_version);
+                    eprintln!("[TERNARY DEBUG] ACCEPTED: assignment pattern with PHI, returning Assignment");
+                }
                 debug!(
                     then_block_id,
                     else_block_id,
@@ -541,6 +578,10 @@ pub fn try_transform_to_ternary(
                     else_block: else_block_id,
                 };
             } else {
+                if debug_ternary {
+                    eprintln!("[TERNARY DEBUG] PHI verification failed, but still accepting");
+                    eprintln!("[TERNARY DEBUG] ACCEPTED: assignment pattern without PHI, returning Assignment");
+                }
                 // Still accept without PHI verification for backwards compatibility
                 // (some cases may not have explicit PHI nodes in the IR)
                 debug!(
@@ -648,7 +689,10 @@ fn has_return_value(insn_type: &InsnType) -> bool {
 
 /// Get the effective instruction from a block, handling constructor patterns.
 /// JADX Clone: Mirrors ConstructorVisitor.java behavior where NewInstance + InvokeDirect<init>
-/// is treated as a single ConstructorInsn. In our IR, we haven't merged them yet at this stage.
+/// is treated as a single ConstructorInsn. In our IR, we may have:
+/// 1. Pre-merge: NewInstance + InvokeDirect<init>
+/// 2. Post-merge: NewInstance + Constructor (merged form)
+/// 3. With assignment: NewInstance + Constructor + Move (when result assigned to different reg)
 ///
 /// Returns (effective_insn, effective_count) where effective_count is:
 /// - 1 if there's a single logical instruction (including constructor pattern)
@@ -676,6 +720,77 @@ fn get_effective_insn_from_block<'a>(
                     // Treat as single instruction, return the NewInstance as it has the dest
                     return (Some(non_nop[0]), 1);
                 }
+            }
+        }
+    }
+
+    // Check for constructor pattern:
+    // NewInstance + InvokeDirect<init> + Move (when assigning to a different register for PHI merge)
+    // This is the instanceof ternary pattern:
+    //   else: r0 = new BufferedReader; invoke-direct r0.<init>(r1, 8192); move r1 = r0
+    if non_nop.len() == 3 {
+        let debug_ternary = std::env::var("DEXTERITY_DEBUG_TERNARY").is_ok();
+        if debug_ternary {
+            eprintln!("[TERNARY DEBUG] Checking 3-insn constructor pattern:");
+            eprintln!("[TERNARY DEBUG]   insn[0]: {:?}", non_nop[0].insn_type.name());
+            eprintln!("[TERNARY DEBUG]   insn[1]: {:?}", non_nop[1].insn_type.name());
+            eprintln!("[TERNARY DEBUG]   insn[2]: {:?}", non_nop[2].insn_type.name());
+        }
+        // Pattern 1: NewInstance + InvokeDirect + Move (pre-merge)
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Invoke { kind: InvokeKind::Direct, args, .. },
+            InsnType::Move { dest: move_dest, src: InsnArg::Register(move_src) }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type) {
+            // Check if invoke is a constructor (<init>) calling on the new instance
+            if let Some(InsnArg::Register(recv)) = args.first() {
+                if debug_ternary {
+                    eprintln!("[TERNARY DEBUG]   InvokeDirect pattern: new_dest={}, recv={}, move_src={}",
+                        new_dest.reg_num, recv.reg_num, move_src.reg_num);
+                }
+                // Verify chain: NewInstance creates obj, InvokeDirect initializes it, Move assigns result
+                if new_dest.reg_num == recv.reg_num && recv.reg_num == move_src.reg_num {
+                    if debug_ternary {
+                        eprintln!("[TERNARY DEBUG]   Chain verified! Returning 1 effective insn");
+                    }
+                    // Return the Move as it defines the effective destination
+                    return (Some(non_nop[2]), 1);
+                }
+            }
+        }
+        // Pattern 2: NewInstance + Constructor + Move (post-merge)
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Constructor { dest: ctor_dest, .. },
+            InsnType::Move { dest: move_dest, src: InsnArg::Register(move_src) }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type) {
+            if debug_ternary {
+                eprintln!("[TERNARY DEBUG]   Constructor pattern: new_dest={}, ctor_dest={}, move_src={}",
+                    new_dest.reg_num, ctor_dest.reg_num, move_src.reg_num);
+            }
+            // Verify chain: NewInstance creates obj, Constructor initializes it, Move assigns result
+            if new_dest.reg_num == ctor_dest.reg_num && ctor_dest.reg_num == move_src.reg_num {
+                if debug_ternary {
+                    eprintln!("[TERNARY DEBUG]   Chain verified! Returning 1 effective insn");
+                }
+                // Return the Move as it defines the effective destination
+                return (Some(non_nop[2]), 1);
+            }
+        }
+        if debug_ternary {
+            eprintln!("[TERNARY DEBUG]   No pattern matched");
+        }
+    }
+
+    // Check for 2-instruction variant: NewInstance + Constructor (no Move, already using right reg)
+    if non_nop.len() == 2 {
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Constructor { dest: ctor_dest, .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type) {
+            if new_dest.reg_num == ctor_dest.reg_num {
+                // NewInstance + Constructor pattern
+                return (Some(non_nop[0]), 1);
             }
         }
     }
@@ -712,6 +827,46 @@ fn get_effective_assignment_dest(
                     // Constructor pattern - dest is the NewInstance dest
                     return Some((new_dest.reg_num, new_dest.ssa_version));
                 }
+            }
+        }
+    }
+
+    // Check for constructor pattern + Move:
+    // NewInstance + InvokeDirect<init> + Move (when assigning to a different register for PHI merge)
+    if non_nop.len() == 3 {
+        // Pattern 1: NewInstance + InvokeDirect + Move (pre-merge)
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Invoke { kind: InvokeKind::Direct, args, .. },
+            InsnType::Move { dest: move_dest, src: InsnArg::Register(move_src) }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type) {
+            if let Some(InsnArg::Register(recv)) = args.first() {
+                if new_dest.reg_num == recv.reg_num && recv.reg_num == move_src.reg_num {
+                    return Some((move_dest.reg_num, move_dest.ssa_version));
+                }
+            }
+        }
+        // Pattern 2: NewInstance + Constructor + Move (post-merge)
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Constructor { dest: ctor_dest, .. },
+            InsnType::Move { dest: move_dest, src: InsnArg::Register(move_src) }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type, &non_nop[2].insn_type) {
+            // Verify chain and return the Move destination (the PHI merge target)
+            if new_dest.reg_num == ctor_dest.reg_num && ctor_dest.reg_num == move_src.reg_num {
+                return Some((move_dest.reg_num, move_dest.ssa_version));
+            }
+        }
+    }
+
+    // Check for 2-instruction variant: NewInstance + Constructor
+    if non_nop.len() == 2 {
+        if let (
+            InsnType::NewInstance { dest: new_dest, .. },
+            InsnType::Constructor { dest: ctor_dest, .. }
+        ) = (&non_nop[0].insn_type, &non_nop[1].insn_type) {
+            if new_dest.reg_num == ctor_dest.reg_num {
+                return Some((new_dest.reg_num, new_dest.ssa_version));
             }
         }
     }

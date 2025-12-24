@@ -51,6 +51,52 @@ pub struct PhiNode {
     pub sources: Vec<(u32, RegisterArg)>,
 }
 
+/// JADX Clone: RenameState.java
+/// Tracks current SSA variable version for each register during dominator tree walk.
+///
+/// Key insight from JADX RenameState.java:33-39:
+/// - vars (current version per register) is COPIED per block - each block sees its own state
+/// - versions counter is SHARED globally - ensures unique version numbers
+///
+/// This copy semantics is critical for correct SSA: when visiting dominated blocks,
+/// each child inherits the parent's current variable versions, but changes in one
+/// subtree don't affect sibling subtrees.
+struct RenameState {
+    block_id: u32,
+    /// Current SSAVar version for each register (COPIED per block)
+    /// Maps register number -> current SSA version visible in this block
+    vars: FxHashMap<u16, u32>,
+}
+
+impl RenameState {
+    fn new(block_id: u32) -> Self {
+        RenameState {
+            block_id,
+            vars: FxHashMap::default(),
+        }
+    }
+
+    /// JADX Clone: RenameState.java:33-39 (copyFrom)
+    /// Creates a copy of this state for a child block in the dominator tree.
+    /// The vars map is cloned so changes in the child don't affect the parent.
+    fn copy_for_block(&self, block_id: u32) -> Self {
+        RenameState {
+            block_id,
+            vars: self.vars.clone(),  // COPY - key to correct behavior
+        }
+    }
+
+    /// Get the current SSA version for a register, if defined
+    fn get_var(&self, reg: u16) -> Option<u32> {
+        self.vars.get(&reg).copied()
+    }
+
+    /// Set the current SSA version for a register
+    fn set_var(&mut self, reg: u16, version: u32) {
+        self.vars.insert(reg, version);
+    }
+}
+
 /// Dominator tree computation using Cooper-Harvey-Kennedy algorithm
 /// This is efficient for reducible CFGs (most structured programs)
 pub struct DominatorTree {
@@ -425,14 +471,13 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
         }
     }
 
-    // Step 5: Rename variables
+    // Step 5: Rename variables using RenameState (JADX Clone)
+    // Version counter is SHARED globally to ensure unique version numbers
     let mut version_counter: FxHashMap<u16, u32> = FxHashMap::default();
-    let mut version_stack: FxHashMap<u16, Vec<u32>> = FxHashMap::default();
 
-    // Initialize stacks with version 0 (parameter/initial values)
+    // Initialize version counter for all registers (start at 0, first assignment will be 1)
     for &var in &all_vars {
         version_counter.insert(var, 0);
-        version_stack.insert(var, vec![0]);
     }
 
     // Create SSA blocks
@@ -462,86 +507,82 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
         });
     }
 
-    // Rename in dominator tree order
+    // JADX Clone: SSATransform.java:122-189 (renameVariables + renameVarsInBlock)
+    // Rename variables in dominator tree order using RenameState with copy semantics.
+    // This is the corrected algorithm that properly tracks per-block variable visibility.
     fn rename_block(
-        block_id: u32,
+        state: &mut RenameState,
         ssa_blocks: &mut FxHashMap<u32, SsaBlock>,
         dom_tree: &DominatorTree,
-        version_counter: &mut FxHashMap<u16, u32>,
-        version_stack: &mut FxHashMap<u16, Vec<u32>>,
-        _blocks: &BlockSplitResult,
+        version_counter: &mut FxHashMap<u16, u32>,  // SHARED - global version counter
     ) {
+        let block_id = state.block_id;
         let block = match ssa_blocks.get_mut(&block_id) {
             Some(b) => b,
             None => return,
         };
 
-        // Track versions pushed in this block (for cleanup)
-        let mut pushed_vars: Vec<u16> = Vec::new();
-
-        // Rename phi node destinations
+        // JADX Clone: SSATransform.java:148 - Process phi node destinations first
+        // Each phi defines a new version of its destination register
         for phi in &mut block.phi_nodes {
-            let var = phi.dest.reg_num;
-            let version = version_counter.entry(var).or_insert(0);
+            let reg = phi.dest.reg_num;
+            let version = version_counter.entry(reg).or_insert(0);
             *version += 1;
             phi.dest.ssa_version = *version;
-            version_stack.entry(var).or_default().push(*version);
-            pushed_vars.push(var);
+            state.set_var(reg, *version);  // Update state with new version
         }
 
-        // Rename uses and definitions in instructions
+        // JADX Clone: SSATransform.java:148-166 - Rename uses and definitions
+        // Key: uses are processed BEFORE definitions (read current, then create new)
         for insn in &mut block.instructions {
-            // First rename uses (read current version from stack)
-            rename_uses(&mut insn.insn_type, version_stack);
+            // First rename uses (get current version from state)
+            rename_uses_with_state(&mut insn.insn_type, state);
 
-            // Then rename definitions (push new version)
-            if let Some(var) = get_def_register(&insn.insn_type) {
-                let version = version_counter.entry(var).or_insert(0);
+            // Then rename definitions (create new version, update state)
+            if let Some(reg) = get_def_register(&insn.insn_type) {
+                let version = version_counter.entry(reg).or_insert(0);
                 *version += 1;
                 rename_def(&mut insn.insn_type, *version);
-                version_stack.entry(var).or_default().push(*version);
-                pushed_vars.push(var);
+                state.set_var(reg, *version);
             }
         }
 
-        // Fill phi sources in successors
+        // JADX Clone: SSATransform.java:169-179 (bindPhiArg)
+        // Fill phi sources in successors using current state's variable versions
         let successors = block.successors.clone();
         for succ_id in successors {
             if let Some(succ) = ssa_blocks.get_mut(&succ_id) {
                 for phi in &mut succ.phi_nodes {
-                    let var = phi.dest.reg_num;
-                    let version = version_stack
-                        .get(&var)
-                        .and_then(|stack| stack.last())
-                        .copied()
-                        .unwrap_or(0);
-                    phi.sources.push((block_id, RegisterArg::with_ssa(var, version)));
+                    let reg = phi.dest.reg_num;
+                    // Use state.get_var() - the version visible in THIS predecessor block
+                    if let Some(version) = state.get_var(reg) {
+                        phi.sources.push((block_id, RegisterArg::with_ssa(reg, version)));
+                    }
+                    // If no version defined in this path, don't add a source (JADX behavior)
                 }
             }
         }
 
-        // Recursively rename dominated blocks
+        // JADX Clone: SSATransform.java:131-134 (dominator tree DFS with state copy)
+        // Recursively rename dominated blocks - each child gets a COPY of current state
+        // This copy semantics ensures changes in one subtree don't affect siblings
         if let Some(children) = dom_tree.children.get(&block_id) {
             for &child in children {
-                rename_block(child, ssa_blocks, dom_tree, version_counter, version_stack, _blocks);
+                // Copy state for child - each child sees parent's current vars
+                let mut child_state = state.copy_for_block(child);
+                rename_block(&mut child_state, ssa_blocks, dom_tree, version_counter);
             }
         }
-
-        // Pop versions pushed in this block
-        for var in pushed_vars {
-            if let Some(stack) = version_stack.get_mut(&var) {
-                stack.pop();
-            }
-        }
+        // No need to pop - state is automatically discarded after recursion (Rust semantics)
     }
 
+    // Initialize state and start renaming from entry block
+    let mut init_state = RenameState::new(blocks.entry_block);
     rename_block(
-        blocks.entry_block,
+        &mut init_state,
         &mut ssa_blocks,
         &dom_tree,
         &mut version_counter,
-        &mut version_stack,
-        blocks,
     );
 
     // Convert to ordered vector
@@ -745,6 +786,101 @@ fn rename_def(insn_type: &mut InsnType, version: u32) {
     }
 }
 
+/// JADX Clone: SSATransform.java:148-166 (rename uses with state lookup)
+/// Rename uses in an instruction using RenameState for version lookup.
+/// This is the corrected version that uses per-block state tracking instead of a global stack.
+fn rename_uses_with_state(insn_type: &mut InsnType, state: &RenameState) {
+    fn rename_arg(arg: &mut InsnArg, state: &RenameState) {
+        if let InsnArg::Register(reg) = arg {
+            // Use state.get_var() - the version visible in THIS block's path
+            if let Some(version) = state.get_var(reg.reg_num) {
+                reg.ssa_version = version;
+            }
+            // If no version defined, leave at 0 (uninitialized - JADX behavior)
+        }
+    }
+
+    match insn_type {
+        InsnType::Move { src, .. } => rename_arg(src, state),
+        InsnType::Return { value: Some(v) } => rename_arg(v, state),
+        InsnType::Throw { exception } => rename_arg(exception, state),
+        InsnType::MonitorEnter { object } => rename_arg(object, state),
+        InsnType::MonitorExit { object } => rename_arg(object, state),
+        InsnType::CheckCast { object, .. } => rename_arg(object, state),
+        InsnType::InstanceOf { object, .. } => rename_arg(object, state),
+        InsnType::ArrayLength { array, .. } => rename_arg(array, state),
+        InsnType::NewArray { size, .. } => rename_arg(size, state),
+        InsnType::FilledNewArray { args, .. } => {
+            for arg in args {
+                rename_arg(arg, state);
+            }
+        }
+        InsnType::FillArrayData { array, .. } => rename_arg(array, state),
+        InsnType::ArrayGet { array, index, .. } => {
+            rename_arg(array, state);
+            rename_arg(index, state);
+        }
+        InsnType::ArrayPut { array, index, value, .. } => {
+            rename_arg(array, state);
+            rename_arg(index, state);
+            rename_arg(value, state);
+        }
+        InsnType::InstanceGet { object, .. } => rename_arg(object, state),
+        InsnType::InstancePut { object, value, .. } => {
+            rename_arg(object, state);
+            rename_arg(value, state);
+        }
+        InsnType::StaticPut { value, .. } => rename_arg(value, state),
+        InsnType::Invoke { args, .. } => {
+            for arg in args {
+                rename_arg(arg, state);
+            }
+        }
+        InsnType::InvokeCustom { args, .. } => {
+            for arg in args {
+                rename_arg(arg, state);
+            }
+        }
+        InsnType::Unary { arg, .. } => rename_arg(arg, state),
+        InsnType::Binary { left, right, .. } => {
+            rename_arg(left, state);
+            rename_arg(right, state);
+        }
+        InsnType::Cast { arg, .. } => rename_arg(arg, state),
+        InsnType::Compare { left, right, .. } => {
+            rename_arg(left, state);
+            rename_arg(right, state);
+        }
+        InsnType::If { left, right, .. } => {
+            rename_arg(left, state);
+            if let Some(r) = right {
+                rename_arg(r, state);
+            }
+        }
+        InsnType::Ternary { left, right, then_value, else_value, .. } => {
+            rename_arg(left, state);
+            if let Some(r) = right {
+                rename_arg(r, state);
+            }
+            rename_arg(then_value, state);
+            rename_arg(else_value, state);
+        }
+        InsnType::PackedSwitch { value, .. } => rename_arg(value, state),
+        InsnType::SparseSwitch { value, .. } => rename_arg(value, state),
+        InsnType::Constructor { args, .. } => {
+            for arg in args {
+                rename_arg(arg, state);
+            }
+        }
+        InsnType::StrConcat { args, .. } => {
+            for arg in args {
+                rename_arg(arg, state);
+            }
+        }
+        _ => {}
+    }
+}
+
 /// Transform to SSA form, taking ownership of blocks to avoid cloning instructions
 /// This is the memory-efficient version that moves instructions instead of cloning
 pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
@@ -801,13 +937,11 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
         }
     }
 
-    // Step 5: Rename variables
+    // Step 5: Rename variables using RenameState (JADX Clone)
     let mut version_counter: FxHashMap<u16, u32> = FxHashMap::default();
-    let mut version_stack: FxHashMap<u16, Vec<u32>> = FxHashMap::default();
 
     for &var in &all_vars {
         version_counter.insert(var, 0);
-        version_stack.insert(var, vec![0]);
     }
 
     // Create SSA blocks by MOVING data from original blocks (no clone!)
@@ -843,87 +977,74 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     }
 
     // Create a temporary structure for rename_block that provides successor info
-    // We need this because rename_block needs to look up successors
     let successor_map: FxHashMap<u32, Vec<u32>> = ssa_blocks
         .iter()
         .map(|(&id, b)| (id, b.successors.clone()))
         .collect();
 
-    // Rename in dominator tree order
+    // JADX Clone: SSATransform.java:122-189 (renameVariables + renameVarsInBlock)
+    // Rename variables in dominator tree order using RenameState with copy semantics.
     fn rename_block_owned(
-        block_id: u32,
+        state: &mut RenameState,
         ssa_blocks: &mut FxHashMap<u32, SsaBlock>,
         dom_tree: &DominatorTree,
         version_counter: &mut FxHashMap<u16, u32>,
-        version_stack: &mut FxHashMap<u16, Vec<u32>>,
         successor_map: &FxHashMap<u32, Vec<u32>>,
     ) {
+        let block_id = state.block_id;
         let block = match ssa_blocks.get_mut(&block_id) {
             Some(b) => b,
             None => return,
         };
 
-        let mut pushed_vars: Vec<u16> = Vec::new();
-
-        // Rename phi node destinations
+        // JADX Clone: SSATransform.java:148 - Process phi node destinations first
         for phi in &mut block.phi_nodes {
-            let var = phi.dest.reg_num;
-            let version = version_counter.entry(var).or_insert(0);
+            let reg = phi.dest.reg_num;
+            let version = version_counter.entry(reg).or_insert(0);
             *version += 1;
             phi.dest.ssa_version = *version;
-            version_stack.entry(var).or_default().push(*version);
-            pushed_vars.push(var);
+            state.set_var(reg, *version);
         }
 
-        // Rename uses and definitions in instructions
+        // JADX Clone: SSATransform.java:148-166 - Rename uses and definitions
         for insn in &mut block.instructions {
-            rename_uses(&mut insn.insn_type, version_stack);
-            if let Some(var) = get_def_register(&insn.insn_type) {
-                let version = version_counter.entry(var).or_insert(0);
+            rename_uses_with_state(&mut insn.insn_type, state);
+            if let Some(reg) = get_def_register(&insn.insn_type) {
+                let version = version_counter.entry(reg).or_insert(0);
                 *version += 1;
                 rename_def(&mut insn.insn_type, *version);
-                version_stack.entry(var).or_default().push(*version);
-                pushed_vars.push(var);
+                state.set_var(reg, *version);
             }
         }
 
-        // Fill phi sources in successors
+        // JADX Clone: SSATransform.java:169-179 (bindPhiArg)
         let successors = successor_map.get(&block_id).cloned().unwrap_or_default();
         for succ_id in successors {
             if let Some(succ) = ssa_blocks.get_mut(&succ_id) {
                 for phi in &mut succ.phi_nodes {
-                    let var = phi.dest.reg_num;
-                    let version = version_stack
-                        .get(&var)
-                        .and_then(|stack| stack.last())
-                        .copied()
-                        .unwrap_or(0);
-                    phi.sources.push((block_id, RegisterArg::with_ssa(var, version)));
+                    let reg = phi.dest.reg_num;
+                    if let Some(version) = state.get_var(reg) {
+                        phi.sources.push((block_id, RegisterArg::with_ssa(reg, version)));
+                    }
                 }
             }
         }
 
-        // Recursively rename dominated blocks
+        // JADX Clone: SSATransform.java:131-134 (dominator tree DFS with state copy)
         if let Some(children) = dom_tree.children.get(&block_id) {
             for &child in children {
-                rename_block_owned(child, ssa_blocks, dom_tree, version_counter, version_stack, successor_map);
-            }
-        }
-
-        // Pop versions pushed in this block
-        for var in pushed_vars {
-            if let Some(stack) = version_stack.get_mut(&var) {
-                stack.pop();
+                let mut child_state = state.copy_for_block(child);
+                rename_block_owned(&mut child_state, ssa_blocks, dom_tree, version_counter, successor_map);
             }
         }
     }
 
+    let mut init_state = RenameState::new(entry_block);
     rename_block_owned(
-        entry_block,
+        &mut init_state,
         &mut ssa_blocks,
         &dom_tree,
         &mut version_counter,
-        &mut version_stack,
         &successor_map,
     );
 

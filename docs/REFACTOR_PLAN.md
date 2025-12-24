@@ -58,18 +58,18 @@ Note: JADX bundles everything in jadx-core (99,428 LOC). They also have jadx-gui
 
 ### 10 Critical Gaps (from CODEGEN_PARITY_MASTER.md)
 
-| Priority | Gap | Symptom |
-|----------|-----|---------|
-| P0 | GAP-01 | Undefined variables (SSA mismatch) |
-| P0 | GAP-02 | Iterator for-each broken |
-| P0 | GAP-03 | Flattened ifs lose declarations |
-| P0 | GAP-04 | Empty static initializers |
-| P0 | GAP-05 | Ternary not generated |
-| P1 | GAP-06 | For-each missing type casts |
-| P1 | GAP-07 | Boolean return as int |
-| P1 | GAP-08 | Wrong method signature arrays |
-| P1 | GAP-09 | StringBuilder not simplified |
-| P1 | GAP-10 | Redundant else-return |
+| Priority | Gap | Symptom | Status |
+|----------|-----|---------|--------|
+| P0 | GAP-01 | Undefined variables (SSA mismatch) | **FIXED** Dec 24 |
+| P0 | GAP-02 | Iterator for-each broken | **FIXED** Dec 24 |
+| P0 | GAP-03 | Flattened ifs lose declarations | TODO |
+| P0 | GAP-04 | Empty static initializers | PARTIAL |
+| P0 | GAP-05 | Ternary not generated | TODO |
+| P1 | GAP-06 | For-each missing type casts | TODO |
+| P1 | GAP-07 | Boolean return as int | TODO |
+| P1 | GAP-08 | Wrong method signature arrays | TODO |
+| P1 | GAP-09 | StringBuilder not simplified | TODO |
+| P1 | GAP-10 | Redundant else-return | TODO |
 
 ---
 
@@ -292,39 +292,38 @@ args_match()                          // ~20 lines
 
 ## 4. Phase 2: Clone 10 JADX Gaps
 
-### GAP-01: SSA→CodeVar Variable Mapping (P0-CRITICAL)
+### GAP-01: SSA->CodeVar Variable Mapping (P0-CRITICAL) - FIXED
 
-**File:** `crates/dexterity-codegen/src/expr_gen.rs`
+**Status:** FIXED in commit f82026ec6 (Dec 24, 2025)
 
-**Problem:**
+**File:** `crates/dexterity-codegen/src/body_gen.rs`
+
+**Problem (Before Fix):**
 ```java
 // BROKEN: fINGERPRINT2 never declared
 if (StringsKt.startsWith$default(fINGERPRINT2, str2, z, i, obj)...
 ```
 
 **JADX Reference:** `NameGen.java:50-60`
-```java
-public void assignArg(CodeVar var) {
-    if (fallback) {
-        var.setName(getFallbackName(var));
-    } else {
-        String name = makeArgName(var);
-        var.setName(getUniqueVarName(name));
-    }
-}
-```
 
-**Fix:** Track declaration points, don't inline when declaration required
-
-**Estimated lines:** ~100
+**Fix Applied:**
+- Field access expressions now use `peek` instead of `take` in body_gen.rs
+- Fixed in functions: `gen_arg_inline()`, `gen_arg_inline_typed()`, `write_arg_inline()`, `write_arg_inline_typed()`
+- This preserves inline expressions for later reuse instead of consuming them
 
 ---
 
-### GAP-02: Iterator For-Each Loop (P0-CRITICAL)
+### GAP-02: Iterator For-Each Loop (P0-CRITICAL) - FIXED
 
-**File:** `crates/dexterity-passes/src/loop_region_visitor.rs` (NEW)
+**Status:** FIXED in commit 957ca9f1b (Dec 24, 2025)
 
-**Problem:**
+**Files:**
+- `crates/dexterity-passes/src/loop_analysis.rs` - `IteratorForEachPattern`, `detect_iterator_foreach()`
+- `crates/dexterity-passes/src/region_builder.rs` - `refine_loops_with_patterns()` iterator handling
+- `crates/dexterity-ir/src/regions.rs` - `IterableSource::Iterator` variant with `iterable_reg`, `iterator_reg`
+- `crates/dexterity-codegen/src/body_gen.rs` - `IterableSource::Iterator` handling in ForEach branch
+
+**Problem (Before Fix):**
 ```java
 // BROKEN: next undefined, leftover int i = 0
 while (it.hasNext()) {
@@ -334,12 +333,13 @@ while (it.hasNext()) {
 ```
 
 **JADX Reference:** `LoopRegionVisitor.java:246-340`
-- 6 validation conditions must ALL pass
-- Marks instructions with DONT_GENERATE equivalent
 
-**Fix:** Clone JADX's checkIterableForEach() with all 6 conditions
-
-**Estimated lines:** ~200
+**Fix Applied:**
+1. Added `iterator_for_each: Vec<IteratorForEachPattern>` to `LoopPatternResult`
+2. `analyze_loop_patterns()` calls `detect_iterator_foreach()` when indexed for-loop detection fails
+3. Added `iterable_reg` and `iterator_reg` to `IterableSource::Iterator`
+4. Added iterator for-each handling in `refine_loops_with_patterns()`
+5. Added `IterableSource::Iterator` handling in `LoopKind::ForEach` branch
 
 ---
 
@@ -486,19 +486,19 @@ if (x) { throw e; }
 
 ### Phase 2 Summary
 
-| Gap | Priority | Lines | File |
-|-----|----------|-------|------|
-| GAP-01 | P0 | ~100 | expr_gen.rs |
-| GAP-02 | P0 | ~200 | loop_region_visitor.rs (NEW) |
-| GAP-03 | P0 | ~150 | region_builder.rs |
-| GAP-04 | P0 | ~100 | class_gen.rs |
-| GAP-05 | P0 | ~150 | ternary_mod.rs |
-| GAP-06 | P1 | ~50 | body_gen.rs |
-| GAP-07 | P1 | ~30 | body_gen.rs |
-| GAP-08 | P1 | ~80 | body_gen.rs |
-| GAP-09 | P1 | ~200 | simplify_stringbuilder.rs (NEW) |
-| GAP-10 | P1 | ~80 | return_visitor.rs |
-| **Total** | | **~1,140** | |
+| Gap | Priority | Lines | File | Status |
+|-----|----------|-------|------|--------|
+| GAP-01 | P0 | ~100 | body_gen.rs | **FIXED** |
+| GAP-02 | P0 | ~200 | loop_analysis.rs, region_builder.rs, body_gen.rs | **FIXED** |
+| GAP-03 | P0 | ~150 | region_builder.rs | TODO |
+| GAP-04 | P0 | ~100 | class_gen.rs | PARTIAL |
+| GAP-05 | P0 | ~150 | ternary_mod.rs | TODO |
+| GAP-06 | P1 | ~50 | body_gen.rs | TODO |
+| GAP-07 | P1 | ~30 | body_gen.rs | TODO |
+| GAP-08 | P1 | ~80 | body_gen.rs | TODO |
+| GAP-09 | P1 | ~200 | simplify_stringbuilder.rs (NEW) | TODO |
+| GAP-10 | P1 | ~80 | return_visitor.rs | TODO |
+| **Remaining Total** | | **~840** | | (2 P0 FIXED) |
 
 ---
 
@@ -530,12 +530,12 @@ if (x) { throw e; }
 
 ### Week 2: Gap Fixes (Phase 2 - P0)
 
-5. **Day 1:** GAP-01 (SSA→CodeVar)
-6. **Day 2:** GAP-02 (Iterator for-each) - uses new loop_region_visitor.rs
+5. **Day 1:** GAP-01 (SSA->CodeVar) - **DONE** Dec 24 (commit f82026ec6)
+6. **Day 2:** GAP-02 (Iterator for-each) - **DONE** Dec 24 (commit 957ca9f1b)
 7. **Day 3:** GAP-03 (Nested if declarations)
 8. **Day 4:** GAP-04 (Field init) + GAP-05 (Ternary)
 
-**Checkpoint:** P0 gaps fixed, output comparison
+**Checkpoint:** 2/5 P0 gaps fixed (Dec 24), output comparison ongoing
 
 ### Week 3: Gap Fixes (Phase 2 - P1)
 
@@ -575,13 +575,13 @@ diff -rq output/jadx/large/sources output/dexterity/large/sources | head -50
 
 ### Metrics to Track
 
-| Metric | Before | Target |
-|--------|--------|--------|
-| body_gen.rs lines | 11,314 | <5,000 |
-| Total codegen lines | 21,199 | <15,000 |
-| P0 gaps | 5 | 0 |
-| P1 gaps | 5 | 0 |
-| Output parity | 70-85% | 95%+ |
+| Metric | Before | Current (Dec 24) | Target |
+|--------|--------|------------------|--------|
+| body_gen.rs lines | 11,314 | ~11,300 | <5,000 |
+| Total codegen lines | 21,199 | ~21,200 | <15,000 |
+| P0 gaps | 5 | **3** (2 FIXED) | 0 |
+| P1 gaps | 5 | 5 | 0 |
+| Output parity | 70-85% | **78%** | 95%+ |
 
 ---
 

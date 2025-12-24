@@ -566,6 +566,9 @@ impl InsnNode {
     }
 
     /// Get the number of arguments (JADX: getArgsCount)
+    ///
+    /// WARNING: This uses get_args() which returns incomplete data for some instructions.
+    /// For accurate argument count, use get_args_vec().len() instead.
     pub fn get_args_count(&self) -> usize {
         self.insn_type.get_args().len()
     }
@@ -573,6 +576,17 @@ impl InsnNode {
     /// Get argument at index (JADX: getArg)
     pub fn get_arg(&self, index: usize) -> Option<&InsnArg> {
         self.insn_type.get_args().get(index)
+    }
+
+    /// Get ALL arguments from this instruction
+    ///
+    /// This is the preferred method for getting arguments as it returns
+    /// all operands for every instruction type. Use this for:
+    /// - Visitor patterns
+    /// - SSA analysis
+    /// - Data flow analysis
+    pub fn get_args_vec(&self) -> Vec<&InsnArg> {
+        self.insn_type.get_args_vec()
     }
 
     /// Set the result type
@@ -1601,7 +1615,7 @@ impl InsnType {
             InsnType::FilledNewArray { args, .. } => args.as_slice(),
             InsnType::FillArrayData { array, .. } => std::slice::from_ref(array),
             InsnType::ArrayGet { array, .. } => {
-                // Can't return both, use get_args_vec for multiple
+                // Note: Returns only array. Use get_args_vec() for all arguments.
                 std::slice::from_ref(array)
             }
             InsnType::ArrayPut { array, .. } => std::slice::from_ref(array),
@@ -1633,6 +1647,98 @@ impl InsnType {
             InsnType::JavaRet { .. } => &[],
             InsnType::Break { .. } => &[],
             InsnType::Continue { .. } => &[],
+        }
+    }
+
+    /// Get ALL arguments from this instruction type as a Vec (JADX: getArguments - COMPLETE VERSION)
+    ///
+    /// Unlike `get_args()` which returns only the first argument for multi-argument instructions,
+    /// this method returns ALL arguments for every instruction type.
+    ///
+    /// Use this method when you need to iterate over all operands, such as:
+    /// - Visitor patterns that process all arguments
+    /// - SSA use-def chain analysis
+    /// - Copy propagation and constant folding
+    /// - Data flow analysis
+    pub fn get_args_vec(&self) -> Vec<&InsnArg> {
+        match self {
+            // No arguments
+            InsnType::Nop => vec![],
+            InsnType::Const { .. } => vec![],
+            InsnType::ConstString { .. } => vec![],
+            InsnType::ConstClass { .. } => vec![],
+            InsnType::MoveResult { .. } => vec![],
+            InsnType::MoveException { .. } => vec![],
+            InsnType::NewInstance { .. } => vec![],
+            InsnType::StaticGet { .. } => vec![],
+            InsnType::Goto { .. } => vec![],
+            InsnType::JavaJsr { .. } => vec![],
+            InsnType::JavaRet { .. } => vec![],
+            InsnType::Break { .. } => vec![],
+            InsnType::Continue { .. } => vec![],
+
+            // Single argument
+            InsnType::Move { src, .. } => vec![src],
+            InsnType::Return { value: Some(v), .. } => vec![v],
+            InsnType::Return { value: None, .. } => vec![],
+            InsnType::Throw { exception } => vec![exception],
+            InsnType::MonitorEnter { object } => vec![object],
+            InsnType::MonitorExit { object } => vec![object],
+            InsnType::CheckCast { object, .. } => vec![object],
+            InsnType::InstanceOf { object, .. } => vec![object],
+            InsnType::ArrayLength { array, .. } => vec![array],
+            InsnType::NewArray { size, .. } => vec![size],
+            InsnType::FillArrayData { array, .. } => vec![array],
+            InsnType::InstanceGet { object, .. } => vec![object],
+            InsnType::StaticPut { value, .. } => vec![value],
+            InsnType::Unary { arg, .. } => vec![arg],
+            InsnType::Cast { arg, .. } => vec![arg],
+            InsnType::PackedSwitch { value, .. } => vec![value],
+            InsnType::SparseSwitch { value, .. } => vec![value],
+            InsnType::OneArg { arg } => vec![arg],
+
+            // Two arguments - FIXED: returns both
+            InsnType::ArrayGet { array, index, .. } => vec![array, index],
+            InsnType::Binary { left, right, .. } => vec![left, right],
+            InsnType::Compare { left, right, .. } => vec![left, right],
+            InsnType::InstancePut { object, value, .. } => vec![object, value],
+
+            // Two or three arguments
+            InsnType::If { left, right, .. } => {
+                match right {
+                    Some(r) => vec![left, r],
+                    None => vec![left],
+                }
+            }
+
+            // Three arguments - FIXED: returns all
+            InsnType::ArrayPut { array, index, value, .. } => vec![array, index, value],
+
+            // Four+ arguments (Ternary)
+            InsnType::Ternary { left, right, then_value, else_value, .. } => {
+                match right {
+                    Some(r) => vec![left, r, then_value, else_value],
+                    None => vec![left, then_value, else_value],
+                }
+            }
+
+            // Variable argument lists
+            InsnType::FilledNewArray { args, .. } => args.iter().collect(),
+            InsnType::Invoke { args, .. } => args.iter().collect(),
+            InsnType::InvokeCustom { args, .. } => args.iter().collect(),
+            InsnType::StrConcat { args, .. } => args.iter().collect(),
+            InsnType::RegionArg { args } => args.iter().collect(),
+            InsnType::Constructor { args, .. } => args.iter().collect(),
+
+            // PHI nodes - FIXED: returns all source values
+            InsnType::Phi { sources, .. } => {
+                sources.iter().map(|(_, arg)| arg).collect()
+            }
+
+            // MoveMulti - FIXED: returns all source values
+            InsnType::MoveMulti { moves } => {
+                moves.iter().map(|(_, src)| src).collect()
+            }
         }
     }
 

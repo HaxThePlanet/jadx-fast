@@ -318,11 +318,15 @@ fn build_string_resolver(
 
         for _ in 0..range {
             // Determine the base string: literal > predefined > d2
+            // JADX Clone: StringTableTypes spec - predefined strings REPLACE d2 entries at the same
+            // logical position, so d2_idx must ALWAYS advance (consumed even if replaced by predefined)
             let base_string = if let Some(ref literal) = record.string {
-                // Literal string specified in the record
+                // Literal string specified in the record (replaces d2 entry)
+                d2_idx += 1; // Consume the d2 slot
                 literal.clone()
             } else if let Some(predef_idx) = record.predefined_index {
-                // Predefined Kotlin string (common names)
+                // Predefined Kotlin string (common names) - replaces d2 entry at same position
+                d2_idx += 1; // Consume the d2 slot
                 get_predefined_string(predef_idx as usize)
             } else if d2_idx < d2.len() {
                 // Use next d2 string

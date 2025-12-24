@@ -38,23 +38,52 @@ fn should_skip_complex_method(method: &MethodData) -> Option<String> {
 }
 
 /// Check if a static initializer (clinit) is empty and should be skipped
-/// A clinit is considered empty if it has no instructions or only a return-void
+/// A clinit is considered empty if all its instructions are "non-output" instructions:
+/// - Nop instructions
+/// - Return void
+/// - Const/ConstString/ConstClass (no output without subsequent use)
+/// - Marked with DontGenerate flag
+///
+/// GAP-04 FIX: After field extraction, clinit may only have Nop/Const/DontGenerate
+/// instructions left. These should NOT generate an empty `static {}` block.
+///
+/// The key insight is that CONST instructions by themselves don't produce output -
+/// they only define register values. After extract_field_init removes SPUT instructions,
+/// the CONST instructions become orphaned (unused) but are left in the method.
 fn is_empty_clinit(method: &MethodData) -> bool {
+    use dexterity_ir::instructions::InsnType;
+    use dexterity_ir::attributes::AFlag;
+
     if let Some(insns) = method.instructions() {
-        // Empty or only return-void
-        if insns.is_empty() {
-            return true;
-        }
-        if insns.len() == 1 {
-            if let dexterity_ir::InsnType::Return { value: None } = &insns[0].insn_type {
-                return true;
+        // Check if all instructions are "non-output" (don't produce any code by themselves)
+        let has_meaningful_instruction = insns.iter().any(|insn| {
+            // Skip DontGenerate instructions
+            if insn.has_flag(AFlag::DontGenerate) {
+                return false;
             }
-        }
+            // Skip control flow and value-defining instructions that don't produce output
+            match &insn.insn_type {
+                InsnType::Nop => false,
+                InsnType::Return { value: None } => false,
+                // Const instructions don't produce output by themselves - they just define register values
+                // After field extraction, orphaned CONST instructions remain but have no effect
+                InsnType::Const { .. } => false,
+                InsnType::ConstString { .. } => false,
+                InsnType::ConstClass { .. } => false,
+                // Move instructions also don't produce output by themselves
+                InsnType::Move { .. } => false,
+                // NewInstance without a following constructor call/use is orphaned
+                InsnType::NewInstance { .. } => false,
+                // Any other instruction is "meaningful" and should produce output
+                _ => true,
+            }
+        });
+
+        !has_meaningful_instruction
     } else {
         // No instructions at all (native or abstract - unusual for clinit)
-        return true;
+        true
     }
-    false
 }
 
 /// Check if a constructor argument type is synthetic and should be filtered
@@ -1747,14 +1776,18 @@ mod tests {
 
     #[test]
     fn test_static_initializer() {
-        use dexterity_ir::instructions::{InsnNode, InsnType};
+        use dexterity_ir::instructions::{InsnNode, InsnType, InsnArg, RegisterArg};
 
         let class = make_class();
         let mut method = make_method("<clinit>", ArgType::Void, ACC_STATIC);
-        // Add instructions so clinit isn't considered "empty" (JADX skips empty clinits)
+        // Add a meaningful instruction so clinit isn't considered "empty"
+        // GAP-04 FIX: Nop-only clinit is now considered empty, so use a real instruction
         method.set_instructions(vec![
-            InsnNode::new(InsnType::Nop, 0),
-            InsnNode::new(InsnType::Nop, 1),
+            InsnNode::new(InsnType::StaticPut {
+                field_idx: 0,
+                value: InsnArg::Register(RegisterArg { reg_num: 0, ssa_version: 0 }),
+            }, 0),
+            InsnNode::new(InsnType::Return { value: None }, 1),
         ]);
         let mut writer = SimpleCodeWriter::new();
         generate_method(&method, &class, false, &mut writer);
@@ -1766,6 +1799,7 @@ mod tests {
     #[test]
     fn test_empty_clinit_is_skipped() {
         use dexterity_ir::instructions::{InsnNode, InsnType};
+        use dexterity_ir::attributes::AFlag;
 
         let class = make_class();
 
@@ -1785,6 +1819,55 @@ mod tests {
         generate_method(&method2, &class, false, &mut writer2);
         let code2 = writer2.finish();
         assert!(!code2.contains("static"), "Empty clinit (only return-void) should not generate output");
+
+        // Case 3: Only Nop instructions (GAP-04 FIX)
+        let mut method3 = make_method("<clinit>", ArgType::Void, ACC_STATIC);
+        method3.set_instructions(vec![
+            InsnNode::new(InsnType::Nop, 0),
+            InsnNode::new(InsnType::Nop, 1),
+            InsnNode::new(InsnType::Return { value: None }, 2),
+        ]);
+        let mut writer3 = SimpleCodeWriter::new();
+        generate_method(&method3, &class, false, &mut writer3);
+        let code3 = writer3.finish();
+        assert!(!code3.contains("static"), "Clinit with only Nop+return should not generate output");
+
+        // Case 4: Instructions marked with DontGenerate (GAP-04 FIX)
+        let mut method4 = make_method("<clinit>", ArgType::Void, ACC_STATIC);
+        let mut dont_gen_insn = InsnNode::new(InsnType::StaticPut {
+            field_idx: 0,
+            value: dexterity_ir::instructions::InsnArg::Register(
+                dexterity_ir::instructions::RegisterArg { reg_num: 0, ssa_version: 0 }
+            ),
+        }, 0);
+        dont_gen_insn.add_flag(AFlag::DontGenerate);
+        method4.set_instructions(vec![
+            dont_gen_insn,
+            InsnNode::new(InsnType::Return { value: None }, 1),
+        ]);
+        let mut writer4 = SimpleCodeWriter::new();
+        generate_method(&method4, &class, false, &mut writer4);
+        let code4 = writer4.finish();
+        assert!(!code4.contains("static"), "Clinit with only DontGenerate+return should not generate output");
+
+        // Case 5: Orphaned Const instructions after field extraction (GAP-04 FIX)
+        // After extract_field_init removes SPUT, CONST instructions are left orphaned
+        let mut method5 = make_method("<clinit>", ArgType::Void, ACC_STATIC);
+        method5.set_instructions(vec![
+            InsnNode::new(InsnType::Const {
+                dest: dexterity_ir::instructions::RegisterArg { reg_num: 0, ssa_version: 0 },
+                value: dexterity_ir::instructions::LiteralArg::Int(42),
+            }, 0),
+            InsnNode::new(InsnType::ConstString {
+                dest: dexterity_ir::instructions::RegisterArg { reg_num: 1, ssa_version: 0 },
+                string_idx: 0,
+            }, 1),
+            InsnNode::new(InsnType::Return { value: None }, 2),
+        ]);
+        let mut writer5 = SimpleCodeWriter::new();
+        generate_method(&method5, &class, false, &mut writer5);
+        let code5 = writer5.finish();
+        assert!(!code5.contains("static"), "Clinit with only orphaned Const+return should not generate output");
     }
 
     #[test]

@@ -111,11 +111,11 @@ runtime.exec(new String[]{"sh", "-c", cmd})  // Inline array initialization
 ### BUG-5: Broken Iterator For-Each Detection - **FIXED**
 
 **JADX Source:** `LoopRegionVisitor.java:246-340`
-**Dexterity File:** `loop_analysis.rs:626-805`, `body_gen.rs:6308-6326`
-**Status:** **FIXED** (Dec 24, 2025) - Correctly disabled, matches JADX behavior
+**Dexterity File:** `loop_analysis.rs:605-710`, `region_builder.rs:2609-2625`, `body_gen.rs:6452-6500`
+**Status:** **FIXED** (Dec 24, 2025, commit 957ca9f1b) - Full iterator for-each pattern detection implemented
 
 ```java
-// DEXTERITY (CORRECT - now uses while loop):
+// DEXTERITY (CORRECT - now uses while loop with proper next() inlining):
 Iterator it = list.iterator();
 while (it.hasNext()) {
     arrayList.add(new DexClassLoader((String) it.next(), ...));
@@ -128,13 +128,20 @@ while (it.hasNext()) {
 }
 ```
 
-**Resolution:**
-Iterator for-each conversion was disabled (body_gen.rs:6308) because it was incorrectly generating
-`for (Object next : it)` where `it` is the iterator, not the collection.
+**Fix Applied (GAP-02):**
+1. Added `IteratorForEachPattern` struct in loop_analysis.rs with `iterable_reg`, `iterator_reg`, element info
+2. Added `detect_iterator_foreach()` function (~100 lines) that validates 6 conditions matching JADX:
+   - Single register arg in condition (the iterator)
+   - Iterator from collection.iterator() call
+   - hasNext() and next() call signatures match
+   - Iterator only used for hasNext/next within loop
+3. `analyze_loop_patterns()` now populates `iterator_for_each: Vec<IteratorForEachPattern>`
+4. Added `IterableSource::Iterator` variant in regions.rs with `iterable_reg`, `iterator_reg` fields
+5. `refine_loops_with_patterns()` in region_builder.rs creates `ForEachLoopInfo` from iterator patterns
+6. body_gen.rs handles `IterableSource::Iterator` for proper loop generation
 
-Verified against real APK output: both JADX and dexterity now produce identical `while (it.hasNext())`
-patterns for iterator loops. JADX only converts to for-each at IR level when very specific conditions
-are met (collection.iterator() pattern is fully traceable), otherwise uses while loops.
+When the collection.iterator() pattern is fully traceable, converts to for-each. Otherwise falls back
+to while loops, matching JADX's conservative approach.
 
 ---
 
@@ -148,9 +155,9 @@ are met (collection.iterator() pattern is fully traceable), otherwise uses while
 | 2 | OverrideMethodVisitor | 287 | override_method.rs | DONE |
 | 3 | AddAndroidConstants | 45 | add_android_constants.rs | DONE |
 | 4 | DeobfuscatorVisitor | 180 | rename_visitor.rs | 70% |
-| 5 | SourceFileRename | 89 | - | MISSING |
+| 5 | SourceFileRename | 89 | source_file_rename.rs (deobf crate) | DONE |
 | 6 | RenameVisitor | 230 | rename_visitor.rs | DONE |
-| 7 | SaveDeobfMapping | 67 | - | MISSING |
+| 7 | SaveDeobfMapping | 67 | jobf.rs (save_deobf_mapping fn) | DONE |
 | 8 | UsageInfoVisitor | 156 | usage_info.rs | DONE |
 | 9 | CollectConstValues | 65 | collect_const_values.rs | DONE |
 | 10 | ProcessAnonymous | 245 | process_anonymous.rs | DONE |
@@ -227,7 +234,7 @@ are met (collection.iterator() pattern is fully traceable), otherwise uses while
 | CheckRegions | 234 | check_regions.rs | DONE | |
 | ProcessTryCatchRegions | 312 | process_try_catch_regions.rs | DONE | |
 | TernaryMod | 352 | ternary_mod.rs | **BROKEN** | instanceof pattern |
-| LoopRegionVisitor | 457 | loop_analysis.rs | DONE | Array for-each works, iterator uses while |
+| LoopRegionVisitor | 457 | loop_analysis.rs | **DONE** | GAP-02 FIXED Dec 24 - iterator_for_each pattern detection |
 
 #### Class Processing (7 passes)
 
@@ -361,18 +368,19 @@ diff -r output/jadx_medium/sources output/dex_medium/sources | grep "^diff " | w
 
 ## Summary
 
-**Real-World Parity: ~75%**
+**Real-World Parity: ~78%** (Updated Dec 24, 2025)
 
 The clone work is ~90% done structurally. The remaining issues are:
 - 4 missing passes (~10% structural)
-- 6 critical bugs in existing passes (~25% quality impact)
+- 4 critical bugs in existing passes (~22% quality impact) - 2 FIXED Dec 24
 
 **Priority:** Fix BUGS in existing passes (P0) > Add missing features (P1-P2)
 
 | Task | Bug | Status | Effort |
 |------|-----|--------|--------|
 | TASK-1 | BUG-1 Empty If/Else | TODO | Medium |
-| TASK-3 | BUG-3 Wrong Method Sig | TODO | Medium |
-| TASK-5 | BUG-5 Iterator For-Each | TODO | Low (wiring) |
+| TASK-3 | BUG-3 Wrong Method Sig | **FIXED** Dec 24 | - |
+| TASK-5 | BUG-5 Iterator For-Each (GAP-02) | **FIXED** Dec 24 | - |
+| GAP-01 | SSA->CodeVar mapping | **FIXED** Dec 24 | - |
 | GAP-1 | StringBuilder | TODO | Medium |
 | GAP-3 | Else-Return | TODO | Low |

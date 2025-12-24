@@ -535,17 +535,49 @@ pub struct FieldInitInsnAttr {
 }
 
 /// Field replacement info
+///
+/// JADX Clone: jadx-core/src/main/java/jadx/core/dex/attributes/nodes/FieldReplaceAttr.java
+///
+/// Used to replace synthetic field access (this$0, val$) with proper Java syntax.
+/// When an inner class has a synthetic `this$0` field referencing the outer class,
+/// field access should be replaced with `OuterClass.this` syntax.
 #[derive(Debug, Clone)]
 pub struct FieldReplaceAttr {
     pub replace_with: FieldReplacement,
 }
 
+/// Types of field replacement
+///
+/// JADX Clone: FieldReplaceAttr.ReplaceType enum
+/// Reference: jadx-core/src/main/java/jadx/core/dex/attributes/nodes/FieldReplaceAttr.java:10-13
 #[derive(Debug, Clone)]
 pub enum FieldReplacement {
     /// Replace with constant value
     Const { value: i64, type_desc: String },
     /// Replace with another field
     Field { class: String, name: String },
+    /// Replace `this.this$0.field` with `OuterClass.this.field`
+    ///
+    /// JADX Clone: ReplaceType.CLASS_INSTANCE
+    /// Reference: InsnGen.java:191-196
+    /// ```java
+    /// case CLASS_INSTANCE:
+    ///     useClass(code, replace.getClsRef());
+    ///     code.add(".this");
+    ///     break;
+    /// ```
+    ClassInstance {
+        /// The outer class name (internal format, e.g., "com/example/OuterClass")
+        outer_class: String,
+    },
+    /// Replace field access with a variable reference
+    ///
+    /// JADX Clone: ReplaceType.VAR
+    /// Reference: InsnGen.java:197-199
+    Var {
+        /// The variable name to use instead
+        var_name: String,
+    },
 }
 
 /// Local variable debug info attribute (JADX LocalVarsDebugInfoAttr parity)

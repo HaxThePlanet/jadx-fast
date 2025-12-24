@@ -10,7 +10,22 @@ The IR is the **first and most critical layer** of the decompilation pipeline.
 **Philosophy:** We are NOT rewriting JADX. We are CLONING it. JADX has 10 years of edge case handling
 that we cannot replicate by just looking at output. We must clone the source code logic exactly.
 
-**Updated:** Dec 23, 2025 - P1-P14 Complete (~1680 lines), IR Parity 96% → 98%
+**Updated:** Dec 23, 2025 - P1-P16 + get_args_vec Complete (~1770 lines), **IR Parity ~95%**
+
+---
+
+## RESOLVED: `get_args()` vs `get_args_vec()`
+
+> **FIXED Dec 23, 2025:** Implemented `get_args_vec()` method.
+
+**Location:** `crates/dexterity-ir/src/instructions.rs`
+
+| Method | Behavior | Use Case |
+|--------|----------|----------|
+| `get_args()` | Returns first arg only (for slice) | Legacy/backwards compat |
+| `get_args_vec()` | Returns ALL arguments | **Preferred for analysis** |
+
+Use `get_args_vec()` for visitor patterns, SSA analysis, and data flow analysis.
 
 ---
 
@@ -1002,35 +1017,31 @@ Methods cloned (~70 lines):
 
 ---
 
-**IR Parity Summary: ~98% Complete**
+**IR Parity Summary: ~95% Complete**
 
-| Component | Status | Priority |
-|-----------|--------|----------|
-| InsnType enum | ✅ 100% | - |
-| ArgType system | ✅ 100% | - |
-| AFlag/AType | ✅ 100% | - |
-| SSAVar | ✅ 100% | P15 ✓ |
-| InsnNode mutation | ✅ 98% | P1 ✓ |
-| IfNode methods | ✅ 100% | P2-A ✓ |
-| PhiInsn methods | ✅ 100% | P2-B, P13 ✓ |
-| BlockNode CFG | ✅ 98% | P1, P7 ✓ |
-| SwitchData | ✅ 100% | P2 ✓ |
-| TargetInsnNode | ✅ 100% | P3 ✓ |
-| ArithNode/BinaryOp | ✅ 100% | P4 ✓ |
-| InvokeNode | ✅ 100% | P5 ✓ |
-| InsnNode Rebind | ✅ 100% | P6 ✓ |
-| Condition (IfCondition) | ✅ 100% | P8 ✓ |
-| LiteralArg methods | ✅ 100% | P9 ✓ |
-| Compare struct | ✅ 100% | P10 ✓ |
-| FillArrayData methods | ✅ 100% | P11 ✓ |
-| InvokeCustomNode/LambdaInfo | ✅ 100% | P12 ✓ |
-| ConstString/ConstClass | ✅ 100% | P14 ✓ |
-| InsnArg wrapping | ✅ 100% | P16 ✓ |
+| Component | Structural | Functional | Overall | Notes |
+|-----------|-----------|-----------|---------|-------|
+| InsnType enum | ✅ 100% | ✅ 100% | **100%** | All 35+ types |
+| ArgType system | ✅ 100% | ✅ 100% | **100%** | Complete |
+| AFlag/AType | ✅ 100% | ✅ 100% | **100%** | 60 flags, 37 types |
+| SSAVar | ✅ 100% | ✅ 95% | **95%** | Bidirectional linking differs |
+| **InsnType.get_args_vec()** | ✅ 100% | ✅ 100% | **100%** | Returns ALL args (Dec 23) |
+| InsnNode mutation | ✅ 100% | ✅ 95% | **95%** | Most methods |
+| BlockNode CFG | ✅ 100% | ✅ 95% | **95%** | Dominator infra |
+| PhiInsn methods | ✅ 100% | ✅ 100% | **100%** | Complete |
+| IfNode/Condition | ✅ 100% | ✅ 100% | **100%** | Complete |
+| Overall IR | ✅ 100% | ✅ **95%** | **~95%** | SSA linking minor diff |
 
-### Remaining Work (2%)
+### Completed P0 Tasks
 
-**P4-C: IndexInsnNode** - Low priority, covered by existing instruction patterns
-**InsnArg parent tracking** - Not needed in Rust's immutable model (indices used instead)
+- [x] **P0-1: `get_args_vec()`** - Implemented Dec 23, 2025 (~90 lines)
+  - Returns complete argument list for ALL instruction types
+  - Use for visitor patterns, SSA analysis, data flow
+
+### Remaining Work (P2 - Medium)
+
+**P2-1: IndexInsnNode** - Low priority, covered by existing instruction patterns
+**P2-2: InsnArg parent tracking** - Not needed in Rust's immutable model
 
 ---
 

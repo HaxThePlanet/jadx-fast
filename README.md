@@ -20,9 +20,9 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** Correct decompilation close to JADX
-**Status:** ~75% JADX Parity | Grade: C+ | Visible output differences - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** ~78% JADX Parity | Grade: C+ | GAP-01, GAP-02 FIXED Dec 24 - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
-> **Honest Assessment (Dec 23, 2025):** Real-world Balloon.java comparison revealed previous 82%+ claims were inflated. Kotlin field names, enum constants, and control flow ordering differ from JADX.
+> **Update (Dec 24, 2025):** Fixed GAP-01 (SSA variable mapping) and GAP-02 (iterator for-each loop detection). Parity improved from 75% to 78%.
 
 ## Performance
 

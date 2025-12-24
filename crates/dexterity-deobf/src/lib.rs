@@ -29,6 +29,8 @@ pub mod code_rename;
 pub mod file_type_detector;
 pub mod mapping_exporter;
 pub mod dalvik_to_jvm;
+pub mod override_method_visitor;
+pub mod type_compare;
 
 pub use name_mapper::NameMapper;
 pub use conditions::{
@@ -42,7 +44,7 @@ pub use conditions::{
     DEFAULT_DEOBF_MIN_LENGTH, DEFAULT_DEOBF_MAX_LENGTH,
 };
 pub use file_type_detector::{detect_file_extension, get_file_type_name};
-pub use alias_provider::{AliasProvider, DeobfAliasProvider};
+pub use alias_provider::{AliasProvider, DeobfAliasProvider, get_base_name_with_resolver};
 pub use visitor::DeobfuscatorVisitor;
 pub use registry::AliasRegistry;
 pub use mapping_parser::{parse_proguard_mapping, parse_proguard_mapping_file, MappingError};
@@ -83,3 +85,14 @@ pub use consts::{
     OVERRIDE_ANNOTATION, CLASS_NAME_PREFIX, is_anonymous_class_name,
     java_types,
 };
+// JADX Reference: OverrideMethodVisitor.java - override method detection
+pub use override_method_visitor::{
+    MethodOverrideAttr, MethodRef, SuperTypesData, ClassResolver, SimpleClassResolver,
+    collect_super_types, should_process_method, is_method_visible_in_cls,
+    search_overridden_method, process_class_overrides, should_prevent_rename,
+    // Type erasure fixing (JADX lines 341-428)
+    TypeFixResult, fix_method_return_type, fix_method_arg_types, fix_method_types,
+    check_signature_collisions,
+};
+// JADX Reference: TypeCompare.java - type comparison for override handling
+pub use type_compare::{TypeCompare, TypeCompareEnum, replace_class_generics};

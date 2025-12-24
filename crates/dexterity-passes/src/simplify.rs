@@ -653,35 +653,28 @@ fn get_direct_cast(from: PrimitiveType, to: PrimitiveType) -> Option<CastType> {
 /// 2. Type-match elimination: if object already has the target type
 ///
 /// Returns Some(Nop) if cast can be eliminated, None otherwise.
+///
+/// NOTE: Duplicate CHECK_CAST detection is currently DISABLED because:
+/// - CHECK_CAST operates in place (no new SSA version created)
+/// - This causes check_cast_defs to contain the CheckCast's own register
+/// - Result: the CheckCast incorrectly detects itself as a duplicate
+///
+/// To properly implement this, we would need:
+/// 1. Track CheckCast by instruction offset to avoid self-detection, OR
+/// 2. Have SSA properly create new versions after CheckCast, OR
+/// 3. Only add to check_cast_defs AFTER processing the instruction
+///
+/// For now, disabling to fix BUG-1 (empty if/else blocks in instanceof ternary)
 fn simplify_check_cast(
-    object: InsnArg,
-    type_idx: u32,
-    offset: u32,
+    _object: InsnArg,
+    _type_idx: u32,
+    _offset: u32,
     _types: Option<&HashMap<(u16, u32), ArgType>>,
-    check_cast_defs: &HashMap<(u16, u32), u32>,
+    _check_cast_defs: &HashMap<(u16, u32), u32>,
 ) -> Option<InsnNode> {
-    // Check for duplicate cast: if the object register was defined by a CHECK_CAST
-    // with the same target type, this cast is redundant
-    if let InsnArg::Register(reg) = &object {
-        if let Some(&prev_type_idx) = check_cast_defs.get(&(reg.reg_num, reg.ssa_version)) {
-            if prev_type_idx == type_idx {
-                // This is a duplicate cast - the object was already cast to this type
-                // Replace with NOP instruction
-                return Some(InsnNode::new(InsnType::Nop, offset));
-            }
-        }
-    }
-
-    // Future optimization: check if object's type already matches target type
-    // This would require type information lookup by type_idx
-    // if let Some(types) = types {
-    //     if let InsnArg::Register(reg) = &object {
-    //         if let Some(obj_type) = types.get(&(reg.reg_num, reg.ssa_version)) {
-    //             // Check if obj_type matches the type at type_idx
-    //             // Would need access to DEX type pool to resolve type_idx
-    //         }
-    //     }
-    // }
+    // DISABLED: See docstring above
+    // The previous implementation incorrectly detected CheckCast as duplicate of itself
+    // because check_cast_defs contains the very instruction being simplified
 
     None
 }
@@ -2041,20 +2034,21 @@ mod tests {
     }
 
     #[test]
-    fn test_duplicate_check_cast_elimination() {
-        // Pattern: (T)(T)x → NOP (duplicate object type cast)
-        // If r1_0 was already CHECK_CAST to type_idx=5, and we do CHECK_CAST again to type_idx=5
-        // The second cast is redundant and should become NOP
+    fn test_duplicate_check_cast_not_eliminated() {
+        // NOTE: Duplicate CHECK_CAST elimination is DISABLED
+        // See simplify_check_cast docstring for explanation.
+        // The previous implementation incorrectly detected CheckCast as duplicate of itself.
+        //
+        // This test verifies that CHECK_CAST is NOT simplified (optimization disabled)
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
-        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
         let mut check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         // r1_0 was previously CHECK_CAST to type_idx=5
         check_cast_defs.insert((1, 0), 5);
 
-        // CHECK_CAST r1_0 to same type_idx=5 → should become NOP
+        // CHECK_CAST r1_0 to same type_idx=5 → should NOT be eliminated (optimization disabled)
         let insn = InsnNode::new(
             InsnType::CheckCast {
                 object: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
@@ -2064,19 +2058,17 @@ mod tests {
         );
 
         let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &empty_cast_defs, &check_cast_defs);
-        assert!(result.is_some(), "Duplicate CHECK_CAST should be eliminated");
-
-        let simplified = result.unwrap();
-        assert!(matches!(&simplified.insn_type, InsnType::Nop), "Duplicate CHECK_CAST should become NOP");
+        // Optimization is disabled, so CHECK_CAST should NOT be eliminated
+        assert!(result.is_none(), "CHECK_CAST optimization is disabled to fix BUG-1");
     }
 
     #[test]
     fn test_different_check_cast_not_eliminated() {
         // Pattern: (T2)(T1)x → keep both (different target types)
+        // NOTE: This test still passes since CHECK_CAST to different type was never eliminated
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
-        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
         let mut check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         // r1_0 was previously CHECK_CAST to type_idx=5

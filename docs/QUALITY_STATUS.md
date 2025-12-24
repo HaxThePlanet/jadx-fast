@@ -1,11 +1,11 @@
 # Quality Status
 
-**Status:** **~75% Overall JADX Parity (C+ Grade)** - HONEST REASSESSMENT
+**Status:** **~78% Overall JADX Parity (C+ Grade)** - VERIFIED DEC 24, 2025
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
-**Output Refresh:** Dec 23, 2025 - Balloon.java deep comparison performed
+**Output Refresh:** Dec 24, 2025 - GAP-01 and GAP-02 fixes applied
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
-**Codegen:** ~75% parity (C+ Grade) - Field names, enum inits BROKEN
-**Kotlin:** ~60% parity (D Grade) - CRITICAL: d2 field names NOT APPLIED
+**Codegen:** ~78% parity (C+ Grade) - GAP-01, GAP-02 FIXED; Field names, enum inits still have issues
+**Kotlin:** ~70-75% parity (C Grade) - Field aliases NOT applied (P0), rename reasons FIXED
 
 ## Output Quality Audit (Dec 23, 2025)
 
@@ -45,21 +45,33 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 **Result:** Medium APK now 98%+ clean (was 89%).
 
-## Current Grades (Balloon.java Reality Check Dec 23, 2025)
+## Current Grades (Reality Check Dec 24, 2025)
 
 | Category | Previous | Actual | Evidence |
 |----------|----------|--------|----------|
-| **Codegen** | A- (92%) | **C+ (75%)** | Field names, enum inits wrong |
+| **Codegen** | C+ (75%) | **C+ (78%)** | GAP-01, GAP-02 FIXED; Field names, enum inits still wrong |
 | **Type Inference** | B+ (85%) | **C (70%)** | Enum constants as raw ints |
 | **IR/Control Flow** | B+ (88%) | **B- (80%)** | Switch case ordering reversed |
-| **Variable Naming** | A- | **C (70%)** | Wrong names from Kotlin |
-| **Kotlin Support** | C+ (70%) | **D (60%)** | d2 field names NOT APPLIED |
-| **Deobfuscation** | A (95%) | **B- (80%)** | Kotlin rename hints ignored |
-| **Passes** | B (85%) | **C+ (75%)** | Missing CollectConstValues effect |
+| **Variable Naming** | A- | **C+ (73%)** | GAP-01 FIXED (peek vs take) |
+| **Kotlin Support** | D (60%) | **C (70-75%)** | Rename reasons FIXED, field aliases P0 BUG |
+| **Deobfuscation** | A (95%) | **B- (80%)** | Kotlin field aliases not applied |
+| **Passes** | C+ (75%) | **C+ (78%)** | GAP-02 iterator for-each FIXED |
 | **Resources** | **A+** | **A+** | 1:1 JADX parity (verified) |
-| **Overall** | B (82%) | **C+ (75%)** | Visible output differences |
+| **Overall** | C+ (75%) | **C+ (78%)** | GAP-01, GAP-02 fixed Dec 24 |
 
 **Reality:** Output differs visibly from JADX on Kotlin files. Resources is the only true A+.
+
+### Kotlin Status Update (Dec 23, 2025)
+
+**FIXED:**
+- Rename reason comments now include "reason: from kotlin metadata"
+- Function modifiers (suspend/inline/infix/operator/tailrec) applied to IR
+- Type variance (`<in T>`, `<out T>`) emitted correctly
+
+**STILL BROKEN (P0 Bug):**
+- Field aliases NOT being applied (w→segments, x→directory fails)
+- Root cause: `jvm_field_signature` often None in parser
+- See [KOTLIN_JADX_PARITY_AUDIT.md](KOTLIN_JADX_PARITY_AUDIT.md) for details
 
 ### Per-APK Grades
 
@@ -74,10 +86,18 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 | Priority | Status |
 |----------|--------|
+| P0 Bugs | **1 OPEN** - Kotlin field aliases not applied (jvm_field_signature None) |
 | P1 Bugs | **ALL FIXED** - P1-HOTRELOAD fixed Dec 23 (extract_field_init.rs register reuse check) |
-| P0 Bugs | **NONE** - All critical bugs fixed or not reproducible in clean APKs |
 | P2 Bugs | **ALL FIXED** |
 | P3 Polish | **ALL DONE** |
+
+### P0-KOTLIN-FIELD: Field Aliases Not Applied
+
+**Status:** OPEN
+**Location:** `crates/dexterity-kotlin/src/extractor.rs:field_matches()`
+**Evidence:** `output/dexterity/large/sources/l/a0.java` shows `w`, `x` instead of `segments`, `directory`
+**Root Cause:** `property.jvm_field_signature` is often None, and no fallback exists
+**JADX Reference:** `KotlinMetadataUtils.kt:111-116` - uses `searchFieldByShortId(kmProperty.shortId)`
 
 ### Remaining JADX Parity Work (Not Bugs)
 
@@ -322,21 +342,21 @@ Type inference has been significantly enhanced from ~60% to ~85% JADX parity. De
 - Extended extract_field_init.rs for new-instance pattern detection
 - Empty clinit suppression (skip `static {}` with only return-void)
 
-## Quality Metrics (Honest Assessment)
+## Quality Metrics (Honest Assessment - Dec 24, 2025)
 
 | Metric | Value |
 |--------|-------|
 | Total Tests | 1,392+ passing (all integration + unit) |
 | Pass Coverage | **85%** (some visitors missing) |
 | IR Parity | **88%** (SSA renaming deferred) |
-| Codegen Parity | **92%** (A- Grade) |
+| Codegen Parity | **78%** (C+ Grade) - GAP-01, GAP-02 FIXED Dec 24 |
 | Type Inference Parity | **~85%** (7 files / ~9,100 lines) |
 | Throws Parity | 41.7% |
-| Kotlin Parity | **70%** (C+ - JVM signatures BROKEN) |
-| Deobfuscation Parity | **95%** (A Grade - SSA gap documented) |
+| Kotlin Parity | **70-75%** (C Grade - field aliases P0 BUG, rename reasons FIXED) |
+| Deobfuscation Parity | **80%** (B- Grade - Kotlin field aliases broken) |
 | DEX Debug Info | 100% |
 | Resources Parity | **100% (1:1 JADX)** |
-| Overall JADX Parity | **82% (B Grade)** |
+| Overall JADX Parity | **78% (C+ Grade)** - GAP-01, GAP-02 FIXED Dec 24 |
 | Total Java Files | ~8,858 (across 5 APK samples) |
 
 ## Validated Fixes

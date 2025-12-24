@@ -181,9 +181,8 @@ impl DeobfAliasProvider {
     /// JADX Reference: DeobfAliasProvider.getBaseName() lines 85-115
     /// This processes superclasses and interfaces to find meaningful parent names.
     ///
-    /// NOTE: JADX recursively walks the superclass chain with `cls.root().resolveClass()`.
-    /// We only check the immediate superclass since we don't have a class resolver.
-    /// This is a minor parity gap, but covers the common cases.
+    /// NOTE: For full JADX parity with recursive class resolution, use
+    /// `get_base_name_with_resolver()` which can walk the class hierarchy.
     fn get_base_name(cls: &ClassData) -> String {
         // Check superclass
         if let Some(ref super_cls) = cls.superclass {
@@ -199,29 +198,136 @@ impl DeobfAliasProvider {
         // Check interfaces
         // JADX: for (ArgType interfaceType : cls.getInterfaces())
         for iface in &cls.interfaces {
-            // Extract class name from ArgType (could be Object or Generic)
-            let iface_str = match iface {
-                ArgType::Object(name) => name.as_str(),
-                ArgType::Generic { base, .. } => base.as_str(),
-                _ => continue,
-            };
-            let iface_name = iface_str.trim_start_matches('L').trim_end_matches(';');
-
-            // JADX: if (name.equals("java.lang.Runnable")) { return "Runnable"; }
-            if iface_name == "java/lang/Runnable" {
-                return "Runnable".to_string();
-            }
-            // JADX: if (name.startsWith("java.util.concurrent.") || ...)
-            if iface_name.starts_with("java/util/concurrent/")
-                || iface_name.starts_with("android/view/")
-                || iface_name.starts_with("android/content/")
-            {
-                return Self::get_cls_name(iface_name);
+            if let Some(base_name) = Self::check_interface_for_base_name(iface) {
+                return base_name;
             }
         }
 
         String::new()
     }
+
+    /// Check if an interface provides a meaningful base name
+    ///
+    /// JADX Reference: Part of DeobfAliasProvider.getBaseName() interface loop
+    fn check_interface_for_base_name(iface: &ArgType) -> Option<String> {
+        // Extract class name from ArgType (could be Object or Generic)
+        let iface_str = match iface {
+            ArgType::Object(name) => name.as_str(),
+            ArgType::Generic { base, .. } => base.as_str(),
+            _ => return None,
+        };
+        let iface_name = iface_str.trim_start_matches('L').trim_end_matches(';');
+
+        // JADX: if (name.equals("java.lang.Runnable")) { return "Runnable"; }
+        if iface_name == "java/lang/Runnable" {
+            return Some("Runnable".to_string());
+        }
+        // JADX: if (name.startsWith("java.util.concurrent.") || ...)
+        if iface_name.starts_with("java/util/concurrent/")
+            || iface_name.starts_with("android/view/")
+            || iface_name.starts_with("android/content/")
+        {
+            return Some(Self::get_cls_name(iface_name));
+        }
+        None
+    }
+
+    /// Check if a superclass name is a known framework class
+    ///
+    /// JADX Reference: Part of DeobfAliasProvider.getBaseName() superclass check
+    fn is_framework_superclass(super_name: &str) -> bool {
+        super_name.starts_with("android/app/")
+            || super_name.starts_with("android/os/")
+            || super_name.starts_with("androidx/fragment/")
+            || super_name.starts_with("androidx/appcompat/")
+    }
+}
+
+/// Get a meaningful base name with recursive class resolution
+///
+/// JADX Reference: DeobfAliasProvider.getBaseName() lines 85-115
+/// Cloned from JADX's getBaseName method with FULL recursive resolution.
+///
+/// ```java
+/// // JADX algorithm (lines 86-113)
+/// private static String getBaseName(ClassNode cls) {
+///     ClassNode currentCls = cls;
+///     while (currentCls != null) {
+///         ArgType superCls = currentCls.getSuperClass();
+///         if (superCls != null) {
+///             String superClsName = superCls.getObject();
+///             if (superClsName.startsWith("android.app.") || superClsName.startsWith("android.os.")) {
+///                 return getClsName(superClsName);
+///             }
+///         }
+///         for (ArgType interfaceType : cls.getInterfaces()) {
+///             // ... check interfaces ...
+///         }
+///         if (superCls == null) { break; }
+///         currentCls = cls.root().resolveClass(superCls); // RECURSIVE RESOLUTION
+///     }
+///     return "";
+/// }
+/// ```
+///
+/// # Arguments
+/// * `cls` - The class to find base name for
+/// * `resolver` - Function to resolve class types to ClassData
+///
+/// # Returns
+/// The meaningful base name (e.g., "Activity", "Fragment", "Runnable") or empty string
+pub fn get_base_name_with_resolver<F>(cls: &ClassData, resolver: F) -> String
+where
+    F: Fn(&str) -> Option<&ClassData>,
+{
+    let mut current_cls = Some(cls);
+    let mut visited = std::collections::HashSet::new();
+
+    while let Some(current) = current_cls {
+        // Prevent infinite loops
+        if !visited.insert(&current.class_type as &str) {
+            break;
+        }
+
+        // Check superclass
+        if let Some(ref super_cls) = current.superclass {
+            let super_name = super_cls.trim_start_matches('L').trim_end_matches(';');
+
+            // JADX: android.app.* -> Activity, Fragment, etc.
+            // JADX: android.os.* -> AsyncTask, etc.
+            if DeobfAliasProvider::is_framework_superclass(super_name) {
+                return get_cls_name(super_name);
+            }
+        }
+
+        // Check interfaces (use the ORIGINAL cls, not current)
+        // JADX: Note interfaces are checked from the original class each iteration
+        for iface in &cls.interfaces {
+            if let Some(base_name) = DeobfAliasProvider::check_interface_for_base_name(iface) {
+                return base_name;
+            }
+        }
+
+        // Try to resolve and continue up the hierarchy
+        // JADX: currentCls = cls.root().resolveClass(superCls);
+        current_cls = current.superclass.as_ref().and_then(|sc| resolver(sc));
+    }
+
+    String::new()
+}
+
+/// Extract class name from full path, removing inner class markers
+///
+/// JADX Reference: DeobfAliasProvider.getClsName() lines 117-121
+/// Public version for use with recursive resolution.
+fn get_cls_name(full_name: &str) -> String {
+    // Get class name after last / (or . in JADX's dot-notation)
+    let name = full_name.rsplit('/').next().unwrap_or(full_name);
+    // JADX: StringUtils.removeChar(clsName, '$')
+    name.replace('$', "")
+}
+
+impl DeobfAliasProvider {
 
     /// Extract class name from full path, removing inner class markers
     ///

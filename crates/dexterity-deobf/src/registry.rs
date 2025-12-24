@@ -69,6 +69,24 @@ impl AliasRegistry {
         self.packages.get(package).map(|v| v.to_string())
     }
 
+    /// Set the package alias for a specific class
+    ///
+    /// JADX Reference: RootNode.runPackagesUpdate() behavior
+    /// When a package is renamed, classes in that package need to know
+    /// their new package path. This stores that mapping.
+    pub fn set_class_package_alias(&self, class_type: &str, pkg_alias: &str) {
+        // Store as a special package entry with class_type as key
+        // This allows looking up a class's package alias during code generation
+        let key = format!("class:{}", class_type);
+        self.packages.insert(key, pkg_alias.into());
+    }
+
+    /// Get the package alias for a specific class
+    pub fn get_class_package_alias(&self, class_type: &str) -> Option<String> {
+        let key = format!("class:{}", class_type);
+        self.packages.get(&key).map(|v| v.to_string())
+    }
+
     // === Field Aliases ===
 
     /// Set an alias for a field

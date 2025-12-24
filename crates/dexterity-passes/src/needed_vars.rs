@@ -119,8 +119,16 @@ fn get_dest(insn: &InsnType) -> Option<(u16, u32)> {
         | InsnType::Cast { dest, .. }
         | InsnType::Compare { dest, .. }
         | InsnType::InstanceOf { dest, .. }
-        | InsnType::CheckCast { dest, .. }
         | InsnType::Ternary { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+
+        // CheckCast modifies object in place, doesn't have a separate dest register
+        InsnType::CheckCast { object, .. } => {
+            if let InsnArg::Register(reg) = object {
+                Some((reg.reg_num, reg.ssa_version))
+            } else {
+                None
+            }
+        }
 
         InsnType::Invoke { dest: Some(dest), .. }
         | InsnType::InvokeCustom { dest: Some(dest), .. } => Some((dest.reg_num, dest.ssa_version)),

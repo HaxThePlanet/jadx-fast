@@ -6,6 +6,26 @@ This document provides a comprehensive comparison of JADX's Java-based IR (Inter
 
 ---
 
+## Known Limitations
+
+### `get_args()` vs `get_args_vec()`
+
+**Location:** `crates/dexterity-ir/src/instructions.rs`
+
+The `InsnType::get_args()` method returns only the **first argument** for multi-argument instructions (for slice compatibility). For complete argument access, use `get_args_vec()`:
+
+| Method | Returns | Use Case |
+|--------|---------|----------|
+| `get_args()` | Slice with first arg only | Backwards compatibility |
+| `get_args_vec()` | All arguments as Vec | **Preferred for visitors/analysis** |
+
+Instructions where `get_args()` returns incomplete data:
+- `ArrayGet`, `ArrayPut`, `Binary`, `Compare`, `If`, `Ternary`, `Phi`, `MoveMulti`
+
+**Resolution:** Use `get_args_vec()` for visitor patterns, SSA analysis, and data flow analysis.
+
+---
+
 ## Architecture Overview
 
 ```
@@ -22,18 +42,20 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 
 ## Semantic Parity Summary
 
-| Component | Semantic Parity | Known Gaps | Impact |
-|-----------|-----------------|------------|--------|
-| **Type System** | 100% | None - OuterGeneric, TypeVariable bounds, 15 unknown variants | None |
-| **SSA Variables** | 100% | None - all utility methods implemented | None |
-| **Instructions** | 100% | None - all 40+ types covered, SwitchData, TargetInsnNode methods | None |
-| **Instruction Args** | 100% | None - all variants present | None |
-| **Blocks** | 95% | Full dominator infrastructure (Dec 23): cid, pos, doms, post_doms, dom_frontier, idom, ipost_dom, dominates_on, clean_successors, locked | Low |
-| **Regions** | 100% | None - enum matches class hierarchy | None |
-| **Attributes** | 100% | None - 60 AFlags complete | None |
-| **PHI Handling** | 100% | Different structure, same semantics | None |
+| Component | Structural | Functional | Overall | Known Gaps |
+|-----------|-----------|-----------|---------|------------|
+| **Type System** | 100% | 100% | **100%** | None |
+| **SSA Variables** | 100% | 95% | **95%** | Bidirectional linking differs |
+| **InsnType Enum** | 100% | 100% | **100%** | None - all 35+ types covered |
+| **InsnType.get_args_vec()** | 100% | 100% | **100%** | Returns all args for all types |
+| **Instruction Args** | 100% | 100% | **100%** | None |
+| **Blocks** | 100% | 95% | **95%** | Full dominator infrastructure present |
+| **Regions** | 100% | 100% | **100%** | None |
+| **Attributes** | 100% | 100% | **100%** | 60 AFlags + 37 ATypes complete |
+| **PHI Handling** | 100% | 100% | **100%** | Different structure, same semantics |
+| **Overall IR** | 100% | **95%** | **~95%** | SSA bidirectional linking differs |
 
-**Dec 23, 2025 Update:** Added ~840 lines of JADX-compatible IR infrastructure including full BlockNode dominator fields, SwitchData struct, TargetInsnNode methods, BinaryOp methods, InvokeNode methods, and InsnNode rebind methods. See [IR_CLONE_STATUS.md](IR_CLONE_STATUS.md) for details.
+**Dec 23, 2025 Update:** Implemented `get_args_vec()` which returns all arguments for all instruction types. Use this method for visitor patterns and analysis. The legacy `get_args()` method is kept for backwards compatibility but returns incomplete data for multi-argument instructions.
 
 ---
 
@@ -551,16 +573,32 @@ Dexterity uses `enum InsnType` and `enum Region` instead of class hierarchies fo
 
 ## Verification Status
 
-| Test | Status |
-|------|--------|
-| Simple APKs | ✅ 100% match with JADX |
-| Medium APKs | ✅ 88-90% quality score |
-| Large APKs | ✅ 88-90% quality score |
-| Integration tests | ✅ 680+ passing |
-| Performance | ✅ 3.6-81x faster than JADX |
-| Memory | ✅ 14.6x more efficient |
+| Test | Status | Notes |
+|------|--------|-------|
+| Simple APKs | ✅ ~90% match | Minor differences in variable names |
+| Medium APKs | ⚠️ 85-88% quality | Type inference gaps |
+| Large APKs | ⚠️ 85-88% quality | SSA variable naming issues |
+| Integration tests | ✅ 680+ passing | Structure tests only |
+| Performance | ✅ 3.6-81x faster | Real advantage |
+| Memory | ✅ 14.6x more efficient | Real advantage |
 
 ---
 
-**Document Version:** 2.0
-**Audit Date:** December 21, 2025
+## Remaining Work
+
+### P0 - Critical
+
+All P0 IR tasks complete:
+- [x] `get_args_vec()` - Implemented Dec 23, 2025 (~90 lines)
+
+### P2 - Medium Priority (Pass Layer)
+
+1. **Fix SSA variable renaming** - Variables reused through loops
+   - Location: `crates/dexterity-passes/src/ssa.rs`
+   - Not an IR issue - pass layer
+
+---
+
+**Document Version:** 3.1
+**Audit Date:** December 23, 2025
+**Assessment:** IR layer now ~95% complete

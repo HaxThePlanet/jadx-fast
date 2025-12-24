@@ -160,7 +160,12 @@ fn split_blocks_impl(instructions: &[InsnNode], handler_addrs: &[u32]) -> BlockS
     // First pass: find all block leaders (start points)
     // Use FxHashSet for O(1) insertions instead of BTreeSet's O(log N)
     let mut leaders = FxHashSet::default();
-    leaders.insert(0u32); // First instruction is always a leader
+    // JADX Parity Fix: Use actual first instruction offset instead of assuming 0
+    // After extract_field_init removes instructions, the first instruction may not be at offset 0
+    // Reference: jadx-core/src/main/java/jadx/core/dex/visitors/blocks/BlockSplitter.java
+    if let Some(first_insn) = instructions.first() {
+        leaders.insert(first_insn.offset);
+    }
 
     // Add exception handler addresses as block leaders
     // This ensures handler blocks start at the correct instruction address
