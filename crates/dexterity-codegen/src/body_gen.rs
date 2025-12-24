@@ -571,26 +571,32 @@ impl BodyGenContext {
     /// This is useful for conditions where we need to reference the expression
     /// without consuming it (since the actual instruction will be processed later)
     ///
-    /// P1-HOTRELOAD FIX: Only use inline expression if should_inline returns true.
-    /// Otherwise, return the variable name. This prevents using inline expressions
-    /// for multi-use variables that have already been declared.
+    /// CG-002 FIX: For field access expressions (stored unconditionally by IGET/SGET),
+    /// always use the stored inline expression. This clones JADX behavior where field
+    /// access is always inline: `this.data` instead of intermediate `data2` variable.
+    ///
+    /// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:478-492
+    /// JADX always generates `object.field` inline, never as intermediate variables.
     pub fn gen_arg_with_inline_peek(&self, arg: &InsnArg) -> String {
         if let InsnArg::Register(reg) = arg {
-            // P1-HOTRELOAD FIX: Only use inline expression if the variable is single-use
-            // Multi-use variables should use their declared variable name, not the expression
-            let should_inline = self.should_inline(reg.reg_num, reg.ssa_version);
+            // Check if we have a stored inline expression for this register
+            if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                // CG-002 FIX: Field access expressions (IGET/SGET) are always inlined.
+                // They are stored unconditionally and should always be used.
+                // Detect field access by checking if expression contains "." and
+                // doesn't look like a method call (no parentheses).
+                let is_field_access = expr.contains('.') && !expr.contains('(');
 
-            // P1-HOTRELOAD DEBUG: Trace inline decisions
-            if std::env::var("DEBUG_INLINE").is_ok() {
-                let use_count = self.insn_use_counts.get(&(reg.reg_num, reg.ssa_version)).copied().unwrap_or(0);
-                let has_expr = self.inlined_exprs.contains_key(&(reg.reg_num, reg.ssa_version));
-                let var_name = self.expr_gen.gen_arg(arg);
-                eprintln!("[GEN_ARG_INLINE_PEEK] r{}v{}: should_inline={}, use_count={}, has_expr={}, var={}",
-                    reg.reg_num, reg.ssa_version, should_inline, use_count, has_expr, var_name);
-            }
-
-            if should_inline {
-                if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                // For field access: always inline (JADX parity)
+                // For single-use variables: inline (optimization)
+                // For multi-use non-field: use variable name (was already declared)
+                if is_field_access || self.should_inline(reg.reg_num, reg.ssa_version) {
+                    // P1-HOTRELOAD DEBUG: Trace inline decisions
+                    if std::env::var("DEBUG_INLINE").is_ok() {
+                        let use_count = self.insn_use_counts.get(&(reg.reg_num, reg.ssa_version)).copied().unwrap_or(0);
+                        eprintln!("[GEN_ARG_INLINE_PEEK] r{}v{}: INLINE field_access={} use_count={} expr={}",
+                            reg.reg_num, reg.ssa_version, is_field_access, use_count, expr);
+                    }
                     return expr.clone();
                 }
             }
@@ -7057,24 +7063,37 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
                 }
             }
+            // CG-002 FIX: Always store InstanceGet expressions unconditionally.
+            // Clone of JADX InsnGen.java:478-481 - field access is always inline.
+            // Unlike method calls, field access is side-effect-free, so we can
+            // always inline "this.data" instead of creating intermediate "data2" variables.
+            // This fixes undefined variable bugs where IGET was multi-use but never declared.
+            //
+            // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:478-481
+            //   case IGET: {
+            //       FieldInfo fieldInfo = (FieldInfo) ((IndexInsnNode) insn).getIndex();
+            //       instanceField(code, fieldInfo, insn.getArg(0));
+            //   }
             InsnType::InstanceGet { dest, object, field_idx } => {
-                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    // P1-CFG07 FIX: Use peek to avoid consuming expressions before generation
-                    let obj_str = ctx.gen_arg_inline_peek(object);
-                    let field_name = ctx.expr_gen.get_field_value(*field_idx)
-                        .map(|f| f.field_name.to_string())
-                        .unwrap_or_else(|| format!("field#{}", field_idx));
-                    let expr = format!("{}.{}", obj_str, field_name);
-                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
-                }
+                // Always store - no should_inline check (field access is side-effect-free)
+                let obj_str = ctx.gen_arg_inline_peek(object);
+                let field_name = ctx.expr_gen.get_field_value(*field_idx)
+                    .map(|f| f.field_name.to_string())
+                    .unwrap_or_else(|| format!("field#{}", field_idx));
+                let expr = format!("{}.{}", obj_str, field_name);
+                ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
             }
+            // CG-002 FIX: Always store StaticGet expressions unconditionally.
+            // Clone of JADX InsnGen.java:491-492 - static field access is always inline.
+            // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:491-492
+            //   case SGET:
+            //       staticField(code, (FieldInfo) ((IndexInsnNode) insn).getIndex());
             InsnType::StaticGet { dest, field_idx } => {
-                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
-                    // Omit class prefix for same-class static field access (JADX parity)
-                    let expr = ctx.expr_gen.get_static_field_ref_in_class(*field_idx, ctx.current_class_type.as_deref())
-                        .unwrap_or_else(|| format!("field#{}", field_idx));
-                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
-                }
+                // Always store - no should_inline check (field access is side-effect-free)
+                // Omit class prefix for same-class static field access (JADX parity)
+                let expr = ctx.expr_gen.get_static_field_ref_in_class(*field_idx, ctx.current_class_type.as_deref())
+                    .unwrap_or_else(|| format!("field#{}", field_idx));
+                ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
             }
             InsnType::Binary { dest, op, left, right, .. } => {
                 if ctx.should_inline(dest.reg_num, dest.ssa_version) {
@@ -7670,25 +7689,62 @@ fn get_outer_class_from_field_type(field_type: &ArgType) -> Option<String> {
 /// Check if a super call needs to be qualified with the outer class name
 /// JADX parity: InsnGen.java:1080-1095 (callSuper method)
 ///
-/// In Java, when an inner class calls a super method of its outer class, it uses
-/// qualified super syntax: `OuterClass.super.method()`
+/// In Java, qualified super syntax `OuterClass.super.method()` is ONLY needed when:
+/// - We're inside an inner class
+/// - Calling a super method that belongs to the outer class's inheritance chain
 ///
-/// This function returns true if the declaring class of the method being called
-/// is different from the current class (indicating we're in an inner class calling
-/// out to an outer class's superclass method).
+/// For normal inheritance like `MainActivity extends Activity`, when calling
+/// `super.onCreate()`, we use plain `super` (not `Activity.super`).
+///
+/// JADX Reference: InsnGen.java:1097-1117 getClassForSuperCall()
+/// The key is: walk up from current class, find first class that isInstanceOf decl_class.
+/// If that's the current class itself, use plain "super". Otherwise use qualified form.
+///
+/// Simplified implementation: Only use qualified super for inner classes calling
+/// outer class's super methods. For regular classes, always use plain super.
 fn needs_qualified_super(decl_class_type: &str, ctx: &BodyGenContext) -> bool {
     if let Some(ref current_class) = ctx.current_class_type {
-        // Normalize both types for comparison
-        let decl_normalized = decl_class_type
-            .trim_start_matches('L')
-            .trim_end_matches(';');
         let current_normalized = current_class
             .trim_start_matches('L')
             .trim_end_matches(';');
 
-        // If the declaring class is different from current class, we need qualified super
-        // This happens when an inner class calls super on a method from an outer class
-        decl_normalized != current_normalized
+        // Check if we're in an inner class (contains '$')
+        if !current_normalized.contains('$') {
+            // Not an inner class - always use plain super
+            // For `MainActivity extends Activity`, super.onCreate() is correct
+            return false;
+        }
+
+        // We're in an inner class - check if declaring class is our outer class
+        // Pattern: current = "com/example/Outer$Inner", outer = "com/example/Outer"
+        let decl_normalized = decl_class_type
+            .trim_start_matches('L')
+            .trim_end_matches(';');
+
+        // Extract outer class name from inner class
+        // "com/example/Outer$Inner" -> "com/example/Outer"
+        if let Some(dollar_pos) = current_normalized.rfind('$') {
+            let outer_class = &current_normalized[..dollar_pos];
+
+            // If declaring class matches our outer class, we need qualified super
+            // This is the case: inner class calling Outer.super.method()
+            if decl_normalized == outer_class {
+                return true;
+            }
+
+            // Also check if declaring class is in outer's inheritance chain
+            // For now, simplified: if decl starts with outer class prefix and is different
+            // from current, might need qualified super
+            // This handles nested inner classes like Outer$Middle$Inner calling Outer.super
+            if decl_normalized.starts_with(outer_class) && !decl_normalized.contains('$') {
+                // decl_class is the outer class itself (no more $) - need qualified
+                return decl_normalized == outer_class;
+            }
+        }
+
+        // Default: don't use qualified super
+        // Even for inner classes, if calling super on own parent, use plain super
+        false
     } else {
         false
     }
@@ -9172,25 +9228,21 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
+        // CG-002 FIX: JADX InsnGen.java:478-481 - field access is ALWAYS inlined.
+        // Unlike method calls, field access is side-effect-free, so we NEVER emit
+        // intermediate variable declarations like "Object data2 = this.data;".
+        // Instead, we always store the inline expression for use at the access site.
         InsnType::InstanceGet { dest, object, field_idx } => {
-            // Check if this field access should be inlined (used only once)
             let reg = dest.reg_num;
             let version = dest.ssa_version;
-
-            if ctx.should_inline(reg, version) {
-                // Build field access expression and store for inlining at use site
-                let obj_str = ctx.gen_arg_inline(object);
-                let field_name = ctx.expr_gen.get_field_value(*field_idx)
-                    .map(|f| f.field_name.to_string())
-                    .unwrap_or_else(|| format!("field#{}", field_idx));
-                let field_expr = format!("{}.{}", obj_str, field_name);
-                ctx.store_inline_expr(reg, version, field_expr);
-                true // Don't emit anything, will be inlined at use site
-            } else {
-                // Multi-use variable - emit normal assignment
-                emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
-                true
-            }
+            // Always store inline expression - field access is always inlineable
+            let obj_str = ctx.gen_arg_inline(object);
+            let field_name = ctx.expr_gen.get_field_value(*field_idx)
+                .map(|f| f.field_name.to_string())
+                .unwrap_or_else(|| format!("field#{}", field_idx));
+            let field_expr = format!("{}.{}", obj_str, field_name);
+            ctx.store_inline_expr(reg, version, field_expr);
+            true // Don't emit anything, will be inlined at use site
         }
 
         InsnType::InstancePut { object, field_idx, value } => {
@@ -9218,35 +9270,30 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
+        // CG-002 FIX: JADX InsnGen.java:491-492 - static field access is ALWAYS inlined.
+        // Like instance fields, static field access is side-effect-free, so we NEVER
+        // emit intermediate variable declarations. Always store for inline at use site.
         InsnType::StaticGet { dest, field_idx } => {
-            // Check if this field access should be inlined (used only once)
             let reg = dest.reg_num;
             let version = dest.ssa_version;
-
-            if ctx.should_inline(reg, version) {
-                // Build static field access expression
-                let field_expr = if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
-                    // Check if this is a field of the current class - use simple name
-                    if let Some(ref current_class) = ctx.current_class_type {
-                        let current_class_dotted = current_class.trim_start_matches("L").trim_end_matches(";").replace("/", ".");
-                        if field_info.class_name.as_ref() == current_class_dotted {
-                            field_info.field_name.to_string()
-                        } else {
-                            format!("{}.{}", field_info.class_name, field_info.field_name)
-                        }
+            // Always store inline expression - field access is always inlineable
+            let field_expr = if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
+                // Check if this is a field of the current class - use simple name
+                if let Some(ref current_class) = ctx.current_class_type {
+                    let current_class_dotted = current_class.trim_start_matches("L").trim_end_matches(";").replace("/", ".");
+                    if field_info.class_name.as_ref() == current_class_dotted {
+                        field_info.field_name.to_string()
                     } else {
                         format!("{}.{}", field_info.class_name, field_info.field_name)
                     }
                 } else {
-                    format!("field#{}", field_idx)
-                };
-                ctx.store_inline_expr(reg, version, field_expr);
-                true // Don't emit anything, will be inlined at use site
+                    format!("{}.{}", field_info.class_name, field_info.field_name)
+                }
             } else {
-                // Multi-use variable - emit normal assignment
-                emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
-                true
-            }
+                format!("field#{}", field_idx)
+            };
+            ctx.store_inline_expr(reg, version, field_expr);
+            true // Don't emit anything, will be inlined at use site
         }
 
         InsnType::StaticPut { field_idx, value } => {

@@ -538,11 +538,18 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult, method_name
         let t2 = type_info.types.get(&v2);
         match (t1, t2) {
             (Some(t1), Some(t2)) => types_compatible_for_naming(t1, t2),
-            // P0-PHANTOM-FIX (Dec 2025): When type info is missing on one or both sides,
-            // only connect if they're the SAME register. This handles PHI sources
-            // where one path may have a null literal or untyped value - they still
-            // represent the same logical variable.
-            (None, None) | (Some(_), None) | (None, Some(_)) => v1.0 == v2.0,
+            // JADX_FIX (Dec 2025): When type info is missing, be conservative.
+            // PHI nodes always have same register numbers, so "same register" check
+            // is too weak - it would always pass and group incompatible types together.
+            //
+            // Only connect if BOTH are version 0 of the same register (likely same param)
+            // or if one variable is a direct continuation of the other (v1 -> v2).
+            (None, None) => v1.0 == v2.0 && (v1.1 == 0 && v2.1 == 0),
+            (Some(_), None) | (None, Some(_)) => {
+                // One has type info, one doesn't - be very conservative
+                // Only connect if they're consecutive versions of same register
+                v1.0 == v2.0 && (v1.1.abs_diff(v2.1) <= 1)
+            }
         }
     };
 
@@ -566,11 +573,18 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult, method_name
         let t2 = type_info.types.get(&v2);
         let compatible = match (t1, t2) {
             (Some(t1), Some(t2)) => types_compatible_for_naming(t1, t2),
-            // P0-PHANTOM-FIX (Dec 2025): When type info is missing on one or both sides,
-            // only connect if they're the SAME register. This handles PHI sources
-            // where one path may have a null literal or untyped value - they still
-            // represent the same logical variable.
-            (None, None) | (Some(_), None) | (None, Some(_)) => v1.0 == v2.0,
+            // JADX_FIX (Dec 2025): When type info is missing, be conservative.
+            // PHI nodes always have same register numbers, so "same register" check
+            // is too weak - it would always pass and group incompatible types together.
+            //
+            // Only connect if BOTH are version 0 of the same register (likely same param)
+            // or if one variable is a direct continuation of the other (v1 -> v2).
+            (None, None) => v1.0 == v2.0 && (v1.1 == 0 && v2.1 == 0),
+            (Some(_), None) | (None, Some(_)) => {
+                // One has type info, one doesn't - be very conservative
+                // Only connect if they're consecutive versions of same register
+                v1.0 == v2.0 && (v1.1.abs_diff(v2.1) <= 1)
+            }
         };
         if compatible {
             if debug {
@@ -587,8 +601,16 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult, method_name
 
     // Phase 1: Build connections from PHI nodes
     // PHI nodes represent merge points where multiple SSA versions flow into the same
-    // logical variable. We MUST connect dest <-> sources regardless of type compatibility
-    // because they're definitionally the same variable in Java.
+    // logical variable. Connect dest <-> sources ONLY if types are compatible.
+    //
+    // JADX_FIX (Dec 2025): Previously we FORCE-connected all PHI sources without type
+    // checking, which caused variables like `stringBuilder` to be used for both
+    // Iterator and StringBuilder when type inference failed (Unknown types).
+    //
+    // Now we use add_connection() which checks type compatibility. When types are
+    // Unknown on both sides, we only connect if they're the same register (same logical
+    // variable). This prevents grouping incompatible types together when type inference
+    // fails to determine the actual types.
     for block in &ssa.blocks {
         for phi in &block.phi_nodes {
             let dest = (phi.dest.reg_num, phi.dest.ssa_version);
@@ -598,16 +620,10 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult, method_name
                 .map(|(_, source)| (source.reg_num, source.ssa_version))
                 .collect();
 
-            // FORCE connect dest <-> all sources (bidirectional) WITHOUT type check
-            // PHI means these are the same logical variable, so they MUST share names.
-            // Type mismatches are a type inference bug, not a naming bug.
+            // Connect dest <-> each source with type checking
+            // Only connect if types are compatible or both are same register
             for &src in &sources {
-                if debug_ssa {
-                    eprintln!("[SSA_DEBUG]   PHI FORCE r{}_v{} <-> r{}_v{}",
-                        dest.0, dest.1, src.0, src.1);
-                }
-                connections.entry(dest).or_default().insert(src);
-                connections.entry(src).or_default().insert(dest);
+                add_connection(dest, src, &mut connections, debug_ssa);
             }
 
             // P0-PHANTOM-FIX (Dec 2025): REMOVED PHI source transitivity
@@ -1849,29 +1865,37 @@ pub fn assign_var_names_with_lookups<'a>(
 
     for block in &ssa.blocks {
         // Add phi node destinations
+        // P0-PARAM-REUSE FIX: Include param registers with version > 0 (reused params)
         for phi in &block.phi_nodes {
-            if phi.dest.reg_num < first_param_reg {
+            if phi.dest.reg_num < first_param_reg || phi.dest.ssa_version > 0 {
                 vars_to_name.push((phi.dest.reg_num, phi.dest.ssa_version));
             }
             // P0-CFG03 FIX: Also add PHI sources - they need names too!
+            // P0-PARAM-REUSE FIX: Same logic for operands
             for (_, src) in &phi.sources {
-                if src.reg_num < first_param_reg {
+                if src.reg_num < first_param_reg || src.ssa_version > 0 {
                     vars_to_name.push((src.reg_num, src.ssa_version));
                 }
             }
         }
 
         // Add instruction destinations
+        // P0-PARAM-REUSE FIX: Include parameter register variables with version > 0
+        // When a parameter register is reused (e.g., list = list.iterator()),
+        // the new assignment gets version 1+. These must be named separately from
+        // the original parameter (version 0).
         for insn in &block.instructions {
             if let Some(dest) = get_insn_dest(&insn.insn_type) {
-                if dest.0 < first_param_reg {
+                // Include: local registers OR param registers with new versions (reused)
+                if dest.0 < first_param_reg || dest.1 > 0 {
                     vars_to_name.push(dest);
                 }
             }
             // P0-CFG03 FIX: Also add source operands - they need names too!
             // This ensures variables used in Binary, Switch, Ternary, etc. get proper names.
+            // P0-PARAM-REUSE FIX: Same logic for operands
             for (reg, version) in get_insn_operands(&insn.insn_type) {
-                if reg < first_param_reg {
+                if reg < first_param_reg || version > 0 {
                     vars_to_name.push((reg, version));
                 }
             }
