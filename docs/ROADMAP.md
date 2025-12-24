@@ -2,6 +2,7 @@
 
 **Status:** 0 P1 Open | **Production Ready for ALL APKs** | Grade: A | Dec 23, 2025 - JADX Codegen Parity ~93%
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
+**Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) for detailed audit
 
 ---
 
@@ -54,6 +55,37 @@ See [PERFORMANCE.md](PERFORMANCE.md#implementation-status) for optimization item
 ---
 
 ## Completed
+
+### JADX Deobf Parity - ~95% (Dec 23, 2025)
+
+See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) for comprehensive audit.
+
+**All Core Components Cloned:**
+
+| JADX Component | Dexterity Module | Status |
+|----------------|------------------|--------|
+| `IDeobfCondition` + conditions | `conditions.rs` | ✅ 100% |
+| `DeobfAliasProvider` | `alias_provider.rs` | ✅ 100% |
+| `NameMapper` | `name_mapper.rs` | ✅ 100% |
+| `FileTypeDetector` | `file_type_detector.rs` | ✅ 100% |
+| `DeobfPresets` / JOBF | `jobf.rs` | ✅ 100% |
+| `RenameVisitor` | `rename_validator.rs` | ✅ 90% |
+| `SourceFileRename` | `source_file_rename.rs` | ✅ 100% |
+| TLD filtering | `tlds.rs` + `tlds.txt` | ✅ 100% |
+| Constants | `consts.rs` | ✅ 100% |
+
+**Key Features:**
+- Thread-safe `AliasRegistry` with DashMap (better than JADX)
+- All 7 JADX conditions cloned with exact logic
+- JOBF file format load/save support
+- SourceFile-based renaming with `BetterName` algorithm
+- Case-insensitive collision handling for Windows
+
+**Minor Gaps (P2/P3):**
+- R.java synthetic generation (resources feature, not deobf)
+- METHOD_OVERRIDE attribute detection without annotations
+
+---
 
 ### JADX Codegen Parity - ~93% (Dec 23, 2025)
 
