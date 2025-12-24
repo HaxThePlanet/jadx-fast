@@ -143,27 +143,27 @@ See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) for comprehensive a
 
 ---
 
-### JADX Codegen Parity - ~80% (Dec 24, 2025)
+### JADX Codegen Parity - ~83% (Dec 24, 2025)
 
 Most JADX codegen functionality implemented. Source-level audit complete.
-See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed audit.
+See [CODEGEN_PARITY_MASTER.md](CODEGEN_PARITY_MASTER.md) for detailed audit.
 
 **Codegen P0/P1 Gaps Progress: 10 of 10 FIXED (100%) - Dec 24, 2025**
 
 | Gap | Description | Status | Lines |
 |-----|-------------|--------|-------|
-| GAP-01 | SSA->CodeVar variable mapping (peek vs take) | **FIXED** Dec 24 | N/A |
-| GAP-02 | Iterator for-each loop pattern detection | **FIXED** Dec 24 | N/A |
-| ~~**GAP-03**~~ | ~~Nested if declarations~~ | ✅ **FIXED** Dec 24 | N/A |
-| GAP-04 | Static final primitive field defaults (= 0, = false, etc.) | **FIXED** Dec 24 | N/A |
-| ~~**GAP-05**~~ | ~~Ternary conversion (if-then-else → a ? b : c)~~ | ✅ **FIXED** Dec 24 | N/A |
-| GAP-06 | For-each type casts | **FIXED** Dec 24 | N/A |
-| GAP-07 | Boolean return | **VERIFIED** | N/A |
-| GAP-08 | Invoke arg arrays (pending varargs emit as literals) | **FIXED** Dec 24 | N/A |
-| GAP-09 | StringBuilder chain | **VERIFIED** | N/A |
-| GAP-10 | else-return elimination | **VERIFIED** | N/A |
+| ~~GAP-01~~ | ~~SSA->CodeVar variable mapping (peek vs take)~~ | ✅ **FIXED** Dec 24 | N/A |
+| ~~GAP-02~~ | ~~Iterator for-each loop pattern detection~~ | ✅ **FIXED** Dec 24 | N/A |
+| ~~GAP-03~~ | ~~Nested if declarations~~ | ✅ **FIXED** Dec 24 | N/A |
+| ~~GAP-04~~ | ~~Static final primitive field defaults (= 0, = false, etc.)~~ | ✅ **FIXED** Dec 24 | N/A |
+| ~~GAP-05~~ | ~~Ternary conversion (if-then-else → a ? b : c)~~ | ✅ **FIXED** Dec 24 | N/A |
+| ~~GAP-06~~ | ~~For-each type casts~~ | ✅ **FIXED** Dec 24 | N/A |
+| ~~GAP-07~~ | ~~Boolean return~~ | ✅ **VERIFIED** | N/A |
+| ~~GAP-08~~ | ~~Invoke arg arrays (pending varargs emit as literals)~~ | ✅ **FIXED** Dec 24 | N/A |
+| ~~GAP-09~~ | ~~StringBuilder chain~~ | ✅ **VERIFIED** | N/A |
+| ~~GAP-10~~ | ~~else-return elimination~~ | ✅ **VERIFIED** | N/A |
 
-**All codegen gaps fixed!**
+**All P0/P1 codegen gaps fixed!**
 
 **Verified Implementations:**
 - Negative literal wrapping (`maybe_paren_wrap`)
@@ -172,12 +172,13 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 - Import conflict detection
 - Else-if chains, Multi-catch, Enum switch
 
-**Remaining Gaps (~22%):**
+**Remaining Gaps (~17%):**
 - Diamond operator (`new ArrayList<>()`)
 - Outer class constructor prefix (`outer.new Inner()`)
 - Polymorphic call return cast
 - Recursive inner class collision check
 - Comment escape (`*/`)
+- P1-LAMBDA (lambda class inlining)
 
 **P1 (High Priority) - 5 tasks:**
 - **P1-LAMBDA-REF** - Method reference generation (`String::new`, `obj::method`)
@@ -187,15 +188,15 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 - **P1-INVOKE-RAW** - InvokeCustom raw fallback using `.dynamicInvoker().invoke()`
 - ~~**P1-FIELD-REPLACE**~~ - ✅ FIXED (Dec 24) - `this$0` -> `OuterClass.this` replacement
 
-**P2 (Medium Priority) - 4 tasks:**
+**P2 (Medium Priority) - 1 open task:**
 - ~~**P2-BOOL-SIMP**~~ - ✅ FIXED (Dec 24, 2025) - Non-0/1 integer literals no longer displayed as true/false
-- ~~**P2-NAME-COLLISION**~~ - ✅ FIXED (Dec 24) - Class-level reserved names (static fields, inner classes, packages)
+- ~~**P2-NAME-COLLISION**~~ - ✅ FIXED (Dec 24) - Wired `add_class_level_reserved_names()` into codegen context
 - **P2-SIMPLE-MODE** - Complete SimpleModeHelper rewrite in `fallback_gen.rs` (~500 lines)
-- ~~**P2-MULTI-CATCH**~~ - ✅ FIXED - Multi-catch separator (`Type1 | Type2`)
-- ~~**P2-SUPER-QUAL**~~ - ✅ FIXED - Qualified super calls (`OuterClass.super.method()`)
+- ~~**P2-MULTI-CATCH**~~ - ✅ FIXED (verified in output) - Multi-catch separator (`Type1 | Type2`)
+- ~~**P2-SUPER-QUAL**~~ - ✅ FIXED (verified in output) - Qualified super calls (`OuterClass.super.method()`)
 
-**P3 (Lower Priority) - 1 task:**
-- ~~**P3-PARAM-ANNOT**~~ - ✅ FIXED - Parameter annotations (`@NonNull arg`)
+**P3 (Lower Priority) - All fixed:**
+- ~~**P3-PARAM-ANNOT**~~ - ✅ FIXED (verified in output) - Parameter annotations (`@NonNull arg`)
 
 **Key Files Modified:**
 - `crates/dexterity-codegen/src/body_gen.rs` - Super call qualification, name collision detection

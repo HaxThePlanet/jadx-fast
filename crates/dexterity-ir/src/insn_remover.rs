@@ -202,7 +202,7 @@ pub fn dont_generate_if_not_used(insn: &mut InsnNode, ssa_ctx: &SSAContext) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::instructions::{InsnType, RegisterArg};
+    use crate::instructions::{InsnType, RegisterArg, LiteralArg};
     use crate::types::ArgType;
 
     #[test]
@@ -210,32 +210,26 @@ mod tests {
         let mut ctx = SSAContext::new();
 
         // Create a simple instruction with a result
-        let dest = RegisterArg {
-            reg_num: 0,
-            ssa_version: 1,
-            arg_type: ArgType::Int,
-        };
+        let dest = RegisterArg::new_with_version(0, 1);
 
         let mut insn = InsnNode {
-            offset: 0,
-            source_line: None,
-            result_type: Some(ArgType::Int),
             insn_type: InsnType::Const {
                 dest: dest.clone(),
-                value: crate::instructions::LiteralArg {
-                    value: 42,
-                    arg_type: ArgType::Int,
-                },
+                value: LiteralArg::Int(42),
             },
-            attrs: crate::attributes::AttributeStorage::new(),
+            result_type: Some(ArgType::Int),
+            source_line: None,
+            offset: 0,
+            flags: 0,
+            extended_switch_info: None,
+            extended_if_info: None,
         };
 
         // Create SSA var with no uses
-        let var_ref = dest.as_ssa_ref();
-        ctx.new_var(var_ref);
+        ctx.new_var(dest.reg_num);
 
         // Should mark as don't generate
         dont_generate_if_not_used(&mut insn, &ctx);
-        assert!(insn.attrs.has_flag(AFlag::DontGenerate));
+        assert!(insn.has_flag(AFlag::DontGenerate));
     }
 }
