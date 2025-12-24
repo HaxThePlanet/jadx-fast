@@ -3334,9 +3334,12 @@ fn detect_array_foreach_pattern(
 // =============================================================================
 
 /// Information about a detected switch-over-string pattern
+/// JADX Reference: SwitchOverStringVisitor.java:380-446
 struct SwitchOverStringInfo {
     /// The string expression being switched on
     string_expr: String,
+    /// The original string register (for equals() detection during case body extraction)
+    string_source: (u16, u32),
     /// Map from case key (hashCode value) to string literal(s)
     case_strings: std::collections::HashMap<i32, Vec<String>>,
 }
@@ -3414,6 +3417,7 @@ fn detect_switch_over_string(
 
     Some(SwitchOverStringInfo {
         string_expr,
+        string_source,
         case_strings,
     })
 }
@@ -3582,6 +3586,64 @@ fn get_string_literal_from_arg(arg: &InsnArg, ctx: &BodyGenContext) -> Option<St
                     if let InsnType::ConstString { dest, string_idx } = &insn.insn_type {
                         if dest.reg_num == reg_arg.reg_num && dest.ssa_version == reg_arg.ssa_version {
                             return ctx.expr_gen.get_string_value(*string_idx);
+                        }
+                    }
+                }
+            }
+            None
+        }
+        _ => None,
+    }
+}
+
+/// Extract the inner content from an if-equals block in a switch-over-string case.
+/// The case body typically looks like: if (str.equals("hello")) { actual_code }
+/// This function returns the actual_code region, skipping the if-equals wrapper.
+/// JADX Reference: SwitchOverStringVisitor.java:349-350 (caseData.setCode)
+fn extract_inner_from_if_equals_case<'a>(
+    region: &'a Region,
+    string_reg: u16,
+    ctx: &BodyGenContext,
+) -> Option<&'a Region> {
+    match region {
+        Region::Sequence(contents) => {
+            // The case body is typically a sequence containing an if-region
+            for content in contents {
+                if let RegionContent::Region(inner) = content {
+                    if let Some(extracted) = extract_inner_from_if_equals_case(inner, string_reg, ctx) {
+                        return Some(extracted);
+                    }
+                }
+            }
+            None
+        }
+        Region::If { condition, then_region, else_region } => {
+            // Check if condition block contains a String.equals() call on our string register
+            // Handle both Simple and Not(Simple) conditions
+            let (block_id, is_negated) = match condition {
+                Condition::Simple { block, .. } => (Some(*block), false),
+                Condition::Not(inner) => {
+                    if let Condition::Simple { block, .. } = inner.as_ref() {
+                        (Some(*block), true)
+                    } else {
+                        (None, false)
+                    }
+                }
+                _ => (None, false),
+            };
+
+            if let Some(block_id) = block_id {
+                if let Some(block) = ctx.blocks.get(&block_id) {
+                    for insn in &block.instructions {
+                        if extract_string_from_equals(insn, string_reg, ctx).is_some() {
+                            // Found the if-equals wrapper - return the appropriate branch
+                            // For NOT(equals) pattern, return else branch; otherwise return then branch
+                            // JADX Reference: SwitchOverStringVisitor.java:349-350
+                            return if is_negated {
+                                else_region.as_ref().map(|r| r.as_ref())
+                            } else {
+                                Some(then_region.as_ref())
+                            };
                         }
                     }
                 }
@@ -6296,10 +6358,31 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                 // P1-CFG07 FIX: Process case region for inlining before generating
                 // This ensures method calls and constants are stored for inlining
                 process_region_for_inlining(&case.container, ctx);
-                generate_region(&case.container, ctx, code);
+
+                // JADX Reference: SwitchOverStringVisitor.java:349-350
+                // For switch-over-string, extract inner content from if-equals wrapper
+                // The case body is: if (str.equals("hello")) { actual_code }
+                // We want to emit just actual_code, not the if-equals wrapper
+                if let Some(ref info) = string_switch_info {
+                    if let Some(inner_region) = extract_inner_from_if_equals_case(&case.container, info.string_source.0, ctx) {
+                        generate_region(inner_region, ctx, code);
+                    } else {
+                        // Fallback: generate as-is if extraction fails
+                        generate_region(&case.container, ctx, code);
+                    }
+                } else {
+                    generate_region(&case.container, ctx, code);
+                }
 
                 // Only add break if case doesn't end with return/throw/continue/break
-                let needs_break = !case_ends_with_exit(&case.container, ctx);
+                // For string switches with extracted inner content, check the inner region
+                let region_to_check = if let Some(ref info) = string_switch_info {
+                    extract_inner_from_if_equals_case(&case.container, info.string_source.0, ctx)
+                        .unwrap_or(&case.container)
+                } else {
+                    &case.container
+                };
+                let needs_break = !case_ends_with_exit(region_to_check, ctx);
                 if needs_break {
                     // Check if this is the last case before default - if so, might be fallthrough
                     let is_last_case = case_idx == regular_cases.len() - 1;
