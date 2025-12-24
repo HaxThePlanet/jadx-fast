@@ -420,6 +420,45 @@ fn trace_register_constant(reg_num: usize, method: &MethodData, up_to_idx: usize
     trace_register_constant_impl(reg_num, method, up_to_idx, &mut HashSet::new(), 0, dex)
 }
 
+/// Check if there are any side-effect instructions between two instruction indices
+/// Clone of JADX canReorder check from ExtractFieldInit.java
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:193
+/// "if (!fieldInsn && canReorder && !insn.canReorder())"
+///
+/// Side-effect instructions include:
+/// - Invoke (any method call can have side effects)
+/// - InvokeRange (range-based method call)
+/// - Monitor (synchronization)
+/// - FilledNewArray (allocates and has side effects)
+fn has_side_effect_between(
+    from_idx: usize,
+    to_idx: usize,
+    instructions: &[dexterity_ir::instructions::InsnNode],
+) -> bool {
+    for insn in instructions.iter().skip(from_idx + 1).take(to_idx - from_idx - 1) {
+        match &insn.insn_type {
+            // Method invocations are side effects (Intrinsics.checkNotNull, etc.)
+            InsnType::Invoke { .. } | InsnType::InvokeCustom { .. } => {
+                return true;
+            }
+            // Synchronization primitives
+            InsnType::MonitorEnter { .. } | InsnType::MonitorExit { .. } => {
+                return true;
+            }
+            // Filled new array has allocation side effects
+            InsnType::FilledNewArray { .. } => {
+                return true;
+            }
+            // Throw is a control flow change with side effects
+            InsnType::Throw { .. } => {
+                return true;
+            }
+            _ => {}
+        }
+    }
+    false
+}
+
 /// Implementation with cycle detection and depth limiting
 /// up_to_idx: only look at instructions with index < up_to_idx
 /// dex: optional DEX reader for resolving string/class literals
@@ -450,6 +489,12 @@ fn trace_register_constant_impl(
     for (idx, insn) in instructions.iter().enumerate().take(up_to_idx).rev() {
         match &insn.insn_type {
             InsnType::Const { dest, value } if dest.reg_num == reg_num as u16 => {
+                // Clone of JADX ExtractFieldInit.java canReorder check
+                // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:193
+                // Check for side-effect instructions between const and SPUT
+                if has_side_effect_between(idx, up_to_idx, instructions) {
+                    return None;
+                }
                 // Found a const instruction that writes to our register
                 return Some(match value {
                     dexterity_ir::instructions::LiteralArg::Int(v) => {
@@ -466,6 +511,12 @@ fn trace_register_constant_impl(
                 });
             }
             InsnType::ConstString { dest, string_idx } if dest.reg_num == reg_num as u16 => {
+                // Clone of JADX ExtractFieldInit.java canReorder check
+                // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:193
+                // Check for side-effect instructions between const-string and SPUT
+                if has_side_effect_between(idx, up_to_idx, instructions) {
+                    return None;
+                }
                 // Found a const-string instruction - resolve from DEX string pool
                 if let Some(dex) = dex {
                     if let Ok(s) = dex.get_string(*string_idx) {
@@ -475,6 +526,12 @@ fn trace_register_constant_impl(
                 return None;
             }
             InsnType::ConstClass { dest, type_idx } if dest.reg_num == reg_num as u16 => {
+                // Clone of JADX ExtractFieldInit.java canReorder check
+                // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:193
+                // Check for side-effect instructions between const-class and SPUT
+                if has_side_effect_between(idx, up_to_idx, instructions) {
+                    return None;
+                }
                 // Found a const-class instruction - resolve from DEX type pool
                 if let Some(dex) = dex {
                     if let Ok(type_desc) = dex.get_type(*type_idx) {

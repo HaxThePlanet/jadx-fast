@@ -5034,6 +5034,18 @@ fn get_insn_dest(insn: &InsnType) -> Option<(u16, u32)> {
         | InsnType::InstanceOf { dest, .. }
         | InsnType::ConstClass { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
         InsnType::Phi { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        // Clone of JADX TernaryMod.java handling for CheckCast
+        // Reference: CheckCast modifies register in-place (no new SSA version)
+        // For ternary detection, treat the input register as the "destination"
+        // Pattern: if (x instanceof Y) { check-cast x to Y } else { new Y(x) }
+        //       -> x instanceof Y ? (Y)x : new Y(x)
+        InsnType::CheckCast { object, .. } => {
+            if let InsnArg::Register(reg) = object {
+                Some((reg.reg_num, reg.ssa_version))
+            } else {
+                None
+            }
+        }
         _ => None,
     }
 }
@@ -5063,6 +5075,15 @@ fn get_insn_value_expr(insn: &InsnType, ctx: &BodyGenContext) -> Option<String> 
         }
         InsnType::Binary { .. } => {
             ctx.expr_gen.gen_insn(insn)
+        }
+        // Clone of JADX TernaryMod.java handling for CheckCast in ternary context
+        // Reference: When then-branch is CheckCast, generate "(Type)object" expression
+        // Pattern: if (x instanceof Y) { check-cast x to Y } -> (Y)x in ternary
+        InsnType::CheckCast { object, type_idx } => {
+            let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                .unwrap_or_else(|| format!("Type#{}", type_idx));
+            let obj_str = ctx.expr_gen.gen_arg(object);
+            Some(format!("({}){}", type_name, obj_str))
         }
         _ => ctx.expr_gen.gen_insn(insn),
     }
