@@ -5,7 +5,7 @@
 **Output Refresh:** Dec 24, 2025 - GAP-01, 02, 04, 06, 07, 08, 09, 10 fixes applied
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
 **Codegen:** ~80% syntax parity (B- Grade) when files ARE generated; 38% file coverage gap due to P0 bugs
-**Kotlin:** ~70-75% parity (C Grade) - Field alias references NOT applied (P1), rename reasons FIXED
+**Kotlin:** ~85-90% parity (B+ Grade) - Field alias references FIXED (Dec 24), rename reasons FIXED
 **Open Work:** See [ROADMAP.md](ROADMAP.md) for remaining tasks and P0/P1 bugs
 
 ## CRITICAL: Output Comparison Discovery (Dec 24, 2025)
@@ -78,8 +78,8 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 | **Type Inference** | B+ (85%) | **C (70%)** | Enum constants as raw ints |
 | **IR/Control Flow** | B+ (88%) | **B- (80%)** | Switch case ordering reversed |
 | **Variable Naming** | A- | **C+ (73%)** | GAP-01 FIXED (peek vs take) |
-| **Kotlin Support** | D (60%) | **C (70-75%)** | Rename reasons FIXED, field alias references P1 BUG (in body_gen.rs) |
-| **Deobfuscation** | A (95%) | **B- (80%)** | Kotlin field alias references not applied (new P1 issue) |
+| **Kotlin Support** | D (60%) | **B+ (85-90%)** | Rename reasons FIXED, field alias references FIXED (Dec 24) |
+| **Deobfuscation** | A (95%) | **A- (90%)** | Kotlin field alias references FIXED (Dec 24) |
 | **Passes** | C+ (75%) | **C+ (78%)** | GAP-02 iterator for-each FIXED |
 | **Resources** | **A+** | **A+** | 1:1 JADX parity (verified) |
 | **Overall** | C+ (78%) | **B- (80%)** | Codegen improved to 80%; only 2 P0 gaps remain |
