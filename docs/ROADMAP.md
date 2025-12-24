@@ -1,8 +1,9 @@
 # Roadmap
 
-**Status:** 0 P1 Open | **Production Ready for ALL APKs** | Grade: A | Dec 23, 2025 - JADX Codegen Parity ~93%
+**Status:** 1 P0 Open (Kotlin) | **Production Ready for most APKs** | Grade: C+ (~75%) | Dec 24, 2025
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for grades | [ISSUE_TRACKER.md](ISSUE_TRACKER.md) for issues
-**Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) for detailed audit
+**Kotlin Parity:** ~70-75% - See [KOTLIN_JADX_PARITY_AUDIT.md](KOTLIN_JADX_PARITY_AUDIT.md) for detailed audit
+**Deobf Parity:** ~80% - Kotlin field aliases broken, see [JADX_KOTLIN_REAL_GAPS.md](JADX_KOTLIN_REAL_GAPS.md)
 
 ---
 
@@ -10,15 +11,23 @@
 
 **Output Quality (from actual comparison):**
 - small APK: 100% clean
-- large APK: 99.93% clean
+- large APK: 99.93% clean (but Kotlin field names obfuscated)
 - badboy APK: 98% clean
 - medium APK: 98%+ clean (hot-reload fix applied Dec 23)
 
-**JADX Codegen Parity:** ~93% - Source-level audit Dec 23, 2025 (see JADX_CODEGEN_CLONE_STATUS.md)
+**JADX Codegen Parity:** ~75% (C+ Grade) - Kotlin field aliases NOT working
 
 ## Open Work
 
-No critical issues remaining. Dexterity is production ready for all APKs.
+### P0 Critical: Kotlin Field Aliases Not Applied
+
+| Task | Priority | Description | Status |
+|------|----------|-------------|--------|
+| **Fix JVM field signature extraction** | **P0** | `parser.rs:parse_property()` - extract fieldSignature | **OPEN** |
+| **Add fallback field matching** | **P0** | `extractor.rs:field_matches()` - match by index if sig None | **OPEN** |
+
+**Evidence:** `output/dexterity/large/sources/l/a0.java` shows `w`, `x` instead of `segments`, `directory`
+**JADX Reference:** `KotlinMetadataUtils.kt:111-116` - uses `searchFieldByShortId(kmProperty.shortId)`
 
 ### Remaining JADX Parity Items (Dec 23, 2025)
 
@@ -87,10 +96,27 @@ See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) for comprehensive a
 
 ---
 
-### JADX Codegen Parity - ~93% (Dec 23, 2025)
+### JADX Codegen Parity - ~78% (Dec 24, 2025)
 
 Most JADX codegen functionality implemented. Source-level audit complete.
 See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed audit.
+
+**Codegen P0/P1 Gaps Progress: 7 of 10 FIXED (70%) - Dec 24, 2025**
+
+| Gap | Description | Status | Lines |
+|-----|-------------|--------|-------|
+| GAP-01 | SSA->CodeVar variable mapping (peek vs take) | **FIXED** Dec 24 | N/A |
+| GAP-02 | Iterator for-each loop pattern detection | **FIXED** Dec 24 | N/A |
+| **GAP-03** | Nested if declarations | OPEN | ~150 |
+| **GAP-04** | Field init body | PARTIAL | ~100 |
+| **GAP-05** | Ternary conversion | OPEN | ~150 |
+| GAP-06 | For-each type casts | **FIXED** Dec 24 (c2812b69a) | N/A |
+| GAP-07 | Boolean return | **VERIFIED** | N/A |
+| **GAP-08** | Invoke arg arrays | OPEN | ~80 |
+| GAP-09 | StringBuilder chain | **VERIFIED** | N/A |
+| GAP-10 | else-return elimination | **VERIFIED** | N/A |
+
+**Total remaining:** ~390 lines of JADX logic
 
 **Verified Implementations:**
 - Negative literal wrapping (`maybe_paren_wrap`)
@@ -99,7 +125,7 @@ See [JADX_CODEGEN_CLONE_STATUS.md](JADX_CODEGEN_CLONE_STATUS.md) for detailed au
 - Import conflict detection
 - Else-if chains, Multi-catch, Enum switch
 
-**Remaining Gaps (~7%):**
+**Remaining Gaps (~22%):**
 - Diamond operator (`new ArrayList<>()`)
 - Outer class constructor prefix (`outer.new Inner()`)
 - Polymorphic call return cast
@@ -199,7 +225,7 @@ Created ~2,430 lines of new Rust code implementing Tier 1-2 JADX passes:
 
 ---
 
-### P0/P1 Fixes (Dec 22-23, 2025)
+### P0/P1 Fixes (Dec 22-24, 2025)
 
 | ID | Issue | Status |
 |----|-------|--------|
@@ -208,6 +234,8 @@ Created ~2,430 lines of new Rust code implementing Tier 1-2 JADX passes:
 | P0-CFG02 | Empty if-body for early returns | **FIXED** |
 | P0-CFG03 | Undefined variables in expressions | **FIXED** Dec 23 |
 | P0-CFG04 | Complex boolean expressions garbled | **FIXED** |
+| GAP-01 | SSA->CodeVar variable mapping (peek vs take) | **FIXED** Dec 24 |
+| GAP-02 | Iterator for-each loop pattern detection | **FIXED** Dec 24 |
 | P1-CFG05 | Variables outside exception scope | **FIXED** |
 | P1-CFG06 | Missing if-else branch bodies | **FIXED** |
 | P1-CFG07 | Switch case bodies undefined vars | **FIXED** |
@@ -543,8 +571,9 @@ Type inference enhanced from ~60% to ~85% JADX parity. Dexterity now implements 
 - Changed all warning comments from "JADX" to "Dexterity" (type_gen.rs, body_gen.rs, class_gen.rs)
 - Output now shows: `/* Dexterity WARNING: ... */`, `/* Dexterity WARN: ... */`, `/* Dexterity INFO: ... */`
 
-### Kotlin Metadata (Dec 20-21, 2025) - 100% JADX Parity
+### Kotlin Metadata (Dec 20-21, 2025) - ~70-75% JADX Parity
 
+**What's Working:**
 - BitEncoding decoder (UTF-8 + 8-to-7 modes)
 - StringTableTypes for d2 string resolution
 - 68 predefined Kotlin strings
@@ -552,6 +581,12 @@ Type inference enhanced from ~60% to ~85% JADX parity. Dexterity now implements 
 - Extension function receiver_type
 - Type variance (`<in T>`, `<out T>`)
 - Data/sealed/value class detection
+- **Rename reason comments** - FIXED Dec 23: "reason: from kotlin metadata" now emitted
+
+**P0 Bug (Dec 23, 2025):**
+- Field aliases NOT being applied (w→segments, x→directory fails)
+- Root cause: `jvm_field_signature` often None in parser
+- See [KOTLIN_JADX_PARITY_AUDIT.md](KOTLIN_JADX_PARITY_AUDIT.md) for details
 
 ### Bug Fixes (Dec 21, 2025)
 
