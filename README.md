@@ -20,9 +20,9 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** Correct decompilation close to JADX
-**Status:** PRODUCTION-READY | 0 P0 Bugs | A- Grade (95-96%) | 64% File Coverage - see [ROADMAP.md](docs/ROADMAP.md)
+**Status:** IN DEVELOPMENT | 4 P0 Bugs | C-/D+ Grade (55-65%) | 64% File Coverage - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
-> **Update (Dec 25, 2025):** All P0 bugs FIXED (P0-LOOP-VAR, P0-BOOL-CHAIN, P0-WRONG-RETURN). Type inference at A+ (100%, 0 Unknown warnings). Control flow polish phases 1,3,4 complete. Lambda inlining infrastructure ready (awaiting Java 8 APK testing).
+> **Update (Dec 25, 2025):** Honest quality assessment completed. P0-SPURIOUS-RET fixed. 4 P0 bugs remaining (P0-UNDEF-VAR, P0-LOGIC-INV, P0-FOREACH-SEM, P0-TERNARY-INLINE). Resources at 1:1 JADX parity.
 
 ## Performance
 
@@ -59,6 +59,22 @@ For processing many APKs, parallel workers outperform single-threaded max-core u
 **Recommendation:** On a 56-core system (112 threads), use **7 parallel workers with 16 threads each**. This is 76% faster than processing one APK at a time with all threads. Too many workers (10+) starves each APK of threads.
 
 See [PERFORMANCE.md](docs/PERFORMANCE.md) for detailed benchmarks
+
+### RAM Disk for Maximum I/O Performance
+
+For fastest decompilation, use a RAM disk for input/output:
+
+```bash
+# Create 100GB RAM disk (requires sufficient RAM)
+sudo mkdir -p /mnt/ramdisk
+sudo mount -t tmpfs -o size=100g tmpfs /mnt/ramdisk
+
+# Copy APKs to RAM disk and decompile there
+cp app.apk /mnt/ramdisk/
+./target/release/dexterity -d /mnt/ramdisk/output/ /mnt/ramdisk/app.apk
+
+# Benchmarks show 2-3x speedup vs NVMe for I/O-bound operations
+```
 
 ## Quick Start
 
