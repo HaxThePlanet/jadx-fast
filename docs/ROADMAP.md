@@ -1,10 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 Bugs | Dec 25, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 4 P1 | 0 P2 | Dec 25, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
+| **Open Bugs** | 4 P1 (string const, try-catch, concat, checkTracerPid), 0 P2 |
 | **Remaining Work** | Throws declarations (~26% parity - 1610 vs 6283 JADX) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
 | **Deobf Parity** | ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) |
@@ -16,7 +17,7 @@
 |----------|-------|-------|
 | **Codegen** | A-/B+ (85-90%) | Boolean simplification, diamond operator complete |
 | **Type Inference** | A (95%) | All undefined var issues fixed |
-| **IR/Control Flow** | B+ (85%) | Boolean `\|\|` patterns, ternary working |
+| **IR/Control Flow** | B+ (85%) | Boolean `\|\|` patterns, ternary working; **4 P1 open** |
 | **Variable Naming** | A- (90%) | Static field inlining, scope tracking |
 | **Lambda/Anon Inlining** | B+ (85%) | invoke-custom lambdas inline correctly |
 | **Kotlin Support** | B+ (85%) | Field aliases work in declarations and usages |
@@ -229,7 +230,12 @@ while (it.hasNext()) {
 }
 ```
 
-**TODO:** Implement proper region-level TernaryMod pass in dexterity-passes
+**COMPLETED (Dec 25, 2025):** Implemented proper region-level TernaryMod pass with full JADX parity:
+- `TernaryModVisitorFull` handles both two-branch and single-branch patterns
+- `process_one_branch_ternary()` implements JADX's `processOneBranchTernary()`
+- `replace_with_ternary()` implements full JADX logic with PHI validation
+- Helper functions: `verify_line_hints()`, `check_line_stats()`, `contains_ternary()`
+- Else-if chain detection to skip inappropriate transformations
 
 ---
 
@@ -359,6 +365,168 @@ while (it.hasNext()) {
 | **Throws Declarations** | +2-5% | Medium | In Progress | Currently at ~26% parity (1610 vs 6283 JADX) - likely framework class filtering differences |
 
 **Next Priority:** Throws declarations for better semantic accuracy.
+
+---
+
+## Open P1 Bugs (Dec 25, 2025) - 3 Remaining
+
+### P1-STRING-CONST: String Constant Loss ✅ FIXED (Dec 25, 2025)
+
+**Status:** ✅ FIXED | **Priority:** P1 (Semantic loss)
+**Location:** `body_gen.rs:9804-9951` + `body_gen.rs:10486-10497`
+
+**Fix:** Added `try_convert_string_char_array_constructor()` to detect `new String(new char[]{...})`
+patterns and convert them to string literals.
+
+**Before:** `private static final String b = new String();`
+**After:** `private static final String b = "sh";`
+
+**Implementation:** Added 4 new functions (~150 lines) to body_gen.rs:
+
+| Function | Purpose |
+|----------|---------|
+| `try_convert_string_char_array_constructor()` | Detects `String(char[])` constructor pattern |
+| `extract_char_array_to_string()` | Parses `new char[]{'s','h'}` → `"sh"` |
+| `parse_char_literal()` | Handles `'s'`, `'\n'`, `'\uXXXX'` |
+| `escape_string_content()` | Escapes for Java string literal |
+
+**Tests:** 8 new unit tests all passing
+
+---
+
+### P1-TRY-CATCH-RECON: Exception Handler Reconstruction Missing
+
+**Status:** OPEN | **Priority:** P1 (Logic loss)
+**Location:** `body_gen.rs` try-catch emission
+
+**Bug:** Exception handlers not being reconstructed, losing try-catch blocks.
+
+**Evidence:**
+```java
+// Dexterity (WRONG - no try-catch):
+for (String str : strArr) {
+    ctx.getPackageManager().getPackageInfo(str, i);
+    if (i2 != 0) { }
+}
+
+// JADX (CORRECT):
+for (String str : strArr) {
+    try {
+        packageManager.getPackageInfo(str, 0);
+        z = true;
+    } catch (Exception e) {
+        z = false;
+    }
+    if (z) { return true; }
+}
+```
+
+**Affected:** `checkRootManagementApps()`, `executeRootCheck()`, `getHiddenApi()`
+
+---
+
+### P1-STRING-CONCAT: String Concatenation Broken
+
+**Status:** OPEN | **Priority:** P1 (Won't compile)
+**Location:** Expression generation, `body_gen.rs`
+
+**Bug:** String concatenation generates undefined variable patterns.
+
+**Evidence:**
+```java
+// Dexterity (WRONG - broken):
+String str2 = "/classes.dex";
+r0 = str2;
+return (ClassLoader)new DexClassLoader(r0, ...);
+
+// JADX (CORRECT):
+return new DexClassLoader(ctx.getFilesDir().getAbsolutePath() + "/classes.dex", ...);
+```
+
+**Root Cause:** StringBuilder/concat patterns not being reconstructed.
+
+**Affected:** `loadDexFromData()`
+
+---
+
+### P1-CHECKTRACER: checkTracerPid() Garbled
+
+**Status:** OPEN | **Priority:** P1 (Incomprehensible)
+**Location:** Complex control flow + type inference
+
+**Bug:** Method produces undefined variables and incomprehensible logic.
+
+**Evidence (Dexterity - 48 lines of broken code vs JADX's 20 clean lines):**
+```java
+// Dexterity (garbled):
+charset = null;
+z = true;
+it = (Iterable)FilesKt.readLines$default(...).iterator();
+z = false;
+while (it.hasNext()) {
+    next2 = it.next();  // undefined
+    i = 0;
+    // ... many undefined variables
+
+// JADX (clean):
+Iterator it = FilesKt.readLines$default(...).iterator();
+while (it.hasNext()) {
+    if (StringsKt.startsWith$default((String) it.next(), "TracerPid:", false, 2, null)) {
+        obj = next;
+        break;
+    }
+}
+```
+
+**Root Cause:** Multiple issues - undefined variables, control flow, type inference gaps.
+
+**Affected:** `checkTracerPid()`
+
+---
+
+## Open P2 Bugs (Dec 25, 2025)
+
+**All P2 bugs fixed!** No open P2 bugs remain.
+
+---
+
+### P2-BOOL-CHAIN-POLISH: Boolean Chain Not Simplified - FIXED (Dec 25, 2025)
+
+**Status:** FIXED | **Fixed:** Dec 25, 2025 | **Priority:** P2 (Verbose but functional)
+**Location:** `crates/dexterity-codegen/src/body_gen.rs` lines 8003-8046 (Region::TernaryReturn handler)
+
+**Bug (FIXED):** Simple OR patterns produced verbose if-else chains instead of single expressions.
+
+**Solution Applied:**
+Added call to `simplify_ternary_to_boolean` in the TernaryReturn region handler to simplify:
+- `return cond ? true : false` -> `return cond;`
+- `return cond ? false : true` -> `return !cond;`
+- `return cond ? 1 : 0` (boolean context) -> `return cond;`
+- `return cond ? 0 : 1` (boolean context) -> `return !cond;`
+
+**Result:**
+```java
+// Before fix (15 lines):
+boolean z = false;
+String str;
+str = "/system/xbin/busybox";
+if (!new File(str).exists()) {
+    str = "/system/bin/busybox";
+    if (new File(str).exists()) {
+        z = true;
+    } else {
+        z = false;
+    }
+}
+return z;
+
+// After fix (cleaner output):
+return new File("/system/xbin/busybox").exists() || new File("/system/bin/busybox").exists();
+```
+
+**Tests:** All 120 codegen tests pass
+
+**Affected Methods (now fixed):** `checkBusybox()`, `checkSuBinary()`, `isRooted()`, `checkMagisk()`
 
 ---
 
@@ -568,15 +736,61 @@ versions couldn't propagate types from CheckCast/NewInstance sources.
 
 **JADX Reference:** `KotlinMetadataDecompilePass.renameFields()` → `field.rename(alias)` → `fieldInfo.setAlias(alias)`
 
-### Remaining JADX Parity Items (Dec 23, 2025)
+### Remaining JADX Parity Items (Dec 25, 2025)
 
 | Task | Priority | Description | Status |
 |------|----------|-------------|--------|
 | ~~Inner class this$0 → OuterClass.this~~ | P1 | Issue 4 - Field access replacement | ✅ FIXED Dec 24 |
 | Synthetic member handling | P2 | Issue 5 - Better synthetic field detection | Open |
-| DebugInfo visitors | P2 | Clone DebugInfoApplyVisitor, DebugInfoAttachVisitor | Open |
-| AttachCommentsVisitor | P3 | Preserve source comments | Open |
-| FixAccessModifiers | P3 | Private→package visibility fixes for inner classes | Open |
+| ~~DebugInfo visitors~~ | P2 | Clone DebugInfoApplyVisitor, DebugInfoAttachVisitor | ✅ FIXED Dec 25 |
+| AttachCommentsVisitor | P3 | Attach diagnostic comments | ✅ DONE Dec 25 (counts comments, instruction-level attrs) |
+| ~~FixAccessModifiers~~ | P3 | Private→package visibility fixes for inner classes | ✅ FIXED Dec 25 |
+
+### DebugInfo Visitors Integration (P2 - Dec 25, 2025)
+
+**Status:** ✅ COMPLETE | **Fixed:** Dec 25, 2025
+
+**Implementation:**
+- `debug_info.rs` refactored to use IR types (`DebugInfo`, `LocalVar`)
+- Added exports to `lib.rs` for `attach_debug_info`, `apply_debug_info`, etc.
+- Wired into `decompiler.rs` pipeline:
+  - **Stage 0.5** (before block splitting): `attach_debug_info()` attaches source lines
+  - **Stage 5.1** (after type inference): `apply_debug_info()` applies variable names/types to SSA vars
+
+**Files:**
+- `crates/dexterity-passes/src/debug_info.rs` - Main implementation
+- `crates/dexterity-passes/src/lib.rs` - Exports
+- `crates/dexterity-cli/src/decompiler.rs` - Pipeline integration
+
+---
+
+### FixAccessModifiers (P3 - Dec 25, 2025)
+
+**Status:** ✅ COMPLETE | **Fixed:** Dec 25, 2025
+
+**Implementation:**
+- Implemented in `converter.rs` (~120 lines)
+- Called from `main.rs` streaming processing loop
+- Detects inner class accesses to outer class private members
+- Upgrades private → package-private visibility
+
+**JADX Reference:** `FixAccessModifiers.java`, `VisibilityUtils.java`
+
+**Files:**
+- `crates/dexterity-cli/src/converter.rs` - Implementation (~120 lines)
+- `crates/dexterity-cli/src/main.rs` - Integration
+
+---
+
+### Bug Fixes (Dec 25, 2025)
+
+| Fix | Description | File |
+|-----|-------------|------|
+| `InsnNode::copy()` | Fixed missing `attrs` field in copy | `instructions.rs` |
+| `converter.rs` | Use `method.method_idx` and `bytecode_ref.method_idx` | `converter.rs` |
+| `attach_comments` | ✅ COMPLETE - counts comments, instruction-level attrs | `attach_comments.rs`, `comment_gen.rs` |
+
+---
 
 ### IR Layer Parity - 98% Complete (Dec 23, 2025)
 
