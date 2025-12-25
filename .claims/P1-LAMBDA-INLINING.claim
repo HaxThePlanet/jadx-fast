@@ -1,0 +1,38 @@
+Task: P1-LAMBDA-INLINING - Real Lambda Inlining (not suppression)
+Claimed: 2025-12-25
+Agent: Chad
+Session: ACTIVE
+
+Status: IN PROGRESS
+
+Priority: P1 (Major feature - +1-2% quality gain)
+Estimated Impact: +1-2% (96-97% parity)
+Effort: Hard
+
+Current State:
+- Lambda classes are SUPPRESSED (not output at all)
+- Badboy APK: 55 files (vs JADX's 86) - 31 lambda classes suppressed
+- Need to INLINE lambda code into parent classes instead
+
+Goal:
+- Inline lambda methods into their parent class declarations
+- Convert 55 files → 86 files to match JADX coverage
+- Lambda classes become parent class methods (anonymous inner functions)
+
+Scope:
+- Lambda method body extraction
+- Parent class integration
+- Variable scoping and closure handling
+- Type parameter preservation
+
+Complexity:
+- Hard effort: Requires understanding lambda semantics, method inlining strategy
+- Reference: JADX InsnGen.java:806-1090 (lambda inlining logic)
+- Must maintain correctness while simplifying output
+
+Testing:
+- Verify badboy-x86.apk outputs 86 files (match JADX)
+- Verify lambda methods appear inline in parent classes
+- Verify variable captures work correctly
+
+Status: 🔄 IN PROGRESS (Dec 25, 2025)

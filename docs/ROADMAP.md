@@ -1,7 +1,7 @@
 # Roadmap
 
-**Status:** 1 P0 Bug OPEN (P0-BOOL-CHAIN) | ~93-94% Syntax Quality | 64% File Coverage | Dec 25, 2025
-**Fixed Today:** P0-LOOP-VAR ✅ | P2-TYPE-INFERENCE ✅ | P2-TYPE-INFERENCE-APLUS ✅ (0 Unknown type warnings)
+**Status:** 2 Tasks IN PROGRESS (P0-BOOL-CHAIN, P1-LAMBDA-INLINING) | ~94-95% Syntax Quality | 64% File Coverage | Dec 25, 2025
+**Fixed Today:** P0-LOOP-VAR ✅ | P2-TYPE-INFERENCE-APLUS ✅ (A+ 100%, 0 Unknown warnings) | **ACTIVE:** P0-BOOL-CHAIN (Boolean Simplify), P1-LAMBDA-INLINING (55→86 files)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 **Kotlin Parity:** ~85-90% - Field alias references FIXED (Dec 24), see [KOTLIN_PARITY.md](KOTLIN_PARITY.md)
 **Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
@@ -39,9 +39,9 @@ for (String str : strArr) {
 
 ---
 
-### P0-BOOL-CHAIN: Return Logic Inverted - 🔴 STILL OPEN (Dec 25, 2025)
+### P0-BOOL-CHAIN: Return Logic Inverted - 🔄 IN PROGRESS (Dec 25, 2025)
 
-**Status:** 🔴 OPEN | **Priority:** P0 (CRITICAL - Wrong return values) | **Agent:** Claude Opus 4.5
+**Status:** 🔄 IN PROGRESS | **Priority:** P0 (CRITICAL - Wrong return values) | **Agent:** Chad
 **Location:** `crates/dexterity-passes/src/conditionals.rs`, needs new Boolean Simplify pass
 
 **Bug:** The nested if structure is correct BUT the return value logic is INVERTED.
@@ -96,9 +96,29 @@ This is NOT a TernaryMod transformation - it requires detecting PHI-based boolea
 
 ---
 
-### P1-CONTROL-FLOW-POLISH: Switch/Loop/Try-Catch Edge Cases - 🔄 IN PROGRESS (Dec 25, 2025)
+### P1-LAMBDA-INLINING: Real Lambda Inlining - 🔄 IN PROGRESS (Dec 25, 2025)
 
-**Status:** 🔄 IN PROGRESS (Dec 25, 2025) | **Priority:** P1 (Quality improvements) | **Agent:** Chad
+**Status:** 🔄 IN PROGRESS (Dec 25, 2025) | **Priority:** P1 (Feature - +1-2% quality) | **Agent:** Chad
+**Location:** Code generation and class output - `crates/dexterity-codegen/src/body_gen.rs`, `crates/dexterity-codegen/src/lib.rs`
+
+**Current State:**
+- Lambda classes are SUPPRESSED (not output)
+- BadBoy: 55 files (vs JADX's 86) - 31 lambda classes hidden
+- Need to INLINE lambdas into parent class methods
+
+**Goal:** Convert 55 files → 86 files by inlining lambda code into parents
+
+**Complexity:** Hard - requires lambda semantics, method inlining, variable scoping
+
+**Reference:** JADX `InsnGen.java:806-1090` (lambda inlining strategy)
+
+**Estimated Impact:** +1-2% (96-97% parity)
+
+---
+
+### P1-CONTROL-FLOW-POLISH: Switch/Loop/Try-Catch Edge Cases - 🟡 QUEUED
+
+**Status:** 🟡 QUEUED (after P0-BOOL-CHAIN) | **Priority:** P1 (Quality improvements) | **Agent:** TBD
 **Location:** Control flow passes - `crates/dexterity-passes/src/if_region_visitor.rs`, loop visitors, try-catch handlers
 
 **Scope:** Switch/Loop/Try-Catch edge cases
