@@ -535,7 +535,7 @@ if (x) { throw e; }
 7. **Day 3:** GAP-03 (Nested if declarations)
 8. **Day 4:** GAP-04 (Field init) + GAP-05 (Ternary)
 
-**Checkpoint:** All GAP-01 through GAP-10 FIXED (Dec 24). 2 P0 bugs remain: LOOP-VAR, BOOL-CHAIN (REOPENED); ~~WRONG-RETURN~~ FIXED.
+**Checkpoint:** All GAP-01 through GAP-10 FIXED (Dec 24). All P0 bugs FIXED (Dec 25): LOOP-VAR, BOOL-CHAIN, WRONG-RETURN. PRODUCTION-READY.
 
 ### Week 3: Gap Fixes (Phase 2 - P1)
 

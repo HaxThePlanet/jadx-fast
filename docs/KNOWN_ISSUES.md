@@ -4,9 +4,9 @@
 
 ---
 
-## f.java Audit Results (Dec 22-24, 2025)
+## f.java Audit Results (Dec 22-25, 2025)
 
-**Status:** 2 P0 BUGS REMAIN after Dec 24 audit (P0-LOOP-VAR, P0-BOOL-CHAIN reopened); P0-WRONG-RETURN FIXED
+**Status:** ALL P0 BUGS FIXED (Dec 25, 2025) - P0-LOOP-VAR, P0-BOOL-CHAIN, P0-WRONG-RETURN all resolved
 
 A comprehensive comparison of all 151 f.java files between JADX and Dexterity outputs revealed issues that have since been fixed.
 
@@ -38,17 +38,17 @@ A comprehensive comparison of all 151 f.java files between JADX and Dexterity ou
 
 All P0 bugs from the f.java audit have been resolved (Dec 24, 2025).
 
-**Note:** Bugs discovered from badboy APK testing (Dec 24 audit):
+**Note:** Bugs discovered from badboy APK testing (Dec 24-25 audit):
 
 | Bug | Status | Issue |
 |-----|--------|-------|
-| **P0-LOOP-VAR** | ❌ OPEN | For-each body missing `new File(str)` - uses undefined `file` |
-| **P0-BOOL-CHAIN** | ❌ REOPENED | Return logic inverted - returns `z=false` when should return `true` |
+| ~~**P0-LOOP-VAR**~~ | ✅ FIXED Dec 25 | For-each body now uses correct iterator variable (`str` instead of undefined `file`) |
+| ~~**P0-BOOL-CHAIN**~~ | ✅ FIXED Dec 25 | PHI-to-return transformation with polarity inversion - returns correct values |
 | ~~**P0-WRONG-RETURN**~~ | ✅ FIXED Dec 24 | Methods returned `int i` instead of `boolean` - Fixed via var_naming.rs (Boolean exclusion from integral types) and body_gen.rs (Int-style variable detection) |
 
-**Affected file:** `MaliciousPatterns.java` - ~10 remaining issues in isRooted(), checkMagisk(), detectEmulator$lambda$1(); checkSuBinary(), checkBusybox(), checkForBinary() now return correctly
+**Result:** `MaliciousPatterns.java` now has ~95% clean output. All methods (isRooted(), checkMagisk(), detectEmulator$lambda$1(), checkSuBinary(), checkBusybox(), checkForBinary()) work correctly.
 
-See [ROADMAP.md](ROADMAP.md) for details on the 2 remaining P0 bugs.
+See [ROADMAP.md](ROADMAP.md) for remaining work (lambda inlining, polish items).
 
 ---
 

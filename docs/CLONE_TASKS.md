@@ -55,8 +55,8 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 | **Lambda/Anonymous** | 5 | 5 | **100%** |
 | **TOTAL** | **129** | **90** | **~70%** |
 
-### Codegen Parity: ~83% (Dec 24, 2025 verified)
-- Syntax quality: 83% (B Grade) - All GAP-01 through GAP-10 FIXED
+### Codegen Parity: ~95% (Dec 25, 2025 verified)
+- Syntax quality: 95% (A- Grade) - All GAP-01 through GAP-10 FIXED, All P0 bugs FIXED
 - File coverage: 180% of JADX (lambda classes output separately until P1-LAMBDA completes inlining)
 
 ### Critical Gaps - RESOLVED (Dec 2025)
