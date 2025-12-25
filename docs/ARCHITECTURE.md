@@ -141,10 +141,16 @@ Command-line interface and decompilation orchestration.
 
 | File | Purpose |
 |------|---------|
-| `main.rs` | Main entry, parallel processing, file output |
+| `main.rs` | Main entry, parallel processing, file output, ZIP security |
 | `args.rs` | CLI argument parsing (clap) |
 | `decompiler.rs` | High-level decompilation API |
 | `gradle_export.rs` | Android Studio project export |
+| `zip_fallback.rs` | Anti-RE fallback ZIP parser for corrupted APKs |
+
+**Anti-RE Features (Dec 24, 2025):**
+- Path traversal protection (blocks `../` patterns)
+- Compression bomb detection (100x ratio, 25MB min)
+- Fallback ZIP parser with signature-based entry recovery
 
 ## Key Design Choices
 

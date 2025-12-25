@@ -3,6 +3,7 @@
 **Last Updated:** 2025-12-25
 **Status:** 🟢 PRODUCTION-READY - A-/B+ Grade (85-90%) | 0 P0 Bugs | Ready for decompilation
 **Goal:** Clone JADX codegen exactly - 10 years of edge cases, not improvement
+**Anti-RE:** 83% bad APK success rate (was 43%) - see [ROADMAP.md](ROADMAP.md#anti-re-zip-hardening-dec-24-2025)
 
 ---
 

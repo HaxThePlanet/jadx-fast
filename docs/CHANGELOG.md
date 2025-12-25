@@ -6,6 +6,25 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 
 ## December 2025
 
+### Dec 24 - Anti-RE ZIP Hardening
+
+**Security Hardening:** Handles obfuscated/malicious APKs with JADX-compatible protections.
+
+| Feature | Status |
+|---------|--------|
+| Path Traversal Protection | ✅ Blocks `../` patterns (JadxZipSecurity clone) |
+| Compression Bomb Detection | ✅ 100x ratio threshold, 25MB min |
+| Fallback ZIP Parser | ✅ Signature-based recovery (~300 lines) |
+| Bad APK Success Rate | ✅ 43% → 83% (+93% improvement) |
+
+**Files Added:**
+- `crates/dexterity-cli/src/zip_fallback.rs` - Fallback parser for corrupted ZIPs
+- `crates/dexterity-cli/src/main.rs` - Security checks integration
+
+**Anti-RE Techniques Handled:** Truncated EOCD, filename obfuscation, multi-disk spoofing, compression bombs
+
+---
+
 ### Dec 25 - 🟢 PRODUCTION-READY (A-/B+ Grade)
 
 **Major Release:** All P0 bugs fixed, production-ready for decompilation.

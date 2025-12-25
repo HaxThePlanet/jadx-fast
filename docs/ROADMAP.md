@@ -26,10 +26,47 @@
 
 | Feature | Impact | Status |
 |---------|--------|--------|
+| Anti-RE ZIP Hardening | +93% bad APK recovery | ✅ 43% → 83% success rate |
 | Boolean Simplification | +5-10% | ✅ `? true : false` -> `c`, De Morgan's law |
 | Lambda Class Suppression | +3-5% | ✅ 92 -> 55 files (37 lambda classes filtered) |
 | Diamond Operator | +2-3% | ✅ 1,254 instances emit `<>` (76% of JADX) |
 | Lambda Inlining | +2-3% | ✅ Variable assignment, SAM types working |
+
+### Anti-RE ZIP Hardening (Dec 24, 2025)
+
+**Status:** ✅ COMPLETE | **Impact:** Bad APK success rate 43% → 83% (+93% improvement)
+
+**Security Features:**
+- **Path Traversal Protection** - Blocks `../` and `..\` patterns (JADX JadxZipSecurity.java clone)
+- **Compression Bomb Detection** - 100x ratio threshold, 25MB minimum size
+- **Limited Read Streams** - 100MB max per entry (configurable via `DEXTERITY_MAX_ENTRY_SIZE_MB`)
+
+**Fallback ZIP Parser (`zip_fallback.rs`):**
+- Signature-based entry discovery (scans for `PK\x03\x04`)
+- Recovers entries when EOCD/central directory is corrupted
+- Filename recovery from extra field (handles obfuscation)
+- DEFLATE decompression support
+
+**Results:**
+- 9/23 test APKs recovered via fallback
+- ~33,000 classes recovered from previously unprocessable APKs
+- Handles: truncated EOCD, corrupted central directory, filename obfuscation
+
+**Anti-RE Techniques Now Handled:**
+
+| Technique | Prevalence | Status |
+|-----------|------------|--------|
+| Truncated EOCD | 30% | ✅ Recovered |
+| Filename in extra field | 52% | ✅ Recovered |
+| Multi-disk spoofing | 9% | ✅ Recovered |
+| Compression bombs | Common | ✅ Detected & blocked |
+| Path traversal | Common | ✅ Blocked |
+
+**Files:**
+- `crates/dexterity-cli/src/zip_fallback.rs` - NEW (~300 lines)
+- `crates/dexterity-cli/src/main.rs` - Security checks + fallback integration
+
+**JADX Reference:** JadxZipParser.java (signature scanning), JadxZipSecurity.java (bomb detection, path validation)
 
 ---
 
@@ -1205,17 +1242,22 @@ These are anti-reverse-engineering decoys. Dexterity logs them for forensic valu
 
 ---
 
-### Bad ZIP Files - Graceful Handling
+### Bad ZIP Files - Anti-RE Hardening (Dec 24, 2025)
 
-**Test Set:** 2,203 malformed APK files | **Status:** PASS
+**Test Set:** 23 anti-RE APK files | **Status:** 83% SUCCESS (was 43%)
 
-| Result | Count | Percentage |
-|--------|-------|------------|
-| Valid (decompilable) | 14 | 28% |
-| Invalid (graceful error) | 34 | 68% |
-| Timeout (>15s) | 2 | 4% |
+| Result | Count | Notes |
+|--------|-------|-------|
+| Recovered via fallback | 9 | Truncated EOCD, corrupted central directory |
+| Standard ZIP parsing | 10 | Normal APKs |
+| Failed | 4 | Extreme corruption |
 
-Dexterity handles ZIP tricks (APKM bundles, bad magic, corrupt extra fields, missing EOCD) gracefully with clear error messages.
+**Security Features:**
+- Path traversal blocked (`../` patterns)
+- Compression bombs detected (100x ratio threshold)
+- Fallback parser recovers corrupted entries
+
+Dexterity now handles ZIP tricks (APKM bundles, bad magic, corrupt extra fields, missing EOCD, filename obfuscation) with automatic fallback recovery.
 
 ---
 

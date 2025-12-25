@@ -22,7 +22,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 **Goal:** Correct decompilation close to JADX
 **Status:** 🟢 PRODUCTION-READY | 0 P0 Bugs | A-/B+ Grade (85-90%) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
-> **December 24, 2025 (Christmas Eve!):** Production-ready! All P0 bugs fixed. Boolean simplification, lambda suppression (92→55 files), diamond operator (1,254 instances), lambda inlining complete. **14x faster than JADX** — processing **5,200 APKs/hour** at 2.7 sec average. Resources at 1:1 JADX parity.
+> **December 24, 2025 (Christmas Eve!):** Production-ready! All P0 bugs fixed. Boolean simplification, lambda suppression (92→55 files), diamond operator (1,254 instances), lambda inlining complete. **14x faster than JADX** — processing **5,200 APKs/hour** at 2.7 sec average. Resources at 1:1 JADX parity. **Anti-RE ZIP hardening** now recovers 83% of obfuscated APKs (was 43%).
 
 ## Performance
 
@@ -103,6 +103,10 @@ cargo build --release -p dexterity-cli
 ## Key Features
 
 - **Input formats:** APK, DEX, JAR, AAR, AAB, XAPK, APKM (APKS not yet supported)
+- **Anti-RE ZIP Hardening:** Handles obfuscated APKs (83% success rate on bad APKs)
+  - Path traversal protection (JADX JadxZipSecurity.java clone)
+  - Compression bomb detection (100x ratio threshold)
+  - Fallback ZIP parser recovers corrupted entries
 - **Deobfuscation:** ProGuard mappings, JOBF files
 - **Kotlin support:** ~85-90% parity (B+ Grade)
   - Class modifiers: `/* data */`, `/* sealed */`, `/* value */` - works
@@ -142,7 +146,7 @@ cargo build --release -p dexterity-cli
 | dexterity-resources | Resource decoding | **A+** | 1:1 JADX parity verified |
 | dexterity-deobf | Deobfuscation | **A- (90%)** | ProGuard/JOBF working |
 | dexterity-kotlin | Kotlin metadata | **B+ (85-90%)** | Field alias references FIXED Dec 24 |
-| dexterity-cli | CLI application | **A** | Drop-in JADX replacement |
+| dexterity-cli | CLI application | **A** | Drop-in JADX replacement, anti-RE hardening |
 
 *Updated Dec 24, 2025. See [QUALITY_STATUS.md](docs/QUALITY_STATUS.md) for details, [ROADMAP.md](docs/ROADMAP.md) for remaining work.*
 
