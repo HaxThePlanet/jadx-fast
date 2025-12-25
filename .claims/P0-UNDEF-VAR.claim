@@ -1,61 +1,67 @@
-CLAIMED: 2025-12-24
-STATUS: 3 of 3 sub-issues fixed (COMPLETE)
-ISSUE: P0-UNDEF-VAR - Undefined variables in ternary expressions (obj, i, mODEL2)
+# P0-UNDEF-VAR: Undefined Variables in Complex Expressions
+**Status:** ✅ COMPLETE
+**Agent:** Claude Opus 4.5
+**Date:** Dec 25, 2025
+**Commit:** ff104b879
 
-## Fixed: Ternary Constructor Const Inlining (the `i` issue)
-ROOT CAUSE: In extract_block_value_expression(), constructor patterns call gen_arg_inline()
-BEFORE process_block_prelude_for_inlining() is called.
+## Issue
+Undefined variables like `mODEL2`, `mANUFACTURER2`, `z` appeared in decompiled code.
 
-FIX APPLIED: Moved process_block_prelude_for_inlining() to top of function.
-RESULT: `new BufferedReader(inputStreamReader, 8192)` now correctly inlines the const.
+## Root Cause
+Static field accesses (SGET) used an unreliable heuristic (`contains('.')`) for inlining decisions. Different code paths made inconsistent decisions about whether to inline, sometimes assigning variable names that were never declared.
 
-## Fixed: `obj` variable in return statements (Dec 25, 2025)
-ROOT CAUSE: Ternary expressions stored at register+version but subsequent instructions
-(CheckCast, Invoke) couldn't find them because:
-1. should_inline() returned false for multi-use registers
-2. Merge block prelude ran BEFORE ternary expressions were stored
+## Solution Applied (Clone of JADX approach)
 
-FIX APPLIED (clone of JADX approach):
-1. Added `force_inline_vars` HashSet to bypass should_inline() check for ternary results
-2. Added `store_inline_expr_forced()` to mark ternary results as always-inline
-3. Modified `gen_arg_inline()` and `gen_arg_inline_peek()` to check force_inline first
-4. Moved merge block prelude processing to AFTER ternary expression storage
-5. Added CheckCast handling in prelude to wrap ternary expressions with cast
+### 1. Definitive Flag for Static Fields
+```rust
+// Added to BodyGenContext
+static_field_vars: HashSet<(u16, u32)>  // Mark SGET results definitively
+```
 
-RESULT: `return TextStreamsKt.readText((ternary expression))` now correctly inlines.
-Reference: JADX FORCE_ASSIGN_INLINE flag in CodeShrinkVisitor.java
+### 2. must_inline() Method
+```rust
+fn must_inline(&self, reg: u16, version: u32) -> bool {
+    self.force_inline_vars.contains(&(reg, version)) ||
+    self.static_field_vars.contains(&(reg, version))
+}
+```
 
-## Fixed: `mODEL2`, `mANUFACTURER2`, etc (static field names) - Dec 25, 2025
+### 3. SGET Instruction Handling
+```rust
+// In SGET handler:
+ctx.static_field_vars.insert((dest.reg_num, dest.ssa_version));
+```
 
-ROOT CAUSE: Static field accesses used heuristic field detection (contains('.'))
-which was unreliable. Different code paths would make inconsistent decisions
-about whether to inline a static field, sometimes assigning variable names like
-`mODEL2` that were never declared.
+### 4. Updated Inline Methods
+- `gen_arg_inline()` - checks `must_inline()` instead of heuristic
+- `gen_arg_inline_peek()` - checks `must_inline()` instead of heuristic
+- `gen_arg_inline_typed()` - checks `must_inline()` instead of heuristic
 
-FIX APPLIED (clone of JADX approach):
-1. Added `static_field_vars` HashSet to mark SGET (static get) results
-   - Definitive flag instead of heuristic (contains('.'))
-   - Clone of JADX InsnGen.java:491-492
-2. Added `must_inline()` method that checks both force_inline_vars and static_field_vars
-   - Ensures force-inline and static fields ALWAYS bypass should_inline() check
-3. Modified SGET instruction handling to mark results: ctx.static_field_vars.insert()
-4. Updated gen_arg_inline(), gen_arg_inline_peek(), gen_arg_inline_typed() to use must_inline()
-5. Replaced heuristic field detection with definitive flag check
+## Sub-Issues Fixed
 
-RESULT: Static fields now consistently inlined regardless of use count.
-No more `mODEL2` undefined variable issues.
+### Issue 1: Ternary Constructor Const Inlining (8192 literal) ✅
+- Moved `process_block_prelude_for_inlining()` to top of function
+- Result: `new BufferedReader(inputStreamReader, 8192)` correctly inlines
 
-FILES MODIFIED:
-- crates/dexterity-codegen/src/body_gen.rs:
-  - Added force_inline_vars field to BodyGenContext (for ternary expressions)
-  - Added static_field_vars field to BodyGenContext (Dec 25 - for SGET instructions)
-  - Added must_inline() method to check both force_inline and static_field flags
-  - Added store_inline_expr_forced() method
-  - Added is_force_inline() method
-  - Modified gen_arg_inline_peek() to check must_inline() instead of heuristic
-  - Modified gen_arg_inline() to check must_inline() instead of heuristic
-  - Modified gen_arg_inline_typed() to check must_inline() instead of heuristic
-  - Added static_field_vars.insert() in SGET instruction handling
-  - Changed ternary storage to use store_inline_expr_forced()
-  - Added CheckCast handling in process_block_prelude_for_inlining
-  - Moved process_merge_block_prelude_for_ternary() call to after ternary storage
+### Issue 2: Force-Inline for Ternary Results (`obj`) ✅
+- Added `force_inline_vars` HashSet
+- Added `store_inline_expr_forced()` method
+- Result: Ternary results correctly inline
+
+### Issue 3: Static Field Aliases (`mODEL2`, `hARDWARE2`) ✅
+- Added `static_field_vars` HashSet for SGET results
+- Added `must_inline()` method
+- Result: Static fields consistently inlined, no more undefined variables
+
+## Results
+- ✅ No more undefined variables in decompiled output
+- ✅ Build compiles successfully
+- ✅ All integration tests pass
+- ✅ Verified with badboy-x86.apk decompilation
+
+## Files Modified
+- `crates/dexterity-codegen/src/body_gen.rs`
+
+## JADX Reference
+- `InsnGen.java:491-492` - Static field inlining pattern
+- `CodeShrinkVisitor.java` - FORCE_ASSIGN_INLINE flag

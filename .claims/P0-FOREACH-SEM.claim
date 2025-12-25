@@ -1,5 +1,58 @@
-CLAIMED: P0-FOREACH-SEM
-Agent: Claude Opus 4.5
-Date: 2025-12-24
-Status: IN PROGRESS
-Issue: For-each loop semantics - break vs return
+# P0-FOREACH-SEM: Empty For-Each Loop Body
+**Status:** 🔴 OPEN
+**Agent:** Claude Opus 4.5
+**Date:** Dec 25, 2025
+
+## Issue
+For-each loops with if-return patterns produce empty loop bodies - the return statement is not emitted.
+
+## Evidence (MaliciousPatterns.java lines 651-655)
+```java
+// DEXTERITY OUTPUT (WRONG):
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        // EMPTY! Return not emitted
+    }
+}
+return z;  // Always returns initial false!
+
+// JADX OUTPUT (CORRECT):
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        return true;  // Early return on match
+    }
+}
+return false;
+```
+
+## Root Cause
+The return block is **shared** between:
+1. The if-body inside the for-each loop (early return)
+2. The method's final return
+
+```
+// CFG structure:
+Block 4 (if exists): goto Block 5
+Block 5: return true
+Block 6 (loop exit): return false  // or falls through to return true
+```
+
+When the return block is included in the if-body region, it gets marked as "already processed" or the codegen prevents duplicate emission.
+
+## Technical Details
+
+### Fixes Applied (Not Fully Effective)
+1. **Successor Ordering** (region_builder.rs:1717-1729): Fixed then/else branch mapping based on `negate_condition`
+2. **Fall-through Detection** (region_builder.rs:1949-1966): Extended to follow fall-through blocks, not just Goto chains
+
+### Why It's Still Broken
+The region structure correctly includes the return block in the if-body, but `generate_block()` checks if the block has already been emitted and skips it.
+
+## Possible Solutions
+1. **Clone shared blocks** - When a block is used in multiple regions, clone it
+2. **Use break/continue with labels** - Instead of duplicating returns
+3. **JADX approach** - Restructure CFG to avoid shared blocks (complex)
+
+## Files to Modify
+- `crates/dexterity-passes/src/region_builder.rs` - Region structure
+- `crates/dexterity-codegen/src/body_gen.rs` - Block emission

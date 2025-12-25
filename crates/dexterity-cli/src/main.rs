@@ -1402,11 +1402,13 @@ fn process_dex_bytes(
             }
         }
 
-        // P0-LAMBDA-SUPPRESS: Skip lambda classes entirely - they get inlined at call sites
+        // P1-LAMBDA-INLINING: Previously skipped lambda classes, now outputting them
         // D8/R8 generates $$ExternalSyntheticLambda, older toolchains generate $$Lambda$
+        // When a lambda class is nested (has parent in inner_class_map), it will appear
+        // in the parent class output. When it's orphaned (parent doesn't exist), it's standalone.
         if dexterity_codegen::is_lambda_class(&class_name) {
-            tracing::debug!("Skipping lambda class: {}", class_name);
-            continue;
+            // Don't skip - allow lambda classes to be processed
+            // They may be standalone or nested within parent classes
         }
 
         if treat_as_outer {
