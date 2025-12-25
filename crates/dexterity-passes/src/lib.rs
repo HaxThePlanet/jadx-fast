@@ -111,8 +111,8 @@ pub use simplify_stringbuilder::{
 pub use const_inline::{inline_constants, ConstInlineResult};
 pub use code_shrink::{shrink_code, CodeShrinkResult, WrapTarget};
 pub use ternary_mod::{
-    analyze_ternary_opportunities, process_ternary_mod, TernaryKind, TernaryModResult,
-    TernaryPattern,
+    analyze_ternary_opportunities, process_ternary_mod, process_ternary_transformations,
+    TernaryKind, TernaryModResult, TernaryPattern, MakeTernaryResult, TernaryModVisitor,
 };
 pub use enum_visitor::{
     analyze_enum_class, analyze_enum_class_with_strings, is_enum_synthetic_method, is_values_field,

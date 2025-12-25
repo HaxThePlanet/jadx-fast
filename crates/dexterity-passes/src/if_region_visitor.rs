@@ -55,6 +55,7 @@ fn process_region_recursive(
             condition,
             then_region,
             else_region,
+            ..
         } => {
             // First, recursively process nested regions
             process_region_recursive(then_region, result, cfg, depth + 1);
@@ -134,7 +135,7 @@ fn process_region_recursive(
 /// 1. Empty else → keep as-is
 /// 2. Empty then → invert condition, swap branches
 /// 3. Line hints available → order by source line (not implemented - no debug info)
-/// 4. Condition is NOT → invert to remove NOT wrapper
+/// 4. Simplify condition then check for NOT → invert to remove NOT wrapper
 /// 5. Else is simple exit (return/throw) → consider inverting
 /// 6. Else has exit but then doesn't → invert
 /// 7. Then is if-region but else isn't → invert to create else-if chain
@@ -163,9 +164,31 @@ fn order_branches(
 
     // Rule 3: Line hints - skipped (no debug info access here)
 
-    // Rule 4: If condition is NOT mode, invert to simplify
-    if condition.mode() == ConditionMode::Not {
+    // Rule 4 (P0-BOOL-CHAIN FIX): Simplify condition first, then check for NOT mode
+    // Clone of JADX IfRegionVisitor.java:80-84
+    // ```java
+    // if (ifRegion.simplifyCondition()) {
+    //     IfCondition condition = ifRegion.getCondition();
+    //     if (condition != null && condition.getMode() == Mode.NOT) {
+    //         invertIfRegion(ifRegion);
+    //     }
+    // }
+    // ```
+    // The simplification may transform the condition (e.g., apply De Morgan's laws,
+    // eliminate double negation, or wrap in NOT mode).
+    let original_mode = condition.mode();
+    let simplified = std::mem::take(condition).simplify();
+    let simplified_mode = simplified.mode();
+    *condition = simplified;
+
+    // If simplification produced a different mode, or if current mode is NOT, invert
+    if simplified_mode == ConditionMode::Not {
         invert_if_region(condition, then_region, else_region);
+        return true;
+    }
+
+    // If simplification changed the condition, that counts as a reorder
+    if simplified_mode != original_mode {
         return true;
     }
 
@@ -527,6 +550,7 @@ fn extract_single_if_from_region(region: &Region) -> Option<InnerIfInfo> {
             condition,
             then_region,
             else_region,
+            ..
         } => Some(InnerIfInfo {
             condition: condition.clone(),
             then_region: then_region.clone(),
@@ -582,6 +606,7 @@ mod tests {
     fn test_is_if_region() {
         let if_region = Region::If {
             condition: make_simple_condition(0),
+            condition_blocks: vec![0],
             then_region: Box::new(make_block_sequence(vec![1])),
             else_region: None,
         };
@@ -600,6 +625,7 @@ mod tests {
         // Break inside if
         let if_with_break = Region::If {
             condition: make_simple_condition(0),
+            condition_blocks: vec![0],
             then_region: Box::new(Region::Break { label: None }),
             else_region: None,
         };
@@ -673,6 +699,7 @@ mod tests {
         // else { if { ... } }
         let inner_if = Region::If {
             condition: make_simple_condition(2),
+            condition_blocks: vec![2],
             then_region: Box::new(make_block_sequence(vec![3])),
             else_region: None,
         };
@@ -688,6 +715,7 @@ mod tests {
         // Create a simple if-else structure
         let mut region = Region::If {
             condition: make_simple_condition(0),
+            condition_blocks: vec![0],
             then_region: Box::new(make_empty_sequence()),
             else_region: Some(Box::new(make_block_sequence(vec![1]))),
         };

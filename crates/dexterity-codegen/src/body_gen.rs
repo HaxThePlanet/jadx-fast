@@ -104,6 +104,14 @@ pub struct BodyGenContext {
     pub insn_use_counts: HashMap<(u16, u32), usize>,
     /// Inlined expressions - variables with single use store their expression here
     pub inlined_exprs: HashMap<(u16, u32), String>,
+    /// P0-UNDEF-VAR FIX: Force-inline vars - these bypass should_inline() check
+    /// Clone of JADX FORCE_ASSIGN_INLINE flag: ternary results must always be inlined
+    /// regardless of use count, since the ternary region IS the instruction
+    pub force_inline_vars: HashSet<(u16, u32)>,
+    /// P0-UNDEF-VAR FIX: Static field vars - SGET results that must always be inlined
+    /// Clone of JADX's InsnGen.java:491-492 - static field access is always inline
+    /// Using definitive flag instead of heuristic (contains('.')) for reliability
+    pub static_field_vars: HashSet<(u16, u32)>,
     /// Anonymous class registry - maps type descriptor to ClassData for inline generation
     /// Uses Arc to avoid cloning ClassData for every method
     pub anonymous_classes: HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>,
@@ -304,6 +312,8 @@ impl BodyGenContext {
             use_counts: HashMap::new(),
             insn_use_counts: HashMap::new(),
             inlined_exprs: HashMap::new(),
+            force_inline_vars: HashSet::new(),
+            static_field_vars: HashSet::new(),
             anonymous_classes,
             final_vars: HashSet::new(),
             current_class_type: None,
@@ -386,6 +396,13 @@ impl BodyGenContext {
         result
     }
 
+    /// Check if a variable MUST be inlined (force-inline or static field)
+    /// P0-UNDEF-VAR FIX: Replaces heuristic field detection with definitive flag
+    /// Clone of JADX's AFlag.FORCE_ASSIGN_INLINE and InsnGen.java:491-492
+    pub fn must_inline(&self, reg: u16, version: u32) -> bool {
+        self.force_inline_vars.contains(&(reg, version)) || self.static_field_vars.contains(&(reg, version))
+    }
+
     /// Store an expression for potential inlining
     pub fn store_inline_expr(&mut self, reg: u16, version: u32, expr: String) {
         // P0-LOOP-VAR FIX: Don't overwrite existing inline expressions
@@ -408,6 +425,18 @@ impl BodyGenContext {
             "Storing inline expression"
         );
         self.inlined_exprs.insert((reg, version), expr);
+    }
+
+    /// P0-UNDEF-VAR FIX: Store expression AND mark as force-inline (bypass should_inline check)
+    /// Clone of JADX FORCE_ASSIGN_INLINE: ternary results must always be inlined
+    pub fn store_inline_expr_forced(&mut self, reg: u16, version: u32, expr: String) {
+        self.store_inline_expr(reg, version, expr);
+        self.force_inline_vars.insert((reg, version));
+    }
+
+    /// Check if a var is marked for force-inline (JADX FORCE_ASSIGN_INLINE parity)
+    pub fn is_force_inline(&self, reg: u16, version: u32) -> bool {
+        self.force_inline_vars.contains(&(reg, version))
     }
 
     /// Set the current class type (internal format like "com/example/MyClass")
@@ -492,6 +521,19 @@ impl BodyGenContext {
     /// would consume Const/Invoke expressions, making them unavailable for generation.
     pub fn gen_arg_inline_peek(&self, arg: &InsnArg) -> String {
         if let InsnArg::Register(reg) = arg {
+            // P0-UNDEF-VAR FIX: Check must_inline() (force-inline OR static field)
+            // Clone of JADX FORCE_ASSIGN_INLINE and InsnGen.java:491-492
+            let is_must_inline = self.must_inline(reg.reg_num, reg.ssa_version);
+            if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() {
+                eprintln!("[PEEK_DEBUG] gen_arg_inline_peek r{}v{}, must_inline={}, has_expr={}",
+                    reg.reg_num, reg.ssa_version, is_must_inline,
+                    self.peek_inline_expr(reg.reg_num, reg.ssa_version).is_some());
+            }
+            if is_must_inline {
+                if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                    return expr.clone();
+                }
+            }
             // P1-HOTRELOAD FIX: Only use inline expression if the variable is single-use.
             // Multi-use variables should use their variable name, not inline expressions.
             // This prevents issues where a multi-use variable like "classLoader" gets
@@ -550,24 +592,24 @@ impl BodyGenContext {
 
             // Debug: trace inline lookups
             if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() {
-                if reg.reg_num == 1 {  // trace register 1 (bufferedReader)
-                    eprintln!("[INLINE_DEBUG] gen_arg_inline looking for r{}v{}, found={:?}",
-                        reg.reg_num, reg.ssa_version, expr_info.as_ref().map(|(e, _)| e.chars().take(50).collect::<String>()));
-                }
+                eprintln!("[INLINE_DEBUG] gen_arg_inline looking for r{}v{}, found={:?}",
+                    reg.reg_num, reg.ssa_version, expr_info.as_ref().map(|(e, _)| e.chars().take(50).collect::<String>()));
             }
 
-            if let Some((expr, is_field_access)) = expr_info {
-                // GAP-01 FIX: Detect field access expressions (side-effect-free)
-                // These should be peeked (not consumed) so they can be reused
-                if is_field_access {
-                    // Field access: peek only (don't consume) - can be used multiple times
+            if let Some((expr, _)) = expr_info {
+                // P0-UNDEF-VAR FIX: Check must_inline() first (force-inline OR static field)
+                // Static fields use definitive flag instead of heuristic (contains('.'))
+                // Clone of JADX AFlag.FORCE_ASSIGN_INLINE and InsnGen.java:491-492
+                if self.must_inline(reg.reg_num, reg.ssa_version) {
+                    // Force-inline or static field: always inline and consume
+                    self.take_inline_expr(reg.reg_num, reg.ssa_version);
                     return expr;
                 } else if self.should_inline(reg.reg_num, reg.ssa_version) {
-                    // Single-use non-field: consume the expression
+                    // Single-use regular variable: consume the expression
                     self.take_inline_expr(reg.reg_num, reg.ssa_version);
                     return expr;
                 }
-                // Multi-use non-field: fall through to variable name
+                // Multi-use or parameters: fall through to variable name
             }
             // Note: If we reach here for a variable that should_inline=true, it means
             // the defining instruction was processed in a different order than expected.
@@ -587,9 +629,10 @@ impl BodyGenContext {
             // Clone early to avoid borrow conflicts with take_inline_expr
             let expr_data = self.peek_inline_expr(reg.reg_num, reg.ssa_version).cloned();
             if let Some(expr) = expr_data {
-                // GAP-01 FIX: Detect field access expressions (side-effect-free)
-                let is_field_access = expr.contains('.') && !expr.contains('(');
-                let should_consume = !is_field_access && self.should_inline(reg.reg_num, reg.ssa_version);
+                // P0-UNDEF-VAR FIX: Check must_inline() first (definitive flag for static fields)
+                // Instead of heuristic (contains('.')) - use definitive static_field_vars flag
+                let is_field_access = self.static_field_vars.contains(&(reg.reg_num, reg.ssa_version));
+                let should_consume = !is_field_access && (self.is_force_inline(reg.reg_num, reg.ssa_version) || self.should_inline(reg.reg_num, reg.ssa_version));
 
                 // Check if this is a pure integer literal that needs type conversion
                 // Handle both "12345" and "12345L" formats
@@ -791,6 +834,15 @@ impl BodyGenContext {
     /// GAP-01 FIX: Field access expressions use peek (not take) to allow reuse.
     pub fn write_arg_inline<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg) {
         if let InsnArg::Register(reg) = arg {
+            // DEBUG: Check what variable name we'd get
+            let var_name = self.expr_gen.get_var_name(reg);
+            let var_upper = var_name.to_uppercase();
+            if var_upper.contains("ODEL") || var_upper.contains("ANUFACTURER") || var_upper.contains("ARDWARE") {
+                eprintln!("[DEBUG write_arg_inline] r{}v{} -> var_name={}, has_expr={}",
+                    reg.reg_num, reg.ssa_version, var_name,
+                    self.peek_inline_expr(reg.reg_num, reg.ssa_version).is_some());
+            }
+
             // Check if we have an inlined expression for this register
             // GAP-01 FIX: Clone upfront to check field access before consuming
             let expr_info = self.peek_inline_expr(reg.reg_num, reg.ssa_version)
@@ -833,6 +885,17 @@ impl BodyGenContext {
     ///
     /// GAP-01 FIX: Field access expressions use peek (not take) to allow reuse.
     pub fn write_arg_inline_typed<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg, target_type: &ArgType) {
+        // DEBUG: Log every call to see what's happening
+        if let InsnArg::Register(reg) = arg {
+            let var_name = self.expr_gen.get_var_name(reg);
+            let var_upper = var_name.to_uppercase();
+            if var_upper.contains("ODEL") || var_upper.contains("ANUFACTURER") || var_upper.contains("ARDWARE") {
+                let has_expr = self.peek_inline_expr(reg.reg_num, reg.ssa_version).is_some();
+                eprintln!("[DEBUG_TYPED] r{}v{} var_name={} has_expr={}",
+                    reg.reg_num, reg.ssa_version, var_name, has_expr);
+            }
+        }
+
         if let InsnArg::Register(reg) = arg {
             // Check if we have an inlined expression for this register
             // GAP-01 FIX: Clone upfront to check field access before consuming
@@ -7641,13 +7704,6 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                 eprintln!("[TERNARY_DEBUG] merge_block = {:?}", merge_block);
             }
 
-            // P1-S05 FIX: Process merge block prelude BEFORE extracting ternary values.
-            // This ensures inline expressions for operands (like field accesses) are available
-            // when the merge block's comparison/return uses them alongside the ternary result.
-            if let Some(mb) = merge_block {
-                process_merge_block_prelude_for_ternary(mb, *dest_reg, ctx);
-            }
-
             // Generate condition expression
             let cond_str = generate_condition(condition, ctx);
 
@@ -7751,10 +7807,9 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                 format!("({})", output_expr)
             };
 
-            // Store at the branch version
-            if ctx.should_inline(*dest_reg, *dest_version) {
-                ctx.store_inline_expr(*dest_reg, *dest_version, inlined_expr.clone());
-            }
+            // Store at the branch version - use force-inline to bypass should_inline check
+            // Clone of JADX FORCE_ASSIGN_INLINE: ternary results must always be inlined
+            ctx.store_inline_expr_forced(*dest_reg, *dest_version, inlined_expr.clone());
 
             // P0-UNDEF-VAR FIX: Find and store at PHI output version for merge block resolution
             if let Some(mb) = merge_block {
@@ -7770,8 +7825,8 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                         eprintln!("[TERNARY_DEBUG] Found PHI output version {} for reg {}, storing inline expr",
                             phi_version, dest_reg);
                     }
-                    // Store inline expression at PHI output version
-                    ctx.store_inline_expr(*dest_reg, phi_version, inlined_expr.clone());
+                    // Store inline expression at PHI output version - force-inline
+                    ctx.store_inline_expr_forced(*dest_reg, phi_version, inlined_expr.clone());
                     // Also propagate the variable name from declared version to PHI version
                     ctx.expr_gen.set_var_name(*dest_reg, phi_version, var_name.clone());
                     // Mark PHI version as declared (uses same variable)
@@ -7784,25 +7839,76 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                         eprintln!("[TERNARY_DEBUG] No PHI found, scanning merge block {} for reg {} uses",
                             mb, dest_reg);
                     }
-                    if let Some(merge_block_data) = ctx.blocks.get(&mb) {
-                        for merge_insn in &merge_block_data.instructions {
-                            // Check instruction arguments for uses of dest_reg
-                            for arg in merge_insn.insn_type.args() {
-                                if let InsnArg::Register(reg) = arg {
-                                    if reg.reg_num == *dest_reg {
-                                        if ternary_debug {
-                                            eprintln!("[TERNARY_DEBUG] Found reg {} version {} in merge block, storing inline",
-                                                reg.reg_num, reg.ssa_version);
-                                        }
-                                        ctx.store_inline_expr(reg.reg_num, reg.ssa_version, inlined_expr.clone());
-                                        ctx.expr_gen.set_var_name(reg.reg_num, reg.ssa_version, var_name.clone());
-                                        ctx.mark_declared(reg.reg_num, reg.ssa_version);
-                                    }
+                    // First, collect all SSA versions of dest_reg used in merge block
+                    // (do this in a separate scope to avoid borrow conflicts)
+                    let versions_to_store: Vec<u32> = if let Some(merge_block_data) = ctx.blocks.get(&mb) {
+                        let mut versions = Vec::new();
+                        let check_arg = |arg: &InsnArg, vers: &mut Vec<u32>| {
+                            if let InsnArg::Register(reg) = arg {
+                                if reg.reg_num == *dest_reg && !vers.contains(&reg.ssa_version) {
+                                    vers.push(reg.ssa_version);
                                 }
                             }
+                        };
+                        for merge_insn in &merge_block_data.instructions {
+                            match &merge_insn.insn_type {
+                                InsnType::Return { value: Some(v) } => check_arg(v, &mut versions),
+                                InsnType::Move { src, .. } => check_arg(src, &mut versions),
+                                InsnType::Invoke { args, .. } | InsnType::InvokeCustom { args, .. } => {
+                                    for arg in args {
+                                        check_arg(arg, &mut versions);
+                                    }
+                                }
+                                InsnType::Cast { arg, .. } => check_arg(arg, &mut versions),
+                                InsnType::InstanceGet { object, .. } => check_arg(object, &mut versions),
+                                InsnType::InstancePut { object, value, .. } => {
+                                    check_arg(object, &mut versions);
+                                    check_arg(value, &mut versions);
+                                }
+                                InsnType::StaticPut { value, .. } => check_arg(value, &mut versions),
+                                InsnType::ArrayGet { array, index, .. } => {
+                                    check_arg(array, &mut versions);
+                                    check_arg(index, &mut versions);
+                                }
+                                InsnType::ArrayPut { array, index, value, .. } => {
+                                    check_arg(array, &mut versions);
+                                    check_arg(index, &mut versions);
+                                    check_arg(value, &mut versions);
+                                }
+                                InsnType::Binary { left, right, .. } => {
+                                    check_arg(left, &mut versions);
+                                    check_arg(right, &mut versions);
+                                }
+                                InsnType::Unary { arg, .. } => check_arg(arg, &mut versions),
+                                InsnType::InstanceOf { object, .. } => check_arg(object, &mut versions),
+                                InsnType::Compare { left, right, .. } => {
+                                    check_arg(left, &mut versions);
+                                    check_arg(right, &mut versions);
+                                }
+                                InsnType::Throw { exception } => check_arg(exception, &mut versions),
+                                _ => {}
+                            }
                         }
+                        versions
+                    } else {
+                        Vec::new()
+                    };
+                    // Now store the inline expression at all found versions - force-inline
+                    for ssa_version in versions_to_store {
+                        if ternary_debug {
+                            eprintln!("[TERNARY_DEBUG] Found reg {} version {} in merge block, storing inline",
+                                dest_reg, ssa_version);
+                        }
+                        ctx.store_inline_expr_forced(*dest_reg, ssa_version, inlined_expr.clone());
+                        ctx.expr_gen.set_var_name(*dest_reg, ssa_version, var_name.clone());
+                        ctx.mark_declared(*dest_reg, ssa_version);
                     }
                 }
+
+                // P0-UNDEF-VAR FIX: Now process merge block prelude AFTER storing ternary expression.
+                // This ensures CheckCast in merge block can find and wrap the ternary expression.
+                // Clone of JADX order: store instruction first, then process dependent instructions.
+                process_merge_block_prelude_for_ternary(mb, *dest_reg, ctx);
             }
         }
 
@@ -8312,7 +8418,10 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
             //   case SGET:
             //       staticField(code, (FieldInfo) ((IndexInsnNode) insn).getIndex());
             InsnType::StaticGet { dest, field_idx } => {
-                // Always store - no should_inline check (field access is side-effect-free)
+                // P0-UNDEF-VAR FIX: Mark as static field so it's ALWAYS inlined
+                // Clone of JADX InsnGen.java:491-492 - static field access is unconditionally inline
+                // Using definitive flag instead of heuristic (contains('.')) for reliability
+                ctx.static_field_vars.insert((dest.reg_num, dest.ssa_version));
                 // Omit class prefix for same-class static field access (JADX parity)
                 let expr = ctx.expr_gen.get_static_field_ref_in_class(*field_idx, ctx.current_class_type.as_deref())
                     .unwrap_or_else(|| format!("field#{}", field_idx));
@@ -8408,6 +8517,24 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
                         .unwrap_or_else(|| format!("Type#{}", type_idx));
                     let expr = format!("{} instanceof {}", obj_str, type_name);
                     ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
+            // P0-UNDEF-VAR FIX: Handle CheckCast to propagate cast expressions.
+            // Clone of JADX behavior: CheckCast modifies register in-place.
+            // When there's a ternary result followed by CheckCast, the invoke after
+            // CheckCast should see "(Type)ternary_expr" not the raw ternary.
+            // Reference: JADX CodeShrinkVisitor - checkcast wraps previous expression
+            InsnType::CheckCast { object, type_idx } => {
+                if let InsnArg::Register(reg) = object {
+                    // Get the existing expression for this register (peek, don't consume)
+                    let obj_str = ctx.gen_arg_inline_peek(object);
+                    let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                        .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                        .unwrap_or_else(|| format!("Type#{}", type_idx));
+                    // Store the cast expression at the same register+version
+                    // This overwrites the ternary expression with the cast version
+                    let expr = format!("({}){}", type_name, obj_str);
+                    ctx.store_inline_expr(reg.reg_num, reg.ssa_version, expr);
                 }
             }
             _ => {
@@ -9729,8 +9856,29 @@ fn write_typed_args_with_varargs<W: CodeWriter>(
     ctx: &mut BodyGenContext,
     code: &mut W,
 ) {
+    // DEBUG unconditional
+    static ONCE: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+    if !ONCE.load(std::sync::atomic::Ordering::Relaxed) {
+        ONCE.store(true, std::sync::atomic::Ordering::Relaxed);
+        eprintln!("[DEBUG] write_typed_args_with_varargs CALLED!");
+    }
+
     let args_to_process: Vec<_> = args.iter().skip(skip_count).collect();
     let arg_count = args_to_process.len();
+
+    // DEBUG: Print ALL variable names to understand the issue
+    static DEBUG_COUNTER: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+    for a in args_to_process.iter() {
+        if let InsnArg::Register(reg) = a {
+            let var_name = ctx.expr_gen.get_var_name(reg);
+            let var_upper = var_name.to_uppercase();
+            // Print first 100 register args with interesting names
+            let count = DEBUG_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+            if count < 100 && var_upper.len() > 3 {
+                eprintln!("[DEBUG_ARG #{}] r{}v{} name={}", count, reg.reg_num, reg.ssa_version, var_name);
+            }
+        }
+    }
 
     if arg_count == 0 {
         return;

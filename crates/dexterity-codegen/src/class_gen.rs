@@ -1812,6 +1812,15 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
 
     let is_enum = class.is_enum();
 
+    // P1-LAMBDA-FIX: Collect synthetic lambda methods BEFORE filtering them out
+    // These need to be available for inlining into invoke-custom instructions.
+    // JADX Ref: CustomLambdaCall.java:94-103 - synthetic same-class methods get inlined
+    let lambda_methods: HashMap<String, std::sync::Arc<dexterity_ir::MethodData>> = class.methods.iter()
+        .filter(|m| m.dont_generate && (m.name.starts_with("lambda$") ||
+                    (crate::access_flags::is_synthetic(m.access_flags) && m.name.contains("$"))))
+        .map(|m| (m.name.clone(), std::sync::Arc::new((*m).clone())))
+        .collect();
+
     // Collect methods that should be generated, filtering out skipped ones
     let mut methods_to_generate: Vec<&dexterity_ir::MethodData> = class.methods.iter()
         .filter(|method| {
@@ -1861,7 +1870,9 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
             code.newline();
         }
         first_method = false;
-        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), config.deobf_min_length, config.deobf_max_length, &*config.res_names, config.replace_consts, config.comments_level, config.add_debug_lines, code);
+        // P1-LAMBDA-FIX: Pass lambda_methods for inlining synthetic lambda$ methods
+        let lambda_ref = if lambda_methods.is_empty() { None } else { Some(&lambda_methods) };
+        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, lambda_ref, config.hierarchy.as_deref(), config.deobf_min_length, config.deobf_max_length, &*config.res_names, config.replace_consts, config.comments_level, config.add_debug_lines, code);
     }
 }
 

@@ -1,15 +1,73 @@
 # Roadmap
 
-**Status:** 🎯 PRODUCTION-READY | ~95-96% Syntax Quality | 64% File Coverage | Dec 25, 2025
-**Fixed Today:** P0-LOOP-VAR ✅ | P2-TYPE-INFERENCE-APLUS ✅ (A+ 100%, 0 Unknown warnings) | P0-BOOL-CHAIN ✅ | P1-LAMBDA-INLINING Infrastructure ✅ | P1-CONTROL-FLOW-POLISH Phases 1,3,4 ✅
-**See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
+**Status:** ⚠️ NOT PRODUCTION-READY | C/C- Grade (60-70%) | 64% File Coverage | Dec 25, 2025
+**Fixed Today:** P0-LOGIC-INV ✅ | P0-SPURIOUS-RET ✅ | Boolean chain merging now correct
+**Still Open:** P0-UNDEF-VAR 🔴 | P0-FOREACH-SEM 🔴 | P0-TERNARY-INLINE 🟡
+**See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades and detailed bug analysis
 **Kotlin Parity:** ~85-90% - Field alias references FIXED (Dec 24), see [KOTLIN_PARITY.md](KOTLIN_PARITY.md)
 **Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
 **Resources:** 100% (1:1 JADX parity - 103 dirs, 152 files)
 
 ---
 
-## P0 Critical Bugs - 0 OPEN (Dec 25, 2025)
+## P0 Critical Bugs - 3 OPEN (Dec 25, 2025)
+
+### P0-UNDEF-VAR: Undefined Variables - 🔴 OPEN
+
+**Status:** 🔴 OPEN | **Priority:** P0 (Won't compile)
+**Evidence (from MaliciousPatterns.java):**
+```java
+// Line 148: z never declared
+z = inputStreamReader instanceof BufferedReader;  // 'z' UNDEFINED!
+
+// Lines 425-455: static field aliases undefined
+if (!StringsKt.contains$default(mODEL2, ...))  // mODEL2 UNDEFINED!
+if (!StringsKt.contains$default(hARDWARE2, ...))  // hARDWARE2 UNDEFINED!
+
+// Line 636: array index i not declared
+strArr[i] = "/system/bin/su";  // i used before initialization
+```
+
+**Root Cause:** Variable declarations not emitted for:
+1. `z` in instanceof expressions - boolean result assigned but not declared
+2. `mODEL2`, `hARDWARE2` etc. - static field aliases not resolved at use sites
+3. `i` in some array initialization patterns
+
+---
+
+### P0-FOREACH-SEM: Empty For-Each Loop Body - 🔴 OPEN
+
+**Status:** 🔴 OPEN | **Priority:** P0 (Wrong semantics)
+**Evidence (from MaliciousPatterns.java):**
+```java
+// Lines 651-655: isRooted() - loop body is EMPTY
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        // EMPTY! Return not emitted
+    }
+}
+return z;  // Always returns initial false!
+
+// JADX (correct):
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        return true;  // Early return on match
+    }
+}
+return false;
+```
+
+**Root Cause:** Shared block problem - return block serves both as if-body early return AND method's final return. When included in if-body region, the return instruction is not emitted.
+
+---
+
+### P0-TERNARY-INLINE: Ternary Variable Declaration - 🟡 PARTIAL
+
+**Status:** 🟡 PARTIAL | **Priority:** P0 (Partial fix)
+**What Works:** Literal values inline correctly (e.g., `8192` instead of `i`)
+**What's Broken:** Variable declarations for ternary results not emitted
+
+---
 
 ### P0-LOOP-VAR: Undefined Loop Variables - ✅ COMPLETED (Dec 25, 2025)
 
@@ -403,11 +461,20 @@ versions couldn't propagate types from CheckCast/NewInstance sources.
 **Output Quality (from actual comparison Dec 25, 2025):**
 - small APK: 100% clean (Grade A+)
 - large APK: 99.93% clean (Grade A)
-- badboy APK: **~95% clean (Grade A-)** - All P0 bugs FIXED (P0-LOOP-VAR ✅, P0-BOOL-CHAIN ✅)
+- badboy APK: **~60-70% clean (Grade C/C-)** - 3 P0 bugs OPEN (P0-UNDEF-VAR, P0-FOREACH-SEM, P0-TERNARY-INLINE)
 - medium APK: 98%+ clean (Grade A-)
 
-**JADX Codegen Parity:** ~95-96% (A- Grade) for overall syntax quality - PRODUCTION-READY
+**JADX Codegen Parity:** ~60-70% (C/C- Grade) for complex methods - NOT YET PRODUCTION-READY
 **File Coverage:** 64% of JADX (55 vs 86 for badboy) - lambda suppression FIXED, outputs fewer files than JADX (lambdas not inlined yet)
+
+**What's Fixed (Dec 25):**
+- ✅ P0-LOGIC-INV: Boolean OR pattern merging now correct
+- ✅ P0-SPURIOUS-RET: No more spurious `return true;` in loops
+
+**What's Still Broken:**
+- 🔴 P0-UNDEF-VAR: Undefined variables (`z`, `mODEL2`, `hARDWARE2`)
+- 🔴 P0-FOREACH-SEM: Empty for-each loop bodies
+- 🟡 P0-TERNARY-INLINE: Partial - literals work, var decl broken
 
 ## Open Work
 

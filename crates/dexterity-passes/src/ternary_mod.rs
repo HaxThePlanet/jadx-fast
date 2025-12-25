@@ -99,6 +99,7 @@ fn analyze_region(region: &Region, blocks: &[BasicBlock], result: &mut TernaryMo
             condition: _,
             then_region,
             else_region,
+            ..
         } => {
             // Check if this if-else could be a ternary
             if let Some(else_reg) = else_region {
@@ -962,6 +963,399 @@ fn get_effective_assignment_dest(
     }
 
     None
+}
+
+// ============================================================================
+// TernaryMod Transformation (Phase 3) - Full JADX TernaryMod.java Clone
+// ============================================================================
+//
+// This implements the complete TernaryMod transformation pass that converts
+// if-else regions to ternary expressions at the region level.
+//
+// JADX Reference: jadx-core/src/main/java/jadx/core/dex/visitors/regions/TernaryMod.java
+
+use dexterity_ir::regions::RegionIterativeVisitor;
+
+/// Get the single-instruction block from a region for ternary transformation.
+///
+/// JADX Reference: TernaryMod.java lines 195-209 (getTernaryInsnBlock)
+/// ```java
+/// private static BlockNode getTernaryInsnBlock(MethodNode mth, IContainer subContainer) {
+///     if (subContainer instanceof BlockNode) {
+///         BlockNode block = (BlockNode) subContainer;
+///         if (block.getInstructions().size() == 1) {
+///             return block;
+///         }
+///     }
+///     if (subContainer instanceof IRegion) {
+///         IRegion region = (IRegion) subContainer;
+///         List<IContainer> subBlocks = region.getSubBlocks();
+///         if (subBlocks.size() == 1) {
+///             return getTernaryInsnBlock(mth, subBlocks.get(0));
+///         }
+///     }
+///     return null;
+/// }
+/// ```
+///
+/// # Arguments
+/// * `region` - The region to extract a block from
+/// * `cfg` - The CFG containing block data
+///
+/// # Returns
+/// The block ID if this region contains exactly one block with exactly one instruction
+pub fn get_ternary_insn_block(
+    region: &Region,
+    cfg: &CFG,
+) -> Option<u32> {
+    match region {
+        Region::Sequence(contents) if contents.len() == 1 => {
+            match &contents[0] {
+                RegionContent::Block(block_id) => {
+                    // Check if block has exactly 1 effective instruction
+                    let block = cfg.get_block(*block_id)?;
+                    let (_, effective_count) = get_effective_insn_from_block(block);
+                    if effective_count == 1 {
+                        Some(*block_id)
+                    } else {
+                        None
+                    }
+                }
+                RegionContent::Region(inner) => get_ternary_insn_block(inner, cfg),
+            }
+        }
+        _ => None,
+    }
+}
+
+/// Clear condition blocks except header after ternary transformation.
+///
+/// JADX Reference: TernaryMod.java lines 186-193 (clearConditionBlocks)
+/// ```java
+/// private static void clearConditionBlocks(IfRegion ifRegion, BlockNode header) {
+///     for (BlockNode condBlock : ifRegion.getConditionBlocks()) {
+///         if (condBlock != header) {
+///             // move all instructions to header block
+///             // ...
+///         }
+///     }
+/// }
+/// ```
+///
+/// In Dexterity, we modify the condition_blocks field to keep only the header.
+pub fn clear_condition_blocks(condition_blocks: &mut Vec<u32>) {
+    if !condition_blocks.is_empty() {
+        let header = condition_blocks[0];
+        condition_blocks.clear();
+        condition_blocks.push(header);
+    }
+}
+
+/// Result of make_ternary_insn transformation attempt.
+#[derive(Debug)]
+pub enum MakeTernaryResult {
+    /// Successfully created ternary from assignment pattern
+    Assignment {
+        header_block: u32,
+        dest_reg: u16,
+        dest_version: u32,
+        then_block: u32,
+        else_block: u32,
+    },
+    /// Successfully created ternary from return pattern
+    Return {
+        header_block: u32,
+        then_block: u32,
+        else_block: u32,
+    },
+    /// Not a ternary pattern
+    NotTernary,
+}
+
+/// Try to transform an If region to a ternary expression.
+///
+/// JADX Reference: TernaryMod.java lines 67-169 (makeTernaryInsn)
+///
+/// This handles two patterns:
+/// 1. **Return pattern** (lines 137-169): Both branches return a value
+///    ```java
+///    if (cond) { return a; } else { return b; }
+///    -> return cond ? a : b;
+///    ```
+///
+/// 2. **PHI assignment pattern** (lines 97-135): Both branches assign to same var
+///    ```java
+///    if (cond) { r = a; } else { r = b; }
+///    -> r = cond ? a : b;
+///    ```
+///
+/// # Arguments
+/// * `if_region` - The If region to try to transform
+/// * `cfg` - The control flow graph
+///
+/// # Returns
+/// * `MakeTernaryResult` - Success with transformation info or NotTernary
+pub fn make_ternary_insn(
+    condition_blocks: &[u32],
+    then_region: &Region,
+    else_region: Option<&Region>,
+    cfg: &CFG,
+) -> MakeTernaryResult {
+    // Must have both branches
+    let else_reg = match else_region {
+        Some(e) => e,
+        None => return MakeTernaryResult::NotTernary,
+    };
+
+    // Get header block (first condition block)
+    let header_block = match condition_blocks.first() {
+        Some(&h) => h,
+        None => return MakeTernaryResult::NotTernary,
+    };
+
+    // Get single-instruction blocks from both branches
+    let then_block_id = match get_ternary_insn_block(then_region, cfg) {
+        Some(id) => id,
+        None => {
+            trace!(
+                header_block,
+                "make_ternary_insn: then branch doesn't have single-insn block"
+            );
+            return MakeTernaryResult::NotTernary;
+        }
+    };
+
+    let else_block_id = match get_ternary_insn_block(else_reg, cfg) {
+        Some(id) => id,
+        None => {
+            trace!(
+                header_block,
+                "make_ternary_insn: else branch doesn't have single-insn block"
+            );
+            return MakeTernaryResult::NotTernary;
+        }
+    };
+
+    // Get the blocks
+    let then_block = match cfg.get_block(then_block_id) {
+        Some(b) => b,
+        None => return MakeTernaryResult::NotTernary,
+    };
+    let else_block = match cfg.get_block(else_block_id) {
+        Some(b) => b,
+        None => return MakeTernaryResult::NotTernary,
+    };
+
+    // Check for return pattern FIRST (JADX lines 137-169)
+    // Both branches must have return with value
+    let (then_insn_opt, _) = get_effective_insn_from_block(then_block);
+    let (else_insn_opt, _) = get_effective_insn_from_block(else_block);
+
+    let then_insn = match then_insn_opt {
+        Some(i) => i,
+        None => return MakeTernaryResult::NotTernary,
+    };
+    let else_insn = match else_insn_opt {
+        Some(i) => i,
+        None => return MakeTernaryResult::NotTernary,
+    };
+
+    // Pattern 1: Return from both branches
+    if is_return_instruction(&then_insn.insn_type) && is_return_instruction(&else_insn.insn_type) {
+        if has_return_value(&then_insn.insn_type) && has_return_value(&else_insn.insn_type) {
+            debug!(
+                header_block,
+                then_block_id,
+                else_block_id,
+                "make_ternary_insn ACCEPTED: return pattern"
+            );
+            return MakeTernaryResult::Return {
+                header_block,
+                then_block: then_block_id,
+                else_block: else_block_id,
+            };
+        }
+    }
+
+    // Pattern 2: PHI assignment (JADX lines 97-135)
+    let then_dest = get_effective_assignment_dest(then_block);
+    let else_dest = get_effective_assignment_dest(else_block);
+
+    if let (Some((then_reg, then_ver)), Some((else_reg_num, _else_ver))) = (then_dest, else_dest) {
+        if then_reg == else_reg_num {
+            // Verify PHI merge
+            if let Some((_merge_block, phi_version)) = verify_phi_merge(
+                then_block_id,
+                else_block_id,
+                then_reg,
+                cfg,
+            ) {
+                debug!(
+                    header_block,
+                    then_block_id,
+                    else_block_id,
+                    dest_reg = then_reg,
+                    phi_version,
+                    "make_ternary_insn ACCEPTED: assignment pattern with PHI"
+                );
+                return MakeTernaryResult::Assignment {
+                    header_block,
+                    dest_reg: then_reg,
+                    dest_version: phi_version,
+                    then_block: then_block_id,
+                    else_block: else_block_id,
+                };
+            } else {
+                // Accept without PHI verification for simpler cases
+                debug!(
+                    header_block,
+                    then_block_id,
+                    else_block_id,
+                    dest_reg = then_reg,
+                    "make_ternary_insn ACCEPTED: assignment pattern (no PHI)"
+                );
+                return MakeTernaryResult::Assignment {
+                    header_block,
+                    dest_reg: then_reg,
+                    dest_version: then_ver,
+                    then_block: then_block_id,
+                    else_block: else_block_id,
+                };
+            }
+        }
+    }
+
+    MakeTernaryResult::NotTernary
+}
+
+/// TernaryMod visitor implementing the full JADX transformation algorithm.
+///
+/// This visitor is used with traverse_iterative to repeatedly transform
+/// eligible If regions to ternary expressions.
+pub struct TernaryModVisitor<'a> {
+    cfg: &'a CFG,
+    transformations: usize,
+}
+
+impl<'a> TernaryModVisitor<'a> {
+    pub fn new(cfg: &'a CFG) -> Self {
+        Self {
+            cfg,
+            transformations: 0,
+        }
+    }
+
+    pub fn transformation_count(&self) -> usize {
+        self.transformations
+    }
+}
+
+impl<'a> RegionIterativeVisitor for TernaryModVisitor<'a> {
+    fn visit_region(&mut self, region: &mut Region) -> bool {
+        // Only process If regions
+        if let Region::If {
+            condition,
+            condition_blocks,
+            then_region,
+            else_region,
+        } = region
+        {
+            // Try to transform to ternary
+            let result = make_ternary_insn(
+                condition_blocks,
+                then_region,
+                else_region.as_deref(),
+                self.cfg,
+            );
+
+            match result {
+                MakeTernaryResult::Return { header_block, then_block, else_block } => {
+                    // Transform to TernaryReturn region
+                    debug!(
+                        header_block,
+                        then_block,
+                        else_block,
+                        "Transforming If to TernaryReturn"
+                    );
+                    *region = Region::TernaryReturn {
+                        condition: condition.clone(),
+                        then_value_block: then_block,
+                        else_value_block: else_block,
+                    };
+                    self.transformations += 1;
+                    return true; // Repeat traversal
+                }
+                MakeTernaryResult::Assignment { header_block, dest_reg, dest_version, then_block, else_block } => {
+                    // Transform to TernaryAssignment region
+                    debug!(
+                        header_block,
+                        dest_reg,
+                        dest_version,
+                        then_block,
+                        else_block,
+                        "Transforming If to TernaryAssignment"
+                    );
+                    *region = Region::TernaryAssignment {
+                        condition: condition.clone(),
+                        dest_reg,
+                        dest_version,
+                        then_value_block: then_block,
+                        else_value_block: else_block,
+                    };
+                    self.transformations += 1;
+                    return true; // Repeat traversal
+                }
+                MakeTernaryResult::NotTernary => {
+                    // Not a ternary pattern, continue traversal
+                }
+            }
+        }
+        false // Continue to children
+    }
+}
+
+/// Main entry point for ternary transformation pass.
+///
+/// JADX Reference: TernaryMod.java lines 33-41 (process)
+/// ```java
+/// public void process(MethodNode mth) {
+///     if (mth.isNoCode() || mth.getRegion() == null) {
+///         return;
+///     }
+///     // first pass
+///     DepthRegionTraversal.traverse(mth, this);
+///     // second pass (iterative for complex cases)
+///     CodeShrinkVisitor.shrinkMethod(mth);
+///     DepthRegionTraversal.traverseIterative(mth, this);
+/// }
+/// ```
+///
+/// # Arguments
+/// * `region` - The region tree to transform
+/// * `cfg` - The control flow graph
+/// * `block_count` - Number of blocks (for iteration limit)
+///
+/// # Returns
+/// Number of transformations applied
+pub fn process_ternary_transformations(
+    region: &mut Region,
+    cfg: &CFG,
+    block_count: usize,
+) -> Result<usize, String> {
+    use dexterity_ir::regions::depth_traversal::traverse_iterative;
+
+    let mut visitor = TernaryModVisitor::new(cfg);
+
+    // Run iterative traversal until no more transformations
+    traverse_iterative(region, &mut visitor, block_count)
+        .map_err(|e| format!("TernaryMod traversal error: {:?}", e))?;
+
+    let count = visitor.transformation_count();
+    if count > 0 {
+        debug!(count, "TernaryMod completed with transformations");
+    }
+
+    Ok(count)
 }
 
 #[cfg(test)]

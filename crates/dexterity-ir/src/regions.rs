@@ -202,6 +202,10 @@ pub enum Region {
     /// If-else region
     If {
         condition: Condition,
+        /// Blocks containing condition evaluation (first block is the header).
+        /// Used by TernaryMod to access the header block for ternary replacement.
+        /// Clone of JADX IfRegion.conditionBlocks field.
+        condition_blocks: Vec<u32>,
         then_region: Box<Region>,
         else_region: Option<Box<Region>>,
     },
@@ -1488,7 +1492,7 @@ impl Region {
                 }
             }
 
-            Region::If { condition, then_region, else_region } => {
+            Region::If { condition, then_region, else_region, .. } => {
                 visitor.visit_condition(condition);
                 visitor.visit_if(condition, then_region, else_region.as_deref());
                 then_region.accept(visitor);

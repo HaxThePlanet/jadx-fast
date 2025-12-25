@@ -14,7 +14,7 @@ use dexterity_passes::{
     assign_var_names, split_blocks_with_handlers, transform_to_ssa_owned, infer_types, simplify_instructions,
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, process_instructions, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
-    init_code_variables,
+    init_code_variables, process_ternary_transformations,
 };
 use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_duplicated_finally, refine_loops_with_patterns};
 
@@ -80,6 +80,14 @@ pub fn decompile_method(
     // Stage 3: Region reconstruction (preliminary - will be refined after SSA)
     // Build initial regions from CFG structure
     let mut regions = build_regions_with_method_flags(&cfg, &method.try_blocks, method.access_flags);
+
+    // Stage 3.5: TernaryMod transformation (JADX parity)
+    // Convert if-else regions to ternary expressions where applicable
+    // Run BEFORE take_blocks() as TernaryMod needs CFG block access
+    let block_count = cfg.block_count();
+    if let Err(e) = process_ternary_transformations(&mut regions, &cfg, block_count) {
+        tracing::warn!("TernaryMod error: {}", e);
+    }
 
     // Take blocks from CFG after dominance analysis (avoids clone)
     let blocks = cfg.take_blocks();

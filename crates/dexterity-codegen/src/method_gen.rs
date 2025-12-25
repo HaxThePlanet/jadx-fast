@@ -154,7 +154,7 @@ fn is_synthetic_constructor_arg(arg_type: &ArgType, arg_index: usize, method: &M
 use dexterity_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData, TypeParameter};
 
 use crate::access_flags::{self, flags::*, AccessContext};
-use crate::body_gen::{generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes};
+use crate::body_gen::{generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes, generate_body_with_inner_classes_and_lambdas};
 use crate::class_gen::CommentsLevel;
 use crate::dex_info::DexInfoProvider;
 use crate::type_gen::{get_innermost_name, get_package, get_simple_name, type_to_string_with_imports_and_package};
@@ -814,6 +814,8 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
+    // P1-LAMBDA-FIX: Lambda methods for inlining synthetic lambda$ methods
+    lambda_methods: Option<&std::collections::HashMap<String, std::sync::Arc<MethodData>>>,
     hierarchy: Option<&dexterity_ir::ClassHierarchy>,
     deobf_min_length: usize,
     deobf_max_length: usize,
@@ -975,7 +977,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     } else if method.is_class_init() {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, lambda_methods, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
@@ -1001,7 +1003,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
             // Regular method with body
             code.add(" {").newline();
             code.inc_indent();
-            add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+            add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, lambda_methods, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
             code.dec_indent();
             code.start_line().add("}").newline();
         }
@@ -1014,6 +1016,8 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
     inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
+    // P1-LAMBDA-FIX: Lambda methods for inlining synthetic lambda$ methods
+    lambda_methods: Option<&std::collections::HashMap<String, std::sync::Arc<MethodData>>>,
     hierarchy: Option<&dexterity_ir::ClassHierarchy>,
     current_class: Option<&ClassData>,
     deobf_min_length: usize,
@@ -1025,7 +1029,8 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     code: &mut W,
 ) {
     let current_class_type = current_class.map(|c| c.class_type.as_str());
-    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+    // P1-LAMBDA-FIX: Use the _and_lambdas variant to enable synthetic lambda method inlining
+    generate_body_with_inner_classes_and_lambdas(method, dex_info, imports, inner_classes, lambda_methods, hierarchy, current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
 }
 
 /// Extract throws types from dalvik/annotation/Throws annotation

@@ -1713,8 +1713,20 @@ impl<'a> RegionBuilder<'a> {
         // 1. The exit block is not included in then_blocks/else_blocks because it's the merge point
         // 2. The exit is a direct successor containing a return statement
         let succs = self.cfg.successors(cond.condition_block);
-        let then_target = succs.get(0).copied();
-        let else_target = succs.get(1).copied();
+
+        // P0-FOREACH-SEM FIX: Correctly map Dalvik successor order to Java then/else
+        // In Dalvik bytecode:
+        //   succs[0] = fall-through (taken when Dalvik condition is FALSE)
+        //   succs[1] = branch target (taken when Dalvik condition is TRUE)
+        //
+        // negate_condition maps this to Java semantics:
+        //   negate_condition=true:  Java "then" = Dalvik FALSE = succs[0]
+        //   negate_condition=false: Java "then" = Dalvik TRUE  = succs[1]
+        let (then_target, else_target) = if cond.negate_condition {
+            (succs.get(0).copied(), succs.get(1).copied())
+        } else {
+            (succs.get(1).copied(), succs.get(0).copied())
+        };
 
         // A branch exits if:
         // 1. Any block in then_blocks/else_blocks is outside the loop, OR
@@ -1882,13 +1894,13 @@ impl<'a> RegionBuilder<'a> {
     }
 
     /// Check if a single block ends with return or throw
-    /// Follows Goto chains to find the actual exit instruction
+    /// Follows Goto chains AND fall-through blocks to find the actual exit instruction
     fn block_ends_with_return_or_throw(&self, block_id: u32) -> bool {
         let mut current_block = block_id;
         let mut visited = std::collections::BTreeSet::new();
 
-        // Follow Goto chain (up to 10 hops to prevent infinite loops)
-        for hop in 0..10 {
+        // Follow Goto chain AND fall-through (up to 10 hops to prevent infinite loops)
+        for _hop in 0..10 {
             if !visited.insert(current_block) {
                 // Cycle detected
                 return false;
@@ -1913,7 +1925,24 @@ impl<'a> RegionBuilder<'a> {
                             }
                             return false;
                         }
-                        _ => return false,
+                        // P0-FOREACH-SEM FIX: For non-branching instructions (like Move),
+                        // check if this block has exactly one successor (fall-through).
+                        // If so, follow the fall-through to see if it ends with return.
+                        InsnType::If { .. } | InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. } => {
+                            // Branching instruction - can't determine single exit path
+                            return false;
+                        }
+                        _ => {
+                            // Non-branching, non-return instruction - check for fall-through
+                            let succs = self.cfg.successors(current_block);
+                            if succs.len() == 1 {
+                                // Single successor = fall-through to next block
+                                current_block = succs[0];
+                                continue;
+                            }
+                            // No successors or multiple (shouldn't happen for non-branch)
+                            return false;
+                        }
                     }
                 }
             }

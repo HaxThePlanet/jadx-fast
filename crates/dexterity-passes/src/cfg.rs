@@ -192,6 +192,11 @@ impl CFG {
         self.blocks.iter().map(|b| b.id)
     }
 
+    /// Get the number of blocks in the CFG
+    pub fn block_count(&self) -> usize {
+        self.blocks.len()
+    }
+
     /// Get blocks in reverse postorder
     pub fn rpo_order(&self) -> &[u32] {
         &self.rpo
