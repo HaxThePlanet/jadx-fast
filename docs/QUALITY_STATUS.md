@@ -1,6 +1,7 @@
 # Quality Status
 
-**Status:** 2 P0 Bugs (P0-LOOP-VAR, P0-BOOL-CHAIN) | ~92-93% Syntax Quality | 64% File Coverage | Dec 24, 2025
+**Status:** 1 P0 Bug OPEN (P0-BOOL-CHAIN) | ~93-94% Syntax Quality | 64% File Coverage | Dec 25, 2025
+**Recently Fixed:** P0-LOOP-VAR (Dec 25) ✅ | P2-TYPE-INFERENCE (Dec 25) ✅
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Output Refresh:** Dec 24, 2025 - All GAP-01 through GAP-10 fixes applied
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
@@ -34,7 +35,7 @@
 
 ## Output Quality Audit (Dec 24, 2025)
 
-**Result: PRODUCTION READY - 2 P0 bugs remain (P0-LOOP-VAR, P0-BOOL-CHAIN); P0-WRONG-RETURN FIXED**
+**Result: 2 P0 CRITICAL BUGS REMAIN - P0-LOOP-VAR (undefined vars), P0-BOOL-CHAIN (return logic inverted); P0-WRONG-RETURN FIXED**
 
 ### Code Quality (from actual output/ comparison)
 
@@ -74,17 +75,21 @@ The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m
 
 | Category | Previous | Actual | Evidence |
 |----------|----------|--------|----------|
-| **Codegen** | C+ (78%) | **B (92-93%)** | GAP-01 through GAP-10 FIXED; P0-WRONG-RETURN FIXED; P0-LOOP-VAR, P0-BOOL-CHAIN remaining |
-| **Type Inference** | B+ (85%) | **A- (90%)** | P2-UNKNOWN-TYPE FIXED Dec 24 - no more Unknown type warnings |
-| **IR/Control Flow** | B+ (88%) | **A (92%)** | P0-BOOL-CHAIN FIXED Dec 24 - all 12 conditions now emitted; P1-CONTROL-FLOW FIXED |
+| **Codegen** | C+ (78%) | **B (92-93%)** | GAP-01 through GAP-10 FIXED; P0-LOOP-VAR FIXED (Dec 25); P0-BOOL-CHAIN remaining |
+| **Type Inference** | B+ (85%) | **A (95%)** | P2-TYPE-INFERENCE FIXED Dec 25 - 89-96% Unknown type reduction (10/2 edge cases remain) |
+| **IR/Control Flow** | B+ (88%) | **B+ (88%)** | P0-BOOL-CHAIN: Nested structure FIXED but return logic INVERTED (wrong values); P1-CONTROL-FLOW FIXED |
 | **Variable Naming** | A- | **B+ (88%)** | GAP-01 FIXED (peek vs take) |
 | **Kotlin Support** | D (60%) | **B+ (85-90%)** | Rename reasons FIXED, field alias references FIXED (Dec 24) |
 | **Deobfuscation** | A (95%) | **A- (90%)** | Kotlin field alias references FIXED (Dec 24) |
 | **Passes** | C+ (75%) | **B (88%)** | GAP-02 iterator for-each FIXED |
 | **Resources** | **A+** | **A+** | 1:1 JADX parity (verified) |
-| **Overall** | C+ (78%) | **B (92-93%)** | 2 P0 bugs remain: P0-LOOP-VAR (undefined for-each vars), P0-BOOL-CHAIN (return logic); P0-WRONG-RETURN FIXED |
+| **Overall** | C+ (78%) | **B+ (91-93%)** | 1 P0 CRITICAL bug OPEN: P0-BOOL-CHAIN (return values INVERTED); P0-LOOP-VAR FIXED, P0-WRONG-RETURN FIXED |
 
-**Reality:** 2 P0 bugs remain: P0-LOOP-VAR (undefined variables in for-each loops), P0-BOOL-CHAIN (return logic inverted). P0-WRONG-RETURN FIXED Dec 24 via var_naming.rs (Boolean exclusion from integral types) and body_gen.rs (Int-style variable detection).
+**Reality (Dec 25, 2025):** Major progress - 2 bugs fixed:
+- **P0-LOOP-VAR:** ✅ FIXED - For-each loops now use correct iterator variables
+- **P2-TYPE-INFERENCE:** ✅ FIXED - 89-96% reduction in Unknown type warnings (10/2 edge cases remain)
+- **P0-BOOL-CHAIN:** 🔴 OPEN - Requires Boolean Simplify pass to convert PHI patterns to early returns
+- **P0-WRONG-RETURN:** ✅ FIXED Dec 24 via var_naming.rs (Boolean exclusion from integral types)
 
 ### Kotlin Status Update (Dec 24, 2025 Investigation Complete)
 
