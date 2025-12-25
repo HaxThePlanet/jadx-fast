@@ -4971,6 +4971,45 @@ fn name_suggests_boolean_method(name: &str) -> bool {
     false
 }
 
+/// P1-CHECKTRACER: Invert a condition string by wrapping with negation or simplifying
+/// E.g., "x == null" -> "x != null", "a && b" -> "!(a && b)"
+fn invert_condition_string(condition: &str) -> String {
+    let trimmed = condition.trim();
+
+    // Handle simple equality operators
+    if let Some(pos) = trimmed.find(" == ") {
+        return format!("{} != {}", &trimmed[..pos], &trimmed[pos + 4..]);
+    }
+    if let Some(pos) = trimmed.find(" != ") {
+        return format!("{} == {}", &trimmed[..pos], &trimmed[pos + 4..]);
+    }
+
+    // Handle comparison operators
+    if let Some(pos) = trimmed.find(" < ") {
+        return format!("{} >= {}", &trimmed[..pos], &trimmed[pos + 3..]);
+    }
+    if let Some(pos) = trimmed.find(" > ") {
+        return format!("{} <= {}", &trimmed[..pos], &trimmed[pos + 3..]);
+    }
+    if let Some(pos) = trimmed.find(" <= ") {
+        return format!("{} > {}", &trimmed[..pos], &trimmed[pos + 4..]);
+    }
+    if let Some(pos) = trimmed.find(" >= ") {
+        return format!("{} < {}", &trimmed[..pos], &trimmed[pos + 4..]);
+    }
+
+    // Handle already-negated conditions
+    if trimmed.starts_with('!') && !trimmed.starts_with("!(") {
+        return trimmed[1..].to_string();
+    }
+    if trimmed.starts_with("!(") && trimmed.ends_with(')') {
+        return trimmed[2..trimmed.len()-1].to_string();
+    }
+
+    // Fallback: wrap with negation
+    format!("!({})", trimmed)
+}
+
 /// Generate condition expression string from a Condition
 /// Uses gen_arg_with_inline_peek to support inlined expressions (e.g., loop bounds)
 fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
@@ -7002,6 +7041,27 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                         emit_single_branch_ternary(&single_ternary, &condition_str, ctx, code);
                         return;
                     }
+                }
+            }
+
+            // P1-CHECKTRACER FIX: Skip entirely empty if statements
+            // When both then and else branches are empty (all instructions marked DONT_GENERATE),
+            // don't emit the if statement at all. This happens with Kotlin nullable chains
+            // where the control flow structures remain but have no meaningful content.
+            let then_empty = is_empty_region_with_ctx(then_region, ctx);
+            let else_empty = else_region.as_ref().map_or(true, |e| is_empty_region_with_ctx(e, ctx));
+            if then_empty && else_empty {
+                return;
+            }
+
+            // P1-CHECKTRACER FIX: If then is empty but else has content, invert and generate else as then
+            if then_empty && !else_empty {
+                if let Some(else_reg) = else_region {
+                    let inverted_condition = invert_condition_string(&generate_condition(condition, ctx));
+                    gen_if_header(&inverted_condition, code);
+                    generate_region(else_reg, ctx, code);
+                    gen_close_block(code);
+                    return;
                 }
             }
 

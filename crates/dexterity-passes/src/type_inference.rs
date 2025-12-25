@@ -243,10 +243,6 @@ pub struct TypeInference {
     last_invoke_instance_reg: Option<(u16, u32)>,
     /// Phi nodes for post-solve LCA computation: (dest_var, source_vars)
     phi_nodes: Vec<(TypeVar, Vec<TypeVar>)>,
-    /// Type refinements from instanceof checks (block_id -> (var, refined_type))
-    /// Used for flow-sensitive type narrowing
-    #[allow(dead_code)]
-    instanceof_refinements: FxHashMap<u32, Vec<(TypeVar, ArgType)>>,
     /// Type refinements from cast operations (var -> refined_type)
     cast_refinements: FxHashMap<TypeVar, ArgType>,
     /// Pending TypeVariable resolutions: (dest_var, instance_var, return_type_with_typevars)
@@ -288,7 +284,6 @@ impl TypeInference {
             last_invoke_instance_var: None,
             last_invoke_instance_reg: None,
             phi_nodes: Vec::new(),
-            instanceof_refinements: FxHashMap::default(),
             cast_refinements: FxHashMap::default(),
             pending_type_var_resolutions: Vec::new(),
             boolean_literal_candidates: FxHashMap::default(),

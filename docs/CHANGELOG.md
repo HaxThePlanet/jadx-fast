@@ -31,6 +31,7 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 
 | Feature | Status |
 |---------|--------|
+| **P1-CHECKTRACER** | ✅ Kotlin method chain decompilation fixed (48 lines -> clean output) |
 | **P2-BOOL-CHAIN-POLISH** | ✅ TernaryReturn simplification (return cond ? true : false -> return cond) |
 | Boolean Simplification | ✅ `? true : false` -> `c`, De Morgan's law |
 | Lambda Class Suppression | ✅ 92 -> 55 files (37 lambda classes filtered) |
@@ -110,6 +111,34 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 - P0-UNDEF-VAR: Undefined variables - static field inlining + `force_inline` flags
 - P0-TERNARY-INLINE: Ternary variable declaration - force inline + static field vars
 - P0-SPURIOUS-RET: Fixed via proper region-level TernaryMod pass
+
+**P1 Bugs Fixed:**
+- P1-STRING-CONST: String constant loss - `try_convert_string_char_array_constructor()` detects `new String(new char[]{...})`
+- P1-STRING-CONCAT: String concatenation - Added `InsnType::StrConcat` handling to inline expressions
+- P1-CHECKTRACER: Kotlin method chain decompilation (checkTracerPid() 48 lines -> clean output)
+- P1-TRY-CATCH-RECON: Try-catch in loop bodies - Added try-catch detection in `build_loop_body()` (commit fc2165395)
+
+**P1-CHECKTRACER Fix Details (Dec 25, 2025):**
+- **Empty If-Branch Generation** (`body_gen.rs` lines 4974-5011, 7008-7027):
+  - Added `invert_condition_string()` helper for clean condition inversion
+  - Skip entirely empty if statements
+  - Invert condition when then-branch is empty but else-branch has content
+- **Kotlin Stdlib Method Naming** (`var_naming.rs` lines 1716-1780):
+  - StringsKt: split->parts, trim->trimmed, toIntOrNull->parsed
+  - FilesKt: readLines->lines, readText->content
+  - CollectionsKt: find->found, filter->filtered, map->mapped
+  - Iterator: next->item
+- **Semantic Origin Tracking** (`var_naming.rs` lines 414-433, 505-540):
+  - Extended SemanticOrigin enum with Kotlin variants (KotlinFind, KotlinSplit, KotlinTrim, KotlinParsed, IteratorNext, KotlinReadLines)
+  - Enhanced origins_compatible() to prevent merging Kotlin chain variables
+
+**P1-TRY-CATCH-RECON Fix (Dec 25, 2025):**
+- **Bug:** Try-catch blocks inside loop bodies weren't being reconstructed properly
+- **Root Cause:** `build_loop_body()` in region_builder.rs only checked for nested loops and conditionals, NOT nested try-catch blocks
+- **Solution:** Added try-catch detection in `build_loop_body()` to call `process_try_catch()` when a try-start block is found inside a loop
+- **Location:** `crates/dexterity-passes/src/region_builder.rs` (+56 lines)
+- **Commit:** fc2165395
+- **Affected Methods (now fixed):** `checkRootManagementApps()`, `executeRootCheck()`, `getHiddenApi()`
 
 ---
 

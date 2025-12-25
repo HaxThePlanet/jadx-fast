@@ -230,18 +230,6 @@ fn java_name_to_descriptor(name: &str) -> String {
     format!("L{};", name.replace('.', "/"))
 }
 
-/// Convert a DEX descriptor to internal name (without L and ;)
-///
-/// "Lcom/example/Foo;" -> "com/example/Foo"
-#[allow(dead_code)]
-fn descriptor_to_internal(desc: &str) -> &str {
-    if desc.starts_with('L') && desc.ends_with(';') {
-        &desc[1..desc.len() - 1]
-    } else {
-        desc
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

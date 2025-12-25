@@ -17,6 +17,8 @@ pub mod class_modifier;  // NEW: JADX ClassModifier clone
 pub mod collect_const_values;  // NEW: JADX CollectConstValues clone (P2)
 pub mod constructor_visitor;
 pub mod debug_info;  // NEW: JADX DebugInfoAttachVisitor + DebugInfoApplyVisitor clone (P1)
+pub mod depth_region_traversal;  // NEW: JADX DepthRegionTraversal clone - region tree traversal utilities
+pub mod dot_graph_visitor;       // NEW: JADX DotGraphVisitor clone (P5 Debug) - CFG visualization
 pub mod process_instructions;
 pub mod cfg;
 pub mod code_rename_visitor;  // NEW: JADX CodeRenameVisitor clone (P2)
@@ -45,6 +47,7 @@ pub mod method_invoke;
 pub mod method_throws_visitor;
 pub mod mod_visitor;
 pub mod move_inline;
+pub mod non_final_res_ids;  // NEW: JADX NonFinalResIdsVisitor clone - Gradle library R.id detection
 pub mod override_method;
 pub mod post_process_regions;
 pub mod prepare_for_codegen;
@@ -150,6 +153,13 @@ pub use deboxing::{
 pub use generic_types::{
     attach_generic_types, class_has_generics, resolve_constructor_generics, GenericTypesResult,
 };
+pub use depth_region_traversal::{
+    traverse, traverse_container, traverse_iterative, traverse_including_exc_handlers,
+    RegionVisitor, RegionIterativeVisitor, TraversalError,
+};
+pub use dot_graph_visitor::{
+    generate_dot_graph, generate_region_dot, DotGraphConfig, DotGraphResult,
+};
 pub use if_region_visitor::{process_if_regions, IfRegionVisitorResult};
 pub use init_code_vars::{init_code_variables, rerun_code_variables};
 pub use process_variables::{process_variables, get_code_var_name, merge_code_var_type, ProcessVariablesResult};
@@ -188,6 +198,10 @@ pub use method_throws_visitor::{
     collect_invoke_throws, process_method_throws, MethodThrowsResult,
 };
 pub use move_inline::{inline_moves, MoveInlineResult};
+pub use non_final_res_ids::{
+    detect_non_final_res_ids, is_custom_resource_class, is_resource_class,
+    NonFinalResIdsResult,
+};
 pub use post_process_regions::{
     insert_edge_insn, post_process_regions, region_ends_with_return_or_throw,
     PostProcessRegionsResult,

@@ -509,37 +509,6 @@ fn collect_branch_blocks_with_barrier(
     blocks
 }
 
-/// Check if block is reachable from start without going through barrier
-#[allow(dead_code)]
-fn is_reachable_without(cfg: &CFG, start: u32, target: u32, barrier: u32) -> bool {
-    if start == target {
-        return true;
-    }
-
-    let mut visited = BTreeSet::new();
-    let mut worklist = vec![start];
-
-    while let Some(block) = worklist.pop() {
-        if block == target {
-            return true;
-        }
-
-        if block == barrier {
-            continue;
-        }
-
-        if !visited.insert(block) {
-            continue;
-        }
-
-        for &succ in cfg.successors(block) {
-            worklist.push(succ);
-        }
-    }
-
-    false
-}
-
 /// Detect if-else-if chains
 pub fn detect_if_else_if_chains<'a>(conditionals: &'a [IfInfo], _cfg: &CFG) -> Vec<Vec<&'a IfInfo>> {
     let mut chains = Vec::new();

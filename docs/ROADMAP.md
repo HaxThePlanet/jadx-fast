@@ -1,11 +1,12 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 2 P1 | 0 P2 | Dec 25, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 20 CQ | Dec 25, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 2 P1 (try-catch, checkTracerPid), 0 P2 - string const & concat FIXED |
+| **Open Bugs** | 0 P1, 0 P2 - All P1 bugs FIXED including try-catch-recon |
+| **Code Quality** | 4 Easy, 10 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
 | **Deobf Parity** | ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) |
@@ -17,7 +18,7 @@
 |----------|-------|-------|
 | **Codegen** | A-/B+ (85-90%) | Boolean simplification, diamond operator complete |
 | **Type Inference** | A (95%) | All undefined var issues fixed |
-| **IR/Control Flow** | B+ (85%) | Boolean `\|\|` patterns, ternary working; **2 P1 open** |
+| **IR/Control Flow** | A- (90%) | Boolean `\|\|` patterns, ternary, try-catch in loops working |
 | **Variable Naming** | A- (90%) | Static field inlining, scope tracking |
 | **Lambda/Anon Inlining** | B+ (85%) | invoke-custom lambdas inline correctly |
 | **Kotlin Support** | B+ (85%) | Field aliases work in declarations and usages |
@@ -368,7 +369,7 @@ while (it.hasNext()) {
 
 ---
 
-## Open P1 Bugs (Dec 25, 2025) - 2 Remaining (2 FIXED today)
+## Open P1 Bugs (Dec 25, 2025) - 0 Remaining (4 FIXED today)
 
 ### P1-STRING-CONST: String Constant Loss ✅ FIXED (Dec 25, 2025)
 
@@ -394,22 +395,30 @@ patterns and convert them to string literals.
 
 ---
 
-### P1-TRY-CATCH-RECON: Exception Handler Reconstruction Missing
+### P1-TRY-CATCH-RECON: Exception Handler Reconstruction Missing ✅ FIXED (Dec 25, 2025)
 
-**Status:** OPEN | **Priority:** P1 (Logic loss)
-**Location:** `body_gen.rs` try-catch emission
+**Status:** ✅ FIXED | **Fixed:** Dec 25, 2025 | **Commit:** fc2165395
+**Location:** `crates/dexterity-passes/src/region_builder.rs`
 
-**Bug:** Exception handlers not being reconstructed, losing try-catch blocks.
+**Bug (FIXED):** Try-catch blocks inside loop bodies weren't being reconstructed properly.
 
-**Evidence:**
+**Root Cause:** `build_loop_body()` in region_builder.rs only checked for nested loops and conditionals, NOT nested try-catch blocks. When a try-start block was found inside a loop, it was processed as a regular block instead of calling `process_try_catch()`.
+
+**Solution Applied:**
+- Added try-catch detection in `build_loop_body()` to call `process_try_catch()` when a try-start block is found inside a loop
+- This mirrors the existing handling for nested loops and conditionals
+
+**Files Changed:** `crates/dexterity-passes/src/region_builder.rs` (+56 lines)
+
+**Result:**
 ```java
-// Dexterity (WRONG - no try-catch):
+// Before fix (WRONG - no try-catch):
 for (String str : strArr) {
     ctx.getPackageManager().getPackageInfo(str, i);
     if (i2 != 0) { }
 }
 
-// JADX (CORRECT):
+// After fix (CORRECT):
 for (String str : strArr) {
     try {
         packageManager.getPackageInfo(str, 0);
@@ -421,7 +430,7 @@ for (String str : strArr) {
 }
 ```
 
-**Affected:** `checkRootManagementApps()`, `executeRootCheck()`, `getHiddenApi()`
+**Affected Methods (now fixed):** `checkRootManagementApps()`, `executeRootCheck()`, `getHiddenApi()`
 
 ---
 
@@ -439,44 +448,102 @@ instructions, but they weren't being stored as inline expressions.
 
 ---
 
-### P1-CHECKTRACER: checkTracerPid() Garbled
+### P1-CHECKTRACER: checkTracerPid() Garbled - FIXED (Dec 25, 2025)
 
-**Status:** OPEN | **Priority:** P1 (Incomprehensible)
-**Location:** Complex control flow + type inference
+**Status:** FIXED | **Fixed:** Dec 25, 2025 | **Priority:** P1 (Incomprehensible)
+**Location:** `body_gen.rs` (empty if-branch), `var_naming.rs` (Kotlin stdlib naming)
 
-**Bug:** Method produces undefined variables and incomprehensible logic.
+**Bug (FIXED):** Method produced undefined variables and incomprehensible logic from Kotlin method chains.
 
-**Evidence (Dexterity - 48 lines of broken code vs JADX's 20 clean lines):**
-```java
-// Dexterity (garbled):
-charset = null;
-z = true;
-it = (Iterable)FilesKt.readLines$default(...).iterator();
-z = false;
-while (it.hasNext()) {
-    next2 = it.next();  // undefined
-    i = 0;
-    // ... many undefined variables
+**Root Cause & Fix:**
+1. **Empty If-Branch Generation** (`body_gen.rs` lines 4974-5011, 7008-7027):
+   - Added `invert_condition_string()` helper function for clean condition inversion
+   - Added check to skip entirely empty if statements
+   - Added condition inversion when then-branch is empty but else-branch has content
 
-// JADX (clean):
-Iterator it = FilesKt.readLines$default(...).iterator();
-while (it.hasNext()) {
-    if (StringsKt.startsWith$default((String) it.next(), "TracerPid:", false, 2, null)) {
-        obj = next;
-        break;
-    }
+2. **Kotlin Stdlib Method Naming** (`var_naming.rs` lines 1716-1780):
+   - StringsKt: split->parts, trim->trimmed, toIntOrNull->parsed
+   - FilesKt: readLines->lines, readText->content
+   - CollectionsKt: find->found, filter->filtered, map->mapped
+   - Iterator: next->item
+
+3. **Semantic Origin Tracking** (`var_naming.rs` lines 414-433, 505-540):
+   - Extended SemanticOrigin enum with Kotlin variants (KotlinFind, KotlinSplit, KotlinTrim, KotlinParsed, IteratorNext, KotlinReadLines)
+   - Enhanced origins_compatible() to prevent merging Kotlin chain variables
+
+**Original Kotlin:**
+```kotlin
+fun checkTracerPid(): Boolean {
+    val tracerPid = File("/proc/self/status").readLines()
+        .find { it.startsWith("TracerPid:") }
+        ?.split(":")?.get(1)?.trim()?.toIntOrNull() ?: 0
+    return tracerPid != 0
 }
 ```
-
-**Root Cause:** Multiple issues - undefined variables, control flow, type inference gaps.
-
-**Affected:** `checkTracerPid()`
 
 ---
 
 ## Open P2 Bugs (Dec 25, 2025)
 
 **All P2 bugs fixed!** No open P2 bugs remain.
+
+---
+
+## Code Quality Backlog (Dec 25, 2025)
+
+Technical debt and code quality issues identified via automated analysis.
+
+### 🟢 EASY (Quick Wins)
+
+| ID | Issue | Location | Impact |
+|----|-------|----------|--------|
+| CQ-E01 | **Duplicate `sanitize_method_name()`** | `body_gen.rs:64`, `expr_gen.rs:31`, `method_gen.rs:10` | 3 identical functions - extract to shared util |
+| ~~CQ-E02~~ | ~~Dead function: `descriptor_to_internal()`~~ | ~~`mapping_parser.rs:236`~~ | ✅ REMOVED Dec 25 |
+| ~~CQ-E03~~ | ~~Dead function: `process_resources()`~~ | ~~`main.rs:1007`~~ | ✅ REMOVED Dec 25 (116 lines) |
+| ~~CQ-E04~~ | ~~Dead function: `class_name_to_path()`~~ | ~~`main.rs`~~ | ✅ REMOVED Dec 25 (8 lines) |
+| ~~CQ-E05~~ | ~~Dead function: `generate_class_stub()`~~ | ~~`main.rs`~~ | ✅ REMOVED Dec 25 (59 lines) |
+| CQ-E06 | **Dead function: `generate_method()`** | `method_gen.rs:625` | Marked dead, remove if unused |
+| CQ-E07 | **Dead function: `add_method_body()`** | `method_gen.rs:2220` | Wrapper for full version, consolidate |
+| CQ-E08 | **Dead function: `add_methods()`** | `class_gen.rs:1791` | Marked dead, remove if unused |
+| ~~CQ-E09~~ | ~~Unused field: `instanceof_refinements`~~ | ~~`type_inference.rs`~~ | ✅ REMOVED Dec 25 |
+| ~~CQ-E10~~ | ~~Dead function: `is_reachable_without()`~~ | ~~`conditionals.rs`~~ | ✅ REMOVED Dec 25 |
+
+### 🟡 MEDIUM (Moderate Effort)
+
+| ID | Issue | Location | Impact |
+|----|-------|----------|--------|
+| CQ-M01 | **Panic abuse: 18+ panic! calls** | `region_builder.rs`, `type_inference.rs`, `if_region_visitor.rs`, `mod_visitor.rs` | Should return `Result<T>` instead |
+| CQ-M02 | **Wrapper function proliferation** | `enum_visitor.rs` (3 wrappers), `method_gen.rs` (2 wrappers) | Remove wrappers if only full versions used |
+| CQ-M03 | **Nested type_to_string variants** | `type_gen.rs` | 3 nested layers - consolidate to single function with options |
+| CQ-M04 | **6 dead struct fields in RegionBuilder** | `region_builder.rs:883-906` | `conditionals`, `syncs`, `tries`, `merged_conditions`, `merged_blocks` unused |
+| CQ-M05 | **7 deferred SSA optimization functions** | `ssa.rs` | `get_use_registers`, `replace_phi_with_move`, `inline_phi_insn`, etc. - implement or remove |
+| CQ-M06 | **String as enum: exception_type** | `region_builder.rs:72` | `Option<String>` should be `enum ExceptionType { Specific(String), CatchAll }` |
+| CQ-M07 | **Hardcoded stdlib_signatures.rs** | `stdlib_signatures.rs` (423 lines) | Extract to data file (JSON/TOML) |
+| CQ-M08 | **Clone abuse in type_inference.rs** | `type_inference.rs` | 91 .clone() calls - use Arc<T> or references |
+| CQ-M09 | **Clone abuse in body_gen.rs** | `body_gen.rs` | 180 .clone() calls - audit and reduce |
+| CQ-M10 | **Unwrap abuse** | `body_gen.rs:2328,10120,10777` | 305 total - replace with `.ok_or()` or `.context()` |
+
+### 🔴 HARD (Major Refactoring)
+
+| ID | Issue | Location | Impact |
+|----|-------|----------|--------|
+| CQ-H01 | **GOD OBJECT: body_gen.rs** | `body_gen.rs` (13,421 lines, 165 functions) | Split into: `block_emitter.rs`, `phi_gen.rs`, `pattern_detection.rs`, `lambda_gen.rs` |
+| CQ-H02 | **GOD OBJECT: type_inference.rs** | `type_inference.rs` (3,664 lines) | Consider splitting constraint solving, bounds tracking, refinement |
+| CQ-H03 | **GOD OBJECT: region_builder.rs** | `region_builder.rs` (3,347 lines) | Consider splitting loop/conditional/sync detection |
+| CQ-H04 | **Visitor pattern proliferation** | 14 visitors with overlapping concerns | Unify InsnVisitor, ControlledVisitor, RegionIterativeVisitor traits |
+| CQ-H05 | **No shared error types** | All crates | Create `dexterity-error` crate with common error enum |
+| CQ-H06 | **No shared utilities crate** | All crates | Create `dexterity-utils` for `sanitize_method_name()` and similar |
+
+### Statistics
+
+| Category | Count |
+|----------|-------|
+| TODOs in code | 13 |
+| Dead code functions | 30+ |
+| Panic! calls (non-test) | 18+ |
+| Unwrap() calls | 305 |
+| Clone() calls | 361+ |
+| Files > 3000 lines | 3 |
 
 ---
 

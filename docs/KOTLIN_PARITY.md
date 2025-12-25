@@ -1,15 +1,16 @@
 # Kotlin Metadata Parity: Dexterity vs JADX
 
-**Last Updated:** December 24, 2025 - FIELD ALIASES FIXED
+**Last Updated:** December 25, 2025 - P1-CHECKTRACER (Method Chain) FIXED
 
 ## Executive Summary
 
 | Metric | Status | Notes |
 |--------|--------|-------|
-| **Overall Parity** | **~85-90%** | Field aliases FIXED (Dec 24) |
+| **Overall Parity** | **~85-90%** | Field aliases FIXED (Dec 24), Method chains FIXED (Dec 25) |
 | **Proto Parsing** | **~95%** | BitEncoding, d2 strings all working |
 | **Rename Reasons** | **FIXED** | Now includes "reason: from kotlin metadata" |
 | **Field Aliasing** | **FIXED** | `register_kotlin_aliases()` + `AliasAwareDexInfo` |
+| **Method Chains** | **FIXED** | Kotlin stdlib semantic naming + SemanticOrigin tracking |
 
 ### Reality Check: a0.java (SegmentedByteString.kt) Comparison (Dec 24, 2025)
 
@@ -40,13 +41,38 @@ private final transient int[] directory;
 
 **Verified Output:** `this.segments`, `this.directory` match JADX exactly
 
-### What IS Working (Dec 23, 2025)
+### P1-CHECKTRACER FIXED: Kotlin Method Chain Decompilation (Dec 25, 2025)
+
+**Problem:** Kotlin method chains like `File(...).readLines().find{...}?.split(":")?.trim()?.toIntOrNull()` produced 48 lines of garbled code with undefined variables.
+
+**Fix Applied:**
+1. **Kotlin Stdlib Semantic Naming** (`var_naming.rs` lines 1716-1780):
+   - StringsKt: split->parts, trim->trimmed, toIntOrNull->parsed
+   - FilesKt: readLines->lines, readText->content
+   - CollectionsKt: find->found, filter->filtered, map->mapped
+   - Iterator: next->item
+
+2. **SemanticOrigin Tracking** (`var_naming.rs` lines 414-433, 505-540):
+   - Extended enum with Kotlin variants: KotlinFind, KotlinSplit, KotlinTrim, KotlinParsed, IteratorNext, KotlinReadLines
+   - Enhanced `origins_compatible()` to prevent merging Kotlin chain variables
+
+3. **Empty If-Branch Generation** (`body_gen.rs` lines 4974-5011, 7008-7027):
+   - Added `invert_condition_string()` helper for clean condition inversion
+   - Skip entirely empty if statements
+   - Invert condition when then-branch is empty but else-branch has content
+
+**Result:** `checkTracerPid()` now decompiles cleanly instead of producing incomprehensible output.
+
+---
+
+### What IS Working (Dec 23-25, 2025)
 
 1. **Rename reason comments** - FIXED in `class_gen.rs` and `method_gen.rs`
 2. **Method parameter names** - Applied when signatures match
 3. **Function modifiers** - suspend/inline/infix/operator/tailrec applied to IR
 4. **Type variance** - `<in T>`, `<out T>` annotations emitted correctly
 5. **Data/sealed/value class detection** - Flags stored in KotlinClassInfo
+6. **Kotlin stdlib method chain naming** - FIXED Dec 25 (P1-CHECKTRACER)
 
 ---
 

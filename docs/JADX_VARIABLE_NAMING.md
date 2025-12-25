@@ -480,6 +480,12 @@ To achieve parity with JADX variable naming:
 - Numeric suffix collision handling (str, str2, str3...)
 - Short class name "Var" suffix: names < 3 chars get "Var" suffix (e.g., `AB` -> `abVar`)
 - `is_static` parameter fix for correct parameter register calculation
+- **Kotlin stdlib semantic naming (Dec 25, 2025):**
+  - StringsKt: split->parts, trim->trimmed, toIntOrNull->parsed
+  - FilesKt: readLines->lines, readText->content
+  - CollectionsKt: find->found, filter->filtered, map->mapped
+  - Iterator: next->item
+- **SemanticOrigin tracking for Kotlin method chains** - prevents variable merging across chain operations
 
 **Not Yet Implemented:**
 - Semantic naming from method returns (e.g., `iMin` for `Math.min()` result)

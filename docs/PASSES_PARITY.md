@@ -19,6 +19,7 @@
 - **P0-BOOL-CHAIN FIXED:** PHI-to-return transformation with polarity inversion
 - **P0-WRONG-RETURN FIXED:** Boolean methods no longer return int variables
 - **P2-TYPE-INFERENCE FIXED:** A+ (100%) - 0 Unknown type warnings
+- **P1-TRY-CATCH-RECON FIXED:** Try-catch blocks inside loop bodies now properly reconstructed
 
 ---
 
@@ -191,7 +192,7 @@ to while loops, matching JADX's conservative approach.
 
 | JADX Pass | Lines | Dexterity File | Status | Issue |
 |-----------|-------|----------------|--------|-------|
-| RegionMakerVisitor | 890 | region_builder.rs | **BROKEN** | If/else structure |
+| RegionMakerVisitor | 890 | region_builder.rs | 90% | Try-catch in loops FIXED Dec 25 |
 | IfRegionVisitor | 356 | if_region_visitor.rs | **BROKEN** | Empty branches |
 | SwitchOverStringVisitor | 267 | switch_over_string.rs | DONE | |
 | ReturnVisitor | 169 | return_visitor.rs | PARTIAL | Else-return |

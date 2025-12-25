@@ -410,12 +410,24 @@ pub fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
 
 /// Semantic origin of a variable - used to prevent incompatible groupings
 /// even when types match (e.g., array length vs loop counter are both int)
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum SemanticOrigin {
     /// From ArrayLength instruction - represents an array bound
     ArrayBound,
     /// From Const 0 or 1 - typically a loop counter initialization
     LoopCounter,
+    /// P1-CHECKTRACER: From Kotlin collection find/firstOrNull - found item
+    KotlinFind,
+    /// P1-CHECKTRACER: From Kotlin string split - array of parts
+    KotlinSplit,
+    /// P1-CHECKTRACER: From Kotlin string trim - trimmed string
+    KotlinTrim,
+    /// P1-CHECKTRACER: From Kotlin toIntOrNull/toLongOrNull - parsed number
+    KotlinParsed,
+    /// P1-CHECKTRACER: From Iterator.next() - iteration item
+    IteratorNext,
+    /// P1-CHECKTRACER: From FilesKt.readLines - list of lines
+    KotlinReadLines,
     /// Any other origin
     Other,
 }
@@ -493,10 +505,37 @@ fn build_semantic_origins(ssa: &SsaResult) -> HashMap<(u16, u32), SemanticOrigin
 /// Check if two semantic origins are compatible for variable grouping.
 /// Array bounds and loop counters should NEVER share the same variable name,
 /// even if they're both int and connected via PHI nodes.
+///
+/// P1-CHECKTRACER: Also prevent mixing Kotlin stdlib method chain results.
+/// Variables from find(), split(), trim(), toIntOrNull() etc. should not be
+/// merged even if they have compatible types and flow into the same PHI.
 fn origins_compatible(o1: SemanticOrigin, o2: SemanticOrigin) -> bool {
+    // If either is Other, always compatible (Other is the default)
+    if o1 == SemanticOrigin::Other || o2 == SemanticOrigin::Other {
+        return true;
+    }
+
+    // Same origin is always compatible
+    if o1 == o2 {
+        return true;
+    }
+
+    // Specific incompatibilities
     match (o1, o2) {
-        (SemanticOrigin::ArrayBound, SemanticOrigin::LoopCounter) => false,
-        (SemanticOrigin::LoopCounter, SemanticOrigin::ArrayBound) => false,
+        // Array bounds and loop counters must never mix
+        (SemanticOrigin::ArrayBound, SemanticOrigin::LoopCounter)
+        | (SemanticOrigin::LoopCounter, SemanticOrigin::ArrayBound) => false,
+
+        // P1-CHECKTRACER: Kotlin stdlib chain elements must not mix
+        // find result != split result != trim result != parsed result
+        (SemanticOrigin::KotlinFind, _) | (_, SemanticOrigin::KotlinFind) => false,
+        (SemanticOrigin::KotlinSplit, _) | (_, SemanticOrigin::KotlinSplit) => false,
+        (SemanticOrigin::KotlinTrim, _) | (_, SemanticOrigin::KotlinTrim) => false,
+        (SemanticOrigin::KotlinParsed, _) | (_, SemanticOrigin::KotlinParsed) => false,
+        (SemanticOrigin::IteratorNext, _) | (_, SemanticOrigin::IteratorNext) => false,
+        (SemanticOrigin::KotlinReadLines, _) | (_, SemanticOrigin::KotlinReadLines) => false,
+
+        // All other combinations are compatible
         _ => true,
     }
 }
@@ -1709,6 +1748,72 @@ impl<'a> VarNaming<'a> {
                     "keySet" => return Some("keys".to_string()),
                     "values" => return Some("values".to_string()),
                     "entrySet" => return Some("entries".to_string()),
+                    _ => {}
+                }
+            }
+
+            // P1-CHECKTRACER: Kotlin stdlib extensions (StringsKt, FilesKt, CollectionsKt)
+            // These are the Kotlin extension functions that compile to static method calls
+            if simple_class == "StringsKt" || simple_class.starts_with("StringsKt__") {
+                match method_name {
+                    "split" | "split$default" => return Some("parts".to_string()),
+                    "trim" => return Some("trimmed".to_string()),
+                    "startsWith" | "startsWith$default" => return Some("startsWith".to_string()),
+                    "endsWith" | "endsWith$default" => return Some("endsWith".to_string()),
+                    "contains" | "contains$default" => return Some("contains".to_string()),
+                    "toIntOrNull" | "toLongOrNull" | "toDoubleOrNull" => return Some("parsed".to_string()),
+                    "toInt" | "toLong" | "toDouble" | "toFloat" => return Some("num".to_string()),
+                    "substring" => return Some("substring".to_string()),
+                    "replace" | "replaceFirst" => return Some("replaced".to_string()),
+                    "lines" => return Some("lines".to_string()),
+                    _ => {}
+                }
+            }
+
+            if simple_class == "FilesKt" || simple_class.starts_with("FilesKt__") {
+                match method_name {
+                    "readLines" | "readLines$default" => return Some("lines".to_string()),
+                    "readText" | "readText$default" => return Some("content".to_string()),
+                    "readBytes" => return Some("bytes".to_string()),
+                    "writeText" | "writeBytes" => return Some("written".to_string()),
+                    "forEachLine" => return Some("line".to_string()),
+                    "useLines" => return Some("lines".to_string()),
+                    _ => {}
+                }
+            }
+
+            if simple_class == "CollectionsKt" || simple_class.starts_with("CollectionsKt__")
+                || simple_class == "ArraysKt" || simple_class.starts_with("ArraysKt__") {
+                match method_name {
+                    "find" | "firstOrNull" => return Some("found".to_string()),
+                    "filter" | "filterNotNull" => return Some("filtered".to_string()),
+                    "map" | "mapNotNull" => return Some("mapped".to_string()),
+                    "flatMap" => return Some("flatMapped".to_string()),
+                    "forEach" | "forEachIndexed" => return Some("item".to_string()),
+                    "first" | "last" | "single" => return Some("item".to_string()),
+                    "any" | "all" | "none" => return Some("result".to_string()),
+                    "count" => return Some("count".to_string()),
+                    "sum" | "sumOf" => return Some("sum".to_string()),
+                    "reduce" | "fold" => return Some("accumulated".to_string()),
+                    "groupBy" => return Some("grouped".to_string()),
+                    "associate" | "associateBy" | "associateWith" => return Some("map".to_string()),
+                    "toList" | "toMutableList" => return Some("list".to_string()),
+                    "toSet" | "toMutableSet" => return Some("set".to_string()),
+                    "toMap" | "toMutableMap" => return Some("map".to_string()),
+                    "joinToString" => return Some("joined".to_string()),
+                    "sortedBy" | "sortedByDescending" | "sorted" => return Some("sorted".to_string()),
+                    "reversed" => return Some("reversed".to_string()),
+                    "take" | "takeLast" | "takeWhile" => return Some("taken".to_string()),
+                    "drop" | "dropLast" | "dropWhile" => return Some("remaining".to_string()),
+                    _ => {}
+                }
+            }
+
+            // Kotlin iterator - use descriptive name for .next() on iterators
+            if simple_class.contains("Iterator") {
+                match method_name {
+                    "next" => return Some("item".to_string()),
+                    "hasNext" => return Some("hasNext".to_string()),
                     _ => {}
                 }
             }
