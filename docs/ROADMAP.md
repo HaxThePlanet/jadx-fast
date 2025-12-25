@@ -1,15 +1,16 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 15 CQ | Dec 25, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 14 CQ | Dec 25, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
 | **Open Bugs** | 0 P1, 0 P2 - All P1 bugs FIXED including try-catch-recon |
-| **Code Quality** | 0 Easy, 9 Medium, 6 Hard issues (see Code Quality Backlog) |
+| **Code Quality** | 0 Easy, 8 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
 | **Deobf Parity** | ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) |
+| **Visitors** | 86% (111/129) - See [CLONE_TASKS.md](CLONE_TASKS.md) for details |
 | **Resources** | 100% (1:1 JADX parity - 103 dirs, 152 files) |
 
 ## Quick Status
@@ -517,7 +518,7 @@ Technical debt and code quality issues identified via automated analysis.
 | CQ-M03 | **Nested type_to_string variants** | `type_gen.rs` | 3 nested layers - consolidate to single function with options |
 | ~~CQ-M04~~ | ~~5 dead struct fields in RegionBuilder~~ | ~~`region_builder.rs`~~ | ✅ REMOVED Dec 25 - `conditionals`, `syncs`, `tries`, `merged_conditions`, `merged_blocks` |
 | CQ-M05 | **7 deferred SSA optimization functions** | `ssa.rs` | `get_use_registers`, `replace_phi_with_move`, `inline_phi_insn`, etc. - implement or remove |
-| CQ-M06 | **String as enum: exception_type** | `region_builder.rs:72` | `Option<String>` should be `enum ExceptionType { Specific(String), CatchAll }` |
+| ~~CQ-M06~~ | ~~**String as enum: exception_type**~~ | ~~`region_builder.rs:72`~~ | ✅ ALREADY DONE - `ExceptionType` enum exists at lines 70-75, used in `HandlerInfo` |
 | CQ-M07 | **Hardcoded stdlib_signatures.rs** | `stdlib_signatures.rs` (423 lines) | Extract to data file (JSON/TOML) |
 | CQ-M08 | **Clone abuse in type_inference.rs** | `type_inference.rs` | 91 .clone() calls - use Arc<T> or references |
 | CQ-M09 | **Clone abuse in body_gen.rs** | `body_gen.rs` | 180 .clone() calls - audit and reduce |
