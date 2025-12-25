@@ -1,0 +1,27 @@
+CLAIMED: 2025-12-25
+STATUS: IN PROGRESS
+ISSUE: P0-SPURIOUS-RET - Spurious `return true;` statements in control flow
+
+PROBLEM:
+Random `return true;` statements appear in:
+- loadMultipleDex() - inside while loop, before loop body
+- checkTracerPid() - scattered throughout method
+
+EXAMPLE (loadMultipleDex):
+```java
+while (it.hasNext()) {
+    return true;   // Spurious - unreachable code after
+    return true;   // Spurious
+    arrayList.add(...);  // Never executes
+}
+```
+
+ROOT CAUSE:
+Likely related to:
+1. Region building including exit blocks incorrectly
+2. PHI node handling emitting spurious returns
+3. Boolean chain simplification artifacts
+
+FILES:
+- crates/dexterity-passes/src/region_builder.rs
+- crates/dexterity-codegen/src/body_gen.rs
