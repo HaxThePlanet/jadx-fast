@@ -1590,38 +1590,40 @@ impl TypeInference {
             }
             changed = false;
 
-            // OPTIMIZATION: Eliminate constraint cloning in hot loop
-            // Previously: let constraint = self.constraints[i].clone() in every iteration
-            // This cloned 100+ times per constraint during solve() iterations.
-            // New: Use indices and borrow constraints by reference instead of cloning.
+            // OPTIMIZATION: Avoid cloning constraints in hot loop
+            // TypeVar is Copy, so we extract it cheaply. For InferredType/ArgType,
+            // we only clone when actually needed (not for every constraint).
             let constraint_count = self.constraints.len();
             total_checks += constraint_count;
 
             for i in 0..constraint_count {
-                // Clone constraint once to avoid borrowing issues
-                // KEY: We now clone ONE time per constraint instead of cloning per iteration
-                // of the outer loop (100+x improvement!)
-                let constraint = self.constraints[i].clone();
-
-                match constraint {
+                // Match on reference to avoid cloning the entire constraint
+                // TypeVar is Copy, InferredType/ArgType cloned only when needed
+                match &self.constraints[i] {
                     Constraint::Equals(var, ty) => {
+                        let var = *var;
+                        let ty = ty.clone();
                         if self.unify_var_type(var, &ty) {
                             changed = true;
                         }
                     }
                     Constraint::Same(v1, v2) => {
+                        // TypeVar is Copy - no clone needed
+                        let (v1, v2) = (*v1, *v2);
                         if self.unify_vars(v1, v2) {
                             changed = true;
                         }
                     }
                     Constraint::Subtype(var, ty) => {
-                        // For now, treat subtype as equals
+                        let var = *var;
+                        let ty = ty.clone();
                         if self.unify_var_type(var, &ty) {
                             changed = true;
                         }
                     }
                     Constraint::ArrayOf(arr_var, elem_var) => {
-                        // OPTIMIZED: Avoid cloning InferredType by borrowing from resolved map
+                        // TypeVar is Copy - no clone needed
+                        let (arr_var, elem_var) = (*arr_var, *elem_var);
                         // If we know array type, infer element type
                         let elem_from_arr = if let Some(InferredType::Concrete(ArgType::Array(elem))) = self.resolved.get(&arr_var) {
                             Some(elem.as_ref().clone())
@@ -1648,7 +1650,7 @@ impl TypeInference {
                         }
                     }
                     Constraint::Numeric(var) => {
-                        // Default to int if not yet resolved
+                        let var = *var;
                         if !self.resolved.contains_key(&var) {
                             self.resolved
                                 .insert(var, InferredType::Concrete(ArgType::Int));
@@ -1656,7 +1658,7 @@ impl TypeInference {
                         }
                     }
                     Constraint::Integral(var) => {
-                        // Default to int if not yet resolved
+                        let var = *var;
                         if !self.resolved.contains_key(&var) {
                             self.resolved
                                 .insert(var, InferredType::Concrete(ArgType::Int));
@@ -1664,7 +1666,7 @@ impl TypeInference {
                         }
                     }
                     Constraint::ObjectType(var) => {
-                        // Default to Object if not yet resolved
+                        let var = *var;
                         if !self.resolved.contains_key(&var) {
                             self.resolved.insert(
                                 var,
@@ -1675,17 +1677,17 @@ impl TypeInference {
                             changed = true;
                         }
                     }
-                    Constraint::AssignBound(var, ref ty) => {
-                        // Assignment bound: variable receives this type (LHS semantics)
-                        // Use the type directly, but allow narrowing later via UseBound
-                        if self.apply_assign_bound(var, ty) {
+                    Constraint::AssignBound(var, ty) => {
+                        let var = *var;
+                        let ty = ty.clone();
+                        if self.apply_assign_bound(var, &ty) {
                             changed = true;
                         }
                     }
-                    Constraint::UseBound(var, ref ty) => {
-                        // Usage bound: variable is used as this type (RHS semantics)
-                        // This can narrow the type if we have an upper bound
-                        if self.apply_use_bound(var, ty) {
+                    Constraint::UseBound(var, ty) => {
+                        let var = *var;
+                        let ty = ty.clone();
+                        if self.apply_use_bound(var, &ty) {
                             changed = true;
                         }
                     }
@@ -2727,10 +2729,19 @@ impl TypeInference {
     /// - If `list` is `List<String>` and we called `list.get(0)`,
     ///   the return type `E` gets resolved to `String`
     pub fn resolve_pending_type_variables(&mut self) {
-        for (dest_var, instance_var, return_ty) in self.pending_type_var_resolutions.clone() {
+        // Use indices to avoid cloning the entire Vec
+        // TypeVar is Copy, only clone ArgType when needed
+        let count = self.pending_type_var_resolutions.len();
+        for i in 0..count {
+            let (dest_var, instance_var) = {
+                let (d, i, _) = &self.pending_type_var_resolutions[i];
+                (*d, *i)
+            };
             // Look up the resolved instance type
             if let Some(instance_ty) = self.resolved.get(&instance_var) {
                 if let Some(instance_arg_ty) = instance_ty.to_arg_type() {
+                    // Clone return_ty only when we actually need it
+                    let return_ty = self.pending_type_var_resolutions[i].2.clone();
                     // Try to resolve TypeVariables using the instance type
                     let resolved_return = self.resolve_type_variable(&return_ty, &instance_arg_ty);
 

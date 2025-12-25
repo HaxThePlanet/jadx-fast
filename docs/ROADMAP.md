@@ -1,12 +1,12 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 10 CQ | Dec 25, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 9 CQ | Dec 25, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
 | **Open Bugs** | 0 P1, 0 P2 - All P1 bugs FIXED including try-catch-recon |
-| **Code Quality** | 0 Easy, 4 Medium, 6 Hard issues (see Code Quality Backlog) |
+| **Code Quality** | 0 Easy, 3 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
 | **Deobf Parity** | ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) |
@@ -520,9 +520,9 @@ Technical debt and code quality issues identified via automated analysis.
 | ~~CQ-M05~~ | ~~7 deferred SSA optimization functions~~ | ~~`ssa.rs`~~ | ✅ REMOVED Dec 25 - 7 stub functions deleted (~100 lines) |
 | ~~CQ-M06~~ | ~~**String as enum: exception_type**~~ | ~~`region_builder.rs:72`~~ | ✅ FIXED Dec 25 - Created `ExceptionType { Specific(String), CatchAll }` enum with `is_catch_all()` and `as_specific()` helpers |
 | ~~CQ-M07~~ | ~~Hardcoded stdlib_signatures.rs~~ | ~~`stdlib_signatures.rs`~~ | ❌ WON'T FIX - macros provide compile-time type safety, zero runtime overhead |
-| CQ-M08 | **Clone abuse in type_inference.rs** | `type_inference.rs` | 91 .clone() calls - use Arc<T> or references |
+| ~~CQ-M08~~ | ~~**Clone abuse in type_inference.rs**~~ | ~~`type_inference.rs`~~ | ✅ OPTIMIZED Dec 25 - solve() loop matches refs (TypeVar is Copy), pending_resolutions uses indices |
 | CQ-M09 | **Clone abuse in body_gen.rs** | `body_gen.rs` | 180 .clone() calls - audit and reduce |
-| CQ-M10 | **Unwrap abuse** | `body_gen.rs:2328,10120,10777` | 305 total - replace with `.ok_or()` or `.context()` |
+| CQ-M10 | **Unwrap abuse** | `body_gen.rs:2328,10120,10777` | 🔄 IN PROGRESS - 305 total - replace with `.ok_or()` or `.context()` |
 
 ### 🔴 HARD (Major Refactoring)
 
