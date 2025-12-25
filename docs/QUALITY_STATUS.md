@@ -1,435 +1,196 @@
 # Quality Status
 
-**Status:** PRODUCTION-READY | 0 P0 Bugs | A- Grade (95-96%) | 64% File Coverage | Dec 25, 2025
-**Recently Fixed:** P0-BOOL-CHAIN (Dec 25) ✅ | P0-LOOP-VAR (Dec 25) ✅ | P2-TYPE-INFERENCE-APLUS (Dec 25) ✅ (A+ 100%)
+**Status:** NOT PRODUCTION-READY | Multiple P0 Bugs | C-/D+ Grade (55-65%) | 64% File Coverage | Dec 25, 2025
+**Reality Check:** Dec 25, 2025 - Honest assessment based on MaliciousPatterns.java comparison
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
-**Output Refresh:** Dec 24, 2025 - All GAP-01 through GAP-10 fixes applied
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
-**Codegen:** ~95% syntax parity (B+ Grade); outputs 64% of JADX files (lambda suppression FIXED, lambdas not inlined yet)
-**Kotlin:** ~85-90% parity (B+ Grade) - Field alias references FIXED (Dec 24), rename reasons FIXED
-**Open Work:** See [ROADMAP.md](ROADMAP.md) for remaining tasks (lambda inlining infrastructure ready, awaiting Java 8 APK testing)
-
-## Output Comparison (Dec 24, 2025) - P0-LAMBDA-SUPPRESS & P0-SYNTHETIC FIXED
-
-### File Coverage - Lambda Suppression Working
-
-**Direct comparison of `output/jadx/badboy` vs `output/dexterity/badboy` (Dec 24, 2025):**
-
-| Metric | JADX | Dexterity | Status |
-|--------|------|-----------|--------|
-| Java Files | 86 | 55 | **64%** (lambda classes suppressed, not inlined) |
-
-**P0-LAMBDA-SUPPRESS Fixed (Dec 24):** Lambda class detection expanded to cover all patterns:
-- `$$Lambda$` - Old toolchain pattern
-- `$$ExternalSyntheticLambda` - D8/R8 pattern
-- `$lambda-` - Kotlin Compose lambda pattern
-
-**P0-SYNTHETIC Fixed (Dec 24):** Two-pass inner class detection now matches JADX's algorithm:
-- Pass 1: Collect all class names into existence set
-- Pass 2: Only treat as inner class if parent class actually exists in DEX
-- If parent doesn't exist, output as top-level class (like JADX's `cls.notInner()`)
-
-**Result:** Dexterity outputs FEWER files than JADX because lambda classes are suppressed (not inlined). JADX inlines lambdas into parent classes; Dexterity suppresses them entirely (P1-LAMBDA will add inlining).
+**Codegen:** ~55-65% semantic correctness; outputs 64% of JADX files
+**Open Work:** Critical bugs in control flow, ternary inlining, boolean chains
 
 ---
 
-## Output Quality Audit (Dec 24, 2025)
+## HONEST ASSESSMENT (Dec 25, 2025)
 
-**Result: ALL P0 BUGS FIXED (Dec 25, 2025) - P0-LOOP-VAR, P0-BOOL-CHAIN, P0-WRONG-RETURN all resolved**
+### Reality vs Previous Claims
 
-### Code Quality (from actual output/ comparison)
+| Metric | Previously Claimed | Reality |
+|--------|-------------------|---------|
+| Overall Grade | A- (95-96%) | **C-/D+ (55-65%)** |
+| P0 Bugs | 0 | **5-10 critical issues** per complex file |
+| Compilable | Yes | **No** - undefined variables |
+| Semantically Correct | Yes | **No** - inverted logic, broken loops |
+| Production Ready | Yes | **No** |
 
-| APK | Clean Files | Total | Quality | Notes |
-|-----|-------------|-------|---------|-------|
-| **small** | 1 | 1 | **100%** | Near-identical to JADX |
-| **large** | 5,897 | 5,901 | **99.93%** | 4 minor issues |
-| **badboy** | ~52 | 55 | **~95%** | All P0 bugs FIXED Dec 25: P0-LOOP-VAR, P0-BOOL-CHAIN, P0-WRONG-RETURN |
-| **medium** | 2,834 | 2,891 | **98%** | Hot-reload fixed Dec 23 |
+### Critical Issues Found (MaliciousPatterns.java)
 
-### File Coverage (UPDATED Dec 24, 2025)
+#### 1. Undefined Variables (Won't Compile)
+```java
+// Dexterity Line 148-151 - obj never assigned
+return TextStreamsKt.readText(obj);  // UNDEFINED!
 
-| APK | JADX | Dexterity | Coverage | Note |
-|-----|------|-----------|----------|------|
-| small | 2 | 1 | 50% | R.java excluded (by design) |
-| medium | 5,933 | 2,891 | 49% | Libraries filtered (by design) |
-| large | 8,161 | 5,901 | 72% | Libraries filtered (by design) |
-| badboy | 86 | 55 | **64%** | Lambda classes suppressed, not inlined (P1-LAMBDA) |
+// Line 428 - mODEL2, mODEL22, mANUFACTURER2, hARDWARE2 undefined
+if (!StringsKt.contains$default(mODEL2, ...))  // UNDEFINED!
 
-**NOTE:** File count differences are intentional. Library filtering and R.java/BuildConfig exclusion are by design (not needed for reverse engineering). Dexterity outputs FEWER files than JADX for badboy because lambda classes are suppressed entirely (P1-LAMBDA will inline them instead).
+// Line 642 - i never initialized
+strArr[i] = "/system/bin/su";  // i UNDEFINED!
+```
 
-### Root Cause of Medium APK Issues - RESOLVED (Dec 23, 2025)
+#### 2. Logic Inversions (Wrong Behavior)
+```java
+// Dexterity - isBeingDebugged() - WRONG LOGIC
+if (!Debug.isDebuggerConnected()) {
+    if (Debug.waitingForDebugger()) {
+        return false;  // INVERTED!
+    } else {
+        return true;   // INVERTED!
+    }
+}
+return z;  // Always false
 
-The medium APK contains **hot-reload instrumentation** (`RuntimeDirector`, `m__m`) which previously caused issues:
-- 741 files (26%) have `RuntimeDirector`
-- Previously 322 files (11%) had garbled variable names
-- 115 files had BOTH (35% correlation)
+// JADX - CORRECT
+return Debug.isDebuggerConnected() || Debug.waitingForDebugger();
+```
 
-**Issues Fixed (Dec 23, 2025):**
-1. **Register reuse in NewInstance extraction** - Singleton patterns now correctly preserve instructions when register is used after SPUT
-2. **Control flow inversion for throw patterns** - Single-block merged conditions now correctly use IfInfo's negate_condition flag
-3. **Debug output cleanup** - Removed unconditional eprintln statements across passes
+#### 3. Spurious Return Statements (Broken Control Flow)
+```java
+// Dexterity - loadMultipleDex() Lines 293-295
+while (it.hasNext()) {
+    return true;   // Unreachable code after this
+    return true;   // Unreachable
+    arrayList.add(...);  // Never executes
+}
 
-**Result:** Medium APK now 98%+ clean (was 89%).
+// Dexterity - checkTracerPid() Lines 487-506
+it = ...iterator();
+return true;  // Random return in middle of method
+while (it.hasNext()) {
+    return true;  // More garbage
+    ...
+}
+```
 
-## Current Grades (Reality Check Dec 24, 2025 - UPDATED)
+#### 4. Missing Expression Inlining
+```java
+// Dexterity - execCommand1
+z = inputStreamReader instanceof BufferedReader;
+BufferedReader r3 = z ? (BufferedReader)inputStreamReader : new BufferedReader(inputStreamReader, i);
+return TextStreamsKt.readText(obj);  // Uses wrong variable!
 
-| Category | Previous | Actual | Evidence |
-|----------|----------|--------|----------|
-| **Codegen** | C+ (78%) | **B+ (95%)** | GAP-01 through GAP-10 FIXED; P0-LOOP-VAR FIXED (Dec 25); P0-BOOL-CHAIN FIXED (Dec 25) |
-| **Type Inference** | B+ (85%) | **A+ (100%)** | P2-TYPE-INFERENCE-APLUS COMPLETE Dec 25 - 0 Unknown type warnings (degenerate ternaries simplified) |
-| **IR/Control Flow** | B+ (88%) | **A (95%)** | P0-BOOL-CHAIN FIXED (Dec 25) - Condition simplification + PHI-to-return transformation; P1-CONTROL-FLOW Phase 1 (Switch breaks) FIXED |
-| **Variable Naming** | A- | **B+ (88%)** | GAP-01 FIXED (peek vs take) |
-| **Kotlin Support** | D (60%) | **B+ (85-90%)** | Rename reasons FIXED, field alias references FIXED (Dec 24) |
-| **Deobfuscation** | A (95%) | **A- (90%)** | Kotlin field alias references FIXED (Dec 24) |
-| **Passes** | C+ (75%) | **B (88%)** | GAP-02 iterator for-each FIXED |
-| **Resources** | **A+** | **A+** | 1:1 JADX parity (verified) |
-| **Overall** | C+ (78%) | **A- (95%)** | 🎯 ZERO P0 BUGS: All critical bugs FIXED; Production-ready for reverse engineering |
+// JADX - Correct inline
+return TextStreamsKt.readText(inputStreamReader instanceof BufferedReader
+    ? (BufferedReader) inputStreamReader
+    : new BufferedReader(inputStreamReader, 8192));
+```
 
-**Reality (Dec 25, 2025):** PRODUCTION-READY - All P0 bugs eliminated:
-- **P0-LOOP-VAR:** ✅ FIXED - For-each loops use correct iterator variables
-- **P2-TYPE-INFERENCE:** ✅ FIXED (A+ 100%) - 0 Unknown type warnings
-  - Eliminated last 11 degenerate ternaries (cond ? 1 : 1 → 1)
-  - Implemented infer_type_from_expression() for all literal types
-- **P0-BOOL-CHAIN:** ✅ FIXED (Dec 25) - Condition simplification + PHI-to-return transformation
-  - All 14 conditions now return CORRECT values in detectEmulator$lambda$1()
-  - Condition simplification (if_region_visitor.rs): Clone of JADX IfCondition.simplify()
-  - PHI-to-return transformation (body_gen.rs): Track inverted defaults, emit early returns
-- **P0-WRONG-RETURN:** ✅ FIXED - Boolean exclusion from integral types
-- **P1-CONTROL-FLOW-POLISH Phase 1:** ✅ FIXED - Switch break insertion (+0.2-0.3%)
+#### 5. Broken For-Each Loops
+```java
+// Dexterity - isRooted() Lines 657-663
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        break;  // Just breaks, doesn't return
+    }
+}
+return true;  // Always returns true!
 
-### Kotlin Status Update (Dec 24, 2025 Investigation Complete)
-
-**FIXED:**
-- Rename reason comments now include "reason: from kotlin metadata"
-- Function modifiers (suspend/inline/infix/operator/tailrec) applied to IR
-- Type variance (`<in T>`, `<out T>`) emitted correctly
-- JVM field signature extraction (parser.rs:parse_property()) ✅
-- Index-based fallback field matching (extractor.rs:field_matches()) ✅
-- Field alias assignment (FieldData.alias) ✅
-
-**FIXED (Dec 24, 2025 - verified against JADX output):**
-- Field alias REFERENCES now applied in code generation (w→segments, x→directory works)
-- Fix: Added `register_kotlin_aliases()` to copy Kotlin field aliases to `AliasRegistry`
-- `AliasAwareDexInfo.get_field()` now returns aliased field names for IGET/IPUT/SGET/SPUT
-- Both field DECLARATIONS and USAGES now use aliased names (e.g., `this.segments` instead of `this.w`)
-- Verified on `l.a0.java`: `this.segments`, `this.directory` match JADX output exactly
-
-### Per-APK Grades
-
-| APK | Grade | Status |
-|-----|-------|--------|
-| small | **A+** | Near-identical to JADX |
-| large | **A** | 99.93% clean, 4 minor issues |
-| badboy | **A-** | ~95% clean, All P0 bugs FIXED Dec 25 |
-| medium | **A-** | 98%+ clean - hot-reload fixed Dec 23 |
-
-## Bug Status
-
-| Priority | Status |
-|----------|--------|
-| P0 Bugs | **0 OPEN** - All FIXED Dec 25: P0-LOOP-VAR, P0-BOOL-CHAIN, P0-WRONG-RETURN, P0-LAMBDA-SUPPRESS |
-| P1 Bugs | **0 OPEN** - ~~P1-CONTROL-FLOW~~ FIXED Dec 24; Lambda inlining infrastructure complete (awaiting Java 8 APK testing) |
-| P2 Bugs | **0 OPEN** - All FIXED: P2-TYPE-INFERENCE-APLUS (A+ 100%) Dec 25, P2-SIMPLE-MODE, P2-UNKNOWN-TYPE, P2-BOOL-SIMP, P2-NAME-COLLISION, P2-MULTI-CATCH, P2-SUPER-QUAL |
-| P3 Polish | **ALL DONE** - ~~P3-PARAM-ANNOT~~ verified working |
-
-**See [ROADMAP.md](ROADMAP.md) for remaining work (lambda inlining, polish items).**
-
-### Remaining JADX Parity Work
-
-| Issue | Priority | Status | Description |
-|-------|----------|--------|-------------|
-| Lambda inlining | P1 | 🔄 IN PROGRESS | JADX inlines lambdas, Dexterity outputs separate files |
-| ~~Kotlin field aliases~~ | P1 | ✅ FIXED | Field usages now use aliased names |
-| ~~`this$0` replacement~~ | P1 | ✅ FIXED | Inner class `this$0` → `OuterClass.this` (Dec 24) |
-| Synthetic member handling | P2 | OPEN | Better synthetic field detection |
-
-## New Bugs from f.java Audit (Dec 22-23, 2025)
-
-### P0 Critical (Code Won't Compile) - 5 bugs (5 fixed Dec 22-23)
-
-| ID | Issue | Difficulty | Example File |
-|----|-------|------------|--------------|
-| **P0-CFG01** | Try-catch exception variable scope corruption | **HARD** | io/grpc/j1/f.java |
-| ~~P0-CFG02~~ | ~~Empty if-body for early returns~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
-| **P0-CFG03** | Undefined variables in complex expressions | **HARD** | net/time4j/f.java |
-| ~~P0-TYPE01~~ | ~~Double literals as raw long bits~~ | ~~EASY~~ | **FIXED** Dec 22 |
-| ~~P0-CFG04~~ | ~~Complex boolean expressions garbled~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
-
-### P1 Semantic (Wrong Behavior) - 4 bugs (4 fixed Dec 22-23)
-
-| ID | Issue | Difficulty | Example File |
-|----|-------|------------|--------------|
-| ~~P1-CFG05~~ | ~~Variables used outside exception scope~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
-| ~~P1-CFG06~~ | ~~Missing if-else branch bodies~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
-| ~~P1-CFG07~~ | ~~Switch case bodies with undefined variables~~ | ~~HARD~~ | **FIXED** Dec 22-23 |
-| ~~P1-ENUM01~~ | ~~Enum reconstruction failures~~ | ~~MEDIUM~~ | **FIXED** Dec 22 |
-
-### Difficulty Legend
-
-- **EASY**: Isolated fix, single module, clear root cause
-- **MEDIUM**: Multiple modules, requires CFG understanding
-- **HARD**: Deep SSA/CFG changes, may affect many passes
-
-## Recent Improvements (Dec 23, 2025)
-
-### JADX Pass Cloning - 3 New Passes (~1,200 lines)
-
-| Pass | Lines | Description |
-|------|-------|-------------|
-| signature_processor.rs | ~400 | Generic type signature validation |
-| synchronized_region.rs | ~500 | MONITOR_ENTER/MONITOR_EXIT region detection |
-| exc_handlers_region.rs | ~300 | Exception handler region construction |
-
-**Coverage:** 79% → 82% (83/105 → 86/105 passes)
-
-### JADX IR Parity - P8-P16 Complete (~650 lines)
-
-Completed IR parity methods for Condition, LiteralArg, Compare, FillArrayData, LambdaInfo, PhiInsn, ConstString/ConstClass, SSAVar, and InsnArg wrapping.
-
-**IR Parity:** 96% → 98%
-
-### JADX Codegen Parity ~83% (Dec 24, 2025)
-
-Source-level audit complete. Most JADX codegen functionality implemented.
-See [CODEGEN_PARITY_MASTER.md](CODEGEN_PARITY_MASTER.md) for detailed audit and remaining gaps.
-
-**P1 (High Priority) - 5 tasks remaining:**
-| ID | Feature | Files | Status |
-|----|---------|-------|--------|
-| P1-LAMBDA-REF | Method reference (`String::new`, `obj::method`) | body_gen.rs | OPEN |
-| P1-LAMBDA-SIMPLE | Simple lambda (`() -> { return expr; }`) | body_gen.rs | OPEN |
-| P1-LAMBDA-INLINE | Inlined lambda with name inheritance | body_gen.rs | OPEN |
-| P1-ANON-INLINE | Anonymous class inlining with recursion detection | body_gen.rs | OPEN |
-| P1-INVOKE-RAW | InvokeCustom raw `.dynamicInvoker().invoke()` | body_gen.rs | OPEN |
-| ~~P1-FIELD-REPLACE~~ | ~~`this$0` -> `OuterClass.this` replacement~~ | body_gen.rs | ✅ FIXED Dec 24 |
-
-**P2 (Medium Priority) - All complete:**
-| ID | Feature | Files | Status |
-|----|---------|-------|--------|
-| ~~P2-BOOL-SIMP~~ | ~~Boolean simplification (`bool==true` -> `bool`)~~ | body_gen.rs | ✅ FIXED Dec 24 |
-| ~~P2-NAME-COLLISION~~ | ~~Class-level reserved names (static fields, inner classes, packages)~~ | body_gen.rs | ✅ FIXED Dec 24 |
-| ~~P2-SIMPLE-MODE~~ | ~~SimpleModeHelper rewrite (~340 lines)~~ | fallback_gen.rs | ✅ FIXED Dec 24 |
-| ~~P2-MULTI-CATCH~~ | ~~Multi-catch separator (`Type1 \| Type2`)~~ | body_gen.rs | ✅ FIXED (verified) |
-| ~~P2-SUPER-QUAL~~ | ~~Qualified super calls (`OuterClass.super.method()`)~~ | body_gen.rs | ✅ FIXED (verified) |
-
-**P3 (Lower Priority) - All fixed:**
-| ID | Feature | Files | Status |
-|----|---------|-------|--------|
-| ~~P3-PARAM-ANNOT~~ | ~~Parameter annotations (`@NonNull arg`)~~ | method_gen.rs | ✅ FIXED (verified) |
-
-### IR Layer JADX Parity Enhancement (Dec 23, 2025)
-
-Comprehensive analysis of JADX's 263 Java files (~2MB) IR layer vs Dexterity revealed IR is now **~85% complete**. Key additions:
-
-**InsnNode Visitor Methods (instructions.rs):**
-- `visit_insns()` / `visit_insns_until()` - Recursive instruction traversal (JADX: visitInsns)
-- `visit_args()` / `visit_args_until()` - Recursive argument traversal (JADX: visitArgs)
-
-**InsnNode Utility Methods (instructions.rs):**
-- `can_reorder()` - Check if instruction is side-effect free for optimization
-- `can_throw_exception()` - Check if instruction can throw exceptions
-- `is_exit_edge_insn()` - Check for return/throw/break/continue
-- `contains_wrapped_insn()` / `contains_arg()` / `contains_var()`
-- `get_register_args()` - Collect all register args recursively
-- `get_result()` / `has_result()` - Get destination register
-- `is_deep_equals()` / `copy_common_params()` - Instruction comparison/copying
-
-**InsnType Accessor Methods (instructions.rs):**
-- `get_args()` - Get all arguments as a slice (for all 35+ instruction types)
-- `get_dest()` / `get_dest_mut()` - Get destination register from any instruction type
-
-**Documentation:** See `docs/IR_CLONE_STATUS.md` for full parity tracking.
-
-**Remaining IR Tasks (P1-P4):**
-- P1: Mutation methods (replaceArg, copy variants)
-- P2: Specialized instruction methods (IfNode, PhiInsn)
-- P3: BlockNode CFG infrastructure (dominators)
-- P4: RegisterArg parent tracking
-
-### IR Source Code Parity Improvements (Dec 23, 2025)
-
-Deep source code comparison of JADX Java vs dexterity Rust IR layer revealed and fixed gaps:
-
-**LiteralArg Methods Added (instructions.rs):**
-- `negate()` - Negate literal for condition inversion
-- `is_negative()` - Check sign with float/double bit handling
-- `lit_true()` / `lit_false()` - Boolean factory methods
-- `is_true()` / `is_false()` - Boolean value checks
-
-**ArgType Methods Added (types.rs):**
-- `is_void()`, `is_wildcard()` - Type predicates
-- `get_array_element()`, `get_array_root_element()` - Array accessors
-- `can_be_object()`, `can_be_array()`, `can_be_primitive()`, `can_be_any_number()` - Type checks
-- `get_reg_count()` - Register count (1 or 2)
-- `get_generic_types()`, `get_wildcard_type()`, `get_wildcard_bound()` - Generic accessors
-- `array_of_dimension()` - Multi-dimensional array factory
-
-**Type Hints from DEX Opcodes (builder.rs):**
-- MOVE/RETURN/CONST opcodes now preserve type width info (UnknownNarrow/Wide/Object)
-
-### P1-HOTRELOAD: Complete Fix (Dec 23, 2025) - FIXED
-
-**Problem:** Hot-reload instrumented APKs (with `RuntimeDirector`, `m__m` fields) had multiple issues:
-1. Kotlin singleton patterns like `INSTANCE = new ModulesManager()` were incorrectly extracted when the register was still used after the SPUT
-2. Control flow inversion for throw patterns: `if (classLoader != null) { throw ... }` instead of `if (classLoader == null) { throw ... }`
-
-**Solution Phase 1 (register reuse):** Added register reuse detection in `extract_field_init.rs`:
-- `insn_uses_register()` - checks if an instruction reads from a specific register
-- `is_register_used_after()` - checks if a register is used after a given instruction index
-- Skip NewInstance extraction if the register is used after SPUT
-
-**Solution Phase 2 (control flow inversion, commit ba6703896):** Fixed throw pattern handling:
-- Fixed `find_branch_blocks()` in `conditionals.rs` to return None as merge_block for throw patterns
-- Fixed single-block merged condition handling in `region_builder.rs` to use IfInfo's negate_condition
-- Cleaned up debug output across `conditionals.rs`, `region_builder.rs`, `if_region_visitor.rs`, `type_inference.rs`
-
-**Result:** Static initializers correctly preserve new-instance instructions; throw patterns have correct condition polarity.
-
-**Files:** `extract_field_init.rs`, `conditionals.rs`, `region_builder.rs`, `if_region_visitor.rs`
+// JADX - Correct
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        return true;  // Returns on match
+    }
+}
+return false;  // Returns false if no match
+```
 
 ---
 
-## Previous Improvements (Dec 22, 2025)
+## File Coverage
 
-### P1-S02: Return Type Constraint Propagation Enhancement
-- **Return type constraint propagation** - Added `method_return_type` field to `TypeInference` struct
-- **New builder method** - `with_method_return_type()` to set method's return type
-- **Return instruction handling** - Handle `Return { value: Some(arg) }` to add `UseBound(Boolean)` constraint
-- **New public APIs** - `infer_types_with_full_context()`, `infer_types_with_context_and_return_type()`
-- **Ternary simplification enhancement** - Extended `simplify_ternary_to_boolean()` to accept target type parameter
-- **Integer to boolean simplification** - Simplify `? 1 : 0` to condition when target type is Boolean
-- **New helper function** - `negate_condition()` for double-negation elimination
-- **Files:** `type_inference.rs`, `lib.rs`, `body_gen.rs`
-
-### P1-S05: Ternary Detection JADX Parity - FIXED
-- **Ported JADX's `removeInsns()`** - Removes GOTO/NOP from blocks after splitting
-- **Simplified ternary detection** - Now uses `block.instructions.len() == 1` matching JADX's `getTernaryInsnBlock()`
-- **All 16 ternary tests pass** including `nested_ternary_in_comparison_test`
-- **Files:** `block_split.rs`, `ternary_mod.rs`
-
-### Type Inference: ~85% JADX Parity Achieved (Dec 22, 2025)
-
-Type inference has been significantly enhanced from ~60% to ~85% JADX parity. Dexterity implements the core functionality of JADX's 26 type inference files in 7 focused Rust modules (~9,100 lines total).
-
-**Components Completed:**
-
-| Component | Description | Status |
-|-----------|-------------|--------|
-| **TypeSearch** | Multi-variable constraint solving (Phase 2 fallback) | **COMPLETE** |
-| **TypeBound** | Trait system with 5 implementations (Use, Assign, Compare, Cast, Super) | **COMPLETE** |
-| **TypeUpdateEngine** | All 10 type update listeners implemented | **COMPLETE** |
-| **TypeCompare** | Full generic/TypeVariable/Wildcard/OuterGeneric support | **COMPLETE** |
-| **FixTypes** | 8 fallback strategies for unresolved types | **COMPLETE** |
-| **FinishTypeInference** | Final validation pass | **COMPLETE** |
-
-**Key Features:**
-- **type_search.rs** - New module for multi-variable constraint solving when single-variable inference fails
-- **TypeCompare** - Enhanced with TypeVariable and OuterGeneric handling for complex generic scenarios
-- **TypeUpdateEngine** - All 10 TypeUpdate listeners from JADX ported (field access, method calls, array ops, etc.)
-- **58 type-related tests passing** across all type inference modules
-
-**Files:** `type_inference.rs`, `type_search.rs`, `type_bound.rs`, `type_update.rs`, `type_listener.rs`, `fix_types.rs`, `finish_type_inference.rs`
-
-## Previous Improvements (Dec 21, 2025)
-
-### P1-S06 + P1-S12: Try-Catch Block Fix
-- **Block ID vs offset mismatch fixed** - `detect_try_catch_regions()` now uses `block.start_offset` instead of `block_id`
-- **Handler address mapping** - Added `addr_to_block` map to convert handler addresses to block IDs
-- **New function `split_blocks_with_handlers()`** - Handler addresses are now block leaders
-- **Stack overflow prevention** - Added `recursion_depth` limit (100) in `RegionBuilder` and `region_depth` limit (100) in `BodyGenContext`
-- **Results:** All tests pass, large APK completes in 6.5s with 0 errors (previously caused stack overflow)
-- **Files:** `region_builder.rs`, `block_split.rs`, `lib.rs`, `decompiler.rs`, `body_gen.rs`
-
-### Resources 1:1 JADX Parity Achieved
-- **Complete parity:** 103 directories, 152 files, zero differences with JADX output
-- **Gravity flag decoding:** `decode_gravity_flags()` in axml.rs decomposes compound values (e.g., `0x800013` to `start|center_vertical`)
-- **Resource name suffix fix:** Only adds `_res_0x{id}` suffix for actual name collisions, not config variants
-- **Version qualifier stripping:** `normalize_config_qualifier()` strips standalone version qualifiers (`layout-v21` to `layout`)
-- **xmlns attribute order:** Namespace declarations sorted with `android` first
-- **tileMode enum:** Added enum decoding (`1` to `repeat`)
-
-### P1-S11: Throws Declaration Fix
-- **Throws parity improved from ~13.7% to 41.7%** (3x improvement)
-- Parse `dalvik/annotation/Throws` from DEX annotations
-- Added `get_throws_from_annotations()` to extract exception types from annotations
-- `collect_throws_from_instructions()` scans for known exception-throwing library methods
-- Checked exceptions filtered against caught types in try-catch blocks
-- All 1,217 tests pass
-
-### Output Refresh Completed
-- All 5 APK samples refreshed: small, medium, large, badboy, badboy-x86
-- Total Java files decompiled: ~8,858 files
-- Output location consolidated: `output/dexterity/`
-- Root-level extraction directories cleaned up
-
-### Verified Fixes
-- **Debug opcode fix (DBG_SET_FILE):** Verified in decompiled output
-- **Config qualifier fix (BCP-47 locale tags):** Verified in resource directories
-
-### Phase 2: Boolean Expression Simplification
-- Short-circuit OR condition merging (`a || b` patterns)
-- Barrier parameter for collect_branch_blocks
-- OR type 2 detection for same-target branching
-- Fixed region building for merged OR conditions
-
-### Phase 1: Static Field Inline Initialization
-- NewInstance variant in FieldValue for `new ClassName()` patterns
-- Extended extract_field_init.rs for new-instance pattern detection
-- Empty clinit suppression (skip `static {}` with only return-void)
-
-## Quality Metrics (Dec 25, 2025 - PRODUCTION-READY)
-
-| Metric | Value |
-|--------|-------|
-| Total Tests | 1,392+ passing (all integration + unit) |
-| Pass Coverage | **88%** (86/105 JADX passes) |
-| IR Parity | **95%** (SSA + regions fully working) |
-| Codegen Parity | **~95%** (B+ Grade) - All P0 bugs FIXED Dec 25 |
-| Type Inference Parity | **A+ (100%)** - 0 Unknown type warnings (Dec 25) |
-| Throws Parity | 41.7% |
-| Kotlin Parity | **85-90%** (B+ Grade - field alias references FIXED Dec 24, rename reasons FIXED) |
-| Deobfuscation Parity | **90%** (A- Grade - Kotlin field alias references FIXED Dec 24) |
-| DEX Debug Info | 100% |
-| Resources Parity | **100% (1:1 JADX)** |
-| Control Flow | **A (95%)** - Phases 1,3,4 of polish COMPLETE Dec 25 |
-| Overall JADX Parity | **A- (95-96%)** - PRODUCTION-READY, 0 P0 bugs |
-| Total Java Files | ~8,858 (across 5 APK samples) |
-
-## Validated Fixes
-
-### RES-001: BCP-47 Locale Format (Dec 21, 2025)
-
-**Status:** COMPLETE AND WORKING
-
-**Fix Location:** `crates/dexterity-resources/src/arsc.rs:205-274`
-
-**Unit Test Results (5/5 passing):**
-| Test | Description | Status |
-|------|-------------|--------|
-| `test_qualifier_string_old_style_locale` | Old-style locales: `pt-rBR`, `de` | PASS |
-| `test_qualifier_string_bcp47_with_script` | BCP-47 with script: `b+sr+Latn`, `b+zh+Hans+CN` | PASS |
-| `test_qualifier_string_bcp47_with_variant` | BCP-47 with variant: `b+en+POSIX` | PASS |
-| `test_qualifier_string_default` | Default (empty) qualifier | PASS |
-| `test_qualifier_string_with_density` | Combined qualifiers: `xhdpi`, `fr-hdpi` | PASS |
-
-**JADX Output Comparison:**
-- BCP-47 directories: `values-b+sr+Latn` - IDENTICAL
-- Old-style locales: `values-pt-rBR`, `values-en-rAU` - IDENTICAL
-- Density qualifiers: `values-hdpi`, `values-xhdpi` - IDENTICAL
-- API level qualifiers: `values-v30`, `values-v21` - IDENTICAL
-- Resource file contents: Serbian/Cyrillic text preserved - IDENTICAL
-
-## Output Quality by APK Size
-
-| APK | Files | Quality | Notes |
-|-----|-------|---------|-------|
-| Small (9.8KB) | 1 | **A** | Simple code works |
-| Medium (10.3MB) | 2,890 | **B+** | Most issues resolved |
-| Large (51.5MB) | 5,901 | **B** | Complex control flow handled with OR merging |
-| Badboy | 53 | **B+** | Malware analysis ready |
-| Badboy-x86 | 13 | **B-** | x86 architecture support |
+| Tool | Files | Notes |
+|------|-------|-------|
+| JADX | 86 | Complete output with lambda inlining |
+| Dexterity | 55 | 64% coverage, lambda classes suppressed |
 
 ---
 
-For open work, see [ROADMAP.md](ROADMAP.md).
-For QA reports, see [qa_reports/GRADE_SUMMARY.md](../qa_reports/GRADE_SUMMARY.md).
+## What Works
+
+- Simple getter methods (execSu, execId, getCameraInfo, etc.)
+- Basic DexClassLoader calls
+- Static field initialization (partially)
+- Inner class structure
+- Imports
+- Method signatures
+- Resources (1:1 JADX parity)
+
+## What's Broken
+
+- Ternary expression inlining -> undefined `obj` variables
+- For-each loop return semantics -> always returns true/false incorrectly
+- Boolean chain logic -> inverted conditions
+- Complex control flow -> spurious `return true;` scattered throughout
+- Variable declarations in complex expressions
+
+---
+
+## Honest Per-Category Grades
+
+| Category | Grade | Evidence |
+|----------|-------|----------|
+| **Codegen** | D+ (55-65%) | Undefined variables, broken control flow |
+| **Type Inference** | B (80%) | Works for simple cases, fails on ternaries |
+| **IR/Control Flow** | D (50%) | Spurious returns, inverted logic |
+| **Variable Naming** | C (70%) | Many undefined or wrong variables |
+| **Kotlin Support** | C+ (75%) | Field aliases work, complex patterns fail |
+| **Resources** | A+ (100%) | 1:1 JADX parity verified |
+| **Overall** | **C-/D+ (55-65%)** | NOT production-ready |
+
+---
+
+## P0 Bugs (OPEN - Dec 25, 2025)
+
+| ID | Issue | Severity | Example |
+|----|-------|----------|---------|
+| P0-UNDEF-VAR | Undefined variables in ternary expressions | **CRITICAL** | `obj`, `i`, `mODEL2` never declared |
+| P0-LOGIC-INV | Logic inversions in boolean methods | **CRITICAL** | `isBeingDebugged()` returns opposite |
+| P0-SPURIOUS-RET | Spurious `return true;` in control flow | **CRITICAL** | `loadMultipleDex()`, `checkTracerPid()` |
+| P0-FOREACH-SEM | For-each loop semantics wrong | **CRITICAL** | `isRooted()` always returns true |
+| P0-TERNARY-INLINE | Ternary expression inlining fails | **CRITICAL** | `execCommand*()` methods broken |
+
+---
+
+## Fixes Needed
+
+1. **Ternary inlining** - obj/r3/r4 variables need proper inline expression generation
+2. **For-each return semantics** - break vs return in loops
+3. **Boolean chain handling** - OR/AND condition merging
+4. **Control flow cleanup** - Remove spurious return statements
+5. **Variable declaration** - Fix undefined `i`, `obj`, `mODEL2` etc.
+
+---
+
+## Test Coverage Note
+
+The 687+ integration tests pass syntactic checks but NOT semantic correctness. Tests verify:
+- Code generates without panics
+- Basic structure is correct
+- Resources match JADX
+
+Tests do NOT verify:
+- Generated code compiles
+- Generated code has correct semantics
+- Complex control flow is correct
+
+---
+
+## Previous (Overstated) Documentation
+
+The previous documentation claimed A- grade and production-ready status. This was based on:
+- Test pass rates (which don't verify semantics)
+- Simple method comparisons
+- Resource parity (which IS accurate)
+
+The reality is that complex methods have serious issues that make the output non-compilable and semantically incorrect.
+
+---
+
+For detailed issue tracking, see [ROADMAP.md](ROADMAP.md).
