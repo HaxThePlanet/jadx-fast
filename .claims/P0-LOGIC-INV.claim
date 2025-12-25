@@ -1,3 +1,50 @@
-CLAIMED by claude-opus at 2025-12-24
-Working on: Fix logic inversions in boolean methods (isBeingDebugged returns opposite)
-Status: IN PROGRESS
+# P0-LOGIC-INV: Inverted Boolean Logic in OR Pattern Merging
+**Status:** COMPLETED
+**Fixed:** Dec 25, 2025
+
+## Issue
+Boolean methods like `isBeingDebugged()` returned the opposite of what they should.
+
+## Root Cause
+The `merge()` function in `conditionals.rs` incorrectly handled OR pattern merging.
+
+There are **TWO** OR patterns:
+1. **Type 1** (else-branch nesting): `self.else -> other.condition`
+2. **Type 2** (then-branch nesting / short-circuit): `self.then -> other.condition`
+
+The old code always used `other.else_blocks` for the FALSE case, which is:
+- ✓ Correct for Type 1
+- ✗ **Wrong** for Type 2
+
+For Type 2 (short-circuit OR like `a() || b()`), the FALSE case is `other.then_blocks`.
+
+## Fix Applied
+Updated `crates/dexterity-passes/src/conditionals.rs` lines 728-771:
+- Type 1: TRUE = self.then_block, FALSE = other.else_blocks
+- Type 2: TRUE = self.else_block, FALSE = other.then_blocks
+
+## Results
+
+**Before:**
+```java
+if (!Debug.isDebuggerConnected()) {
+    if (Debug.waitingForDebugger()) {
+        return false;  // WRONG
+    } else {
+        return true;   // WRONG
+    }
+}
+return z;
+```
+
+**After:**
+```java
+if (Debug.isDebuggerConnected() || Debug.waitingForDebugger()) {
+    z = true;
+}
+return z;
+```
+
+## Tests
+- All 365 dexterity-passes tests pass
+- badboy APK verified correct
