@@ -283,26 +283,26 @@ while (it.hasNext()) {
 
 ---
 
-## Priority Roadmap: Fix P0 Bugs First
+## Priority Roadmap: 1 P0 Bug Remaining
 
 **Current Status (Dec 25, 2025):**
+- ✅ P0-UNDEF-VAR: FIXED (Static field inlining + force_inline flags)
+- ✅ P0-TERNARY-INLINE: FIXED (Force inline + static field vars)
 - ✅ P0-LOGIC-INV: FIXED (Boolean OR pattern merging)
 - ✅ P0-SPURIOUS-RET: FIXED (Disabled broken P0-BOOL-CHAIN transformation)
-- 🔴 P0-UNDEF-VAR: OPEN (Undefined variables in complex expressions)
-- 🔴 P0-FOREACH-SEM: OPEN (Empty for-each loop bodies)
-- 🟡 P0-TERNARY-INLINE: PARTIAL (Literals work, var decl broken)
+- 🔴 P0-FOREACH-SEM: OPEN (Empty for-each loop bodies) - **LAST P0 BUG**
 
-**NOT production-ready. P0 bugs must be fixed first:**
+**Nearly production-ready! Fix last P0 bug:**
 
 | Task | Est. Impact | Effort | Status | Notes |
 |------|-------------|--------|--------|-------|
-| **P0-UNDEF-VAR** | +10-15% | Medium | 🔴 OPEN | Variables `z`, `mODEL2`, `i` undefined |
 | **P0-FOREACH-SEM** | +5-10% | Medium | 🔴 OPEN | Loop body return not emitted |
-| **P0-TERNARY-INLINE** | +2-5% | Medium | 🟡 PARTIAL | Var declarations broken |
-| **Lambda Inlining (real)** | +1-2% | Hard | Pending | Wait for P0 fixes first |
+| ~~P0-UNDEF-VAR~~ | ~~+10-15%~~ | ~~Medium~~ | ✅ FIXED | Static field inlining fixed |
+| ~~P0-TERNARY-INLINE~~ | ~~+2-5%~~ | ~~Medium~~ | ✅ FIXED | Force inline flags work |
+| **Lambda Inlining (real)** | +1-2% | Hard | Pending | Wait for P0 fix first |
 | **Control Flow Polish** | +0.5-1% | Medium | Pending | Lower priority |
 
-**Priority:** Fix P0-UNDEF-VAR first (highest impact, ~10-15% improvement). Then P0-FOREACH-SEM.
+**Priority:** Fix P0-FOREACH-SEM - the last P0 bug blocking production-ready status.
 
 ---
 
@@ -460,20 +460,20 @@ versions couldn't propagate types from CheckCast/NewInstance sources.
 **Output Quality (from actual comparison Dec 25, 2025):**
 - small APK: 100% clean (Grade A+)
 - large APK: 99.93% clean (Grade A)
-- badboy APK: **~60-70% clean (Grade C/C-)** - 3 P0 bugs OPEN (P0-UNDEF-VAR, P0-FOREACH-SEM, P0-TERNARY-INLINE)
+- badboy APK: **~70-80% clean (Grade B-/C+)** - 1 P0 bug OPEN (P0-FOREACH-SEM)
 - medium APK: 98%+ clean (Grade A-)
 
-**JADX Codegen Parity:** ~60-70% (C/C- Grade) for complex methods - NOT YET PRODUCTION-READY
+**JADX Codegen Parity:** ~70-80% (B-/C+ Grade) for complex methods - NEARLY PRODUCTION-READY
 **File Coverage:** 64% of JADX (55 vs 86 for badboy) - lambda suppression FIXED, outputs fewer files than JADX (lambdas not inlined yet)
 
 **What's Fixed (Dec 25):**
+- ✅ P0-UNDEF-VAR: Static field inlining now consistent
+- ✅ P0-TERNARY-INLINE: Force inline flags work correctly
 - ✅ P0-LOGIC-INV: Boolean OR pattern merging now correct
 - ✅ P0-SPURIOUS-RET: No more spurious `return true;` in loops
 
-**What's Still Broken:**
-- 🔴 P0-UNDEF-VAR: Undefined variables (`z`, `mODEL2`, `hARDWARE2`)
-- 🔴 P0-FOREACH-SEM: Empty for-each loop bodies
-- 🟡 P0-TERNARY-INLINE: Partial - literals work, var decl broken
+**What's Still Broken (1 P0 remaining):**
+- 🔴 P0-FOREACH-SEM: Empty for-each loop bodies - return not emitted in if-block
 
 ## Open Work
 
