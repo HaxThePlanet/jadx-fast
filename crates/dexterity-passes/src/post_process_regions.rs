@@ -116,10 +116,93 @@ fn merge_pre_condition(
 ///
 /// Switch cases in Java need explicit break statements to prevent
 /// fall-through. This function inserts them where needed.
-fn insert_switch_breaks(_case: &mut CaseInfo, _result: &mut PostProcessRegionsResult) -> bool {
-    // Switch break insertion: checks for fall-through cases and inserts break
-    // statements where needed. Currently handled during code generation.
-    false
+///
+/// Port of JADX SwitchRegionMaker.insertBreaksForCase() (lines 367-405)
+fn insert_switch_breaks(case: &mut CaseInfo, _result: &mut PostProcessRegionsResult) -> bool {
+    // Check if the case container already ends with an exit (return/throw/break/continue)
+    if region_always_exits(&case.container) {
+        return false;
+    }
+
+    // Case doesn't end with an exit instruction - need to insert a break
+    // Wrap the case container to append a break at the end
+    insert_break_at_end(&mut case.container)
+}
+
+/// Check if a region always exits (return, throw, break, or continue)
+///
+/// Based on JADX RegionUtils.hasExitBlock() - a region "always exits" if
+/// control never falls through to the next statement.
+fn region_always_exits(region: &Region) -> bool {
+    match region {
+        // Break and Continue are exits (they transfer control)
+        Region::Break { .. } | Region::Continue { .. } => true,
+
+        // Ternary return is an exit (returns from method)
+        Region::TernaryReturn { .. } => true,
+
+        // Sequence: check if the last element exits
+        Region::Sequence(contents) => {
+            if let Some(last) = contents.last() {
+                match last {
+                    RegionContent::Block(_) => {
+                        // Would need to check if block ends with return/throw
+                        // For now, conservatively assume it doesn't exit
+                        false
+                    }
+                    RegionContent::Region(nested) => region_always_exits(nested),
+                }
+            } else {
+                false // Empty sequence doesn't exit
+            }
+        }
+
+        // If-else: both branches must exit for the whole region to exit
+        Region::If { then_region, else_region, .. } => {
+            let then_exits = region_always_exits(then_region);
+            let else_exits = else_region
+                .as_ref()
+                .map(|e| region_always_exits(e))
+                .unwrap_or(false);
+            then_exits && else_exits
+        }
+
+        // Try-catch: try and all handlers must exit
+        Region::TryCatch { try_region, handlers, .. } => {
+            region_always_exits(try_region)
+                && handlers.iter().all(|h| region_always_exits(&h.region))
+        }
+
+        // Loop, Switch, Synchronized don't inherently exit
+        Region::Loop { .. } => false,
+        Region::Switch { .. } => false,
+        Region::Synchronized { body, .. } => region_always_exits(body),
+
+        // Ternary assignment doesn't exit (just assigns)
+        Region::TernaryAssignment { .. } => false,
+    }
+}
+
+/// Insert a break at the end of a region
+///
+/// Returns true if a break was inserted
+fn insert_break_at_end(region: &mut Region) -> bool {
+    match region {
+        Region::Sequence(contents) => {
+            // Append a Break region at the end
+            contents.push(RegionContent::Region(Box::new(Region::Break { label: None })));
+            true
+        }
+        _ => {
+            // Wrap the region in a sequence with a break
+            let inner = std::mem::replace(region, Region::Sequence(vec![]));
+            *region = Region::Sequence(vec![
+                RegionContent::Region(Box::new(inner)),
+                RegionContent::Region(Box::new(Region::Break { label: None })),
+            ]);
+            true
+        }
+    }
 }
 
 /// Insert an edge instruction at the end of a region
@@ -183,6 +266,7 @@ pub fn region_ends_with_return_or_throw(region: &Region) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use dexterity_ir::regions::{CaseKey, CaseInfo};
 
     #[test]
     fn test_empty_region() {
@@ -196,11 +280,70 @@ mod tests {
     fn test_nested_if() {
         let mut region = Region::If {
             condition: dexterity_ir::regions::Condition::Unknown,
+            condition_blocks: vec![],
             then_region: Box::new(Region::Sequence(vec![])),
             else_region: Some(Box::new(Region::Sequence(vec![]))),
         };
 
         let result = post_process_regions(&mut region);
         assert_eq!(result.merged_conditions, 0);
+    }
+
+    #[test]
+    fn test_switch_break_insertion() {
+        // Create a switch with a case that doesn't end with an exit
+        let mut region = Region::Switch {
+            header_block: 0,
+            cases: vec![
+                CaseInfo::new(
+                    vec![CaseKey::Int(1)],
+                    Region::Sequence(vec![RegionContent::Block(10)]),
+                ),
+                CaseInfo::new(
+                    vec![CaseKey::Default],
+                    Region::Sequence(vec![
+                        RegionContent::Region(Box::new(Region::Break { label: None })),
+                    ]),
+                ),
+            ],
+        };
+
+        let result = post_process_regions(&mut region);
+        // First case should have had a break inserted
+        assert_eq!(result.inserted_breaks, 1);
+
+        // Verify the break was inserted
+        if let Region::Switch { cases, .. } = &region {
+            // First case should now end with a break
+            if let Region::Sequence(contents) = &*cases[0].container {
+                assert_eq!(contents.len(), 2); // Block + Break
+                if let Some(RegionContent::Region(r)) = contents.last() {
+                    assert!(matches!(r.as_ref(), Region::Break { .. }));
+                }
+            }
+            // Second case already had a break, should be unchanged
+            if let Region::Sequence(contents) = &*cases[1].container {
+                assert_eq!(contents.len(), 1); // Just the original Break
+            }
+        }
+    }
+
+    #[test]
+    fn test_switch_no_break_for_exit() {
+        // A case that already ends with a break shouldn't get another one
+        let mut region = Region::Switch {
+            header_block: 0,
+            cases: vec![
+                CaseInfo::new(
+                    vec![CaseKey::Int(1)],
+                    Region::Sequence(vec![
+                        RegionContent::Region(Box::new(Region::Break { label: None })),
+                    ]),
+                ),
+            ],
+        };
+
+        let result = post_process_regions(&mut region);
+        assert_eq!(result.inserted_breaks, 0);
     }
 }
