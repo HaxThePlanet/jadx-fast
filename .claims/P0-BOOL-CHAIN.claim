@@ -1,39 +1,59 @@
-Task: P0-BOOL-CHAIN - Truncated Boolean Chains
+Task: P0-BOOL-CHAIN - Return Logic Inverted (CRITICAL)
 Claimed: 2025-12-24
-Agent: Claude Opus 4.5
+Agent: Claude Opus 4.5 (LLM Agent)
+Session: ACTIVE
 
-Status: COMPLETED
+Status: OPEN - Root Cause Discovered (Dec 25, 2025)
 
 Problem:
-Complex boolean OR chains are truncated after first condition.
-Example: detectEmulator$lambda$1() - JADX has 40 lines, Dexterity has 12
+Boolean PHI patterns generate inverted return logic. 13 of 14 conditions in
+detectEmulator$lambda$1() return the WRONG value.
 
-Root Cause:
-In region_builder.rs process_if(), else_blocks were being added to the exit
-barrier when building then_region. This prevented nested conditionals from
-including the shared "true" target (block 14) in their else_regions.
-
-JADX Reference: IfRegionMaker.java:88 only adds outBlock (merge point) as exit,
-NOT the else_block. Dexterity was incorrectly adding else_blocks as exits.
-
-Fix:
-Removed the code in process_if() that added else_blocks to the exit set.
-The merge point is still added as exit, but else_blocks remain accessible
-for nested conditionals to include in their else_regions.
-
-Location: crates/dexterity-passes/src/region_builder.rs:2065-2072
-
-Result:
-- Before: 12 lines with single truncated condition
-- After: ~50 lines with all 14 nested conditions
-
-Output now matches JADX's nested if pattern:
-if (!startsWith(FINGERPRINT, "generic")) {
-    if (!startsWith(FINGERPRINT, "unknown")) {
-        if (!contains(MODEL, "google_sdk")) {
-            ... 11 more nested ifs ...
-            return false;
-        }
+JADX (correct):
+```java
+if (!StringsKt.startsWith$default(str, "generic", ...)) {
+    if (!StringsKt.contains$default(str3, "ranchu", ...)) {
+        return false;  // Early return when condition fails
     }
 }
-return true;
+return true;  // All emulator checks passed
+```
+
+Dexterity (WRONG - logic inverted):
+```java
+boolean z = false;
+if (!StringsKt.startsWith$default(str, "generic", ...)) {
+    if (StringsKt.contains$default(str3, "ranchu", ...)) {
+        z = true;  // Condition inverted AND using PHI pattern
+    }
+}
+return z;  // Returns FALSE when emulator detected (backwards!)
+```
+
+Root Cause Analysis:
+The PHI variable pattern (z=false; if(C) {z=true;} return z;) doesn't preserve
+the early-return semantics. The nested conditions get inverted when converted
+to this pattern, and the return value is backwards.
+
+Previous Investigation:
+- TernaryMod pass implemented correctly for ternary operators
+- But P0-BOOL-CHAIN is NOT a ternary operator issue
+- It's a boolean PHI pattern restructuring issue
+- TernaryMod doesn't fix this pattern (different control flow)
+
+Solution Required:
+Implement Boolean Simplify Pass to convert PHI patterns to early returns:
+1. Detect: z = false; if (C) { z = true; } return z;
+2. Transform to: if (!C) { return false; } return true;
+3. Requires condition inversion + control flow restructuring
+
+Impact:
+- Affects detectEmulator$lambda$1() - 13 of 14 conditions return wrong value
+- This is a correctness bug (P0 - code won't compile/run correctly)
+- Estimated 0.5-1% quality impact on large APK
+
+Files to Modify:
+- New pass: crates/dexterity-passes/src/boolean_simplify.rs
+- Pipeline integration: crates/dexterity-codegen/src/lib.rs
+
+JADX Reference: TernaryMod.java for PHI-to-return pattern transformation logic

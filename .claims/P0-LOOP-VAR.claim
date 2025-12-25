@@ -1,1 +1,37 @@
-P0-LOOP-VAR: Claimed by claude-opus at Wed Dec 24 01:38:04 PM PST 2025
+Task: P0-LOOP-VAR - Undefined Loop Variables
+Claimed: 2025-12-24
+Agent: Claude Opus 4.5 (LLM Agent)
+Session: ACTIVE
+
+Status: COMPLETED ✅ (Dec 25, 2025)
+
+Problem (SOLVED):
+For-each loops over arrays weren't using the iterator variable in the loop body.
+
+Solution Applied:
+- Extended ArrayForEachInfo with `extra_skip_insns` and `alias_registers` fields
+- Scan for Move instruction after AGET and register as alias
+- Scan for Const(0) instruction (loop counter init) and add to skip set
+- Register inline expressions for both AGET dest and Move dest (aliases)
+- Clean up all registrations after loop body generation
+
+Result:
+```java
+// Dexterity (FIXED - for-each variable works correctly):
+for (String str : strArr) {
+    if (new File(str).exists()) {  // ✅ str correctly used!
+        break;
+    }
+}
+return z;
+```
+
+Note: The remaining control flow issues (break → return true, z → return false) are P0-BOOL-CHAIN territory, not P0-LOOP-VAR:
+- Requires PHI-to-return transformation (JADX's TernaryMod.java pattern)
+- Separate from for-each variable declaration issue
+
+Location: crates/dexterity-codegen/src/body_gen.rs:3325-4010, 6936-7020
+
+Affected Methods: isRooted(), checkMagisk(), checkSuBinary(), checkBusybox() in MaliciousPatterns.java
+
+JADX Reference: LoopRegionVisitor.java, ForEachMaker.java
