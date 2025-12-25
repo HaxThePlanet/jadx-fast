@@ -1,0 +1,38 @@
+# P1-BOOLEAN-SIMPLIFICATION: Boolean Expression Simplification
+**Status:** IN PROGRESS
+**Agent:** Claude Opus 4.5
+**Date:** Dec 25, 2025
+
+## Issue
+Dexterity outputs verbose if-chains instead of clean boolean expressions like JADX.
+
+**Current Output:**
+```java
+if (!a) {
+    if (b) {
+        z = true;
+    } else {
+        z = false;
+    }
+}
+```
+
+**JADX Output:**
+```java
+z = a || b;
+```
+
+## JADX Reference
+- `IfCondition.simplify()` - Condition simplification
+- `SimplifyVisitor.java` - Boolean expression optimization
+- `IfMakerHelper.java` - Controls condition merging rules
+
+## Scope
+- Merge nested if conditions into `a || b` and `a && b` patterns
+- Simplify `if (x) { z = true; } else { z = false; }` to `z = x;`
+- Short-circuit evaluation patterns
+
+## Files to Modify
+- `crates/dexterity-passes/src/conditionals.rs`
+- `crates/dexterity-passes/src/if_region_visitor.rs`
+- `crates/dexterity-codegen/src/body_gen.rs`

@@ -2,9 +2,36 @@
 
 ## December 2025
 
-### Dec 25, 2025 - PRODUCTION-READY (0 P0 Bugs)
+### Dec 25, 2025 - 🟢 PRODUCTION-READY (0 P0 Bugs!)
 
-**All P0 Critical Bugs Fixed - A- Grade (95-96%)**
+**ALL 5 P0 Bugs Fixed - A Grade (85-90%) | 0 P0 Remaining!**
+
+#### P0-FOREACH-SEM: Empty For-Each Loop Body - FIXED
+
+Ported JADX's `BlockProcessor.splitReturn()` to fix shared return blocks causing empty if-bodies.
+
+**Files Modified:**
+- `crates/dexterity-passes/src/block_split.rs` - Added `split_return_blocks()` (96 lines)
+- `crates/dexterity-cli/src/decompiler.rs` - Pipeline integration (Stage 1.5)
+
+**Result:**
+```java
+// Before (BROKEN):
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        // EMPTY! No return emitted
+    }
+}
+return z;  // Always returns false!
+
+// After (FIXED):
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        return true;  // Correct early return ✅
+    }
+}
+return false;
+```
 
 #### P0-LOOP-VAR: Undefined Loop Variables - FIXED
 

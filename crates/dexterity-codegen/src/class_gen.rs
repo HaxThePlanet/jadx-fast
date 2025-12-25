@@ -1593,6 +1593,12 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &dexterity_ir:
             let simple_name = stripped.rsplit('/').next().unwrap_or(stripped);
             code.add("new ");
             code.add(simple_name);
+            // Diamond operator for generic field types (JADX parity)
+            // Clone of JADX InsnGen.java:765-780 diamond operator generation
+            // When field type is generic (e.g., ArrayList<String>), emit <> instead of raw type
+            if matches!(field_type, dexterity_ir::ArgType::Generic { .. }) {
+                code.add("<>");
+            }
             code.add("(");
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 {

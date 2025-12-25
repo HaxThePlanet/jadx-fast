@@ -2,7 +2,7 @@
 
 High-performance Android decompiler written in Rust, targeting JADX parity.
 
-**Current Status:** PRODUCTION-READY | 0 P0 Bugs | A- Grade (95-96%) | 64% File Coverage | Dec 25, 2025
+**Current Status:** 🟡 FUNCTIONAL | 0 P0 Bugs | B-/C+ Grade (70-80%) | Dec 25, 2025
 
 ## Core Status Docs
 
@@ -49,7 +49,7 @@ These docs describe the JADX algorithms that Dexterity ports:
 | [DEX Parity](DEX_PARITY.md) | **A+** | Binary parsing - complete |
 | [IR Clone Status](IR_CLONE_STATUS.md) | **B (85%)** | JADX IR clone |
 | [IR Remaining Tasks](IR_REMAINING_TASKS.md) | - | Open IR work |
-| [Codegen Parity](CODEGEN_PARITY_MASTER.md) | **B+ (95%)** | Java generation - all P0/P1 gaps fixed |
+| [Codegen Parity](CODEGEN_PARITY_MASTER.md) | **B-/C+ (70-80%)** | Java gen - P0 fixed, rough output |
 | [Deobf Parity](JADX_DEOBF_PARITY_AUDIT.md) | **A- (90%)** | ProGuard/JOBF |
 | [Kotlin Parity](KOTLIN_PARITY.md) | **B+ (85-90%)** | Field aliases FIXED Dec 24 |
 | [Passes Parity](PASSES_PARITY.md) | **B- (80%)** | 86/105 JADX passes |

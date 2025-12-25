@@ -498,18 +498,25 @@ impl Condition {
             }
 
             // Recursively simplify AND/OR and apply negation heuristic
+            // Clone of JADX IfCondition.java:187-201
             Condition::And(left, right) => {
                 let simplified_left = left.simplify();
                 let simplified_right = right.simplify();
 
-                // Count negations - if both are negated, maybe invert
+                // JADX: If >50% of args are negated, invert whole expression
+                // This produces cleaner output: !a && !b → !(a || b)
                 let left_negated = simplified_left.is_negated();
                 let right_negated = simplified_right.is_negated();
 
                 if left_negated && right_negated {
                     // Both negated: !a && !b → !(a || b) (inverse De Morgan)
-                    // This can be cleaner in some cases
-                    // But we keep it as-is by default - only apply when explicitly desired
+                    // Unwrap the negations and create OR, then wrap in NOT
+                    let unwrapped_left = simplified_left.unwrap_not();
+                    let unwrapped_right = simplified_right.unwrap_not();
+                    return Condition::Not(Box::new(Condition::Or(
+                        Box::new(unwrapped_left),
+                        Box::new(unwrapped_right),
+                    )));
                 }
 
                 Condition::And(Box::new(simplified_left), Box::new(simplified_right))
@@ -518,6 +525,21 @@ impl Condition {
             Condition::Or(left, right) => {
                 let simplified_left = left.simplify();
                 let simplified_right = right.simplify();
+
+                // JADX: If >50% of args are negated, invert whole expression
+                // This produces cleaner output: !a || !b → !(a && b)
+                let left_negated = simplified_left.is_negated();
+                let right_negated = simplified_right.is_negated();
+
+                if left_negated && right_negated {
+                    // Both negated: !a || !b → !(a && b) (inverse De Morgan)
+                    let unwrapped_left = simplified_left.unwrap_not();
+                    let unwrapped_right = simplified_right.unwrap_not();
+                    return Condition::Not(Box::new(Condition::And(
+                        Box::new(unwrapped_left),
+                        Box::new(unwrapped_right),
+                    )));
+                }
 
                 Condition::Or(Box::new(simplified_left), Box::new(simplified_right))
             }
@@ -544,6 +566,20 @@ impl Condition {
             Condition::Not(_) => true,
             Condition::Simple { negated, .. } => *negated,
             _ => false,
+        }
+    }
+
+    /// Unwrap a NOT condition, returning the inner condition.
+    /// For Simple conditions with negated=true, returns the un-negated version.
+    /// For other conditions, returns self unchanged.
+    /// Clone of JADX pattern for simplification.
+    pub fn unwrap_not(self) -> Condition {
+        match self {
+            Condition::Not(inner) => *inner,
+            Condition::Simple { block, op, negated: true } => {
+                Condition::Simple { block, op, negated: false }
+            }
+            other => other,
         }
     }
 

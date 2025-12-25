@@ -1,7 +1,7 @@
 # Dexterity Codegen JADX Parity - Master Document
 
 **Last Updated:** 2025-12-25
-**Status:** PRODUCTION-READY - A- Grade (95-96%) | 0 P0 Bugs
+**Status:** 🟡 FUNCTIONAL - B-/C+ Grade (70-80%) | 0 P0 Bugs | Output rougher than JADX
 **Goal:** Clone JADX codegen exactly - 10 years of edge cases, not improvement
 
 ---
@@ -10,13 +10,13 @@
 
 | Metric | Claimed (Docs) | Verified (Output Dec 25) |
 |--------|----------------|--------------------------|
-| Overall Parity | 95-96% | **~95-96%** (A- Grade) |
-| File Coverage | 64% | **64%** (55 vs 86 for badboy - lambda classes suppressed, not inlined) |
-| Syntax Quality (when generated) | 95-96% | **~95-96%** (A- Grade - 0 P0 bugs) |
-| Compiles Correctly | Yes | **YES** - All P0 bugs FIXED Dec 25 |
-| JADX Codegen Cloned | Yes | **MOSTLY** - lambda/anon inlining infrastructure ready |
+| Overall Parity | 70-80% | **~70-80%** (B-/C+ Grade) |
+| File Coverage | 107% | **92 vs 86** (more files due to lambda non-inlining) |
+| Syntax Quality | 70-80% | Correct but verbose/messy control flow |
+| Compiles Correctly | Mostly | **MOSTLY** - some undefined vars remain |
+| JADX Codegen Cloned | Partially | **NO** - boolean simplification, lambda inlining missing |
 
-**Evidence:** Direct comparison `output/jadx/badboy/` (86 files) vs `output/dexterity/badboy/` (55 files) - Dexterity outputs 64% because lambda classes suppressed (not yet inlined)
+**Evidence:** badboy.apk comparison shows Dexterity has messy if-chains where JADX has clean `||`, separate lambda class files where JADX inlines.
 
 ### Status Update (Dec 25, 2025)
 
@@ -25,6 +25,7 @@
 | ~~**P0**~~ | ~~Synthetic classes not output~~ | `ClassGen.java:157` | Was 27KB+ missing | ✅ **FIXED Dec 24** |
 | ~~**P0**~~ | ~~P0-LOOP-VAR~~ | For-each loops | Undefined vars | ✅ **FIXED Dec 25** |
 | ~~**P0**~~ | ~~P0-BOOL-CHAIN~~ | PHI-to-return | Return logic inverted | ✅ **FIXED Dec 25** |
+| ~~**P0**~~ | ~~P0-FOREACH-SEM~~ | `BlockProcessor.splitReturn()` | Empty if-body fixed | ✅ **FIXED Dec 25** |
 | **P1** | Lambda inlining missing | `InsnGen.java:952-1090` | Separate files vs inline | Infrastructure COMPLETE |
 | **P1** | Anonymous class inlining | `InsnGen.java:806-848` | Readability gap | IMPLEMENTED |
 
@@ -397,13 +398,13 @@ Anonymous class constructor inlining with recursion detection.
 
 ## P2-MEDIUM Gaps
 
-| Gap | Description | JADX Reference |
-|-----|-------------|----------------|
-| GAP-11 | Lambda method references | InsnGen.java:952-983 |
-| GAP-12 | Varargs array expansion | InsnGen.java:1149-1172 |
-| GAP-14 | Static same-class method prefix | InsnGen.java |
-| GAP-16 | Diamond operator inference | ClassGen.java |
-| GAP-17 | Comment escape in strings | InsnGen.java |
+| Gap | Description | JADX Reference | Status |
+|-----|-------------|----------------|--------|
+| GAP-11 | Lambda method references | InsnGen.java:952-983 | Open |
+| GAP-12 | Varargs array expansion | InsnGen.java:1149-1172 | Open |
+| GAP-14 | Static same-class method prefix | InsnGen.java | Open |
+| ~~GAP-16~~ | ~~Diamond operator inference~~ | ~~ClassGen.java~~ | ✅ FIXED Dec 25 |
+| GAP-17 | Comment escape in strings | InsnGen.java | Open |
 
 ---
 

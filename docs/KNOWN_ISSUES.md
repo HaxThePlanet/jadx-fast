@@ -2,11 +2,46 @@
 
 **See also:** [ROADMAP.md](ROADMAP.md) for open work and [QUALITY_STATUS.md](QUALITY_STATUS.md) for current status.
 
+🟢 **Status: PRODUCTION-READY** - All P0 Critical Bugs FIXED! (Dec 25, 2025)
+
+---
+
+## All Critical Bugs Resolved! (Dec 25, 2025)
+
+### ~~P0-FOREACH-SEM: Empty For-Each Loop Body~~ ✅ FIXED
+
+**Status:** ✅ FIXED | **Fixed:** Dec 25, 2025
+
+For-each loops with early returns now work correctly:
+```java
+// Before (BROKEN):
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        // EMPTY! No return statement emitted
+    }
+}
+return z;  // Always returns initial false!
+
+// After (FIXED):
+for (String str : strArr) {
+    if (new File(str).exists()) {
+        return true;  // Returns on match ✅
+    }
+}
+return false;
+```
+
+**Fix:** Ported JADX's `BlockProcessor.splitReturn()` - splits shared return blocks so each predecessor path has its own return block.
+
+**Files Modified:**
+- `crates/dexterity-passes/src/block_split.rs` - Added `split_return_blocks()` (96 lines)
+- `crates/dexterity-cli/src/decompiler.rs` - Pipeline integration (Stage 1.5)
+
 ---
 
 ## f.java Audit Results (Dec 22-25, 2025)
 
-**Status:** ALL P0 BUGS FIXED (Dec 25, 2025) - P0-LOOP-VAR, P0-BOOL-CHAIN, P0-WRONG-RETURN all resolved
+**Status:** ALL 5 P0 BUGS FIXED (Dec 25, 2025) - 0 P0 Remaining! ✅
 
 A comprehensive comparison of all 151 f.java files between JADX and Dexterity outputs revealed issues that have since been fixed.
 

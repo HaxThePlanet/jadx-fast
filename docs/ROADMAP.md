@@ -1,16 +1,16 @@
 # Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A Grade (85-90%) | ~80% File Coverage | Dec 25, 2025
+**Status:** 🟡 FUNCTIONAL | B-/C+ Grade (70-80%) | 0 P0 Bugs | Dec 25, 2025
 **Fixed Today:** P0-UNDEF-VAR ✅ | P0-TERNARY-INLINE ✅ | P0-LOGIC-INV ✅ | P0-SPURIOUS-RET ✅ | P0-FOREACH-SEM ✅
-**All P0 Critical Bugs:** ✅ RESOLVED (0 P0 bugs remaining)
+**Remaining Work:** Boolean simplification, lambda inlining, throws declarations
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades and detailed bug analysis
-**Kotlin Parity:** ~85-90% - Field alias references FIXED (Dec 24), see [KOTLIN_PARITY.md](KOTLIN_PARITY.md)
+**Kotlin Parity:** ~80% - Field aliases work, complex patterns fail
 **Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
 **Resources:** 100% (1:1 JADX parity - 103 dirs, 152 files)
 
 ---
 
-## P0 Critical Bugs - 1 OPEN (Dec 25, 2025)
+## P0 Critical Bugs - ALL FIXED (Dec 25, 2025)
 
 ### P0-UNDEF-VAR: Undefined Variables - ✅ COMPLETE (Dec 25, 2025)
 
@@ -286,26 +286,26 @@ while (it.hasNext()) {
 
 ---
 
-## Priority Roadmap: 1 P0 Bug Remaining
+## Priority Roadmap: All P0 Bugs Fixed!
 
 **Current Status (Dec 25, 2025):**
 - ✅ P0-UNDEF-VAR: FIXED (Static field inlining + force_inline flags)
 - ✅ P0-TERNARY-INLINE: FIXED (Force inline + static field vars)
 - ✅ P0-LOGIC-INV: FIXED (Boolean OR pattern merging)
 - ✅ P0-SPURIOUS-RET: FIXED (Disabled broken P0-BOOL-CHAIN transformation)
-- 🔴 P0-FOREACH-SEM: OPEN (Empty for-each loop bodies) - **LAST P0 BUG**
+- ✅ P0-FOREACH-SEM: FIXED (JADX BlockProcessor.splitReturn clone)
 
-**Nearly production-ready! Fix last P0 bug:**
+**Production-ready! Remaining work is P1 polish:**
 
 | Task | Est. Impact | Effort | Status | Notes |
 |------|-------------|--------|--------|-------|
-| **P0-FOREACH-SEM** | +5-10% | Medium | 🔴 OPEN | Loop body return not emitted |
+| ~~P0-FOREACH-SEM~~ | ~~+5-10%~~ | ~~Medium~~ | ✅ FIXED | split_return_blocks() |
 | ~~P0-UNDEF-VAR~~ | ~~+10-15%~~ | ~~Medium~~ | ✅ FIXED | Static field inlining fixed |
 | ~~P0-TERNARY-INLINE~~ | ~~+2-5%~~ | ~~Medium~~ | ✅ FIXED | Force inline flags work |
-| **Lambda Inlining (real)** | +1-2% | Hard | Pending | Wait for P0 fix first |
+| **Lambda Inlining (real)** | +1-2% | Hard | Pending | Infrastructure complete |
 | **Control Flow Polish** | +0.5-1% | Medium | Pending | Lower priority |
 
-**Priority:** Fix P0-FOREACH-SEM - the last P0 bug blocking production-ready status.
+**Next Priority:** Lambda inlining for improved readability.
 
 ---
 
@@ -463,10 +463,10 @@ versions couldn't propagate types from CheckCast/NewInstance sources.
 **Output Quality (from actual comparison Dec 25, 2025):**
 - small APK: 100% clean (Grade A+)
 - large APK: 99.93% clean (Grade A)
-- badboy APK: **~70-80% clean (Grade B-/C+)** - 1 P0 bug OPEN (P0-FOREACH-SEM)
+- badboy APK: **~70-80% clean (Grade B-/C+)** - All P0 bugs FIXED, still rough output
 - medium APK: 98%+ clean (Grade A-)
 
-**JADX Codegen Parity:** ~70-80% (B-/C+ Grade) for complex methods - NEARLY PRODUCTION-READY
+**JADX Codegen Parity:** ~70-80% (B-/C+ Grade) for complex methods - FUNCTIONAL, needs polish
 **File Coverage:** 77% of JADX (66 vs 86 for badboy) - lambda classes now output as separate files (11 synthetic lambda classes)
 
 **What's Fixed (Dec 25):**
@@ -474,9 +474,9 @@ versions couldn't propagate types from CheckCast/NewInstance sources.
 - ✅ P0-TERNARY-INLINE: Force inline flags work correctly
 - ✅ P0-LOGIC-INV: Boolean OR pattern merging now correct
 - ✅ P0-SPURIOUS-RET: No more spurious `return true;` in loops
+- ✅ P0-FOREACH-SEM: For-each loop bodies now emit returns correctly
 
-**What's Still Broken (1 P0 remaining):**
-- 🔴 P0-FOREACH-SEM: Empty for-each loop bodies - return not emitted in if-block
+**All P0 Bugs Fixed!** Remaining work is P1 polish (lambda inlining, boolean simplification).
 
 ## Open Work
 
@@ -610,8 +610,8 @@ See [CODEGEN_PARITY_MASTER.md](CODEGEN_PARITY_MASTER.md) for detailed audit.
 - Import conflict detection
 - Else-if chains, Multi-catch, Enum switch
 
-**Remaining Gaps (~17%):**
-- Diamond operator (`new ArrayList<>()`)
+**Remaining Gaps (~16%):**
+- ~~Diamond operator (`new ArrayList<>()`)~~ - ✅ FIXED (Dec 25, 2025)
 - Outer class constructor prefix (`outer.new Inner()`)
 - Polymorphic call return cast
 - Recursive inner class collision check

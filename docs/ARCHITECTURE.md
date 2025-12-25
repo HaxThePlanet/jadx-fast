@@ -166,7 +166,7 @@ Command-line interface and decompilation orchestration.
 | dexterity-dex | **100%** | Full DEX parsing |
 | dexterity-ir | **100%** | Complete SSA infrastructure |
 | dexterity-passes | **90%** | 8 new passes added Dec 22 |
-| dexterity-codegen | **85%** | Java source generation |
+| dexterity-codegen | **70-80%** | Java source gen - correct but rough |
 | dexterity-resources | **100%** | AXML + resources.arsc |
 | dexterity-deobf | **90%** | ProGuard mapping support |
 | dexterity-kotlin | **100%** | Full metadata parsing |

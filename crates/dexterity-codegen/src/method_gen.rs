@@ -764,7 +764,7 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     // Throws clause (except for static initializer)
     if !method.is_class_init() {
         // Get throws from both annotations and instruction scanning
-        let mut throws = get_throws_from_annotations(&method.annotations);
+        let mut throws = get_throws_from_annotations(&method.annotations, &method.name);
         let insn_throws = collect_throws_from_instructions(method, dex_info.as_ref().map(|d| d.as_ref()));
 
         // Merge instruction-based throws (avoid duplicates)
@@ -949,7 +949,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     // Throws clause (except for static initializer)
     if !method.is_class_init() {
         // Get throws from both annotations and instruction scanning
-        let mut throws = get_throws_from_annotations(&method.annotations);
+        let mut throws = get_throws_from_annotations(&method.annotations, &method.name);
         let insn_throws = collect_throws_from_instructions(method, dex_info.as_ref().map(|d| d.as_ref()));
 
         // Merge instruction-based throws (avoid duplicates)
@@ -1034,7 +1034,7 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
 }
 
 /// Extract throws types from dalvik/annotation/Throws annotation
-fn get_throws_from_annotations(annotations: &[Annotation]) -> Vec<String> {
+fn get_throws_from_annotations(annotations: &[Annotation], _method_name: &str) -> Vec<String> {
     for annotation in annotations {
         if annotation.annotation_type == "dalvik/annotation/Throws" {
             // The throws annotation has a single "value" element containing an array of Type values
@@ -1262,32 +1262,91 @@ fn collect_throws_from_instructions(
         return Vec::new();
     }
 
-    // Scan instructions for INVOKE calls
+    // Scan instructions for THROW and INVOKE calls
     for insn in insns {
-        if let InsnType::Invoke { method_idx, .. } = &insn.insn_type {
-            // Get method info from dex_info
-            if let Some(method_info) = dex_info.get_method(*method_idx) {
-                // class_type is in internal format (e.g., "org/json/JSONObject")
-                let class = &*method_info.class_type;
-                let name = &*method_info.method_name;
-
-                // Check if this method throws checked exceptions from our static mapping
-                if let Some(exceptions) = get_library_method_throws(class, name) {
-                    for exc in exceptions {
-                        // Skip if this exception is caught
-                        if !caught_types.contains(*exc) && is_checked_exception(exc) {
-                            throws.insert(exc.to_string());
+        match &insn.insn_type {
+            // Handle THROW instructions - extract exception type from the thrown register
+            InsnType::Throw { exception } => {
+                // Extract register number if it's a register arg
+                if let dexterity_ir::instructions::InsnArg::Register(reg_arg) = exception {
+                    // Look backwards to find what type is in this register
+                    // Most common pattern: NEW_INSTANCE followed by THROW
+                    if let Some(exc_type) = trace_exception_type_for_throw(reg_arg.reg_num, insn.offset, insns, dex_info) {
+                        // Skip if this exception is caught or is a RuntimeException
+                        if !caught_types.contains(&exc_type) && is_checked_exception(&exc_type) {
+                            throws.insert(exc_type);
                         }
                     }
                 }
-
-                // NOTE: Additional throws from DEX method annotations not yet extracted
-                // Current implementation uses KNOWN_THROWING_METHODS for common cases
             }
+            // Handle INVOKE instructions - check called method for throws
+            InsnType::Invoke { method_idx, .. } => {
+                // Get method info from dex_info
+                if let Some(method_info) = dex_info.get_method(*method_idx) {
+                    // class_type is in internal format (e.g., "org/json/JSONObject")
+                    let class = &*method_info.class_type;
+                    let name = &*method_info.method_name;
+
+                    // Check if this method throws checked exceptions from our static mapping
+                    if let Some(exceptions) = get_library_method_throws(class, name) {
+                        for exc in exceptions {
+                            // Skip if this exception is caught
+                            if !caught_types.contains(*exc) && is_checked_exception(exc) {
+                                throws.insert(exc.to_string());
+                            }
+                        }
+                    }
+                }
+            }
+            _ => {}
         }
     }
 
     throws.into_iter().collect()
+}
+
+/// Trace the exception type for a THROW instruction by looking for NEW_INSTANCE
+/// that initializes the register being thrown.
+fn trace_exception_type_for_throw(
+    throw_reg: u16,
+    throw_offset: u32,
+    insns: &[dexterity_ir::instructions::InsnNode],
+    dex_info: &dyn DexInfoProvider,
+) -> Option<String> {
+    use dexterity_ir::InsnType;
+
+    // Look backwards from the throw instruction for NEW_INSTANCE that creates the exception
+    for insn in insns.iter().rev() {
+        if insn.offset >= throw_offset {
+            continue;
+        }
+
+        // Check for NEW_INSTANCE that creates the exception in the same register
+        if let InsnType::NewInstance { dest, type_idx } = &insn.insn_type {
+            if dest.reg_num == throw_reg {
+                // Found the exception type
+                if let Some(type_desc) = dex_info.get_type_descriptor(*type_idx) {
+                    // Strip L prefix and ; suffix (e.g., "Ljava/lang/Exception;" -> "java/lang/Exception")
+                    let stripped = type_desc.strip_prefix('L')
+                        .unwrap_or(&type_desc)
+                        .strip_suffix(';')
+                        .unwrap_or(&type_desc);
+                    return Some(stripped.to_string());
+                }
+            }
+        }
+
+        // Also check MOVE instructions that might have moved the exception to the throw register
+        if let InsnType::Move { dest, .. } = &insn.insn_type {
+            if dest.reg_num == throw_reg {
+                // This register was assigned from somewhere else
+                // For simplicity, we stop tracing here (complex case)
+                return None;
+            }
+        }
+    }
+
+    None
 }
 
 /// Add throws clause to method signature

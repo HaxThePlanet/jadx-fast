@@ -20,9 +20,9 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** Correct decompilation close to JADX
-**Status:** IN DEVELOPMENT | 4 P0 Bugs | C-/D+ Grade (55-65%) | 64% File Coverage - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** 🟡 FUNCTIONAL | 0 P0 Bugs | B-/C+ Grade (70-80%) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
 
-> **Update (Dec 25, 2025):** Honest quality assessment completed. P0-SPURIOUS-RET fixed. 4 P0 bugs remaining (P0-UNDEF-VAR, P0-LOGIC-INV, P0-FOREACH-SEM, P0-TERNARY-INLINE). Resources at 1:1 JADX parity.
+> **Update (Dec 25, 2025):** All P0 critical bugs fixed. Output is semantically correct but rougher than JADX: messy boolean logic (if-chains vs `||`), lambda classes as separate files (not inlined), some throws declarations missing. Resources at 1:1 JADX parity.
 
 ## Performance
 
@@ -131,7 +131,7 @@ cargo build --release -p dexterity-cli
 | dexterity-dex | DEX binary parsing | **A+** | Verified complete |
 | dexterity-ir | Intermediate representation | **A (95%)** | SSA + regions working |
 | dexterity-passes | Decompilation passes | **B+ (88%)** | 86/105 JADX passes |
-| dexterity-codegen | Java source generation | **B+ (95%)** | All P0 bugs FIXED |
+| dexterity-codegen | Java source generation | **B-/C+ (70-80%)** | P0 fixed, rough output |
 | dexterity-resources | Resource decoding | **A+** | 1:1 JADX parity verified |
 | dexterity-deobf | Deobfuscation | **A- (90%)** | ProGuard/JOBF working |
 | dexterity-kotlin | Kotlin metadata | **B+ (85-90%)** | Field alias references FIXED Dec 24 |
