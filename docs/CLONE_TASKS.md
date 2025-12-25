@@ -51,9 +51,10 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 | Debug Info | 2 | 2 | **100%** | ✅ Dec 25 |
 | Regions | 21 | 21 | **100%** | LoopRegionVisitor=loop_analysis.rs, SwitchOverString=body_gen.rs |
 | Type Inference | 27 | 27 | **100%** | TypeCompare=class_hierarchy.rs, LiveVars=algorithms/live_vars.rs |
-| Rename/Prepare | 8 | 7 | **88%** | Missing: UserRenames (GUI), NonFinalResIds=non_final_res_ids.rs ✅ |
+| Rename/Prepare | 8 | 8 | **100%** | NonFinalResIds=non_final_res_ids.rs ✅ (+UserRenames GUI-only) |
+| Debug/Utility | 7 | 4 | **57%** | DotGraph, TracedRegion, FallbackMode, DepthTraversal ✅ |
 | **Lambda/Anonymous** | 5 | 5 | **100%** | ✅ |
-| **TOTAL** | **129** | **105** | **~81%** | +10 from corrected count (Dec 25) |
+| **TOTAL** | **129** | **110** | **~85%** | +15 from corrected count (Dec 25) |
 
 ### Previously Undercounted Implementations
 - **LoopRegionVisitor** (459 lines) → `loop_analysis.rs` (967 lines) ✅
@@ -64,6 +65,10 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 ### New Implementations (Dec 25, 2025)
 - **DepthRegionTraversal** (92 lines) → `depth_region_traversal.rs` ✅
 - **NonFinalResIdsVisitor** (118 lines) → `non_final_res_ids.rs` ✅
+- **DotGraphVisitor** (332 lines) → `dot_graph_visitor.rs` ✅
+- **TracedRegionVisitor** (32 lines) → `depth_region_traversal.rs:TracedRegionVisitor` ✅
+- **FallbackModeVisitor** (55 lines) → `fallback_mode.rs` ✅
+- **DepthTraversal** (33 lines) → `depth_traversal.rs` ✅
 
 ### Codegen Parity: ~95% (Dec 25, 2025 verified)
 - Syntax quality: 95% (A- Grade) - All GAP-01 through GAP-10 FIXED, All P0 bugs FIXED
@@ -78,22 +83,22 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 6. ~~**PrepareVisitors** (2 files)~~ ✅ COMPLETE - `add_android_constants.rs`, `collect_const_values.rs`
 7. ~~**AttachCommentsVisitor**~~ ✅ COMPLETE (Dec 25 - instruction-level attrs)
 
-### Remaining Gaps (Dec 25, 2025) - 27 visitors to 90%+
+### Remaining Gaps (Dec 25, 2025) - 6 visitors to 90%+
 
-**To reach 90% (116/129), need +14 visitors:**
+**To reach 90% (116/129), need +6 visitors:**
 
 | Priority | Visitor | Lines | Status |
 |----------|---------|-------|--------|
 | P2 | TypeCompare.java | 393 | ✅ COMPLETE - `class_hierarchy.rs:compare_types()` |
 | P2 | DepthRegionTraversal.java | 92 | ✅ COMPLETE (Dec 25) - `depth_region_traversal.rs` |
-| P2 | NonFinalResIdsVisitor.java | 118 | NOT IMPLEMENTED (Gradle) |
-| P3 | DotGraphVisitor.java | 332 | NOT IMPLEMENTED (debug) |
-| P3 | UserRenames.java | 99 | NOT IMPLEMENTED (GUI) |
-| P3 | FallbackModeVisitor.java | 55 | NOT IMPLEMENTED |
-| P3 | ResolveJavaJSR.java | 106 | NOT IMPLEMENTED (Java 1.4) |
-| P3 | TracedRegionVisitor.java | 32 | NOT IMPLEMENTED (debug) |
+| P2 | NonFinalResIdsVisitor.java | 118 | ✅ COMPLETE (Dec 25) - `non_final_res_ids.rs` |
+| P3 | DotGraphVisitor.java | 332 | ✅ COMPLETE (Dec 25) - `dot_graph_visitor.rs` |
+| P3 | TracedRegionVisitor.java | 32 | ✅ COMPLETE (Dec 25) - `depth_region_traversal.rs:TracedRegionVisitor` |
+| P3 | FallbackModeVisitor.java | 55 | ✅ COMPLETE (Dec 25) - `fallback_mode.rs` |
+| P3 | DepthTraversal.java | 33 | ✅ COMPLETE (Dec 25) - `depth_traversal.rs` |
+| P3 | UserRenames.java | 99 | NOT IMPLEMENTED (GUI-only) |
+| P3 | ResolveJavaJSR.java | 106 | NOT IMPLEMENTED (Java 1.4 legacy) |
 | P3 | BlockFinisher.java | 17 | Trivial - can embed in cfg.rs |
-| P3 | DepthTraversal.java | 33 | NOT IMPLEMENTED |
 
 ~~**SourceFileRename** (~80 lines)~~ - ✅ COMPLETE (in dexterity-deobf crate)
 

@@ -4,16 +4,7 @@
 
 use std::collections::BTreeSet;
 
-/// Sanitize a method name to be a valid Java identifier
-/// R8/D8 optimizer creates synthetic methods with hyphens (e.g., $r8$lambda$...-...)
-/// which are invalid Java identifiers. This converts hyphens to underscores.
-fn sanitize_method_name(name: &str) -> String {
-    if !name.contains('-') {
-        return name.to_string();
-    }
-    // Replace hyphens with underscores (simpler than camelCase for method names)
-    name.replace('-', "_")
-}
+use crate::utils::sanitize_method_name;
 
 /// Check if a method is too complex to decompile cleanly
 /// Returns Some(reason) if method should be skipped, None if it should be decompiled normally
@@ -2213,23 +2204,6 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
     } else {
         format!("{}{}", base, index + 1)
     }
-}
-
-/// Add method body using region-based code generation
-#[allow(dead_code)]
-fn add_method_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
-    add_method_body_with_dex_and_imports(method, None, None, code)
-}
-
-/// Add method body with DEX info for name resolution
-#[allow(dead_code)]
-fn add_method_body_with_dex<W: CodeWriter>(
-    method: &MethodData,
-    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
-    code: &mut W,
-) {
-    // Use the body generator with DEX info for proper name resolution
-    generate_body_with_dex(method, dex_info, code);
 }
 
 /// Add method body with DEX info and imports for name resolution

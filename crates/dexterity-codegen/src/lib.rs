@@ -25,6 +25,7 @@ pub mod method_gen;
 pub mod stdlib_signatures;
 pub mod stmt_gen;
 pub mod type_gen;
+pub mod utils;
 pub mod writer;
 
 // Re-exports for convenience
@@ -43,3 +44,4 @@ pub use stmt_gen::StmtGen;
 pub use type_gen::{type_to_string, escape_string};
 pub use comment_gen::{add_code_comments, add_block_comment, add_line_comment, add_info_comment, add_warn_comment, add_error_comment};
 pub use writer::{CodeWriter, SimpleCodeWriter};
+pub use utils::sanitize_method_name;

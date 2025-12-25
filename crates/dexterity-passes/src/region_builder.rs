@@ -475,8 +475,14 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
                 return None;
             }
 
+            // Convert from Option<String> (DEX format) to ExceptionType enum
+            let exception_type = match &h.exception_type {
+                Some(t) => ExceptionType::Specific(t.clone()),
+                None => ExceptionType::CatchAll,
+            };
+
             Some(HandlerInfo {
-                exception_type: h.exception_type.clone(),
+                exception_type,
                 handler_block,
                 handler_blocks,
                 is_finally: false,

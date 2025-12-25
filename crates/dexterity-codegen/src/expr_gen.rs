@@ -25,15 +25,7 @@ use dexterity_ir::types::ArgType;
 
 use crate::dex_info::DexInfoProvider;
 use crate::type_gen::literal_to_string;
-
-/// Sanitize a method name to be a valid Java identifier
-/// Kotlin internal methods often have hyphens (e.g., set-impl, getGreen-0d7_KjU)
-fn sanitize_method_name(name: &str) -> String {
-    if !name.contains('-') {
-        return name.to_string();
-    }
-    name.replace('-', "_")
-}
+use crate::utils::sanitize_method_name;
 
 /// Expression generation context
 ///

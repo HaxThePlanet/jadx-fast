@@ -18,6 +18,7 @@ pub mod collect_const_values;  // NEW: JADX CollectConstValues clone (P2)
 pub mod constructor_visitor;
 pub mod debug_info;  // NEW: JADX DebugInfoAttachVisitor + DebugInfoApplyVisitor clone (P1)
 pub mod depth_region_traversal;  // NEW: JADX DepthRegionTraversal clone - region tree traversal utilities
+pub mod depth_traversal;         // NEW: JADX DepthTraversal clone (P3) - class/method tree traversal
 pub mod dot_graph_visitor;       // NEW: JADX DotGraphVisitor clone (P5 Debug) - CFG visualization
 pub mod process_instructions;
 pub mod cfg;
@@ -29,6 +30,7 @@ pub mod deboxing;
 pub mod enum_visitor;
 pub mod exc_handlers_region;  // NEW: JADX ExcHandlersRegionMaker clone
 pub mod extract_field_init;
+pub mod fallback_mode;           // NEW: JADX FallbackModeVisitor clone (P3 Debug)
 pub mod finally_extract;
 pub mod finish_type_inference;
 pub mod fix_multi_entry_loops; // NEW: JADX FixMultiEntryLoops clone
@@ -73,6 +75,7 @@ pub mod type_inference;
 pub mod type_search;
 pub mod type_update;
 pub mod usage_info;
+pub mod user_renames;           // NEW: JADX UserRenames clone (P3) - user-provided renames
 pub mod var_naming;
 pub mod visitor;
 
@@ -87,6 +90,7 @@ pub use conditionals::{
     merge_nested_conditions, IfInfo, MergeMode, MergedCondition, TernaryInfo,
 };
 pub use extract_field_init::{extract_field_init, extract_instance_field_init};
+pub use fallback_mode::{can_throw_exception, needs_fallback_processing, process_fallback_mode, FallbackModeResult};
 pub use finally_extract::{apply_finally_marking, extract_finally, FinallyExtractInfo, InsnsSlice};
 pub use kotlin_intrinsics::{process_kotlin_intrinsics, process_kotlin_intrinsics_with_context, IntrinsicsContext};
 pub use loops::{detect_loops, LoopInfo};
@@ -155,8 +159,9 @@ pub use generic_types::{
 };
 pub use depth_region_traversal::{
     traverse, traverse_container, traverse_iterative, traverse_including_exc_handlers,
-    RegionVisitor, RegionIterativeVisitor, TraversalError,
+    traverse_traced, RegionVisitor, RegionIterativeVisitor, TracedRegionVisitor, TraversalError,
 };
+pub use depth_traversal::{visit_class, visit_method, DepthTraversalResult, DexTreeVisitor};
 pub use dot_graph_visitor::{
     generate_dot_graph, generate_region_dot, DotGraphConfig, DotGraphResult,
 };
@@ -186,6 +191,7 @@ pub use debug_info::{
     DebugInfoAttachResult, DebugInfoApplyResult, SSAVarDebugInfo,
 };
 pub use usage_info::{collect_usage_from_instructions, collect_usage_from_instructions_full, FieldRef, MethodRef, UsageInfo};
+pub use user_renames::{apply_user_renames, ClassRenameInfo, RefType as UserRefType, UserRename, UserRenamesResult};
 pub use process_anonymous::{
     process_anonymous, process_anonymous_with_context, AnonymousClassInfo, AnonymousWarning,
     ClassInfo, FieldInfo, InlineType, MethodInfo, ProcessAnonymousContext, ProcessAnonymousResult,

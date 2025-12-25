@@ -1786,23 +1786,6 @@ fn is_inner_class_synthetic_field(field: &dexterity_ir::FieldData) -> bool {
     false
 }
 
-/// Add method declarations
-#[allow(dead_code)]
-fn add_methods<W: CodeWriter>(class: &ClassData, config: &ClassGenConfig, code: &mut W) {
-    add_methods_with_dex(class, config, None, None, code)
-}
-
-/// Add method declarations with DEX info for name resolution
-fn add_methods_with_dex<W: CodeWriter>(
-    class: &ClassData,
-    config: &ClassGenConfig,
-    imports: Option<&BTreeSet<String>>,
-    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
-    code: &mut W,
-) {
-    add_methods_with_inner_classes(class, config, imports, dex_info, None, code)
-}
-
 /// Add method declarations with inner classes for anonymous class inlining
 ///
 /// Methods are sorted by their source line number to match JADX's output ordering.

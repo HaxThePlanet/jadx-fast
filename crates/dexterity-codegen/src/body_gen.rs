@@ -56,17 +56,8 @@ use crate::stmt_gen::{
     gen_labeled_foreach_header,
 };
 use crate::type_gen::{literal_to_string, object_to_java_name, type_to_string, type_to_string_with_imports, type_to_string_with_imports_and_package};
+use crate::utils::sanitize_method_name;
 use crate::writer::CodeWriter;
-
-/// Sanitize a method name to be a valid Java identifier
-/// Kotlin internal methods often have hyphens (e.g., set-impl, getGreen-0d7_KjU)
-/// which are invalid Java identifiers. This converts hyphens to underscores.
-fn sanitize_method_name(name: &str) -> String {
-    if !name.contains('-') {
-        return name.to_string();
-    }
-    name.replace('-', "_")
-}
 
 /// Context for generating method body code
 pub struct BodyGenContext {

@@ -1,12 +1,12 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 20 CQ | Dec 25, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 15 CQ | Dec 25, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
 | **Open Bugs** | 0 P1, 0 P2 - All P1 bugs FIXED including try-catch-recon |
-| **Code Quality** | 4 Easy, 10 Medium, 6 Hard issues (see Code Quality Backlog) |
+| **Code Quality** | 0 Easy, 9 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
 | **Deobf Parity** | ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) |
@@ -497,14 +497,14 @@ Technical debt and code quality issues identified via automated analysis.
 
 | ID | Issue | Location | Impact |
 |----|-------|----------|--------|
-| CQ-E01 | **Duplicate `sanitize_method_name()`** | `body_gen.rs:64`, `expr_gen.rs:31`, `method_gen.rs:10` | 3 identical functions - extract to shared util |
+| ~~CQ-E01~~ | ~~Duplicate `sanitize_method_name()`~~ | ~~`body_gen.rs:64`, `expr_gen.rs:31`, `method_gen.rs:10`~~ | ✅ FIXED Dec 25 - extracted to `utils.rs` |
 | ~~CQ-E02~~ | ~~Dead function: `descriptor_to_internal()`~~ | ~~`mapping_parser.rs:236`~~ | ✅ REMOVED Dec 25 |
 | ~~CQ-E03~~ | ~~Dead function: `process_resources()`~~ | ~~`main.rs:1007`~~ | ✅ REMOVED Dec 25 (116 lines) |
 | ~~CQ-E04~~ | ~~Dead function: `class_name_to_path()`~~ | ~~`main.rs`~~ | ✅ REMOVED Dec 25 (8 lines) |
 | ~~CQ-E05~~ | ~~Dead function: `generate_class_stub()`~~ | ~~`main.rs`~~ | ✅ REMOVED Dec 25 (59 lines) |
-| CQ-E06 | **Dead function: `generate_method()`** | `method_gen.rs:625` | Marked dead, remove if unused |
-| CQ-E07 | **Dead function: `add_method_body()`** | `method_gen.rs:2220` | Wrapper for full version, consolidate |
-| CQ-E08 | **Dead function: `add_methods()`** | `class_gen.rs:1791` | Marked dead, remove if unused |
+| CQ-E06 | `generate_method()` | `method_gen.rs:625` | KEEP - used by tests |
+| ~~CQ-E07~~ | ~~Dead wrappers: `add_method_body()`, `add_method_body_with_dex()`~~ | ~~`method_gen.rs`~~ | ✅ REMOVED Dec 25 (16 lines) |
+| ~~CQ-E08~~ | ~~Dead wrappers: `add_methods()`, `add_methods_with_dex()`~~ | ~~`class_gen.rs`~~ | ✅ REMOVED Dec 25 (17 lines) |
 | ~~CQ-E09~~ | ~~Unused field: `instanceof_refinements`~~ | ~~`type_inference.rs`~~ | ✅ REMOVED Dec 25 |
 | ~~CQ-E10~~ | ~~Dead function: `is_reachable_without()`~~ | ~~`conditionals.rs`~~ | ✅ REMOVED Dec 25 |
 
@@ -515,7 +515,7 @@ Technical debt and code quality issues identified via automated analysis.
 | CQ-M01 | **Panic abuse: 18+ panic! calls** | `region_builder.rs`, `type_inference.rs`, `if_region_visitor.rs`, `mod_visitor.rs` | Should return `Result<T>` instead |
 | CQ-M02 | **Wrapper function proliferation** | `enum_visitor.rs` (3 wrappers), `method_gen.rs` (2 wrappers) | Remove wrappers if only full versions used |
 | CQ-M03 | **Nested type_to_string variants** | `type_gen.rs` | 3 nested layers - consolidate to single function with options |
-| CQ-M04 | **6 dead struct fields in RegionBuilder** | `region_builder.rs:883-906` | `conditionals`, `syncs`, `tries`, `merged_conditions`, `merged_blocks` unused |
+| ~~CQ-M04~~ | ~~5 dead struct fields in RegionBuilder~~ | ~~`region_builder.rs`~~ | ✅ REMOVED Dec 25 - `conditionals`, `syncs`, `tries`, `merged_conditions`, `merged_blocks` |
 | CQ-M05 | **7 deferred SSA optimization functions** | `ssa.rs` | `get_use_registers`, `replace_phi_with_move`, `inline_phi_insn`, etc. - implement or remove |
 | CQ-M06 | **String as enum: exception_type** | `region_builder.rs:72` | `Option<String>` should be `enum ExceptionType { Specific(String), CatchAll }` |
 | CQ-M07 | **Hardcoded stdlib_signatures.rs** | `stdlib_signatures.rs` (423 lines) | Extract to data file (JSON/TOML) |

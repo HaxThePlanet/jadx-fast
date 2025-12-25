@@ -46,13 +46,13 @@ private final transient int[] directory;
 **Problem:** Kotlin method chains like `File(...).readLines().find{...}?.split(":")?.trim()?.toIntOrNull()` produced 48 lines of garbled code with undefined variables.
 
 **Fix Applied:**
-1. **Kotlin Stdlib Semantic Naming** (`var_naming.rs` lines 1716-1780):
+1. **Kotlin Stdlib Semantic Naming** (`var_naming.rs` lines 1755-1800):
    - StringsKt: split->parts, trim->trimmed, toIntOrNull->parsed
    - FilesKt: readLines->lines, readText->content
    - CollectionsKt: find->found, filter->filtered, map->mapped
    - Iterator: next->item
 
-2. **SemanticOrigin Tracking** (`var_naming.rs` lines 414-433, 505-540):
+2. **SemanticOrigin Tracking** (`var_naming.rs` lines 414-433, 512-540):
    - Extended enum with Kotlin variants: KotlinFind, KotlinSplit, KotlinTrim, KotlinParsed, IteratorNext, KotlinReadLines
    - Enhanced `origins_compatible()` to prevent merging Kotlin chain variables
 
