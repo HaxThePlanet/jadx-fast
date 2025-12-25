@@ -123,12 +123,12 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
   - Added `invert_condition_string()` helper for clean condition inversion
   - Skip entirely empty if statements
   - Invert condition when then-branch is empty but else-branch has content
-- **Kotlin Stdlib Method Naming** (`var_naming.rs` lines 1716-1780):
+- **Kotlin Stdlib Method Naming** (`var_naming.rs` lines 1755-1800):
   - StringsKt: split->parts, trim->trimmed, toIntOrNull->parsed
   - FilesKt: readLines->lines, readText->content
   - CollectionsKt: find->found, filter->filtered, map->mapped
   - Iterator: next->item
-- **Semantic Origin Tracking** (`var_naming.rs` lines 414-433, 505-540):
+- **Semantic Origin Tracking** (`var_naming.rs` lines 414-433, 512-540):
   - Extended SemanticOrigin enum with Kotlin variants (KotlinFind, KotlinSplit, KotlinTrim, KotlinParsed, IteratorNext, KotlinReadLines)
   - Enhanced origins_compatible() to prevent merging Kotlin chain variables
 

@@ -461,13 +461,13 @@ instructions, but they weren't being stored as inline expressions.
    - Added check to skip entirely empty if statements
    - Added condition inversion when then-branch is empty but else-branch has content
 
-2. **Kotlin Stdlib Method Naming** (`var_naming.rs` lines 1716-1780):
+2. **Kotlin Stdlib Method Naming** (`var_naming.rs` lines 1755-1800):
    - StringsKt: split->parts, trim->trimmed, toIntOrNull->parsed
    - FilesKt: readLines->lines, readText->content
    - CollectionsKt: find->found, filter->filtered, map->mapped
    - Iterator: next->item
 
-3. **Semantic Origin Tracking** (`var_naming.rs` lines 414-433, 505-540):
+3. **Semantic Origin Tracking** (`var_naming.rs` lines 414-433, 512-540):
    - Extended SemanticOrigin enum with Kotlin variants (KotlinFind, KotlinSplit, KotlinTrim, KotlinParsed, IteratorNext, KotlinReadLines)
    - Enhanced origins_compatible() to prevent merging Kotlin chain variables
 
