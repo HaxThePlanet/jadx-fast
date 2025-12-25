@@ -153,7 +153,7 @@ return false;  // Returns false if no match
 | P0-UNDEF-VAR | Undefined variables in ternary expressions | **PARTIAL** | `i` fixed (8192 inlines); `obj`, `mODEL2` still open |
 | P0-LOGIC-INV | Logic inversions in boolean methods | **CRITICAL** | `isBeingDebugged()` returns opposite |
 | P0-SPURIOUS-RET | Spurious `return true;` in control flow | **CRITICAL** | `loadMultipleDex()`, `checkTracerPid()` |
-| P0-FOREACH-SEM | For-each loop semantics wrong | **IN PROGRESS** | `isRooted()` always returns true |
+| P0-FOREACH-SEM | For-each loop semantics wrong | **IN PROGRESS** | Shared block problem - return block serves if-body AND final return |
 | P0-TERNARY-INLINE | Ternary expression inlining fails | **PARTIAL** | Literal inlining works (8192), result variable (`obj`) still undefined |
 
 ---
@@ -161,10 +161,37 @@ return false;  // Returns false if no match
 ## Fixes Needed
 
 1. **Ternary inlining** - PARTIAL (Dec 25) - literal 8192 inlines, but result variable (`obj`) still undefined
-2. **For-each return semantics** - break vs return in loops
+2. **For-each return semantics** - Shared block problem (see below)
 3. **Boolean chain handling** - OR/AND condition merging
 4. **Control flow cleanup** - Remove spurious return statements
 5. **Variable declaration** - ~~`i`~~ FIXED; `obj`, `mODEL2` still undefined
+
+### P0-FOREACH-SEM Technical Details (Dec 25, 2025)
+
+**Fixes Applied:**
+1. **Successor Ordering** (region_builder.rs:1717-1729): Fixed then/else branch mapping based on `negate_condition`
+2. **Fall-through Detection** (region_builder.rs:1949-1966): Extended to follow fall-through blocks, not just Goto chains
+
+**Root Cause Identified:**
+The return block is **shared** between:
+- The if-body inside the for-each loop (early return)
+- The method's final return
+
+```
+// CFG structure:
+Block 4 (if exists): goto Block 5
+Block 5: return true
+Block 6 (loop exit): return false  // or falls through to return true
+```
+
+When exit blocks are included in the if-body region, the return instruction is not emitted because:
+- The block may be marked as "already processed"
+- Or code gen prevents duplicate emission of shared blocks
+
+**Possible Solutions:**
+1. Clone shared blocks when used in multiple regions
+2. Use break/continue with labels instead of duplicating returns
+3. JADX approach: restructure CFG to avoid shared blocks
 
 ---
 
