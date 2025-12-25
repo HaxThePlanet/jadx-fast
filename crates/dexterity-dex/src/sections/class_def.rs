@@ -1,5 +1,7 @@
 //! Class definition parsing
 
+use std::collections::HashMap;
+
 use crate::error::Result;
 use crate::reader::DexReader;
 use crate::sections::read_u32;
@@ -144,6 +146,8 @@ impl<'a> ClassDef<'a> {
     /// Get method annotations for a specific method index
     ///
     /// Returns annotations declared on the method (e.g., @Override, @Deprecated).
+    /// NOTE: For processing multiple methods, use `all_method_annotations()` instead
+    /// to avoid O(n) linear search per method.
     pub fn method_annotations(&self, method_idx: u32) -> Result<Vec<AnnotationItem>> {
         let annotations_off = self.annotations_off();
         if annotations_off == 0 {
@@ -172,6 +176,59 @@ impl<'a> ClassDef<'a> {
         }
 
         Ok(Vec::new())
+    }
+
+    /// Get all method annotations as a HashMap for O(1) lookup
+    ///
+    /// Returns a map from method_idx to Vec<AnnotationItem>.
+    /// This is more efficient than calling `method_annotations()` for each method.
+    pub fn all_method_annotations(&self) -> Result<HashMap<u32, Vec<AnnotationItem>>> {
+        let annotations_off = self.annotations_off();
+        if annotations_off == 0 {
+            return Ok(HashMap::new());
+        }
+
+        let data = self.reader.data();
+        let off = annotations_off as usize;
+
+        // annotations_directory_item:
+        // - class_annotations_off (u32)
+        // - fields_size (u32)
+        // - methods_size (u32)
+        // - parameters_size (u32)
+        let fields_size = read_u32(data, off + 4);
+        let methods_size = read_u32(data, off + 8);
+
+        if methods_size == 0 {
+            return Ok(HashMap::new());
+        }
+
+        let mut map = HashMap::with_capacity(methods_size as usize);
+
+        // Skip to method_annotations array (after field_annotations)
+        let method_annot_start = off + 16 + (fields_size as usize * 8);
+
+        // Build the HashMap in one pass
+        for i in 0..methods_size {
+            let entry_off = method_annot_start + (i as usize * 8);
+            let entry_method_idx = read_u32(data, entry_off);
+            let annot_set_off = read_u32(data, entry_off + 4);
+
+            let annotations = self.read_annotation_set(annot_set_off as usize)?;
+            map.insert(entry_method_idx, annotations);
+        }
+
+        // DEBUG: Log map building
+        static DEBUG_MAPS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+        static DEBUG_ENTRIES: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+        let maps = DEBUG_MAPS.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        DEBUG_ENTRIES.fetch_add(map.len(), std::sync::atomic::Ordering::Relaxed);
+        if maps % 1000 == 0 {
+            eprintln!("[DEBUG all_method_annotations] {} maps built, {} total entries",
+                maps, DEBUG_ENTRIES.load(std::sync::atomic::Ordering::Relaxed));
+        }
+
+        Ok(map)
     }
 
     /// Get field annotations for a specific field index

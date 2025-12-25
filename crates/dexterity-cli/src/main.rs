@@ -34,6 +34,7 @@ mod converter;
 mod deobf;
 mod decompiler;
 mod gradle_export;
+mod zip_fallback;
 
 use std::io::{Read, Seek};
 use std::path::PathBuf;
@@ -83,6 +84,54 @@ use dexterity_deobf::{
 use std::sync::Arc;
 
 pub use args::*;
+
+// =============================================================================
+// ZIP Security Functions (Anti-RE Hardening)
+// Clone of JADX's JadxZipSecurity.java patterns
+// =============================================================================
+
+/// Validate ZIP entry name for path traversal attacks.
+/// Blocks entries with "../" or "..\" that could escape extraction directory.
+/// JADX Reference: JadxZipSecurity.java:52-70
+fn validate_entry_name(name: &str) -> bool {
+    !name.contains("../") &&
+    !name.contains("..\\") &&
+    !name.starts_with("/") &&
+    !name.starts_with("\\")
+}
+
+/// Detect compression bombs by checking compression ratio.
+/// Returns true if the entry appears to be a bomb (ratio > 100x, size > 25MB).
+/// JADX Reference: JadxZipSecurity.java:81-92
+fn is_compression_bomb(compressed: u64, uncompressed: u64) -> bool {
+    const FACTOR: u64 = 100;
+    const MIN_SIZE: u64 = 25 * 1024 * 1024; // 25MB threshold
+
+    uncompressed >= MIN_SIZE && compressed > 0 && compressed * FACTOR < uncompressed
+}
+
+/// Read from a ZIP entry with size limit to prevent memory exhaustion.
+/// Default limit: 100MB per entry.
+fn read_entry_limited<R: std::io::Read>(
+    entry: &mut R,
+    max_bytes: usize,
+    actual_size: u64,
+) -> Result<Vec<u8>> {
+    use std::io::Read;
+
+    let limit = max_bytes.min(actual_size as usize);
+    let mut buf = Vec::with_capacity(limit);
+    entry.take(max_bytes as u64).read_to_end(&mut buf)?;
+    Ok(buf)
+}
+
+/// Maximum uncompressed size per entry (100MB default, configurable via env)
+fn get_max_entry_size() -> usize {
+    std::env::var("DEXTERITY_MAX_ENTRY_SIZE_MB")
+        .ok()
+        .and_then(|s| s.parse::<usize>().ok())
+        .unwrap_or(100) * 1024 * 1024
+}
 
 fn main() -> Result<()> {
     let args = Args::parse();
@@ -364,7 +413,20 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             magic[0], magic[1], magic[2], magic[3]);
     }
 
-    let mut archive = zip::ZipArchive::new(file)?;
+    // Try standard ZIP parsing first; fall back to signature scanning on failure
+    let archive_result = zip::ZipArchive::new(file);
+
+    let mut archive = match archive_result {
+        Ok(a) => a,
+        Err(e) => {
+            // Check if this is a recoverable error (EOCD/CD corruption)
+            if zip_fallback::is_recoverable_zip_error(&e) {
+                tracing::warn!("Standard ZIP parsing failed: {}. Attempting fallback recovery...", e);
+                return process_apk_fallback(input, out_src, out_res, args);
+            }
+            return Err(e.into());
+        }
+    };
 
     // Security: Check Zip entries limit (Zip Bomb protection)
     let zip_limit = std::env::var("JADX_ZIP_MAX_ENTRIES_COUNT")
@@ -383,12 +445,28 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     let mut raw_file_count = 0;
 
     // First pass: Extract all data in single ZIP traversal
+    let max_entry_size = get_max_entry_size();
     for i in 0..archive.len() {
         let mut entry = archive.by_index(i)?;
         let name = entry.name().to_string();
 
         // Skip directories
         if name.ends_with('/') {
+            continue;
+        }
+
+        // Security: Path traversal detection (Anti-RE)
+        if !validate_entry_name(&name) {
+            tracing::warn!("SECURITY: Skipping entry with path traversal: {}", name);
+            continue;
+        }
+
+        // Security: Compression bomb detection (Anti-RE)
+        if is_compression_bomb(entry.compressed_size(), entry.size()) {
+            tracing::warn!(
+                "SECURITY: Skipping potential compression bomb: {} ({}B compressed -> {}B)",
+                name, entry.compressed_size(), entry.size()
+            );
             continue;
         }
 
@@ -488,6 +566,170 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             "Processed {} classes from {} DEX files ({} errors, {} deduplicated fields)",
             total_classes,
             dex_file_names.len(),
+            total_errors,
+            field_count
+        );
+    }
+
+    Ok(())
+}
+
+/// Fallback APK processing using signature-based ZIP recovery.
+/// Called when standard ZIP parsing fails due to corrupted EOCD/central directory.
+/// This enables processing of anti-RE malware APKs that intentionally corrupt ZIP metadata.
+fn process_apk_fallback(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Args) -> Result<()> {
+    use zip_fallback::{scan_for_entries, recover_filename, decompress_entry, analyze_recovery};
+
+    // Read entire file for signature scanning
+    let data = std::fs::read(input)
+        .context("Failed to read APK for fallback processing")?;
+
+    // Analyze what we can recover
+    let stats = analyze_recovery(&data);
+    tracing::info!(
+        "Fallback recovery: {} entries found, {} DEX files, manifest={}, resources={}",
+        stats.total_entries,
+        stats.dex_files,
+        stats.manifest_found,
+        stats.resources_found
+    );
+
+    if stats.total_entries == 0 {
+        anyhow::bail!("Fallback recovery found no valid ZIP entries");
+    }
+
+    // Scan for all entries
+    let headers = scan_for_entries(&data);
+
+    let mut dex_entries: Vec<(String, Vec<u8>)> = Vec::new();
+    let mut manifest_data: Option<Vec<u8>> = None;
+    let mut arsc_data: Option<Vec<u8>> = None;
+    let mut xml_resources: Vec<(String, Vec<u8>)> = Vec::new();
+    let mut raw_file_count = 0;
+
+    for header in &headers {
+        // Get filename (try recovery if empty)
+        let name = recover_filename(header).unwrap_or_else(|| format!("unknown_{:08x}", header.offset));
+
+        // Security: Path traversal check
+        if !validate_entry_name(&name) {
+            tracing::warn!("SECURITY: Skipping entry with path traversal: {}", name);
+            continue;
+        }
+
+        // Security: Compression bomb check
+        if is_compression_bomb(header.compressed_size as u64, header.uncompressed_size as u64) {
+            tracing::warn!(
+                "SECURITY: Skipping potential compression bomb: {} ({}B -> {}B)",
+                name, header.compressed_size, header.uncompressed_size
+            );
+            continue;
+        }
+
+        // Skip directories
+        if name.ends_with('/') {
+            continue;
+        }
+
+        // Try to decompress the entry
+        let entry_data = match decompress_entry(&data, header) {
+            Ok(d) => d,
+            Err(e) => {
+                tracing::debug!("Failed to decompress {}: {}", name, e);
+                continue;
+            }
+        };
+
+        // Categorize entry
+        if name.ends_with(".dex") {
+            dex_entries.push((name, entry_data));
+        } else if name == "AndroidManifest.xml" {
+            manifest_data = Some(entry_data);
+        } else if name == "resources.arsc" {
+            arsc_data = Some(entry_data);
+        } else if name.starts_with("res/") && name.ends_with(".xml") {
+            if !args.include_framework && is_qualified_resource_path(&name) {
+                continue;
+            }
+            xml_resources.push((name, entry_data));
+        } else if !args.skip_resources && should_extract_raw_file(&name) {
+            if !args.include_framework && is_qualified_resource_path(&name) {
+                continue;
+            }
+            let normalized_name = normalize_config_qualifier(&name);
+            let out_path = out_res.join(&normalized_name);
+            if let Some(parent) = out_path.parent() {
+                std::fs::create_dir_all(parent)?;
+            }
+            std::fs::write(&out_path, entry_data)?;
+            raw_file_count += 1;
+        }
+    }
+
+    tracing::info!(
+        "Fallback extracted: {} DEX files, {} XMLs, {} raw files",
+        dex_entries.len(),
+        xml_resources.len(),
+        raw_file_count
+    );
+
+    // Process resources
+    let mut res_names: std::collections::HashMap<u32, String> = std::collections::HashMap::new();
+    let mut app_package_name: Option<String> = None;
+    if !args.skip_resources {
+        let pretty_print = !args.no_xml_pretty_print;
+        (res_names, app_package_name) = process_resources_parallel(
+            out_res,
+            manifest_data,
+            arsc_data,
+            xml_resources,
+            raw_file_count,
+            pretty_print,
+            args.include_framework,
+        )?;
+    }
+    let res_names = Arc::new(res_names);
+    let app_package_name = Arc::new(app_package_name);
+
+    // Process DEX files
+    if !args.skip_sources && !dex_entries.is_empty() {
+        let progress = create_progress_bar(args);
+        let mut total_classes = 0;
+        let mut total_errors = 0;
+
+        let global_field_pool = Arc::new(GlobalFieldPool::new());
+
+        for (dex_idx, (dex_name, dex_data)) in dex_entries.iter().enumerate() {
+            tracing::debug!("Processing DEX {}: {}", dex_idx, dex_name);
+
+            match process_dex_bytes(
+                dex_data,
+                out_src,
+                args,
+                progress.as_ref(),
+                Arc::clone(&global_field_pool),
+                dex_idx as u32,
+                dex_name,
+                Arc::clone(&res_names),
+                Arc::clone(&app_package_name),
+            ) {
+                Ok(count) => total_classes += count,
+                Err(e) => {
+                    tracing::warn!("Failed to process {}: {}", dex_name, e);
+                    total_errors += 1;
+                }
+            }
+        }
+
+        if let Some(pb) = progress {
+            pb.finish_with_message("done");
+        }
+
+        let (field_count, _) = global_field_pool.stats();
+        tracing::info!(
+            "Fallback processed {} classes from {} DEX files ({} errors, {} fields)",
+            total_classes,
+            dex_entries.len(),
             total_errors,
             field_count
         );

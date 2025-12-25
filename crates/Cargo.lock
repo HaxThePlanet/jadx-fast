@@ -449,6 +449,7 @@ dependencies = [
  "dexterity-llm-postproc",
  "dexterity-passes",
  "dexterity-resources",
+ "flate2",
  "indicatif",
  "num_cpus",
  "pretty_assertions",

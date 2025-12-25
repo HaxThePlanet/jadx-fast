@@ -120,16 +120,45 @@ pub fn convert_class(
             }
         }
 
+        // Build method annotation map once for O(1) lookups (instead of O(n) per method)
+        let method_annot_map = class_def.all_method_annotations().unwrap_or_default();
+
+        // DEBUG: Track lookups
+        static DEBUG_DIRECT_LOOKUPS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+        static DEBUG_DIRECT_HITS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+        static DEBUG_DIRECT_THROWS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+        static DEBUG_MISMATCH_COUNT: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+
         // Direct methods (constructors, static methods, private methods)
         for method in data.direct_methods() {
             if let Ok(mut method_data) = convert_method(dex, &method, process_debug_info, dex_idx) {
-                // Method annotations
-                if let Ok(annots) = class_def.method_annotations(method.method_idx) {
+                let lookups = DEBUG_DIRECT_LOOKUPS.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                // Method annotations - use HashMap for O(1) lookup
+                if let Some(annots) = method_annot_map.get(&method.method_idx) {
+                    DEBUG_DIRECT_HITS.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
                     for annot_item in annots {
-                        if let Some(annotation) = convert_annotation_item(dex, &annot_item) {
+                        if let Some(annotation) = convert_annotation_item(dex, annot_item) {
+                            if annotation.annotation_type == "dalvik/annotation/Throws" {
+                                DEBUG_DIRECT_THROWS.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                            }
                             method_data.annotations.push(annotation);
                         }
                     }
+                } else if !method_annot_map.is_empty() {
+                    // DEBUG: Log mismatches to understand why lookups fail
+                    let mismatch = DEBUG_MISMATCH_COUNT.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                    if mismatch < 10 {
+                        let map_keys: Vec<_> = method_annot_map.keys().take(10).collect();
+                        eprintln!("[DEBUG mismatch #{}] method_idx={}, map_keys={:?}, map_size={}",
+                            mismatch, method.method_idx, map_keys, method_annot_map.len());
+                    }
+                }
+                if lookups % 10000 == 0 {
+                    eprintln!("[DEBUG direct methods] {} lookups, {} hits, {} Throws, map_size={}, mismatches={}",
+                        lookups, DEBUG_DIRECT_HITS.load(std::sync::atomic::Ordering::Relaxed),
+                        DEBUG_DIRECT_THROWS.load(std::sync::atomic::Ordering::Relaxed),
+                        method_annot_map.len(),
+                        DEBUG_MISMATCH_COUNT.load(std::sync::atomic::Ordering::Relaxed));
                 }
                 // Parameter annotations
                 if let Ok(param_annots) = class_def.parameter_annotations(method.method_idx) {
@@ -152,10 +181,10 @@ pub fn convert_class(
         // Virtual methods
         for method in data.virtual_methods() {
             if let Ok(mut method_data) = convert_method(dex, &method, process_debug_info, dex_idx) {
-                // Method annotations
-                if let Ok(annots) = class_def.method_annotations(method.method_idx) {
+                // Method annotations - use HashMap for O(1) lookup
+                if let Some(annots) = method_annot_map.get(&method.method_idx) {
                     for annot_item in annots {
-                        if let Some(annotation) = convert_annotation_item(dex, &annot_item) {
+                        if let Some(annotation) = convert_annotation_item(dex, annot_item) {
                             method_data.annotations.push(annotation);
                         }
                     }
