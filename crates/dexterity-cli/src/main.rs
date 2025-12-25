@@ -1927,6 +1927,14 @@ fn process_dex_bytes(
                 // Extract instance field initializations from constructors
                 dexterity_passes::extract_instance_field_init(&mut ir_class, Some(&dex));
 
+                // P3-FIXACCESSMODIFIERS: Fix visibility for inner class access patterns
+                // When inner classes access private members of outer classes, JADX removes
+                // synthetic accessors and inlines the access. For recompilable code, the
+                // accessed member must be at least package-private.
+                if !nested_inner_classes.is_empty() {
+                    converter::fix_inner_class_visibility(&mut ir_class, &nested_inner_classes, &dex);
+                }
+
                 // Convert CLI CommentsLevel to codegen CommentsLevel
                 let comments_level = match args.comments_level {
                     crate::args::CommentsLevel::None => dexterity_codegen::CommentsLevel::None,

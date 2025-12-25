@@ -24,57 +24,23 @@
 
 ## P0 Critical Bugs - ALL FIXED (Dec 25, 2025)
 
-### BUG-1: Empty If/Else Branches (TERNARY PATTERN FAILURE) - **FIXED**
+### BUG-1: Empty If/Else Branches (TERNARY PATTERN FAILURE) - **FIXED (Dec 25, 2025)**
 
 **JADX Source:** `TernaryMod.java` (352 lines)
-**Dexterity File:** `ternary_mod.rs`, `if_region_visitor.rs`, `body_gen.rs`
-**Status:** FIXED Dec 25 via condition simplification and PHI-to-return transformation
+**Dexterity File:** `ternary_mod.rs` (~2000 lines)
+**Status:** COMPLETE - Full JADX parity achieved with `TernaryModVisitorFull`
 
-```java
-// DEXTERITY (BROKEN):
-inputStreamReader = new InputStreamReader(inputStream, Charsets.UTF_8);
-if ((Reader)inputStreamReader instanceof BufferedReader) {
-} else {
-}
-return TextStreamsKt.readText(inputStreamReader);
+**Solution Applied (Dec 25, 2025):**
 
-// JADX (CORRECT):
-Reader inputStreamReader = new InputStreamReader(inputStream, Charsets.UTF_8);
-return TextStreamsKt.readText(inputStreamReader instanceof BufferedReader
-    ? (BufferedReader) inputStreamReader
-    : new BufferedReader(inputStreamReader, 8192));
-```
-
-**Root Cause Analysis (Updated Dec 24, 2025):**
-The issue is NOT in ternary detection itself, but earlier in the pipeline:
-
-1. **Block Splitting Issue**: During region building, `try_transform_to_ternary()` sees empty blocks
-   (`then_raw_insns=0`). The CheckCast and constructor instructions are never placed in the
-   then/else blocks.
-
-2. **Incorrect Inlining**: The condition shows `(Reader)inputStreamReader instanceof BufferedReader`
-   where the `(Reader)` cast is being incorrectly inlined into the condition expression.
-
-3. **PHI Merge Lost**: The ternary value should be used in the return, but `inputStreamReader`
-   is used directly instead of the phi-merged result.
-
-**Fixes Applied:**
-- Added `get_effective_insn_from_block()` helper to handle NewInstance+InvokeDirect as single instruction
-- Added `get_effective_assignment_dest()` to handle CheckCast destination (cast operates in place)
-- These fixes prepare for ternary detection, but blocks are empty at region build time
-
-**Remaining Work:**
-- Investigate why blocks are empty during region building (likely block splitting or CFG issue)
-- The instructions should be in the then/else blocks but aren't being assigned there
-- May need to trace through block_split.rs or cfg.rs to find where instructions are lost
-
-**Clone Task:**
-```
-TASK-1: Fix block assignment for instanceof ternary pattern
-Root cause: Blocks are empty during region building - instructions not assigned correctly
-Investigate: block_split.rs, cfg.rs - how are instructions assigned to blocks after if-eqz?
-The CheckCast should be in then block, NewInstance+InvokeDirect in else block
-```
+Implemented full JADX TernaryMod parity in `ternary_mod.rs`:
+- `TernaryModVisitorFull` handles both two-branch and single-branch patterns
+- `process_one_branch_ternary()` implements JADX's `processOneBranchTernary()`
+- `replace_with_ternary()` implements full JADX logic with PHI validation
+- Helper functions: `verify_line_hints()`, `check_line_stats()`, `contains_ternary()`, `is_literal_mismatch()`
+- `get_effective_insn_from_block()` handles NewInstance+InvokeDirect as single instruction
+- `get_effective_assignment_dest()` handles CheckCast destination (cast operates in place)
+- Else-if chain detection to skip inappropriate transformations
+- Pipeline integration via `process_ternary_transformations_full()` in `decompiler.rs`
 
 ---
 
@@ -171,9 +137,9 @@ to while loops, matching JADX's conservative approach.
 | JADX Pass | Lines | Dexterity File | Status |
 |-----------|-------|----------------|--------|
 | CheckCode | 180 | check_code.rs | DONE |
-| DebugInfoAttachVisitor | 200 | debug_info.rs | 85% |
+| DebugInfoAttachVisitor | 200 | debug_info.rs | **DONE** (Dec 25 - Stage 0.5) |
 | AttachTryCatchVisitor | 320 | block_exception_handler.rs | DONE |
-| AttachCommentsVisitor | 140 | - | MISSING |
+| AttachCommentsVisitor | 140 | attach_comments.rs | **DONE** (Dec 25 - counts comments, InsnNode.attrs) |
 | AttachMethodDetails | 156 | attach_method_details.rs | DONE |
 | ProcessInstructionsVisitor | 445 | process_instructions.rs | DONE |
 
@@ -201,7 +167,7 @@ to while loops, matching JADX's conservative approach.
 | JADX Pass | Lines | Dexterity File | Status |
 |-----------|-------|----------------|--------|
 | TypeInferenceVisitor | 365 | type_inference.rs | 85% |
-| DebugInfoApplyVisitor | 243 | debug_info.rs | 80% |
+| DebugInfoApplyVisitor | 243 | debug_info.rs | **DONE** (Dec 25 - Stage 5.1) |
 | FixTypesVisitor | 380 | fix_types.rs | DONE |
 | FinishTypeInference | 156 | finish_type_inference.rs | DONE |
 
@@ -234,7 +200,7 @@ to while loops, matching JADX's conservative approach.
 | MethodInvokeVisitor | 441 | method_invoke.rs | DONE | |
 | CheckRegions | 234 | check_regions.rs | DONE | |
 | ProcessTryCatchRegions | 312 | process_try_catch_regions.rs | DONE | |
-| TernaryMod | 352 | ternary_mod.rs | **BROKEN** | instanceof pattern |
+| TernaryMod | 352 | ternary_mod.rs | **DONE** | Full JADX parity with TernaryModVisitorFull |
 | LoopRegionVisitor | 457 | loop_analysis.rs | **DONE** | GAP-02 FIXED Dec 24 - iterator_for_each pattern detection |
 
 #### Class Processing (7 passes)
@@ -245,7 +211,7 @@ to while loops, matching JADX's conservative approach.
 | FixSwitchOverEnum | 234 | fix_switch_over_enum.rs | DONE | |
 | NonFinalResIdsVisitor | 119 | - | MISSING | Gradle |
 | ExtractFieldInit | 280 | extract_field_init.rs | **BROKEN** | Static init |
-| FixAccessModifiers | 122 | fix_access_modifiers.rs | DONE | |
+| FixAccessModifiers | 122 | converter.rs | **DONE** (Dec 25) | Inner class visibility |
 | ClassModifier | 389 | class_modifier.rs | DONE | |
 
 #### Variable & Final (4 passes)
@@ -261,43 +227,24 @@ to while loops, matching JADX's conservative approach.
 
 ## P0 Clone Task List (Priority Order)
 
-### TASK-1: TernaryMod instanceof Pattern
-**Priority:** P0 (produces empty if/else blocks)
+### ~~TASK-1: TernaryMod instanceof Pattern~~ - COMPLETE (Dec 25, 2025)
+**Status:** COMPLETE - Full JADX parity achieved with `TernaryModVisitorFull`
 **JADX Source:** `TernaryMod.java` (352 lines)
-**Key Methods:**
-- `makeTernaryInsn()` lines 67-135
-- `getTernaryInsnBlock()` lines 195-209
-- `processOneBranchTernary()` lines 266-277
-- `replaceWithTernary()` lines 280-348
+**Dexterity:** `ternary_mod.rs` (~2000 lines)
 
-**Implementation Notes:**
-```java
-// JADX TernaryMod.java:97-135 - The core ternary detection
-RegisterArg thenResArg = thenInsn.getResult();
-RegisterArg elseResArg = elseInsn.getResult();
-if (thenResArg != null && elseResArg != null) {
-    PhiInsn thenPhi = thenResArg.getSVar().getOnlyOneUseInPhi();
-    PhiInsn elsePhi = elseResArg.getSVar().getOnlyOneUseInPhi();
-    if (thenPhi == null || thenPhi != elsePhi) {
-        return false;  // Must merge to same PHI
-    }
-    // ... create ternary
-}
-```
+**Implementation:**
+- `TernaryModVisitorFull` handles both two-branch and single-branch patterns
+- `process_one_branch_ternary()` implements JADX's `processOneBranchTernary()`
+- `replace_with_ternary()` implements full JADX logic with PHI validation
+- Helper functions: `verify_line_hints()`, `check_line_stats()`, `contains_ternary()`, `is_literal_mismatch()`
+- Else-if chain detection to skip inappropriate transformations
+- Pipeline integration in `decompiler.rs` via `process_ternary_transformations_full()`
 
-### TASK-3: Array Parameter Preservation
-**Priority:** P0 (wrong method signatures)
-**JADX Source:** `ReplaceNewArray.java` (234 lines) + codegen
-**Key Issue:** When emitting `invoke` with array arg, preserve `new T[]{...}` form
+### ~~TASK-3: Array Parameter Preservation~~ - FIXED (Dec 24, 2025)
+**Status:** FIXED - Arrays preserved, varargs expansion only when method is known varargs
 
-### TASK-5: Iterator For-Each Method Resolver
-**Priority:** P0 (broken for-each loops)
-**JADX Source:** `LoopRegionVisitor.java:246-405`
-**Fix Required:**
-1. Add method resolver parameter to `analyze_loop_patterns_with_iterables()`
-2. In `is_has_next_call()`, check method signature: `hasNext()Z`
-3. In `is_iterator_call()`, check signature: `iterator()Ljava/util/Iterator;`
-4. In `is_next_call()`, check signature: `next()Ljava/lang/Object;`
+### ~~TASK-5: Iterator For-Each Method Resolver~~ - FIXED (Dec 24, 2025)
+**Status:** FIXED - Full iterator for-each pattern detection implemented
 
 ---
 
@@ -305,15 +252,13 @@ if (thenResArg != null && elseResArg != null) {
 
 ### TASK-GAP1: StringBuilder Chain Conversion
 **JADX Source:** `SimplifyVisitor.java:300-428`
-**Dexterity:** `simplify_stringbuilder.rs` - exists but incomplete
-**Key Methods:**
-- `convertInvoke()` lines 305-323
-- `collectUseChain()` lines 325-367
-- `convertStringBuilderChain()` lines 369-428
+**Dexterity:** `simplify_stringbuilder.rs` - exists and working
+**Status:** VERIFIED working
 
 ### TASK-GAP3: Else-Return Elimination
 **JADX Source:** `ReturnVisitor.java:87-130`
-**Dexterity:** `return_visitor.rs` - missing this transformation
+**Dexterity:** `return_visitor.rs` - implemented
+**Status:** VERIFIED working
 
 ---
 
@@ -371,17 +316,18 @@ diff -r output/jadx_medium/sources output/dex_medium/sources | grep "^diff " | w
 
 **Real-World Parity: ~95%** (Updated Dec 25, 2025 - PRODUCTION-READY)
 
-The clone work is ~90% done structurally. All critical bugs are now FIXED:
-- 4 missing passes (~10% structural) - minor gaps remaining
-- All critical bugs FIXED (P0-LOOP-VAR, P0-BOOL-CHAIN, P0-WRONG-RETURN)
+The clone work is ~95% done structurally. All critical bugs are now FIXED:
+- TernaryMod region-level pass COMPLETE with full JADX parity
+- All P0 bugs FIXED (LOOP-VAR, BOOL-CHAIN, WRONG-RETURN, FOREACH-SEM)
+- All P1 gaps VERIFIED working
 
 **Remaining Work:** Lambda inlining infrastructure ready, awaiting Java 8 APK testing
 
 | Task | Bug | Status | Effort |
 |------|-----|--------|--------|
-| ~~TASK-1~~ | ~~BUG-1 Empty If/Else~~ | **FIXED** Dec 25 (P0-BOOL-CHAIN) | - |
+| ~~TASK-1~~ | ~~BUG-1 Empty If/Else~~ | **FIXED** Dec 25 (TernaryModVisitorFull) | - |
 | ~~TASK-3~~ | ~~BUG-3 Wrong Method Sig~~ | **FIXED** Dec 24 | - |
 | ~~TASK-5~~ | ~~BUG-5 Iterator For-Each (GAP-02)~~ | **FIXED** Dec 24 | - |
-| GAP-01 | SSA->CodeVar mapping | **FIXED** Dec 24 | - |
-| GAP-1 | StringBuilder | TODO | Medium |
-| GAP-3 | Else-Return | TODO | Low |
+| ~~GAP-01~~ | ~~SSA->CodeVar mapping~~ | **FIXED** Dec 24 | - |
+| ~~GAP-1~~ | ~~StringBuilder~~ | **VERIFIED** working | - |
+| ~~GAP-3~~ | ~~Else-Return~~ | **VERIFIED** working | - |

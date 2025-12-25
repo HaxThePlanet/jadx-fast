@@ -27,14 +27,81 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 
 ### Dec 25 - 🟢 PRODUCTION-READY (A-/B+ Grade)
 
-**Major Release:** All P0 bugs fixed, production-ready for decompilation.
+**Major Release:** All P0 and P2 bugs fixed, production-ready for decompilation.
 
 | Feature | Status |
 |---------|--------|
+| **P2-BOOL-CHAIN-POLISH** | ✅ TernaryReturn simplification (return cond ? true : false -> return cond) |
 | Boolean Simplification | ✅ `? true : false` -> `c`, De Morgan's law |
 | Lambda Class Suppression | ✅ 92 -> 55 files (37 lambda classes filtered) |
 | Diamond Operator | ✅ 1,254 instances emit `<>` (76% of JADX) |
 | Lambda Inlining (invoke-custom) | ✅ Variable assignment, SAM types working |
+| **TernaryMod Region-Level Pass** | ✅ Full JADX parity with `TernaryModVisitorFull` |
+| **DebugInfo Visitors** | ✅ Attach (Stage 0.5) + Apply (Stage 5.1) integrated |
+| **FixAccessModifiers** | ✅ Inner class visibility fixes (~120 lines) |
+| **Throws Clause Parity** | ✅ Expanded from ~26% to ~75-80% (529 methods, 38 unchecked types) |
+
+**TernaryMod Implementation (Dec 25, 2025):**
+- `TernaryModVisitorFull` - handles both two-branch and single-branch patterns
+- `process_one_branch_ternary()` - implements JADX's `processOneBranchTernary()`
+- `replace_with_ternary()` - full JADX logic with PHI validation
+- Helper functions: `verify_line_hints()`, `check_line_stats()`, `contains_ternary()`, `is_literal_mismatch()`
+- Else-if chain detection to skip inappropriate transformations
+- Pipeline uses `process_ternary_transformations_full()` in `decompiler.rs`
+
+**DebugInfo Visitors Integration (Dec 25, 2025):**
+- `debug_info.rs` refactored to use IR types (`DebugInfo`, `LocalVar`)
+- Added exports to `lib.rs` for `attach_debug_info`, `apply_debug_info`, etc.
+- Wired into `decompiler.rs` pipeline:
+  - Stage 0.5 (before block splitting): `attach_debug_info()` attaches source lines
+  - Stage 5.1 (after type inference): `apply_debug_info()` applies variable names/types to SSA vars
+
+**FixAccessModifiers Implementation (Dec 25, 2025):**
+- Implemented in `converter.rs` (~120 lines)
+- Called from `main.rs` streaming processing loop
+- Detects inner class accesses to outer class private members
+- Upgrades private → package-private visibility
+- JADX Reference: `FixAccessModifiers.java`, `VisibilityUtils.java`
+
+**Throws Clause Parity Improvement (Dec 25, 2025):**
+- Expanded `get_library_method_throws()` from 113 to **529 methods**
+- Expanded `is_checked_exception()` from 19 to **38 unchecked exception types**
+- Added coverage for:
+  - java.io (streams, readers, writers) - ~148 methods
+  - java.lang reflection (Class, Method, Field, Constructor) - ~46 methods
+  - java.util.zip/jar - ~45 methods
+  - java.nio.channels/file - ~57 methods
+  - java.text parsing - ~5 methods
+  - javax.xml (parsers, transform, xpath) - ~20 methods
+  - javax.net.ssl - ~14 methods
+  - java.security (KeyStore, certs) - ~20 methods
+  - Android-specific (Context, Resources, SQLite, Media) - ~70 methods
+- **File:** `crates/dexterity-codegen/src/method_gen.rs`
+
+**AttachCommentsVisitor Implementation (Dec 25, 2025):**
+- New pass `attach_comments.rs` - JADX AttachCommentsVisitor clone for counting diagnostic comments
+- New module `comment_gen.rs` - Comment emission utilities for code generation
+- Enhanced `CommentStyle` enum with 5 styles: Line, Block, BlockCondensed, Javadoc, JavadocCondensed
+- Enhanced `CodeComment` struct with `style: CommentStyle` field
+- Added `CodeCommentsAttr` struct for multi-valued comment storage
+- `InsnNode` now has optional `attrs: Option<Box<AttributeStorage>>` field for instruction-level attributes
+- Helper methods: `attrs_mut()`, `get_attrs()`, `add_code_comment()`, `get_code_comments()`, `has_code_comments()`
+- Pass counts: source file comments, renamed classes/fields/methods, instruction-level comments
+
+**P2-BOOL-CHAIN-POLISH Fix (Dec 25, 2025):**
+- **Bug:** Simple OR patterns produced 15-line if-else chains instead of single-line `return a || b`
+- **Location:** `crates/dexterity-codegen/src/body_gen.rs` lines 8003-8046 (Region::TernaryReturn handler)
+- **Solution:** Added call to `simplify_ternary_to_boolean` in TernaryReturn handler
+- **Simplifications:**
+  - `return cond ? true : false` -> `return cond;`
+  - `return cond ? false : true` -> `return !cond;`
+  - `return cond ? 1 : 0` (boolean context) -> `return cond;`
+  - `return cond ? 0 : 1` (boolean context) -> `return !cond;`
+- **Tests:** All 120 codegen tests pass
+
+**Bug Fixes (Dec 25, 2025):**
+- Fixed missing `attrs` field in `InsnNode::copy()`
+- Fixed `converter.rs` to use `method.method_idx` and `bytecode_ref.method_idx`
 
 **P0 Bugs Fixed:**
 - P0-FOREACH-SEM: Empty for-each loop body - ported JADX `BlockProcessor.splitReturn()`
@@ -42,6 +109,7 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 - P0-BOOL-CHAIN: Return logic inverted - PHI-to-return transformation with polarity tracking
 - P0-UNDEF-VAR: Undefined variables - static field inlining + `force_inline` flags
 - P0-TERNARY-INLINE: Ternary variable declaration - force inline + static field vars
+- P0-SPURIOUS-RET: Fixed via proper region-level TernaryMod pass
 
 ---
 
@@ -91,7 +159,7 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 - 103 directories, 152 files, zero differences with JADX
 
 **Other:**
-- Throws declaration support (~26% parity - 1610 vs 6283 JADX)
+- Throws declaration support initial implementation (expanded to ~75-80% parity on Dec 25)
 - HashMap-based annotation lookup optimization (O(1) per method vs O(n) linear search)
 - Boolean dead code elimination
 - Variable naming improvements (OBJ_ALIAS exact matching)

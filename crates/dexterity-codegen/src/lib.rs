@@ -17,6 +17,7 @@
 pub mod access_flags;
 pub mod body_gen;
 pub mod class_gen;
+pub mod comment_gen;  // NEW: JADX CodeGenUtils.addCodeComments() clone
 pub mod dex_info;
 pub mod expr_gen;
 pub mod fallback_gen;
@@ -40,4 +41,5 @@ pub use dex_info::{DexInfo, DexInfoProvider, LazyDexInfo, GlobalFieldPool, Alias
 pub use expr_gen::{ExprGen, FieldInfo, MethodInfo, BoxingType, get_literal_int_value};
 pub use stmt_gen::StmtGen;
 pub use type_gen::{type_to_string, escape_string};
+pub use comment_gen::{add_code_comments, add_block_comment, add_line_comment, add_info_comment, add_warn_comment, add_error_comment};
 pub use writer::{CodeWriter, SimpleCodeWriter};

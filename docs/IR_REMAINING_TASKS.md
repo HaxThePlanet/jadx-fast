@@ -1,6 +1,6 @@
 # Dexterity IR - Remaining Tasks for JADX Parity
 
-**Status:** 95% Complete (A- Grade)
+**Status:** 95% Complete (A- Grade) | Updated: Dec 25, 2025
 **Target:** 100% JADX IR parity
 **For:** LLM cloning agents working in parallel
 **JADX Source:** `/mnt/nvme4tb/dexterity/jadx-fast/jadx-core/src/main/java/jadx/core/dex/`
@@ -64,7 +64,7 @@
 | TypeInfo | ✅ Complete | ~100 | ssa.rs:346-417 |
 | AFlag enum | ✅ Complete | ~250 | attributes.rs:29-249 |
 | AttributeStorage | ✅ Complete | ~500 | attributes.rs:250-900 |
-| InsnNode | ✅ 95% | ~500 | instructions.rs:1-600 |
+| InsnNode | ✅ 98% | ~550 | instructions.rs:1-600 (attrs field Dec 25) |
 | BlockNode | ✅ 95% | ~400 | nodes.rs:79-500 |
 | Region system | ✅ Complete | ~600 | regions.rs |
 
@@ -89,6 +89,12 @@
 - rebind_args() - SSA fix-up after mutations
 - inherit_metadata() - Copy line numbers/comments
 - is_same() - Soft equality
+- attrs: Option<Box<AttributeStorage>> - Instruction-level attributes (Dec 25) ⭐
+- attrs_mut() - Get/create mutable attribute storage (Dec 25) ⭐
+- get_attrs() - Get attribute storage reference (Dec 25) ⭐
+- add_code_comment() - Attach diagnostic comments (Dec 25) ⭐
+- get_code_comments() - Retrieve attached comments (Dec 25) ⭐
+- has_code_comments() - Check for comments (Dec 25) ⭐
 
 ✅ **BlockNode:**
 - lock() - Freeze after analysis
@@ -1029,7 +1035,7 @@ pub fn method_name(...) {
 crates/dexterity-ir/src/
 ├── lib.rs              - Module exports (update for new modules)
 ├── ssa.rs              - SSA infrastructure ✅ 95% done
-├── instructions.rs     - InsnNode ✅ 95% done
+├── instructions.rs     - InsnNode ✅ 98% done (attrs field Dec 25)
 ├── nodes.rs            - BlockNode, MethodNode ✅ 90% done
 ├── attributes.rs       - AFlag, AttributeStorage ✅ 95% done
 ├── regions.rs          - Region system ✅ 100% done

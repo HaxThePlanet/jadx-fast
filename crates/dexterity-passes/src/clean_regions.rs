@@ -234,6 +234,7 @@ mod tests {
             source_line: None,
             extended_switch_info: None,
             extended_if_info: None,
+            attrs: None,
         }
     }
 

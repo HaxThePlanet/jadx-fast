@@ -326,6 +326,7 @@ mod tests {
             flags: 0,
             extended_switch_info: None,
             extended_if_info: None,
+            attrs: None,
         }
     }
 

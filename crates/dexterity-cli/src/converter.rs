@@ -1554,6 +1554,143 @@ fn find_source_line(line_numbers: &[(u32, u32)], offset: u32) -> Option<u32> {
     result
 }
 
+// ============================================================================
+// P3-FIXACCESSMODIFIERS: Fix visibility for inner class access patterns
+// ============================================================================
+// When inner classes access private members of outer classes (or vice versa),
+// the Java compiler generates synthetic accessor methods. JADX removes these
+// and inlines the access. For this to compile, the accessed member must be
+// at least package-private.
+//
+// JADX Reference: FixAccessModifiers.java, VisibilityUtils.java
+
+const ACC_PRIVATE: u32 = 0x0002;
+const ACC_VISIBILITY_MASK: u32 = 0x0007; // PUBLIC | PRIVATE | PROTECTED
+
+/// Fix visibility modifiers for inner class access patterns.
+///
+/// Scans inner class instructions for accesses to outer class private members.
+/// If found, upgrades those members from private to package-private.
+///
+/// # Arguments
+/// * `outer_class` - The outer class whose members may need visibility fixes
+/// * `inner_classes` - The inner classes to scan for access patterns
+/// * `dex` - The DEX reader for looking up field/method declaring classes
+///
+/// # Returns
+/// The number of members whose visibility was changed.
+pub fn fix_inner_class_visibility(
+    outer_class: &mut ClassData,
+    inner_classes: &[ClassData],
+    dex: &DexReader,
+) -> usize {
+    if inner_classes.is_empty() {
+        return 0;
+    }
+
+    let outer_type = &outer_class.class_type;
+    let mut fixed_count = 0;
+
+    // Collect field_idxs and method_idxs accessed by inner classes
+    let mut accessed_field_idxs: rustc_hash::FxHashSet<u32> = rustc_hash::FxHashSet::default();
+    let mut accessed_method_idxs: rustc_hash::FxHashSet<u32> = rustc_hash::FxHashSet::default();
+
+    for inner in inner_classes {
+        for method in &inner.methods {
+            if let Some(insns) = method.instructions() {
+                for insn in insns {
+                    match &insn.insn_type {
+                        InsnType::InstanceGet { field_idx, .. }
+                        | InsnType::InstancePut { field_idx, .. }
+                        | InsnType::StaticGet { field_idx, .. }
+                        | InsnType::StaticPut { field_idx, .. } => {
+                            // Check if this field belongs to the outer class
+                            if let Ok(field_id) = dex.get_field(*field_idx) {
+                                if let Ok(declaring_class) = field_id.class_type() {
+                                    if declaring_class == *outer_type {
+                                        accessed_field_idxs.insert(*field_idx);
+                                    }
+                                }
+                            }
+                        }
+                        InsnType::Invoke { method_idx, .. } => {
+                            // Check if this method belongs to the outer class
+                            if let Ok(method_id) = dex.get_method(*method_idx) {
+                                if let Ok(declaring_class) = method_id.class_type() {
+                                    if declaring_class == *outer_type {
+                                        accessed_method_idxs.insert(*method_idx);
+                                    }
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+        }
+    }
+
+    // Fix visibility for accessed private static fields
+    for field in &mut outer_class.static_fields {
+        if (field.access_flags & ACC_PRIVATE) != 0 {
+            // Check if this field is accessed by an inner class
+            if let Some(dex_field_idx) = field.dex_field_idx {
+                if accessed_field_idxs.contains(&dex_field_idx) {
+                    // Upgrade from private to package-private
+                    field.access_flags &= !ACC_VISIBILITY_MASK; // Clear visibility bits
+                    fixed_count += 1;
+                    tracing::debug!(
+                        "FixAccessModifiers: {} static field {} -> package-private",
+                        outer_type,
+                        field.name
+                    );
+                }
+            }
+        }
+    }
+
+    // Fix visibility for accessed private instance fields
+    for field in &mut outer_class.instance_fields {
+        if (field.access_flags & ACC_PRIVATE) != 0 {
+            // Check if this field is accessed by an inner class
+            if let Some(dex_field_idx) = field.dex_field_idx {
+                if accessed_field_idxs.contains(&dex_field_idx) {
+                    // Upgrade from private to package-private
+                    field.access_flags &= !ACC_VISIBILITY_MASK; // Clear visibility bits
+                    fixed_count += 1;
+                    tracing::debug!(
+                        "FixAccessModifiers: {} instance field {} -> package-private",
+                        outer_type,
+                        field.name
+                    );
+                }
+            }
+        }
+    }
+
+    // Fix visibility for accessed private methods
+    for method in &mut outer_class.methods {
+        if (method.access_flags & ACC_PRIVATE) != 0 {
+            // Check if this method is accessed by an inner class
+            // Get the DEX method index from bytecode_ref
+            if let Some(ref bytecode_ref) = method.bytecode_ref {
+                if accessed_method_idxs.contains(&bytecode_ref.method_idx) {
+                    // Upgrade from private to package-private
+                    method.access_flags &= !ACC_VISIBILITY_MASK; // Clear visibility bits
+                    fixed_count += 1;
+                    tracing::debug!(
+                        "FixAccessModifiers: {} method {} -> package-private",
+                        outer_type,
+                        method.name
+                    );
+                }
+            }
+        }
+    }
+
+    fixed_count
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

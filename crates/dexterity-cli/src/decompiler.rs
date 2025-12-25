@@ -14,7 +14,9 @@ use dexterity_passes::{
     assign_var_names, split_blocks_with_handlers, split_return_blocks, transform_to_ssa_owned, infer_types, simplify_instructions,
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, process_instructions, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
-    init_code_variables, process_ternary_transformations,
+    init_code_variables, process_ternary_transformations_full,
+    // Debug info visitors (JADX DebugInfoAttachVisitor + DebugInfoApplyVisitor)
+    attach_debug_info, apply_debug_info, DebugInfoAttachResult, DebugInfoApplyResult, SSAVarDebugInfo,
 };
 use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_duplicated_finally, refine_loops_with_patterns};
 
@@ -60,13 +62,40 @@ pub fn decompile_method(
     let mut insns_vec = insns.to_vec();
     process_instructions(&mut insns_vec);
 
+    // Stage 0.5: Attach debug info (JADX DebugInfoAttachVisitor - runs before BlockSplitter)
+    // Attaches source line numbers and local variable info to instructions
+    if let Some(ref debug_info) = method.debug_info {
+        let _attach_result = attach_debug_info(&mut insns_vec, debug_info);
+        // attach_result.method_source_line could be used to set method's source line
+    }
+
     // Stage 1: Block splitting (pass reference to avoid Vec clone)
-    // Collect exception handler addresses - they must be block leaders for proper try-catch detection
-    let handler_addrs: Vec<u32> = method.try_blocks
+    // Collect exception handler addresses AND try block boundaries - they must be block leaders
+    // for proper try-catch detection. Try boundaries are critical because try ranges often don't
+    // align with natural block boundaries (e.g., try inside a for-each loop body).
+    let mut leader_addrs: Vec<u32> = method.try_blocks
         .iter()
-        .flat_map(|tb| tb.handlers.iter().map(|h| h.handler_addr))
+        .flat_map(|tb| {
+            // Include: handler addresses, try start, try end
+            tb.handlers.iter().map(|h| h.handler_addr)
+                .chain(std::iter::once(tb.start_addr))
+                .chain(std::iter::once(tb.end_addr))
+        })
         .collect();
-    let mut blocks = split_blocks_with_handlers(&insns_vec, &handler_addrs);
+    leader_addrs.sort();
+    leader_addrs.dedup();
+
+    if std::env::var("DEBUG_BLOCK_SPLIT").is_ok() {
+        if !method.try_blocks.is_empty() {
+            eprintln!("[DEBUG_DECOMPILER] Method {} try_blocks: {:?}",
+                method.name,
+                method.try_blocks.iter().map(|tb| format!("0x{:x}-0x{:x}", tb.start_addr, tb.end_addr)).collect::<Vec<_>>());
+            eprintln!("[DEBUG_DECOMPILER] Leader addresses: {:?}",
+                leader_addrs.iter().map(|a| format!("0x{:x}", a)).collect::<Vec<_>>());
+        }
+    }
+
+    let mut blocks = split_blocks_with_handlers(&insns_vec, &leader_addrs);
     if blocks.blocks.is_empty() {
         return None;
     }
@@ -89,8 +118,9 @@ pub fn decompile_method(
     // Stage 3.5: TernaryMod transformation (JADX parity)
     // Convert if-else regions to ternary expressions where applicable
     // Run BEFORE take_blocks() as TernaryMod needs CFG block access
+    // Uses TernaryModVisitorFull which handles both two-branch and single-branch patterns
     let block_count = cfg.block_count();
-    if let Err(e) = process_ternary_transformations(&mut regions, &cfg, block_count) {
+    if let Err(e) = process_ternary_transformations_full(&mut regions, &cfg, block_count) {
         tracing::warn!("TernaryMod error: {}", e);
     }
 
@@ -124,6 +154,35 @@ pub fn decompile_method(
     } else {
         infer_types(&ssa)
     };
+
+    // Stage 5.1: Apply debug info to SSA variables (JADX DebugInfoApplyVisitor)
+    // Applies variable names and types from debug info to SSA variables
+    if let Some(ref debug_info) = method.debug_info {
+        // Build SSAVarDebugInfo from SSA blocks
+        let mut ssa_vars: Vec<SSAVarDebugInfo> = Vec::new();
+        let mut ssa_index = 0u32;
+        for block in &ssa.blocks {
+            for insn in &block.instructions {
+                // Collect assignment destinations as SSA variables
+                if let Some(dest) = insn.insn_type.get_dest() {
+                    let use_offsets: Vec<u32> = Vec::new(); // TODO: collect actual uses
+                    ssa_vars.push(SSAVarDebugInfo {
+                        ssa_index,
+                        reg_num: dest.reg_num,
+                        assign_offset: Some(insn.offset),
+                        use_offsets,
+                        name: None,
+                        type_desc: None,
+                    });
+                    ssa_index += 1;
+                }
+            }
+        }
+
+        // Apply debug info to collected SSA variables
+        let _apply_result = apply_debug_info(&mut ssa_vars, debug_info);
+        // TODO: Copy names back to SSA variables for use in variable naming
+    }
 
     // Stage 5.5-5.6: Iterative simplification and code shrinking (JADX parity)
     // Run simplify + shrink in a loop until no more changes occur.

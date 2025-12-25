@@ -369,25 +369,57 @@ pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[dexterity_ir::TryBlo
 fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) -> Vec<TryInfo> {
     let mut tries = Vec::with_capacity(try_blocks.len());
 
-    // Build a map of address -> block_id for fast lookups
+    // Debug: Log try blocks from DEX
+    if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+        eprintln!("[DEBUG_TRY_CATCH] Input try_blocks count: {}", try_blocks.len());
+        for (i, tb) in try_blocks.iter().enumerate() {
+            eprintln!("[DEBUG_TRY_CATCH] Try[{}]: start=0x{:x}, end=0x{:x}, handlers={:?}",
+                i, tb.start_addr, tb.end_addr,
+                tb.handlers.iter().map(|h| format!("{:?}@0x{:x}", h.exception_type, h.handler_addr)).collect::<Vec<_>>());
+        }
+    }
+
+    // Build a map of start_offset (instruction address) -> block_id for fast lookups
+    // CRITICAL: block_id is a sequential index (0, 1, 2...) but instruction addresses
+    // are actual DEX offsets (0x0, 0xb, 0x1c...). We need this map to convert addresses.
     let mut addr_to_block: BTreeMap<u32, u32> = BTreeMap::new();
     for block_id in cfg.block_ids() {
-        // Block ID is the instruction address in dexterity
-        addr_to_block.insert(block_id, block_id);
+        if let Some(block) = cfg.get_block(block_id) {
+            addr_to_block.insert(block.start_offset, block_id);
+        }
     }
 
     for try_block in try_blocks {
         // Find blocks covered by this try
+        // CRITICAL FIX: Compare block address ranges NOT block_id (sequential index)
+        // A block is covered if it OVERLAPS with the try range, not just starts within it.
+        // This handles cases where try covers just a few instructions in the middle of a block.
         let mut try_block_ids = BTreeSet::new();
         for block_id in cfg.block_ids() {
-            // Check if block's address is within try range
-            if block_id >= try_block.start_addr && block_id < try_block.end_addr {
-                try_block_ids.insert(block_id);
+            if let Some(block) = cfg.get_block(block_id) {
+                // Check if block overlaps with try range:
+                // block starts before try ends AND block ends after try starts
+                let block_start = block.start_offset;
+                let block_end = block.end_offset;
+                if block_start < try_block.end_addr && block_end > try_block.start_addr {
+                    try_block_ids.insert(block_id);
+                }
             }
         }
 
         if try_block_ids.is_empty() {
+            if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+                eprintln!("[DEBUG_TRY_CATCH] SKIPPED: No CFG blocks in range 0x{:x}-0x{:x}, cfg block offsets: {:?}",
+                    try_block.start_addr, try_block.end_addr,
+                    cfg.block_ids().take(10).filter_map(|id| cfg.get_block(id).map(|b| format!("0x{:x}-0x{:x}", b.start_offset, b.end_offset))).collect::<Vec<_>>());
+            }
             continue;
+        }
+
+        if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+            eprintln!("[DEBUG_TRY_CATCH] Found {} blocks in try range 0x{:x}-0x{:x}: {:?}",
+                try_block_ids.len(), try_block.start_addr, try_block.end_addr,
+                try_block_ids.iter().filter_map(|&id| cfg.get_block(id).map(|b| format!("block{}@0x{:x}-0x{:x}", id, b.start_offset, b.end_offset))).collect::<Vec<_>>());
         }
 
         // Find start block (first block in try)
@@ -402,23 +434,44 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
         // This matches JADX's prepareTryBlocks() which removes handler blocks from try blocks.
         let mut try_block_ids = try_block_ids;
         for h in &try_block.handlers {
-            try_block_ids.remove(&h.handler_addr);
+            // Convert handler address to block ID using the addr_to_block map
+            if let Some(&handler_block_id) = addr_to_block.get(&h.handler_addr) {
+                try_block_ids.remove(&handler_block_id);
+            }
         }
 
         // Convert exception handlers, filtering out monitor-exit-only handlers
         // These are synthetic handlers for synchronized blocks that should not generate code
         let handlers: Vec<HandlerInfo> = try_block.handlers.iter().filter_map(|h| {
-            let handler_block = h.handler_addr;
+            // Convert handler address to block ID
+            let handler_block = match addr_to_block.get(&h.handler_addr) {
+                Some(&block_id) => block_id,
+                None => {
+                    if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+                        eprintln!("[DEBUG_TRY_CATCH] No block found for handler addr 0x{:x}", h.handler_addr);
+                    }
+                    return None; // Skip handlers with no matching block
+                }
+            };
 
             // Use dominance-based block collection (JADX BlockExceptionHandler.java style)
             // This replaces the old simple forward reachability with a hard 500-block limit
             let handler_blocks = collect_handler_blocks_by_dominance(cfg, handler_block, &try_block_ids);
+
+            if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+                eprintln!("[DEBUG_TRY_CATCH] Handler: type={:?}, block=0x{:x}, handler_blocks={:?}",
+                    h.exception_type, handler_block,
+                    handler_blocks.iter().map(|b| format!("0x{:x}", b)).collect::<Vec<_>>());
+            }
 
             // Filter out monitor-exit-only handlers (synchronized block cleanup)
             // These handlers only contain: MOVE_EXCEPTION, MONITOR_EXIT, THROW
             // JADX's removeMonitorExitFromExcHandler() removes these at the instruction level
             // We filter them at the region level to avoid generating try/catch for synchronized blocks
             if h.exception_type.is_none() && is_monitor_only_handler(cfg, &handler_blocks) {
+                if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+                    eprintln!("[DEBUG_TRY_CATCH] FILTERED: monitor-only handler at 0x{:x}", handler_block);
+                }
                 return None;
             }
 
@@ -457,15 +510,26 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
             .find(|&&succ| !all_blocks.contains(&succ))
             .copied();
 
-        tries.push(TryInfo {
+        let try_info = TryInfo {
             id: tries.len(),
             start_block,
-            try_blocks: try_block_ids,
-            handlers,
+            try_blocks: try_block_ids.clone(),
+            handlers: handlers.clone(),
             merge_block,
             outer_try_block: None,
             inner_try_blocks: Vec::new(),
-        });
+        };
+
+        // Debug: Log created TryInfo
+        if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+            eprintln!("[DEBUG_TRY_CATCH] Created TryInfo[{}]: start_block=0x{:x}, try_blocks={:?}, handlers={}, merge={:?}",
+                try_info.id, try_info.start_block,
+                try_info.try_blocks.iter().map(|b| format!("0x{:x}", b)).collect::<Vec<_>>(),
+                try_info.handlers.len(),
+                try_info.merge_block.map(|b| format!("0x{:x}", b)));
+        }
+
+        tries.push(try_info);
     }
 
     // Establish nested exception relationships (JADX BlockExceptionHandler.checkTryCatchRelation style)
@@ -1018,6 +1082,9 @@ impl<'a> RegionBuilder<'a> {
 
         // Check for try-catch block start
         if let Some(try_info) = self.try_map.get(&block_id).copied() {
+            if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+                eprintln!("[DEBUG_TRY_CATCH] PROCESSING try at block 0x{:x} with {} handlers", block_id, try_info.handlers.len());
+            }
             let (try_region, next) = self.process_try_catch(try_info);
             contents.push(RegionContent::Region(Box::new(try_region)));
             return next;

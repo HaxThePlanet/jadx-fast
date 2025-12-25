@@ -4,6 +4,7 @@
 
 pub mod add_android_constants;  // NEW: JADX AddAndroidConstants clone (P2)
 pub mod algorithms;
+pub mod attach_comments;  // NEW: JADX AttachCommentsVisitor clone (P3) - counts diagnostic comments
 pub mod anonymous_class_visitor;
 pub mod apply_variable_names;  // NEW: JADX ApplyVariableNames clone (P1) - Variable name guessing
 pub mod attach_method_details;
@@ -74,6 +75,7 @@ pub mod visitor;
 
 // Re-exports
 pub use algorithms::{compute_dominators, DominatorInfo, LiveVarAnalysis, LivenessInfo};
+pub use attach_comments::{attach_comments, AttachCommentsResult};
 pub use block_split::{split_blocks, split_blocks_with_handlers, split_return_blocks, BasicBlock, BlockSplitResult};
 pub use process_instructions::{process_instructions, process_instructions_with_stats, ProcessInstructionsResult};
 pub use cfg::CFG;
@@ -112,7 +114,9 @@ pub use const_inline::{inline_constants, ConstInlineResult};
 pub use code_shrink::{shrink_code, CodeShrinkResult, WrapTarget};
 pub use ternary_mod::{
     analyze_ternary_opportunities, process_ternary_mod, process_ternary_transformations,
+    process_ternary_transformations_full, process_one_branch_ternary,
     TernaryKind, TernaryModResult, TernaryPattern, MakeTernaryResult, TernaryModVisitor,
+    TernaryModVisitorFull, SingleBranchTernaryResult, ElseValue,
 };
 pub use enum_visitor::{
     analyze_enum_class, analyze_enum_class_with_strings, is_enum_synthetic_method, is_values_field,
@@ -166,6 +170,11 @@ pub use override_method::{
 // New passes for JADX parity
 pub use check_code::{check_code, CheckCodeError, CheckCodeResult, CheckCodeWarning};
 pub use check_regions::{check_regions, has_missing_blocks, CheckRegionsResult, LoopWarning, MissingBlock};
+pub use debug_info::{
+    attach_debug_info, apply_debug_info, fix_names_for_phi_insns,
+    fix_lines_for_return, process_method_parameters, get_var_type,
+    DebugInfoAttachResult, DebugInfoApplyResult, SSAVarDebugInfo,
+};
 pub use usage_info::{collect_usage_from_instructions, collect_usage_from_instructions_full, FieldRef, MethodRef, UsageInfo};
 pub use process_anonymous::{
     process_anonymous, process_anonymous_with_context, AnonymousClassInfo, AnonymousWarning,

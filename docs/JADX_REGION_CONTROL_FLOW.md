@@ -494,20 +494,25 @@ RemoveUnreachableBreak:
 7. **ReturnVisitor** - Optimize return paths
 8. **IfRegionVisitor again** - Final optimization pass
 
-### TernaryMod - **FULLY IMPLEMENTED (Dec 19, 2025)**
+### TernaryMod - **COMPLETE with Full JADX Parity (Dec 25, 2025)**
 
-**Location:** `crates/dexterity-passes/src/ternary_mod.rs`
+**Location:** `crates/dexterity-passes/src/ternary_mod.rs` (~2000 lines)
 
 Converts nested if-else into ternary operator where appropriate:
 - Condition pattern: `if (a) x = b; else x = c;` -> `x = a ? b : c;`
 - Return pattern: `if (a) return b; else return c;` -> `return a ? b : c;`
+- Single-branch pattern: `if (c) {r = a;}` -> `r = c ? a : r`
 
-**Implementation Details:**
-- Added `TernaryTransformResult` enum with `Assignment`, `Return`, and `NotTernary` variants
-- `try_transform_to_ternary()` function detects ternary-convertible patterns
-- Integrated into `process_if()` in `region_builder.rs` (called before building sub-regions)
+**Implementation Details (Dec 25, 2025):**
+- `TernaryModVisitorFull` handles both two-branch and single-branch patterns
+- `process_one_branch_ternary()` implements JADX's `processOneBranchTernary()`
+- `replace_with_ternary()` implements full JADX logic with PHI validation
+- Helper functions: `verify_line_hints()`, `check_line_stats()`, `contains_ternary()`, `is_literal_mismatch()`
+- Else-if chain detection to skip inappropriate transformations
+- Pipeline integration via `process_ternary_transformations_full()` in `decompiler.rs`
+- `TernaryTransformResult` enum with `Assignment`, `Return`, and `NotTernary` variants
+- `MakeTernaryResult` enum for region-level transformation results
 - Codegen for `TernaryAssignment` and `TernaryReturn` regions in `body_gen.rs`
-- Helper functions: `extract_block_value_expression()`, `extract_block_return_expression()`, `binary_op_to_string()`
 
 ### IfRegionVisitor - **FULLY IMPLEMENTED (Dec 19, 2025)**
 

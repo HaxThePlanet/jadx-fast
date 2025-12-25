@@ -608,7 +608,7 @@ grep -n "AFlag\|AType\|contains\|get(" jadx-fast/jadx-core/src/main/java/jadx/co
 
 ---
 
-**Last Updated: 2025-12-24**
+**Last Updated: 2025-12-25**
 **For algorithm context, see: `ALGORITHM_REFERENCES.md`**
 **For codegen parity, see: `CODEGEN_PARITY_MASTER.md`**
 **For open work, see: `ROADMAP.md`**

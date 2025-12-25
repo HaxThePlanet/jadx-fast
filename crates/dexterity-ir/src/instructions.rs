@@ -4,7 +4,7 @@
 //! Each IR instruction represents a single operation with typed arguments.
 
 use crate::arena::ArenaId;
-use crate::attributes::AFlag;
+use crate::attributes::{AFlag, AttributeStorage, CodeComment, CodeCommentsAttr};
 use crate::types::ArgType;
 use smallvec::SmallVec;
 
@@ -48,6 +48,14 @@ pub struct InsnNode {
     ///
     /// Cloned from JADX: jadx-core/src/main/java/jadx/core/dex/instructions/IfNode.java:21-22
     pub extended_if_info: Option<Box<ExtendedIfInfo>>,
+
+    /// Optional typed attribute storage for instruction-level attributes.
+    ///
+    /// Used for CODE_COMMENTS and other instruction-level typed attributes.
+    /// Boxed to minimize memory overhead for instructions without attributes.
+    ///
+    /// JADX Reference: InsnNode has full AttributeStorage for typed attributes
+    pub attrs: Option<Box<AttributeStorage>>,
 }
 
 impl InsnNode {
@@ -61,6 +69,7 @@ impl InsnNode {
             flags: 0,
             extended_switch_info: None,
             extended_if_info: None,
+            attrs: None,
         }
     }
 
@@ -93,6 +102,51 @@ impl InsnNode {
     /// Check if any flags are set
     pub fn has_any_flags(&self) -> bool {
         self.flags != 0
+    }
+
+    // === Attribute Storage Methods ===
+
+    /// Get or create the attribute storage for this instruction.
+    ///
+    /// Lazily allocates storage on first use to minimize memory overhead
+    /// for instructions that don't need typed attributes.
+    pub fn attrs_mut(&mut self) -> &mut AttributeStorage {
+        self.attrs.get_or_insert_with(|| Box::new(AttributeStorage::new()))
+    }
+
+    /// Get the attribute storage if it exists (read-only).
+    pub fn get_attrs(&self) -> Option<&AttributeStorage> {
+        self.attrs.as_deref()
+    }
+
+    /// Check if this instruction has any typed attributes.
+    pub fn has_attrs(&self) -> bool {
+        self.attrs.is_some()
+    }
+
+    /// Add a code comment to this instruction.
+    ///
+    /// This is the primary method for attaching diagnostic comments
+    /// to instructions during decompilation passes.
+    pub fn add_code_comment(&mut self, comment: CodeComment) {
+        let storage = self.attrs_mut();
+        if let Some(attr) = storage.get_attr_mut::<CodeCommentsAttr>() {
+            attr.add(comment);
+        } else {
+            let mut attr = CodeCommentsAttr::new();
+            attr.add(comment);
+            storage.add_attr(attr);
+        }
+    }
+
+    /// Get code comments attached to this instruction.
+    pub fn get_code_comments(&self) -> Option<&CodeCommentsAttr> {
+        self.attrs.as_ref().and_then(|storage| storage.get_attr::<CodeCommentsAttr>())
+    }
+
+    /// Check if this instruction has any code comments.
+    pub fn has_code_comments(&self) -> bool {
+        self.get_code_comments().map_or(false, |c| !c.is_empty())
     }
 
     // === JADX InsnNode methods for 100% parity ===
@@ -430,6 +484,7 @@ impl InsnNode {
             flags: 0,          // Will be set by copy_common_params
             extended_switch_info: self.extended_switch_info.clone(),
             extended_if_info: self.extended_if_info.clone(),
+            attrs: self.attrs.clone(),
         };
         self.copy_common_params(&mut copy);
         copy

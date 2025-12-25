@@ -223,6 +223,7 @@ mod tests {
             flags: 0,
             extended_switch_info: None,
             extended_if_info: None,
+            attrs: None,
         };
 
         // Create SSA var with no uses (matching the dest register's version)

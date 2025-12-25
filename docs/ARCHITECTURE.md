@@ -89,6 +89,9 @@ Transform IR through analysis passes.
 | `return_visitor.rs` | Return statement optimization |
 | `constructor_visitor.rs` | Constructor processing (super/this calls) |
 | `attach_method_details.rs` | Method signature parsing, throws, generics |
+| `attach_comments.rs` | Diagnostic comment counting/attachment (JADX parity, Dec 25) |
+| `debug_info.rs` | Debug info attach + apply (Stage 0.5/5.1, Dec 25) |
+| `fix_access_modifiers.rs` | Inner class visibility fixes (JADX parity, Dec 25) |
 
 ### dexterity-codegen (Code Generation)
 
@@ -102,6 +105,7 @@ Emit Java source from IR.
 | `type_gen.rs` | Type name generation with import handling |
 | `writer.rs` | Java source code writer with formatting |
 | `stdlib_signatures.rs` | Pre-computed library method signatures (~150 methods) |
+| `comment_gen.rs` | Comment emission utilities (5 CommentStyles, Dec 25) |
 
 ### dexterity-resources (Resource Decoding)
 
@@ -143,7 +147,8 @@ Command-line interface and decompilation orchestration.
 |------|---------|
 | `main.rs` | Main entry, parallel processing, file output, ZIP security |
 | `args.rs` | CLI argument parsing (clap) |
-| `decompiler.rs` | High-level decompilation API |
+| `decompiler.rs` | High-level decompilation API with debug info pipeline |
+| `converter.rs` | DEX to IR conversion, FixAccessModifiers (~120 lines, Dec 25) |
 | `gradle_export.rs` | Android Studio project export |
 | `zip_fallback.rs` | Anti-RE fallback ZIP parser for corrupted APKs |
 
@@ -151,6 +156,10 @@ Command-line interface and decompilation orchestration.
 - Path traversal protection (blocks `../` patterns)
 - Compression bomb detection (100x ratio, 25MB min)
 - Fallback ZIP parser with signature-based entry recovery
+
+**Decompiler Pipeline (Dec 25, 2025):**
+- Stage 0.5: `attach_debug_info()` - attaches source lines before block splitting
+- Stage 5.1: `apply_debug_info()` - applies variable names/types after type inference
 
 ## Key Design Choices
 

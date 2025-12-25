@@ -36,7 +36,7 @@ use dexterity_ir::instructions::{BinaryOp, CastType, IfCondition, InsnArg, InsnN
 use dexterity_ir::regions::{Condition, LoopKind, Region, RegionContent};
 use dexterity_ir::types::ArgType;
 use dexterity_ir::{MethodData, MethodInlineAttr, TryBlock};
-use dexterity_passes::block_split::{split_blocks, BasicBlock};
+use dexterity_passes::block_split::{split_blocks, split_blocks_with_handlers, BasicBlock};
 use dexterity_passes::cfg::CFG;
 use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_duplicated_finally};
 use dexterity_passes::ssa::transform_to_ssa_owned;
@@ -2604,7 +2604,18 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     let mut insns_vec = insns.to_vec();
     process_instructions(&mut insns_vec);
 
-    let block_result = split_blocks(&insns_vec);
+    // Collect try block boundaries as additional block leaders
+    // This ensures blocks are split at try start/end addresses for proper try-catch detection
+    let leader_addrs: Vec<u32> = method.try_blocks
+        .iter()
+        .flat_map(|tb| {
+            tb.handlers.iter().map(|h| h.handler_addr)
+                .chain(std::iter::once(tb.start_addr))
+                .chain(std::iter::once(tb.end_addr))
+        })
+        .collect();
+
+    let block_result = split_blocks_with_handlers(&insns_vec, &leader_addrs);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -2753,7 +2764,18 @@ fn generate_body_impl<W: CodeWriter>(
     let mut insns_vec = insns.to_vec();
     process_instructions(&mut insns_vec);
 
-    let block_result = split_blocks(&insns_vec);
+    // Collect try block boundaries as additional block leaders
+    // This ensures blocks are split at try start/end addresses for proper try-catch detection
+    let leader_addrs: Vec<u32> = method.try_blocks
+        .iter()
+        .flat_map(|tb| {
+            tb.handlers.iter().map(|h| h.handler_addr)
+                .chain(std::iter::once(tb.start_addr))
+                .chain(std::iter::once(tb.end_addr))
+        })
+        .collect();
+
+    let block_result = split_blocks_with_handlers(&insns_vec, &leader_addrs);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -3062,7 +3084,18 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     let mut insns_vec = insns.to_vec();
     process_instructions(&mut insns_vec);
 
-    let block_result = split_blocks(&insns_vec);
+    // Collect try block boundaries as additional block leaders
+    // This ensures blocks are split at try start/end addresses for proper try-catch detection
+    let leader_addrs: Vec<u32> = method.try_blocks
+        .iter()
+        .flat_map(|tb| {
+            tb.handlers.iter().map(|h| h.handler_addr)
+                .chain(std::iter::once(tb.start_addr))
+                .chain(std::iter::once(tb.end_addr))
+        })
+        .collect();
+
+    let block_result = split_blocks_with_handlers(&insns_vec, &leader_addrs);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -8006,6 +8039,8 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             else_value_block,
         } => {
             // Generate: return cond ? thenExpr : elseExpr;
+            // P2-BOOL-CHAIN-POLISH: Simplify to `return cond;` when thenExpr=true, elseExpr=false
+            // Clone of JADX TernaryMod.java behavior for boolean returns
 
             // First emit any prelude instructions from the condition block
             emit_condition_block_prelude(condition, ctx, code);
@@ -8020,15 +8055,27 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             let then_expr = extract_block_return_expression(*then_value_block, ctx);
             let else_expr = extract_block_return_expression(*else_value_block, ctx);
 
-            code.start_line()
-                .add("return ")
-                .add(&cond_str)
-                .add(" ? ")
-                .add(&then_expr)
-                .add(" : ")
-                .add(&else_expr)
-                .add(";")
-                .newline();
+            // P2-BOOL-CHAIN-POLISH: Try boolean simplification
+            // `return a || b ? true : false` -> `return a || b`
+            // `return a && b ? false : true` -> `return !(a && b)`
+            if let Some(simplified) = simplify_ternary_to_boolean(&cond_str, &then_expr, &else_expr, Some(&ctx.return_type)) {
+                code.start_line()
+                    .add("return ")
+                    .add(&simplified)
+                    .add(";")
+                    .newline();
+            } else {
+                // Fall back to full ternary expression
+                code.start_line()
+                    .add("return ")
+                    .add(&cond_str)
+                    .add(" ? ")
+                    .add(&then_expr)
+                    .add(" : ")
+                    .add(&else_expr)
+                    .add(";")
+                    .newline();
+            }
         }
     }
 }
@@ -8623,6 +8670,26 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
                     // This overwrites the ternary expression with the cast version
                     let expr = format!("({}){}", type_name, obj_str);
                     ctx.store_inline_expr(reg.reg_num, reg.ssa_version, expr);
+                }
+            }
+            // P1-STRING-CONCAT FIX: Store StrConcat expressions for inlining.
+            // Without this, string concatenation like:
+            //   `getFilesDir().getAbsolutePath() + "/classes.dex"`
+            // would be emitted as a separate variable instead of being inlined
+            // into method arguments like:
+            //   `new DexClassLoader(path + "/classes.dex", ...)`
+            //
+            // Clone of JADX InsnGen.java:501-515 (STR_CONCAT handling)
+            InsnType::StrConcat { dest, args } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    // Build concatenation expression: arg1 + arg2 + ...
+                    let parts: Vec<String> = args.iter()
+                        .map(|arg| ctx.gen_arg_inline_peek(arg))
+                        .collect();
+                    if !parts.is_empty() {
+                        let expr = parts.join(" + ");
+                        ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                    }
                 }
             }
             _ => {
@@ -9787,6 +9854,155 @@ fn split_array_elements(content: &str) -> Vec<&str> {
     elements
 }
 
+/// P1-STRING-CONST FIX: Try to convert String(char[]) constructor to string literal.
+///
+/// JADX parity: When we see `new String(new char[] { 's', 'h' })`, emit `"sh"` instead.
+///
+/// This handles the pattern where:
+/// - Constructor is java/lang/String.<init>([C)V or java/lang/String.<init>([CII)V
+/// - The char[] argument is a filled array literal like `new char[] { 's', 'h' }`
+///
+/// Returns Some(string_literal) if conversion succeeds, None otherwise.
+fn try_convert_string_char_array_constructor(
+    class_type: &str,
+    args: &[InsnArg],
+    skip_count: usize,
+    ctx: &BodyGenContext,
+) -> Option<String> {
+    // Must be java.lang.String constructor
+    let normalized_class = class_type
+        .strip_prefix('L').unwrap_or(class_type)
+        .strip_suffix(';').unwrap_or(class_type);
+
+    if normalized_class != "java/lang/String" {
+        return None;
+    }
+
+    // Get the first real argument (after receiver)
+    let char_array_arg = args.get(skip_count)?;
+
+    // Get the inlined expression for this argument
+    let inlined_expr = if let InsnArg::Register(reg) = char_array_arg {
+        ctx.peek_inline_expr(reg.reg_num, reg.ssa_version)?
+    } else {
+        return None;
+    };
+
+    // Must be a char array literal: new char[] { ... }
+    if !inlined_expr.starts_with("new char[] { ") {
+        return None;
+    }
+
+    // Extract the char values from the array literal
+    let chars = extract_char_array_to_string(&inlined_expr)?;
+
+    // Return the escaped string literal
+    Some(format!("\"{}\"", escape_string_content(&chars)))
+}
+
+/// Extract characters from a char array literal expression.
+///
+/// Input: `new char[] { 's', 'h' }` or `new char[] { 115, 104 }`
+/// Output: Some("sh")
+fn extract_char_array_to_string(expr: &str) -> Option<String> {
+    // Find content between "{ " and " }"
+    let start = expr.find("{ ")? + 2;
+    let end = expr.rfind(" }")?;
+
+    if start > end {
+        // Empty array
+        return Some(String::new());
+    }
+
+    let content = &expr[start..end];
+    if content.is_empty() {
+        return Some(String::new());
+    }
+
+    let mut result = String::new();
+
+    // Split by ", " and parse each element
+    for elem in split_array_elements(content) {
+        let elem = elem.trim();
+
+        if elem.starts_with('\'') && elem.ends_with('\'') && elem.len() >= 2 {
+            // Character literal: 's', '\n', '\u0000', etc.
+            let char_content = &elem[1..elem.len()-1];
+            if let Some(c) = parse_char_literal(char_content) {
+                result.push(c);
+            } else {
+                return None; // Can't parse this character
+            }
+        } else if let Ok(num) = elem.parse::<i32>() {
+            // Numeric literal: 115 -> 's'
+            if let Some(c) = char::from_u32(num as u32) {
+                result.push(c);
+            } else {
+                return None; // Invalid Unicode
+            }
+        } else {
+            // Not a literal - can't convert
+            return None;
+        }
+    }
+
+    Some(result)
+}
+
+/// Parse a char literal content (the part inside the single quotes).
+/// Handles: 's', '\n', '\t', '\\', '\'', '\uXXXX'
+fn parse_char_literal(s: &str) -> Option<char> {
+    let mut chars = s.chars();
+    let first = chars.next()?;
+
+    if first != '\\' {
+        // Simple character
+        return if chars.next().is_none() { Some(first) } else { None };
+    }
+
+    // Escape sequence
+    let escape = chars.next()?;
+    match escape {
+        'n' => Some('\n'),
+        't' => Some('\t'),
+        'r' => Some('\r'),
+        '\\' => Some('\\'),
+        '\'' => Some('\''),
+        '"' => Some('"'),
+        '0' => Some('\0'),
+        'u' => {
+            // Unicode escape: \uXXXX
+            let hex: String = chars.take(4).collect();
+            if hex.len() == 4 {
+                u32::from_str_radix(&hex, 16).ok().and_then(char::from_u32)
+            } else {
+                None
+            }
+        }
+        _ => None,
+    }
+}
+
+/// Escape a string for Java string literal output.
+fn escape_string_content(s: &str) -> String {
+    let mut result = String::with_capacity(s.len() * 2);
+    for c in s.chars() {
+        match c {
+            '\n' => result.push_str("\\n"),
+            '\r' => result.push_str("\\r"),
+            '\t' => result.push_str("\\t"),
+            '\\' => result.push_str("\\\\"),
+            '"' => result.push_str("\\\""),
+            '\0' => result.push_str("\\0"),
+            c if c.is_control() || c as u32 > 127 => {
+                result.push_str(&format!("\\u{:04x}", c as u32));
+            }
+            _ => result.push(c),
+        }
+    }
+    result
+}
+
 /// Try to expand a pending vararg array from NewArray + ArrayPut pattern.
 /// Returns the expanded argument string or None if not expandable.
 fn try_expand_pending_vararg_array(arg: &InsnArg, ctx: &mut BodyGenContext) -> Option<String> {
@@ -10320,6 +10536,18 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                             code.add("super(");
                         }
                     } else {
+                        // P1-STRING-CONST FIX: Check for String(char[]) -> string literal conversion
+                        // JADX parity: `new String(new char[]{'s','h'})` -> `"sh"`
+                        if let Some(string_literal) = try_convert_string_char_array_constructor(
+                            &info.class_type, args, skip_count, ctx
+                        ) {
+                            // Consume the char array inline expression
+                            if let Some(InsnArg::Register(reg)) = args.get(skip_count) {
+                                ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
+                            }
+                            code.add(&string_literal);
+                            return;
+                        }
                         code.add("new ").add(&info.class_name).add("(");
                     }
                 } else {
@@ -13133,5 +13361,61 @@ mod tests {
         assert_eq!(escape_reserved_word("className"), "className");
         assert_eq!(escape_reserved_word("str"), "str");
         assert_eq!(escape_reserved_word("clazz"), "clazz"); // already escaped
+    }
+
+    // P1-STRING-CONST tests
+    #[test]
+    fn test_extract_char_array_to_string_simple() {
+        let result = extract_char_array_to_string("new char[] { 's', 'h' }");
+        assert_eq!(result, Some("sh".to_string()));
+    }
+
+    #[test]
+    fn test_extract_char_array_to_string_numeric() {
+        // 115='s', 104='h'
+        let result = extract_char_array_to_string("new char[] { 115, 104 }");
+        assert_eq!(result, Some("sh".to_string()));
+    }
+
+    #[test]
+    fn test_extract_char_array_to_string_escape() {
+        let result = extract_char_array_to_string(r#"new char[] { '\n', '\t' }"#);
+        assert_eq!(result, Some("\n\t".to_string()));
+    }
+
+    #[test]
+    fn test_extract_char_array_to_string_empty() {
+        let result = extract_char_array_to_string("new char[] { }");
+        assert_eq!(result, Some("".to_string()));
+    }
+
+    #[test]
+    fn test_parse_char_literal_simple() {
+        assert_eq!(parse_char_literal("s"), Some('s'));
+        assert_eq!(parse_char_literal("A"), Some('A'));
+        assert_eq!(parse_char_literal("0"), Some('0'));
+    }
+
+    #[test]
+    fn test_parse_char_literal_escapes() {
+        assert_eq!(parse_char_literal("\\n"), Some('\n'));
+        assert_eq!(parse_char_literal("\\t"), Some('\t'));
+        assert_eq!(parse_char_literal("\\r"), Some('\r'));
+        assert_eq!(parse_char_literal("\\\\"), Some('\\'));
+        assert_eq!(parse_char_literal("\\'"), Some('\''));
+    }
+
+    #[test]
+    fn test_parse_char_literal_unicode() {
+        assert_eq!(parse_char_literal("\\u0041"), Some('A'));
+        assert_eq!(parse_char_literal("\\u0073"), Some('s'));
+    }
+
+    #[test]
+    fn test_escape_string_content() {
+        assert_eq!(escape_string_content("hello"), "hello");
+        assert_eq!(escape_string_content("a\nb"), "a\\nb");
+        assert_eq!(escape_string_content("a\"b"), "a\\\"b");
+        assert_eq!(escape_string_content("a\\b"), "a\\\\b");
     }
 }

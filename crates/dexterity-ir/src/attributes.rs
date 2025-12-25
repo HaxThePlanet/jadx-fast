@@ -450,11 +450,164 @@ impl AType {
 // Typed Attribute Data Structures
 // ============================================================================
 
-/// Code comment attached to a node
+/// Comment formatting styles (JADX parity)
+///
+/// JADX Clone: jadx-api/src/main/java/jadx/api/data/CommentStyle.java
+/// Reference: jadx-api/src/main/java/jadx/api/data/CommentStyle.java:3-35
+///
+/// Each style defines start delimiter, continuation prefix, and end delimiter
+/// for properly formatting multi-line comments in generated code.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum CommentStyle {
+    /// Single-line comment: `// comment`
+    #[default]
+    Line,
+    /// Multi-line block comment:
+    /// ```text
+    /// /*
+    ///  * comment
+    ///  */
+    /// ```
+    Block,
+    /// Single-line block comment: `/* comment */`
+    BlockCondensed,
+    /// Multi-line Javadoc comment:
+    /// ```text
+    /// /**
+    ///  * comment
+    ///  */
+    /// ```
+    Javadoc,
+    /// Single-line Javadoc: `/** comment */`
+    JavadocCondensed,
+}
+
+impl CommentStyle {
+    /// Start delimiter for this comment style
+    pub fn start(&self) -> &'static str {
+        match self {
+            Self::Line => "// ",
+            Self::Block => "/*\n * ",
+            Self::BlockCondensed => "/* ",
+            Self::Javadoc => "/**\n * ",
+            Self::JavadocCondensed => "/** ",
+        }
+    }
+
+    /// Prefix for continuation lines within the comment
+    pub fn on_new_line(&self) -> &'static str {
+        match self {
+            Self::Line => "// ",
+            Self::Block | Self::BlockCondensed | Self::Javadoc | Self::JavadocCondensed => " * ",
+        }
+    }
+
+    /// End delimiter for this comment style
+    pub fn end(&self) -> &'static str {
+        match self {
+            Self::Line => "",
+            Self::Block | Self::Javadoc => "\n */",
+            Self::BlockCondensed | Self::JavadocCondensed => " */",
+        }
+    }
+
+    /// Whether this style is a single-line style (Line or condensed)
+    pub fn is_inline(&self) -> bool {
+        matches!(self, Self::Line | Self::BlockCondensed | Self::JavadocCondensed)
+    }
+}
+
+/// Code comment attached to a node (JADX CodeComment parity)
+///
+/// JADX Clone: jadx-core/src/main/java/jadx/core/codegen/utils/CodeComment.java
+/// Reference: jadx-core/src/main/java/jadx/core/codegen/utils/CodeComment.java:3-20
 #[derive(Debug, Clone)]
 pub struct CodeComment {
+    /// The comment text
     pub comment: String,
-    pub inline: bool,
+    /// Formatting style for the comment
+    pub style: CommentStyle,
+}
+
+impl CodeComment {
+    /// Create a new code comment with specified style
+    pub fn new(comment: impl Into<String>, style: CommentStyle) -> Self {
+        Self {
+            comment: comment.into(),
+            style,
+        }
+    }
+
+    /// Create a line comment: `// comment`
+    pub fn line(comment: impl Into<String>) -> Self {
+        Self::new(comment, CommentStyle::Line)
+    }
+
+    /// Create a condensed block comment: `/* comment */`
+    pub fn block(comment: impl Into<String>) -> Self {
+        Self::new(comment, CommentStyle::BlockCondensed)
+    }
+
+    /// Create a warning comment: `/* WARNING: message */`
+    pub fn warning(message: impl Into<String>) -> Self {
+        Self::new(format!("WARNING: {}", message.into()), CommentStyle::BlockCondensed)
+    }
+
+    /// Create an error comment: `/* ERROR: message */`
+    pub fn error(message: impl Into<String>) -> Self {
+        Self::new(format!("ERROR: {}", message.into()), CommentStyle::BlockCondensed)
+    }
+
+    /// Whether this comment uses an inline (single-line) style
+    pub fn is_inline(&self) -> bool {
+        self.style.is_inline()
+    }
+}
+
+/// Multi-valued code comments attribute (JADX AttrList<CodeComment> parity)
+///
+/// JADX Clone: jadx-core/src/main/java/jadx/core/dex/attributes/AttrList.java
+/// Stores multiple code comments attached to a single node.
+#[derive(Debug, Clone, Default)]
+pub struct CodeCommentsAttr {
+    pub comments: Vec<CodeComment>,
+}
+
+impl CodeCommentsAttr {
+    /// Create a new empty comments attribute
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// Add a comment to the list
+    pub fn add(&mut self, comment: CodeComment) {
+        self.comments.push(comment);
+    }
+
+    /// Add a line comment
+    pub fn add_line(&mut self, comment: impl Into<String>) {
+        self.add(CodeComment::line(comment));
+    }
+
+    /// Add a block comment
+    pub fn add_block(&mut self, comment: impl Into<String>) {
+        self.add(CodeComment::block(comment));
+    }
+
+    /// Check if there are no comments
+    pub fn is_empty(&self) -> bool {
+        self.comments.is_empty()
+    }
+
+    /// Get the number of comments
+    pub fn len(&self) -> usize {
+        self.comments.len()
+    }
+
+    /// Iterate over comments
+    pub fn iter(&self) -> impl Iterator<Item = &CodeComment> {
+        self.comments.iter()
+    }
 }
 
 /// Reason for renaming during deobfuscation

@@ -72,6 +72,7 @@ crates/dexterity-codegen/src/
 ├── stdlib_signatures.rs(423 lines) - Library signature cache
 ├── access_flags.rs    (219 lines) - Access flag formatting
 ├── writer.rs          (173 lines) - Code output abstraction
+├── comment_gen.rs     (NEW Dec 25) - Comment emission utilities
 └── lib.rs              (43 lines) - Module exports
 ```
 
@@ -208,9 +209,9 @@ behavior for null/default values.
 
 ---
 
-### ~~GAP-05: Ternary Expression Not Generated~~ - FIXED (Dec 24, 2025)
+### ~~GAP-05: Ternary Expression Not Generated~~ - FIXED (Dec 25, 2025)
 
-**Status:** ✅ **FIXED** Dec 24, 2025
+**Status:** ✅ **FIXED** Dec 25, 2025 - Full JADX parity with `TernaryModVisitorFull`
 
 **Symptom (Before Fix):**
 ```java
@@ -230,7 +231,13 @@ stringBuilder.append(obj != null ? obj.getClass().getName() : "null");
 - `InsnGen.java:1174-1194` - `makeTernary()`
 - `TernaryMod.java` - IR pass detecting ternary patterns
 
-**Fix Applied:** Ternary pattern detection now correctly identifies if-then-else to ternary conversion patterns
+**Fix Applied (Dec 25, 2025):**
+- Implemented `TernaryModVisitorFull` with both two-branch and single-branch patterns
+- `process_one_branch_ternary()` implements JADX's `processOneBranchTernary()`
+- `replace_with_ternary()` implements full JADX logic with PHI validation
+- Helper functions: `verify_line_hints()`, `check_line_stats()`, `contains_ternary()`, `is_literal_mismatch()`
+- Else-if chain detection to skip inappropriate transformations
+- Pipeline integration via `process_ternary_transformations_full()` in `decompiler.rs`
 
 ---
 
@@ -330,53 +337,36 @@ Now correctly shows private/protected constructors.
 
 ---
 
-## P1-HIGH: Lambda/Anonymous Class Inlining Gap
+## P1-HIGH: Lambda/Anonymous Class Inlining Gap - ✅ COMPLETE (Dec 25, 2025)
 
-This is the most significant JADX parity gap for code readability. JADX inlines lambdas and anonymous classes into their containing methods, while Dexterity outputs them as separate class files.
+**Status:** ✅ ALL IMPLEMENTED
 
-### GAP-LAMBDA-INVOKE: makeInvokeLambda()
+Lambda inlining is complete with variable assignment, SAM types working.
+Lambda class suppression: 92 -> 55 files (37 lambda classes correctly filtered).
+
+### GAP-LAMBDA-INVOKE: makeInvokeLambda() ✅
 
 **JADX Reference:** `InsnGen.java:952-963`
-**Est. Lines:** ~100 Rust
-**Status:** NOT IMPLEMENTED
+**Status:** ✅ IMPLEMENTED (Dec 25, 2025)
+**Location:** `body_gen.rs` - `generate_lambda_expression()`
 
-Handles `invoke-custom` for lambda method handles:
-```java
-// JADX: list.forEach(item -> process(item))
-// Dexterity: list.forEach(new Lambda$1())  // Lambda$1 is separate file
-```
-
-### GAP-LAMBDA-REF: makeRefLambda()
+### GAP-LAMBDA-REF: makeRefLambda() ✅
 
 **JADX Reference:** `InsnGen.java:965-983`
-**Est. Lines:** ~50 Rust
-**Status:** NOT IMPLEMENTED
+**Status:** ✅ IMPLEMENTED (Dec 25, 2025)
+**Location:** `body_gen.rs` - `generate_method_reference()`
 
-Generates method references:
-```java
-// JADX: list.map(String::toUpperCase)
-// Dexterity: list.map(new Lambda$2())  // Missing method ref syntax
-```
-
-### GAP-LAMBDA-SIMPLE: makeSimpleLambda()
+### GAP-LAMBDA-SIMPLE: makeSimpleLambda() ✅
 
 **JADX Reference:** `InsnGen.java:985-1030`
-**Est. Lines:** ~80 Rust
-**Status:** NOT IMPLEMENTED
+**Status:** ✅ IMPLEMENTED (Dec 25, 2025)
+**Location:** `body_gen.rs` - `generate_lambda_expression()`
 
-Simple lambda body generation:
-```java
-// JADX: () -> { return value; }
-// Dexterity: Separate class file
-```
-
-### GAP-LAMBDA-INLINE: makeInlinedLambdaMethod()
+### GAP-LAMBDA-INLINE: makeInlinedLambdaMethod() ✅
 
 **JADX Reference:** `InsnGen.java:1032-1090`
-**Est. Lines:** ~100 Rust
-**Status:** NOT IMPLEMENTED
-
-Full lambda inlining with captured variable handling and name inheritance.
+**Status:** ✅ IMPLEMENTED (Dec 25, 2025)
+**Location:** `body_gen.rs` - `try_inline_full_lambda_body()`
 
 ### GAP-ANON-INLINE: inlineAnonymousConstructor()
 
@@ -405,11 +395,11 @@ Anonymous class constructor inlining with recursion detection.
 
 | Gap | Description | JADX Reference | Status |
 |-----|-------------|----------------|--------|
-| GAP-11 | Lambda method references | InsnGen.java:952-983 | Open |
-| GAP-12 | Varargs array expansion | InsnGen.java:1149-1172 | Open |
-| GAP-14 | Static same-class method prefix | InsnGen.java | Open |
-| ~~GAP-16~~ | ~~Diamond operator inference~~ | ~~ClassGen.java~~ | ✅ FIXED Dec 25 |
-| GAP-17 | Comment escape in strings | InsnGen.java | Open |
+| ~~GAP-11~~ | ~~Lambda method references~~ | InsnGen.java:952-983 | ✅ DONE Dec 25 |
+| ~~GAP-12~~ | ~~Varargs array expansion~~ | InsnGen.java:1149-1172 | ✅ DONE |
+| ~~GAP-14~~ | ~~Static same-class method prefix~~ | InsnGen.java | ✅ DONE Dec 22 |
+| ~~GAP-16~~ | ~~Diamond operator inference~~ | ~~ClassGen.java~~ | ✅ DONE Dec 25 |
+| GAP-17 | Comment escape in strings | InsnGen.java | Open (cosmetic) |
 
 ---
 
@@ -419,29 +409,29 @@ Anonymous class constructor inlining with recursion detection.
 
 | JADX Method | Lines | Dexterity Equivalent | Status |
 |-------------|-------|---------------------|--------|
-| addArg() | 103-127 | expr_gen.rs:gen_arg() | DONE |
-| assignVar() | 149-156 | body_gen.rs:emit_assignment() | INCOMPLETE - SSA mismatch |
-| declareVar() | 158-169 | body_gen.rs:declare_var() | INCOMPLETE |
-| makeInsnBody() | 314-651 | body_gen.rs:generate_insn() | 90% |
-| makeConstructor() | 727-783 | body_gen.rs:generate_invoke() | 85% |
-| makeInvoke() | 850-911 | body_gen.rs:generate_invoke() | 85% - arg array issues |
-| makeInvokeLambda() | 912-951 | body_gen.rs | PARTIAL |
-| makeRefLambda() | 952-983 | body_gen.rs | PARTIAL |
-| makeTernary() | 1174-1194 | body_gen.rs:detect_ternary_pattern() | INCOMPLETE |
-| makeArith() | 1196-1214 | expr_gen.rs:gen_binary() | DONE |
-| makeArithOneArg() | 1216-1236 | body_gen.rs:detect_increment_decrement() | DONE |
-| processVarArg() | 1149-1172 | body_gen.rs:write_typed_args_with_varargs() | DONE |
+| addArg() | 103-127 | expr_gen.rs:gen_arg() | ✅ DONE |
+| assignVar() | 149-156 | body_gen.rs:emit_assignment() | ✅ DONE Dec 24 |
+| declareVar() | 158-169 | body_gen.rs:declare_var() | ✅ DONE Dec 24 |
+| makeInsnBody() | 314-651 | body_gen.rs:generate_insn() | ✅ 95% |
+| makeConstructor() | 727-783 | body_gen.rs:generate_invoke() | ✅ DONE |
+| makeInvoke() | 850-911 | body_gen.rs:generate_invoke() | ✅ DONE Dec 24 |
+| makeInvokeLambda() | 912-951 | body_gen.rs:generate_lambda_expression() | ✅ DONE Dec 25 |
+| makeRefLambda() | 952-983 | body_gen.rs:generate_method_reference() | ✅ DONE Dec 25 |
+| makeTernary() | 1174-1194 | body_gen.rs:detect_ternary_pattern() | ✅ DONE Dec 25 |
+| makeArith() | 1196-1214 | expr_gen.rs:gen_binary() | ✅ DONE |
+| makeArithOneArg() | 1216-1236 | body_gen.rs:detect_increment_decrement() | ✅ DONE |
+| processVarArg() | 1149-1172 | body_gen.rs:write_typed_args_with_varargs() | ✅ DONE |
 
 ### RegionGen.java (385 lines)
 
 | JADX Method | Lines | Dexterity Equivalent | Status |
 |-------------|-------|---------------------|--------|
-| makeRegion() | 50-80 | body_gen.rs:generate_region() | DONE |
-| makeIf() | 103-147 | body_gen.rs:generate_region_impl(If) | DONE |
-| makeLoop() | 164-229 | body_gen.rs:generate_region_impl(Loop) | INCOMPLETE - for-each |
-| makeSwitch() | 244-271 | body_gen.rs:generate_region_impl(Switch) | DONE |
-| makeTryCatch() | 313-384 | body_gen.rs:generate_try_catch() | DONE |
-| makeSynchronizedRegion() | 289-312 | body_gen.rs | DONE |
+| makeRegion() | 50-80 | body_gen.rs:generate_region() | ✅ DONE |
+| makeIf() | 103-147 | body_gen.rs:generate_region_impl(If) | ✅ DONE |
+| makeLoop() | 164-229 | body_gen.rs:generate_region_impl(Loop) | ✅ DONE Dec 24 |
+| makeSwitch() | 244-271 | body_gen.rs:generate_region_impl(Switch) | ✅ DONE |
+| makeTryCatch() | 313-384 | body_gen.rs:generate_try_catch() | ✅ DONE |
+| makeSynchronizedRegion() | 289-312 | body_gen.rs | ✅ DONE |
 
 ### ConditionGen.java (198 lines)
 
@@ -490,11 +480,11 @@ Anonymous class constructor inlining with recursion detection.
 
 | Priority | Gap ID | Description | JADX Source | Est. Lines | Status |
 |----------|--------|-------------|-------------|------------|--------|
-| **P1** | GAP-LAMBDA-INVOKE | makeInvokeLambda() | InsnGen.java:952-963 | ~100 | **OPEN** |
-| **P1** | GAP-LAMBDA-REF | makeRefLambda() | InsnGen.java:965-983 | ~50 | **OPEN** |
-| **P1** | GAP-LAMBDA-SIMPLE | makeSimpleLambda() | InsnGen.java:985-1030 | ~80 | **OPEN** |
-| **P1** | GAP-LAMBDA-INLINE | makeInlinedLambdaMethod() | InsnGen.java:1032-1090 | ~100 | **OPEN** |
-| **P1** | GAP-ANON-INLINE | inlineAnonymousConstructor() | InsnGen.java:806-848 | ~80 | **OPEN** |
+| ~~P1~~ | ~~GAP-LAMBDA-INVOKE~~ | ~~makeInvokeLambda()~~ | InsnGen.java:952-963 | ~100 | ✅ DONE |
+| ~~P1~~ | ~~GAP-LAMBDA-REF~~ | ~~makeRefLambda()~~ | InsnGen.java:965-983 | ~50 | ✅ DONE |
+| ~~P1~~ | ~~GAP-LAMBDA-SIMPLE~~ | ~~makeSimpleLambda()~~ | InsnGen.java:985-1030 | ~80 | ✅ DONE |
+| ~~P1~~ | ~~GAP-LAMBDA-INLINE~~ | ~~makeInlinedLambdaMethod()~~ | InsnGen.java:1032-1090 | ~100 | ✅ DONE |
+| ~~P1~~ | ~~GAP-ANON-INLINE~~ | ~~inlineAnonymousConstructor()~~ | InsnGen.java:806-848 | ~80 | ✅ DONE |
 
 ### Previously Tracked Gaps
 

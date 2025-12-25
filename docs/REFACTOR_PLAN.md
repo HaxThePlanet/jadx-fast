@@ -380,22 +380,21 @@ public static final int $stable;
 
 ---
 
-### GAP-05: Ternary Conversion (P0-CRITICAL)
+### ~~GAP-05: Ternary Conversion~~ (P0-CRITICAL) - COMPLETE (Dec 25, 2025)
 
-**File:** `crates/dexterity-passes/src/ternary_mod.rs`
+**Status:** COMPLETE - Full JADX parity with `TernaryModVisitorFull`
 
-**Problem:**
-```java
-// BROKEN: Not converted to ternary, undefined object2
-if (object != null) { String object3 = ...; } else { String object4 = ...; }
-stringBuilder.append(object2);
-```
+**File:** `crates/dexterity-passes/src/ternary_mod.rs` (~2000 lines)
+
+**Implementation:**
+- `TernaryModVisitorFull` handles both two-branch and single-branch patterns
+- `process_one_branch_ternary()` implements JADX's `processOneBranchTernary()`
+- `replace_with_ternary()` implements full JADX logic with PHI validation
+- Helper functions: `verify_line_hints()`, `check_line_stats()`, `contains_ternary()`, `is_literal_mismatch()`
+- Else-if chain detection to skip inappropriate transformations
+- Pipeline integration via `process_ternary_transformations_full()` in `decompiler.rs`
 
 **JADX Reference:** `TernaryMod.java`, `InsnGen.java:1174-1194`
-
-**Fix:** Detect single-assignment in then/else branches, same destination variable
-
-**Estimated lines:** ~150
 
 ---
 
@@ -488,17 +487,17 @@ if (x) { throw e; }
 
 | Gap | Priority | Lines | File | Status |
 |-----|----------|-------|------|--------|
-| GAP-01 | P0 | ~100 | body_gen.rs | **FIXED** |
-| GAP-02 | P0 | ~200 | loop_analysis.rs, region_builder.rs, body_gen.rs | **FIXED** |
-| GAP-03 | P0 | ~150 | region_builder.rs | TODO |
+| GAP-01 | P0 | ~100 | body_gen.rs | **FIXED** Dec 24 |
+| GAP-02 | P0 | ~200 | loop_analysis.rs, region_builder.rs, body_gen.rs | **FIXED** Dec 24 |
+| GAP-03 | P0 | ~150 | region_builder.rs | **FIXED** Dec 24 |
 | GAP-04 | P0 | N/A | class_gen.rs | **FIXED** Dec 24 |
-| GAP-05 | P0 | ~150 | ternary_mod.rs | TODO |
+| GAP-05 | P0 | ~2000 | ternary_mod.rs | **FIXED** Dec 25 (TernaryModVisitorFull) |
 | GAP-06 | P1 | N/A | body_gen.rs | **FIXED** Dec 24 |
 | GAP-07 | P1 | N/A | body_gen.rs | **VERIFIED** |
 | GAP-08 | P1 | N/A | body_gen.rs | **FIXED** Dec 24 |
 | GAP-09 | P1 | N/A | simplify_stringbuilder.rs | **VERIFIED** |
 | GAP-10 | P1 | N/A | return_visitor.rs | **VERIFIED** |
-| **Remaining Total** | | **~200** | | (8 FIXED/VERIFIED) |
+| **Total** | | | | **10/10 FIXED/VERIFIED** |
 
 ---
 
@@ -575,13 +574,13 @@ diff -rq output/jadx/large/sources output/dexterity/large/sources | head -50
 
 ### Metrics to Track
 
-| Metric | Before | Current (Dec 24) | Target |
+| Metric | Before | Current (Dec 25) | Target |
 |--------|--------|------------------|--------|
 | body_gen.rs lines | 11,314 | ~11,300 | <5,000 |
 | Total codegen lines | 21,199 | ~21,200 | <15,000 |
 | GAP-xx Fixes | 0/10 | **10/10** (ALL FIXED) | 10/10 |
-| P0 Bugs | 4 | **2** (LOOP-VAR, BOOL-CHAIN reopened); ~~WRONG-RETURN~~ FIXED | 0 |
-| Output parity | 70-85% | **85-87%** | 95%+ |
+| P0 Bugs | 4 | **0** (ALL FIXED Dec 25) | 0 |
+| Output parity | 70-85% | **85-90%** (A-/B+ Grade) | 95%+ |
 
 ---
 

@@ -167,11 +167,16 @@ fn split_blocks_impl(instructions: &[InsnNode], handler_addrs: &[u32]) -> BlockS
         leaders.insert(first_insn.offset);
     }
 
-    // Add exception handler addresses as block leaders
+    // Add exception handler and try boundary addresses as block leaders
     // This ensures handler blocks start at the correct instruction address
+    // Note: These addresses may not match exact instruction offsets in sparse DEX bytecode.
+    // We handle this below by finding the nearest instruction >= the target address.
     for &addr in handler_addrs {
         leaders.insert(addr);
     }
+
+    // Build sorted instruction offsets for binary search (needed for sparse address matching)
+    let sorted_offsets: Vec<u32> = instructions.iter().map(|i| i.offset).collect();
 
     for insn in instructions {
         match &insn.insn_type {
@@ -203,10 +208,43 @@ fn split_blocks_impl(instructions: &[InsnNode], handler_addrs: &[u32]) -> BlockS
     }
 
     // Create leader set based on instruction indices
-    // Use FxHashSet for O(1) membership tests
+    // For sparse DEX bytecode, try boundary addresses may not match exact instruction offsets.
+    // Find the nearest instruction >= the target offset using binary search.
     let leader_indices: FxHashSet<usize> = leaders
         .iter()
-        .filter_map(|&offset| offset_to_idx.get(&offset).copied())
+        .filter_map(|&offset| {
+            // First try exact match
+            if let Some(&idx) = offset_to_idx.get(&offset) {
+                if std::env::var("DEBUG_BLOCK_SPLIT").is_ok() {
+                    eprintln!("[DEBUG_BLOCK_SPLIT] Leader offset 0x{:x} -> exact match at index {}", offset, idx);
+                }
+                return Some(idx);
+            }
+            // No exact match - find nearest instruction >= offset (sparse address handling)
+            // Use binary search on sorted_offsets to find insertion point
+            match sorted_offsets.binary_search(&offset) {
+                Ok(pos) => {
+                    if std::env::var("DEBUG_BLOCK_SPLIT").is_ok() {
+                        eprintln!("[DEBUG_BLOCK_SPLIT] Leader offset 0x{:x} -> binary exact at index {}", offset, pos);
+                    }
+                    Some(pos)
+                }
+                Err(pos) if pos < sorted_offsets.len() => {
+                    // pos is where offset would be inserted - sorted_offsets[pos] is the next instruction
+                    if std::env::var("DEBUG_BLOCK_SPLIT").is_ok() {
+                        eprintln!("[DEBUG_BLOCK_SPLIT] Leader offset 0x{:x} -> nearest instruction at index {} (offset 0x{:x})",
+                            offset, pos, sorted_offsets[pos]);
+                    }
+                    Some(pos)
+                }
+                Err(_) => {
+                    if std::env::var("DEBUG_BLOCK_SPLIT").is_ok() {
+                        eprintln!("[DEBUG_BLOCK_SPLIT] Leader offset 0x{:x} -> beyond last instruction", offset);
+                    }
+                    None
+                }
+            }
+        })
         .collect();
 
     // Also mark instructions after terminators as leaders

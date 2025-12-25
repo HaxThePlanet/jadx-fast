@@ -20,35 +20,7 @@ use std::collections::{HashMap, HashSet};
 
 use dexterity_ir::attributes::AFlag;
 use dexterity_ir::instructions::InsnNode;
-
-/// Local variable debug info from DEX debug_info_item
-/// JADX Reference: jadx-api ILocalVar interface
-#[derive(Debug, Clone)]
-pub struct LocalVarDebugInfo {
-    /// Register number
-    pub reg_num: u16,
-    /// Start offset in code units
-    pub start_offset: u32,
-    /// End offset in code units
-    pub end_offset: u32,
-    /// Variable name
-    pub name: String,
-    /// Type descriptor (e.g., "Ljava/lang/String;")
-    pub type_descriptor: String,
-    /// Generic signature (optional, for generics)
-    pub signature: Option<String>,
-}
-
-/// Debug info for a method
-#[derive(Debug, Clone, Default)]
-pub struct MethodDebugInfo {
-    /// Source line mapping: instruction offset -> source line number
-    pub source_lines: HashMap<u32, u32>,
-    /// Local variable debug info
-    pub local_vars: Vec<LocalVarDebugInfo>,
-    /// Whether to trust line hints (set after verification)
-    pub use_lines_hints: bool,
-}
+use dexterity_ir::{DebugInfo, LocalVar};
 
 /// Result of debug info attach phase
 #[derive(Debug, Default)]
@@ -85,13 +57,13 @@ pub struct DebugInfoApplyResult {
 /// JADX Reference: DebugInfoAttachVisitor.java:36-47
 pub fn attach_debug_info(
     instructions: &mut [InsnNode],
-    debug_info: &MethodDebugInfo,
+    debug_info: &DebugInfo,
 ) -> DebugInfoAttachResult {
     let mut result = DebugInfoAttachResult::default();
 
     // Attach source lines
     // JADX Reference: DebugInfoAttachVisitor.java:51
-    attach_source_lines(instructions, &debug_info.source_lines, &mut result);
+    attach_source_lines(instructions, &debug_info.line_numbers, &mut result);
 
     // Attach local var debug info
     // JADX Reference: DebugInfoAttachVisitor.java:52
@@ -109,12 +81,15 @@ pub fn attach_debug_info(
 /// JADX Reference: DebugInfoAttachVisitor.java:56-77
 fn attach_source_lines(
     instructions: &mut [InsnNode],
-    source_lines: &HashMap<u32, u32>,
+    line_numbers: &[(u32, u32)],
     result: &mut DebugInfoAttachResult,
 ) {
-    if source_lines.is_empty() {
+    if line_numbers.is_empty() {
         return;
     }
+
+    // Build HashMap for O(1) lookups
+    let source_lines: HashMap<u32, u32> = line_numbers.iter().copied().collect();
 
     // Attach line numbers to instructions
     // JADX Reference: DebugInfoAttachVisitor.java:60-70
@@ -127,7 +102,7 @@ fn attach_source_lines(
 
     // Verify debug lines quality
     // JADX Reference: DebugInfoAttachVisitor.java:71-76
-    if let Some(warning) = verify_debug_lines(source_lines) {
+    if let Some(warning) = verify_debug_lines(&source_lines) {
         result.lines_warning = Some(warning);
     }
 }
@@ -175,7 +150,7 @@ fn verify_debug_lines(source_lines: &HashMap<u32, u32>) -> Option<String> {
 /// JADX Reference: DebugInfoAttachVisitor.java:100-140
 fn attach_local_var_debug_info(
     instructions: &mut [InsnNode],
-    local_vars: &[LocalVarDebugInfo],
+    local_vars: &[LocalVar],
     result: &mut DebugInfoAttachResult,
 ) {
     if local_vars.is_empty() {
@@ -183,13 +158,13 @@ fn attach_local_var_debug_info(
     }
 
     for var in local_vars {
-        let reg_num = var.reg_num;
-        let start = var.start_offset;
-        let end = var.end_offset;
+        let reg_num = var.reg;
+        let start = var.start_addr;
+        let end = var.end_addr;
 
-        // Handle method arguments (start <= 0)
+        // Handle method arguments (start <= 0 or is_parameter flag)
         // JADX Reference: DebugInfoAttachVisitor.java:111-121
-        let effective_start = if start == 0 { 0 } else { start };
+        let effective_start = if var.is_parameter || start == u32::MAX { 0 } else { start };
 
         // Attach to instructions in range
         // JADX Reference: DebugInfoAttachVisitor.java:122-136
@@ -222,7 +197,7 @@ fn set_method_source_line(instructions: &[InsnNode]) -> Option<u32> {
 /// Parse variable type from debug info, expanding generic signatures.
 ///
 /// JADX Reference: DebugInfoAttachVisitor.java:153-169
-pub fn get_var_type(var: &LocalVarDebugInfo) -> String {
+pub fn get_var_type(var: &LocalVar) -> String {
     // If signature is present, try to parse it for generics
     // JADX Reference: DebugInfoAttachVisitor.java:156-167
     if let Some(ref signature) = var.signature {
@@ -232,7 +207,7 @@ pub fn get_var_type(var: &LocalVarDebugInfo) -> String {
     }
 
     // Otherwise return the basic type
-    var.type_descriptor.clone()
+    var.type_desc.clone()
 }
 
 // ============================================================================
@@ -261,14 +236,14 @@ pub struct SSAVarDebugInfo {
 /// JADX Reference: DebugInfoApplyVisitor.java:52-62
 pub fn apply_debug_info(
     ssa_vars: &mut [SSAVarDebugInfo],
-    method_debug_info: &MethodDebugInfo,
+    debug_info: &DebugInfo,
 ) -> DebugInfoApplyResult {
     let mut result = DebugInfoApplyResult::default();
 
     // Apply debug info to each SSA var
     // JADX Reference: DebugInfoApplyVisitor.java:68
     for ssa_var in ssa_vars.iter_mut() {
-        if search_and_apply_var_debug_info(ssa_var, &method_debug_info.local_vars) {
+        if search_and_apply_var_debug_info(ssa_var, &debug_info.local_vars) {
             result.vars_applied += 1;
         }
     }
@@ -287,7 +262,7 @@ pub fn apply_debug_info(
 /// JADX Reference: DebugInfoApplyVisitor.java:74-84
 fn search_and_apply_var_debug_info(
     ssa_var: &mut SSAVarDebugInfo,
-    local_vars: &[LocalVarDebugInfo],
+    local_vars: &[LocalVar],
 ) -> bool {
     // Try to find matching debug info by offset
     // JADX Reference: DebugInfoApplyVisitor.java:86-112
@@ -299,7 +274,7 @@ fn search_and_apply_var_debug_info(
 /// JADX Reference: DebugInfoApplyVisitor.java:86-112
 fn search_debug_info_by_offset(
     ssa_var: &mut SSAVarDebugInfo,
-    local_vars: &[LocalVarDebugInfo],
+    local_vars: &[LocalVar],
 ) -> bool {
     // Find offset range for this SSA var
     let start_offset = ssa_var.assign_offset.unwrap_or(0);
@@ -314,9 +289,14 @@ fn search_debug_info_by_offset(
     // Search for matching local var debug info
     // JADX Reference: DebugInfoApplyVisitor.java:98-111
     for local_var in local_vars {
-        if local_var.reg_num == reg_num {
-            let var_start = local_var.start_offset;
-            let var_end = local_var.end_offset;
+        if local_var.reg == reg_num {
+            // Handle parameters specially (start_addr == u32::MAX means parameter)
+            let var_start = if local_var.is_parameter || local_var.start_addr == u32::MAX {
+                0
+            } else {
+                local_var.start_addr
+            };
+            let var_end = local_var.end_addr;
 
             // Check if offset ranges overlap
             if is_inside(start_offset, var_start, var_end)
@@ -535,13 +515,15 @@ mod tests {
 
     #[test]
     fn test_get_var_type_with_signature() {
-        let var = LocalVarDebugInfo {
-            reg_num: 0,
-            start_offset: 0,
-            end_offset: 100,
+        let var = LocalVar {
             name: "list".to_string(),
-            type_descriptor: "Ljava/util/List;".to_string(),
+            type_desc: "Ljava/util/List;".to_string(),
             signature: Some("Ljava/util/List<Ljava/lang/String;>;".to_string()),
+            reg: 0,
+            start_addr: 0,
+            end_addr: 100,
+            is_parameter: false,
+            is_end: false,
         };
 
         let var_type = get_var_type(&var);
@@ -550,13 +532,15 @@ mod tests {
 
     #[test]
     fn test_search_debug_info_by_offset() {
-        let local_vars = vec![LocalVarDebugInfo {
-            reg_num: 0,
-            start_offset: 10,
-            end_offset: 50,
+        let local_vars = vec![LocalVar {
             name: "counter".to_string(),
-            type_descriptor: "I".to_string(),
+            type_desc: "I".to_string(),
             signature: None,
+            reg: 0,
+            start_addr: 10,
+            end_addr: 50,
+            is_parameter: false,
+            is_end: false,
         }];
 
         let mut ssa_var = SSAVarDebugInfo {
