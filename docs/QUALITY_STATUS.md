@@ -1,10 +1,10 @@
 # Quality Status
 
-**Status:** NEAR PRODUCTION-READY | 1 P0 Bug Remaining | B-/C+ Grade (70-80%) | 64% File Coverage | Dec 25, 2025
-**Last Update:** Dec 25, 2025 - P0-UNDEF-VAR and P0-TERNARY-INLINE FIXED
+**Status:** NEAR PRODUCTION-READY | 1 P0 Bug Remaining | B-/C+ Grade (70-80%) | 77% File Coverage | Dec 25, 2025
+**Last Update:** Dec 25, 2025 - P0-UNDEF-VAR, P0-TERNARY-INLINE, P1-LAMBDA-INLINING FIXED
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
-**Codegen:** ~70-80% semantic correctness; outputs 64% of JADX files
+**Codegen:** ~70-80% semantic correctness; outputs 77% of JADX files (66/86)
 **Open Work:** For-each loop returns (P0-FOREACH-SEM) - 1 remaining P0 bug
 
 ---
@@ -104,7 +104,8 @@ return false;
 | Tool | Files | Notes |
 |------|-------|-------|
 | JADX | 86 | Complete output with lambda inlining |
-| Dexterity | 55 | 64% coverage, lambda classes suppressed |
+| Dexterity | 66 | 77% coverage, lambda classes now output (11 synthetic lambda classes) |
+| Dexterity (old) | 55 | 64% coverage, lambda classes suppressed |
 
 ---
 
