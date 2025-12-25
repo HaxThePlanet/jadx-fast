@@ -151,7 +151,7 @@ return false;  // Returns false if no match
 | ID | Issue | Severity | Example |
 |----|-------|----------|---------|
 | P0-UNDEF-VAR | Undefined variables in ternary expressions | **PARTIAL** | `i` fixed (8192 inlines); `obj`, `mODEL2` still open |
-| P0-LOGIC-INV | Logic inversions in boolean methods | **CRITICAL** | `isBeingDebugged()` returns opposite |
+| P0-LOGIC-INV | Logic inversions in boolean methods | **IN PROGRESS** | `isBeingDebugged()` returns opposite |
 | P0-SPURIOUS-RET | Spurious `return true;` in control flow | **CRITICAL** | `loadMultipleDex()`, `checkTracerPid()` |
 | P0-FOREACH-SEM | For-each loop semantics wrong | **IN PROGRESS** | Shared block problem - return block serves if-body AND final return |
 | P0-TERNARY-INLINE | Ternary expression inlining fails | **PARTIAL** | Literal inlining works (8192), result variable (`obj`) still undefined |
