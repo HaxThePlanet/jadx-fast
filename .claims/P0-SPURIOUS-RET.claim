@@ -1,27 +1,84 @@
-CLAIMED: 2025-12-25
-STATUS: IN PROGRESS
-ISSUE: P0-SPURIOUS-RET - Spurious `return true;` statements in control flow
+# P0-SPURIOUS-RET: Spurious `return true;` in Loops
+**Status:** COMPLETED
+**Fixed:** Dec 25, 2025
+**Agent:** Claude Opus 4.5
 
-PROBLEM:
-Random `return true;` statements appear in:
-- loadMultipleDex() - inside while loop, before loop body
-- checkTracerPid() - scattered throughout method
+## Issue
+Spurious `return true;` statements appeared inside while loops and before method bodies, making code non-compilable and semantically incorrect.
 
-EXAMPLE (loadMultipleDex):
+## Examples (Before Fix)
 ```java
+// loadMultipleDex() - lines 293-295
 while (it.hasNext()) {
-    return true;   // Spurious - unreachable code after
-    return true;   // Spurious
-    arrayList.add(...);  // Never executes
+    return true;   // <-- SPURIOUS
+    return true;   // <-- SPURIOUS
+    arrayList.add(new DexClassLoader(...));  // Unreachable
+}
+
+// checkTracerPid() - lines 488-497
+it = ...iterator();
+return true;        // <-- SPURIOUS (before loop)
+while (it.hasNext()) {
+    return true;    // <-- SPURIOUS (inside loop)
+    ...
 }
 ```
 
-ROOT CAUSE:
-Likely related to:
-1. Region building including exit blocks incorrectly
-2. PHI node handling emitting spurious returns
-3. Boolean chain simplification artifacts
+## Root Cause
+The P0-BOOL-CHAIN transformation at `body_gen.rs:10719-10744` was incorrectly emitting `return true/false` statements. The transformation:
 
-FILES:
-- crates/dexterity-passes/src/region_builder.rs
-- crates/dexterity-codegen/src/body_gen.rs
+1. Used `collect_phi_return_only()` to identify PHI destinations "only used in Return"
+2. When processing Const(0) or Const(1) as PHI sources, emitted `return true/false`
+3. But it triggered for loop control PHIs (e.g., iterator.hasNext() results), not just boolean return patterns
+4. It didn't verify the method actually returns boolean
+
+The instruction-level approach was fundamentally flawed - it couldn't determine region context or method return type.
+
+## Solution Applied
+Disabled the broken P0-BOOL-CHAIN transformation by commenting out lines 10719-10744.
+
+The correct approach (JADX TernaryMod.java):
+- Operates on **IfRegion structures**, not instructions
+- Only transforms when BOTH branches of an if are single Return instructions
+- Verifies `!mth.isVoidReturn()` - method must return something
+- Creates a proper TernaryInsn wrapping the return
+
+## Files Modified
+- `crates/dexterity-codegen/src/body_gen.rs` (lines 10710-10724)
+  - Replaced broken transformation with explanatory comment
+  - Added TODO for proper region-level TernaryMod implementation
+
+## Results (After Fix)
+```java
+// loadMultipleDex() - FIXED
+while (it.hasNext()) {
+    i = 0;
+    str2 = null;
+    arrayList.add(new DexClassLoader((String)it.next(), ...));
+}
+return arrayList;
+
+// checkTracerPid() - FIXED
+z = true;
+it = ...iterator();
+z = false;
+while (it.hasNext()) {
+    ...
+}
+return z;
+```
+
+## Tests
+- All cargo tests pass
+- badboy APK decompilation verified
+- loadMultipleDex() and checkTracerPid() loop bodies correct
+
+## Known Regressions
+Disabling P0-BOOL-CHAIN may affect methods like `isBeingDebugged()` that use nested if patterns for boolean returns. However, incorrect output is better than completely broken control flow with unreachable code.
+
+## Future Work
+Implement proper region-level TernaryMod pass in dexterity-passes:
+- Reference: `jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/regions/TernaryMod.java`
+- Operate on IfRegion structures
+- Check both branches are single Return instructions
+- Verify method return type

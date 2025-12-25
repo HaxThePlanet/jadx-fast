@@ -152,7 +152,7 @@ return false;  // Returns false if no match
 |----|-------|----------|---------|
 | P0-UNDEF-VAR | Undefined variables in ternary expressions | **IN PROGRESS** | `obj` wrong var after ternary; `mODEL2` static field inline |
 | P0-LOGIC-INV | Logic inversions in boolean methods | **IN PROGRESS** | `isBeingDebugged()` returns opposite |
-| P0-SPURIOUS-RET | Spurious `return true;` in control flow | **IN PROGRESS** | `loadMultipleDex()`, `checkTracerPid()` |
+| P0-SPURIOUS-RET | Spurious `return true;` in control flow | **FIXED** (Dec 25) | Disabled broken P0-BOOL-CHAIN transformation |
 | P0-FOREACH-SEM | For-each loop semantics wrong | **IN PROGRESS** | Shared block problem - return block serves if-body AND final return |
 | P0-TERNARY-INLINE | Ternary expression inlining fails | **IN PROGRESS** | Literal inlining works (8192), result variable (`obj`) still undefined |
 
@@ -163,7 +163,7 @@ return false;  // Returns false if no match
 1. **Ternary inlining** - PARTIAL (Dec 25) - literal 8192 inlines, but result variable (`obj`) still undefined
 2. **For-each return semantics** - Shared block problem (see below)
 3. **Boolean chain handling** - OR/AND condition merging
-4. **Control flow cleanup** - Remove spurious return statements
+4. ~~**Control flow cleanup**~~ - FIXED (Dec 25) - Disabled broken P0-BOOL-CHAIN transformation
 5. **Variable declaration** - ~~`i`~~ FIXED; `obj`, `mODEL2` still undefined
 
 ### P0-FOREACH-SEM Technical Details (Dec 25, 2025)

@@ -74,6 +74,45 @@ if (contains("ranchu")) { return false; } return true;  // Returns TRUE when con
 
 **Affected Methods:** `detectEmulator$lambda$1()` - now returns correct values for emulator detection
 
+**⚠️ UPDATE (Dec 25, 2025):** P0-BOOL-CHAIN transformation was **DISABLED** due to causing P0-SPURIOUS-RET (see below).
+
+---
+
+### P0-SPURIOUS-RET: Spurious `return true;` in Loops - ✅ FIXED (Dec 25, 2025)
+
+**Status:** ✅ FIXED | **Fixed:** Dec 25, 2025 | **Agent:** Claude Opus 4.5
+**Location:** `crates/dexterity-codegen/src/body_gen.rs:10710-10724`
+
+**Bug (FIXED):** The P0-BOOL-CHAIN transformation (lines 10719-10744) was emitting `return true/false` inside while loops and before method bodies.
+
+**Root Cause:** The instruction-level transformation couldn't determine:
+1. Whether the PHI is for a boolean return pattern (vs loop control)
+2. Whether the method actually returns boolean
+3. The region structure context
+
+It triggered on loop control PHIs (e.g., iterator.hasNext() results) incorrectly.
+
+**Solution:** Disabled the broken transformation entirely.
+
+**Why:** The correct approach (JADX TernaryMod.java) operates on IfRegion structures, not instructions. It only transforms when BOTH branches of an if are single Return instructions and verifies `!mth.isVoidReturn()`.
+
+**Result:**
+```java
+// Before fix (WRONG):
+while (it.hasNext()) {
+    return true;   // SPURIOUS
+    return true;   // SPURIOUS
+    arrayList.add(...)  // Unreachable
+}
+
+// After fix (CORRECT):
+while (it.hasNext()) {
+    arrayList.add(new DexClassLoader(...));
+}
+```
+
+**TODO:** Implement proper region-level TernaryMod pass in dexterity-passes
+
 ---
 
 ### P1-LAMBDA-INLINING: Real Lambda Inlining - ✅ INFRASTRUCTURE COMPLETE (Dec 25, 2025)

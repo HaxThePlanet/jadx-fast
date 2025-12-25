@@ -133,6 +133,11 @@ pub struct BodyGenContext {
     /// instead of `z = value;`. This transforms PHI patterns back to early returns.
     /// Reference: JADX TernaryMod.java lines 137-168
     pub phi_return_only: HashSet<(u16, u32)>,
+    /// P0-BOOL-CHAIN FIX: Maps return-only boolean PHI destination to its INVERTED default value
+    /// When we skip emitting `z = false` (initial assignment), we record `true` here.
+    /// Then when we see `return z`, we emit `return true` instead.
+    /// Key: PHI destination (reg, version), Value: inverted default (true if original was false)
+    pub phi_bool_inverted_default: HashMap<(u16, u32), bool>,
     /// All constant values from Const instructions: (reg, version) -> value string
     /// Used for boolean return conversion (P1-S02 fix)
     pub const_values: HashMap<(u16, u32), String>,
@@ -307,6 +312,7 @@ impl BodyGenContext {
             phi_constant_inits: HashMap::new(),
             phi_source_to_dest: HashMap::new(),
             phi_return_only: HashSet::new(),
+            phi_bool_inverted_default: HashMap::new(),
             const_values: HashMap::new(),
             skip_foreach_insns: HashMap::new(),
             dont_inline_regs: HashSet::new(),
@@ -7655,11 +7661,26 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                 eprintln!("[TERNARY_DEBUG] else_expr = {}", else_expr);
             }
 
-            // Build the ternary expression
-            let ternary_expr = format!("{} ? {} : {}", cond_str, then_expr, else_expr);
+            // P2-TYPE-INFERENCE-APLUS: Check for degenerate ternary (both branches identical)
+            // When then_expr == else_expr, the condition is dead code and we can:
+            // 1. Simplify output to just the value
+            // 2. Infer type directly from the expression
+            let is_degenerate = then_expr == else_expr;
+
+            // Build the output expression
+            let output_expr = if is_degenerate {
+                // Degenerate: cond ? X : X simplifies to just X
+                if ternary_debug {
+                    eprintln!("[TERNARY_DEBUG] DEGENERATE: then_expr == else_expr, simplifying to value");
+                }
+                then_expr.clone()
+            } else {
+                // Normal ternary: cond ? then : else
+                format!("{} ? {} : {}", cond_str, then_expr, else_expr)
+            };
 
             if ternary_debug {
-                eprintln!("[TERNARY_DEBUG] ternary_expr = {}", ternary_expr);
+                eprintln!("[TERNARY_DEBUG] output_expr = {}", output_expr);
             }
 
             // BUG-1 FIX: Always emit the ternary as a variable declaration statement.
@@ -7676,17 +7697,26 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             // This avoids all version mismatch issues and produces clean, readable output.
 
             if ternary_debug {
-                eprintln!("[TERNARY_DEBUG] Emitting ternary as variable declaration statement");
+                eprintln!("[TERNARY_DEBUG] Emitting as variable declaration statement");
             }
 
-            // Generate: type varName = cond ? thenExpr : elseExpr;
+            // Generate: type varName = cond ? thenExpr : elseExpr; (or simplified value for degenerate)
             let var_name = ctx.expr_gen.get_var_name_by_ids(*dest_reg, *dest_version);
 
             // P2-UNKNOWN-TYPE FIX: Use fallback type extraction when type inference fails.
             // First try the normal type lookup, then try extracting from branch blocks.
+            // P2-TYPE-INFERENCE-APLUS: For degenerate ternaries, also try inferring from expression string
             let var_type = ctx.expr_gen.get_var_type(*dest_reg, *dest_version)
                 .or_else(|| extract_block_value_type(*then_value_block, ctx))
                 .or_else(|| extract_block_value_type(*else_value_block, ctx))
+                .or_else(|| {
+                    // P2-TYPE-INFERENCE-APLUS: Infer type from degenerate expression string
+                    if is_degenerate {
+                        infer_type_from_expression(&then_expr, ctx)
+                    } else {
+                        None
+                    }
+                })
                 .unwrap_or(ArgType::Unknown);
 
             code.start_line();
@@ -7702,9 +7732,78 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
             code.add(&var_name)
                 .add(" = ")
-                .add(&ternary_expr)
+                .add(&output_expr)
                 .add(";")
                 .newline();
+
+            // P0-TERNARY-INLINE FIX: Store the ternary result for inlining at use site.
+            // Without this, `return r3;` stays as-is instead of becoming
+            // `return (cond ? then : else);` when r3 is single-use.
+            // We store the full ternary expression (or simplified value for degenerate case)
+            // wrapped in parens to ensure correct precedence when inlined.
+            //
+            // P0-UNDEF-VAR FIX: Also store at the PHI output version if a merge block exists.
+            // The ternary's dest_version is from the branch, but subsequent instructions use
+            // the PHI output version. We must store at BOTH versions to ensure resolution.
+            let inlined_expr = if is_degenerate {
+                output_expr.clone()
+            } else {
+                format!("({})", output_expr)
+            };
+
+            // Store at the branch version
+            if ctx.should_inline(*dest_reg, *dest_version) {
+                ctx.store_inline_expr(*dest_reg, *dest_version, inlined_expr.clone());
+            }
+
+            // P0-UNDEF-VAR FIX: Find and store at PHI output version for merge block resolution
+            if let Some(mb) = merge_block {
+                // Try PHI-based version discovery first
+                if let Some(phi_version) = find_phi_output_version_for_ternary(
+                    mb,
+                    *then_value_block,
+                    *else_value_block,
+                    *dest_reg,
+                    ctx,
+                ) {
+                    if ternary_debug {
+                        eprintln!("[TERNARY_DEBUG] Found PHI output version {} for reg {}, storing inline expr",
+                            phi_version, dest_reg);
+                    }
+                    // Store inline expression at PHI output version
+                    ctx.store_inline_expr(*dest_reg, phi_version, inlined_expr.clone());
+                    // Also propagate the variable name from declared version to PHI version
+                    ctx.expr_gen.set_var_name(*dest_reg, phi_version, var_name.clone());
+                    // Mark PHI version as declared (uses same variable)
+                    ctx.mark_declared(*dest_reg, phi_version);
+                } else {
+                    // P0-UNDEF-VAR FIX: No PHI found - scan merge block for register uses
+                    // When PHI was eliminated, the invoke might use a different SSA version.
+                    // Store the ternary expression at ALL versions of dest_reg used in merge block.
+                    if ternary_debug {
+                        eprintln!("[TERNARY_DEBUG] No PHI found, scanning merge block {} for reg {} uses",
+                            mb, dest_reg);
+                    }
+                    if let Some(merge_block_data) = ctx.blocks.get(&mb) {
+                        for merge_insn in &merge_block_data.instructions {
+                            // Check instruction arguments for uses of dest_reg
+                            for arg in merge_insn.insn_type.args() {
+                                if let InsnArg::Register(reg) = arg {
+                                    if reg.reg_num == *dest_reg {
+                                        if ternary_debug {
+                                            eprintln!("[TERNARY_DEBUG] Found reg {} version {} in merge block, storing inline",
+                                                reg.reg_num, reg.ssa_version);
+                                        }
+                                        ctx.store_inline_expr(reg.reg_num, reg.ssa_version, inlined_expr.clone());
+                                        ctx.expr_gen.set_var_name(reg.reg_num, reg.ssa_version, var_name.clone());
+                                        ctx.mark_declared(reg.reg_num, reg.ssa_version);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         Region::TernaryReturn {
@@ -8298,6 +8397,19 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
                     }
                 }
             }
+            // P0-TERNARY-INLINE FIX: Store InstanceOf expressions for inlining.
+            // Without this, ternary conditions like `obj instanceof Type ? ... : ...`
+            // would emit `z = obj instanceof Type;` instead of inlining the expression.
+            InsnType::InstanceOf { dest, object, type_idx } => {
+                if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                    let obj_str = ctx.gen_arg_inline_peek(object);
+                    let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                        .map(|t| crate::type_gen::get_simple_name(&t).to_string())
+                        .unwrap_or_else(|| format!("Type#{}", type_idx));
+                    let expr = format!("{} instanceof {}", obj_str, type_name);
+                    ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                }
+            }
             _ => {
                 // Other instructions don't need prelude processing
             }
@@ -8659,6 +8771,86 @@ fn extract_block_value_type(block_id: u32, ctx: &BodyGenContext) -> Option<ArgTy
     None
 }
 
+/// P2-TYPE-INFERENCE-APLUS: Infer type from an expression string.
+/// Used for degenerate ternaries where both branches have identical values.
+/// This is a last-resort inference when block-level type extraction fails.
+fn infer_type_from_expression(expr: &str, _ctx: &BodyGenContext) -> Option<ArgType> {
+    let trimmed = expr.trim();
+
+    // Integer literals (0, 1, 42, -1, etc.)
+    if trimmed.parse::<i64>().is_ok() {
+        return Some(ArgType::Int);
+    }
+
+    // "this" refers to the current class - we don't know the exact type,
+    // but we know it's an Object, which is better than Unknown
+    if trimmed == "this" {
+        return Some(ArgType::Object("java/lang/Object".to_string()));
+    }
+
+    // R.string.xxx, R.id.xxx, etc. are int resource IDs
+    if trimmed.starts_with("R.") {
+        return Some(ArgType::Int);
+    }
+
+    // Float literals (1.0f, 2.5F)
+    if trimmed.ends_with('f') || trimmed.ends_with('F') {
+        if trimmed[..trimmed.len()-1].parse::<f32>().is_ok() {
+            return Some(ArgType::Float);
+        }
+    }
+
+    // Double literals (1.0, 2.5, 1.0d)
+    if trimmed.ends_with('d') || trimmed.ends_with('D') {
+        if trimmed[..trimmed.len()-1].parse::<f64>().is_ok() {
+            return Some(ArgType::Double);
+        }
+    } else if trimmed.contains('.') && !trimmed.contains('"') {
+        if trimmed.parse::<f64>().is_ok() {
+            return Some(ArgType::Double);
+        }
+    }
+
+    // Long literals (123L, 456l)
+    if trimmed.ends_with('L') || trimmed.ends_with('l') {
+        if trimmed[..trimmed.len()-1].parse::<i64>().is_ok() {
+            return Some(ArgType::Long);
+        }
+    }
+
+    // String literals "..."
+    if trimmed.starts_with('"') && trimmed.ends_with('"') {
+        return Some(ArgType::Object("java/lang/String".to_string()));
+    }
+
+    // null
+    if trimmed == "null" {
+        return Some(ArgType::Object("java/lang/Object".to_string()));
+    }
+
+    // true/false
+    if trimmed == "true" || trimmed == "false" {
+        return Some(ArgType::Boolean);
+    }
+
+    // char literals 'x'
+    if trimmed.starts_with('\'') && trimmed.ends_with('\'') {
+        return Some(ArgType::Char);
+    }
+
+    // Class.xxx expressions - try to find the type from the class name
+    // e.g., "MyClass.CONSTANT" or "pkg.Class.field"
+    if trimmed.contains('.') && !trimmed.starts_with('"') {
+        let parts: Vec<&str> = trimmed.split('.').collect();
+        if parts.len() >= 2 {
+            // Check if it's a simple qualified name like "SomeClass.FIELD"
+            // We can't easily resolve this without more context, so skip
+        }
+    }
+
+    None
+}
+
 /// Extract the value expression from a block for ternary assignment
 /// The block should contain a single meaningful assignment instruction.
 /// Returns the RHS expression as a string.
@@ -8682,6 +8874,16 @@ fn extract_block_value_expression(block_id: u32, ctx: &mut BodyGenContext) -> St
             eprintln!("[TERNARY_DEBUG]   non_nop[{}]: {:?}", i, std::mem::discriminant(&insn.insn_type));
         }
     }
+
+    // P0-UNDEF-VAR FIX: Process prelude FIRST to store inline expressions
+    // before any pattern matching uses gen_arg_inline.
+    // Without this, constructor patterns (NewInstance + Const + Constructor + Move)
+    // would call gen_arg_inline() on Const values before they're stored,
+    // causing fallback to undefined variable names like "obj", "i", "mODEL2".
+    let final_idx = instructions.iter().enumerate().rev()
+        .find(|(_, insn)| !is_control_flow(&insn.insn_type))
+        .map(|(idx, _)| idx);
+    process_block_prelude_for_inlining(block_id, final_idx, ctx);
 
     // Check for 4-instruction constructor pattern: NewInstance + Const + Constructor + Move
     // This is used when constructor takes literal args: new BufferedReader(reader, 8192)
@@ -8824,16 +9026,8 @@ fn extract_block_value_expression(block_id: u32, ctx: &mut BodyGenContext) -> St
         }
     }
 
-    // Find the index of the final meaningful instruction
-    let final_idx = instructions.iter().enumerate().rev()
-        .find(|(_, insn)| !is_control_flow(&insn.insn_type))
-        .map(|(idx, _)| idx);
-
-    // P1-S05 FIX: Process prelude instructions to store inline expressions
-    // This ensures operands in the final instruction can find their inline values
-    process_block_prelude_for_inlining(block_id, final_idx, ctx);
-
     // Find the meaningful instruction (skip control flow like goto)
+    // NOTE: Prelude processing already done at function start (P0-UNDEF-VAR fix)
     for insn in instructions.iter().rev() {
         if is_control_flow(&insn.insn_type) {
             continue;
@@ -10380,6 +10574,19 @@ fn generate_insn<W: CodeWriter>(
             code.start_line().add("return");
             if let Some(v) = value {
                 code.add(" ");
+
+                // P0-BOOL-CHAIN FIX: Check if returning a PHI with recorded inverted default
+                // Pattern: `z = false; if (!A) { if (!B) { z = true; } } return z;`
+                // When we skipped emitting initial `z = false` and emitted early `return false`,
+                // the final `return z` should become `return true` (inverted default).
+                if let InsnArg::Register(reg) = v {
+                    if let Some(&inverted_default) = ctx.phi_bool_inverted_default.get(&(reg.reg_num, reg.ssa_version)) {
+                        code.add(if inverted_default { "true" } else { "false" });
+                        code.add(";").newline();
+                        return true;
+                    }
+                }
+
                 // Check if we're returning 0 for an object type - should be null
                 // In Dalvik, null is often stored as 0 and returned as a const 0
                 // This can happen via direct literal OR via inlined const expression
@@ -10526,6 +10733,22 @@ fn generate_insn<W: CodeWriter>(
                 } else {
                     (reg, version, false)
                 };
+
+            // P0-SPURIOUS-RET FIX: DISABLED P0-BOOL-CHAIN transformation (Dec 25, 2025)
+            // The instruction-level PHI-to-return transformation was fundamentally broken:
+            // - It triggered for loop control PHIs (e.g., iterator.hasNext() results)
+            // - It emitted `return true;` inside while loops, making code unreachable
+            // - It didn't verify the method actually returns boolean
+            //
+            // The correct approach (JADX TernaryMod.java) operates on IfRegion structures,
+            // not individual instructions. It only transforms when BOTH branches of an if
+            // are single Return instructions and verifies `!mth.isVoidReturn()`.
+            //
+            // TODO: Implement proper region-level TernaryMod pass in dexterity-passes
+            // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/regions/TernaryMod.java
+            //
+            // DISABLED CODE (was causing P0-SPURIOUS-RET):
+            // if is_phi_source && ctx.phi_return_only.contains(&(effective_reg, effective_version)) { ... }
 
             // Check if type inference determined this register is boolean
             // For PHI sources, use the PHI destination's type for proper boolean formatting
