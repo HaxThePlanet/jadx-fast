@@ -151,7 +151,7 @@ return false;  // Returns false if no match
 | ID | Issue | Severity | Example |
 |----|-------|----------|---------|
 | P0-UNDEF-VAR | Undefined variables in ternary expressions | **IN PROGRESS** | `obj` wrong var after ternary; `mODEL2` static field inline |
-| P0-LOGIC-INV | Logic inversions in boolean methods | **IN PROGRESS** | `isBeingDebugged()` returns opposite |
+| ~~P0-LOGIC-INV~~ | ~~Logic inversions in boolean methods~~ | ✅ **FIXED** | OR pattern Type 2 now uses correct FALSE case |
 | P0-SPURIOUS-RET | Spurious `return true;` in control flow | **FIXED** (Dec 25) | Disabled broken P0-BOOL-CHAIN transformation |
 | P0-FOREACH-SEM | For-each loop semantics wrong | **IN PROGRESS** | Shared block problem - return block serves if-body AND final return |
 | P0-TERNARY-INLINE | Ternary expression inlining fails | **IN PROGRESS** | Literal inlining works (8192), result variable (`obj`) still undefined |

@@ -11,8 +11,8 @@ use tracing::{debug, trace};
 use crate::cfg::CFG;
 use crate::loops::LoopInfo;
 
-/// GAP-03 FIX: Check if a condition block has prelude instructions that define variables
-/// which cannot be safely inlined during condition merging.
+/// P0-BOOL-CHAIN FIX: Check if a condition block has prelude instructions that define
+/// variables which cannot be safely inlined during condition merging.
 ///
 /// Clone of JADX's IfRegionMaker.checkInsnsInline() logic.
 /// Reference: jadx-core/src/main/java/jadx/core/dex/visitors/regions/maker/IfRegionMaker.java:492-523
@@ -24,27 +24,116 @@ use crate::loops::LoopInfo;
 /// This function returns true if the block has prelude instructions that:
 /// 1. Define a register (have a result/destination)
 /// 2. Are not the IF instruction itself
+/// 3. Are not simple constants that can be trivially inlined
 ///
 /// If true, the conditions should NOT be merged - keep them as nested ifs.
+/// This is critical for patterns like emulator detection where each condition
+/// has prelude like: String str = Build.FINGERPRINT; checkNotNull(str);
 ///
-/// NOTE (P0-BOOL-CHAIN): JADX's checkInsnsInline also checks use-count - only merging
-/// when instructions have useCount > 1. We don't have use-count info here, so we use
-/// a conservative approach that keeps nested ifs (matching JADX's output for most cases).
+/// JADX Reference: checkInsnsInline checks use-count. We use a conservative approach:
+/// any instruction with side effects (Invoke, Get, etc.) blocks merging.
 fn has_non_inlinable_prelude(cfg: &CFG, block_id: u32) -> bool {
-    // P0-BOOL-CHAIN FIX: Disable prelude check for now.
+    let Some(block) = cfg.get_block(block_id) else {
+        return false;
+    };
+
+    // Check all instructions except the last one (which should be the IF)
+    let insn_count = block.instructions.len();
+    if insn_count <= 1 {
+        // Only the IF instruction (or empty block) - can merge
+        return false;
+    }
+
+    // P0-LOGIC-INV FIX: Special case for simple condition invocation pattern
+    // Pattern: invoke/get -> v0; if-nez/eqz v0, :target
+    // This is the `a() || b()` or `a() && b()` pattern where the result
+    // of the invoke is used ONLY in the condition check.
+    // JADX's checkInsnsInline allows this because the result is used
+    // only in the current block's IF instruction.
     //
-    // For OR patterns (short-circuit), each condition's prelude is semantically
-    // protected by short-circuit evaluation - it only runs if previous conditions
-    // were false. The region builder emits prelude for each condition block
-    // via emit_condition_block_prelude().
-    //
-    // The original GAP-03 fix was for AND patterns where all preludes run
-    // unconditionally. For OR patterns, this check was incorrectly blocking
-    // condition merging.
-    //
-    // TODO: Re-enable with smarter check that distinguishes AND vs OR patterns
-    // Reference: JADX IfRegionMaker.java:492-523 checkInsnsInline()
-    let _ = (cfg, block_id);  // Suppress unused warnings
+    // Reference: jadx-fast/jadx-core/.../IfRegionMaker.java:492-523
+    if insn_count == 2 {
+        // Check if it's just: invoke/get + if-nez/eqz
+        let last_insn = &block.instructions[insn_count - 1];
+        if matches!(last_insn.insn_type, InsnType::If { .. }) {
+            let prelude = &block.instructions[0];
+            // Allow invoke/get patterns where result is used only in the condition
+            if matches!(
+                prelude.insn_type,
+                InsnType::Invoke { .. }
+                    | InsnType::StaticGet { .. }
+                    | InsnType::InstanceGet { .. }
+            ) {
+                // This is the simple condition pattern - allow merging
+                return false;
+            }
+        }
+    }
+
+    // Check prelude instructions (all except the last IF)
+    for insn in block.instructions.iter().take(insn_count - 1) {
+        match &insn.insn_type {
+            // Skip control flow - these aren't preludes
+            InsnType::If { .. } | InsnType::Goto { .. } | InsnType::Nop => continue,
+
+            // Simple constants CAN be inlined - don't block merging
+            InsnType::Const { .. } | InsnType::ConstString { .. } | InsnType::ConstClass { .. } => {
+                // These are simple and can be moved/inlined
+                // However, if they're used as condition operands, we still need them
+                // For now, be conservative and block merging if there's a ConstString
+                // that's likely used for string comparison (like "generic", "unknown")
+                //
+                // Actually, JADX's checkInsnsInline ALLOWS these if they have single use
+                // in the current or next block. We don't have use info, so we need to
+                // be more conservative.
+                //
+                // For P0-BOOL-CHAIN: The issue is that each condition block has prelude
+                // like: const-string "FINGERPRINT", sget Build.FINGERPRINT, invoke checkNotNull
+                // We MUST block merging for these.
+                continue;
+            }
+
+            // These instructions have side effects or define values used in conditions
+            // Block merging to preserve the nested if structure
+            InsnType::Invoke { .. }
+            | InsnType::StaticGet { .. }
+            | InsnType::InstanceGet { .. }
+            | InsnType::NewInstance { .. }
+            | InsnType::NewArray { .. }
+            | InsnType::ArrayGet { .. }
+            | InsnType::CheckCast { .. }
+            | InsnType::InstanceOf { .. }
+            | InsnType::Binary { .. }
+            | InsnType::Unary { .. }
+            | InsnType::Compare { .. }
+            | InsnType::Move { .. }
+            | InsnType::MoveResult { .. } => {
+                // These define values that are likely used in the condition
+                // Don't merge - keep as nested ifs
+                if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+                    eprintln!(
+                        "[HAS_PRELUDE] block={} has non-inlinable prelude: {:?}",
+                        block_id,
+                        std::mem::discriminant(&insn.insn_type)
+                    );
+                }
+                return true;
+            }
+
+            // Other instructions - be conservative and block
+            _ => {
+                if std::env::var("DEBUG_CONDITIONALS").is_ok() {
+                    eprintln!(
+                        "[HAS_PRELUDE] block={} has other prelude: {:?}",
+                        block_id,
+                        std::mem::discriminant(&insn.insn_type)
+                    );
+                }
+                return true;
+            }
+        }
+    }
+
     false
 }
 
@@ -600,14 +689,21 @@ impl MergedCondition {
         //   x = 0            // false case
         //   :true
         //   x = 1            // true case
-        // Here, the first condition's else_block (branch target) is the same as
-        // a block reachable from the second condition's then path.
+        // P0-LOGIC-INV FIX: Both conditions BRANCH to the same TRUE target.
+        // In Dalvik semantics, branch target is else_block (condition TRUE).
+        // So we check if both conditions share the same else_block.
         if let Some(then_block) = self.then_block {
             if then_block == other.condition_block {
                 // The second condition is nested in the first's then (fall-through) path
                 if let Some(else_block) = self.else_block {
-                    // Check if the first condition's else_block (the "true" target)
-                    // is reachable from the second condition's then path
+                    // P0-LOGIC-INV FIX: Check if both conditions branch to the same TRUE target
+                    // The else_block is the branch target (condition TRUE case).
+                    // For OR pattern, both conditions branch to the same TRUE target.
+                    if other.else_blocks.contains(&else_block) {
+                        return Some(MergeMode::Or);
+                    }
+                    // Also check if the first's TRUE target is reachable from second's FALSE path
+                    // (less common but possible with optimized bytecode)
                     if other.then_blocks.contains(&else_block) {
                         return Some(MergeMode::Or);
                     }
@@ -630,27 +726,48 @@ impl MergedCondition {
                 // else_block stays the same (shared exit for false)
             }
             MergeMode::Or => {
-                // In OR (short-circuit), we need to be careful about semantics.
-                // In Dalvik bytecode:
-                //   - Branch is taken when condition is TRUE -> else_blocks is TRUE case
-                //   - Fall-through when condition is FALSE -> then_blocks is FALSE case
+                // P0-LOGIC-INV FIX: There are TWO different OR patterns that require
+                // different handling. Detect which one based on where the nested
+                // condition is located.
                 //
-                // For short-circuit OR `a || b`:
-                //   - When a is TRUE: branch to shared true_result (self.else_block)
-                //   - When a is FALSE: fall through to check b
-                //   - When b is TRUE: branch/fall to true_result
-                //   - When b is FALSE: go to false_result (other.else_blocks)
+                // JADX Reference: IfRegionMaker.mergeIfInfo() handles this by tracking
+                // "followThenBranch" to distinguish AND (then-nesting) from OR (else-nesting).
+                // However, Dexterity has TWO OR sub-patterns:
                 //
-                // After merge:
-                //   - then_block = shared TRUE result (currently in self.else_block)
-                //   - else_block = inner FALSE result (other.else_blocks)
+                // Type 1 (else-branch nesting): self.else -> other.condition
+                //   Pattern: if (a) { shared_then } else { if (b) { shared_then } else { final_else } }
+                //   - TRUE case = shared then (self.then_block)
+                //   - FALSE case = other's else (other.else_blocks)
                 //
-                // For OR type 2 (short-circuit): the TRUE result is self.else_block
-                // and the FALSE result is other.else_blocks[0]
-                let true_result = self.else_block;
-                let false_result = other.else_blocks.first().copied();
-                self.then_block = true_result;
-                self.else_block = false_result;
+                // Type 2 (then-branch nesting / short-circuit OR): self.then -> other.condition
+                //   Pattern: if-nez a, :true; if-nez b, :true; ...false...
+                //   - TRUE case = shared branch target (self.else_block)
+                //   - FALSE case = fall-through after all fail (other.then_blocks)
+                //
+                // The old code assumed Type 2 always used other.else_blocks for FALSE,
+                // but that's wrong - it should use other.then_blocks (the fall-through
+                // path when ALL conditions are false).
+
+                if self.then_block == Some(other.condition_block) {
+                    // Type 2: Short-circuit OR (then-branch nesting)
+                    // The nested condition is in the fall-through (then) path.
+                    // Both conditions branch to the same TRUE target (self.else_block).
+                    // FALSE case is when ALL conditions fail -> other.then_blocks.
+                    let true_result = self.else_block;
+                    let false_result = other.then_blocks.first().copied();
+                    self.then_block = true_result;
+                    self.else_block = false_result;
+                } else if self.else_block == Some(other.condition_block) {
+                    // Type 1: Else-branch nesting
+                    // The nested condition is in the branch (else) path.
+                    // Both conditions share the same then_block (TRUE case).
+                    // FALSE case is the final else -> other.else_blocks.
+                    let true_result = self.then_block;
+                    let false_result = other.else_blocks.first().copied();
+                    self.then_block = true_result;
+                    self.else_block = false_result;
+                }
+                // Note: out_block update happens below for both types
             }
             MergeMode::Single => {}
         }
