@@ -1,7 +1,7 @@
 # Quality Status
 
 **Status:** NOT PRODUCTION-READY | Multiple P0 Bugs | C-/D+ Grade (55-65%) | 64% File Coverage | Dec 25, 2025
-**Reality Check:** Dec 25, 2025 - Honest assessment based on MaliciousPatterns.java comparison
+**Reality Check:** Dec 25, 2025 02:26 - Re-graded after P0-TERNARY-INLINE fix
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
 **Codegen:** ~55-65% semantic correctness; outputs 64% of JADX files
@@ -154,13 +154,13 @@ return false;  // Returns false if no match
 | P0-LOGIC-INV | Logic inversions in boolean methods | **CRITICAL** | `isBeingDebugged()` returns opposite |
 | P0-SPURIOUS-RET | Spurious `return true;` in control flow | **CRITICAL** | `loadMultipleDex()`, `checkTracerPid()` |
 | P0-FOREACH-SEM | For-each loop semantics wrong | **IN PROGRESS** | `isRooted()` always returns true |
-| P0-TERNARY-INLINE | Ternary expression inlining fails | ✅ **FIXED** | `instanceof` ternaries now inline correctly |
+| P0-TERNARY-INLINE | Ternary expression inlining fails | **PARTIAL** | Literal inlining works (8192), result variable (`obj`) still undefined |
 
 ---
 
 ## Fixes Needed
 
-1. ~~**Ternary inlining**~~ - ✅ FIXED (Dec 25) - instanceof & result inlining now works
+1. **Ternary inlining** - PARTIAL (Dec 25) - literal 8192 inlines, but result variable (`obj`) still undefined
 2. **For-each return semantics** - break vs return in loops
 3. **Boolean chain handling** - OR/AND condition merging
 4. **Control flow cleanup** - Remove spurious return statements
