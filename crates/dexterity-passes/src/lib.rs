@@ -74,7 +74,7 @@ pub mod visitor;
 
 // Re-exports
 pub use algorithms::{compute_dominators, DominatorInfo, LiveVarAnalysis, LivenessInfo};
-pub use block_split::{split_blocks, split_blocks_with_handlers, BasicBlock, BlockSplitResult};
+pub use block_split::{split_blocks, split_blocks_with_handlers, split_return_blocks, BasicBlock, BlockSplitResult};
 pub use process_instructions::{process_instructions, process_instructions_with_stats, ProcessInstructionsResult};
 pub use cfg::CFG;
 pub use conditionals::{

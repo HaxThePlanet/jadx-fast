@@ -393,6 +393,104 @@ fn find_next_block(block_id: u32, all_blocks: &[u32]) -> Option<&u32> {
     all_blocks.get(pos + 1)
 }
 
+/// Split return blocks with multiple predecessors - P0-FOREACH-SEM fix (JADX BlockProcessor.splitReturn clone)
+///
+/// When a return block has 2+ predecessors (e.g., early return in if-body + method exit return),
+/// JADX creates synthetic duplicates to prevent shared blocks in the region tree.
+/// This is a critical fix for for-each loops with early returns.
+///
+/// **Problem:** A return block referenced from multiple regions (if-body, method exit) gets
+/// marked as processed and only emitted in one region, leaving the other empty.
+///
+/// **Solution:** Duplicate the block for each predecessor except the first.
+/// This preprocessing ensures regions never see shared blocks - they're split at CFG level.
+///
+/// **Reference:** JADX `BlockProcessor.splitReturn()` (lines 568-606)
+/// - Detects blocks with 2+ predecessors
+/// - Marks first as ORIG_RETURN, others as SYNTHETIC
+/// - Redirects predecessors to their respective blocks
+pub fn split_return_blocks(result: &mut BlockSplitResult) {
+    // Find all blocks with return instructions
+    let return_block_ids: Vec<u32> = result
+        .blocks
+        .iter()
+        .filter(|block| {
+            block.last_insn().map_or(false, |insn| {
+                matches!(insn.insn_type, InsnType::Return { .. })
+            })
+        })
+        .map(|block| block.id)
+        .collect();
+
+    // Process each return block that has 2+ predecessors
+    for block_id in return_block_ids {
+        // Get the block and its predecessors
+        let (predecessors, is_return) = {
+            let block = result.get_block(block_id).expect("Block must exist");
+            let preds = block.predecessors.clone();
+            let is_ret = block.last_insn().map_or(false, |insn| {
+                matches!(insn.insn_type, InsnType::Return { .. })
+            });
+            (preds, is_ret)
+        };
+
+        // Only process if we have 2+ predecessors
+        if !is_return || predecessors.len() < 2 {
+            continue;
+        }
+
+        // Mark first block as ORIG_RETURN, create synthetic duplicates for others
+        let mut new_blocks = Vec::new();
+        let mut pred_to_block = FxHashMap::default();
+
+        for (pred_idx, &pred_id) in predecessors.iter().enumerate() {
+            if pred_idx == 0 {
+                // Keep first predecessor with original block
+                pred_to_block.insert(pred_id, block_id);
+                // Mark as original
+                if let Some(block) = result.get_block_mut(block_id) {
+                    block.add_flag(AFlag::OrigReturn);
+                }
+            } else {
+                // Create synthetic duplicate for other predecessors
+                let dup_id = result.blocks.len() as u32 + new_blocks.len() as u32;
+
+                // Clone the return block (copies all instructions)
+                let orig_block = result.get_block(block_id).expect("Block must exist");
+                let mut dup_block = orig_block.clone();
+                dup_block.id = dup_id;
+                dup_block.predecessors = vec![pred_id]; // Only reachable from this predecessor
+                dup_block.successors.clear(); // Return blocks have no successors
+                dup_block.add_flag(AFlag::Synthetic); // Mark as synthetic
+
+                pred_to_block.insert(pred_id, dup_id);
+                new_blocks.push(dup_block);
+            }
+        }
+
+        // Add new blocks to result
+        result.blocks.extend(new_blocks.into_iter());
+
+        // Update predecessor's successor to point to the correct return block
+        for (&pred_id, &return_block) in &pred_to_block {
+            if let Some(pred_block) = result.get_block_mut(pred_id) {
+                // Replace the return block ID in successors
+                for i in 0..pred_block.successors.len() {
+                    if pred_block.successors[i] == block_id {
+                        pred_block.successors[i] = return_block;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Update original return block's predecessors to only include first predecessor
+        if let Some(block) = result.get_block_mut(block_id) {
+            block.predecessors = vec![predecessors[0]];
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

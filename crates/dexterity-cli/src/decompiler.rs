@@ -11,7 +11,7 @@
 use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{
-    assign_var_names, split_blocks_with_handlers, transform_to_ssa_owned, infer_types, simplify_instructions,
+    assign_var_names, split_blocks_with_handlers, split_return_blocks, transform_to_ssa_owned, infer_types, simplify_instructions,
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, process_instructions, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
     init_code_variables, process_ternary_transformations,
@@ -66,10 +66,15 @@ pub fn decompile_method(
         .iter()
         .flat_map(|tb| tb.handlers.iter().map(|h| h.handler_addr))
         .collect();
-    let blocks = split_blocks_with_handlers(&insns_vec, &handler_addrs);
+    let mut blocks = split_blocks_with_handlers(&insns_vec, &handler_addrs);
     if blocks.blocks.is_empty() {
         return None;
     }
+
+    // Stage 1.5: Split return blocks (P0-FOREACH-SEM fix - JADX BlockProcessor.splitReturn clone)
+    // When return blocks have 2+ predecessors (e.g., early return in if-body + method exit),
+    // create synthetic duplicates to prevent shared blocks in region tree
+    split_return_blocks(&mut blocks);
 
     // Stage 2: Build CFG
     let mut cfg = CFG::from_blocks(blocks);

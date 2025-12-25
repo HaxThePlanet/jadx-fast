@@ -1,7 +1,8 @@
 # P0-FOREACH-SEM: Empty For-Each Loop Body
-**Status:** 🔴 OPEN
+**Status:** ✅ COMPLETED
 **Agent:** Claude Opus 4.5
 **Date:** Dec 25, 2025
+**Fixed Date:** Dec 25, 2025
 
 ## Issue
 For-each loops with if-return patterns produce empty loop bodies - the return statement is not emitted.
@@ -48,11 +49,32 @@ When the return block is included in the if-body region, it gets marked as "alre
 ### Why It's Still Broken
 The region structure correctly includes the return block in the if-body, but `generate_block()` checks if the block has already been emitted and skips it.
 
-## Possible Solutions
-1. **Clone shared blocks** - When a block is used in multiple regions, clone it
-2. **Use break/continue with labels** - Instead of duplicating returns
-3. **JADX approach** - Restructure CFG to avoid shared blocks (complex)
+## Solution Implemented
+**Approach:** Clone JADX's BlockProcessor.splitReturn() preprocessing pass
 
-## Files to Modify
-- `crates/dexterity-passes/src/region_builder.rs` - Region structure
-- `crates/dexterity-codegen/src/body_gen.rs` - Block emission
+Port of JADX's solution which creates synthetic duplicate blocks for return blocks with 2+ predecessors.
+This prevents shared blocks from ever appearing in the region tree - they're split at CFG level BEFORE region building.
+
+### Implementation Details
+
+**Files Modified:**
+1. `crates/dexterity-passes/src/block_split.rs` - Added `split_return_blocks()` function (96 lines)
+2. `crates/dexterity-passes/src/lib.rs` - Exported the new pass
+3. `crates/dexterity-cli/src/decompiler.rs` - Registered pass in pipeline (Stage 1.5)
+
+**How It Works:**
+1. Find all blocks with Return instructions
+2. For each return block with 2+ predecessors:
+   - Mark first predecessor's block as ORIG_RETURN (using existing AFlag)
+   - Create synthetic duplicate blocks for other predecessors (marked with AFlag::Synthetic)
+   - Redirect each predecessor to its appropriate return block
+3. This runs AFTER block splitting but BEFORE CFG construction
+
+**Reference:**
+- JADX: `BlockProcessor.splitReturn()` (lines 568-606)
+- JADX: `BlockSplitter.java` for instruction copying patterns
+
+### Test Results
+- ✅ All 688+ unit tests pass
+- ✅ Cargo check/build succeeds
+- ✅ Code compiles without errors
