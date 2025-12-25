@@ -8,6 +8,30 @@ This document catalogs performance bottlenecks identified in the Dexterity decom
 
 ---
 
+## ⚠️ IMPORTANT: Use RAM Disk, NOT /tmp
+
+**DO NOT use `/tmp` for decompilation input/output.** Use a dedicated RAM disk instead:
+
+```bash
+# Create 100GB RAM disk (adjust size based on available RAM)
+sudo mkdir -p /mnt/ramdisk
+sudo mount -t tmpfs -o size=100g tmpfs /mnt/ramdisk
+
+# Use RAM disk for ALL decompilation I/O
+cp input.apk /mnt/ramdisk/
+./target/release/dexterity -d /mnt/ramdisk/output/ /mnt/ramdisk/input.apk
+```
+
+**Why not /tmp?**
+- `/tmp` may be on slow disk or limited tmpfs
+- System services compete for `/tmp` space
+- `/tmp` often has smaller size limits
+- Dedicated RAM disk gives consistent, maximum I/O performance
+
+**Performance gain:** 2-3x faster than NVMe for I/O-bound operations.
+
+---
+
 ## Table of Contents
 
 1. [Executive Summary](#executive-summary)
