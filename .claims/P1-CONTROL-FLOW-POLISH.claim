@@ -1,0 +1,32 @@
+Task: P1-CONTROL-FLOW-POLISH - Switch/Loop/Try-Catch Edge Cases
+Claimed: 2025-12-25
+Agent: Chad
+Session: ACTIVE
+
+Status: IN PROGRESS
+
+Priority: P1 (Code quality improvements)
+Estimated Impact: +0.5-1% quality (97-97.5% parity)
+Effort: Medium
+
+Scope:
+- Switch case ordering and fallthrough handling
+- Nested loop logic and break/continue semantics
+- Try-catch block edge cases and exception handling
+- Compound control flow patterns
+
+Examples of edge cases to handle:
+- Switch cases with missing breaks
+- Nested loops with labeled breaks
+- Try-finally without catch blocks
+- Exception handler ordering
+- Fall-through patterns in conditionals
+
+Reference: JADX control flow handling in IfRegionVisitor.java, LoopRegionVisitor.java, TryCatchRegionVisitor.java
+
+Testing:
+- Verify switch statements maintain correct case ordering
+- Verify loop break/continue semantics preserved
+- Verify try-catch-finally generates correct code
+
+Status: 🔄 IN PROGRESS (Dec 25, 2025)

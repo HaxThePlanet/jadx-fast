@@ -1,7 +1,7 @@
 # Roadmap
 
-**Status:** 1 P0 Bug OPEN (P0-BOOL-CHAIN) | ~93-94% Syntax Quality | 64% File Coverage | Dec 25, 2025
-**Fixed Today:** P0-LOOP-VAR ✅ | P2-TYPE-INFERENCE ✅
+**Status:** 1 P0 Bug OPEN (P0-BOOL-CHAIN), 1 P1 Bug IN PROGRESS (P1-CONTROL-FLOW-POLISH) | ~93-94% Syntax Quality | 64% File Coverage | Dec 25, 2025
+**Fixed Today:** P0-LOOP-VAR ✅ | P2-TYPE-INFERENCE ✅ | **IN PROGRESS:** P0-BOOL-CHAIN (your work), Type Inference improvements (other agent), P1-CONTROL-FLOW-POLISH (queued)
 **See:** [QUALITY_STATUS.md](QUALITY_STATUS.md) for current grades
 **Kotlin Parity:** ~85-90% - Field alias references FIXED (Dec 24), see [KOTLIN_PARITY.md](KOTLIN_PARITY.md)
 **Deobf Parity:** ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md)
@@ -93,6 +93,24 @@ This is NOT a TernaryMod transformation - it requires detecting PHI-based boolea
 - Likely in RegionMaker or SSA phase for PHI→return conversion
 
 **Affected Methods:** `detectEmulator$lambda$1()` - returns wrong values for emulator detection
+
+---
+
+### P1-CONTROL-FLOW-POLISH: Switch/Loop/Try-Catch Edge Cases - 🔄 IN PROGRESS (Dec 25, 2025)
+
+**Status:** 🔄 IN PROGRESS (Dec 25, 2025) | **Priority:** P1 (Quality improvements) | **Agent:** Chad
+**Location:** Control flow passes - `crates/dexterity-passes/src/if_region_visitor.rs`, loop visitors, try-catch handlers
+
+**Scope:** Switch/Loop/Try-Catch edge cases
+
+**Examples:**
+- Switch case ordering and fallthrough handling
+- Nested loops with labeled breaks
+- Try-finally without catch blocks
+- Exception handler ordering
+- Fall-through patterns in conditionals
+
+**Estimated Impact:** +0.5-1% (97-97.5% parity)
 
 ---
 
