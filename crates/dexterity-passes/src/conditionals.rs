@@ -768,6 +768,11 @@ pub fn merge_nested_conditions(
     loop {
         // Safety check: avoid infinite loops
         if merge_count >= MAX_MERGES {
+            tracing::error!(
+                merge_count = merge_count,
+                limit = MAX_MERGES,
+                "LIMIT_EXCEEDED: Conditional merge limit reached (too many nested/chained conditionals)"
+            );
             break;
         }
 

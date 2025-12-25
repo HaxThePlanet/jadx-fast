@@ -130,7 +130,12 @@ pub fn extract_field_init(class: &mut ClassData, dex: Option<&DexReader>) {
 
         // Safety check: if we've been iterating too long, bail out
         if iteration >= MAX_EXTRACT_ITERATIONS - 1 {
-            tracing::warn!("extract_field_init hit iteration limit for class {}", class.class_type);
+            tracing::error!(
+                iteration = iteration,
+                limit = MAX_EXTRACT_ITERATIONS,
+                class = %class.class_type,
+                "LIMIT_EXCEEDED: Extract field init max iterations reached"
+            );
             break;
         }
     }
@@ -468,6 +473,12 @@ fn trace_register_constant_impl(
     // Prevent infinite recursion (limit depth to 20, matching JADX's conservative approach)
     const MAX_TRACE_DEPTH: usize = 20;
     if depth > MAX_TRACE_DEPTH {
+        tracing::warn!(
+            depth = depth,
+            limit = MAX_TRACE_DEPTH,
+            register = reg_num,
+            "LIMIT_EXCEEDED: Field trace depth limit reached"
+        );
         return None;
     }
 

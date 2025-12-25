@@ -47,6 +47,11 @@ fn process_region_recursive(
 ) {
     const MAX_DEPTH: usize = 100;
     if depth > MAX_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = MAX_DEPTH,
+            "LIMIT_EXCEEDED: If-region visitor max depth reached"
+        );
         return;
     }
 

@@ -410,6 +410,11 @@ impl ExprGen {
         // Variable names: (register, ssa_version) -> name
         // CRITICAL: Replace if oversized to prevent memory leak
         if self.var_names.capacity() > MAX_POOLED_CAPACITY {
+            tracing::warn!(
+                capacity = self.var_names.capacity(),
+                limit = MAX_POOLED_CAPACITY,
+                "LIMIT_EXCEEDED: ExprGen var_names pool capacity exceeded, shrinking"
+            );
             self.var_names = HashMap::new();  // SHRINK - drops old allocation
         } else {
             self.var_names.clear();  // Reuse - keeps capacity
@@ -418,6 +423,11 @@ impl ExprGen {
         // Variable types: (register, ssa_version) -> ArgType
         // CRITICAL: Replace if oversized to prevent memory leak
         if self.var_types.capacity() > MAX_POOLED_CAPACITY {
+            tracing::warn!(
+                capacity = self.var_types.capacity(),
+                limit = MAX_POOLED_CAPACITY,
+                "LIMIT_EXCEEDED: ExprGen var_types pool capacity exceeded, shrinking"
+            );
             self.var_types = HashMap::new();  // SHRINK - drops old allocation
         } else {
             self.var_types.clear();  // Reuse - keeps capacity
@@ -426,6 +436,11 @@ impl ExprGen {
         // String constants: string_idx -> String value
         // CRITICAL: Replace if oversized to prevent memory leak
         if self.strings.capacity() > MAX_POOLED_CAPACITY {
+            tracing::warn!(
+                capacity = self.strings.capacity(),
+                limit = MAX_POOLED_CAPACITY,
+                "LIMIT_EXCEEDED: ExprGen strings pool capacity exceeded, shrinking"
+            );
             self.strings = HashMap::new();  // SHRINK - drops old allocation
         } else {
             self.strings.clear();  // Reuse - keeps capacity
@@ -434,6 +449,11 @@ impl ExprGen {
         // Type names: type_idx -> type name
         // CRITICAL: Replace if oversized to prevent memory leak
         if self.type_names.capacity() > MAX_POOLED_CAPACITY {
+            tracing::warn!(
+                capacity = self.type_names.capacity(),
+                limit = MAX_POOLED_CAPACITY,
+                "LIMIT_EXCEEDED: ExprGen type_names pool capacity exceeded, shrinking"
+            );
             self.type_names = HashMap::new();  // SHRINK - drops old allocation
         } else {
             self.type_names.clear();  // Reuse - keeps capacity
@@ -442,6 +462,11 @@ impl ExprGen {
         // Field info cache: field_idx -> FieldInfo
         // CRITICAL: Replace if oversized to prevent memory leak
         if self.field_info.capacity() > MAX_POOLED_CAPACITY {
+            tracing::warn!(
+                capacity = self.field_info.capacity(),
+                limit = MAX_POOLED_CAPACITY,
+                "LIMIT_EXCEEDED: ExprGen field_info pool capacity exceeded, shrinking"
+            );
             self.field_info = HashMap::new();  // SHRINK - drops old allocation
         } else {
             self.field_info.clear();  // Reuse - keeps capacity
@@ -450,6 +475,11 @@ impl ExprGen {
         // Method info cache: method_idx -> MethodInfo
         // CRITICAL: Replace if oversized to prevent memory leak
         if self.method_info.capacity() > MAX_POOLED_CAPACITY {
+            tracing::warn!(
+                capacity = self.method_info.capacity(),
+                limit = MAX_POOLED_CAPACITY,
+                "LIMIT_EXCEEDED: ExprGen method_info pool capacity exceeded, shrinking"
+            );
             self.method_info = HashMap::new();  // SHRINK - drops old allocation
         } else {
             self.method_info.clear();  // Reuse - keeps capacity

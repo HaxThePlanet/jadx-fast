@@ -131,6 +131,11 @@ where
 
         iteration += 1;
         if iteration > MAX_ITERATIONS {
+            tracing::error!(
+                iteration = iteration,
+                limit = MAX_ITERATIONS,
+                "LIMIT_EXCEEDED: Replace new array max iterations reached"
+            );
             result.warnings.push(format!(
                 "Reached limit for ReplaceNewArray iterations ({})",
                 MAX_ITERATIONS

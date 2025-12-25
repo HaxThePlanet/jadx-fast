@@ -297,6 +297,13 @@ pub fn optimize_switch_breaks(
         result.iterations = iteration;
 
         if !changed || iteration >= MAX_ITERATIONS {
+            if iteration >= MAX_ITERATIONS {
+                tracing::error!(
+                    iteration = iteration,
+                    limit = MAX_ITERATIONS,
+                    "LIMIT_EXCEEDED: Switch break visitor max iterations reached"
+                );
+            }
             break;
         }
     }
