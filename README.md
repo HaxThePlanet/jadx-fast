@@ -22,29 +22,72 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 **Goal:** Correct decompilation close to JADX
 **Status:** 🟢 PRODUCTION-READY | 0 P0 Bugs | A-/B+ Grade (85-90%) - see [ROADMAP.md](docs/ROADMAP.md)
 
-> **December 24, 2025 (Christmas Eve!):** Production-ready! All P0 bugs fixed. Boolean simplification, lambda suppression (92→55 files), diamond operator (1,254 instances), lambda inlining complete. **14x faster than JADX** — processing **5,200 APKs/hour** at 2.7 sec average. Resources at 1:1 JADX parity. **Anti-RE ZIP hardening** now recovers 83% of obfuscated APKs (was 43%).
+> **December 25, 2025 (Christmas Day!):** Production-ready! All P0 bugs fixed. **4-218x faster than JADX** with **10-52x less memory**. Processing **5,200 APKs/hour** at 2.7 sec average. Boolean simplification, lambda suppression (92→55 files), diamond operator (1,254 instances), lambda inlining complete. **TernaryMod region-level pass** now at full JADX parity. Resources at 1:1 JADX parity. **Anti-RE ZIP hardening** recovers 83% of obfuscated APKs.
 
 ## Performance
 
-<p align="center">
-  <img src="docs/benchmarks.svg" alt="Dexterity Benchmarks" width="100%">
-</p>
+### ⚡ Speed Comparison
 
-<details>
-<summary>Detailed benchmark table</summary>
+```
+                              DECOMPILATION TIME (seconds)
+    ┌─────────────────────────────────────────────────────────────────────────────┐
+    │                                                                             │
+    │  small.apk     ▓ 0.01s                                                      │
+    │                ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.18s   │
+    │                                                                    218x ⚡  │
+    │                                                                             │
+    │  medium.apk    ▓▓▓▓▓▓▓▓ 2.07s                                               │
+    │                ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 16.6s   │
+    │                                                                      8x ⚡  │
+    │                                                                             │
+    │  large.apk     ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 4.82s                                       │
+    │                ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 19.7s   │
+    │                                                                      4x ⚡  │
+    │                                                                             │
+    │  badboy.apk    ▓ 0.28s                                                      │
+    │                ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 15.5s   │
+    │                                                                     55x ⚡  │
+    └─────────────────────────────────────────────────────────────────────────────┘
+                            ▓ Dexterity    ░ JADX
+```
 
-| APK | Dexterity (112t) | JADX (56t) | Speedup |
-|-----|------------------|------------|---------|
-| small.apk | 0.022s | 1.85s | **84x** |
-| medium.apk | 1.26s | 14.81s | **11.8x** |
-| large.apk | 2.60s | 17.08s | **6.6x** |
-| badboy.apk | 0.23s | 14.07s | **61x** |
-| badboy-x86.apk | 0.21s | 13.71s | **65x** |
-| **Total** | **4.32s** | **61.52s** | **14.2x** |
+### 🧠 Memory Comparison
 
-*Benchmarked on 100GB RAM disk (Dec 22, 2025)*
+```
+                              PEAK MEMORY USAGE (MB)
+    ┌─────────────────────────────────────────────────────────────────────────────┐
+    │                                                                             │
+    │  small.apk     ▓ 12 MB                                                      │
+    │                ░░░░░░░░░░░░░ 267 MB                               22x less  │
+    │                                                                             │
+    │  medium.apk    ▓▓ 354 MB                                                    │
+    │                ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 5,388 MB  │
+    │                                                                   15x less  │
+    │                                                                             │
+    │  large.apk     ▓▓▓ 579 MB                                                   │
+    │                ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 6,558 MB  │
+    │                                                                   11x less  │
+    │                                                                             │
+    │  badboy.apk    ▓ 79 MB                                                      │
+    │                ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 4,126 MB          │
+    │                                                                   52x less  │
+    └─────────────────────────────────────────────────────────────────────────────┘
+                            ▓ Dexterity    ░ JADX
+```
 
-</details>
+### 📊 Benchmark Summary
+
+| APK | Dexterity | JADX | **Speed** | Dex RAM | JADX RAM | **RAM** |
+|-----|-----------|------|-----------|---------|----------|---------|
+| small.apk | 0.01s | 2.18s | **218x** ⚡ | 12 MB | 267 MB | **22x less** |
+| medium.apk | 2.07s | 16.6s | **8x** ⚡ | 354 MB | 5,388 MB | **15x less** |
+| large.apk | 4.82s | 19.7s | **4x** ⚡ | 579 MB | 6,558 MB | **11x less** |
+| badboy.apk | 0.28s | 15.5s | **55x** ⚡ | 79 MB | 4,126 MB | **52x less** |
+| **TOTAL** | **7.18s** | **54.0s** | **7.5x** ⚡ | **< 1 GB** | **> 6 GB** | **10x less** |
+
+*Benchmarked on 56-core Xeon with NVMe storage (Dec 25, 2025)*
+
+> **TL;DR:** Dexterity is **4-218x faster** and uses **10-52x less memory** than JADX
 
 ### Batch Processing Optimization
 
@@ -146,14 +189,14 @@ cargo build --release -p dexterity-cli
 | dexterity-kotlin | Kotlin metadata | **B+ (85-90%)** | Field alias references FIXED Dec 24 |
 | dexterity-cli | CLI application | **A** | Drop-in JADX replacement, anti-RE hardening |
 
-*Updated Dec 24, 2025. See [ROADMAP.md](docs/ROADMAP.md) for details and remaining work.*
+*Updated Dec 25, 2025. See [ROADMAP.md](docs/ROADMAP.md) for details and remaining work.*
 
 ### Recent JADX Pass Clones (Dec 2025)
 
 | Pass | JADX Lines | Description |
 |------|------------|-------------|
 | `block_exception_handler` | 640 | Exception CFG construction with splitter blocks |
-| `debug_info` | 442 | Debug info attach + apply (variable names/types) |
+| `debug_info` | 442 | Debug info attach + apply (variable names/types) - **COMPLETE Dec 25** |
 | `switch_over_string` | 479 | Java 7+ string switch restoration |
 | `synchronized_region` | 184 | Synchronized block handling |
 | `fix_multi_entry_loops` | 125 | CFG normalization for loops |
@@ -162,6 +205,8 @@ cargo build --release -p dexterity-cli
 | `class_modifier` | ~300 | Synthetic element hiding |
 | `inline_methods` | ~300 | Method inlining |
 | `signature_processor` | 337 | Generic type signatures |
+| `fix_access_modifiers` | ~120 | Inner class visibility fixes - **COMPLETE Dec 25** |
+| `attach_comments` | ~140 | Diagnostic comment attachment - **COMPLETE Dec 25** |
 
 See [JADX_CLONE_TASKS.md](docs/JADX_CLONE_TASKS.md) for complete clone specifications with JADX line references.
 
@@ -186,24 +231,25 @@ public class MainActivity extends Activity {
 
 ## Reference Output Examples
 
-Comparison examples of Dexterity vs JADX decompilation output (~8,858 Java files total):
+Benchmark APKs used for comparison (~8,858 Java files total):
 
-- **Small APK** (1 file)
-  - [Dexterity output](output/dexterity/small/sources/) | [JADX output](output/jadx/small/sources/)
+| APK | Files | Description |
+|-----|-------|-------------|
+| small.apk | 1 | Minimal test case |
+| medium.apk | 2,890 | Mid-size application |
+| large.apk | 5,901 | Large production app |
+| badboy.apk | 55 | Multi-DEX obfuscated |
+| badboy-x86.apk | 13 | x86 variant |
 
-- **Medium APK** (2,890 files)
-  - [Dexterity output](output/dexterity/medium/sources/) | [JADX output](output/jadx/medium/sources/)
+To generate comparison output locally:
+```bash
+# Decompile with both tools
+./target/release/dexterity -d output/dexterity/small/ apks/small.apk
+jadx -d output/jadx/small/ apks/small.apk
 
-- **Large APK** (5,901 files)
-  - [Dexterity output](output/dexterity/large/sources/) | [JADX output](output/jadx/large/sources/)
-
-- **Badboy APK** (55 files)
-  - [Dexterity output](output/dexterity/badboy/sources/) | [JADX output](output/jadx/badboy/sources/)
-
-- **Badboy-x86 APK** (13 files)
-  - [Dexterity output](output/dexterity/badboy-x86/sources/) | [JADX output](output/jadx/badboy-x86/sources/)
-
-Notable reference file: [o/a/b.java](output/dexterity/large/sources/o/a/b.java) (Dexterity) vs [o/a/b.java](output/jadx/large/sources/o/a/b.java) (JADX)
+# Compare specific file
+diff output/dexterity/large/sources/o/a/b.java output/jadx/large/sources/o/a/b.java
+```
 
 ## License
 
