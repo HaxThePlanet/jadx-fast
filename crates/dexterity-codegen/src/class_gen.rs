@@ -931,10 +931,13 @@ fn add_nested_inner_classes<W: CodeWriter>(
     code: &mut W,
 ) {
     for inner_class in nested_classes {
-        // Skip anonymous inner classes (they should be inlined at instantiation site)
+        // JADX Reference: ClassGen.java:301 - filter out DONT_GENERATE classes
+        // Skip anonymous inner classes and lambda classes (they're inlined at use site)
         // EXCEPT for switch map synthetic classes which contain static switch map arrays
         // that need to be generated as inner classes (BUG-001 fix)
-        if is_anonymous_class(&inner_class.class_type) && !is_switch_map_class(inner_class) {
+        if (is_anonymous_class(&inner_class.class_type) || is_lambda_class(&inner_class.class_type))
+            && !is_switch_map_class(inner_class)
+        {
             continue;
         }
         code.newline();

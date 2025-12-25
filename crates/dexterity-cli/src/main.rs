@@ -1402,13 +1402,13 @@ fn process_dex_bytes(
             }
         }
 
-        // P1-LAMBDA-INLINING: Previously skipped lambda classes, now outputting them
-        // D8/R8 generates $$ExternalSyntheticLambda, older toolchains generate $$Lambda$
-        // When a lambda class is nested (has parent in inner_class_map), it will appear
-        // in the parent class output. When it's orphaned (parent doesn't exist), it's standalone.
+        // JADX Reference: ClassGen.java:158-160 - skip DONT_GENERATE classes
+        // Lambda classes should be inlined at invoke-custom call sites, not output as files.
+        // D8/R8 generates $$ExternalSyntheticLambda, older toolchains generate $$Lambda$,
+        // Kotlin Compose generates $lambda-N$1 classes.
         if dexterity_codegen::is_lambda_class(&class_name) {
-            // Don't skip - allow lambda classes to be processed
-            // They may be standalone or nested within parent classes
+            tracing::debug!("Skipping lambda class: {}", class_name);
+            continue; // Skip - lambda will be inlined at use site
         }
 
         if treat_as_outer {
