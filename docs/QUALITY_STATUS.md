@@ -1,7 +1,7 @@
 # Quality Status
 
 **Status:** NEAR PRODUCTION-READY | 1 P0 Bug Remaining | B-/C+ Grade (70-80%) | 77% File Coverage | Dec 25, 2025
-**Last Update:** Dec 25, 2025 - P0-UNDEF-VAR, P0-TERNARY-INLINE, P1-LAMBDA-INLINING FIXED
+**Last Update:** Dec 25, 2025 - P0-SPURIOUS-RET FIXED (loop depth tracking), P0-LOGIC-INV, P0-UNDEF-VAR, P0-TERNARY-INLINE, P1-LAMBDA-INLINING FIXED
 **Goal:** Correct decompilation close to JADX (not byte-for-byte identical)
 **Resources:** 1:1 JADX parity achieved (103 directories, 152 files, zero differences)
 **Codegen:** ~70-80% semantic correctness; outputs 77% of JADX files (66/86)
@@ -124,7 +124,8 @@ return false;
 - **P0-FOREACH-SEM:** For-each loop return not emitted - if-body is empty, always returns initial value
 - ~~P0-UNDEF-VAR~~ ✅ FIXED - Variable declarations now proper
 - ~~Boolean chain logic~~ ✅ FIXED - OR patterns now merge correctly
-- ~~Complex control flow~~ ✅ FIXED - Spurious returns eliminated
+- ~~Spurious returns in loops~~ ✅ FIXED - Loop depth tracking prevents returns in loop bodies
+- ~~Complex control flow~~ ✅ FIXED (partially) - TernaryMod handles if-else-return patterns
 
 ---
 
@@ -150,7 +151,7 @@ return false;
 | P0-FOREACH-SEM | Empty for-each loop body | 🔴 **OPEN** | `if (file.exists()) { }` - return not emitted |
 | ~~P0-TERNARY-INLINE~~ | ~~Ternary var declaration~~ | ✅ **FIXED** | Force inline + static field vars |
 | ~~P0-LOGIC-INV~~ | ~~Boolean logic inversions~~ | ✅ **FIXED** | OR pattern Type 2 now uses correct FALSE case |
-| ~~P0-SPURIOUS-RET~~ | ~~Spurious returns~~ | ✅ **FIXED** | Disabled broken P0-BOOL-CHAIN transformation |
+| ~~P0-SPURIOUS-RET~~ | ~~Spurious returns in loops~~ | ✅ **FIXED** | Loop depth tracking (JADX ReturnVisitor clone) |
 
 ---
 
@@ -162,7 +163,7 @@ return false;
 2. ~~**P0-UNDEF-VAR**~~ ✅ FIXED (Dec 25) - Static field inlining + force_inline flags
 3. ~~**P0-TERNARY-INLINE**~~ ✅ FIXED (Dec 25) - Force inline + static field vars
 4. ~~**Boolean chain handling**~~ ✅ FIXED (Dec 25) - OR pattern Type 2 corrected
-5. ~~**Control flow cleanup**~~ ✅ FIXED (Dec 25) - Disabled broken P0-BOOL-CHAIN transformation
+5. ~~**Spurious returns in loops**~~ ✅ FIXED (Dec 25) - Loop depth tracking (JADX ReturnVisitor clone)
 
 ### P0-FOREACH-SEM Technical Details (Dec 25, 2025)
 
