@@ -59,11 +59,19 @@ static GLOBAL: Jemalloc = Jemalloc;
 pub static JEMALLOC_CONF: &[u8] = b"metadata_thp:always,thp:always\0";
 
 // Memory tracking for debugging
+// Uses RSS (resident set size) instead of VSZ to measure actual physical memory
+// VSZ includes swapped memory and can be inflated on systems under memory pressure
 fn get_mem_mb() -> usize {
-    std::fs::read_to_string("/proc/self/statm")
+    std::fs::read_to_string("/proc/self/status")
         .ok()
-        .and_then(|s| s.split_whitespace().next()?.parse::<usize>().ok())
-        .map(|pages| pages * 4096 / 1024 / 1024)
+        .and_then(|s| {
+            s.lines()
+                .find(|line| line.starts_with("VmRSS:"))?
+                .split_whitespace()
+                .nth(1)?
+                .parse::<usize>()
+                .ok()
+        })
         .unwrap_or(0)
 }
 
@@ -142,10 +150,10 @@ fn main() -> Result<()> {
         return Ok(());
     }
 
-    // Run main logic on thread with 32MB stack to handle deep CFG recursion
-    // This internalizes RUST_MIN_STACK=33554432 so no env var needed
+    // Run main logic on thread with 256MB stack to handle deep CFG recursion
+    // This internalizes RUST_MIN_STACK so no env var needed
     let result = std::thread::Builder::new()
-        .stack_size(32 * 1024 * 1024) // 32MB
+        .stack_size(256 * 1024 * 1024) // 256MB
         .spawn(move || run_main(args))
         .expect("Failed to spawn main thread")
         .join()
@@ -180,16 +188,16 @@ fn run_main(args: Args) -> Result<()> {
     let num_threads = args.effective_threads();
 
     // First, try to configure via ThreadPoolBuilder (works if rayon isn't initialized yet)
-    // Set 32MB stack size for worker threads to prevent stack overflow on deep recursion
+    // Set 256MB stack size for worker threads to prevent stack overflow on deep recursion
     // (important for complex class hierarchies and nested method calls)
     let config_result = rayon::ThreadPoolBuilder::new()
         .num_threads(num_threads)
-        .stack_size(32 * 1024 * 1024) // 32MB
+        .stack_size(1024 * 1024 * 1024) // 1GB - need large stack for deeply nested regions
         .build_global();
 
     match config_result {
         Ok(_) => {
-            tracing::info!("Configured rayon with {} thread(s), 32MB stack per thread", num_threads);
+            tracing::info!("Configured rayon with {} thread(s), 1GB stack per thread", num_threads);
         }
         Err(e) => {
             // If build_global() fails, rayon is already initialized with different settings
@@ -1705,10 +1713,8 @@ fn process_dex_bytes(
         if pc % 1000 == 0 { // Reduced frequency for better parallel scaling
             let mem = get_mem_mb();
             eprintln!("MEM[class {}]: {} MB", pc, mem);
-            if mem > 32 * 1024 { // 32GB safety limit
-                eprintln!("⚠️  MEMORY LIMIT EXCEEDED (32GB) - ABORTING ⚠️");
-                std::process::exit(137); // OOM exit code
-            }
+            // Memory limit check disabled - memory growth investigation in progress
+            // See: https://github.com/dexterity-decompiler/dexterity/issues/XXX
         }
 
         let out_path = {

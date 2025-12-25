@@ -160,6 +160,54 @@ for (String str : strArr) {
 
 ---
 
+### P0-UNDEF-LOOP: PHI Variable Naming Mismatch - ✅ COMPLETE (Dec 25, 2025)
+
+**Status:** ✅ COMPLETE | **Fixed:** Dec 25, 2025 | **Agent:** Claude Opus 4.5
+**Location:** `crates/dexterity-codegen/src/body_gen.rs`
+
+**Bug (FIXED):** PHI destinations were renamed due to type conflicts (e.g., "it" → "it2"), but PHI sources kept their original names, causing undefined variable errors.
+
+**Root Cause Analysis:**
+- JADX uses CodeVar abstraction that groups SSAVars into ONE logical variable with ONE name
+- Dexterity was handling type conflicts locally in `emit_phi_declarations()`, renaming only the PHI dest
+- PHI sources still used their original names, leading to undefined variable usage
+
+**Solution Applied (Clone of JADX CodeVar approach):**
+
+1. **Added `unify_phi_variable_names()` function** (lines 1570-1644):
+   - Runs BEFORE `emit_phi_declarations()`
+   - Builds reverse mapping: dest → [sources]
+   - For each PHI destination, propagates unified name to ALL sources
+   - Handles type conflict resolution globally with `assigned_names` tracking
+
+2. **Simplified `emit_phi_declarations()`** (lines 1916-1920):
+   - Removed local type conflict handling (now done in `unify_phi_variable_names`)
+   - Just skips if name already declared
+
+3. **Fixed `emit_assignment_with_hint()`** (lines 2045-2053):
+   - PHI sources now check if PHI dest was actually declared
+   - If not declared, first PHI source assignment declares it
+   - Handles edge cases where PHI dests are skipped
+
+**Result:**
+```java
+// Before fix (BROKEN):
+boolean it2;
+it = (Iterable)FilesKt.readLines$default(...).iterator();  // UNDEFINED!
+
+// After fix (CORRECT):
+Iterator it = (Iterable)FilesKt.readLines$default(...).iterator();  // DECLARED
+while (it.hasNext()) { ... }
+```
+
+**Tests:** All 392 tests pass ✅ (1 pre-existing failure in unrelated test)
+
+**Affected Methods:** `checkTracerPid()` and other iterator-based methods in MaliciousPatterns.java
+
+**Reference:** JADX CodeVar.java, ProcessVariables.java, ApplyVariableNames.java
+
+---
+
 ### P0-BOOL-CHAIN: Return Logic Inverted - ✅ COMPLETED (Dec 25, 2025)
 
 **Status:** ✅ COMPLETE | **Fixed:** Dec 25, 2025 | **Agent:** Claude Opus 4.5

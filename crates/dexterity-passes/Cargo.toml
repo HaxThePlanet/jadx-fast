@@ -8,6 +8,8 @@ license.workspace = true
 [dependencies]
 dexterity-dex.workspace = true
 dexterity-ir.workspace = true
+dexterity-limits.workspace = true
+dexterity-error.workspace = true
 rayon.workspace = true
 petgraph.workspace = true
 smallvec.workspace = true

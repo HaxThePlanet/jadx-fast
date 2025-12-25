@@ -28,6 +28,9 @@ crates/
 ├── dexterity-deobf/       # Deobfuscation (~1,850 lines)
 ├── dexterity-kotlin/      # Kotlin metadata parsing (~2,100 lines)
 ├── dexterity-cli/         # CLI application (~6,100 lines)
+├── dexterity-error/       # Unified error types
+├── dexterity-utils/       # Shared utilities
+├── dexterity-limits/      # Resource limits & safety guards
 ├── dexterity-qa/          # Quality assurance tools
 └── dexterity-llm-postproc/# LLM post-processing utilities
 ```

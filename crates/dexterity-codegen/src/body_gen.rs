@@ -1567,6 +1567,82 @@ fn collect_phi_source_to_dest(
     mapping
 }
 
+/// P0-UNDEF-LOOP FIX: Unify PHI variable names for destinations and all their sources.
+///
+/// JADX's CodeVar groups SSAVars into one logical variable with one name.
+/// This function simulates that by ensuring:
+/// 1. All PHI sources have the same name as their PHI destination
+/// 2. Type conflicts are resolved BEFORE emission (global collision tracking)
+///
+/// This fixes the bug where:
+///   boolean it2;  // PHI dest declared as "it2"
+///   it = ...;     // PHI source uses "it" (UNDEFINED!)
+///
+/// After this fix:
+///   Iterator it;  // PHI declared
+///   it = ...;     // Same name for all versions
+fn unify_phi_variable_names(ctx: &mut BodyGenContext) {
+    // Build reverse mapping: dest -> Vec<sources>
+    let mut dest_to_sources: HashMap<(u16, u32), Vec<(u16, u32)>> = HashMap::new();
+    for (source, dest) in &ctx.phi_source_to_dest {
+        dest_to_sources.entry(*dest).or_default().push(*source);
+    }
+
+    // Track names we've assigned to detect conflicts
+    let mut assigned_names: HashMap<String, ArgType> = HashMap::new();
+
+    // Sort phi_declarations for deterministic processing
+    let mut phi_dests: Vec<_> = ctx.phi_declarations.iter().copied().collect();
+    phi_dests.sort();
+
+    // For each PHI destination
+    for (dest_reg, dest_version) in phi_dests {
+        // Skip if already declared (e.g., parameter)
+        if ctx.is_declared(dest_reg, dest_version) || ctx.is_parameter(dest_reg, dest_version) {
+            continue;
+        }
+
+        // Get the current name of the destination
+        let temp_reg = RegisterArg { reg_num: dest_reg, ssa_version: dest_version };
+        let mut var_name = ctx.expr_gen.get_var_name(&temp_reg);
+
+        // Get the type for type conflict detection
+        let var_type = ctx.get_inferred_type_versioned(dest_reg, dest_version)
+            .or_else(|| ctx.get_inferred_type_versioned(dest_reg, 0))
+            .cloned()
+            .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
+
+        // Check if name is already in use with an incompatible type
+        // First check declared names (from earlier in the method)
+        let needs_rename = if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
+            !types_compatible_for_naming(existing_type, &var_type)
+        } else if let Some(existing_type) = assigned_names.get(&var_name) {
+            // Also check names we assigned to earlier PHI nodes
+            !types_compatible_for_naming(existing_type, &var_type)
+        } else {
+            false
+        };
+
+        if needs_rename {
+            // Generate unique name
+            var_name = ctx.generate_unique_name(&var_name);
+        }
+
+        // Track this name
+        assigned_names.insert(var_name.clone(), var_type);
+
+        // Set the unified name for the PHI destination
+        ctx.expr_gen.set_var_name(dest_reg, dest_version, var_name.clone());
+
+        // Set the same name for ALL sources of this PHI
+        if let Some(sources) = dest_to_sources.get(&(dest_reg, dest_version)) {
+            for &(src_reg, src_version) in sources {
+                ctx.expr_gen.set_var_name(src_reg, src_version, var_name.clone());
+            }
+        }
+    }
+}
+
 /// P0-BOOL-CHAIN FIX: Detect PHI destinations that are ONLY used in Return instructions.
 /// When a PHI result is only used in a Return, we can convert assignments to PHI sources
 /// into early returns: `z = true;` -> `return true;`
@@ -1824,7 +1900,7 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
 
         // Get variable name using a temp RegisterArg
         let temp_reg = RegisterArg { reg_num: reg, ssa_version: version };
-        let mut var_name = ctx.expr_gen.get_var_name(&temp_reg);
+        let var_name = ctx.expr_gen.get_var_name(&temp_reg);
 
         // Skip if already declared (e.g., parameter)
         if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
@@ -1837,16 +1913,10 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
             .cloned()
             .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
 
-        // Check if name is already declared with an incompatible type
-        if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
-            if !types_compatible_for_naming(existing_type, &var_type) {
-                // Incompatible type - generate unique name
-                var_name = ctx.generate_unique_name(&var_name);
-                ctx.expr_gen.set_var_name(reg, version, var_name.clone());
-            } else {
-                // Compatible type - skip declaration (reuse existing)
-                continue;
-            }
+        // P0-UNDEF-LOOP FIX: Type conflicts are now handled in unify_phi_variable_names()
+        // which runs before this function. Just skip if name already declared.
+        if ctx.get_declared_name_type(&var_name).is_some() {
+            continue;
         }
 
         // Emit declaration
@@ -1970,10 +2040,17 @@ fn emit_assignment_with_hint<W: CodeWriter>(
 
     // Check if we need to declare this variable
     // In SSA form, only version 0 of parameter registers are actual parameters
-    // P1-CONTROL-FLOW FIX: PHI sources never need declaration - their PHI destination
-    // is already declared via emit_phi_declarations()
+    // P0-UNDEF-LOOP FIX: PHI sources may still need declaration if the PHI dest wasn't declared
+    // This can happen if the PHI was skipped (e.g., exception handler block) or type mismatch
     let needs_decl = if is_phi_source {
-        false  // PHI destination already declared
+        // Check if PHI dest was actually declared
+        if ctx.is_declared(effective_reg, effective_version) || ctx.is_parameter(effective_reg, effective_version) {
+            false
+        } else if ctx.get_declared_name_type(&var_name).is_some() {
+            false  // Name already declared
+        } else {
+            true  // PHI dest not declared, declare on first PHI source assignment
+        }
     } else if ctx.is_declared(effective_reg, effective_version) || ctx.is_parameter(effective_reg, effective_version) {
         false
     } else if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
@@ -2671,6 +2748,9 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     apply_inferred_types(&mut ctx);
     apply_var_names_from_pass(&var_names, &mut ctx);
 
+    // P0-UNDEF-LOOP FIX: Unify PHI names before declaration to prevent undefined variables
+    unify_phi_variable_names(&mut ctx);
+
     // Emit declarations for phi variables at method start (with initializers for NEW-002 fix)
     emit_phi_declarations(&mut ctx, code);
 
@@ -2908,6 +2988,9 @@ fn generate_body_impl<W: CodeWriter>(
 
     apply_inferred_types(&mut ctx);
     apply_var_names_from_pass(&var_names, &mut ctx);
+
+    // P0-UNDEF-LOOP FIX: Unify PHI names before declaration to prevent undefined variables
+    unify_phi_variable_names(&mut ctx);
 
     // Emit declarations for phi variables at method start
     emit_phi_declarations(&mut ctx, code);
@@ -3286,6 +3369,9 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
 
     apply_inferred_types(&mut ctx);
     apply_var_names_from_pass(&var_names, &mut ctx);
+
+    // P0-UNDEF-LOOP FIX: Unify PHI names before declaration to prevent undefined variables
+    unify_phi_variable_names(&mut ctx);
 
     // Emit declarations for phi variables at method start
     emit_phi_declarations(&mut ctx, code);
@@ -4604,40 +4690,58 @@ fn find_index_assignment_in_content(
     }
 }
 
-/// Generate else or else-if chain
+/// Generate else or else-if chain (ITERATIVE to prevent stack overflow)
 /// If the else region is another If, generates `} else if (cond) {` instead of `} else { if (cond) {`
 fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
-    match else_region {
-        Region::If { condition, then_region, else_region: nested_else, .. } => {
-            // Check if this could be a ternary - if so, don't chain
-            if let Some(nested_else_reg) = nested_else {
-                if detect_ternary_pattern(then_region, nested_else_reg, ctx).is_some() {
-                    // Emit as regular else with ternary inside
-                    gen_else(code);
-                    generate_region(else_region, ctx, code);
-                    return;
-                }
-            }
+    let mut current: Option<&Region> = Some(else_region);
+    let mut chain_depth = 0usize;
+    let max_chain_depth = dexterity_limits::codegen::MAX_REGION_DEPTH;
 
-            // P0-CFG04 FIX: Process ALL condition blocks for inlining before generating
-            process_all_condition_blocks_for_inlining(condition, ctx);
-
-            // Generate else-if
-            let condition_str = generate_condition(condition, ctx);
-            gen_else_if(&condition_str, code);
-            generate_region(then_region, ctx, code);
-
-            // Recursively handle the nested else (could be another if or final else)
-            if let Some(nested_else_reg) = nested_else {
-                generate_else_chain(nested_else_reg, ctx, code);
-            }
+    while let Some(region) = current {
+        // Prevent infinite else-if chains
+        chain_depth += 1;
+        if chain_depth > max_chain_depth {
+            tracing::error!(
+                depth = chain_depth,
+                limit = max_chain_depth,
+                "ELSE_CHAIN_LIMIT_EXCEEDED: Else-if chain too deep, bailing out"
+            );
+            gen_else(code);
+            code.start_line().add("/* else-if chain depth exceeded */").newline();
+            return;
         }
-        _ => {
-            // Not an If region - generate regular else
-            // Skip empty else blocks for JADX parity (BUG-008)
-            if !is_empty_region_with_ctx(else_region, ctx) {
-                gen_else(code);
-                generate_region(else_region, ctx, code);
+
+        match region {
+            Region::If { condition, then_region, else_region: nested_else, .. } => {
+                // Check if this could be a ternary - if so, don't chain
+                if let Some(nested_else_reg) = nested_else {
+                    if detect_ternary_pattern(then_region, nested_else_reg, ctx).is_some() {
+                        // Emit as regular else with ternary inside
+                        gen_else(code);
+                        generate_region(region, ctx, code);
+                        return;
+                    }
+                }
+
+                // P0-CFG04 FIX: Process ALL condition blocks for inlining before generating
+                process_all_condition_blocks_for_inlining(condition, ctx);
+
+                // Generate else-if
+                let condition_str = generate_condition(condition, ctx);
+                gen_else_if(&condition_str, code);
+                generate_region(then_region, ctx, code);
+
+                // Continue with nested else (iterative instead of recursive)
+                current = nested_else.as_ref().map(|b| b.as_ref());
+            }
+            _ => {
+                // Not an If region - generate regular else and exit loop
+                // Skip empty else blocks for JADX parity (BUG-008)
+                if !is_empty_region_with_ctx(region, ctx) {
+                    gen_else(code);
+                    generate_region(region, ctx, code);
+                }
+                return;
             }
         }
     }
@@ -4659,50 +4763,73 @@ fn is_empty_region_with_ctx(region: &Region, ctx: &BodyGenContext) -> bool {
     is_empty_region_impl(region, Some(ctx))
 }
 
-/// Implementation of empty region check
+/// Implementation of empty region check (ITERATIVE to prevent stack overflow)
 fn is_empty_region_impl(region: &Region, ctx: Option<&BodyGenContext>) -> bool {
     use dexterity_ir::attributes::AFlag;
     use dexterity_ir::regions::RegionContent;
 
-    match region {
-        Region::Sequence(contents) => {
-            // Sequence is empty if it has no contents OR all contents are empty
-            if contents.is_empty() {
-                return true;
-            }
-            // Check each content item
-            contents.iter().all(|content| match content {
-                RegionContent::Block(block_id) => {
-                    // Block is empty if all its instructions have DONT_GENERATE
-                    if let Some(ctx) = ctx {
-                        if let Some(block) = ctx.blocks.get(block_id) {
-                            block.instructions.iter().all(|insn| {
-                                insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove)
-                            })
-                        } else {
-                            false // Unknown block - assume not empty
+    // Use a work list instead of recursion
+    let mut work_list: Vec<&Region> = vec![region];
+    let mut iterations = 0usize;
+    let max_iterations = dexterity_limits::codegen::MAX_REGION_DEPTH * 100;
+
+    while let Some(current) = work_list.pop() {
+        iterations += 1;
+        if iterations > max_iterations {
+            // Bail out to prevent infinite loops
+            return false; // Assume not empty if we can't determine
+        }
+
+        match current {
+            Region::Sequence(contents) => {
+                // Sequence is empty if it has no contents OR all contents are empty
+                if contents.is_empty() {
+                    continue; // This part is empty, check rest
+                }
+                // Add nested regions to work list, check blocks immediately
+                for content in contents.iter() {
+                    match content {
+                        RegionContent::Block(block_id) => {
+                            // Block is empty if all its instructions have DONT_GENERATE
+                            let is_block_empty = if let Some(ctx) = ctx {
+                                if let Some(block) = ctx.blocks.get(block_id) {
+                                    block.instructions.iter().all(|insn| {
+                                        insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove)
+                                    })
+                                } else {
+                                    false
+                                }
+                            } else {
+                                false
+                            };
+                            if !is_block_empty {
+                                return false; // Found non-empty block
+                            }
                         }
-                    } else {
-                        false // No context - assume not empty
+                        RegionContent::Region(nested) => {
+                            work_list.push(nested);
+                        }
                     }
                 }
-                RegionContent::Region(nested) => is_empty_region_impl(nested, ctx),
-            })
+            }
+            Region::If { then_region, else_region, .. } => {
+                // Add both branches to work list
+                work_list.push(then_region);
+                if let Some(else_reg) = else_region {
+                    work_list.push(else_reg);
+                }
+            }
+            // Loops, switches, try-catch, synchronized blocks are never "empty"
+            Region::Loop { .. } | Region::Switch { .. } | Region::TryCatch { .. }
+                | Region::Synchronized { .. } => return false,
+            // Break/Continue are statements, not empty
+            Region::Break { .. } | Region::Continue { .. } => return false,
+            // Ternary regions have values, not empty
+            Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => return false,
         }
-        Region::If { then_region, else_region, .. } => {
-            // If is empty only if both branches are empty
-            is_empty_region_impl(then_region, ctx)
-                && else_region.as_ref().map_or(true, |e| is_empty_region_impl(e, ctx))
-        }
-        // Loops, switches, try-catch, synchronized blocks are never "empty"
-        // They have structural meaning even with empty bodies
-        Region::Loop { .. } | Region::Switch { .. } | Region::TryCatch { .. }
-            | Region::Synchronized { .. } => false,
-        // Break/Continue are statements, not empty
-        Region::Break { .. } | Region::Continue { .. } => false,
-        // Ternary regions have values, not empty
-        Region::TernaryAssignment { .. } | Region::TernaryReturn { .. } => false,
     }
+    // If we processed everything without finding non-empty content, it's empty
+    true
 }
 
 /// Check if a region contains only a void return statement
@@ -5004,6 +5131,21 @@ fn invert_condition_string(condition: &str) -> String {
 /// Generate condition expression string from a Condition
 /// Uses gen_arg_with_inline_peek to support inlined expressions (e.g., loop bounds)
 fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
+    generate_condition_with_depth(condition, ctx, 0)
+}
+
+/// Internal implementation with depth tracking to prevent stack overflow
+fn generate_condition_with_depth(condition: &Condition, ctx: &BodyGenContext, depth: usize) -> String {
+    // Prevent stack overflow from deeply nested conditions
+    if depth > dexterity_limits::codegen::MAX_CONDITION_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = dexterity_limits::codegen::MAX_CONDITION_DEPTH,
+            "LIMIT_EXCEEDED: Condition nesting depth limit reached"
+        );
+        return "/* condition depth exceeded */".to_string();
+    }
+
     match condition {
         Condition::Simple { block, op, negated } => {
             // Look up the block to find the If instruction with operands
@@ -5195,8 +5337,8 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
         }
 
         Condition::And(left, right) => {
-            let left_str = generate_condition(left, ctx);
-            let right_str = generate_condition(right, ctx);
+            let left_str = generate_condition_with_depth(left, ctx, depth + 1);
+            let right_str = generate_condition_with_depth(right, ctx, depth + 1);
             // Only wrap in parens if needed
             let left_wrapped = wrap_for_and(&left_str, left);
             let right_wrapped = wrap_for_and(&right_str, right);
@@ -5204,8 +5346,8 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
         }
 
         Condition::Or(left, right) => {
-            let left_str = generate_condition(left, ctx);
-            let right_str = generate_condition(right, ctx);
+            let left_str = generate_condition_with_depth(left, ctx, depth + 1);
+            let right_str = generate_condition_with_depth(right, ctx, depth + 1);
             // Only wrap in parens if needed
             let left_wrapped = wrap_for_or(&left_str, left);
             let right_wrapped = wrap_for_or(&right_str, right);
@@ -5222,24 +5364,24 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                         op: *op,
                         negated: !*negated,
                     };
-                    generate_condition(&flipped, ctx)
+                    generate_condition_with_depth(&flipped, ctx, depth + 1)
                 }
                 // Not(Not(x)) -> x (double negation elimination)
                 Condition::Not(inner_inner) => {
-                    generate_condition(inner_inner, ctx)
+                    generate_condition_with_depth(inner_inner, ctx, depth + 1)
                 }
                 // Not(And/Or/Ternary) - must wrap with !
                 _ => {
-                    let inner_str = generate_condition(inner, ctx);
+                    let inner_str = generate_condition_with_depth(inner, ctx, depth + 1);
                     format!("!{}", wrap_if_complex(&inner_str))
                 }
             }
         }
 
         Condition::Ternary { condition, if_true, if_false } => {
-            let cond_str = generate_condition(condition, ctx);
-            let true_str = generate_condition(if_true, ctx);
-            let false_str = generate_condition(if_false, ctx);
+            let cond_str = generate_condition_with_depth(condition, ctx, depth + 1);
+            let true_str = generate_condition_with_depth(if_true, ctx, depth + 1);
+            let false_str = generate_condition_with_depth(if_false, ctx, depth + 1);
 
             // Clone JADX InsnGen.java:1182-1190 - simplify boolean ternaries
             // c ? true : false -> c
@@ -6923,12 +7065,15 @@ fn not_in_loop_region(ctx: &BodyGenContext) -> bool {
 }
 
 /// Generate code from a region
-/// Maximum region nesting depth for stack overflow prevention
-const MAX_REGION_DEPTH: usize = 100;
-
 fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
     // Prevent stack overflow from deeply nested regions
-    if ctx.region_depth > MAX_REGION_DEPTH {
+    let max_depth = dexterity_limits::codegen::MAX_REGION_DEPTH;
+    if ctx.region_depth > max_depth {
+        tracing::error!(
+            depth = ctx.region_depth,
+            limit = max_depth,
+            "CODEGEN_LIMIT_EXCEEDED: Region nesting too deep, bailing out"
+        );
         code.start_line().add("/* DEPTH_LIMIT_EXCEEDED: Region nesting too deep */").newline();
         return;
     }
@@ -9598,6 +9743,15 @@ fn content_ends_with_exit(content: &RegionContent, ctx: &BodyGenContext) -> bool
 /// Check if a case region ends with an exit instruction (return, throw, break, continue)
 /// If so, we don't need to add a break statement after it
 fn case_ends_with_exit(region: &Region, ctx: &BodyGenContext) -> bool {
+    case_ends_with_exit_depth(region, ctx, 0)
+}
+
+fn case_ends_with_exit_depth(region: &Region, ctx: &BodyGenContext, depth: usize) -> bool {
+    // Prevent stack overflow
+    if depth > dexterity_limits::codegen::MAX_REGION_DEPTH {
+        return false; // Assume no exit if too deep
+    }
+
     match region {
         Region::Sequence(contents) if !contents.is_empty() => {
             // Check the last element
@@ -9613,14 +9767,14 @@ fn case_ends_with_exit(region: &Region, ctx: &BodyGenContext) -> bool {
                     }
                     false
                 }
-                Some(RegionContent::Region(inner)) => case_ends_with_exit(inner, ctx),
+                Some(RegionContent::Region(inner)) => case_ends_with_exit_depth(inner, ctx, depth + 1),
                 None => false,
             }
         }
         Region::If { then_region, else_region, .. } => {
             // If both branches exit, the if exits
             if let Some(else_reg) = else_region {
-                case_ends_with_exit(then_region, ctx) && case_ends_with_exit(else_reg, ctx)
+                case_ends_with_exit_depth(then_region, ctx, depth + 1) && case_ends_with_exit_depth(else_reg, ctx, depth + 1)
             } else {
                 false
             }
@@ -9632,10 +9786,10 @@ fn case_ends_with_exit(region: &Region, ctx: &BodyGenContext) -> bool {
         }
         Region::TryCatch { try_region, handlers, .. } => {
             // If try and all handlers exit, the try-catch exits
-            if !case_ends_with_exit(try_region, ctx) {
+            if !case_ends_with_exit_depth(try_region, ctx, depth + 1) {
                 return false;
             }
-            handlers.iter().all(|h| case_ends_with_exit(&h.region, ctx))
+            handlers.iter().all(|h| case_ends_with_exit_depth(&h.region, ctx, depth + 1))
         }
         Region::Break { .. } | Region::Continue { .. } => {
             // Break and continue are exit statements

@@ -839,18 +839,20 @@ impl RegionStack {
         }
     }
 
-    /// Push a new region level
-    fn push(&mut self) {
-        // JADX: RegionStack.java:66
-        if self.exits.len() > 1000 {
-            error!(
+    /// Push a new region level. Returns false if limit exceeded (JADX-style bail out).
+    fn push(&mut self) -> bool {
+        // JADX: RegionStack.java:66 - bail out when limit exceeded
+        let limit = dexterity_limits::regions::REGION_STACK_LIMIT;
+        if self.exits.len() > limit {
+            tracing::error!(
                 stack_size = self.exits.len(),
-                limit = 1000,
-                "LIMIT_EXCEEDED: Regions stack size limit reached"
+                limit = limit,
+                "LIMIT_EXCEEDED: Region stack overflow, bailing out"
             );
-            panic!("Regions stack size limit reached");
+            return false;
         }
         self.exits.push(BTreeSet::new());
+        true
     }
 
     /// Pop a region level
@@ -1157,7 +1159,10 @@ impl<'a> RegionBuilder<'a> {
         // Mark enter block as processed
         self.processed.insert(sync_info.enter_block);
 
-        self.stack.push();
+        // JADX-style bail out when region stack limit exceeded
+        if !self.stack.push() {
+            return (Region::Sequence(vec![]), None);
+        }
 
         // Find exit point (block after MONITOR_EXIT)
         let exit_block = sync_info
@@ -1243,7 +1248,10 @@ impl<'a> RegionBuilder<'a> {
         // If we pre-mark all try blocks, traverse will skip them all, resulting in
         // empty nested regions. Instead, build_try_body marks blocks as it processes them.
 
-        self.stack.push();
+        // JADX-style bail out when region stack limit exceeded
+        if !self.stack.push() {
+            return (Region::Sequence(vec![]), try_info.merge_block);
+        }
 
         // Add merge point as exit
         self.stack.add_exit(try_info.merge_block);
@@ -1474,7 +1482,11 @@ impl<'a> RegionBuilder<'a> {
             self.processed.insert(block);
         }
 
-        self.stack.push();
+        // JADX-style bail out when region stack limit exceeded
+        if !self.stack.push() {
+            let loop_exit = loop_info.exit_targets.first().copied();
+            return (Region::Sequence(vec![]), loop_exit);
+        }
 
         // Determine loop exit
         let loop_exit = loop_info.exit_targets.first().copied();
@@ -2191,7 +2203,10 @@ impl<'a> RegionBuilder<'a> {
         // Normal if-else processing (when ternary transformation not applicable)
         // =========================================================================
 
-        self.stack.push();
+        // JADX-style bail out when region stack limit exceeded
+        if !self.stack.push() {
+            return (Region::Sequence(vec![]), cond.merge_block);
+        }
 
         // Add merge point as exit
         self.stack.add_exit(cond.merge_block);
@@ -2280,7 +2295,20 @@ impl<'a> RegionBuilder<'a> {
         // Clear the else_blocks exits before building else region
         // (they were temporary barriers for then_region building)
         self.stack.pop();
-        self.stack.push();
+
+        // JADX-style bail out when region stack limit exceeded (unlikely here but be safe)
+        if !self.stack.push() {
+            // Bail out - return the if with just the then region
+            return (
+                Region::If {
+                    condition: self.extract_condition_with_negation(cond.condition_block, cond.negate_condition),
+                    condition_blocks: vec![cond.condition_block],
+                    then_region: Box::new(then_region),
+                    else_region: None,
+                },
+                cond.merge_block,
+            );
+        }
         self.stack.add_exit(cond.merge_block);
 
         // Build else region
@@ -2368,7 +2396,10 @@ impl<'a> RegionBuilder<'a> {
         // Find merge point - the block where all cases converge
         let merge_block = self.find_switch_merge(block, &succs);
 
-        self.stack.push();
+        // JADX-style bail out when region stack limit exceeded
+        if !self.stack.push() {
+            return (Region::Sequence(vec![]), merge_block);
+        }
         self.stack.add_exit(merge_block);
 
         // Build cases with proper keys (using CaseInfo matching JADX)

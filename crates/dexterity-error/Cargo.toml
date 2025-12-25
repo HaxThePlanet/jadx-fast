@@ -1,0 +1,9 @@
+[package]
+name = "dexterity-error"
+description = "Shared error types for dexterity decompiler"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+thiserror.workspace = true

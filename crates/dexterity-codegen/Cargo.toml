@@ -10,6 +10,7 @@ dexterity-dex.workspace = true
 dexterity-ir.workspace = true
 dexterity-passes.workspace = true
 dexterity-deobf.workspace = true
+dexterity-limits.workspace = true
 itoa.workspace = true
 ryu.workspace = true
 thiserror.workspace = true

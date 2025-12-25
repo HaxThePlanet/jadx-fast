@@ -18,6 +18,8 @@ members = [
     "dexterity-qa",            # Quality assurance & testing tools
     "dexterity-llm-postproc",  # LLM-based post-processing utilities
     "dexterity-py",            # Python bindings via PyO3
+    "dexterity-limits",        # Centralized limits and safety guards
+    "dexterity-error",         # Error types
 ]
 
 [workspace.package]
@@ -93,6 +95,8 @@ dexterity-resources = { path = "dexterity-resources" }
 dexterity-deobf = { path = "dexterity-deobf" }
 dexterity-kotlin = { path = "dexterity-kotlin" }
 dexterity-llm-postproc = { path = "dexterity-llm-postproc" }
+dexterity-limits = { path = "dexterity-limits" }
+dexterity-error = { path = "dexterity-error" }
 
 # Fast release builds (default: cargo build --release)
 [profile.release]

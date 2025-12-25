@@ -31,6 +31,7 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 
 | Feature | Status |
 |---------|--------|
+| **P0-UNDEF-LOOP** | ✅ PHI variable naming mismatch fixed (JADX CodeVar approach) |
 | **P1-CHECKTRACER** | ✅ Kotlin method chain decompilation fixed (48 lines -> clean output) |
 | **P2-BOOL-CHAIN-POLISH** | ✅ TernaryReturn simplification (return cond ? true : false -> return cond) |
 | Boolean Simplification | ✅ `? true : false` -> `c`, De Morgan's law |
@@ -41,6 +42,12 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 | **DebugInfo Visitors** | ✅ Attach (Stage 0.5) + Apply (Stage 5.1) integrated |
 | **FixAccessModifiers** | ✅ Inner class visibility fixes (~120 lines) |
 | **Throws Clause Parity** | ✅ Expanded from ~26% to ~75-80% (529 methods, 38 unchecked types) |
+
+**P0-UNDEF-LOOP Fix (Dec 25, 2025):**
+- Added `unify_phi_variable_names()` - propagates unified names from PHI destinations to all sources
+- Clones JADX's CodeVar approach: all SSA versions of a logical variable share one name
+- Fixes: `boolean it2; ... it = iterator();` → `Iterator it = iterator();`
+- Affected: `checkTracerPid()` and other iterator-based methods in MaliciousPatterns.java
 
 **TernaryMod Implementation (Dec 25, 2025):**
 - `TernaryModVisitorFull` - handles both two-branch and single-branch patterns
@@ -99,6 +106,20 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
   - `return cond ? 1 : 0` (boolean context) -> `return cond;`
   - `return cond ? 0 : 1` (boolean context) -> `return !cond;`
 - **Tests:** All 120 codegen tests pass
+
+**Code Quality (CQ-M series, Dec 25):**
+- CQ-M03: Remove dead nested type wrapper functions
+- CQ-M04: Remove 5 dead struct fields from RegionBuilder
+- CQ-M06: ExceptionType enum verified existing
+- CQ-M08: Optimize clone abuse in type_inference.rs
+- CQ-M09: Audit body_gen.rs clones - all justified
+
+**New Crates (Dec 25):**
+- `dexterity-error`: Unified error types (30+ variants)
+- `dexterity-utils`: Shared utilities (keywords, identifiers, escaping)
+- `dexterity-limits`: Resource limits & safety guards
+
+**Version:** All crates now at 1.0.0 via workspace inheritance
 
 **Bug Fixes (Dec 25, 2025):**
 - Fixed missing `attrs` field in `InsnNode::copy()`

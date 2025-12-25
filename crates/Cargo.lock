@@ -472,6 +472,7 @@ dependencies = [
  "dexterity-deobf",
  "dexterity-dex",
  "dexterity-ir",
+ "dexterity-limits",
  "dexterity-passes",
  "itoa",
  "parking_lot",
@@ -512,6 +513,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "dexterity-error"
+version = "1.0.0"
+dependencies = [
+ "thiserror",
+]
+
+[[package]]
 name = "dexterity-ir"
 version = "1.0.0"
 dependencies = [
@@ -543,6 +551,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "dexterity-limits"
+version = "1.0.0"
+dependencies = [
+ "tracing",
+]
+
+[[package]]
 name = "dexterity-llm-postproc"
 version = "1.0.0"
 dependencies = [
@@ -564,7 +579,9 @@ name = "dexterity-passes"
 version = "1.0.0"
 dependencies = [
  "dexterity-dex",
+ "dexterity-error",
  "dexterity-ir",
+ "dexterity-limits",
  "fixedbitset 0.5.7",
  "lazy_static",
  "petgraph",

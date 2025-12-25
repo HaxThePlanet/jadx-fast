@@ -1,0 +1,9 @@
+[package]
+name = "dexterity-limits"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Centralized limits and safety guards for Dexterity decompiler"
+
+[dependencies]
+tracing = "0.1"
