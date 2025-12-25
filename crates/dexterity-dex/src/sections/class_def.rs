@@ -218,16 +218,6 @@ impl<'a> ClassDef<'a> {
             map.insert(entry_method_idx, annotations);
         }
 
-        // DEBUG: Log map building
-        static DEBUG_MAPS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
-        static DEBUG_ENTRIES: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
-        let maps = DEBUG_MAPS.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-        DEBUG_ENTRIES.fetch_add(map.len(), std::sync::atomic::Ordering::Relaxed);
-        if maps % 1000 == 0 {
-            eprintln!("[DEBUG all_method_annotations] {} maps built, {} total entries",
-                maps, DEBUG_ENTRIES.load(std::sync::atomic::Ordering::Relaxed));
-        }
-
         Ok(map)
     }
 

@@ -3,7 +3,7 @@
 **Generated:** December 25, 2025
 **Output Refresh:** Dec 24, 2025 - All 5 APK samples refreshed (~8,858 Java files)
 **Status:** PRODUCTION-READY | 0 P0 Bugs | A- Grade (95-96%)
-**See:** [QUALITY_STATUS.md](../docs/QUALITY_STATUS.md) for current status
+**See:** [ROADMAP.md](../docs/ROADMAP.md) for current status
 
 ## Executive Summary
 

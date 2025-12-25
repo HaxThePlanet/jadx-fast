@@ -20,7 +20,7 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** Correct decompilation close to JADX
-**Status:** 🟢 PRODUCTION-READY | 0 P0 Bugs | A-/B+ Grade (85-90%) - see [QUALITY_STATUS.md](docs/QUALITY_STATUS.md)
+**Status:** 🟢 PRODUCTION-READY | 0 P0 Bugs | A-/B+ Grade (85-90%) - see [ROADMAP.md](docs/ROADMAP.md)
 
 > **December 24, 2025 (Christmas Eve!):** Production-ready! All P0 bugs fixed. Boolean simplification, lambda suppression (92→55 files), diamond operator (1,254 instances), lambda inlining complete. **14x faster than JADX** — processing **5,200 APKs/hour** at 2.7 sec average. Resources at 1:1 JADX parity. **Anti-RE ZIP hardening** now recovers 83% of obfuscated APKs (was 43%).
 
@@ -114,7 +114,7 @@ cargo build --release -p dexterity-cli
   - Field declarations AND usages: Aliased correctly (FIXED Dec 24)
   - **P2:** Enum constants as raw integers (type inference gap)
 - **Control flow:** OR condition merging (`a || b` patterns), short-circuit evaluation
-- **Throws declarations:** Parse `dalvik/annotation/Throws` (improving from 41.7% parity)
+- **Throws declarations:** Parse `dalvik/annotation/Throws` (~26% parity - framework class filtering differences)
 - **Resource resolution:** `R.layout.activity_main` (enabled by default)
 - **Drop-in JADX replacement:** Same CLI arguments
 
@@ -125,11 +125,9 @@ cargo build --release -p dexterity-cli
 | [Documentation Index](docs/INDEX.md) | Full documentation index |
 | [CLI Reference](docs/CLI_REFERENCE.md) | All command-line options |
 | [Performance](docs/PERFORMANCE.md) | Detailed benchmarks |
-| [Quality Status](docs/QUALITY_STATUS.md) | Current quality grades |
+| [Roadmap](docs/ROADMAP.md) | Status, bugs, quality grades, known issues, future work |
 | [Architecture](docs/ARCHITECTURE.md) | Crate structure |
 | [Design Decisions](docs/DESIGN_DECISIONS.md) | Framework filtering, Compose detection |
-| [Known Issues](docs/KNOWN_ISSUES.md) | Limitations and workarounds |
-| [Roadmap](docs/ROADMAP.md) | Future work |
 
 ## Architecture
 
@@ -148,7 +146,7 @@ cargo build --release -p dexterity-cli
 | dexterity-kotlin | Kotlin metadata | **B+ (85-90%)** | Field alias references FIXED Dec 24 |
 | dexterity-cli | CLI application | **A** | Drop-in JADX replacement, anti-RE hardening |
 
-*Updated Dec 24, 2025. See [QUALITY_STATUS.md](docs/QUALITY_STATUS.md) for details, [ROADMAP.md](docs/ROADMAP.md) for remaining work.*
+*Updated Dec 24, 2025. See [ROADMAP.md](docs/ROADMAP.md) for details and remaining work.*
 
 ### Recent JADX Pass Clones (Dec 2025)
 

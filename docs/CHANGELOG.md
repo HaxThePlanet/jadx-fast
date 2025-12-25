@@ -91,7 +91,8 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 - 103 directories, 152 files, zero differences with JADX
 
 **Other:**
-- Throws declaration support (13.7% → 41.7% parity)
+- Throws declaration support (~26% parity - 1610 vs 6283 JADX)
+- HashMap-based annotation lookup optimization (O(1) per method vs O(n) linear search)
 - Boolean dead code elimination
 - Variable naming improvements (OBJ_ALIAS exact matching)
 

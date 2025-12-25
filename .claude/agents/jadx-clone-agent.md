@@ -242,8 +242,7 @@ git push
 ## Conflict Avoidance
 
 **High-conflict files** (be careful):
-- `docs/ROADMAP.md` - Only update YOUR section
-- `docs/QUALITY_STATUS.md` - Append only
+- `docs/ROADMAP.md` - Single source of truth for status and quality (only update YOUR section)
 - `crates/dexterity-cli/src/decompiler.rs` - Pipeline
 
 **Safe files** (usually no conflicts):

@@ -5,7 +5,7 @@
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Remaining Work** | Throws declarations (41.7% parity) |
+| **Remaining Work** | Throws declarations (~26% parity - 1610 vs 6283 JADX) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
 | **Deobf Parity** | ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) |
 | **Resources** | 100% (1:1 JADX parity - 103 dirs, 152 files) |
@@ -356,7 +356,7 @@ while (it.hasNext()) {
 
 | Task | Est. Impact | Effort | Status | Notes |
 |------|-------------|--------|--------|-------|
-| **Throws Declarations** | +2-5% | Medium | In Progress | Currently at 41.7% parity |
+| **Throws Declarations** | +2-5% | Medium | In Progress | Currently at ~26% parity (1610 vs 6283 JADX) - likely framework class filtering differences |
 
 **Next Priority:** Throws declarations for better semantic accuracy.
 
@@ -529,7 +529,7 @@ versions couldn't propagate types from CheckCast/NewInstance sources.
 - ✅ Diamond Operator: 1,254 instances now emit `<>` syntax (76% of JADX coverage)
 - ✅ Lambda Inlining: Variable assignment, SAM types, body emission working
 
-**Production-Ready!** Remaining work is throws declarations (41.7% parity).
+**Production-Ready!** Remaining work is throws declarations (~26% parity - framework class filtering differences).
 
 ## Open Work
 
@@ -1097,13 +1097,22 @@ Type inference enhanced from ~60% to ~85% JADX parity. Dexterity now implements 
 
 ### P1-S11: Throws Declaration Fix (Dec 21, 2025)
 
-- **Throws parity improved from ~13.7% to 41.7%** (3x improvement)
+- **Throws parity: ~26% (1610 vs 6283 JADX)** - not caused by annotation lookup issues
 - Parse `dalvik/annotation/Throws` from DEX annotations
 - Added `get_throws_from_annotations()` to extract exception types
 - `collect_throws_from_instructions()` scans for known library method throws
 - Checked exceptions filtered against caught types
+- **Root cause of gap:** Likely framework class filtering differences, not annotation parsing
 - All 1,217 tests pass
 - **Files changed:** `method_gen.rs`
+
+### HashMap Annotation Optimization (Dec 24, 2025)
+
+- **Added `all_method_annotations()` method** to ClassDef in `dexterity-dex/src/sections/class_def.rs`
+- Returns `HashMap<u32, Vec<AnnotationItem>>` for O(1) method annotation lookups
+- Updated `converter.rs` to use HashMap-based annotation lookup instead of linear search per method
+- **Performance improvement:** From O(n*m) to O(n+m) for processing all methods in a class
+- **Files changed:** `dexterity-dex/src/sections/class_def.rs`, `dexterity-cli/src/converter.rs`
 
 ### Output Refresh (Dec 21, 2025)
 

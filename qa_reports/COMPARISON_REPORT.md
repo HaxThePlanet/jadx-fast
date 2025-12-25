@@ -6,7 +6,7 @@
 > - ✅ Variable naming: 27,794 → ~12 arg0/arg1 instances (99.96% reduction)
 > - ✅ Switch statements: 95%+ recovery, 79% string switch patterns converted
 > - ✅ Framework class filtering is INTENTIONAL by design
-> - ⚠️ Some metrics below still outdated - refer to QUALITY_STATUS.md for current state
+> - ⚠️ Some metrics below still outdated - refer to ROADMAP.md for current state
 >
 > Please regenerate this report using `dexterity-qa` for fully accurate metrics.
 
@@ -448,7 +448,7 @@ Deobfuscation heuristics in `dexterity-deobf/src/conditions.rs` are too aggressi
 
 ## Comparison with Documentation
 
-### Alignment with QUALITY_STATUS.md
+### Alignment with ROADMAP.md (Quality Status)
 
 | Claim | Finding | Status |
 |-------|---------|--------|
