@@ -184,6 +184,10 @@ pub struct BodyGenContext {
     pub exception_handler_blocks: HashSet<u32>,
     /// Current recursion depth for region generation (stack overflow prevention)
     pub region_depth: usize,
+    /// P0-SPURIOUS-RET FIX: Loop nesting depth (0 = not in loop, >0 = inside loop)
+    /// Incremented when entering a Loop region, decremented when exiting
+    /// Prevents emitting spurious returns inside loop bodies (clones JADX ReturnVisitor logic)
+    pub loop_depth: usize,
 }
 
 /// Tracks a StringBuilder chain for optimization to string concatenation
@@ -337,6 +341,7 @@ impl BodyGenContext {
             exception_handler_block: None,
             exception_handler_blocks: HashSet::new(),
             region_depth: 0,
+            loop_depth: 0,
         }
     }
 
@@ -6783,6 +6788,15 @@ fn generate_merged_string_switch<W: CodeWriter>(
     }
 }
 
+/// P0-SPURIOUS-RET FIX: Check if we're currently inside a loop region
+/// Returns true if NOT in loop, false if in loop
+/// Clone of JADX's ReturnVisitor.blockNotInLoop() logic (line 57-70)
+#[inline]
+fn not_in_loop_region(ctx: &BodyGenContext) -> bool {
+    // Fast path: check loop depth counter
+    ctx.loop_depth == 0
+}
+
 /// Generate code from a region
 /// Maximum region nesting depth for stack overflow prevention
 const MAX_REGION_DEPTH: usize = 100;
@@ -6795,7 +6809,19 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
     }
     ctx.region_depth += 1;
 
+    // P0-SPURIOUS-RET FIX: Track loop depth for return validation
+    // Incremented when entering a Loop region, decremented when exiting
+    // Clones JADX ReturnVisitor.blockNotInLoop() region stack detection
+    let is_loop = matches!(region, Region::Loop { .. });
+    if is_loop {
+        ctx.loop_depth += 1;
+    }
+
     generate_region_impl(region, ctx, code);
+
+    if is_loop {
+        ctx.loop_depth -= 1;
+    }
 
     ctx.region_depth -= 1;
 }
@@ -10729,9 +10755,15 @@ fn generate_insn<W: CodeWriter>(
                 // the final `return z` should become `return true` (inverted default).
                 if let InsnArg::Register(reg) = v {
                     if let Some(&inverted_default) = ctx.phi_bool_inverted_default.get(&(reg.reg_num, reg.ssa_version)) {
-                        code.add(if inverted_default { "true" } else { "false" });
-                        code.add(";").newline();
-                        return true;
+                        // P0-SPURIOUS-RET FIX: Only emit early return if NOT in loop!
+                        // Clones JADX ReturnVisitor.blockNotInLoop() check (lines 57-70)
+                        // Prevents spurious returns inside loop bodies that were mistaken for boolean returns
+                        if not_in_loop_region(ctx) {
+                            code.add(if inverted_default { "true" } else { "false" });
+                            code.add(";").newline();
+                            return true;
+                        }
+                        // If in loop, fall through to normal return handling
                     }
                 }
 
@@ -11313,30 +11345,39 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        // CG-002 FIX: JADX InsnGen.java:491-492 - static field access is ALWAYS inlined.
-        // Like instance fields, static field access is side-effect-free, so we NEVER
-        // emit intermediate variable declarations. Always store for inline at use site.
+        // P0-UNDEF-VAR FIX: Only inline StaticGet when used exactly once.
+        // Clone of JADX CodeShrinkVisitor.java - only inline if useCount == 1
+        // When useCount > 1, emit a variable declaration instead.
         InsnType::StaticGet { dest, field_idx } => {
             let reg = dest.reg_num;
             let version = dest.ssa_version;
-            // Always store inline expression - field access is always inlineable
-            let field_expr = if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
-                // Check if this is a field of the current class - use simple name
-                if let Some(ref current_class) = ctx.current_class_type {
-                    let current_class_dotted = current_class.trim_start_matches("L").trim_end_matches(";").replace("/", ".");
-                    if field_info.class_name.as_ref() == current_class_dotted {
-                        field_info.field_name.to_string()
+
+            // Check use count - only inline if used exactly once
+            if ctx.should_inline(reg, version) {
+                // Single use - store for inline at use site
+                let field_expr = if let Some(field_info) = ctx.expr_gen.get_field_value(*field_idx) {
+                    // Check if this is a field of the current class - use simple name
+                    if let Some(ref current_class) = ctx.current_class_type {
+                        let current_class_dotted = current_class.trim_start_matches("L").trim_end_matches(";").replace("/", ".");
+                        if field_info.class_name.as_ref() == current_class_dotted {
+                            field_info.field_name.to_string()
+                        } else {
+                            format!("{}.{}", field_info.class_name, field_info.field_name)
+                        }
                     } else {
                         format!("{}.{}", field_info.class_name, field_info.field_name)
                     }
                 } else {
-                    format!("{}.{}", field_info.class_name, field_info.field_name)
-                }
+                    format!("field#{}", field_idx)
+                };
+                ctx.store_inline_expr(reg, version, field_expr);
+                true // Will be inlined at use site
             } else {
-                format!("field#{}", field_idx)
-            };
-            ctx.store_inline_expr(reg, version, field_expr);
-            true // Don't emit anything, will be inlined at use site
+                // Multi-use - emit variable declaration like JADX does
+                // e.g., "String MODEL = Build.MODEL;"
+                emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+                true
+            }
         }
 
         InsnType::StaticPut { field_idx, value } => {
