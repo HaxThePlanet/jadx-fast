@@ -150,21 +150,21 @@ return false;  // Returns false if no match
 
 | ID | Issue | Severity | Example |
 |----|-------|----------|---------|
-| P0-UNDEF-VAR | Undefined variables in ternary expressions | **CRITICAL** | `obj`, `i`, `mODEL2` never declared |
+| P0-UNDEF-VAR | Undefined variables in ternary expressions | **PARTIAL** | `i` fixed (8192 inlines); `obj`, `mODEL2` still open |
 | P0-LOGIC-INV | Logic inversions in boolean methods | **CRITICAL** | `isBeingDebugged()` returns opposite |
 | P0-SPURIOUS-RET | Spurious `return true;` in control flow | **CRITICAL** | `loadMultipleDex()`, `checkTracerPid()` |
-| P0-FOREACH-SEM | For-each loop semantics wrong | **CRITICAL** | `isRooted()` always returns true |
-| P0-TERNARY-INLINE | Ternary expression inlining fails | **CRITICAL** | `execCommand*()` methods broken |
+| P0-FOREACH-SEM | For-each loop semantics wrong | **IN PROGRESS** | `isRooted()` always returns true |
+| P0-TERNARY-INLINE | Ternary expression inlining fails | ✅ **FIXED** | `instanceof` ternaries now inline correctly |
 
 ---
 
 ## Fixes Needed
 
-1. **Ternary inlining** - obj/r3/r4 variables need proper inline expression generation
+1. ~~**Ternary inlining**~~ - ✅ FIXED (Dec 25) - instanceof & result inlining now works
 2. **For-each return semantics** - break vs return in loops
 3. **Boolean chain handling** - OR/AND condition merging
 4. **Control flow cleanup** - Remove spurious return statements
-5. **Variable declaration** - Fix undefined `i`, `obj`, `mODEL2` etc.
+5. **Variable declaration** - ~~`i`~~ FIXED; `obj`, `mODEL2` still undefined
 
 ---
 
