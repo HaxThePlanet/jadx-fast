@@ -5177,6 +5177,17 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
             let cond_str = generate_condition(condition, ctx);
             let true_str = generate_condition(if_true, ctx);
             let false_str = generate_condition(if_false, ctx);
+
+            // Clone JADX InsnGen.java:1182-1190 - simplify boolean ternaries
+            // c ? true : false -> c
+            if true_str == "true" && false_str == "false" {
+                return cond_str;
+            }
+            // c ? false : true -> !c
+            if true_str == "false" && false_str == "true" {
+                return negate_condition(&cond_str);
+            }
+
             format!("{} ? {} : {}", wrap_if_complex(&cond_str), true_str, false_str)
         }
 
@@ -6514,21 +6525,72 @@ fn generate_lambda_insn_with_mapping<W: CodeWriter>(
             code.add("return ");
             write_lambda_arg_with_mapping(arg, var_mapping, info, ctx, code);
             code.add(";");
+            code.newline();
         }
         InsnType::Return { value: None } => {
             code.add("return;");
+            code.newline();
         }
-        // For other instructions, generate a simple representation
-        // This is a simplified version - full implementation would handle all instruction types
+        InsnType::Invoke { kind, method_idx, args, dest, .. } => {
+            // Generate method invocation
+            if let Some(dest_reg) = dest {
+                // Get var name for result
+                let var_name = if let Some(mapped) = var_mapping.get(&dest_reg.reg_num) {
+                    mapped.clone()
+                } else {
+                    ctx.expr_gen.get_var_name(dest_reg)
+                };
+                // Use var for result assignment
+                code.add("var ").add(&var_name).add(" = ");
+            }
+            // Generate the method call - get method info struct
+            use dexterity_ir::instructions::InvokeKind;
+            let is_static = matches!(kind, InvokeKind::Static);
+            if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
+                if is_static {
+                    // Static call: ClassName.methodName(args)
+                    code.add(&method_info.class_name).add(".").add(&method_info.method_name).add("(");
+                } else if !args.is_empty() {
+                    // Instance call: receiver.methodName(args)
+                    write_lambda_arg_with_mapping(&args[0], var_mapping, info, ctx, code);
+                    code.add(".").add(&method_info.method_name).add("(");
+                } else {
+                    code.add(&method_info.method_name).add("(");
+                }
+            } else {
+                // Fallback when method info not available
+                code.add(&format!("method{}(", method_idx));
+            }
+            let start_arg = if is_static { 0 } else { 1 };
+            for (i, arg) in args.iter().skip(start_arg).enumerate() {
+                if i > 0 { code.add(", "); }
+                write_lambda_arg_with_mapping(arg, var_mapping, info, ctx, code);
+            }
+            code.add(");");
+            code.newline();
+        }
+        InsnType::ConstString { dest, string_idx } => {
+            let var_name = if let Some(mapped) = var_mapping.get(&dest.reg_num) {
+                mapped.clone()
+            } else {
+                ctx.expr_gen.get_var_name(dest)
+            };
+            let string_val = ctx.expr_gen.get_string_value(*string_idx)
+                .unwrap_or_else(|| format!("\"string#{}\"", string_idx));
+            code.add("String ").add(&var_name).add(" = \"").add(&string_val).add("\";");
+            code.newline();
+        }
+        // Skip MoveResult as it's merged into Invoke dest
+        InsnType::MoveResult { .. } => {}
+        InsnType::Nop => {}
+        // For other instructions, generate a comment placeholder
         _ => {
-            // Generate the instruction using the mapping
-            code.add("/* lambda insn: ");
+            code.add("/* TODO: lambda insn ");
             code.add(insn.insn_type.name());
             code.add(" */");
+            code.newline();
         }
     }
-
-    code.newline();
 }
 
 /// Write an instruction argument with lambda variable mapping
@@ -11479,9 +11541,27 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::InvokeCustom { call_site_idx, args, dest: _, lambda_info } => {
+        InsnType::InvokeCustom { call_site_idx, args, dest, lambda_info } => {
             // Lambda/method reference - generate lambda syntax
+            // JADX parity: InsnGen.makeInvokeLambda and makeRefLambda
             code.start_line();
+
+            // Emit variable declaration if we have a destination register
+            // Pattern: Type varName = lambda_expression;
+            if let Some(dest_reg) = dest {
+                // Get the interface type from lambda info for proper typing
+                if let Some(info) = lambda_info {
+                    // Use the SAM interface type (e.g., Function, Consumer, Supplier)
+                    let interface_type = info.get_sam_interface_simple_name();
+                    code.add(&interface_type).add(" ");
+                } else {
+                    // Fallback for unknown lambda type
+                    code.add("Object ");
+                }
+                // Write variable name
+                code.add(&ctx.expr_gen.get_var_name(dest_reg));
+                code.add(" = ");
+            }
 
             if let Some(info) = lambda_info {
                 // Generate lambda based on info

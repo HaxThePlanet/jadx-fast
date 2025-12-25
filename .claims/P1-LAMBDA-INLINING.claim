@@ -1,55 +1,71 @@
-Task: P1-LAMBDA-INLINING - Real Lambda Inlining (not suppression)
-Claimed: 2025-12-25
-Agent: Chad
-Session: ACTIVE (continues)
+# P1-LAMBDA-INLINING: Lambda Class Inlining
+**Status:** MOSTLY WORKING
+**Agent:** Claude Opus 4.5
+**Date:** Dec 25, 2025
 
-Status: IN PROGRESS
+## Issue
+Dexterity outputs lambda classes as separate files instead of inlining them at call sites like JADX.
 
-Priority: P1 (Major feature - +1-2% quality gain)
-Estimated Impact: +1-2% (96-97% parity)
-Effort: Hard
-
-## Progress Update (Dec 25, 2025 - 03:22 UTC)
-
-### Step 1: Removed Lambda Class Suppression ✅ COMPLETE
-- Location: crates/dexterity-cli/src/main.rs:1405-1412
-- Removed the P0-LAMBDA-SUPPRESS skip that prevented lambda classes from being processed
-- Lambda classes now flow through normal class processing pipeline
-- Result: Lambda classes now appear in output files
-
-### Testing Results
-badboy-x86.apk (app classes only, no framework):
-- Total output files: 32 Java classes
-- Lambda class files: 11
-  - MainActivityKt$$ExternalSyntheticLambda{0-7}
-  - MainActivity$$ExternalSyntheticLambda0
-  - MainActivity$onCreate$1$1$1$$ExternalSyntheticLambda0
-  - ThemeKt$$ExternalSyntheticLambda0
-- Non-lambda files: 21
-
-Lambda class format (example):
+**Current Output (before fix):**
 ```java
-public final class ExternalSyntheticLambda0 implements kotlin.jvm.functions.Function1 {
-    public final Object invoke(Object object) {
-        return MainActivityKt.Greeting$lambda$1$lambda$0(object);
-    }
-}
+// Separate file: Lambda$1.java
+list.forEach(new Lambda$1())
 ```
 
-### Current Behavior
-- Lambda classes are now being output as top-level classes
-- They delegate to static lambda implementation methods in parent classes
-- No inlining yet (step 2)
+**JADX Output:**
+```java
+list.forEach(item -> process(item))
+```
 
-### Next Steps
-1. Determine target behavior: Should lambda classes be:
-   a) Output as top-level classes (current - matches "basic" JADX output)?
-   b) Inlined as inner classes within parent classes?
-   c) Inlined as methods within parent classes?
-2. Implement inlining logic in class_gen.rs if needed
-3. Verify output matches JADX's approach
+## JADX Reference
+- `InsnGen.java:952-1090` - Lambda generation methods
+  - `makeInvokeLambda()` (952-963)
+  - `makeRefLambda()` (965-983)
+  - `makeSimpleLambda()` (985-1030)
+  - `makeInlinedLambdaMethod()` (1032-1090)
+- `CustomLambdaCall.java:97-102` - DONT_GENERATE flag
 
-### Notes
-- Claim mentions 55→86 file goal, but badboy-x86.apk only has ~32 app classes
-- Unclear if goal is relative count or absolute (may need different test APK)
-- Current implementation successfully outputs lambda classes
+## Current State (Dec 25, 2025)
+
+### Working ✅
+- **Variable assignment**: `Function obj = str -> { ... };` ✅
+- **Method reference syntax**: `out2::println` ✅
+- **SAM interface type inference**: `Function`, `Consumer`, `Supplier` ✅
+- **Lambda parameter generation**: `o -> { ... }` ✅
+- **Supplier body inlining**: `() -> { String r0 = "hello"; return r0; }` ✅
+
+### Partially Working 🔶
+- **Lambda body method calls**: Emits method calls but doesn't chain results correctly
+  - Current: `Integer.parseInt(o); Integer.valueOf(o); return o;`
+  - Expected: `return Integer.valueOf(Integer.parseInt(str));`
+  - Root cause: MoveResult not merged with Invoke inside lambda methods
+
+### Test Results
+Tested with Java 8 lambdas compiled with `d8 --no-desugaring --min-api 26`:
+- Most Play Store APKs use desugaring (no invoke-custom)
+- Custom test with invoke-custom shows infrastructure works
+
+## Fixes Applied (Dec 25, 2025)
+
+1. **InvokeCustom destination handling** (body_gen.rs:11493-11545)
+   - Was ignoring `dest` register (using `dest: _`)
+   - Now properly emits: `Type varName = lambda_expression;`
+
+2. **SAM interface type inference** (instructions.rs:1254-1286)
+   - Added `get_sam_interface_simple_name()` method to LambdaInfo
+   - Maps method names to interface types: apply→Function, accept→Consumer, etc.
+
+3. **Lambda body instruction handling** (body_gen.rs:6511-6592)
+   - Extended `generate_lambda_insn_with_mapping()` to handle:
+     - `Invoke` instructions with proper class/method names
+     - `ConstString` instructions
+     - `Return` instructions with variable mapping
+
+## Remaining Work
+- Chain method call results properly in lambda body (MoveResult handling)
+- Fix class name truncation issue (`ambdaTest` vs `LambdaTest`)
+- Test with more real-world APKs containing invoke-custom
+
+## Files Modified
+- `crates/dexterity-codegen/src/body_gen.rs` (InvokeCustom handler, lambda body generation)
+- `crates/dexterity-ir/src/instructions.rs` (LambdaInfo SAM type inference)

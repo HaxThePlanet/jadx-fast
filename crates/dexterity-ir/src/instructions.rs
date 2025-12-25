@@ -1250,6 +1250,40 @@ impl LambdaInfo {
             && self.use_method_ref == other.use_method_ref
             && self.inline_body == other.inline_body
     }
+
+    /// Get the SAM interface simple name for variable typing
+    ///
+    /// Returns a simple type name based on the functional interface method.
+    /// E.g., "apply" -> "Function", "accept" -> "Consumer", "run" -> "Runnable"
+    pub fn get_sam_interface_simple_name(&self) -> String {
+        // Common functional interfaces by method name
+        match self.interface_method_name.as_str() {
+            "apply" => "Function".to_string(),
+            "accept" => "Consumer".to_string(),
+            "get" => "Supplier".to_string(),
+            "run" => "Runnable".to_string(),
+            "test" => "Predicate".to_string(),
+            "compare" => "Comparator".to_string(),
+            "applyAsInt" => "ToIntFunction".to_string(),
+            "applyAsLong" => "ToLongFunction".to_string(),
+            "applyAsDouble" => "ToDoubleFunction".to_string(),
+            "getAsInt" => "IntSupplier".to_string(),
+            "getAsLong" => "LongSupplier".to_string(),
+            "getAsDouble" => "DoubleSupplier".to_string(),
+            "getAsBoolean" => "BooleanSupplier".to_string(),
+            "call" => "Callable".to_string(),
+            _ => {
+                // Fallback: use impl_class simple name if available
+                if !self.impl_class.is_empty() {
+                    self.impl_class.rsplit('/').next()
+                        .unwrap_or(&self.impl_class)
+                        .to_string()
+                } else {
+                    "Object".to_string()
+                }
+            }
+        }
+    }
 }
 
 /// IR instruction types
