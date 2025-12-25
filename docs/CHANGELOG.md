@@ -2,9 +2,43 @@
 
 ## December 2025
 
-### Dec 25, 2025 - 🟢 PRODUCTION-READY (0 P0 Bugs!)
+### Dec 25, 2025 - 🟢 PRODUCTION-READY (A-/B+ Grade, 85-90%)
 
-**ALL 5 P0 Bugs Fixed - A Grade (85-90%) | 0 P0 Remaining!**
+**Major Release: Boolean Simplification, Lambda Class Suppression, Diamond Operator, Lambda Inlining**
+
+#### Summary
+
+- **Overall Grade:** A-/B+ (85-90%) - Up from B-/C+ (70-80%)
+- **All P0 Bugs:** FIXED
+- **Production-ready** for decompilation
+- **Performance:** 14x faster than JADX | 5.2K apps/hour @ 2.7 sec avg
+
+#### New Features Completed
+
+1. **Boolean Simplification** - `? true : false` -> `c`, De Morgan's law, JADX >50% negation heuristic
+2. **Lambda Class Suppression** - 92 -> 55 files (37 lambda classes correctly filtered)
+3. **Diamond Operator** - 1,254 instances now emit `<>` syntax (76% of JADX coverage)
+4. **Lambda Inlining (invoke-custom)** - Variable assignment, SAM types, body emission working
+
+#### All 5 P0 Bugs Fixed
+
+- P0-FOREACH-SEM: Empty for-each loop body - FIXED
+- P0-UNDEF-VAR: Undefined variables - FIXED
+- P0-TERNARY-INLINE: Ternary variable declaration - FIXED
+- P0-LOGIC-INV: Boolean logic inversions - FIXED
+- P0-SPURIOUS-RET: Spurious returns in loops - FIXED
+
+#### Test Coverage
+
+- 687+ integration tests passing
+- All 5 sample APKs decompiling successfully
+- 2,200+ malformed APKs handled gracefully
+
+---
+
+### Dec 25, 2025 - P0 Bug Fixes (Earlier)
+
+**ALL 5 P0 Bugs Fixed**
 
 #### P0-FOREACH-SEM: Empty For-Each Loop Body - FIXED
 
