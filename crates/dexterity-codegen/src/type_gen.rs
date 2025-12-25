@@ -7,12 +7,7 @@ use crate::dex_info::replace_inner_class_separator;
 
 /// Convert an ArgType to its Java source representation (fully qualified)
 pub fn type_to_string(ty: &ArgType) -> String {
-    type_to_string_with_imports(ty, None)
-}
-
-/// Convert an ArgType to Java source, using simple names for imported types
-pub fn type_to_string_with_imports(ty: &ArgType, imports: Option<&std::collections::BTreeSet<String>>) -> String {
-    type_to_string_with_imports_and_package(ty, imports, None)
+    type_to_string_with_imports_and_package(ty, None, None)
 }
 
 /// Convert an ArgType to Java source, using simple names for imported and same-package types
@@ -86,12 +81,7 @@ pub fn type_to_string_with_imports_and_package(
 /// e.g., "java/lang/String" -> "String" (for common types)
 /// or "com/example/Foo" -> "com.example.Foo" (full qualified)
 pub fn object_to_java_name(internal: &str) -> String {
-    object_to_java_name_with_imports(internal, None)
-}
-
-/// Convert an internal class name to Java source format, using simple names when imported
-pub fn object_to_java_name_with_imports(internal: &str, imports: Option<&std::collections::BTreeSet<String>>) -> String {
-    object_to_java_name_with_imports_and_package(internal, imports, None)
+    object_to_java_name_with_imports_and_package(internal, None, None)
 }
 
 /// Convert an internal class name to Java source format, using simple names for imported and same-package types

@@ -1072,7 +1072,7 @@ pub fn get_inner_class_simple_name(class_type: &str) -> String {
     }
 }
 
-use crate::type_gen::{type_to_string_with_imports, type_to_string_with_imports_and_package};
+use crate::type_gen::type_to_string_with_imports_and_package;
 
 /// Add a rename comment if the entity was renamed during deobfuscation
 /// JADX Clone: jadx-core/src/main/java/jadx/core/dex/attributes/RenameReasonAttr.java:31-50

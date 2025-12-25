@@ -52,9 +52,9 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 | Regions | 21 | 21 | **100%** | LoopRegionVisitor=loop_analysis.rs, SwitchOverString=body_gen.rs |
 | Type Inference | 27 | 27 | **100%** | TypeCompare=class_hierarchy.rs, LiveVars=algorithms/live_vars.rs |
 | Rename/Prepare | 8 | 8 | **100%** | NonFinalResIds=non_final_res_ids.rs ✅ (+UserRenames GUI-only) |
-| Debug/Utility | 7 | 4 | **57%** | DotGraph, TracedRegion, FallbackMode, DepthTraversal ✅ |
+| Debug/Utility | 7 | 5 | **71%** | DotGraph, TracedRegion, FallbackMode, DepthTraversal, UserRenames ✅ |
 | **Lambda/Anonymous** | 5 | 5 | **100%** | ✅ |
-| **TOTAL** | **129** | **110** | **~85%** | +15 from corrected count (Dec 25) |
+| **TOTAL** | **129** | **111** | **~86%** | +16 from corrected count (Dec 25) |
 
 ### Previously Undercounted Implementations
 - **LoopRegionVisitor** (459 lines) → `loop_analysis.rs` (967 lines) ✅
@@ -69,6 +69,7 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 - **TracedRegionVisitor** (32 lines) → `depth_region_traversal.rs:TracedRegionVisitor` ✅
 - **FallbackModeVisitor** (55 lines) → `fallback_mode.rs` ✅
 - **DepthTraversal** (33 lines) → `depth_traversal.rs` ✅
+- **UserRenames** (99 lines) → `user_renames.rs` ✅
 
 ### Codegen Parity: ~95% (Dec 25, 2025 verified)
 - Syntax quality: 95% (A- Grade) - All GAP-01 through GAP-10 FIXED, All P0 bugs FIXED
@@ -83,9 +84,9 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 6. ~~**PrepareVisitors** (2 files)~~ ✅ COMPLETE - `add_android_constants.rs`, `collect_const_values.rs`
 7. ~~**AttachCommentsVisitor**~~ ✅ COMPLETE (Dec 25 - instruction-level attrs)
 
-### Remaining Gaps (Dec 25, 2025) - 6 visitors to 90%+
+### Remaining Gaps (Dec 25, 2025) - 5 visitors to 90%+
 
-**To reach 90% (116/129), need +6 visitors:**
+**To reach 90% (116/129), need +5 visitors:**
 
 | Priority | Visitor | Lines | Status |
 |----------|---------|-------|--------|
@@ -96,9 +97,9 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 | P3 | TracedRegionVisitor.java | 32 | ✅ COMPLETE (Dec 25) - `depth_region_traversal.rs:TracedRegionVisitor` |
 | P3 | FallbackModeVisitor.java | 55 | ✅ COMPLETE (Dec 25) - `fallback_mode.rs` |
 | P3 | DepthTraversal.java | 33 | ✅ COMPLETE (Dec 25) - `depth_traversal.rs` |
-| P3 | UserRenames.java | 99 | NOT IMPLEMENTED (GUI-only) |
-| P3 | ResolveJavaJSR.java | 106 | NOT IMPLEMENTED (Java 1.4 legacy) |
-| P3 | BlockFinisher.java | 17 | Trivial - can embed in cfg.rs |
+| P3 | UserRenames.java | 99 | ✅ COMPLETE (Dec 25) - `user_renames.rs` |
+| P3 | ResolveJavaJSR.java | 106 | NOT IMPLEMENTED (Java 1.4 legacy - obsolete) |
+| P3 | BlockFinisher.java | 17 | Trivial - embedded in block processing |
 
 ~~**SourceFileRename** (~80 lines)~~ - ✅ COMPLETE (in dexterity-deobf crate)
 

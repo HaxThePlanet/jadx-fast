@@ -1,12 +1,12 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 14 CQ | Dec 25, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 10 CQ | Dec 25, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
 | **Open Bugs** | 0 P1, 0 P2 - All P1 bugs FIXED including try-catch-recon |
-| **Code Quality** | 0 Easy, 8 Medium, 6 Hard issues (see Code Quality Backlog) |
+| **Code Quality** | 0 Easy, 4 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
 | **Deobf Parity** | ~95% - See [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) |
@@ -514,12 +514,12 @@ Technical debt and code quality issues identified via automated analysis.
 | ID | Issue | Location | Impact |
 |----|-------|----------|--------|
 | CQ-M01 | **Panic abuse: 18+ panic! calls** | `region_builder.rs`, `type_inference.rs`, `if_region_visitor.rs`, `mod_visitor.rs` | Should return `Result<T>` instead |
-| CQ-M02 | **Wrapper function proliferation** | `enum_visitor.rs` (3 wrappers), `method_gen.rs` (2 wrappers) | Remove wrappers if only full versions used |
-| CQ-M03 | **Nested type_to_string variants** | `type_gen.rs` | 3 nested layers - consolidate to single function with options |
+| ~~CQ-M02~~ | ~~Wrapper function proliferation~~ | ~~`enum_visitor.rs`, `method_gen.rs`~~ | ❌ WON'T FIX - wrappers ARE used (production + tests), idiomatic convenience APIs |
+| ~~CQ-M03~~ | ~~**Nested type_to_string variants**~~ | ~~`type_gen.rs`~~ | ✅ FIXED Dec 25 - removed dead `type_to_string_with_imports` and `object_to_java_name_with_imports` |
 | ~~CQ-M04~~ | ~~5 dead struct fields in RegionBuilder~~ | ~~`region_builder.rs`~~ | ✅ REMOVED Dec 25 - `conditionals`, `syncs`, `tries`, `merged_conditions`, `merged_blocks` |
-| CQ-M05 | **7 deferred SSA optimization functions** | `ssa.rs` | `get_use_registers`, `replace_phi_with_move`, `inline_phi_insn`, etc. - implement or remove |
-| ~~CQ-M06~~ | ~~**String as enum: exception_type**~~ | ~~`region_builder.rs:72`~~ | ✅ ALREADY DONE - `ExceptionType` enum exists at lines 70-75, used in `HandlerInfo` |
-| CQ-M07 | **Hardcoded stdlib_signatures.rs** | `stdlib_signatures.rs` (423 lines) | Extract to data file (JSON/TOML) |
+| ~~CQ-M05~~ | ~~7 deferred SSA optimization functions~~ | ~~`ssa.rs`~~ | ✅ REMOVED Dec 25 - 7 stub functions deleted (~100 lines) |
+| ~~CQ-M06~~ | ~~**String as enum: exception_type**~~ | ~~`region_builder.rs:72`~~ | ✅ FIXED Dec 25 - Created `ExceptionType { Specific(String), CatchAll }` enum with `is_catch_all()` and `as_specific()` helpers |
+| ~~CQ-M07~~ | ~~Hardcoded stdlib_signatures.rs~~ | ~~`stdlib_signatures.rs`~~ | ❌ WON'T FIX - macros provide compile-time type safety, zero runtime overhead |
 | CQ-M08 | **Clone abuse in type_inference.rs** | `type_inference.rs` | 91 .clone() calls - use Arc<T> or references |
 | CQ-M09 | **Clone abuse in body_gen.rs** | `body_gen.rs` | 180 .clone() calls - audit and reduce |
 | CQ-M10 | **Unwrap abuse** | `body_gen.rs:2328,10120,10777` | 305 total - replace with `.ok_or()` or `.context()` |

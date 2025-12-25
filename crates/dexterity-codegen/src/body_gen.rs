@@ -55,7 +55,7 @@ use crate::stmt_gen::{
     gen_labeled_while_header, gen_labeled_do_while_start, gen_labeled_for_header,
     gen_labeled_foreach_header,
 };
-use crate::type_gen::{literal_to_string, object_to_java_name, type_to_string, type_to_string_with_imports, type_to_string_with_imports_and_package};
+use crate::type_gen::{literal_to_string, object_to_java_name, type_to_string, type_to_string_with_imports_and_package};
 use crate::utils::sanitize_method_name;
 use crate::writer::CodeWriter;
 

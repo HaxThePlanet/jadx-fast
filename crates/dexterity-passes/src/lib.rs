@@ -9,6 +9,7 @@ pub mod anonymous_class_visitor;
 pub mod apply_variable_names;  // NEW: JADX ApplyVariableNames clone (P1) - Variable name guessing
 pub mod attach_method_details;
 pub mod block_exception_handler; // NEW: JADX BlockExceptionHandler clone (P0 Critical - 640 lines)
+pub mod block_finisher;  // NEW: JADX BlockFinisher clone (Dec 2025) - block list finalization
 pub mod block_split;
 pub mod clean_regions;
 pub mod check_code;
@@ -82,6 +83,7 @@ pub mod visitor;
 // Re-exports
 pub use algorithms::{compute_dominators, DominatorInfo, LiveVarAnalysis, LivenessInfo};
 pub use attach_comments::{attach_comments, AttachCommentsResult};
+pub use block_finisher::{finish_blocks, BlockFinishResult};
 pub use block_split::{split_blocks, split_blocks_with_handlers, split_return_blocks, BasicBlock, BlockSplitResult};
 pub use process_instructions::{process_instructions, process_instructions_with_stats, ProcessInstructionsResult};
 pub use cfg::CFG;

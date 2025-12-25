@@ -340,77 +340,6 @@ fn get_def_register(insn_type: &InsnType) -> Option<u16> {
     }
 }
 
-/// Get registers used by an instruction
-#[allow(dead_code)]
-fn get_use_registers(insn_type: &InsnType) -> Vec<u16> {
-    let mut uses = Vec::new();
-
-    fn add_arg(arg: &InsnArg, uses: &mut Vec<u16>) {
-        if let InsnArg::Register(reg) = arg {
-            uses.push(reg.reg_num);
-        }
-    }
-
-    match insn_type {
-        InsnType::Move { src, .. } => add_arg(src, &mut uses),
-        InsnType::Return { value: Some(v) } => add_arg(v, &mut uses),
-        InsnType::Throw { exception } => add_arg(exception, &mut uses),
-        InsnType::MonitorEnter { object } => add_arg(object, &mut uses),
-        InsnType::MonitorExit { object } => add_arg(object, &mut uses),
-        InsnType::CheckCast { object, .. } => add_arg(object, &mut uses),
-        InsnType::InstanceOf { object, .. } => add_arg(object, &mut uses),
-        InsnType::ArrayLength { array, .. } => add_arg(array, &mut uses),
-        InsnType::NewArray { size, .. } => add_arg(size, &mut uses),
-        InsnType::FilledNewArray { args, .. } => {
-            for arg in args {
-                add_arg(arg, &mut uses);
-            }
-        }
-        InsnType::FillArrayData { array, .. } => add_arg(array, &mut uses),
-        InsnType::ArrayGet { array, index, .. } => {
-            add_arg(array, &mut uses);
-            add_arg(index, &mut uses);
-        }
-        InsnType::ArrayPut { array, index, value, .. } => {
-            add_arg(array, &mut uses);
-            add_arg(index, &mut uses);
-            add_arg(value, &mut uses);
-        }
-        InsnType::InstanceGet { object, .. } => add_arg(object, &mut uses),
-        InsnType::InstancePut { object, value, .. } => {
-            add_arg(object, &mut uses);
-            add_arg(value, &mut uses);
-        }
-        InsnType::StaticPut { value, .. } => add_arg(value, &mut uses),
-        InsnType::Invoke { args, .. } => {
-            for arg in args {
-                add_arg(arg, &mut uses);
-            }
-        }
-        InsnType::Unary { arg, .. } => add_arg(arg, &mut uses),
-        InsnType::Binary { left, right, .. } => {
-            add_arg(left, &mut uses);
-            add_arg(right, &mut uses);
-        }
-        InsnType::Cast { arg, .. } => add_arg(arg, &mut uses),
-        InsnType::Compare { left, right, .. } => {
-            add_arg(left, &mut uses);
-            add_arg(right, &mut uses);
-        }
-        InsnType::If { left, right, .. } => {
-            add_arg(left, &mut uses);
-            if let Some(r) = right {
-                add_arg(r, &mut uses);
-            }
-        }
-        InsnType::PackedSwitch { value, .. } => add_arg(value, &mut uses),
-        InsnType::SparseSwitch { value, .. } => add_arg(value, &mut uses),
-        _ => {}
-    }
-
-    uses
-}
-
 /// Transform to SSA form
 pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
     if blocks.blocks.is_empty() {
@@ -1163,36 +1092,6 @@ fn is_same_args_phi(phi: &PhiNode) -> bool {
     true
 }
 
-/// Replace a phi node with a MOVE instruction
-/// JADX: replacePhiWithMove() - lines 362-388
-///
-/// For now, we just mark the phi as trivial. Full MOVE insertion
-/// would require modifying the instruction stream, which is better
-/// done during code generation.
-#[allow(dead_code)]
-fn replace_phi_with_move(block: &mut SsaBlock, phi_idx: usize) -> bool {
-    if phi_idx >= block.phi_nodes.len() {
-        return false;
-    }
-
-    // Simply remove the phi - the code generator will handle
-    // propagating the value appropriately
-    block.phi_nodes.remove(phi_idx);
-    true
-}
-
-/// Inline a phi instruction by replacing uses with the phi argument
-/// JADX: inlinePhiInsn() - lines 390-419
-///
-/// This would require tracking SSAVar use-def chains, which we'll
-/// implement when we add full SSA variable tracking to dexterity-ir.
-#[allow(dead_code)]
-fn inline_phi_insn(_phi: &PhiNode) -> bool {
-    // Phi inlining requires SSAVar use-def chains. Currently, phi cleanup
-    // happens during code generation which handles this naturally.
-    false
-}
-
 /// Hide phi instructions from the instruction list
 /// JADX: hidePhiInsns() - lines 448-452
 ///
@@ -1203,52 +1102,6 @@ fn inline_phi_insn(_phi: &PhiNode) -> bool {
 pub fn hide_phi_insns(_result: &mut SsaResult) {
     // Phi nodes are already separated from instructions in SsaBlock
     // No action needed - they won't appear in generated code
-}
-
-/// Mark 'this' arguments with special flags
-/// JADX: markThisArgs() - lines 421-446
-///
-/// This would require RegisterArg to have an AFlag field.
-/// For now, we defer this to the type inference pass.
-#[allow(dead_code)]
-fn mark_this_args(_this_reg: Option<u16>) {
-    // 'this' argument marking deferred to type inference pass
-    // where RegisterArg context is fully available
-}
-
-/// Remove unused invoke results
-/// JADX: removeUnusedInvokeResults() - lines 454-466
-///
-/// This requires SSAVar use count tracking. For now, this optimization
-/// is deferred to later passes (dead code elimination).
-#[allow(dead_code)]
-fn remove_unused_invoke_results(_result: &mut SsaResult) {
-    // Unused invoke result removal deferred to dead code elimination pass
-    // which has full SSAVar use-count information
-}
-
-/// Fix last assign in try blocks
-/// JADX: fixLastAssignInTry() - lines 195-207
-///
-/// This handles special cases where phi nodes in exception handlers
-/// need to have certain arguments removed. This is exception-handler
-/// specific and will be implemented with full exception handling support.
-#[allow(dead_code)]
-fn fix_last_assign_in_try(_result: &mut SsaResult) {
-    // Exception handler phi cleanup deferred to exception handling pass
-    // which has ExcHandlerAttr and CatchAttr context
-}
-
-/// Remove blocker instructions marked with AFlag::REMOVE
-/// JADX: removeBlockerInsns() - lines 236-257
-///
-/// This removes instructions that were marked for removal during
-/// earlier passes. Requires AFlag system integration.
-#[allow(dead_code)]
-fn remove_blocker_insns(_result: &mut SsaResult) -> bool {
-    // Blocker instruction removal deferred to optimization passes
-    // which mark instructions with AFlag::REMOVE
-    false
 }
 
 // ============================================================================
