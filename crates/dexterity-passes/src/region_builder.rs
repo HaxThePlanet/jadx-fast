@@ -139,7 +139,7 @@ pub fn detect_loop_edge_insns(cfg: &CFG, loop_info: &LoopInfo, all_loops: &[Loop
 
                 if !is_normal_exit {
                     // This is a break - determine if we need a label
-                    let label = get_break_label(loop_info, all_loops);
+                    let label = get_break_label(loop_info, all_loops, block, succ);
                     breaks.push(EdgeInsn {
                         from: block,
                         to: succ,
@@ -190,10 +190,53 @@ pub fn detect_loop_edge_insns(cfg: &CFG, loop_info: &LoopInfo, all_loops: &[Loop
 }
 
 /// Get label for break statement (needed for nested loops)
-fn get_break_label(loop_info: &LoopInfo, _all_loops: &[LoopInfo]) -> Option<String> {
-    // Check if this loop is nested inside another
+///
+/// Port of JADX LoopRegionMaker.addBreakLabel() (lines 385-414)
+/// A label is needed when:
+/// 1. The break source block is in multiple nested loops (depth >= 2)
+/// 2. The break target is NOT inside another loop (otherwise control stays in loop hierarchy)
+/// 3. The break exits beyond the immediate parent loop
+fn get_break_label(loop_info: &LoopInfo, all_loops: &[LoopInfo], from_block: u32, to_block: u32) -> Option<String> {
+    // Step 1: Check if break target is in any loop
+    // If the target is inside a loop, no label needed - control stays in loop hierarchy
+    let target_in_loop = all_loops.iter().any(|l| l.blocks.contains(&to_block));
+    if target_in_loop {
+        return None;
+    }
+
+    // Step 2: Count how many loops contain the source block
+    // Only need labels for nested loops (2+ loops containing the source)
+    let loops_containing_source: Vec<&LoopInfo> = all_loops
+        .iter()
+        .filter(|l| l.blocks.contains(&from_block))
+        .collect();
+
+    if loops_containing_source.len() < 2 {
+        // Not in nested loops - no label needed
+        return None;
+    }
+
+    // Step 3: Find the parent (outermost) loop containing the source
+    let parent_loop = loops_containing_source
+        .iter()
+        .find(|l| l.parent.is_none())
+        .or_else(|| loops_containing_source.first())
+        .copied();
+
+    if let Some(parent) = parent_loop {
+        // Step 4: Check if break goes outside the parent loop
+        // If target is the parent's exit or end block, no label needed
+        let is_parent_exit = parent.exit_targets.contains(&to_block)
+            || parent.exit_blocks.contains(&to_block);
+
+        if !is_parent_exit {
+            // Breaking beyond parent loop - need label for the current loop
+            return Some(format!("loop_{}", loop_info.header));
+        }
+    }
+
+    // Default: if loop has a parent, add a label (conservative fallback)
     if loop_info.parent.is_some() {
-        // Generate label like "loop_N" where N is the header block
         Some(format!("loop_{}", loop_info.header))
     } else {
         None
@@ -1738,6 +1781,7 @@ impl<'a> RegionBuilder<'a> {
 
             Some(Region::If {
                 condition,
+                condition_blocks: vec![cond.condition_block],
                 then_region: Box::new(then_region),
                 else_region,
             })
@@ -1776,6 +1820,7 @@ impl<'a> RegionBuilder<'a> {
 
             Some(Region::If {
                 condition,
+                condition_blocks: vec![cond.condition_block],
                 then_region: Box::new(then_region),
                 else_region,
             })
@@ -2105,6 +2150,7 @@ impl<'a> RegionBuilder<'a> {
 
         let region = Region::If {
             condition,
+            condition_blocks: vec![cond.condition_block],
             then_region: Box::new(then_region),
             else_region,
         };
@@ -2239,12 +2285,131 @@ impl<'a> RegionBuilder<'a> {
 
         self.stack.pop();
 
+        // Detect and fix fall-through case ordering
+        // Port of JADX SwitchRegionMaker.reOrderSwitchCases() (lines 315-336)
+        let fall_through_map = self.detect_fall_through_cases(&succs, merge_block);
+        let cases = if !fall_through_map.is_empty() && self.is_bad_cases_order(&cases, &fall_through_map) {
+            self.reorder_switch_cases(cases, &fall_through_map)
+        } else {
+            cases
+        };
+
         let region = Region::Switch {
             header_block: block,
             cases,
         };
 
         (region, merge_block)
+    }
+
+    /// Detect fall-through relationships between switch cases
+    ///
+    /// Returns a map from case target block -> next case target block that it falls through to.
+    /// A case falls through if its last block has a successor that is another case target.
+    fn detect_fall_through_cases(
+        &self,
+        case_targets: &[u32],
+        merge_block: Option<u32>,
+    ) -> std::collections::BTreeMap<u32, u32> {
+        let mut fall_through: std::collections::BTreeMap<u32, u32> = std::collections::BTreeMap::new();
+        let target_set: std::collections::BTreeSet<u32> = case_targets.iter().copied().collect();
+
+        for &target in case_targets {
+            // Skip merge block
+            if merge_block == Some(target) {
+                continue;
+            }
+
+            // Collect all blocks in this case
+            let case_blocks = self.collect_case_blocks(target, merge_block);
+            let last_block = case_blocks.last().copied().unwrap_or(target);
+
+            // Check if last block's successors include another case target
+            for &succ in self.cfg.successors(last_block) {
+                if target_set.contains(&succ) && succ != target && merge_block != Some(succ) {
+                    // This case falls through to another case
+                    fall_through.insert(target, succ);
+                    break;
+                }
+            }
+        }
+
+        fall_through
+    }
+
+    /// Check if the current case order is bad (doesn't respect fall-through)
+    ///
+    /// Port of JADX SwitchRegionMaker.isBadCasesOrder() (lines 304-313)
+    fn is_bad_cases_order(
+        &self,
+        cases: &[CaseInfo],
+        fall_through_map: &std::collections::BTreeMap<u32, u32>,
+    ) -> bool {
+        let mut expected_next: Option<u32> = None;
+
+        for case in cases {
+            // Get the target block for this case (first block in the region)
+            let case_target = self.get_case_first_block(&case.container);
+            if let Some(target) = case_target {
+                // If we expected a specific next case and this isn't it, order is bad
+                if let Some(expected) = expected_next {
+                    if target != expected {
+                        return true;
+                    }
+                }
+
+                // Check if this case falls through to another
+                expected_next = fall_through_map.get(&target).copied();
+            }
+        }
+
+        // If we still expect a next case at the end, order is bad
+        expected_next.is_some()
+    }
+
+    /// Reorder switch cases to respect fall-through relationships
+    ///
+    /// Port of JADX SwitchRegionMaker.reOrderSwitchCases() (lines 315-336)
+    fn reorder_switch_cases(
+        &self,
+        mut cases: Vec<CaseInfo>,
+        fall_through_map: &std::collections::BTreeMap<u32, u32>,
+    ) -> Vec<CaseInfo> {
+        // Sort cases so that fall-through source comes before target
+        cases.sort_by(|a, b| {
+            let a_target = self.get_case_first_block(&a.container);
+            let b_target = self.get_case_first_block(&b.container);
+
+            if let (Some(a_target), Some(b_target)) = (a_target, b_target) {
+                // If a falls through to b, a should come before b
+                if fall_through_map.get(&a_target) == Some(&b_target) {
+                    return std::cmp::Ordering::Less;
+                }
+                // If b falls through to a, b should come before a
+                if fall_through_map.get(&b_target) == Some(&a_target) {
+                    return std::cmp::Ordering::Greater;
+                }
+            }
+
+            std::cmp::Ordering::Equal
+        });
+
+        cases
+    }
+
+    /// Get the first block from a case region
+    fn get_case_first_block(&self, region: &Region) -> Option<u32> {
+        match region {
+            Region::Sequence(contents) => {
+                for content in contents {
+                    if let RegionContent::Block(block) = content {
+                        return Some(*block);
+                    }
+                }
+                None
+            }
+            _ => None,
+        }
     }
 
     /// Get switch keys from the instruction
