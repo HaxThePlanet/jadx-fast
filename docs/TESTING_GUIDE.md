@@ -574,7 +574,7 @@ Your fix is successful when:
 
 ✅ **Documentation**
 - [ ] ROADMAP.md updated if applicable
-- [ ] QUALITY_STATUS.md updated with metrics
+- [ ] ROADMAP.md updated with metrics
 - [ ] Commit message clear and concise
 
 ---

@@ -353,5 +353,5 @@ cargo test --release -p dexterity-llm-postproc
 ## References
 
 - [Anthropic Claude API Docs](https://docs.anthropic.com/)
-- [Dexterity Quality Status](./QUALITY_STATUS.md)
+- [Dexterity Roadmap](./ROADMAP.md)
 - [Code Architecture](../crates/AGENTS.md)

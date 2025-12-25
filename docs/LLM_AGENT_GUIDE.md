@@ -1,6 +1,6 @@
 # LLM Agent Guide: Autonomous Development Toward JADX Parity
 
-**Status:** PRODUCTION-READY | 0 P0 Bugs | A- Grade (95-96%) | 64% File Coverage | Dec 25, 2025 - See QUALITY_STATUS.md
+**Status:** PRODUCTION-READY | 0 P0 Bugs | A- Grade (95-96%) | 64% File Coverage | Dec 25, 2025 - See ROADMAP.md
 **Recent Fixes:** P0-LOOP-VAR, P0-BOOL-CHAIN, P0-WRONG-RETURN all FIXED Dec 25; Type inference A+ (100%)
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
@@ -10,7 +10,7 @@
 
 ## Quick Start
 
-1. **Read the current state**: [QUALITY_STATUS.md](QUALITY_STATUS.md)
+1. **Read the current state**: [ROADMAP.md](ROADMAP.md)
 2. **Pick a task from roadmap**: [ROADMAP.md](ROADMAP.md)
 3. **Find the JADX algorithm**: See [JADX Reference Documentation](#jadx-reference-documentation) below
 4. **Reference JADX source**: `jadx-fast/jadx-core/src/main/java/jadx/core/`
@@ -23,8 +23,7 @@
 ### Project Status & Planning
 | File | Purpose |
 |------|---------|
-| [QUALITY_STATUS.md](QUALITY_STATUS.md) | Current metrics, achievements, benchmarks |
-| [ROADMAP.md](ROADMAP.md) | What to implement next with JADX references |
+| [ROADMAP.md](ROADMAP.md) | Status, metrics, achievements, benchmarks, and what to implement next |
 
 ### JADX Reference Documentation
 
@@ -117,8 +116,7 @@ cargo test
 ### Step 6: Update Documentation
 
 If you made significant improvements, update:
-- [QUALITY_STATUS.md](QUALITY_STATUS.md) - Metrics and achievements
-- [ROADMAP.md](ROADMAP.md) - Completed work, next priorities
+- [ROADMAP.md](ROADMAP.md) - Completed work, next priorities, metrics
 
 ---
 

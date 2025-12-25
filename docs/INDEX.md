@@ -1,92 +1,136 @@
-# Dexterity Documentation
+# Dexterity Documentation Index
 
 High-performance Android decompiler written in Rust, targeting JADX parity.
 
-**Current Status:** 🟢 PRODUCTION-READY | 0 P0 Bugs | A-/B+ Grade (85-90%) | Dec 25, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 Bugs | Dec 25, 2025
 **Performance:** 14x faster than JADX | 5.2K apps/hour @ 2.7 sec avg
 
-## Core Status Docs
+---
+
+## Primary Documents
 
 | Document | Description |
 |----------|-------------|
-| [ROADMAP](ROADMAP.md) | **Authoritative** - Open work, P0/P1 bugs, remaining tasks |
-| [QUALITY_STATUS](QUALITY_STATUS.md) | Current grades, output comparison data, metrics |
+| **[ROADMAP.md](ROADMAP.md)** | **Single source of truth** - Status, bugs, quality grades, known issues, benchmarks |
+| [CHANGELOG.md](CHANGELOG.md) | Development history (milestones only) |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Crate structure, pipeline, design overview |
+
+---
 
 ## Getting Started
 
 | Document | Description |
 |----------|-------------|
 | [README](../README.md) | Project overview and quick start |
-| [CLI Reference](CLI_REFERENCE.md) | Complete command-line options |
-| [Performance](PERFORMANCE.md) | Benchmarks and scaling |
+| [CLI_REFERENCE.md](CLI_REFERENCE.md) | Complete command-line options |
+| [TESTING_GUIDE.md](TESTING_GUIDE.md) | Running tests |
 
-## Architecture
+---
+
+## Architecture & Design
 
 | Document | Description |
 |----------|-------------|
-| [Architecture](ARCHITECTURE.md) | Crate structure and pipeline |
-| [Design Decisions](DESIGN_DECISIONS.md) | Framework filtering, Compose detection |
-| [Code Navigation](CODE_NAVIGATION.md) | Finding your way around |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Crate structure (86K lines), pipeline overview |
+| [DESIGN_DECISIONS.md](DESIGN_DECISIONS.md) | Framework filtering, Compose detection, design rationale |
+| [CODE_NAVIGATION.md](CODE_NAVIGATION.md) | Finding your way around the codebase |
+| [OPTIMIZATION_PLAN.md](OPTIMIZATION_PLAN.md) | Performance optimization roadmap |
+| [REFACTOR_PLAN.md](REFACTOR_PLAN.md) | Current refactoring tasks |
+
+---
 
 ## JADX Algorithm References
 
-These docs describe the JADX algorithms that Dexterity ports:
+Documentation of JADX algorithms that Dexterity ports:
 
 | Document | Description |
 |----------|-------------|
-| [Algorithm References](ALGORITHM_REFERENCES.md) | Quick links to JADX source for key algorithms |
-| [SSA & CFG](JADX_SSA_CFG.md) | Static single assignment and control flow |
-| [Type Inference](JADX_TYPE_INFERENCE.md) | Type constraint propagation |
-| [Region/Control Flow](JADX_REGION_CONTROL_FLOW.md) | if/else, loops, switch reconstruction |
-| [Exception Handling](JADX_EXCEPTION_HANDLING.md) | try-catch-finally |
-| [Variable Naming](JADX_VARIABLE_NAMING.md) | Name generation and deobfuscation |
-| [Deobfuscation](JADX_DEOBFUSCATION.md) | ProGuard mapping support |
-| [Deobfuscation Reference](JADX_DEOBFUSCATION_REFERENCE.md) | Detailed deobf algorithm |
+| [ALGORITHM_REFERENCES.md](ALGORITHM_REFERENCES.md) | Quick links to JADX source for key algorithms |
+| [JADX_SSA_CFG.md](JADX_SSA_CFG.md) | Static single assignment and control flow |
+| [JADX_TYPE_INFERENCE.md](JADX_TYPE_INFERENCE.md) | Type constraint propagation |
+| [JADX_REGION_CONTROL_FLOW.md](JADX_REGION_CONTROL_FLOW.md) | if/else, loops, switch reconstruction |
+| [JADX_EXCEPTION_HANDLING.md](JADX_EXCEPTION_HANDLING.md) | try-catch-finally |
+| [JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md) | Name generation and deobfuscation |
+| [JADX_DEOBFUSCATION.md](JADX_DEOBFUSCATION.md) | ProGuard mapping support |
+| [JADX_DEOBFUSCATION_REFERENCE.md](JADX_DEOBFUSCATION_REFERENCE.md) | Detailed deobf algorithm |
 
-## Parity Status
+---
 
-| Document | Status | Description |
-|----------|--------|-------------|
-| [DEX Parity](DEX_PARITY.md) | **A+** | Binary parsing - complete |
-| [IR Clone Status](IR_CLONE_STATUS.md) | **B (85%)** | JADX IR clone |
-| [IR Remaining Tasks](IR_REMAINING_TASKS.md) | - | Open IR work |
-| [Codegen Parity](CODEGEN_PARITY_MASTER.md) | **A-/B+ (85-90%)** | Java gen - production-ready |
-| [Deobf Parity](JADX_DEOBF_PARITY_AUDIT.md) | **A- (90%)** | ProGuard/JOBF |
-| [Kotlin Parity](KOTLIN_PARITY.md) | **B+ (85-90%)** | Field aliases FIXED Dec 24 |
-| [Passes Parity](PASSES_PARITY.md) | **B- (80%)** | 86/105 JADX passes |
-| [Clone Tasks](CLONE_TASKS.md) | - | Remaining JADX features to port |
+## JADX Format References
 
-## JADX Reference Docs
+Detailed documentation of JADX data structures and formats:
 
 | Document | Description |
 |----------|-------------|
-| [DEX Reference](JADX_DEXTERITY_DEX_REFERENCE.md) | DEX format details |
-| [IR Reference](JADX_DEXTERITY_IR_REFERENCE.md) | IR type system, SSA, instructions |
-| [Resources Reference](JADX_DEXTERITY_RESOURCES_REFERENCE.md) | ARSC/AXML format |
+| [JADX_DEXTERITY_DEX_REFERENCE.md](JADX_DEXTERITY_DEX_REFERENCE.md) | DEX format details |
+| [JADX_DEXTERITY_IR_REFERENCE.md](JADX_DEXTERITY_IR_REFERENCE.md) | IR type system, SSA, instructions |
+| [JADX_DEXTERITY_RESOURCES_REFERENCE.md](JADX_DEXTERITY_RESOURCES_REFERENCE.md) | ARSC/AXML format |
 
-## Development
+---
+
+## Parity Tracking
+
+Status of Dexterity vs JADX feature parity:
+
+| Document | Grade | Description |
+|----------|-------|-------------|
+| [DEX_PARITY.md](DEX_PARITY.md) | A+ (100%) | Binary parsing - complete |
+| [CODEGEN_PARITY_MASTER.md](CODEGEN_PARITY_MASTER.md) | A-/B+ (85-90%) | Java codegen - production-ready |
+| [IR_CLONE_STATUS.md](IR_CLONE_STATUS.md) | B (85%) | JADX IR clone status |
+| [IR_REMAINING_TASKS.md](IR_REMAINING_TASKS.md) | - | Open IR work |
+| [PASSES_PARITY.md](PASSES_PARITY.md) | B- (80%) | 86/105 JADX passes |
+| [KOTLIN_PARITY.md](KOTLIN_PARITY.md) | B+ (85%) | Field aliases working |
+| [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) | A- (90%) | ProGuard/JOBF support |
+| [CLONE_TASKS.md](CLONE_TASKS.md) | - | Remaining JADX features to port |
+
+---
+
+## Performance & Quality
 
 | Document | Description |
 |----------|-------------|
-| [Refactor Plan](REFACTOR_PLAN.md) | Current refactoring tasks and status |
-| [Optimization Plan](OPTIMIZATION_PLAN.md) | Performance optimization roadmap |
-| [Performance Study](PERFORMANCE_STUDY.md) | Detailed performance analysis |
-| [Comparison Reference Files](COMPARISON_REFERENCE_FILES.md) | Test APKs for JADX comparison |
-| [Quality Analysis Report](QUALITY_ANALYSIS_REPORT.md) | Detailed quality metrics analysis |
+| [PERFORMANCE.md](PERFORMANCE.md) | Benchmarks and scaling data |
+| [PERFORMANCE_STUDY.md](PERFORMANCE_STUDY.md) | Detailed performance analysis |
+| [QUALITY_ANALYSIS_REPORT.md](QUALITY_ANALYSIS_REPORT.md) | Detailed quality metrics |
+| [COMPARISON_REFERENCE_FILES.md](COMPARISON_REFERENCE_FILES.md) | Test APKs for JADX comparison |
+| [BADBOY_REFERENCE.md](BADBOY_REFERENCE.md) | Reference for badboy APK testing |
 
-## LLM Tools
+---
 
-| Document | Description |
-|----------|-------------|
-| [LLM Agent Guide](LLM_AGENT_GUIDE.md) | Guide for AI agents working on codebase |
-| [LLM Postprocessing](LLM_POSTPROC.md) | LLM-based output enhancement |
-
-## Other
+## Development Tools
 
 | Document | Description |
 |----------|-------------|
-| [Known Issues](KNOWN_ISSUES.md) | Known limitations and workarounds |
-| [Changelog](CHANGELOG.md) | Development history |
-| [Testing Guide](TESTING_GUIDE.md) | Running tests |
-| [Security](SECURITY.md) | Security considerations |
-| [Code of Conduct](CODE_OF_CONDUCT.md) | Community guidelines |
+| [LLM_AGENT_GUIDE.md](LLM_AGENT_GUIDE.md) | Guide for AI agents working on codebase |
+| [LLM_POSTPROC.md](LLM_POSTPROC.md) | LLM-based output enhancement |
+
+---
+
+## Project
+
+| Document | Description |
+|----------|-------------|
+| [SECURITY.md](SECURITY.md) | Security considerations |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community guidelines |
+
+---
+
+## Document Hierarchy
+
+```
+ROADMAP.md (Single Source of Truth)
+├── Status, quality grades, per-category grades
+├── All P0/P1/P2 bug tracking with fixes
+├── Known issues & workarounds
+├── Performance benchmarks
+└── Test coverage
+
+CHANGELOG.md (Historical Record)
+└── Milestone summaries only (points to ROADMAP for details)
+
+ARCHITECTURE.md (Technical Design)
+└── Crate structure, pipeline, design decisions
+
+All other docs (Reference Material)
+└── JADX algorithms, parity tracking, format specs
+```

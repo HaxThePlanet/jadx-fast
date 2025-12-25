@@ -172,7 +172,7 @@ Dexterity attempts to parse **all `.dex` files** in an APK, including those in t
 WARN Failed to process assets/classes.dex: Unexpected end of data at offset 0, needed 112 bytes
 ```
 
-This warning indicates the file is fake (e.g., contains JPEG data or stub text instead of DEX bytecode). See KNOWN_ISSUES.md for details on specific APKs with fake DEX files.
+This warning indicates the file is fake (e.g., contains JPEG data or stub text instead of DEX bytecode). See ROADMAP.md for details on specific APKs with fake DEX files.
 
 ---
 

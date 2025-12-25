@@ -540,7 +540,7 @@ grep -n "^pub fn\|^fn" region_builder.rs | head -20
 3. **Find code** using this guide
 4. **Implement fix** following patterns
 5. **Test thoroughly**
-6. **Update** `ROADMAP.md` and `QUALITY_STATUS.md`
+6. **Update** `ROADMAP.md`
 
 ---
 

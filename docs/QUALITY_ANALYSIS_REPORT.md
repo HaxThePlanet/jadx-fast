@@ -5,7 +5,7 @@
 
 ## Executive Summary
 
-**VERDICT: PRODUCTION-READY - Grade: A- (95-96%) (See [QUALITY_STATUS.md](QUALITY_STATUS.md))**
+**VERDICT: PRODUCTION-READY - Grade: A- (95-96%) (See [ROADMAP.md](ROADMAP.md))**
 
 ### Current Assessment (Dec 25, 2025)
 
@@ -23,10 +23,10 @@ Based on objective comparison of `output/dexterity` vs `output/jadx`. All P0 bug
 | Kotlin Support | **100% parity** | Baseline | **Dexterity** |
 | Type Inference | **A+ (100%)** | Baseline | **Tie** |
 
-**Grade: A-** - All P0 bugs FIXED Dec 25 (LOOP-VAR, BOOL-CHAIN, WRONG-RETURN). Type inference at A+ (100%, 0 Unknown warnings). See [QUALITY_STATUS.md](QUALITY_STATUS.md).
+**Grade: A-** - All P0 bugs FIXED Dec 25 (LOOP-VAR, BOOL-CHAIN, WRONG-RETURN). Type inference at A+ (100%, 0 Unknown warnings). See [ROADMAP.md](ROADMAP.md).
 
 Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
-- Overall Quality: **A- (95-96%)** per QUALITY_STATUS.md (0 P0 bugs)
+- Overall Quality: **A- (95-96%)** per ROADMAP.md (0 P0 bugs)
 - Feature Implementation: A- (passes/features implemented)
 - Kotlin Parity: 100% with BitEncoding ported and all modifiers applied to IR
 - Variable Naming: Type-based (str, i2) in complex methods, semantic in simple methods
@@ -88,7 +88,7 @@ Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
 - **Use Dexterity** for performance: 3.6-81x faster with 14.6x memory efficiency
 - **Use Dexterity** for Kotlin: 100% parity with JADX kotlin-metadata plugin
 - **Note:** Variable naming quality slightly lower than JADX (0.70-0.81 vs 0.93) in complex methods
-- **Track progress:** See [QUALITY_STATUS.md](QUALITY_STATUS.md) for current status
+- **Track progress:** See [ROADMAP.md](ROADMAP.md) for current status
 
 ---
 

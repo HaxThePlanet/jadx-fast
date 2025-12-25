@@ -172,7 +172,7 @@ Command-line interface and decompilation orchestration.
 | dexterity-kotlin | **100%** | Full metadata parsing |
 | dexterity-cli | **95%** | JADX CLI compatibility |
 
-*Feature completeness vs JADX. See [QUALITY_STATUS.md](QUALITY_STATUS.md) for APK-specific grades.*
+*Feature completeness vs JADX. See [ROADMAP.md](ROADMAP.md) for grades and status.*
 
 ## Performance (Dec 25, 2025)
 
