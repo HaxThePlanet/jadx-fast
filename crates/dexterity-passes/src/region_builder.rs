@@ -1073,6 +1073,15 @@ impl<'a> RegionBuilder<'a> {
             return None;
         }
 
+        // Debug: Show what we're checking for this block
+        if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+            let is_try = self.try_map.contains_key(&block_id);
+            let is_loop = self.loop_map.contains_key(&block_id);
+            if is_try || is_loop {
+                eprintln!("[DEBUG_TRY_CATCH] traverse block {}: is_try={}, is_loop={}", block_id, is_try, is_loop);
+            }
+        }
+
         // Check for synchronized block (MONITOR_ENTER)
         if let Some(sync_info) = self.sync_map.get(&block_id).copied() {
             let (sync_region, next) = self.process_synchronized(sync_info);
@@ -1082,6 +1091,16 @@ impl<'a> RegionBuilder<'a> {
 
         // Check for try-catch block start
         if let Some(try_info) = self.try_map.get(&block_id).copied() {
+            // P1-TRY-CATCH-RECON: If this block is ALSO a loop header, process loop first
+            // so that the try-catch can be nested inside the loop body
+            if let Some(loop_info) = self.loop_map.get(&block_id).copied() {
+                if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+                    eprintln!("[DEBUG_TRY_CATCH] Block {} is BOTH try start AND loop header, processing loop first", block_id);
+                }
+                let (loop_region, next) = self.process_loop(loop_info);
+                contents.push(RegionContent::Region(Box::new(loop_region)));
+                return next;
+            }
             if std::env::var("DEBUG_TRY_CATCH").is_ok() {
                 eprintln!("[DEBUG_TRY_CATCH] PROCESSING try at block 0x{:x} with {} handlers", block_id, try_info.handlers.len());
             }
@@ -1092,6 +1111,10 @@ impl<'a> RegionBuilder<'a> {
 
         // Check for loop start first (like Java)
         if let Some(loop_info) = self.loop_map.get(&block_id).copied() {
+            if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+                eprintln!("[DEBUG_TRY_CATCH] PROCESSING loop at block {} with {} blocks: {:?}",
+                    block_id, loop_info.blocks.len(), loop_info.blocks);
+            }
             // This is a loop header - process the loop
             let (loop_region, next) = self.process_loop(loop_info);
             contents.push(RegionContent::Region(Box::new(loop_region)));
@@ -1653,6 +1676,23 @@ impl<'a> RegionBuilder<'a> {
                     pre_condition_block: None,
                     label: None,
                 })));
+            } else if let Some(try_info) = self.try_map.get(&block_id).copied() {
+                // P1-TRY-CATCH-RECON FIX: Handle nested try-catch inside loops
+                // This mirrors the handling of nested loops and conditionals
+                if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+                    eprintln!("[DEBUG_TRY_CATCH] PROCESSING nested try-catch at block {} inside loop", block_id);
+                }
+                let (try_region, _) = self.process_try_catch(try_info);
+                contents.push(RegionContent::Region(Box::new(try_region)));
+                // Mark all try blocks and handler blocks as visited
+                for &b in &try_info.try_blocks {
+                    visited.insert(b);
+                }
+                for handler in &try_info.handlers {
+                    for &b in &handler.handler_blocks {
+                        visited.insert(b);
+                    }
+                }
             } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
                 // Nested conditional - check if fully contained in loop
                 let then_in_loop = cond.then_blocks.iter().all(|b| loop_info.blocks.contains(b));
@@ -1725,6 +1765,22 @@ impl<'a> RegionBuilder<'a> {
                         pre_condition_block: None,
                         label: None,
                     })));
+                } else if let Some(try_info) = self.try_map.get(&block_id).copied() {
+                    // P1-TRY-CATCH-RECON FIX: Handle nested try-catch inside loops (fallback loop)
+                    if std::env::var("DEBUG_TRY_CATCH").is_ok() {
+                        eprintln!("[DEBUG_TRY_CATCH] PROCESSING nested try-catch at block {} inside loop (fallback)", block_id);
+                    }
+                    let (try_region, _) = self.process_try_catch(try_info);
+                    contents.push(RegionContent::Region(Box::new(try_region)));
+                    // Mark all try blocks and handler blocks as visited
+                    for &b in &try_info.try_blocks {
+                        visited.insert(b);
+                    }
+                    for handler in &try_info.handlers {
+                        for &b in &handler.handler_blocks {
+                            visited.insert(b);
+                        }
+                    }
                 } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
                     if cond.then_blocks.iter().all(|b| loop_info.blocks.contains(b))
                         && cond.else_blocks.iter().all(|b| loop_info.blocks.contains(b))
