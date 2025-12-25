@@ -446,6 +446,7 @@ dependencies = [
  "dexterity-dex",
  "dexterity-ir",
  "dexterity-kotlin",
+ "dexterity-limits",
  "dexterity-llm-postproc",
  "dexterity-passes",
  "dexterity-resources",

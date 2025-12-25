@@ -842,7 +842,8 @@ impl RegionStack {
     /// Push a new region level. Returns false if limit exceeded (JADX-style bail out).
     fn push(&mut self) -> bool {
         // JADX: RegionStack.java:66 - bail out when limit exceeded
-        let limit = dexterity_limits::regions::REGION_STACK_LIMIT;
+        // Override with DEXTERITY_REGION_STACK_LIMIT env var
+        let limit = dexterity_limits::regions::region_stack_limit();
         if self.exits.len() > limit {
             tracing::error!(
                 stack_size = self.exits.len(),

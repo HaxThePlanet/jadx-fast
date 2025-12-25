@@ -30,12 +30,29 @@ pub struct PostProcessRegionsResult {
 /// * `PostProcessRegionsResult` with statistics
 pub fn post_process_regions(region: &mut Region) -> PostProcessRegionsResult {
     let mut result = PostProcessRegionsResult::default();
-    process_region(region, &mut result);
+    process_region_with_depth(region, &mut result, 0);
     result
 }
 
+/// Maximum recursion depth for region processing
+const MAX_DEPTH: usize = 100;
+
 /// Process a single region
 fn process_region(region: &mut Region, result: &mut PostProcessRegionsResult) {
+    process_region_with_depth(region, result, 0);
+}
+
+fn process_region_with_depth(region: &mut Region, result: &mut PostProcessRegionsResult, depth: usize) {
+    // Prevent stack overflow from deeply nested regions
+    if depth > MAX_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = MAX_DEPTH,
+            "LIMIT_EXCEEDED: post_process_regions max depth reached"
+        );
+        return;
+    }
+
     match region {
         Region::Loop { kind, body, condition, condition_at_end, .. } => {
             // Merge pre-condition if applicable
@@ -44,7 +61,7 @@ fn process_region(region: &mut Region, result: &mut PostProcessRegionsResult) {
             }
 
             // Process nested regions
-            process_region(body, result);
+            process_region_with_depth(body, result, depth + 1);
         }
 
         Region::Switch { cases, .. } => {
@@ -53,7 +70,7 @@ fn process_region(region: &mut Region, result: &mut PostProcessRegionsResult) {
                 if insert_switch_breaks(case, result) {
                     result.inserted_breaks += 1;
                 }
-                process_region(&mut case.container, result);
+                process_region_with_depth(&mut case.container, result, depth + 1);
             }
         }
 
@@ -63,31 +80,31 @@ fn process_region(region: &mut Region, result: &mut PostProcessRegionsResult) {
                 // Process each content
                 for content in contents.iter_mut() {
                     if let RegionContent::Region(nested) = content {
-                        process_region(nested, result);
+                        process_region_with_depth(nested, result, depth + 1);
                     }
                 }
             }
         }
 
         Region::If { then_region, else_region, .. } => {
-            process_region(then_region, result);
+            process_region_with_depth(then_region, result, depth + 1);
             if let Some(else_reg) = else_region {
-                process_region(else_reg, result);
+                process_region_with_depth(else_reg, result, depth + 1);
             }
         }
 
         Region::TryCatch { try_region, handlers, finally } => {
-            process_region(try_region, result);
+            process_region_with_depth(try_region, result, depth + 1);
             for handler in handlers {
-                process_region(&mut handler.region, result);
+                process_region_with_depth(&mut handler.region, result, depth + 1);
             }
             if let Some(finally_region) = finally {
-                process_region(finally_region, result);
+                process_region_with_depth(finally_region, result, depth + 1);
             }
         }
 
         Region::Synchronized { body, .. } => {
-            process_region(body, result);
+            process_region_with_depth(body, result, depth + 1);
         }
 
         // Terminal regions don't need processing
@@ -134,6 +151,15 @@ fn insert_switch_breaks(case: &mut CaseInfo, _result: &mut PostProcessRegionsRes
 /// Based on JADX RegionUtils.hasExitBlock() - a region "always exits" if
 /// control never falls through to the next statement.
 fn region_always_exits(region: &Region) -> bool {
+    region_always_exits_with_depth(region, 0)
+}
+
+fn region_always_exits_with_depth(region: &Region, depth: usize) -> bool {
+    // Prevent stack overflow from deeply nested regions
+    if depth > MAX_DEPTH {
+        return false; // Conservatively assume it doesn't exit
+    }
+
     match region {
         // Break and Continue are exits (they transfer control)
         Region::Break { .. } | Region::Continue { .. } => true,
@@ -150,7 +176,7 @@ fn region_always_exits(region: &Region) -> bool {
                         // For now, conservatively assume it doesn't exit
                         false
                     }
-                    RegionContent::Region(nested) => region_always_exits(nested),
+                    RegionContent::Region(nested) => region_always_exits_with_depth(nested, depth + 1),
                 }
             } else {
                 false // Empty sequence doesn't exit
@@ -159,24 +185,24 @@ fn region_always_exits(region: &Region) -> bool {
 
         // If-else: both branches must exit for the whole region to exit
         Region::If { then_region, else_region, .. } => {
-            let then_exits = region_always_exits(then_region);
+            let then_exits = region_always_exits_with_depth(then_region, depth + 1);
             let else_exits = else_region
                 .as_ref()
-                .map(|e| region_always_exits(e))
+                .map(|e| region_always_exits_with_depth(e, depth + 1))
                 .unwrap_or(false);
             then_exits && else_exits
         }
 
         // Try-catch: try and all handlers must exit
         Region::TryCatch { try_region, handlers, .. } => {
-            region_always_exits(try_region)
-                && handlers.iter().all(|h| region_always_exits(&h.region))
+            region_always_exits_with_depth(try_region, depth + 1)
+                && handlers.iter().all(|h| region_always_exits_with_depth(&h.region, depth + 1))
         }
 
         // Loop, Switch, Synchronized don't inherently exit
         Region::Loop { .. } => false,
         Region::Switch { .. } => false,
-        Region::Synchronized { body, .. } => region_always_exits(body),
+        Region::Synchronized { body, .. } => region_always_exits_with_depth(body, depth + 1),
 
         // Ternary assignment doesn't exit (just assigns)
         Region::TernaryAssignment { .. } => false,
@@ -231,6 +257,15 @@ pub fn insert_edge_insn(region: &mut Region, insn: InsnNode) {
 
 /// Check if a region ends with a return or throw
 pub fn region_ends_with_return_or_throw(region: &Region) -> bool {
+    region_ends_with_return_or_throw_with_depth(region, 0)
+}
+
+fn region_ends_with_return_or_throw_with_depth(region: &Region, depth: usize) -> bool {
+    // Prevent stack overflow from deeply nested regions
+    if depth > MAX_DEPTH {
+        return false; // Conservatively assume it doesn't end with return/throw
+    }
+
     match region {
         Region::Sequence(contents) => {
             if let Some(last) = contents.last() {
@@ -240,7 +275,7 @@ pub fn region_ends_with_return_or_throw(region: &Region) -> bool {
                         false
                     }
                     RegionContent::Region(nested) => {
-                        region_ends_with_return_or_throw(nested)
+                        region_ends_with_return_or_throw_with_depth(nested, depth + 1)
                     }
                 }
             } else {
@@ -249,15 +284,15 @@ pub fn region_ends_with_return_or_throw(region: &Region) -> bool {
         }
         Region::If { then_region, else_region, .. } => {
             // Both branches must end with return/throw
-            region_ends_with_return_or_throw(then_region) &&
+            region_ends_with_return_or_throw_with_depth(then_region, depth + 1) &&
             else_region.as_ref()
-                .map(|e| region_ends_with_return_or_throw(e))
+                .map(|e| region_ends_with_return_or_throw_with_depth(e, depth + 1))
                 .unwrap_or(false)
         }
         Region::TryCatch { try_region, handlers, .. } => {
             // Try and all handlers must end with return/throw
-            region_ends_with_return_or_throw(try_region) &&
-            handlers.iter().all(|h| region_ends_with_return_or_throw(&h.region))
+            region_ends_with_return_or_throw_with_depth(try_region, depth + 1) &&
+            handlers.iter().all(|h| region_ends_with_return_or_throw_with_depth(&h.region, depth + 1))
         }
         _ => false,
     }

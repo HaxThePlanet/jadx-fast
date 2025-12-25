@@ -34,6 +34,7 @@
 | Lambda Class Suppression | +3-5% | ✅ 92 -> 55 files (37 lambda classes filtered) |
 | Diamond Operator | +2-3% | ✅ 1,254 instances emit `<>` (76% of JADX) |
 | Lambda Inlining | +2-3% | ✅ Variable assignment, SAM types working |
+| Stack Overflow Protection | Crash prevention | ✅ MAX_DEPTH=100 on all recursive visitors |
 
 ### Anti-RE ZIP Hardening (Dec 24, 2025)
 
@@ -70,6 +71,39 @@
 - `crates/dexterity-cli/src/main.rs` - Security checks + fallback integration
 
 **JADX Reference:** JadxZipParser.java (signature scanning), JadxZipSecurity.java (bomb detection, path validation)
+
+---
+
+### Stack Overflow Protection (Dec 25, 2025)
+
+**Status:** ✅ COMPLETE | **Impact:** Crash prevention for large/obfuscated APKs
+
+**Problem:** Stack overflow crash on large APKs caused by unbounded recursion in visitor traversal functions. Unlike JADX (Java) which can catch `StackOverflowError`, Rust aborts immediately on stack overflow.
+
+**Solution:** Added `MAX_DEPTH = 100` depth checks to all recursive region traversal functions.
+
+**Files Modified:**
+| File | Function | Change |
+|------|----------|--------|
+| `dexterity-codegen/src/body_gen.rs:8542` | `process_region_for_inlining_with_depth` | Added MAX_DEPTH = 100 |
+| `dexterity-passes/src/post_process_regions.rs:38` | module constant | Added `const MAX_DEPTH: usize = 100` |
+| `dexterity-passes/src/post_process_regions.rs:157` | `region_always_exits_with_depth` | Added depth check |
+| `dexterity-passes/src/post_process_regions.rs:263` | `region_ends_with_return_or_throw_with_depth` | Added depth check |
+
+**Already Protected (had depth limits):**
+- `depth_region_traversal.rs` - MAX_DEPTH = 100
+- `dot_graph_visitor.rs` - MAX_DEPTH = 100
+- `if_region_visitor.rs` - MAX_DEPTH = 100
+- `return_visitor.rs` - MAX_DEPTH = 100
+- `body_gen.rs:generate_region` - uses ctx.region_depth with MAX_REGION_DEPTH = 20
+
+**Behavior Change:** Deeply nested regions (>100 levels) are now truncated with error logs:
+- `LIMIT_EXCEEDED: Region stack overflow, bailing out`
+- `CODEGEN_LIMIT_EXCEEDED: Region nesting too deep, bailing out`
+
+**Test Results:**
+- Spotify APK (201MB): Completed in 4.34s with graceful depth limit handling
+- Badboy APK (24MB): Completed in 0.26s
 
 ---
 

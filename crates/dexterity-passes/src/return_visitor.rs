@@ -39,7 +39,7 @@ pub struct ReturnVisitorResult {
 /// * `ReturnVisitorResult` with optimization statistics
 pub fn optimize_returns(region: &mut Region, is_void_method: bool) -> ReturnVisitorResult {
     let mut result = ReturnVisitorResult::default();
-    visit_region(region, is_void_method, &mut result, &HashMap::new());
+    visit_region(region, is_void_method, &mut result, &HashMap::new(), 0);
     result
 }
 
@@ -55,7 +55,7 @@ pub fn optimize_returns_with_blocks(
     blocks: &HashMap<u32, Vec<InsnNode>>,
 ) -> ReturnVisitorResult {
     let mut result = ReturnVisitorResult::default();
-    visit_region(region, is_void_method, &mut result, blocks);
+    visit_region(region, is_void_method, &mut result, blocks, 0);
     result
 }
 
@@ -68,13 +68,25 @@ fn visit_region(
     is_void_method: bool,
     result: &mut ReturnVisitorResult,
     blocks: &HashMap<u32, Vec<InsnNode>>,
+    depth: usize,
 ) {
+    // Prevent stack overflow from deeply nested regions (matching if_region_visitor.rs pattern)
+    const MAX_DEPTH: usize = 100;
+    if depth > MAX_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = MAX_DEPTH,
+            "LIMIT_EXCEEDED: Return visitor max depth reached"
+        );
+        return;
+    }
+
     match region {
         Region::Sequence(contents) => {
             // First visit all nested regions
             for content in contents.iter_mut() {
                 if let RegionContent::Region(nested) = content {
-                    visit_region(nested, is_void_method, result, blocks);
+                    visit_region(nested, is_void_method, result, blocks, depth + 1);
                 }
             }
 
@@ -87,9 +99,9 @@ fn visit_region(
         }
 
         Region::If { then_region, else_region, .. } => {
-            visit_region(then_region, is_void_method, result, blocks);
+            visit_region(then_region, is_void_method, result, blocks, depth + 1);
             if let Some(else_reg) = else_region {
-                visit_region(else_reg, is_void_method, result, blocks);
+                visit_region(else_reg, is_void_method, result, blocks, depth + 1);
             }
 
             // Check for empty else that can be removed
@@ -115,27 +127,27 @@ fn visit_region(
         }
 
         Region::Loop { body, .. } => {
-            visit_region(body, is_void_method, result, blocks);
+            visit_region(body, is_void_method, result, blocks, depth + 1);
         }
 
         Region::Switch { cases, .. } => {
             for case in cases {
-                visit_region(&mut case.container, is_void_method, result, blocks);
+                visit_region(&mut case.container, is_void_method, result, blocks, depth + 1);
             }
         }
 
         Region::TryCatch { try_region, handlers, finally } => {
-            visit_region(try_region, is_void_method, result, blocks);
+            visit_region(try_region, is_void_method, result, blocks, depth + 1);
             for handler in handlers {
-                visit_region(&mut handler.region, is_void_method, result, blocks);
+                visit_region(&mut handler.region, is_void_method, result, blocks, depth + 1);
             }
             if let Some(finally_region) = finally {
-                visit_region(finally_region, is_void_method, result, blocks);
+                visit_region(finally_region, is_void_method, result, blocks, depth + 1);
             }
         }
 
         Region::Synchronized { body, .. } => {
-            visit_region(body, is_void_method, result, blocks);
+            visit_region(body, is_void_method, result, blocks, depth + 1);
         }
 
         // Terminal regions don't need processing

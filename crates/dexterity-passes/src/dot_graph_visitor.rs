@@ -150,6 +150,31 @@ fn process_region(
     cluster_id: &mut usize,
     indent: usize,
 ) {
+    process_region_with_depth(dot, region, node_count, edge_count, cluster_id, indent, 0);
+}
+
+fn process_region_with_depth(
+    dot: &mut String,
+    region: &Region,
+    node_count: &mut usize,
+    edge_count: &mut usize,
+    cluster_id: &mut usize,
+    indent: usize,
+    depth: usize,
+) {
+    // Prevent stack overflow from deeply nested regions
+    const MAX_DEPTH: usize = 100;
+    if depth > MAX_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = MAX_DEPTH,
+            "LIMIT_EXCEEDED: DOT graph visitor max depth reached"
+        );
+        let indent_str = "  ".repeat(indent);
+        writeln!(dot, "{}/* Depth limit exceeded */", indent_str).unwrap();
+        return;
+    }
+
     let indent_str = "  ".repeat(indent);
     let current_cluster = *cluster_id;
     *cluster_id += 1;
@@ -167,7 +192,7 @@ fn process_region(
                         *node_count += 1;
                     }
                     RegionContent::Region(sub_region) => {
-                        process_region(dot, sub_region, node_count, edge_count, cluster_id, indent + 1);
+                        process_region_with_depth(dot, sub_region, node_count, edge_count, cluster_id, indent + 1, depth + 1);
                     }
                 }
             }
@@ -182,14 +207,14 @@ fn process_region(
             // Then branch
             writeln!(dot, "{}  subgraph cluster_{}_then {{", indent_str, current_cluster).unwrap();
             writeln!(dot, "{}    label=\"then\";", indent_str).unwrap();
-            process_region(dot, then_region, node_count, edge_count, cluster_id, indent + 2);
+            process_region_with_depth(dot, then_region, node_count, edge_count, cluster_id, indent + 2, depth + 1);
             writeln!(dot, "{}  }}", indent_str).unwrap();
 
             // Else branch
             if let Some(else_r) = else_region {
                 writeln!(dot, "{}  subgraph cluster_{}_else {{", indent_str, current_cluster).unwrap();
                 writeln!(dot, "{}    label=\"else\";", indent_str).unwrap();
-                process_region(dot, else_r, node_count, edge_count, cluster_id, indent + 2);
+                process_region_with_depth(dot, else_r, node_count, edge_count, cluster_id, indent + 2, depth + 1);
                 writeln!(dot, "{}  }}", indent_str).unwrap();
             }
 
@@ -200,7 +225,7 @@ fn process_region(
             writeln!(dot, "{}  label=\"Loop ({:?})\";", indent_str, kind).unwrap();
             writeln!(dot, "{}  color=red;", indent_str).unwrap();
 
-            process_region(dot, body, node_count, edge_count, cluster_id, indent + 1);
+            process_region_with_depth(dot, body, node_count, edge_count, cluster_id, indent + 1, depth + 1);
 
             writeln!(dot, "{}}}", indent_str).unwrap();
         }
@@ -215,7 +240,7 @@ fn process_region(
             for (i, case) in cases.iter().enumerate() {
                 writeln!(dot, "{}  subgraph cluster_{}_case_{} {{", indent_str, current_cluster, i).unwrap();
                 writeln!(dot, "{}    label=\"case {:?}\";", indent_str, case.keys).unwrap();
-                process_region(dot, &case.container, node_count, edge_count, cluster_id, indent + 2);
+                process_region_with_depth(dot, &case.container, node_count, edge_count, cluster_id, indent + 2, depth + 1);
                 writeln!(dot, "{}  }}", indent_str).unwrap();
             }
 
@@ -229,14 +254,14 @@ fn process_region(
             // Try block
             writeln!(dot, "{}  subgraph cluster_{}_try {{", indent_str, current_cluster).unwrap();
             writeln!(dot, "{}    label=\"try\";", indent_str).unwrap();
-            process_region(dot, try_region, node_count, edge_count, cluster_id, indent + 2);
+            process_region_with_depth(dot, try_region, node_count, edge_count, cluster_id, indent + 2, depth + 1);
             writeln!(dot, "{}  }}", indent_str).unwrap();
 
             // Catch handlers
             for (i, handler) in handlers.iter().enumerate() {
                 writeln!(dot, "{}  subgraph cluster_{}_catch_{} {{", indent_str, current_cluster, i).unwrap();
                 writeln!(dot, "{}    label=\"catch {:?}\";", indent_str, handler.exception_types).unwrap();
-                process_region(dot, &handler.region, node_count, edge_count, cluster_id, indent + 2);
+                process_region_with_depth(dot, &handler.region, node_count, edge_count, cluster_id, indent + 2, depth + 1);
                 writeln!(dot, "{}  }}", indent_str).unwrap();
             }
 
@@ -244,7 +269,7 @@ fn process_region(
             if let Some(finally_r) = finally {
                 writeln!(dot, "{}  subgraph cluster_{}_finally {{", indent_str, current_cluster).unwrap();
                 writeln!(dot, "{}    label=\"finally\";", indent_str).unwrap();
-                process_region(dot, finally_r, node_count, edge_count, cluster_id, indent + 2);
+                process_region_with_depth(dot, finally_r, node_count, edge_count, cluster_id, indent + 2, depth + 1);
                 writeln!(dot, "{}  }}", indent_str).unwrap();
             }
 
@@ -255,7 +280,7 @@ fn process_region(
             writeln!(dot, "{}  label=\"Synchronized (enter={})\";", indent_str, enter_block).unwrap();
             writeln!(dot, "{}  color=cyan;", indent_str).unwrap();
 
-            process_region(dot, body, node_count, edge_count, cluster_id, indent + 1);
+            process_region_with_depth(dot, body, node_count, edge_count, cluster_id, indent + 1, depth + 1);
 
             writeln!(dot, "{}}}", indent_str).unwrap();
         }

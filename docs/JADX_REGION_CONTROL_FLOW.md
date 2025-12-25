@@ -602,6 +602,36 @@ pub struct RegionState {
 - Use `BitSet` crate for dominance/frontier operations
 - Stack depth tracking (prevent stack overflow on deeply nested code)
 
+### Stack Overflow Prevention
+
+Unlike JADX (Java) which can catch `StackOverflowError`, Rust aborts immediately on stack overflow. All recursive region traversal functions in Dexterity use `MAX_DEPTH` limits:
+
+```rust
+const MAX_DEPTH: usize = 100;
+
+fn process_region_with_depth(region: &Region, depth: usize) {
+    if depth > MAX_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = MAX_DEPTH,
+            "LIMIT_EXCEEDED: Region traversal max depth reached"
+        );
+        return; // Graceful bailout instead of stack overflow
+    }
+    // ... recursive processing with depth + 1
+}
+```
+
+**Protected functions:**
+- `body_gen.rs`: `generate_region`, `process_region_for_inlining`
+- `post_process_regions.rs`: `process_region_with_depth`, `region_always_exits_with_depth`, `region_ends_with_return_or_throw_with_depth`
+- `if_region_visitor.rs`: `process_if_regions_with_depth`
+- `return_visitor.rs`: `visit_region_with_depth`
+- `depth_region_traversal.rs`: `traverse_region_with_depth`
+- `dot_graph_visitor.rs`: `process_region_with_depth`
+
+Limits are centralized in `dexterity-limits` crate for consistency.
+
 ---
 
 ## Key Files Summary

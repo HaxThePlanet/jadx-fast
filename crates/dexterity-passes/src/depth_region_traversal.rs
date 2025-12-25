@@ -61,12 +61,16 @@ pub fn traverse<V: RegionVisitor>(region: &Region, visitor: &mut V) {
 ///
 /// JADX Reference: DepthRegionTraversal.traverse(mth, container, visitor)
 pub fn traverse_container<V: RegionVisitor>(content: &RegionContent, visitor: &mut V) {
+    traverse_container_with_depth(content, visitor, 0);
+}
+
+fn traverse_container_with_depth<V: RegionVisitor>(content: &RegionContent, visitor: &mut V, depth: usize) {
     match content {
         RegionContent::Block(block_id) => {
             visitor.process_block(*block_id);
         }
         RegionContent::Region(region) => {
-            traverse_internal(region, visitor);
+            traverse_internal_with_depth(region, visitor, depth);
         }
     }
 }
@@ -75,10 +79,25 @@ pub fn traverse_container<V: RegionVisitor>(content: &RegionContent, visitor: &m
 ///
 /// JADX Reference: DepthRegionTraversal.traverseInternal()
 fn traverse_internal<V: RegionVisitor>(region: &Region, visitor: &mut V) {
+    traverse_internal_with_depth(region, visitor, 0);
+}
+
+fn traverse_internal_with_depth<V: RegionVisitor>(region: &Region, visitor: &mut V, depth: usize) {
+    // Prevent stack overflow from deeply nested regions
+    const MAX_DEPTH: usize = 100;
+    if depth > MAX_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = MAX_DEPTH,
+            "LIMIT_EXCEEDED: Region traversal (internal) max depth reached"
+        );
+        return;
+    }
+
     if visitor.enter_region(region) {
         // Get sub-contents based on region type
         for content in get_region_contents(region) {
-            traverse_container(&content, visitor);
+            traverse_container_with_depth(&content, visitor, depth + 1);
         }
     }
     visitor.leave_region(region);
@@ -208,6 +227,25 @@ fn traverse_iterative_step<V: RegionIterativeVisitor>(
     region: &mut Region,
     visitor: &mut V,
 ) -> Result<bool, TraversalError> {
+    traverse_iterative_step_with_depth(region, visitor, 0)
+}
+
+fn traverse_iterative_step_with_depth<V: RegionIterativeVisitor>(
+    region: &mut Region,
+    visitor: &mut V,
+    depth: usize,
+) -> Result<bool, TraversalError> {
+    // Prevent stack overflow from deeply nested regions
+    const MAX_DEPTH: usize = 100;
+    if depth > MAX_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = MAX_DEPTH,
+            "LIMIT_EXCEEDED: Region traversal max depth reached"
+        );
+        return Ok(false);  // Continue traversal without going deeper
+    }
+
     // Visit this region first
     if visitor.visit_region(region) {
         return Ok(true);
@@ -218,7 +256,7 @@ fn traverse_iterative_step<V: RegionIterativeVisitor>(
         Region::Sequence(contents) => {
             for content in contents.iter_mut() {
                 if let RegionContent::Region(sub_region) = content {
-                    if traverse_iterative_step(sub_region, visitor)? {
+                    if traverse_iterative_step_with_depth(sub_region, visitor, depth + 1)? {
                         return Ok(true);
                     }
                 }
@@ -229,23 +267,23 @@ fn traverse_iterative_step<V: RegionIterativeVisitor>(
             else_region,
             ..
         } => {
-            if traverse_iterative_step(then_region, visitor)? {
+            if traverse_iterative_step_with_depth(then_region, visitor, depth + 1)? {
                 return Ok(true);
             }
             if let Some(else_r) = else_region {
-                if traverse_iterative_step(else_r, visitor)? {
+                if traverse_iterative_step_with_depth(else_r, visitor, depth + 1)? {
                     return Ok(true);
                 }
             }
         }
         Region::Loop { body, .. } => {
-            if traverse_iterative_step(body, visitor)? {
+            if traverse_iterative_step_with_depth(body, visitor, depth + 1)? {
                 return Ok(true);
             }
         }
         Region::Switch { cases, .. } => {
             for case in cases.iter_mut() {
-                if traverse_iterative_step(&mut case.container, visitor)? {
+                if traverse_iterative_step_with_depth(&mut case.container, visitor, depth + 1)? {
                     return Ok(true);
                 }
             }
@@ -256,22 +294,22 @@ fn traverse_iterative_step<V: RegionIterativeVisitor>(
             finally,
             ..
         } => {
-            if traverse_iterative_step(try_region, visitor)? {
+            if traverse_iterative_step_with_depth(try_region, visitor, depth + 1)? {
                 return Ok(true);
             }
             for handler in handlers.iter_mut() {
-                if traverse_iterative_step(&mut handler.region, visitor)? {
+                if traverse_iterative_step_with_depth(&mut handler.region, visitor, depth + 1)? {
                     return Ok(true);
                 }
             }
             if let Some(finally_r) = finally {
-                if traverse_iterative_step(finally_r, visitor)? {
+                if traverse_iterative_step_with_depth(finally_r, visitor, depth + 1)? {
                     return Ok(true);
                 }
             }
         }
         Region::Synchronized { body, .. } => {
-            if traverse_iterative_step(body, visitor)? {
+            if traverse_iterative_step_with_depth(body, visitor, depth + 1)? {
                 return Ok(true);
             }
         }

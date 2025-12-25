@@ -179,6 +179,10 @@ pub struct BodyGenContext {
     /// Incremented when entering a Loop region, decremented when exiting
     /// Prevents emitting spurious returns inside loop bodies (clones JADX ReturnVisitor logic)
     pub loop_depth: usize,
+    /// Inline expression expansion depth (stack overflow prevention)
+    /// Prevents deeply nested expression inlining from causing stack overflow
+    /// Incremented when entering write_arg_inline, decremented when exiting
+    pub inline_expr_depth: usize,
 }
 
 /// Tracks a StringBuilder chain for optimization to string concatenation
@@ -333,6 +337,7 @@ impl BodyGenContext {
             exception_handler_blocks: HashSet::new(),
             region_depth: 0,
             loop_depth: 0,
+            inline_expr_depth: 0,
         }
     }
 
@@ -829,6 +834,24 @@ impl BodyGenContext {
     ///
     /// GAP-01 FIX: Field access expressions use peek (not take) to allow reuse.
     pub fn write_arg_inline<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg) {
+        // Prevent stack overflow from deeply nested inline expression expansion
+        const MAX_INLINE_DEPTH: usize = 100;
+        if self.inline_expr_depth > MAX_INLINE_DEPTH {
+            tracing::error!(
+                depth = self.inline_expr_depth,
+                limit = MAX_INLINE_DEPTH,
+                "LIMIT_EXCEEDED: Inline expression expansion max depth reached"
+            );
+            // Fall back to direct variable name instead of inlining
+            if let InsnArg::Register(reg) = arg {
+                let var_name = self.expr_gen.get_var_name(reg);
+                writer.add(&var_name);
+            }
+            return;
+        }
+
+        self.inline_expr_depth += 1;
+
         if let InsnArg::Register(reg) = arg {
             // DEBUG: Check what variable name we'd get
             let var_name = self.expr_gen.get_var_name(reg);
@@ -851,11 +874,13 @@ impl BodyGenContext {
                 if is_field_access {
                     // Field access: peek only (don't consume) - can be used multiple times
                     writer.add(&expr);
+                    self.inline_expr_depth -= 1;
                     return;
                 } else if self.should_inline(reg.reg_num, reg.ssa_version) {
                     // Single-use: consume and use
                     self.take_inline_expr(reg.reg_num, reg.ssa_version);
                     writer.add(&expr);
+                    self.inline_expr_depth -= 1;
                     return;
                 }
                 // Multi-use non-field: fall through to variable name
@@ -865,11 +890,13 @@ impl BodyGenContext {
             // This handles the case where ArrayPuts were absorbed but method is NOT varargs
             if let Some(literal) = try_emit_pending_array_literal(arg, self) {
                 writer.add(&literal);
+                self.inline_expr_depth -= 1;
                 return;
             }
         }
         // Fall back to direct write via ExprGen
         self.expr_gen.write_arg(writer, arg);
+        self.inline_expr_depth -= 1;
     }
 
     /// Write an argument with type-aware formatting
@@ -4695,7 +4722,7 @@ fn find_index_assignment_in_content(
 fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
     let mut current: Option<&Region> = Some(else_region);
     let mut chain_depth = 0usize;
-    let max_chain_depth = dexterity_limits::codegen::MAX_REGION_DEPTH;
+    let max_chain_depth = dexterity_limits::codegen::max_region_depth();
 
     while let Some(region) = current {
         // Prevent infinite else-if chains
@@ -4771,7 +4798,7 @@ fn is_empty_region_impl(region: &Region, ctx: Option<&BodyGenContext>) -> bool {
     // Use a work list instead of recursion
     let mut work_list: Vec<&Region> = vec![region];
     let mut iterations = 0usize;
-    let max_iterations = dexterity_limits::codegen::MAX_REGION_DEPTH * 100;
+    let max_iterations = dexterity_limits::codegen::max_region_depth() * 100;
 
     while let Some(current) = work_list.pop() {
         iterations += 1;
@@ -5137,10 +5164,11 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
 /// Internal implementation with depth tracking to prevent stack overflow
 fn generate_condition_with_depth(condition: &Condition, ctx: &BodyGenContext, depth: usize) -> String {
     // Prevent stack overflow from deeply nested conditions
-    if depth > dexterity_limits::codegen::MAX_CONDITION_DEPTH {
+    let max_depth = dexterity_limits::codegen::max_condition_depth();
+    if depth > max_depth {
         tracing::error!(
             depth = depth,
-            limit = dexterity_limits::codegen::MAX_CONDITION_DEPTH,
+            limit = max_depth,
             "LIMIT_EXCEEDED: Condition nesting depth limit reached"
         );
         return "/* condition depth exceeded */".to_string();
@@ -7067,7 +7095,7 @@ fn not_in_loop_region(ctx: &BodyGenContext) -> bool {
 /// Generate code from a region
 fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
     // Prevent stack overflow from deeply nested regions
-    let max_depth = dexterity_limits::codegen::MAX_REGION_DEPTH;
+    let max_depth = dexterity_limits::codegen::max_region_depth();
     if ctx.region_depth > max_depth {
         tracing::error!(
             depth = ctx.region_depth,
@@ -8509,6 +8537,21 @@ fn process_all_condition_blocks_for_inlining(condition: &Condition, ctx: &mut Bo
 /// This ensures that expressions like method calls and constants are stored for inlining
 /// so that they can be retrieved when generating binary expressions like `e(a, b) / 7`
 fn process_region_for_inlining(region: &Region, ctx: &mut BodyGenContext) {
+    process_region_for_inlining_with_depth(region, ctx, 0);
+}
+
+fn process_region_for_inlining_with_depth(region: &Region, ctx: &mut BodyGenContext, depth: usize) {
+    // Prevent stack overflow from deeply nested regions
+    const MAX_DEPTH: usize = 100;
+    if depth > MAX_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = MAX_DEPTH,
+            "LIMIT_EXCEEDED: process_region_for_inlining max depth reached"
+        );
+        return;
+    }
+
     match region {
         Region::Sequence(contents) => {
             for content in contents {
@@ -8518,33 +8561,33 @@ fn process_region_for_inlining(region: &Region, ctx: &mut BodyGenContext) {
                         process_block_prelude_for_inlining(*block_id, None, ctx);
                     }
                     RegionContent::Region(nested) => {
-                        process_region_for_inlining(nested, ctx);
+                        process_region_for_inlining_with_depth(nested, ctx, depth + 1);
                     }
                 }
             }
         }
         Region::If { condition, then_region, else_region, .. } => {
             process_all_condition_blocks_for_inlining(condition, ctx);
-            process_region_for_inlining(then_region, ctx);
+            process_region_for_inlining_with_depth(then_region, ctx, depth + 1);
             if let Some(else_reg) = else_region {
-                process_region_for_inlining(else_reg, ctx);
+                process_region_for_inlining_with_depth(else_reg, ctx, depth + 1);
             }
         }
         Region::Loop { body, .. } => {
-            process_region_for_inlining(body, ctx);
+            process_region_for_inlining_with_depth(body, ctx, depth + 1);
         }
         Region::Switch { cases, .. } => {
             for case in cases {
-                process_region_for_inlining(&case.container, ctx);
+                process_region_for_inlining_with_depth(&case.container, ctx, depth + 1);
             }
         }
         Region::TryCatch { try_region, handlers, finally } => {
-            process_region_for_inlining(try_region, ctx);
+            process_region_for_inlining_with_depth(try_region, ctx, depth + 1);
             for handler in handlers {
-                process_region_for_inlining(&handler.region, ctx);
+                process_region_for_inlining_with_depth(&handler.region, ctx, depth + 1);
             }
             if let Some(finally_region) = finally {
-                process_region_for_inlining(finally_region, ctx);
+                process_region_for_inlining_with_depth(finally_region, ctx, depth + 1);
             }
         }
         // These region types don't need prelude processing
@@ -9748,7 +9791,7 @@ fn case_ends_with_exit(region: &Region, ctx: &BodyGenContext) -> bool {
 
 fn case_ends_with_exit_depth(region: &Region, ctx: &BodyGenContext, depth: usize) -> bool {
     // Prevent stack overflow
-    if depth > dexterity_limits::codegen::MAX_REGION_DEPTH {
+    if depth > dexterity_limits::codegen::max_region_depth() {
         return false; // Assume no exit if too deep
     }
 

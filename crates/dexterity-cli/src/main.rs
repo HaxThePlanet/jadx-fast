@@ -150,10 +150,11 @@ fn main() -> Result<()> {
         return Ok(());
     }
 
-    // Run main logic on thread with 256MB stack to handle deep CFG recursion
-    // This internalizes RUST_MIN_STACK so no env var needed
+    // Run main logic on thread with configurable stack to handle deep CFG recursion
+    // Override with DEXTERITY_MAIN_STACK_MB env var (default: 256MB)
+    let main_stack = dexterity_limits::memory::main_stack_size();
     let result = std::thread::Builder::new()
-        .stack_size(256 * 1024 * 1024) // 256MB
+        .stack_size(main_stack)
         .spawn(move || run_main(args))
         .expect("Failed to spawn main thread")
         .join()
@@ -188,16 +189,19 @@ fn run_main(args: Args) -> Result<()> {
     let num_threads = args.effective_threads();
 
     // First, try to configure via ThreadPoolBuilder (works if rayon isn't initialized yet)
-    // Set 256MB stack size for worker threads to prevent stack overflow on deep recursion
-    // (important for complex class hierarchies and nested method calls)
+    // Need large stack for deeply nested regions, expressions, and control flow structures
+    // Large/obfuscated APKs can have 100+ levels of nesting across multiple recursion points
+    // Override with DEXTERITY_THREAD_STACK_MB env var (default: 4096MB = 4GB)
+    let worker_stack = dexterity_limits::memory::thread_stack_size();
+    let worker_stack_mb = worker_stack / (1024 * 1024);
     let config_result = rayon::ThreadPoolBuilder::new()
         .num_threads(num_threads)
-        .stack_size(1024 * 1024 * 1024) // 1GB - need large stack for deeply nested regions
+        .stack_size(worker_stack)
         .build_global();
 
     match config_result {
         Ok(_) => {
-            tracing::info!("Configured rayon with {} thread(s), 1GB stack per thread", num_threads);
+            tracing::info!("Configured rayon with {} thread(s), {}MB stack per thread", num_threads, worker_stack_mb);
         }
         Err(e) => {
             // If build_global() fails, rayon is already initialized with different settings

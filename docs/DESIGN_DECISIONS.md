@@ -186,3 +186,51 @@ By default, resource IDs are resolved to their symbolic names:
 ```
 
 Use `--no-replace-consts` to disable this and show raw hex IDs.
+
+---
+
+## Stack Overflow Protection
+
+Dexterity implements comprehensive stack overflow protection for deeply nested control flow structures.
+
+### Problem
+
+Unlike JADX (Java) which can catch `StackOverflowError` and recover gracefully, Rust aborts immediately when the stack overflows. Large APKs with deeply nested regions (e.g., heavily obfuscated code, Compose UI methods) can trigger stack overflow during recursive visitor traversals.
+
+### Solution
+
+All recursive region traversal functions have `MAX_DEPTH` limits:
+
+| Function | Location | Limit |
+|----------|----------|-------|
+| `generate_region` | body_gen.rs | MAX_REGION_DEPTH = 20 |
+| `process_region_for_inlining` | body_gen.rs | MAX_DEPTH = 100 |
+| `process_region_with_depth` | post_process_regions.rs | MAX_DEPTH = 100 |
+| `region_always_exits_with_depth` | post_process_regions.rs | MAX_DEPTH = 100 |
+| `region_ends_with_return_or_throw_with_depth` | post_process_regions.rs | MAX_DEPTH = 100 |
+| `process_if_regions_with_depth` | if_region_visitor.rs | MAX_DEPTH = 100 |
+| `visit_region_with_depth` | return_visitor.rs | MAX_DEPTH = 100 |
+| `traverse_region_with_depth` | depth_region_traversal.rs | MAX_DEPTH = 100 |
+| `process_region_with_depth` | dot_graph_visitor.rs | MAX_DEPTH = 100 |
+
+### Behavior
+
+When depth limits are exceeded:
+
+1. An error is logged with the `LIMIT_EXCEEDED` prefix
+2. The current traversal is terminated gracefully
+3. A placeholder comment may be emitted in the output
+4. Processing continues with other methods/classes
+
+### Example Log Output
+
+```
+ERROR LIMIT_EXCEEDED: Region nesting too deep, bailing out depth=101 limit=100
+```
+
+### Trade-offs
+
+- **Conservative limits**: MAX_DEPTH = 100 is very conservative; real code rarely exceeds 20-30 levels
+- **Graceful degradation**: Truncated methods are still partially decompiled
+- **No data loss**: Other methods/classes continue processing normally
+- **Diagnostic visibility**: All limit violations are logged for analysis

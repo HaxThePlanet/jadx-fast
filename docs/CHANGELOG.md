@@ -125,6 +125,28 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 - Fixed missing `attrs` field in `InsnNode::copy()`
 - Fixed `converter.rs` to use `method.method_idx` and `bytecode_ref.method_idx`
 
+**Stack Overflow Fix (Dec 25, 2025):**
+- **Problem:** Stack overflow crash on large APKs caused by unbounded recursion in visitor traversal functions
+- **Root Cause:** Several recursive functions lacked depth limits. Unlike JADX (Java) which can catch StackOverflowError, Rust aborts immediately on stack overflow
+- **Solution:** Added `MAX_DEPTH = 100` depth checks to all recursive region traversal functions
+- **Files Modified:**
+  - `dexterity-codegen/src/body_gen.rs:8542` - Added depth limit to `process_region_for_inlining_with_depth`
+  - `dexterity-passes/src/post_process_regions.rs:38` - Added `const MAX_DEPTH: usize = 100`
+  - `dexterity-passes/src/post_process_regions.rs:157` - Added depth check to `region_always_exits_with_depth`
+  - `dexterity-passes/src/post_process_regions.rs:263` - Added depth check to `region_ends_with_return_or_throw_with_depth`
+- **Already Protected (had depth limits):**
+  - `depth_region_traversal.rs` - MAX_DEPTH = 100
+  - `dot_graph_visitor.rs` - MAX_DEPTH = 100
+  - `if_region_visitor.rs` - MAX_DEPTH = 100
+  - `return_visitor.rs` - MAX_DEPTH = 100
+  - `body_gen.rs:generate_region` - uses ctx.region_depth with MAX_REGION_DEPTH = 20
+- **Behavior Change:** Deeply nested regions (>100 levels) are now truncated with error logs:
+  - `LIMIT_EXCEEDED: Region stack overflow, bailing out`
+  - `CODEGEN_LIMIT_EXCEEDED: Region nesting too deep, bailing out`
+- **Test Results:**
+  - Spotify APK (201MB): Completed in 4.34s with graceful depth limit handling
+  - Badboy APK (24MB): Completed in 0.26s
+
 **P0 Bugs Fixed:**
 - P0-FOREACH-SEM: Empty for-each loop body - ported JADX `BlockProcessor.splitReturn()`
 - P0-LOOP-VAR: Undefined loop variables - extended `ArrayForEachInfo` with alias tracking

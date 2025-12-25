@@ -30,7 +30,7 @@ crates/
 ├── dexterity-cli/         # CLI application (~6,100 lines)
 ├── dexterity-error/       # Unified error types
 ├── dexterity-utils/       # Shared utilities
-├── dexterity-limits/      # Resource limits & safety guards
+├── dexterity-limits/      # Resource limits & safety guards (stack overflow prevention)
 ├── dexterity-qa/          # Quality assurance tools
 └── dexterity-llm-postproc/# LLM post-processing utilities
 ```
