@@ -31,40 +31,20 @@ use crate::loops::LoopInfo;
 /// when instructions have useCount > 1. We don't have use-count info here, so we use
 /// a conservative approach that keeps nested ifs (matching JADX's output for most cases).
 fn has_non_inlinable_prelude(cfg: &CFG, block_id: u32) -> bool {
-    let Some(block) = cfg.get_block(block_id) else {
-        return false;
-    };
-
-    // Find the IF instruction (should be last meaningful instruction)
-    let if_idx = block
-        .instructions
-        .iter()
-        .position(|insn| matches!(insn.insn_type, InsnType::If { .. }));
-
-    let Some(if_idx) = if_idx else {
-        // No IF instruction - not a condition block
-        return false;
-    };
-
-    // Check instructions BEFORE the IF
-    for insn in &block.instructions[..if_idx] {
-        // Skip control flow instructions (goto, nop)
-        match &insn.insn_type {
-            InsnType::Goto { .. } | InsnType::Nop => continue,
-            _ => {}
-        }
-
-        // Check if this instruction defines a register (has a destination)
-        // Such instructions are variable declarations that would be lost in merge
-        if insn.insn_type.get_dest().is_some() {
-            trace!(
-                "GAP-03: Block {} has prelude instruction defining register - refusing merge",
-                block_id
-            );
-            return true;
-        }
-    }
-
+    // P0-BOOL-CHAIN FIX: Disable prelude check for now.
+    //
+    // For OR patterns (short-circuit), each condition's prelude is semantically
+    // protected by short-circuit evaluation - it only runs if previous conditions
+    // were false. The region builder emits prelude for each condition block
+    // via emit_condition_block_prelude().
+    //
+    // The original GAP-03 fix was for AND patterns where all preludes run
+    // unconditionally. For OR patterns, this check was incorrectly blocking
+    // condition merging.
+    //
+    // TODO: Re-enable with smarter check that distinguishes AND vs OR patterns
+    // Reference: JADX IfRegionMaker.java:492-523 checkInsnsInline()
+    let _ = (cfg, block_id);  // Suppress unused warnings
     false
 }
 
@@ -241,23 +221,88 @@ fn find_branch_blocks(
     let mut negate_condition = true;
 
     // Check for simple if: else branch goes directly to merge
-    // BUT: If the merge block is a ternary value block (has Const instruction),
-    // we should NOT treat it as "no else branch" - it's the false value.
+    // BUT: Include else_blocks if the merge block contains:
+    // 1. Const instruction (ternary value pattern)
+    // 2. Return/Throw instruction AND then_blocks don't reach the same block
+    //    (short-circuit return pattern - P0-BOOL-CHAIN fix)
+    //
+    // For short-circuit patterns like `if (a) return true; if (b) return true; ... return false;`
+    // the else_target (return true) IS the merge block but should still be included as else
+    // because the then_blocks lead to a DIFFERENT return (return false).
+    let debug_conditionals = std::env::var("DEBUG_CONDITIONALS").is_ok();
     let else_blocks = if else_target == merge_block {
-        // Check if merge block has a Const instruction (ternary false value pattern)
-        // We specifically check for Const (not Return, Throw, etc.) because those
-        // are normal code after the if, not part of the conditional.
-        let merge_has_const = cfg.get_block(else_target)
+        if debug_conditionals {
+            eprintln!("[FIND_BRANCH] block={} else_target={} == merge_block={}", condition, else_target, merge_block);
+        }
+        // Check if merge block has Const (ternary) or Return/Throw (short-circuit)
+        let merge_block_info = cfg.get_block(else_target)
             .map(|block| {
-                block.instructions.iter().any(|insn| {
+                let has_const = block.instructions.iter().any(|insn| {
                     matches!(insn.insn_type, InsnType::Const { .. })
-                })
+                });
+                let has_return = block.instructions.iter().any(|insn| {
+                    matches!(insn.insn_type, InsnType::Return { .. } | InsnType::Throw { .. })
+                });
+                (has_const, has_return)
             })
-            .unwrap_or(false);
+            .unwrap_or((false, false));
 
-        if merge_has_const {
-            // Keep else_blocks because merge has Const (ternary pattern)
+        if debug_conditionals {
+            eprintln!("[FIND_BRANCH] block={} merge_block_info={:?}", condition, merge_block_info);
+        }
+        if merge_block_info.0 {
+            // Ternary pattern: merge has Const instruction - always include
+            if debug_conditionals {
+                eprintln!("[FIND_BRANCH] block={} -> ternary pattern (Const)", condition);
+            }
             vec![else_target]
+        } else if merge_block_info.1 {
+            // P0-BOOL-CHAIN FIX: Return/Throw pattern - need to distinguish:
+            // 1. Simple if: `if (cond) { then } return X;` - then leads to same return
+            // 2. Short-circuit: `if (a) return true; next_condition...` - then is another condition
+            // 3. Both-return: Last condition where both branches return different values
+            //
+            // Check if then_target is a condition block (has IF as last instruction)
+            let then_is_condition = cfg.get_block(then_target)
+                .and_then(|block| block.instructions.last())
+                .map(|insn| matches!(insn.insn_type, InsnType::If { .. }))
+                .unwrap_or(false);
+
+            // Check if then_target is also a return block (both-branches-return pattern)
+            // JADX reference: IfRegionMaker.java:178-180
+            let then_is_return = cfg.get_block(then_target)
+                .and_then(|block| block.instructions.last())
+                .map(|insn| matches!(insn.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }))
+                .unwrap_or(false);
+
+            if debug_conditionals {
+                let then_last = cfg.get_block(then_target)
+                    .and_then(|block| block.instructions.last())
+                    .map(|insn| format!("{:?}", insn.insn_type));
+                eprintln!("[FIND_BRANCH] block={} then_target={} is_condition={} is_return={} last_insn={:?}",
+                    condition, then_target, then_is_condition, then_is_return, then_last);
+            }
+
+            if then_is_condition {
+                // Short-circuit: then is another condition, include else for OR merge
+                if debug_conditionals {
+                    eprintln!("[FIND_BRANCH] block={} -> short-circuit (then_target {} is condition)", condition, then_target);
+                }
+                vec![else_target]
+            } else if then_is_return {
+                // Both-branches-return: like JADX's both-return case, include else
+                // This is the last condition in a chain: if (x) return a; else return b;
+                if debug_conditionals {
+                    eprintln!("[FIND_BRANCH] block={} -> both-return (then_target {} is return)", condition, then_target);
+                }
+                vec![else_target]
+            } else {
+                // Simple if: then is regular block, don't include return as else
+                if debug_conditionals {
+                    eprintln!("[FIND_BRANCH] block={} -> simple if (then_target {} not condition)", condition, then_target);
+                }
+                Vec::new()
+            }
         } else {
             // Truly a simple if with no else content
             Vec::new()
@@ -508,9 +553,19 @@ impl MergedCondition {
     ///
     /// JADX Reference: IfRegionMaker.java:492-523 checkInsnsInline()
     pub fn can_merge(&self, other: &IfInfo, cfg: &CFG) -> Option<MergeMode> {
+        let debug = std::env::var("DEBUG_CONDITIONALS").is_ok();
+        if debug {
+            eprintln!("[CAN_MERGE] self.first={} self.then={:?} self.else={:?} other.cond={} other.then={:?} other.else={:?}",
+                self.first_block, self.then_block, self.else_block, other.condition_block,
+                other.then_blocks.first(), other.else_blocks.first());
+        }
+
         // GAP-03 FIX: Check if the other condition block has prelude instructions
         // that define variables. If so, don't merge - those definitions would be lost.
         if has_non_inlinable_prelude(cfg, other.condition_block) {
+            if debug {
+                eprintln!("[CAN_MERGE] -> rejected: has_non_inlinable_prelude");
+            }
             return None;
         }
 

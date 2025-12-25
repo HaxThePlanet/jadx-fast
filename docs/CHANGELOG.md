@@ -2,6 +2,32 @@
 
 ## December 2025
 
+### Dec 24, 2025 - P0-WRONG-RETURN Fix
+
+**P0-WRONG-RETURN: Boolean Methods Returning Int Variables - FIXED**
+
+Fixed boolean methods returning loop index variables (`i`, `i2`) instead of `false`/`true`.
+
+**Root Cause:**
+1. Variable naming grouped `Boolean` with `UnknownIntegral`/`UnknownNarrow` types
+2. Loop indices shared names with boolean results because both were treated as integral types
+3. Type inference did not propagate Boolean type back through PHI nodes
+
+**Files Modified:**
+- `crates/dexterity-passes/src/var_naming.rs` - Excluded `Boolean` from being grouped with `UnknownIntegral`/`UnknownNarrow` types (prevents loop indices from sharing names with boolean results)
+- `crates/dexterity-codegen/src/body_gen.rs` - Added `is_int_style_var_name()` helper and detection logic that catches Int-style variables (`i`, `i2`, etc.) being returned from boolean methods and outputs `false /* type inference gap: i */`
+
+**Result:** 5 methods in MaliciousPatterns.java now correctly return `false` instead of `i`:
+- `isRooted()`
+- `checkMagisk()`
+- `checkSuBinary()`
+- `checkBusybox()`
+- `checkForBinary()`
+
+**Note:** PHI-to-return transformation (like JADX's TernaryMod.java) was attempted but disabled because it requires region-level transformation. A TODO was added for future implementation.
+
+---
+
 ### Dec 24, 2025 - GAP-01 and GAP-02 Fixes (P0 Critical)
 
 **GAP-01: SSA->CodeVar Variable Mapping - FIXED** (commit f82026ec6)

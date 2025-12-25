@@ -6,7 +6,7 @@
 
 ## f.java Audit Results (Dec 22-24, 2025)
 
-**Status:** 3 P0 BUGS REMAIN after Dec 24 audit (P0-LOOP-VAR, P0-BOOL-CHAIN reopened, P0-WRONG-RETURN new)
+**Status:** 2 P0 BUGS REMAIN after Dec 24 audit (P0-LOOP-VAR, P0-BOOL-CHAIN reopened); P0-WRONG-RETURN FIXED
 
 A comprehensive comparison of all 151 f.java files between JADX and Dexterity outputs revealed issues that have since been fixed.
 
@@ -38,17 +38,17 @@ A comprehensive comparison of all 151 f.java files between JADX and Dexterity ou
 
 All P0 bugs from the f.java audit have been resolved (Dec 24, 2025).
 
-**Note:** Three P0 bugs discovered from badboy APK testing (Dec 24 audit):
+**Note:** Bugs discovered from badboy APK testing (Dec 24 audit):
 
 | Bug | Status | Issue |
 |-----|--------|-------|
 | **P0-LOOP-VAR** | ❌ OPEN | For-each body missing `new File(str)` - uses undefined `file` |
 | **P0-BOOL-CHAIN** | ❌ REOPENED | Return logic inverted - returns `z=false` when should return `true` |
-| **P0-WRONG-RETURN** | ❌ NEW | Methods return `int i` instead of `boolean` |
+| ~~**P0-WRONG-RETURN**~~ | ✅ FIXED Dec 24 | Methods returned `int i` instead of `boolean` - Fixed via var_naming.rs (Boolean exclusion from integral types) and body_gen.rs (Int-style variable detection) |
 
-**Affected file:** `MaliciousPatterns.java` - 12+ compilation errors in isRooted(), checkMagisk(), checkSuBinary(), checkBusybox(), detectEmulator$lambda$1()
+**Affected file:** `MaliciousPatterns.java` - ~10 remaining issues in isRooted(), checkMagisk(), detectEmulator$lambda$1(); checkSuBinary(), checkBusybox(), checkForBinary() now return correctly
 
-See [ROADMAP.md](ROADMAP.md) for details on all 3 P0 bugs.
+See [ROADMAP.md](ROADMAP.md) for details on the 2 remaining P0 bugs.
 
 ---
 

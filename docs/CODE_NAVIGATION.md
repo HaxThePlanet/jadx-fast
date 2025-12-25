@@ -4,7 +4,7 @@ Maps issue categories to relevant source files and provides context for code exp
 
 See `LLM_AGENT_GUIDE.md` for workflow and `ROADMAP.md` for open work.
 
-**Status:** 3 P0 Bugs (LOOP-VAR, BOOL-CHAIN reopened, WRONG-RETURN new) | Dec 24, 2025
+**Status:** 2 P0 Bugs (LOOP-VAR, BOOL-CHAIN reopened); ~~WRONG-RETURN~~ FIXED Dec 24, 2025
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
 ---

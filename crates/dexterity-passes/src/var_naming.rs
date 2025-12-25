@@ -326,10 +326,17 @@ pub fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
             return true;
         }
         // UnknownNarrow/UnknownIntegral are compatible with narrow primitive types (not objects)
+        // P0-WRONG-RETURN FIX: EXCLUDE Boolean - it has different semantics (true/false vs 0/1/2/...)
+        // and should get its own variable name 'z', not share 'i' with loop indices
         (ArgType::UnknownNarrow | ArgType::UnknownIntegral,
-         ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short | ArgType::Int) |
-        (ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short | ArgType::Int,
+         ArgType::Byte | ArgType::Char | ArgType::Short | ArgType::Int) |
+        (ArgType::Byte | ArgType::Char | ArgType::Short | ArgType::Int,
          ArgType::UnknownNarrow | ArgType::UnknownIntegral) => {
+            return true;
+        }
+        // UnknownIntBoolean is specifically for boolean candidates
+        (ArgType::UnknownIntBoolean, ArgType::Boolean) |
+        (ArgType::Boolean, ArgType::UnknownIntBoolean) => {
             return true;
         }
         // UnknownWide is compatible with wide primitive types (long, double)

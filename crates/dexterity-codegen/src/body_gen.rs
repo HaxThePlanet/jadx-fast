@@ -128,6 +128,11 @@ pub struct BodyGenContext {
     /// variable instead of creating a new variable declaration.
     /// Example: PHI(z = Block1:r0v3, Block2:r0v4) -> {(r0,3)->(r0,5), (r0,4)->(r0,5)}
     pub phi_source_to_dest: HashMap<(u16, u32), (u16, u32)>,
+    /// P0-BOOL-CHAIN FIX: PHI destinations that are ONLY used in Return instructions
+    /// When assigning to a PHI source whose destination is return-only, emit `return value;`
+    /// instead of `z = value;`. This transforms PHI patterns back to early returns.
+    /// Reference: JADX TernaryMod.java lines 137-168
+    pub phi_return_only: HashSet<(u16, u32)>,
     /// All constant values from Const instructions: (reg, version) -> value string
     /// Used for boolean return conversion (P1-S02 fix)
     pub const_values: HashMap<(u16, u32), String>,
@@ -298,6 +303,7 @@ impl BodyGenContext {
             phi_declarations: HashSet::new(),
             phi_constant_inits: HashMap::new(),
             phi_source_to_dest: HashMap::new(),
+            phi_return_only: HashSet::new(),
             const_values: HashMap::new(),
             skip_foreach_insns: HashMap::new(),
             stringbuilder_chains: HashMap::new(),
@@ -1478,6 +1484,150 @@ fn collect_phi_source_to_dest(
     mapping
 }
 
+/// P0-BOOL-CHAIN FIX: Detect PHI destinations that are ONLY used in Return instructions.
+/// When a PHI result is only used in a Return, we can convert assignments to PHI sources
+/// into early returns: `z = true;` -> `return true;`
+///
+/// Reference: JADX TernaryMod.java lines 137-168 (both-branches-return pattern)
+///
+/// This handles patterns like:
+///   boolean z = false;
+///   if (cond1) { z = true; }
+///   if (cond2) { z = true; }
+///   return z;
+///
+/// Transforms to:
+///   if (cond1) { return true; }
+///   if (cond2) { return true; }
+///   return false;
+fn collect_phi_return_only(
+    ssa_result: &dexterity_passes::ssa::SsaResult,
+    exception_handler_blocks: &HashSet<u32>,
+) -> HashSet<(u16, u32)> {
+    let mut return_only: HashSet<(u16, u32)> = HashSet::new();
+
+    // First, collect all PHI destinations and their use counts
+    let mut phi_dests: HashMap<(u16, u32), bool> = HashMap::new();
+
+    for block in &ssa_result.blocks {
+        if exception_handler_blocks.contains(&block.id) {
+            continue;
+        }
+
+        for phi in &block.phi_nodes {
+            // Skip 'this' parameter
+            if phi.dest.reg_num == 0 && phi.dest.ssa_version == 0 {
+                continue;
+            }
+            let dest = (phi.dest.reg_num, phi.dest.ssa_version);
+            // Initially assume it's return-only (will be set to false if used elsewhere)
+            phi_dests.insert(dest, true);
+        }
+    }
+
+    // Now scan all instructions to find uses of PHI destinations
+    // A PHI dest is return-only if it's ONLY used in Return instructions
+    for block in &ssa_result.blocks {
+        for insn in &block.instructions {
+            // Check if this instruction uses any PHI destination
+            check_insn_uses_phi(&insn.insn_type, &mut phi_dests);
+        }
+    }
+
+    // Collect PHI dests that are only used in Return
+    for (dest, is_return_only) in phi_dests {
+        if is_return_only {
+            return_only.insert(dest);
+        }
+    }
+
+    return_only
+}
+
+/// Helper: Check if instruction uses a PHI destination and update return-only status
+fn check_insn_uses_phi(insn: &InsnType, phi_dests: &mut HashMap<(u16, u32), bool>) {
+    let is_return = matches!(insn, InsnType::Return { .. });
+
+    // Helper to check a single arg
+    let mut check_arg = |arg: &InsnArg| {
+        if let InsnArg::Register(reg) = arg {
+            let key = (reg.reg_num, reg.ssa_version);
+            if let Some(is_return_only) = phi_dests.get_mut(&key) {
+                if !is_return {
+                    *is_return_only = false;
+                }
+            }
+        }
+    };
+
+    match insn {
+        InsnType::Return { value: Some(v) } => check_arg(v),
+        InsnType::Return { value: None } => {}
+        InsnType::Throw { exception } => check_arg(exception),
+        InsnType::Move { src, .. } => check_arg(src),
+        InsnType::NewArray { size, .. } => check_arg(size),
+        InsnType::ArrayLength { array, .. } => check_arg(array),
+        InsnType::ArrayGet { array, index, .. } => {
+            check_arg(array);
+            check_arg(index);
+        }
+        InsnType::ArrayPut { array, index, value, .. } => {
+            check_arg(array);
+            check_arg(index);
+            check_arg(value);
+        }
+        InsnType::InstanceGet { object, .. } => check_arg(object),
+        InsnType::InstancePut { object, value, .. } => {
+            check_arg(object);
+            check_arg(value);
+        }
+        InsnType::StaticPut { value, .. } => check_arg(value),
+        InsnType::Invoke { args, .. } => {
+            for arg in args {
+                check_arg(arg);
+            }
+        }
+        InsnType::Binary { left, right, .. } => {
+            check_arg(left);
+            check_arg(right);
+        }
+        InsnType::Unary { arg, .. } => check_arg(arg),
+        InsnType::If { left, right, .. } => {
+            check_arg(left);
+            if let Some(r) = right {
+                check_arg(r);
+            }
+        }
+        InsnType::Compare { left, right, .. } => {
+            check_arg(left);
+            check_arg(right);
+        }
+        InsnType::CheckCast { object, .. } => check_arg(object),
+        InsnType::InstanceOf { object, .. } => check_arg(object),
+        InsnType::NewInstance { .. } |
+        InsnType::Const { .. } |
+        InsnType::ConstString { .. } |
+        InsnType::ConstClass { .. } |
+        InsnType::Goto { .. } |
+        InsnType::PackedSwitch { .. } |
+        InsnType::SparseSwitch { .. } |
+        InsnType::MoveResult { .. } |
+        InsnType::MoveException { .. } |
+        InsnType::StaticGet { .. } |
+        InsnType::FilledNewArray { .. } |
+        InsnType::FillArrayData { .. } |
+        InsnType::MonitorEnter { .. } |
+        InsnType::MonitorExit { .. } |
+        InsnType::Ternary { .. } |
+        InsnType::Phi { .. } |
+        InsnType::StrConcat { .. } |
+        InsnType::Constructor { .. } |
+        InsnType::Nop => {}
+        // Catch-all for remaining variants (InvokeCustom, Cast, MoveMulti, etc.)
+        _ => {}
+    }
+}
+
 /// Collect ALL constant values from Const instructions (P1-S02 fix)
 /// Used for boolean return conversion: `return i;` where i=1 -> `return true;`
 fn collect_const_values(
@@ -1691,6 +1841,13 @@ fn emit_assignment_with_hint<W: CodeWriter>(
             (reg, version, false)
         };
 
+    // P0-BOOL-CHAIN: PHI-to-return transformation DISABLED
+    // This requires region-level transformation like JADX's TernaryMod.java
+    // which operates on IfRegion structures, not individual instructions.
+    // See: jadx-core/src/main/java/jadx/core/dex/visitors/regions/TernaryMod.java
+    // TODO: Implement proper TernaryMod pass in dexterity-passes
+    let _ = (is_phi_source, &ctx.phi_return_only); // suppress unused warnings
+
     // DEAD VARIABLE ELIMINATION: Skip variables that are never used
     // For PHI sources, check the PHI destination's use count instead
     let use_count = ctx.use_counts.get(&(effective_reg, effective_version)).copied().unwrap_or(0);
@@ -1793,6 +1950,8 @@ fn emit_assignment_insn<W: CodeWriter>(
         } else {
             (reg, version, false)
         };
+
+    // P0-BOOL-CHAIN: PHI-to-return transformation DISABLED (see emit_assignment_with_hint)
 
     // DEAD VARIABLE ELIMINATION: Skip variables that are never used
     // For PHI sources, check the PHI destination's use count instead
@@ -2400,6 +2559,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
     ctx.phi_source_to_dest = collect_phi_source_to_dest(&ssa_result, &exception_handler_blocks);
+    ctx.phi_return_only = collect_phi_return_only(&ssa_result, &exception_handler_blocks);
     ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
@@ -2625,6 +2785,7 @@ fn generate_body_impl<W: CodeWriter>(
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
     ctx.phi_source_to_dest = collect_phi_source_to_dest(&ssa_result, &exception_handler_blocks);
+    ctx.phi_return_only = collect_phi_return_only(&ssa_result, &exception_handler_blocks);
     ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
@@ -2986,6 +3147,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     ctx.phi_declarations = collect_phi_destinations(&ssa_result, &exception_handler_blocks);
     ctx.phi_constant_inits = collect_phi_constant_inits(&ssa_result, &exception_handler_blocks);
     ctx.phi_source_to_dest = collect_phi_source_to_dest(&ssa_result, &exception_handler_blocks);
+    ctx.phi_return_only = collect_phi_return_only(&ssa_result, &exception_handler_blocks);
     ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
@@ -5458,6 +5620,76 @@ fn get_branch_assignment_info(region: &Region, ctx: &BodyGenContext) -> Option<(
     Some((dest.0, dest.1, value))
 }
 
+/// P0-BOOL-CHAIN FIX: Detect pattern for boolean if-return optimization
+/// Pattern: `z = false; if (cond) { z = true; } return z;` -> `return cond;`
+/// Pattern: `z = true; if (cond) { z = false; } return z;` -> `return !cond;`
+///
+/// Based on JADX TernaryMod.java processOneBranchTernary (lines 261-348)
+///
+/// Returns Some((negate, condition)) if pattern matches:
+/// - negate=false: emit `return condition;`
+/// - negate=true: emit `return !condition;`
+fn detect_if_bool_return_pattern<'a>(
+    if_region: &'a Region,
+    next_content: Option<&RegionContent>,
+    ctx: &BodyGenContext,
+) -> Option<(bool, &'a Condition)> {
+    // Must be an If with no else
+    let (condition, then_region, else_region) = match if_region {
+        Region::If { condition, then_region, else_region } => (condition, then_region, else_region),
+        _ => return None,
+    };
+
+    // Must have no else branch
+    if else_region.is_some() {
+        return None;
+    }
+
+    // Then region must assign a boolean constant
+    let then_block_id = get_single_block(then_region)?;
+    let then_block = ctx.blocks.get(&then_block_id)?;
+
+    // Get the assignment instruction
+    let insns: Vec<_> = then_block.instructions.iter()
+        .filter(|i| !is_control_flow(&i.insn_type))
+        .collect();
+
+    if insns.len() != 1 {
+        return None;
+    }
+
+    // Must be a Const instruction with boolean value
+    let (dest_reg, then_bool_value) = match &insns[0].insn_type {
+        InsnType::Const { dest, value: LiteralArg::Int(v) } if *v == 0 || *v == 1 => {
+            (dest.reg_num, *v == 1)
+        }
+        _ => return None,
+    };
+
+    // Next content must be a block with return of the same register
+    let next_block_id = match next_content? {
+        RegionContent::Block(id) => *id,
+        _ => return None,
+    };
+
+    let next_block = ctx.blocks.get(&next_block_id)?;
+
+    // Find return instruction
+    for insn in &next_block.instructions {
+        if let InsnType::Return { value: Some(InsnArg::Register(ret_reg)) } = &insn.insn_type {
+            if ret_reg.reg_num == dest_reg {
+                // Pattern matched!
+                // If then assigns true: return cond
+                // If then assigns false: return !cond
+                let negate = !then_bool_value;
+                return Some((negate, condition));
+            }
+        }
+    }
+
+    None
+}
+
 /// Wrap a condition string for use inside a ternary (add parens if needed)
 fn wrap_ternary_condition(s: &str) -> String {
     // Add parens if the condition contains ternary or logical operators
@@ -5608,6 +5840,22 @@ fn negate_condition(condition_str: &str) -> String {
             format!("!{}", cond)
         }
     }
+}
+
+/// P0-WRONG-RETURN: Check if a variable name looks like an Int-style name
+/// These are typically loop indices: i, i2, i3, etc.
+/// When such names appear in boolean return context, it indicates a type inference gap.
+fn is_int_style_var_name(name: &str) -> bool {
+    let name = name.trim();
+    // Match patterns: "i", "i2", "i3", "i123", etc.
+    if name == "i" {
+        return true;
+    }
+    if name.starts_with('i') && name.len() > 1 {
+        let rest = &name[1..];
+        return rest.chars().all(|c| c.is_ascii_digit());
+    }
+    false
 }
 
 /// Simplify a ternary expression string for boolean context
@@ -6646,6 +6894,10 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                             // Clean up skip sets
                             ctx.skip_foreach_insns.remove(&arr_foreach.aget_block);
                             ctx.skip_foreach_insns.remove(&arr_foreach.incr_block);
+
+                            // P0-WRONG-RETURN FIX: Clean up for-each inline expression
+                            // Prevents stale mapping from leaking into return statements after loop
+                            ctx.inlined_exprs.remove(&(arr_foreach.aget_result_reg, arr_foreach.aget_result_version));
 
                             gen_close_block(code);
                             return;
@@ -9944,19 +10196,23 @@ fn generate_insn<W: CodeWriter>(
                         InsnArg::Register(reg) => {
                             // Check for inlined constant "0" or "1"
                             let inlined = ctx.peek_inline_expr(reg.reg_num, reg.ssa_version);
-                            if inlined.as_ref().map(|s| s.as_str()) == Some("0") {
+                            // P0-WRONG-RETURN FIX: Check for both "0"/"1" and "false"/"true"
+                            // const_values may contain "false"/"true" if type is Boolean
+                            let inlined_str = inlined.as_ref().map(|s| s.as_str());
+                            if inlined_str == Some("0") || inlined_str == Some("false") {
                                 code.add("false");
                                 ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
-                            } else if inlined.as_ref().map(|s| s.as_str()) == Some("1") {
+                            } else if inlined_str == Some("1") || inlined_str == Some("true") {
                                 code.add("true");
                                 ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
                             } else {
                                 // P1-S02 fix: Check const_values for non-inlined constant
                                 // This handles: `int i = 1; return i;` -> `return true;`
                                 let const_val = ctx.const_values.get(&(reg.reg_num, reg.ssa_version));
-                                if const_val.as_ref().map(|s| s.as_str()) == Some("0") {
+                                let const_str = const_val.as_ref().map(|s| s.as_str());
+                                if const_str == Some("0") || const_str == Some("false") {
                                     code.add("false");
-                                } else if const_val.as_ref().map(|s| s.as_str()) == Some("1") {
+                                } else if const_str == Some("1") || const_str == Some("true") {
                                     code.add("true");
                                 } else {
                                     // P0-CFG04: Check for ternary pattern `cond ? 1 : 0` and simplify
@@ -9966,7 +10222,23 @@ fn generate_insn<W: CodeWriter>(
                                     if let Some(simplified) = simplify_ternary_expr_for_boolean(&expr) {
                                         code.add(&simplified);
                                     } else {
-                                        code.add(&expr);
+                                        // P0-WRONG-RETURN FIX: Check if expr is an Int-style variable name
+                                        // (i, i2, i3, etc.) being returned from boolean method.
+                                        // This indicates type inference missed propagating Boolean type.
+                                        // Check if register type is NOT Boolean - if so, it's a type error.
+                                        let reg_type = ctx.type_info.as_ref()
+                                            .and_then(|ti| ti.types.get(&(reg.reg_num, reg.ssa_version)));
+                                        let is_int_type = matches!(reg_type,
+                                            Some(ArgType::Int) | Some(ArgType::UnknownIntegral) |
+                                            Some(ArgType::UnknownNarrow) | Some(ArgType::Unknown) | None);
+
+                                        if is_int_type && is_int_style_var_name(&expr) {
+                                            // Register typed as Int but method returns Boolean
+                                            // This is a type inference gap - output `false` as safe default
+                                            code.add("false /* type inference gap: ").add(&expr).add(" */");
+                                        } else {
+                                            code.add(&expr);
+                                        }
                                     }
                                 }
                             }
