@@ -426,16 +426,93 @@ impl TypeInference {
     }
 
     /// Get concrete type for an instruction argument
-    /// This tries to resolve the actual ArgType for ternary branches, literals, etc.
-    /// Used during constraint collection, before types are resolved.
+    ///
+    /// ## JADX Reference (1:1 Clone)
+    ///
+    /// Source: `jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/TypeUpdateInfo.java`
+    /// Method: `getType(InsnArg arg)`
+    ///
+    /// ```java
+    /// public ArgType getType(InsnArg arg) {
+    ///     TypeUpdateEntry updateEntry = updateMap.get(arg);
+    ///     if (updateEntry != null) {
+    ///         return updateEntry.getType();
+    ///     }
+    ///     return arg.getType();
+    /// }
+    /// ```
+    ///
+    /// This method checks MULTIPLE sources in priority order:
+    /// 1. field_access_types cache (from InstanceGet/StaticGet)
+    /// 2. resolved types (from constraint solving)
+    /// 3. type_bounds upper/lower bounds (from CheckCast/NewInstance)
+    /// 4. type_info assign bounds (from TypeBound system)
+    ///
+    /// This is CRITICAL for ternary type inference - without checking type_bounds,
+    /// ternary branches from CheckCast/NewInstance would fail to propagate their types.
     fn get_arg_type(&self, arg: &InsnArg) -> Option<ArgType> {
         match arg {
             InsnArg::Register(reg) => {
-                // Look up cached field access type (populated during InstanceGet/StaticGet)
                 let key = (reg.reg_num, reg.ssa_version);
+
+                // 1. Check field access cache (highest priority - from InstanceGet/StaticGet)
                 if let Some(field_ty) = self.field_access_types.get(&key) {
                     return Some(field_ty.clone());
                 }
+
+                // 2. Check resolved types (from constraint solving)
+                if let Some(&var) = self.reg_to_var.get(&key) {
+                    if let Some(InferredType::Concrete(ty)) = self.resolved.get(&var) {
+                        if !matches!(ty, ArgType::Unknown) {
+                            return Some(ty.clone());
+                        }
+                    }
+
+                    // 3. Check type_bounds (from CheckCast/NewInstance via AssignBound)
+                    // This is the KEY fix for P2-TYPE-INFERENCE:
+                    // - CheckCast sets type_bounds.upper_bound = cast target type
+                    // - NewInstance sets type_bounds.upper_bound = instance type
+                    // - Ternary Same constraints need to see these bounds
+                    if let Some(bounds) = self.type_bounds.get(&var) {
+                        // First check resolved in bounds
+                        if let Some(ref ty) = bounds.resolved {
+                            if !matches!(ty, ArgType::Unknown) {
+                                return Some(ty.clone());
+                            }
+                        }
+                        // Then check upper bound (from CheckCast/NewInstance)
+                        if let Some(ref ty) = bounds.upper_bound {
+                            if !matches!(ty, ArgType::Unknown) {
+                                return Some(ty.clone());
+                            }
+                        }
+                        // Finally check lower bound
+                        if let Some(ref ty) = bounds.lower_bound {
+                            if !matches!(ty, ArgType::Unknown) {
+                                return Some(ty.clone());
+                            }
+                        }
+                    }
+
+                    // 4. Check TypeInfo assign bounds (from JADX-style bound system)
+                    if let Some(info) = self.type_info.get(&var) {
+                        // Check immutable type first
+                        if let Some(ty) = info.immutable_type() {
+                            if !matches!(ty, ArgType::Unknown) {
+                                return Some(ty.clone());
+                            }
+                        }
+                        // Check assign bounds
+                        for bound in info.bounds() {
+                            if let Some(ty) = bound.get_type() {
+                                if !matches!(ty, ArgType::Unknown) {
+                                    return Some(ty.clone());
+                                }
+                            }
+                        }
+                    }
+                }
+
                 None
             }
             InsnArg::Literal(lit) => {
@@ -453,6 +530,10 @@ impl TypeInference {
                 } else {
                     None
                 }
+            }
+            InsnArg::String(_) => {
+                // String constant - always java/lang/String
+                Some(ArgType::Object("java/lang/String".to_string()))
             }
             _ => None,
         }
@@ -1374,8 +1455,8 @@ impl TypeInference {
                 let else_type = self.get_arg_type(else_value);
 
                 // If both branches have the same concrete type, use it for dest
-                match (then_type, else_type) {
-                    (Some(ref t1), Some(ref t2)) if t1 == t2 && !matches!(t1, ArgType::Unknown) => {
+                match (&then_type, &else_type) {
+                    (Some(t1), Some(t2)) if t1 == t2 && !matches!(t1, ArgType::Unknown) => {
                         // Both branches have same concrete type - use it
                         self.add_constraint(Constraint::Equals(
                             dest_var,
@@ -2425,32 +2506,147 @@ impl TypeInference {
         }
     }
 
-    /// Unify two type variables
+    /// Unify two type variables - propagate resolved types between them
+    ///
+    /// ## JADX Reference (1:1 Clone)
+    ///
+    /// Source: `jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/TypeUpdate.java`
+    /// Method: `allSameListener()` lines 482-500
+    ///
+    /// The key insight is that we need to check MULTIPLE sources for type info:
+    /// 1. `resolved` - directly resolved types
+    /// 2. `type_bounds` - bounds from CheckCast/NewInstance (critical for ternary!)
+    /// 3. `type_info` - JADX-style TypeInfo with assign/use bounds
+    ///
+    /// This is the CORE fix for P2-TYPE-INFERENCE: ternary expressions like
+    /// `r = cond ? (BufferedReader)obj : new BufferedReader()` require
+    /// propagating types from CheckCast/NewInstance which set type_bounds.
     fn unify_vars(&mut self, v1: TypeVar, v2: TypeVar) -> bool {
-        // OPTIMIZED: Avoid cloning when both resolved (just checking compatibility)
-        let has_t1 = self.resolved.contains_key(&v1);
-        let has_t2 = self.resolved.contains_key(&v2);
+        // Helper: Get the best known type for a variable from all sources
+        fn get_best_type(
+            resolved: &FxHashMap<TypeVar, InferredType>,
+            type_bounds: &FxHashMap<TypeVar, TypeBounds>,
+            type_info: &FxHashMap<TypeVar, TypeInfo>,
+            var: TypeVar,
+        ) -> Option<ArgType> {
+            // 1. Check resolved types first (highest priority)
+            if let Some(InferredType::Concrete(ty)) = resolved.get(&var) {
+                if !matches!(ty, ArgType::Unknown) {
+                    return Some(ty.clone());
+                }
+            }
 
-        match (has_t1, has_t2) {
-            (true, true) => {
-                // Both resolved - no change needed
-                // NOTE: Previously called unify_types() which returns true for "compatible"
-                // but the solver expects true only for "changed". This caused infinite loops.
-                false
+            // 2. Check type_bounds (from CheckCast/NewInstance via AssignBound)
+            if let Some(bounds) = type_bounds.get(&var) {
+                if let Some(ref ty) = bounds.resolved {
+                    if !matches!(ty, ArgType::Unknown) {
+                        return Some(ty.clone());
+                    }
+                }
+                if let Some(ref ty) = bounds.upper_bound {
+                    if !matches!(ty, ArgType::Unknown) {
+                        return Some(ty.clone());
+                    }
+                }
             }
-            (true, false) => {
-                // Only v1 resolved - clone and propagate to v2
-                let ty = self.resolved.get(&v1).unwrap().clone();
-                self.resolved.insert(v2, ty);
-                true
+
+            // 3. Check type_info (JADX-style bounds)
+            if let Some(info) = type_info.get(&var) {
+                if let Some(ty) = info.immutable_type() {
+                    if !matches!(ty, ArgType::Unknown) {
+                        return Some(ty.clone());
+                    }
+                }
+                for bound in info.bounds() {
+                    if let Some(ty) = bound.get_type() {
+                        if !matches!(ty, ArgType::Unknown) {
+                            return Some(ty.clone());
+                        }
+                    }
+                }
             }
-            (false, true) => {
-                // Only v2 resolved - clone and propagate to v1
-                let ty = self.resolved.get(&v2).unwrap().clone();
-                self.resolved.insert(v1, ty);
-                true
+
+            None
+        }
+
+        // Get best type for both variables
+        let t1 = get_best_type(&self.resolved, &self.type_bounds, &self.type_info, v1);
+        let t2 = get_best_type(&self.resolved, &self.type_bounds, &self.type_info, v2);
+
+        match (t1, t2) {
+            (Some(ty1), Some(ty2)) => {
+                // Both have types - check if they're compatible
+                let cmp = compare_types(&ty1, &ty2, self.hierarchy.as_ref());
+                if cmp.is_conflict() {
+                    // Types conflict - try LCA
+                    if let (Some(hierarchy), ArgType::Object(name1), ArgType::Object(name2)) =
+                        (&self.hierarchy, &ty1, &ty2)
+                    {
+                        // Handle null specially
+                        if name1 == "null" {
+                            // Propagate ty2 to v1 since null is compatible with any object
+                            if !self.resolved.contains_key(&v1) {
+                                self.resolved.insert(v1, InferredType::Concrete(ty2));
+                                return true;
+                            }
+                        } else if name2 == "null" {
+                            // Propagate ty1 to v2
+                            if !self.resolved.contains_key(&v2) {
+                                self.resolved.insert(v2, InferredType::Concrete(ty1));
+                                return true;
+                            }
+                        } else {
+                            // Compute LCA
+                            let lca = hierarchy.least_common_ancestor(name1, name2);
+                            let lca_ty = ArgType::Object(lca);
+                            let mut changed = false;
+                            if !self.resolved.contains_key(&v1) {
+                                self.resolved.insert(v1, InferredType::Concrete(lca_ty.clone()));
+                                changed = true;
+                            }
+                            if !self.resolved.contains_key(&v2) {
+                                self.resolved.insert(v2, InferredType::Concrete(lca_ty));
+                                changed = true;
+                            }
+                            return changed;
+                        }
+                    }
+                    false
+                } else {
+                    // Types compatible - propagate the more specific one
+                    let narrower = if cmp.is_narrow() { &ty1 } else { &ty2 };
+                    let mut changed = false;
+
+                    if !self.resolved.contains_key(&v1) {
+                        self.resolved.insert(v1, InferredType::Concrete(narrower.clone()));
+                        changed = true;
+                    }
+                    if !self.resolved.contains_key(&v2) {
+                        self.resolved.insert(v2, InferredType::Concrete(narrower.clone()));
+                        changed = true;
+                    }
+                    changed
+                }
             }
-            (false, false) => false,
+            (Some(ty), None) => {
+                // Only v1 has a type - propagate to v2
+                if !self.resolved.contains_key(&v2) {
+                    self.resolved.insert(v2, InferredType::Concrete(ty));
+                    true
+                } else {
+                    false
+                }
+            }
+            (None, Some(ty)) => {
+                // Only v2 has a type - propagate to v1
+                if !self.resolved.contains_key(&v1) {
+                    self.resolved.insert(v1, InferredType::Concrete(ty));
+                    true
+                } else {
+                    false
+                }
+            }
+            (None, None) => false,
         }
     }
 
@@ -2553,15 +2749,62 @@ impl TypeInference {
     }
 
     /// Get all resolved types as (reg_num, ssa_version) -> ArgType
+    ///
+    /// This method exports types from multiple sources in priority order:
+    /// 1. self.resolved - types that were fully resolved during solve()
+    /// 2. self.type_bounds - types from CheckCast/NewInstance/etc
+    /// 3. self.type_info - TypeInfo bounds (JADX-style AssignBound/UseBound)
     pub fn get_all_types(&mut self) -> HashMap<(u16, u32), ArgType> {
         // First, resolve any pending TypeVariable substitutions
         self.resolve_pending_type_variables();
 
         let mut result = HashMap::with_capacity(self.reg_to_var.len());
         for (&key, &var) in &self.reg_to_var {
+            // 1. Check resolved types first
             if let Some(ty) = self.resolved.get(&var) {
                 if let Some(arg_ty) = ty.to_arg_type() {
-                    result.insert(key, arg_ty);
+                    if !matches!(arg_ty, ArgType::Unknown) {
+                        result.insert(key, arg_ty);
+                        continue;
+                    }
+                }
+            }
+
+            // 2. Check type_bounds (from CheckCast/NewInstance/etc)
+            if let Some(bounds) = self.type_bounds.get(&var) {
+                // Check resolved type in bounds
+                if let Some(ref resolved) = bounds.resolved {
+                    if !matches!(resolved, ArgType::Unknown) {
+                        result.insert(key, resolved.clone());
+                        continue;
+                    }
+                }
+                // Check upper_bound
+                if let Some(ref upper) = bounds.upper_bound {
+                    if !matches!(upper, ArgType::Unknown) {
+                        result.insert(key, upper.clone());
+                        continue;
+                    }
+                }
+                // Check lower_bound
+                if let Some(ref lower) = bounds.lower_bound {
+                    if !matches!(lower, ArgType::Unknown) {
+                        result.insert(key, lower.clone());
+                        continue;
+                    }
+                }
+            }
+
+            // 3. Check TypeInfo (JADX-style bounds)
+            if let Some(info) = self.type_info.get(&var) {
+                // Get best type from assign bounds
+                for bound in info.assign_bounds() {
+                    if let Some(ty) = bound.get_type() {
+                        if !matches!(ty, ArgType::Unknown) {
+                            result.insert(key, ty.clone());
+                            break;
+                        }
+                    }
                 }
             }
         }

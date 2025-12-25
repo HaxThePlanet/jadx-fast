@@ -138,6 +138,9 @@ pub struct BodyGenContext {
     pub const_values: HashMap<(u16, u32), String>,
     /// Instructions to skip in for-each loops (block_id -> set of instruction indices)
     pub skip_foreach_insns: HashMap<u32, HashSet<usize>>,
+    /// P0-LOOP-VAR FIX: Registers that should never be inlined (matches JADX AFlag.DONT_INLINE)
+    /// Used for for-each loop variables to prevent premature consumption of inline expressions
+    pub dont_inline_regs: HashSet<(u16, u32)>,
     /// StringBuilder chain tracking for optimization
     /// Maps register number to chain of arguments for string concatenation
     /// When we see StringBuilder.<init> we start tracking, append() adds args,
@@ -306,6 +309,7 @@ impl BodyGenContext {
             phi_return_only: HashSet::new(),
             const_values: HashMap::new(),
             skip_foreach_insns: HashMap::new(),
+            dont_inline_regs: HashSet::new(),
             stringbuilder_chains: HashMap::new(),
             last_stringbuilder_reg: None,
             pending_vararg_arrays: HashMap::new(),
@@ -360,6 +364,11 @@ impl BodyGenContext {
         if self.is_parameter(reg, version) {
             return false;
         }
+        // P0-LOOP-VAR FIX: Don't inline for-each loop variables (matches JADX AFlag.DONT_INLINE)
+        // This prevents premature consumption of inline expressions for loop variables
+        if self.dont_inline_regs.contains(&(reg, version)) {
+            return false;
+        }
         // Check instruction use count (excludes PHI sources) - only inline if used exactly once
         // PHI sources don't appear in Java output, so they shouldn't prevent inlining
         let use_count = self.insn_use_counts.get(&(reg, version)).copied().unwrap_or(0);
@@ -373,6 +382,15 @@ impl BodyGenContext {
 
     /// Store an expression for potential inlining
     pub fn store_inline_expr(&mut self, reg: u16, version: u32, expr: String) {
+        // P0-LOOP-VAR FIX: Don't overwrite existing inline expressions
+        // Prelude processing stores correct expressions (with inlined args);
+        // main codegen may try to store again but with consumed args - skip if exists
+        if self.inlined_exprs.contains_key(&(reg, version)) {
+            if std::env::var("DEBUG_INLINE").is_ok() {
+                eprintln!("[SKIP_OVERWRITE] r{}v{} already has expr, skipping: {}", reg, version, expr);
+            }
+            return;
+        }
         // DEBUG: Trace inline expression storage
         if std::env::var("DEBUG_INLINE").is_ok() {
             eprintln!("[STORE] r{}v{} = {}", reg, version, expr);
@@ -3329,6 +3347,12 @@ struct ArrayForEachInfo {
     incr_block: u32,
     /// Index of increment instruction in the block
     incr_insn_idx: usize,
+    /// P0-LOOP-VAR FIX: Additional instructions to skip after AGET (Move, Const)
+    /// Format: (block_id, insn_idx)
+    extra_skip_insns: Vec<(u32, usize)>,
+    /// P0-LOOP-VAR FIX: Additional registers that should use the for-each variable inline expr
+    /// Format: (reg_num, ssa_version) - typically the Move destination
+    alias_registers: Vec<(u16, u32)>,
 }
 
 /// Detect if a region body starts with a next() call on the given iterator register
@@ -3926,6 +3950,46 @@ fn detect_array_foreach_pattern(
     let (aget_block, aget_idx, item_var, item_type, aget_dest_reg, aget_dest_version) = aget_info?;
     let (incr_block, incr_idx) = incr_info?;
 
+    // P0-LOOP-VAR FIX: Scan for Move and Const instructions that follow AGET in the same block
+    // These need to be skipped and their destinations need to use the for-each variable
+    let mut extra_skip_insns: Vec<(u32, usize)> = Vec::new();
+    let mut alias_registers: Vec<(u16, u32)> = Vec::new();
+
+    if let Some(block) = ctx.blocks.get(&aget_block) {
+        let debug_foreach = std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok();
+
+        // Scan instructions after AGET
+        for (i, insn) in block.instructions.iter().enumerate().skip(aget_idx + 1) {
+            match &insn.insn_type {
+                // Move instruction that copies the AGET result - skip it and register alias
+                InsnType::Move { dest, src: InsnArg::Register(src_reg) } => {
+                    if src_reg.reg_num == aget_dest_reg && src_reg.ssa_version == aget_dest_version {
+                        if debug_foreach {
+                            eprintln!("[FOREACH] Found Move after AGET: r{}v{} -> r{}v{}",
+                                src_reg.reg_num, src_reg.ssa_version, dest.reg_num, dest.ssa_version);
+                        }
+                        extra_skip_insns.push((aget_block, i));
+                        alias_registers.push((dest.reg_num, dest.ssa_version));
+                    }
+                }
+                // Const instruction that sets the loop counter (often idx = 0) - skip it
+                InsnType::Const { dest, value: LiteralArg::Int(0) } => {
+                    // Only skip if it's related to loop counter (uses index-style naming)
+                    let var_name = ctx.expr_gen.get_var_name(dest);
+                    if var_name.starts_with('i') || var_name.starts_with("index") {
+                        if debug_foreach {
+                            eprintln!("[FOREACH] Found Const(0) after AGET: {} = 0", var_name);
+                        }
+                        extra_skip_insns.push((aget_block, i));
+                    }
+                }
+                // Stop scanning at control flow or other complex instructions
+                InsnType::If { .. } | InsnType::Goto { .. } | InsnType::Return { .. } => break,
+                _ => {}
+            }
+        }
+    }
+
     // Generate array expression - trace back to method calls if array comes from invoke result
     let array_expr = generate_array_source_expr(&arr_reg_arg, ctx);
 
@@ -3940,6 +4004,8 @@ fn detect_array_foreach_pattern(
         aget_insn_idx: aget_idx,
         incr_block,
         incr_insn_idx: incr_idx,
+        extra_skip_insns,
+        alias_registers,
     })
 }
 
@@ -4133,7 +4199,7 @@ fn collect_equals_strings_from_region(
                 }
             }
         }
-        Region::If { condition, then_region, else_region } => {
+        Region::If { condition, then_region, else_region, .. } => {
             // Check condition block for equals() call
             if let Condition::Simple { block, .. } = condition {
                 if let Some(block) = ctx.blocks.get(block) {
@@ -4231,7 +4297,7 @@ fn extract_inner_from_if_equals_case<'a>(
             }
             None
         }
-        Region::If { condition, then_region, else_region } => {
+        Region::If { condition, then_region, else_region, .. } => {
             // Check if condition block contains a String.equals() call on our string register
             // Handle both Simple and Not(Simple) conditions
             let (block_id, is_negated) = match condition {
@@ -4444,7 +4510,7 @@ fn find_index_assignment_in_content(
 /// If the else region is another If, generates `} else if (cond) {` instead of `} else { if (cond) {`
 fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
     match else_region {
-        Region::If { condition, then_region, else_region: nested_else } => {
+        Region::If { condition, then_region, else_region: nested_else, .. } => {
             // Check if this could be a ternary - if so, don't chain
             if let Some(nested_else_reg) = nested_else {
                 if detect_ternary_pattern(then_region, nested_else_reg, ctx).is_some() {
@@ -5308,7 +5374,7 @@ fn detect_ternary_pattern(
     if let Region::Sequence(contents) = else_region {
         if contents.len() == 1 {
             if let RegionContent::Region(inner) = &contents[0] {
-                if let Region::If { condition: inner_cond, then_region: inner_then, else_region: inner_else } = inner.as_ref() {
+                if let Region::If { condition: inner_cond, then_region: inner_then, else_region: inner_else, .. } = inner.as_ref() {
                     // The else is a nested if/else - check if it's a ternary chain
                     if let (Some(inner_else_reg), Some(then_dest_info)) =
                         (inner_else.as_ref(), get_branch_assignment_info(then_region, ctx))
@@ -5636,7 +5702,7 @@ fn detect_if_bool_return_pattern<'a>(
 ) -> Option<(bool, &'a Condition)> {
     // Must be an If with no else
     let (condition, then_region, else_region) = match if_region {
-        Region::If { condition, then_region, else_region } => (condition, then_region, else_region),
+        Region::If { condition, then_region, else_region, .. } => (condition, then_region, else_region),
         _ => return None,
     };
 
@@ -6707,6 +6773,7 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             condition,
             then_region,
             else_region,
+            ..
         } => {
             // Emit pre-condition setup instructions (e.g., array.length for bounds)
             // These instructions define variables used in the condition but are not part
@@ -6869,6 +6936,19 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                             // Mark instructions to skip: AGET and increment (i++)
                             let mut skip_set_aget: HashSet<usize> = HashSet::new();
                             skip_set_aget.insert(arr_foreach.aget_insn_idx);
+
+                            // P0-LOOP-VAR FIX: Also skip Move and Const instructions after AGET
+                            for (block_id, insn_idx) in &arr_foreach.extra_skip_insns {
+                                if *block_id == arr_foreach.aget_block {
+                                    skip_set_aget.insert(*insn_idx);
+                                } else {
+                                    // For instructions in other blocks, add to their skip sets
+                                    ctx.skip_foreach_insns
+                                        .entry(*block_id)
+                                        .or_insert_with(HashSet::new)
+                                        .insert(*insn_idx);
+                                }
+                            }
                             ctx.skip_foreach_insns.insert(arr_foreach.aget_block, skip_set_aget);
 
                             // Register for-each variable as inline expression for AGET result
@@ -6877,6 +6957,26 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                                 (arr_foreach.aget_result_reg, arr_foreach.aget_result_version),
                                 arr_foreach.item_var.clone()
                             );
+
+                            // P0-LOOP-VAR FIX: Also register inline expression for alias registers (Move destinations)
+                            // This ensures uses like `new File(r8v3)` resolve to `new File(str)`
+                            for (reg, version) in &arr_foreach.alias_registers {
+                                ctx.inlined_exprs.insert(
+                                    (*reg, *version),
+                                    arr_foreach.item_var.clone()
+                                );
+                            }
+
+                            // P0-LOOP-VAR FIX: Mark as DONT_INLINE (matches JADX ForEachLoop.java:17)
+                            // This prevents premature consumption during constructor arg processing
+                            ctx.dont_inline_regs.insert(
+                                (arr_foreach.aget_result_reg, arr_foreach.aget_result_version)
+                            );
+
+                            // Also mark alias registers as DONT_INLINE
+                            for (reg, version) in &arr_foreach.alias_registers {
+                                ctx.dont_inline_regs.insert((*reg, *version));
+                            }
 
                             let mut skip_set_incr: HashSet<usize> = HashSet::new();
                             skip_set_incr.insert(arr_foreach.incr_insn_idx);
@@ -6894,10 +6994,29 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                             // Clean up skip sets
                             ctx.skip_foreach_insns.remove(&arr_foreach.aget_block);
                             ctx.skip_foreach_insns.remove(&arr_foreach.incr_block);
+                            // Also clean up extra skip blocks
+                            for (block_id, _) in &arr_foreach.extra_skip_insns {
+                                if *block_id != arr_foreach.aget_block && *block_id != arr_foreach.incr_block {
+                                    ctx.skip_foreach_insns.remove(block_id);
+                                }
+                            }
 
                             // P0-WRONG-RETURN FIX: Clean up for-each inline expression
                             // Prevents stale mapping from leaking into return statements after loop
                             ctx.inlined_exprs.remove(&(arr_foreach.aget_result_reg, arr_foreach.aget_result_version));
+
+                            // Also clean up alias registers
+                            for (reg, version) in &arr_foreach.alias_registers {
+                                ctx.inlined_exprs.remove(&(*reg, *version));
+                            }
+
+                            // P0-LOOP-VAR FIX: Clean up DONT_INLINE flag after loop body
+                            ctx.dont_inline_regs.remove(&(arr_foreach.aget_result_reg, arr_foreach.aget_result_version));
+
+                            // Also clean up alias registers
+                            for (reg, version) in &arr_foreach.alias_registers {
+                                ctx.dont_inline_regs.remove(&(*reg, *version));
+                            }
 
                             gen_close_block(code);
                             return;
@@ -7868,7 +7987,7 @@ fn process_region_for_inlining(region: &Region, ctx: &mut BodyGenContext) {
                 }
             }
         }
-        Region::If { condition, then_region, else_region } => {
+        Region::If { condition, then_region, else_region, .. } => {
             process_all_condition_blocks_for_inlining(condition, ctx);
             process_region_for_inlining(then_region, ctx);
             if let Some(else_reg) = else_region {
@@ -8367,6 +8486,27 @@ fn extract_block_value_type(block_id: u32, ctx: &BodyGenContext) -> Option<ArgTy
     if non_nop.len() == 1 {
         let insn = &non_nop[0];
         match &insn.insn_type {
+            // ConstString: always java/lang/String
+            // P2-TYPE-INFERENCE FIX: Handle String constants in ternary branches
+            InsnType::ConstString { .. } => {
+                return Some(ArgType::Object("java/lang/String".to_string()));
+            }
+            // ConstClass: always java/lang/Class
+            InsnType::ConstClass { .. } => {
+                return Some(ArgType::Object("java/lang/Class".to_string()));
+            }
+            // Const: infer from literal type
+            // P2-TYPE-INFERENCE FIX: Handle int/long literals in ternary branches
+            // Note: LiteralArg::Int(i64) covers both int and long - we use Int as default
+            InsnType::Const { value, .. } => {
+                use dexterity_ir::instructions::LiteralArg;
+                return match value {
+                    LiteralArg::Int(_) => Some(ArgType::Int),
+                    LiteralArg::Float(_) => Some(ArgType::Float),
+                    LiteralArg::Double(_) => Some(ArgType::Double),
+                    LiteralArg::Null => Some(ArgType::Object("java/lang/Object".to_string())),
+                };
+            }
             // NewInstance gives the type directly
             InsnType::NewInstance { type_idx, .. } => {
                 return ctx.expr_gen.get_type_value(*type_idx).map(|s| ArgType::Object(s));
@@ -8379,6 +8519,43 @@ fn extract_block_value_type(block_id: u32, ctx: &BodyGenContext) -> Option<ArgTy
             InsnType::Constructor { method_idx, .. } => {
                 if let Some(info) = ctx.expr_gen.get_method_value(*method_idx) {
                     return Some(ArgType::Object(info.class_name.to_string()));
+                }
+            }
+            // P2-TYPE-INFERENCE FIX: Handle InstanceGet for field access in ternary branches
+            InsnType::InstanceGet { field_idx, .. } => {
+                if let Some(info) = ctx.expr_gen.get_field_value(*field_idx) {
+                    return Some(info.field_type.clone());
+                }
+            }
+            // P2-TYPE-INFERENCE FIX: Handle StaticGet for enum/static fields in ternary branches
+            InsnType::StaticGet { field_idx, .. } => {
+                if let Some(info) = ctx.expr_gen.get_field_value(*field_idx) {
+                    return Some(info.field_type.clone());
+                }
+            }
+            // P2-TYPE-INFERENCE FIX: Handle Binary operations - infer from operands
+            InsnType::Binary { left, right, .. } => {
+                // Try to get type from left operand first
+                if let InsnArg::Register(reg) = left {
+                    if let Some(ty) = ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version) {
+                        return Some(ty);
+                    }
+                }
+                // Fall back to right operand
+                if let InsnArg::Register(reg) = right {
+                    if let Some(ty) = ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version) {
+                        return Some(ty);
+                    }
+                }
+                // If both are literals, check type from value
+                if let InsnArg::Literal(lit) = left {
+                    use dexterity_ir::instructions::LiteralArg;
+                    return match lit {
+                        LiteralArg::Int(_) => Some(ArgType::Int),
+                        LiteralArg::Float(_) => Some(ArgType::Float),
+                        LiteralArg::Double(_) => Some(ArgType::Double),
+                        LiteralArg::Null => Some(ArgType::Object("java/lang/Object".to_string())),
+                    };
                 }
             }
             // Move: check source type
@@ -8402,6 +8579,50 @@ fn extract_block_value_type(block_id: u32, ctx: &BodyGenContext) -> Option<ArgTy
             continue;
         }
         match &insn.insn_type {
+            // P2-TYPE-INFERENCE FIX: Handle ConstString in fallback loop
+            InsnType::ConstString { .. } => {
+                return Some(ArgType::Object("java/lang/String".to_string()));
+            }
+            // P2-TYPE-INFERENCE FIX: Handle ConstClass in fallback loop
+            InsnType::ConstClass { .. } => {
+                return Some(ArgType::Object("java/lang/Class".to_string()));
+            }
+            // P2-TYPE-INFERENCE FIX: Handle StaticGet for enum constants (e.g., Level.FINEST)
+            InsnType::StaticGet { field_idx, .. } => {
+                if let Some(info) = ctx.expr_gen.get_field_value(*field_idx) {
+                    return Some(info.field_type.clone());
+                }
+            }
+            // P2-TYPE-INFERENCE FIX: Handle InstanceGet for field access
+            InsnType::InstanceGet { field_idx, .. } => {
+                if let Some(info) = ctx.expr_gen.get_field_value(*field_idx) {
+                    return Some(info.field_type.clone());
+                }
+            }
+            // P2-TYPE-INFERENCE FIX: Handle Binary operations
+            InsnType::Binary { left, right, .. } => {
+                use dexterity_ir::instructions::LiteralArg;
+                // Try to get type from operands
+                if let InsnArg::Register(reg) = left {
+                    if let Some(ty) = ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version) {
+                        return Some(ty);
+                    }
+                }
+                if let InsnArg::Register(reg) = right {
+                    if let Some(ty) = ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version) {
+                        return Some(ty);
+                    }
+                }
+                // Check literal types
+                if let InsnArg::Literal(lit) = left {
+                    return match lit {
+                        LiteralArg::Int(_) => Some(ArgType::Int),
+                        LiteralArg::Float(_) => Some(ArgType::Float),
+                        LiteralArg::Double(_) => Some(ArgType::Double),
+                        LiteralArg::Null => Some(ArgType::Object("java/lang/Object".to_string())),
+                    };
+                }
+            }
             InsnType::Move { src: InsnArg::Register(reg), .. } => {
                 // Try to get type of the source register
                 if let Some(ty) = ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version) {
@@ -8414,13 +8635,22 @@ fn extract_block_value_type(block_id: u32, ctx: &BodyGenContext) -> Option<ArgTy
                     }
                 }
             }
-            InsnType::Const { dest, .. } => {
-                // For constants, try to infer type from context
+            // P2-TYPE-INFERENCE FIX: Handle Const with literal type inference
+            InsnType::Const { value, dest } => {
+                use dexterity_ir::instructions::LiteralArg;
+                // First try context-based inference
                 if let Some(ref ti) = ctx.type_info {
                     if let Some(ty) = ti.types.get(&(dest.reg_num, dest.ssa_version)) {
                         return Some(ty.clone());
                     }
                 }
+                // Fall back to literal type inference
+                return match value {
+                    LiteralArg::Int(_) => Some(ArgType::Int),
+                    LiteralArg::Float(_) => Some(ArgType::Float),
+                    LiteralArg::Double(_) => Some(ArgType::Double),
+                    LiteralArg::Null => Some(ArgType::Object("java/lang/Object".to_string())),
+                };
             }
             _ => break,
         }

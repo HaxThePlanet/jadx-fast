@@ -1,0 +1,44 @@
+# P2-TYPE-INFERENCE: Unknown Type Warnings
+
+**Status:** IN PROGRESS (Chad)
+**Priority:** P2 (Type inference gaps)
+**Assigned:** Chad
+**Created:** Dec 24, 2025
+
+## Issue
+Ternary expressions and complex conditionals fail type inference, outputting:
+```
+Object /* Dexterity WARNING: Unknown type */ r0 = ...
+```
+
+## Scope
+- large APK: 92 warnings in 78 files
+- medium APK: 51 warnings in 47 files
+- badboy APK: 0 warnings (fixed Dec 24)
+
+## Examples
+```java
+// Should infer from both branches
+Object r0 = z ? Level.FINEST : Level.FINER;  // Should be: Level
+
+// Enum constant ternary
+Object r0 = z ? Base64.BASE64URL_ALPHABET : Base64.BASE64_ALPHABET;  // Should be: byte[]
+```
+
+## Root Cause
+- Ternary destination type not inferred from both branches
+- Enum/constant detection missing in complex expressions
+- Return type constraints not propagated to PHI destinations
+
+## Fix Strategy
+1. Enhance ternary type inference to check both branch types
+2. Propagate method return types through PHI nodes
+3. Better enum/constant detection in expressions
+
+## Files to Modify
+- crates/dexterity-codegen/src/type_inference.rs (branch type propagation)
+- crates/dexterity-codegen/src/body_gen.rs (ternary destination handling)
+
+## Testing
+- Verify large APK has <10 Unknown type warnings
+- Verify medium APK has <10 Unknown type warnings
