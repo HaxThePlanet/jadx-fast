@@ -1,11 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 1 P1 | 1 P2 | 7 CQ | Dec 26, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 1 P1 | 0 P2 | 7 CQ | Dec 26, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 0 P0, 1 P1 (try-catch invert) |
+| **Open Bugs** | 0 P0, 1 P1 (try-catch invert - partial fix Dec 26) |
 | **Code Quality** | 0 Easy, 2 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
@@ -556,29 +556,47 @@ while (i < bArr.length) {
 
 ---
 
-### P1-TRY-CATCH-INVERT: Empty Try Block / Inverted Control Flow 🔴 OPEN
+### P1-TRY-CATCH-INVERT: Empty Try Block / Inverted Control Flow 🟡 PARTIAL FIX (Dec 26, 2025)
 
-**Status:** 🔴 OPEN | **Priority:** P1 (Wrong semantics)
+**Status:** 🟡 PARTIAL FIX | **Priority:** P1 (Wrong semantics)
 **Location:** `crates/dexterity-passes/src/region_builder.rs` - try-catch reconstruction
 **Example File:** `output/dexterity/medium/sources/org/json/JSONObject.java:73-85`
 
 **Bug:** Try-catch region reconstruction inverts the body - actual code ends up in catch block instead of try.
 
-```java
-// Dexterity (BROKEN):
-public JSONObject(JSONObject jSONObject, String... strArr) {
-    while (i < strArr.length) {
-        try {
-        } catch (Exception e) {           // Empty try!
-            putOnce(strArr[i], jSONObject.opt(strArr[i]));  // Logic in catch!
-            i = i + 1;
-            return;
-        }
+**Fix Applied (Dec 26, 2025):**
+Added dominance check to BFS fallback in `collect_handler_blocks_by_dominance()` (line 689):
+```rust
+// BEFORE (broken): followed ALL successors
+for &succ in cfg.successors(b) {
+    if !visited.contains(&succ) {
+        worklist.push(succ);
+    }
+}
+
+// AFTER (matches JADX collectWhileDominates pattern):
+for &succ in cfg.successors(b) {
+    if !visited.contains(&succ) && cfg.dominates(handler_block, succ) {
+        worklist.push(succ);
     }
 }
 ```
 
-**Root Cause:** Try-catch region body blocks are being assigned to the wrong region.
+**Results:**
+- ✅ JSONObject constructor FIXED: `putOnce()` now correctly in try block, spurious `return` removed
+- 🔴 JSONArray.getDouble() still broken: `parseDouble()` return ends up after try-catch, not inside
+
+**Before/After (JSONObject constructor):**
+```java
+// BEFORE: try { } catch { putOnce(); i++; return; }  // Empty try, logic+return in catch
+// AFTER:  try { putOnce(); } catch { i++; }          // Logic in try, no spurious return
+```
+
+**Remaining Issue:** Some patterns still broken when dominance tree itself incorrectly assigns try body blocks as dominated by handler. Need to investigate dominance computation for exception edges.
+
+**Root Cause (original):** BFS fallback followed loop back edges and re-entered try body blocks, causing them to be collected as handler blocks.
+
+**JADX Reference:** `BlockUtils.collectWhileDominates()` - only follows successors that are dominated by the handler
 
 ---
 
@@ -770,36 +788,32 @@ fun checkTracerPid(): Boolean {
 
 ---
 
-## Open P2 Bugs (Dec 25, 2025) - 1 OPEN
+## P2 Bugs - ALL FIXED (Dec 26, 2025)
 
-### P2-FIELD-COMPOUND: Field Compound Assignment Inlining 🔴 OPEN
+### P2-FIELD-COMPOUND: Field Compound Assignment Inlining ✅ FIXED (Dec 26, 2025)
 
-**Status:** 🔴 OPEN | **Priority:** P2 (Polish/Optimization)
+**Status:** ✅ FIXED | **Fixed:** Dec 26, 2025 | **Priority:** P2 (Polish/Optimization)
 **Location:** `crates/dexterity-codegen/src/body_gen.rs` - expression inlining
-**JADX Reference:** `TypeUpdate.java` allSameListener pattern
+**JADX Reference:** `SimplifyVisitor.convertFieldArith()` (lines 585-636)
 
-**Current Output:**
+**Solution Applied:**
+1. Added `field_compound_skips: HashSet<(u16, u32)>` to track Binary instructions that are part of field compound assignments
+2. Added `scan_field_compound_patterns()` pre-scan function to identify patterns before codegen
+3. Added `is_field_compound_pattern()` helper to check if left operand is InstanceGet/StaticGet of same field
+4. Skip marked Binary instructions in `emit_assignment_insn()` - InstancePut/StaticPut emits compound form
+
+**Before (verbose):**
 ```java
-public synchronized Y put(T t, Y y) {
-    Y put = this.cache.put(t, y);
-    if (y != null) {
-        int size = this.currentSize + getSize(y);  // Separate declaration
-        this.currentSize = size;                    // Then assignment
-    }
-}
+int size = this.currentSize + getSize(y);
+this.currentSize = size;
 ```
 
-**JADX Output (cleaner):**
+**After (JADX parity):**
 ```java
-public synchronized Y put(T t, Y y) {
-    Y put = this.cache.put(t, y);
-    if (y != null) {
-        this.currentSize += getSize(y);  // Direct compound assignment
-    }
-}
+this.currentSize += getSize(y);
 ```
 
-**Solution:** Detect `field = field + expr` patterns and convert to `field += expr` during expression inlining phase.
+**Verification:** Decompiled medium APK shows 20+ compound assignments (`+=`, `-=`) and zero verbose patterns.
 
 ---
 

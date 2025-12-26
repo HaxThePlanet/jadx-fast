@@ -145,6 +145,9 @@ pub struct BodyGenContext {
     /// P0-LOOP-VAR FIX: Registers that should never be inlined (matches JADX AFlag.DONT_INLINE)
     /// Used for for-each loop variables to prevent premature consumption of inline expressions
     pub dont_inline_regs: HashSet<(u16, u32)>,
+    /// P2-FIELD-COMPOUND: Binary instructions to skip because they're field compound assignments
+    /// Pattern: `size = this.field + expr; this.field = size` -> `this.field += expr`
+    pub field_compound_skips: HashSet<(u16, u32)>,
     /// StringBuilder chain tracking for optimization
     /// Maps register number to chain of arguments for string concatenation
     /// When we see StringBuilder.<init> we start tracking, append() adds args,
@@ -325,6 +328,7 @@ impl BodyGenContext {
             const_values: HashMap::new(),
             skip_foreach_insns: HashMap::new(),
             dont_inline_regs: HashSet::new(),
+            field_compound_skips: HashSet::new(),
             stringbuilder_chains: HashMap::new(),
             last_stringbuilder_reg: None,
             pending_vararg_arrays: HashMap::new(),
@@ -2177,6 +2181,12 @@ fn emit_assignment_insn<W: CodeWriter>(
         return false;  // Skip unused variables - dead code elimination
     }
 
+    // P2-FIELD-COMPOUND: Skip Binary instructions that will be emitted as field compound assignments
+    // The InstancePut/StaticPut handler will emit the compound form (e.g., `this.field += expr`)
+    if ctx.field_compound_skips.contains(&(reg, version)) {
+        return true;  // Skip - field put will emit compound form
+    }
+
     // Check if this variable should be inlined (used exactly once)
     // Skip inlining check for PHI sources - they must assign to the PHI variable
     // This is the rare case where we need the String for deferred emission
@@ -2712,6 +2722,66 @@ fn args_match(a: &InsnArg, b: &InsnArg) -> bool {
     }
 }
 
+/// P2-FIELD-COMPOUND: Check if left operand is InstanceGet/StaticGet of the specified field
+/// Used by scan_field_compound_patterns() to identify compound assignment patterns
+fn is_field_compound_pattern(
+    field_idx: u32,
+    object: Option<&InsnArg>,
+    left: &InsnArg,
+    ctx: &BodyGenContext,
+) -> bool {
+    match (object, left) {
+        // Instance field: check both object and field_idx match
+        (Some(put_obj), InsnArg::Register(get_reg)) => {
+            if let Some(get_insn) = find_defining_instruction(get_reg, ctx) {
+                if let InsnType::InstanceGet { object: get_obj, field_idx: get_field_idx, .. } = &get_insn.insn_type {
+                    return *get_field_idx == field_idx && args_match(put_obj, get_obj);
+                }
+            }
+            false
+        }
+        // Static field: just check field_idx matches
+        (None, InsnArg::Register(get_reg)) => {
+            if let Some(get_insn) = find_defining_instruction(get_reg, ctx) {
+                if let InsnType::StaticGet { field_idx: get_field_idx, .. } = &get_insn.insn_type {
+                    return *get_field_idx == field_idx;
+                }
+            }
+            false
+        }
+        _ => false,
+    }
+}
+
+/// P2-FIELD-COMPOUND: Pre-scan to identify Binary instructions that are part of field compound assignments
+/// These should be skipped during normal emission - InstancePut/StaticPut will emit the compound form
+/// Pattern: `size = this.field + expr; this.field = size` -> `this.field += expr`
+fn scan_field_compound_patterns(ctx: &mut BodyGenContext) {
+    for block in ctx.blocks.values() {
+        for insn in &block.instructions {
+            // Look for InstancePut/StaticPut
+            let (field_idx, object_arg, value) = match &insn.insn_type {
+                InsnType::InstancePut { field_idx, object, value } => (*field_idx, Some(object), value),
+                InsnType::StaticPut { field_idx, value } => (*field_idx, None, value),
+                _ => continue,
+            };
+
+            // Check if this would be a compound assignment
+            if let InsnArg::Register(value_reg) = value {
+                if let Some(defining_insn) = find_defining_instruction(value_reg, ctx) {
+                    if let InsnType::Binary { dest, left, .. } = &defining_insn.insn_type {
+                        // Check if left operand is field get of same field
+                        if is_field_compound_pattern(field_idx, object_arg, left, ctx) {
+                            // Mark this Binary's dest to skip during emission
+                            ctx.field_compound_skips.insert((dest.reg_num, dest.ssa_version));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 /// Generate method body from instructions
 pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     let insns = match method.instructions() {
@@ -2791,6 +2861,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
+    scan_field_compound_patterns(&mut ctx);  // P2-FIELD-COMPOUND: Pre-scan for compound assignments
     ctx.type_info = Some(type_result);
 
     // Count variable uses from instructions only (for inlining decisions)
@@ -3031,6 +3102,7 @@ fn generate_body_impl<W: CodeWriter>(
     ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
+    scan_field_compound_patterns(&mut ctx);  // P2-FIELD-COMPOUND: Pre-scan for compound assignments
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
 
@@ -3408,6 +3480,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     ctx.const_values = collect_const_values(&ssa_result, Some(&type_result));
     let phi_uses = count_phi_source_uses(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
+    scan_field_compound_patterns(&mut ctx);  // P2-FIELD-COMPOUND: Pre-scan for compound assignments
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
 

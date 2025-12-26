@@ -683,9 +683,10 @@ fn collect_handler_blocks_by_dominance(
 
         handler_blocks.insert(b);
 
-        // Add successors (no hard limit needed with dominance fallback)
+        // Add successors - but only if dominated by handler (JADX collectWhileDominates pattern)
+        // This prevents following loop back edges that lead to non-dominated blocks
         for &succ in cfg.successors(b) {
-            if !visited.contains(&succ) {
+            if !visited.contains(&succ) && cfg.dominates(handler_block, succ) {
                 worklist.push(succ);
             }
         }
