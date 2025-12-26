@@ -231,6 +231,25 @@ impl TypeBoundInvokeAssign {
         ty: &ArgType,
         mapping: &std::collections::HashMap<String, ArgType>,
     ) -> ArgType {
+        Self::apply_type_var_mapping_with_depth(ty, mapping, 0)
+    }
+
+    fn apply_type_var_mapping_with_depth(
+        ty: &ArgType,
+        mapping: &std::collections::HashMap<String, ArgType>,
+        depth: usize,
+    ) -> ArgType {
+        // Prevent stack overflow on deeply nested types
+        const MAX_MAPPING_DEPTH: usize = 100;
+        if depth > MAX_MAPPING_DEPTH {
+            tracing::error!(
+                depth = depth,
+                limit = MAX_MAPPING_DEPTH,
+                "LIMIT_EXCEEDED: Type variable mapping depth exceeded (type_bound)"
+            );
+            return ty.clone();
+        }
+
         match ty {
             ArgType::TypeVariable { name, .. } => {
                 mapping.get(name).cloned().unwrap_or_else(|| ty.clone())
@@ -238,7 +257,7 @@ impl TypeBoundInvokeAssign {
             ArgType::Generic { base, params } => {
                 let resolved_params: Vec<ArgType> = params
                     .iter()
-                    .map(|p| Self::apply_type_var_mapping(p, mapping))
+                    .map(|p| Self::apply_type_var_mapping_with_depth(p, mapping, depth + 1))
                     .collect();
                 ArgType::Generic {
                     base: base.clone(),
@@ -246,7 +265,7 @@ impl TypeBoundInvokeAssign {
                 }
             }
             ArgType::Array(elem) => {
-                ArgType::Array(Box::new(Self::apply_type_var_mapping(elem, mapping)))
+                ArgType::Array(Box::new(Self::apply_type_var_mapping_with_depth(elem, mapping, depth + 1)))
             }
             _ => ty.clone(),
         }

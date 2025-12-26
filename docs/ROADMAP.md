@@ -1,11 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🟡 BETA | A-/B+ Grade (85-90%) | 1 P0 | 3 P1 | 0 P2 | 7 CQ | Dec 25, 2025
+**Status:** 🟡 BETA | A-/B+ Grade (85-90%) | 1 P0 | 1 P1 | 1 P2 | 7 CQ | Dec 25, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 1 P0 (expr_gen stack overflow), 3 P1 (PHI naming, for-each vars, try-catch) |
+| **Open Bugs** | 1 P0 (expr_gen stack overflow), 1 P1 (try-catch invert) |
 | **Code Quality** | 0 Easy, 2 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
@@ -18,7 +18,7 @@
 | Category | Grade | Notes |
 |----------|-------|-------|
 | **Codegen** | A-/B+ (85-90%) | Boolean simplification, diamond operator complete |
-| **Type Inference** | A (95%) 🟡 | In progress |
+| **Type Inference** | A (95%) 🟡 | 5% gaps: PHI conflicts, enum const, generics |
 | **IR/Control Flow** | A- (90%) | Boolean `\|\|` patterns, ternary, try-catch in loops working |
 | **Variable Naming** | A- (90%) | Static field inlining, scope tracking |
 | **Lambda/Anon Inlining** | B+ (85%) | invoke-custom lambdas inline correctly |
@@ -29,6 +29,8 @@
 
 | Feature | Impact | Status |
 |---------|--------|--------|
+| P1-PHI-VAR-TYPE Fix | Compilable code | ✅ Type-check before PHI name unification |
+| P1-FOREACH-INDEX Fix | Compilable code | ✅ Index used in body → reject for-each |
 | Anti-RE ZIP Hardening | +93% bad APK recovery | ✅ 43% → 83% success rate |
 | Boolean Simplification | +5-10% | ✅ `? true : false` -> `c`, De Morgan's law |
 | Lambda Class Suppression | +3-5% | ✅ 92 -> 55 files (37 lambda classes filtered) |
@@ -475,74 +477,82 @@ while (it.hasNext()) {
 
 ---
 
-## Open P1 Bugs (Dec 25, 2025) - 3 OPEN (from JADX comparison audit)
+## Open P1 Bugs (Dec 25, 2025) - 1 OPEN, 2 FIXED (from JADX comparison audit)
 
-### P1-PHI-VAR-TYPE: PHI Variable Type Mismatch 🔴 OPEN
+### P1-PHI-VAR-TYPE: PHI Variable Type Mismatch ✅ FIXED (Dec 25, 2025)
 
-**Status:** 🔴 OPEN | **Priority:** P1 (Uncompilable code)
+**Status:** ✅ FIXED | **Priority:** P1 (Uncompilable code)
 **Location:** `crates/dexterity-codegen/src/body_gen.rs` - PHI variable naming
 **Example File:** `output/dexterity/medium/sources/com/bumptech/glide/util/LruCache.java:49-72`
 
 **Bug:** PHI variable naming assigns wrong types to variables. Two different values (an int calculation and a map reference) get assigned to mismatched variable names.
 
+**Root Cause:** PHI destinations and sources have mismatched variable names when type conflicts occur.
+In `unify_phi_variable_names()`, PHI sources were unified to destination names without checking type compatibility.
+
+**Solution Applied (Dec 25, 2025):**
+Added type compatibility checks using `types_compatible_for_naming()` at three key locations:
+
+1. **`unify_phi_variable_names()`** (line ~1648): Before unifying PHI source names with dest names, check if source type is compatible with dest type. If incompatible, source keeps its own variable name.
+
+2. **`emit_assignment_with_hint()`** (line ~2010): Before redirecting PHI source assignments to PHI dest, check type compatibility. If incompatible, treat as separate variable (no PHI redirect).
+
+3. **`emit_assignment_insn()`** (line ~2145): Same type compatibility check for assignment emission.
+
+**JADX Reference:** TypeUpdate.java `allSameListener` pattern - JADX iterates through all PHI args and rejects if any arg conflicts with candidate type.
+
 ```java
-// Dexterity (BROKEN):
+// Dexterity (BEFORE FIX - BROKEN):
 public synchronized Y put(T t, Y y) {
     LinkedHashMap cache2;  // Wrong type
     int size;
     if (y != null) {
         cache2 = this.currentSize + getSize(y);  // BUG: int assigned to LinkedHashMap
-        this.currentSize += size;                 // BUG: 'size' uninitialized
     }
 }
 
-// JADX (CORRECT):
+// Dexterity (AFTER FIX - separate variables for incompatible types):
 public synchronized Y put(T t, Y y) {
-    Y put = this.cache.put(t, y);
+    int size2;
     if (y != null) {
-        this.currentSize += getSize(y);
+        size2 = this.currentSize + getSize(y);  // int to int - OK
     }
 }
 ```
 
-**Root Cause:** PHI destinations and sources have mismatched variable names when type conflicts occur.
+**Note:** JADX produces even cleaner output with direct field access (`this.currentSize += getSize(y)`) which is a separate expression inlining optimization.
 
 ---
 
-### P1-FOREACH-INDEX: Undefined Variables in For-Each Loop 🟡 IN PROGRESS
+### P1-FOREACH-INDEX: Undefined Variables in For-Each Loop ✅ FIXED (Dec 25, 2025)
 
-**Status:** 🟡 IN PROGRESS | **Priority:** P1 (Uncompilable code)
+**Status:** ✅ FIXED | **Priority:** P1 (Uncompilable code)
 **Location:** `crates/dexterity-codegen/src/body_gen.rs` - for-each loop generation
-**Example File:** `output/dexterity/medium/sources/com/bumptech/glide/util/Util.java:59-71`
 
-**Bug:** For-each loop uses undefined variables when an indexed loop is needed.
+**Solution Applied:** Added `check_extra_index_uses()` function that scans the loop body for any uses of the index register other than:
+1. The AGET instruction (array access)
+2. The increment instruction (i++)
+3. The IF condition (i < arr.length)
 
+If extra uses are found (like `i * 2`), the for-each pattern is rejected and an indexed while-loop is generated instead.
+
+**Before (broken):**
 ```java
-// Dexterity (BROKEN):
-private static String bytesToHex(byte[] bArr, char[] cArr) {
-    int i = 0;
-    i = 0;  // Duplicate
-    for (byte b : bArr) {
-        int i5 = i * 2;
-        hEX_CHAR_ARRAY2 = Util.HEX_CHAR_ARRAY;  // BUG: Undefined
-        cArr[i5] = hEX_CHAR_ARRAY2[i3 >>> 4];
-        i2 = i5 + 1;                              // BUG: Undefined
-    }
-}
-
-// JADX (CORRECT):
-private static String bytesToHex(byte[] bArr, char[] cArr) {
-    for (int i = 0; i < bArr.length; i++) {
-        int i2 = bArr[i] & 255;
-        int i3 = i * 2;
-        char[] cArr2 = HEX_CHAR_ARRAY;
-        cArr[i3] = cArr2[i2 >>> 4];
-        cArr[i3 + 1] = cArr2[i2 & 15];
-    }
+for (byte b : bArr) {
+    int i5 = i * 2;  // 'i' undefined in for-each!
 }
 ```
 
-**Root Cause:** Index variable `i` not incremented, local variable declarations missing, for-each used where indexed for-loop needed.
+**After (fixed):**
+```java
+while (i < bArr.length) {
+    int i5 = i * 2;  // 'i' is defined properly
+    i = i + 1;
+}
+```
+
+**Files Modified:**
+- `crates/dexterity-codegen/src/body_gen.rs` - Added `check_extra_index_uses()` (~180 lines)
 
 ---
 
@@ -608,27 +618,38 @@ static {
 
 ---
 
-### P0-EXPR-STACK-OVERFLOW: Stack Overflow in expr_gen 🔴 OPEN
+### P0-STACK-OVERFLOW: Stack Overflow on Large APKs 🟡 IN PROGRESS
 
-**Status:** 🔴 OPEN | **Priority:** P0 (Crash)
-**Location:** `crates/dexterity-codegen/src/expr_gen.rs` - expression generation
-**Example APK:** `apks/large.apk` (54MB) - crashes during decompilation
+**Status:** 🟡 IN PROGRESS | **Priority:** P0 (Crash)
+**Location:** Multiple recursive paths in codegen
+**Affected APKs:** `medium.apk`, `large.apk` (54MB), 500MB+ APKs
 
-**Bug:** Infinite recursion in `expr_gen.write_arg` / `expr_gen.gen_arg` causes stack overflow crash.
+**Bug:** Stack overflow crash during decompilation of large/complex APKs.
 
 ```
 [DEBUG expr_gen.write_arg] r5v0 -> name=challengeModel
-[DEBUG write_arg_inline] r1v2 -> var_name=challengeModel, has_expr=true
 thread '<unknown>' has overflowed its stack
 fatal runtime error: stack overflow, aborting
 ```
 
-**Workarounds Tried:**
-- Increased depth limits from 30 to 50: No effect
-- Increased stack size from 256MB to 512MB: No effect
-- Issue is infinite recursion, not just deep nesting
+**Root Cause Analysis:**
 
-**Root Cause:** Expression generation creates circular reference chain during inline expression expansion.
+1. **Depth limits trigger too late** - Limits fire at depth 51, but stack is already near exhaustion by then
+2. **Multiple overlapping recursion paths compound:**
+   - Region depth limit: 50
+   - Condition depth limit: 50
+   - Inline expression depth: 100
+   - **Total potential nesting: 200+ levels of nested calls**
+3. **Debug logging adds stack overhead** - `eprintln!` with string formatting consumes additional stack space
+
+**Solution Required:**
+- Lower individual depth limits (e.g., 20 each instead of 50)
+- OR implement shared global depth counter across all recursive paths
+- Remove debug logging in release builds to reduce stack pressure
+
+**Workarounds Tried:**
+- Increased depth limits from 30 to 50: Made it worse
+- Increased stack size from 256MB to 512MB: No effect (still exhausts)
 
 ---
 
@@ -746,9 +767,36 @@ fun checkTracerPid(): Boolean {
 
 ---
 
-## Open P2 Bugs (Dec 25, 2025)
+## Open P2 Bugs (Dec 25, 2025) - 1 OPEN
 
-**All P2 bugs fixed!** No open P2 bugs remain.
+### P2-FIELD-COMPOUND: Field Compound Assignment Inlining 🔴 OPEN
+
+**Status:** 🔴 OPEN | **Priority:** P2 (Polish/Optimization)
+**Location:** `crates/dexterity-codegen/src/body_gen.rs` - expression inlining
+**JADX Reference:** `TypeUpdate.java` allSameListener pattern
+
+**Current Output:**
+```java
+public synchronized Y put(T t, Y y) {
+    Y put = this.cache.put(t, y);
+    if (y != null) {
+        int size = this.currentSize + getSize(y);  // Separate declaration
+        this.currentSize = size;                    // Then assignment
+    }
+}
+```
+
+**JADX Output (cleaner):**
+```java
+public synchronized Y put(T t, Y y) {
+    Y put = this.cache.put(t, y);
+    if (y != null) {
+        this.currentSize += getSize(y);  // Direct compound assignment
+    }
+}
+```
+
+**Solution:** Detect `field = field + expr` patterns and convert to `field += expr` during expression inlining phase.
 
 ---
 

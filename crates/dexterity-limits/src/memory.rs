@@ -12,13 +12,12 @@ use crate::env_limit;
 
 /// Default main thread stack size in MB.
 /// Override with DEXTERITY_MAIN_STACK_MB env var.
-pub const DEFAULT_MAIN_STACK_MB: usize = 256;
+pub const DEFAULT_MAIN_STACK_MB: usize = 512;
 
 /// Default worker thread stack size in MB.
 /// Override with DEXTERITY_THREAD_STACK_MB env var.
-/// Note: Matching main thread at 256MB to handle deeply nested methods.
-/// Empirical testing showed 128MB is still insufficient for pathological cases.
-pub const DEFAULT_THREAD_STACK_MB: usize = 256;
+/// Note: 512MB handles deeply nested methods in large APKs.
+pub const DEFAULT_THREAD_STACK_MB: usize = 512;
 
 /// Runtime-configurable main thread stack size in bytes.
 pub static MAIN_STACK_SIZE: LazyLock<usize> = LazyLock::new(|| {

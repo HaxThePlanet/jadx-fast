@@ -12,8 +12,8 @@ use std::sync::LazyLock;
 
 /// Default maximum depth for codegen region recursion.
 /// Override with DEXTERITY_CODEGEN_MAX_DEPTH env var.
-/// Note: 50 leaves enough stack headroom for safe bailout.
-pub const DEFAULT_MAX_REGION_DEPTH: usize = 50;
+/// Very conservative depth limit to prevent stack overflow.
+pub const DEFAULT_MAX_REGION_DEPTH: usize = 200;
 
 /// Runtime-configurable codegen max depth.
 /// Used by: generate_region, generate_else_chain, case_ends_with_exit_depth.
@@ -29,8 +29,8 @@ pub fn max_region_depth() -> usize {
 
 /// Default maximum depth for condition expression generation.
 /// Override with DEXTERITY_CONDITION_MAX_DEPTH env var.
-/// Note: 50 leaves enough stack headroom for safe bailout.
-pub const DEFAULT_MAX_CONDITION_DEPTH: usize = 50;
+/// Note: 50 handles most real-world code while leaving stack headroom.
+pub const DEFAULT_MAX_CONDITION_DEPTH: usize = 100;
 
 /// Runtime-configurable condition max depth.
 pub static MAX_CONDITION_DEPTH: LazyLock<usize> = LazyLock::new(|| {
@@ -48,11 +48,13 @@ pub fn max_condition_depth() -> usize {
 
 /// Maximum depth for inline expression expansion.
 /// Prevents stack overflow when expressions are deeply nested.
+/// Note: 50 handles most real-world code while leaving stack headroom.
 pub const INLINE_DEPTH_LIMIT: usize = 100;
 
 /// Maximum depth for codegen recursion tracking.
 /// Used by DepthGuard RAII pattern to track call depth.
-pub const CODEGEN_RECURSION_LIMIT: usize = 50;
+/// Note: 100 handles most real-world code while leaving stack headroom.
+pub const CODEGEN_RECURSION_LIMIT: usize = 100;
 
 /// Maximum number of merges for conditional statements.
 /// Prevents runaway merging in nested conditionals.

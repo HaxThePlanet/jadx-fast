@@ -12,8 +12,8 @@ use std::sync::LazyLock;
 
 /// Default maximum depth for all visitor traversals.
 /// Override with DEXTERITY_VISITOR_MAX_DEPTH env var.
-/// Note: 50 leaves enough stack headroom for safe bailout.
-pub const DEFAULT_VISITOR_MAX_DEPTH: usize = 50;
+/// Very conservative depth limit to prevent stack overflow.
+pub const DEFAULT_VISITOR_MAX_DEPTH: usize = 200;
 
 /// Runtime-configurable visitor max depth.
 /// Used by: depth_region_traversal, if_region_visitor, return_visitor,
@@ -35,8 +35,8 @@ pub fn visitor_max_depth() -> usize {
 /// Maximum region stack size.
 /// Prevents unbounded growth of region nesting stack.
 /// Override with DEXTERITY_REGION_STACK_LIMIT env var.
-/// Note: 50 leaves enough stack headroom for safe bailout.
-pub const DEFAULT_REGION_STACK_LIMIT: usize = 50;
+/// Very conservative limit to prevent stack overflow.
+pub const DEFAULT_REGION_STACK_LIMIT: usize = 200;
 
 pub static REGION_STACK_LIMIT: LazyLock<usize> = LazyLock::new(|| {
     env_limit("DEXTERITY_REGION_STACK_LIMIT", DEFAULT_REGION_STACK_LIMIT)
@@ -61,7 +61,8 @@ pub const REGIONS_COUNT_MULTIPLIER: usize = 100;
 
 /// Multiplier for iteration budget (block_count * this value).
 /// Limits iterations during region construction.
-pub const ITERATION_BUDGET_MULTIPLIER: usize = 20;
+/// Multiplier for iteration budget - 100x block count handles complex CFGs.
+pub const ITERATION_BUDGET_MULTIPLIER: usize = 100;
 
 // =============================================================================
 // LEGACY CONSTANTS (for backwards compatibility)

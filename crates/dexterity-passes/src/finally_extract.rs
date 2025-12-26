@@ -421,7 +421,7 @@ fn search_from_first_block(
     if !dup_slice.is_complete() {
         // Need to check block tree for complete match
         let mut check_cache = std::collections::HashMap::new();
-        if check_blocks_tree(dup_block_id, start_block_id, &mut dup_slice, extract_info, cfg, &mut check_cache) {
+        if check_blocks_tree(dup_block_id, start_block_id, &mut dup_slice, extract_info, cfg, &mut check_cache, 0) {
             dup_slice.set_complete(true);
             extract_info.get_finally_insns_slice_mut().set_complete(true);
         } else {
@@ -442,7 +442,19 @@ fn check_blocks_tree(
     extract_info: &mut FinallyExtractInfo,
     cfg: &CFG,
     check_cache: &mut std::collections::HashMap<(u32, u32), bool>,
+    depth: usize,
 ) -> bool {
+    // Prevent stack overflow from deeply nested or cyclic block structures
+    const MAX_DEPTH: usize = 200;
+    if depth > MAX_DEPTH {
+        tracing::error!(
+            depth = depth,
+            limit = MAX_DEPTH,
+            "LIMIT_EXCEEDED: Finally block tree check depth exceeded"
+        );
+        return false;
+    }
+
     let check_key = (dup_block_id, finally_block_id);
     if let Some(&cached) = check_cache.get(&check_key) {
         return cached;
@@ -473,7 +485,7 @@ fn check_blocks_tree(
                     result = false;
                     break;
                 }
-                if !check_blocks_tree(dup_s_block, fin_s_block, dup_slice, extract_info, cfg, check_cache) {
+                if !check_blocks_tree(dup_s_block, fin_s_block, dup_slice, extract_info, cfg, check_cache, depth + 1) {
                     result = false;
                     break;
                 }

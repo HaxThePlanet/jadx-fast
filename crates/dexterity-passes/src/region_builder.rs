@@ -959,6 +959,8 @@ struct RegionBuilder<'a> {
     iteration_budget: usize,
     /// Number of iterations used so far
     iterations_used: usize,
+    /// Current recursion depth for nested region building
+    recursion_depth: usize,
 }
 
 impl<'a> RegionBuilder<'a> {
@@ -1019,11 +1021,33 @@ impl<'a> RegionBuilder<'a> {
             merged_blocks,
             stack: RegionStack::new(),
             regions_count: 0,
-            regions_limit: block_count * 100,
-            // Increased from 5x to 20x to handle complex control flows like large.apk
-            // Methods with 76 blocks may need 761 iterations (10x), so 20x is safer margin
-            iteration_budget: block_count * 20,
+            regions_limit: block_count * dexterity_limits::regions::REGIONS_COUNT_MULTIPLIER,
+            iteration_budget: block_count * dexterity_limits::regions::ITERATION_BUDGET_MULTIPLIER,
             iterations_used: 0,
+            recursion_depth: 0,
+        }
+    }
+
+    /// Check recursion depth to prevent stack overflow in nested region building
+    /// Returns true if we can continue, false if limit exceeded.
+    /// Only increments depth if returning true (caller must call leave_recursion).
+    fn check_recursion_depth(&mut self) -> bool {
+        let max_depth = dexterity_limits::regions::visitor_max_depth();
+        if self.recursion_depth >= max_depth {
+            tracing::error!(
+                depth = self.recursion_depth,
+                limit = max_depth,
+                "LIMIT_EXCEEDED: RegionBuilder recursion depth exceeded"
+            );
+            return false;
+        }
+        self.recursion_depth += 1;
+        true
+    }
+
+    fn leave_recursion(&mut self) {
+        if self.recursion_depth > 0 {
+            self.recursion_depth -= 1;
         }
     }
 
@@ -1032,17 +1056,19 @@ impl<'a> RegionBuilder<'a> {
     fn check_iteration_budget(&mut self) {
         self.iterations_used += 1;
         if self.iterations_used > self.iteration_budget {
+            let multiplier = dexterity_limits::regions::ITERATION_BUDGET_MULTIPLIER;
             error!(
                 iterations = self.iterations_used,
                 budget = self.iteration_budget,
-                blocks = self.iteration_budget / 10,
+                blocks = self.iteration_budget / multiplier,
                 "LIMIT_EXCEEDED: Region iteration limit reached"
             );
             panic!(
-                "Iteration limit reached: {} iterations (budget: {} = 10 × {} blocks)",
+                "Iteration limit reached: {} iterations (budget: {} = {} × {} blocks)",
                 self.iterations_used,
                 self.iteration_budget,
-                self.iteration_budget / 10
+                multiplier,
+                self.iteration_budget / multiplier
             );
         }
     }
@@ -1105,16 +1131,23 @@ impl<'a> RegionBuilder<'a> {
 
     /// Traverse a block and return next block to process (like Java's traverse)
     fn traverse(&mut self, contents: &mut Vec<RegionContent>, block_id: u32) -> Option<u32> {
+        // Check recursion depth to prevent stack overflow
+        if !self.check_recursion_depth() {
+            return None;
+        }
+
         // JADX-style iteration budget check (DepthRegionTraversal.java)
         self.check_iteration_budget();
 
         // Check if we're at an exit
         if self.stack.contains_exit(block_id) {
+            self.leave_recursion();
             return None;
         }
 
         // Check if already processed
         if self.processed.contains(&block_id) {
+            self.leave_recursion();
             return None;
         }
 
@@ -1131,6 +1164,7 @@ impl<'a> RegionBuilder<'a> {
         if let Some(sync_info) = self.sync_map.get(&block_id).copied() {
             let (sync_region, next) = self.process_synchronized(sync_info);
             contents.push(RegionContent::Region(Box::new(sync_region)));
+            self.leave_recursion();
             return next;
         }
 
@@ -1144,6 +1178,7 @@ impl<'a> RegionBuilder<'a> {
                 }
                 let (loop_region, next) = self.process_loop(loop_info);
                 contents.push(RegionContent::Region(Box::new(loop_region)));
+                self.leave_recursion();
                 return next;
             }
             if std::env::var("DEBUG_TRY_CATCH").is_ok() {
@@ -1151,6 +1186,7 @@ impl<'a> RegionBuilder<'a> {
             }
             let (try_region, next) = self.process_try_catch(try_info);
             contents.push(RegionContent::Region(Box::new(try_region)));
+            self.leave_recursion();
             return next;
         }
 
@@ -1163,6 +1199,7 @@ impl<'a> RegionBuilder<'a> {
             // This is a loop header - process the loop
             let (loop_region, next) = self.process_loop(loop_info);
             contents.push(RegionContent::Region(Box::new(loop_region)));
+            self.leave_recursion();
             return next;
         }
 
@@ -1174,6 +1211,7 @@ impl<'a> RegionBuilder<'a> {
             }
             let (if_region, next) = self.process_if(cond_info);
             contents.push(RegionContent::Region(Box::new(if_region)));
+            self.leave_recursion();
             return next;
         }
 
@@ -1181,6 +1219,7 @@ impl<'a> RegionBuilder<'a> {
         if self.is_switch_block(block_id) {
             let (switch_region, next) = self.process_switch(block_id);
             contents.push(RegionContent::Region(Box::new(switch_region)));
+            self.leave_recursion();
             return next;
         }
 
@@ -1190,6 +1229,7 @@ impl<'a> RegionBuilder<'a> {
 
         // Get next block
         let succs = self.cfg.successors(block_id);
+        self.leave_recursion();
         if succs.len() == 1 && !self.stack.contains_exit(succs[0]) {
             Some(succs[0])
         } else {
@@ -1683,6 +1723,11 @@ impl<'a> RegionBuilder<'a> {
 
     /// Build loop body region
     fn build_loop_body(&mut self, loop_info: &LoopInfo) -> Region {
+        // Check recursion depth to prevent stack overflow
+        if !self.check_recursion_depth() {
+            return Region::Sequence(Vec::new());
+        }
+
         let mut contents = Vec::new();
         let mut visited = BTreeSet::new();
 
@@ -1869,6 +1914,7 @@ impl<'a> RegionBuilder<'a> {
             }
         }
 
+        self.leave_recursion();
         Region::Sequence(contents)
     }
 

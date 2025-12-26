@@ -835,11 +835,11 @@ impl BodyGenContext {
     /// GAP-01 FIX: Field access expressions use peek (not take) to allow reuse.
     pub fn write_arg_inline<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg) {
         // Prevent stack overflow from deeply nested inline expression expansion
-        const MAX_INLINE_DEPTH: usize = 100;
-        if self.inline_expr_depth > MAX_INLINE_DEPTH {
+        let max_inline_depth = dexterity_limits::codegen::INLINE_DEPTH_LIMIT;
+        if self.inline_expr_depth > max_inline_depth {
             tracing::error!(
                 depth = self.inline_expr_depth,
-                limit = MAX_INLINE_DEPTH,
+                limit = max_inline_depth,
                 "LIMIT_EXCEEDED: Inline expression expansion max depth reached"
             );
             // Fall back to direct variable name instead of inlining
@@ -853,15 +853,6 @@ impl BodyGenContext {
         self.inline_expr_depth += 1;
 
         if let InsnArg::Register(reg) = arg {
-            // DEBUG: Check what variable name we'd get
-            let var_name = self.expr_gen.get_var_name(reg);
-            let var_upper = var_name.to_uppercase();
-            if var_upper.contains("ODEL") || var_upper.contains("ANUFACTURER") || var_upper.contains("ARDWARE") {
-                eprintln!("[DEBUG write_arg_inline] r{}v{} -> var_name={}, has_expr={}",
-                    reg.reg_num, reg.ssa_version, var_name,
-                    self.peek_inline_expr(reg.reg_num, reg.ssa_version).is_some());
-            }
-
             // Check if we have an inlined expression for this register
             // GAP-01 FIX: Clone upfront to check field access before consuming
             let expr_info = self.peek_inline_expr(reg.reg_num, reg.ssa_version)
@@ -908,17 +899,6 @@ impl BodyGenContext {
     ///
     /// GAP-01 FIX: Field access expressions use peek (not take) to allow reuse.
     pub fn write_arg_inline_typed<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg, target_type: &ArgType) {
-        // DEBUG: Log every call to see what's happening
-        if let InsnArg::Register(reg) = arg {
-            let var_name = self.expr_gen.get_var_name(reg);
-            let var_upper = var_name.to_uppercase();
-            if var_upper.contains("ODEL") || var_upper.contains("ANUFACTURER") || var_upper.contains("ARDWARE") {
-                let has_expr = self.peek_inline_expr(reg.reg_num, reg.ssa_version).is_some();
-                eprintln!("[DEBUG_TYPED] r{}v{} var_name={} has_expr={}",
-                    reg.reg_num, reg.ssa_version, var_name, has_expr);
-            }
-        }
-
         if let InsnArg::Register(reg) = arg {
             // Check if we have an inlined expression for this register
             // GAP-01 FIX: Clone upfront to check field access before consuming
@@ -1661,10 +1641,27 @@ fn unify_phi_variable_names(ctx: &mut BodyGenContext) {
         // Set the unified name for the PHI destination
         ctx.expr_gen.set_var_name(dest_reg, dest_version, var_name.clone());
 
-        // Set the same name for ALL sources of this PHI
+        // P1-PHI-VAR-TYPE FIX: Only set the same name for sources with compatible types.
+        // If a source has an incompatible type (e.g., int source vs LinkedHashMap dest),
+        // don't unify the names - each will get its own variable.
+        // Reference: JADX TypeUpdate.java allSameListener pattern.
         if let Some(sources) = dest_to_sources.get(&(dest_reg, dest_version)) {
+            // Get dest type for comparison
+            let dest_type = ctx.get_inferred_type_versioned(dest_reg, dest_version)
+                .cloned()
+                .unwrap_or(ArgType::Unknown);
+
             for &(src_reg, src_version) in sources {
-                ctx.expr_gen.set_var_name(src_reg, src_version, var_name.clone());
+                // Get source type
+                let src_type = ctx.get_inferred_type_versioned(src_reg, src_version)
+                    .cloned()
+                    .unwrap_or(ArgType::Unknown);
+
+                // Only unify names if types are compatible
+                if types_compatible_for_naming(&dest_type, &src_type) {
+                    ctx.expr_gen.set_var_name(src_reg, src_version, var_name.clone());
+                }
+                // If types are incompatible, the source keeps its own name
             }
         }
     }
@@ -2014,9 +2011,27 @@ fn emit_assignment_with_hint<W: CodeWriter>(
 
     // P1-CONTROL-FLOW FIX: Check if this is a PHI source that should redirect to PHI destination
     // Example: PHI(z = Block1:r0v3, Block2:r0v4) - when emitting r0v3, assign to z (r0v5) instead
+    //
+    // P1-PHI-VAR-TYPE FIX: Only redirect if source type is compatible with dest type.
+    // If types are incompatible (e.g., int source vs LinkedHashMap dest), don't redirect -
+    // treat as separate variable to avoid type errors like "cache2 = 42" where cache2 is LinkedHashMap.
     let (effective_reg, effective_version, is_phi_source) =
         if let Some(&(dest_reg, dest_version)) = ctx.phi_source_to_dest.get(&(reg, version)) {
-            (dest_reg, dest_version, true)
+            // Get source type and dest type
+            let src_type = ctx.get_inferred_type_versioned(reg, version)
+                .cloned()
+                .unwrap_or(ArgType::Unknown);
+            let dest_type = ctx.get_inferred_type_versioned(dest_reg, dest_version)
+                .cloned()
+                .unwrap_or(ArgType::Unknown);
+
+            // Only redirect if types are compatible
+            if types_compatible_for_naming(&src_type, &dest_type) {
+                (dest_reg, dest_version, true)
+            } else {
+                // Types incompatible - treat as separate variable (no PHI redirect)
+                (reg, version, false)
+            }
         } else {
             (reg, version, false)
         };
@@ -2131,9 +2146,24 @@ fn emit_assignment_insn<W: CodeWriter>(
     let version = dest.ssa_version;
 
     // P1-CONTROL-FLOW FIX: Check if this is a PHI source that should redirect to PHI destination
+    // P1-PHI-VAR-TYPE FIX: Only redirect if source type is compatible with dest type.
     let (effective_reg, effective_version, is_phi_source) =
         if let Some(&(dest_reg, dest_version)) = ctx.phi_source_to_dest.get(&(reg, version)) {
-            (dest_reg, dest_version, true)
+            // Get source type and dest type
+            let src_type = ctx.get_inferred_type_versioned(reg, version)
+                .cloned()
+                .unwrap_or(ArgType::Unknown);
+            let dest_type = ctx.get_inferred_type_versioned(dest_reg, dest_version)
+                .cloned()
+                .unwrap_or(ArgType::Unknown);
+
+            // Only redirect if types are compatible
+            if types_compatible_for_naming(&src_type, &dest_type) {
+                (dest_reg, dest_version, true)
+            } else {
+                // Types incompatible - treat as separate variable (no PHI redirect)
+                (reg, version, false)
+            }
         } else {
             (reg, version, false)
         };
@@ -3145,17 +3175,18 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     CODEGEN_DEPTH.with(|depth| {
         let mut d = depth.borrow_mut();
         *d += 1;
-        if *d > 50 { // Limit recursion depth
+        let max_depth = dexterity_limits::codegen::max_region_depth();
+        if *d > max_depth { // Limit recursion depth
              // Don't panic, just stop inlining? No, panic unwinds to catch_unwind in main (if added)
              // JADX throws exception.
              error!(
                  depth = *d,
-                 limit = 50,
+                 limit = max_depth,
                  method = %method.name,
                  "LIMIT_EXCEEDED: Codegen recursion limit reached"
              );
              *d -= 1;
-             panic!("Codegen recursion limit reached (50) in {}", method.name);
+             panic!("Codegen recursion limit reached ({}) in {}", max_depth, method.name);
         }
     });
 
@@ -3882,6 +3913,186 @@ fn generate_array_source_expr(arr_reg_arg: &dexterity_ir::instructions::Register
     ctx.expr_gen.gen_arg(&InsnArg::Register(*arr_reg_arg))
 }
 
+/// P1-FOREACH-INDEX FIX: Check if the index register is used anywhere in the loop body
+/// other than the expected locations (AGET, increment, condition).
+/// If the index is used elsewhere (e.g., `i * 2`), we cannot convert to for-each.
+fn check_extra_index_uses(
+    body: &Region,
+    idx_reg: u16,
+    cond_block_id: u32,
+    aget_block: u32,
+    aget_idx: usize,
+    incr_block: u32,
+    incr_idx: usize,
+    ctx: &BodyGenContext,
+) -> bool {
+    let debug = std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok();
+
+    // Helper to check if an instruction uses the index register
+    fn insn_uses_index_reg(insn: &InsnNode, idx_reg: u16) -> bool {
+        match &insn.insn_type {
+            InsnType::Binary { left, right, .. } => {
+                matches!(left, InsnArg::Register(r) if r.reg_num == idx_reg)
+                    || matches!(right, InsnArg::Register(r) if r.reg_num == idx_reg)
+            }
+            InsnType::Unary { arg, .. } => {
+                matches!(arg, InsnArg::Register(r) if r.reg_num == idx_reg)
+            }
+            InsnType::Move { src, .. } => {
+                matches!(src, InsnArg::Register(r) if r.reg_num == idx_reg)
+            }
+            InsnType::ArrayGet { index, .. } => {
+                matches!(index, InsnArg::Register(r) if r.reg_num == idx_reg)
+            }
+            InsnType::ArrayPut { index, .. } => {
+                matches!(index, InsnArg::Register(r) if r.reg_num == idx_reg)
+            }
+            InsnType::Invoke { args, .. } | InsnType::InvokeCustom { args, .. } => {
+                args.iter().any(|arg| matches!(arg, InsnArg::Register(r) if r.reg_num == idx_reg))
+            }
+            InsnType::If { left, right, .. } => {
+                matches!(left, InsnArg::Register(r) if r.reg_num == idx_reg)
+                    || right.as_ref().map_or(false, |r| matches!(r, InsnArg::Register(reg) if reg.reg_num == idx_reg))
+            }
+            InsnType::Return { value: Some(v) } => {
+                matches!(v, InsnArg::Register(r) if r.reg_num == idx_reg)
+            }
+            InsnType::InstancePut { value, .. } | InsnType::StaticPut { value, .. } => {
+                matches!(value, InsnArg::Register(r) if r.reg_num == idx_reg)
+            }
+            InsnType::NewArray { size, .. } => {
+                matches!(size, InsnArg::Register(r) if r.reg_num == idx_reg)
+            }
+            InsnType::FilledNewArray { args, .. } => {
+                args.iter().any(|arg| matches!(arg, InsnArg::Register(r) if r.reg_num == idx_reg))
+            }
+            InsnType::Compare { left, right, .. } => {
+                matches!(left, InsnArg::Register(r) if r.reg_num == idx_reg)
+                    || matches!(right, InsnArg::Register(r) if r.reg_num == idx_reg)
+            }
+            _ => false,
+        }
+    }
+
+    // Recursively scan a region for extra uses of the index register
+    fn scan_region(
+        region: &Region,
+        idx_reg: u16,
+        cond_block_id: u32,
+        aget_block: u32,
+        aget_idx: usize,
+        incr_block: u32,
+        incr_idx: usize,
+        ctx: &BodyGenContext,
+        debug: bool,
+    ) -> bool {
+        match region {
+            Region::Sequence(contents) => {
+                for content in contents {
+                    match content {
+                        RegionContent::Block(block_id) => {
+                            if let Some(block) = ctx.blocks.get(block_id) {
+                                for (i, insn) in block.instructions.iter().enumerate() {
+                                    // Skip the expected uses
+                                    if *block_id == aget_block && i == aget_idx {
+                                        continue;
+                                    }
+                                    if *block_id == incr_block && i == incr_idx {
+                                        continue;
+                                    }
+                                    if *block_id == cond_block_id {
+                                        if matches!(&insn.insn_type, InsnType::If { .. } | InsnType::ArrayLength { .. }) {
+                                            continue;
+                                        }
+                                    }
+                                    if insn_uses_index_reg(insn, idx_reg) {
+                                        if debug {
+                                            eprintln!("[FOREACH] Found extra use of idx_reg {} in block {} insn {}: {:?}",
+                                                idx_reg, block_id, i, insn.insn_type);
+                                        }
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                        RegionContent::Region(nested) => {
+                            if scan_region(nested, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            Region::If { condition, then_region, else_region, .. } => {
+                for block_id in condition.get_blocks() {
+                    if let Some(block) = ctx.blocks.get(&block_id) {
+                        for (i, insn) in block.instructions.iter().enumerate() {
+                            if block_id == aget_block && i == aget_idx { continue; }
+                            if block_id == incr_block && i == incr_idx { continue; }
+                            if block_id == cond_block_id {
+                                if matches!(&insn.insn_type, InsnType::If { .. } | InsnType::ArrayLength { .. }) {
+                                    continue;
+                                }
+                            }
+                            if insn_uses_index_reg(insn, idx_reg) {
+                                if debug {
+                                    eprintln!("[FOREACH] Found extra use of idx_reg {} in if-cond block {}: {:?}",
+                                        idx_reg, block_id, insn.insn_type);
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                }
+                if scan_region(then_region, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug) {
+                    return true;
+                }
+                if let Some(else_reg) = else_region {
+                    if scan_region(else_reg, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug) {
+                        return true;
+                    }
+                }
+            }
+            Region::Loop { body, .. } => {
+                if scan_region(body, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug) {
+                    return true;
+                }
+            }
+            Region::Switch { cases, .. } => {
+                for case_info in cases {
+                    if scan_region(&case_info.container, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug) {
+                        return true;
+                    }
+                }
+            }
+            Region::TryCatch { try_region, handlers, finally, .. } => {
+                if scan_region(try_region, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug) {
+                    return true;
+                }
+                for handler in handlers {
+                    if scan_region(&handler.region, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug) {
+                        return true;
+                    }
+                }
+                if let Some(finally_reg) = finally {
+                    if scan_region(finally_reg, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug) {
+                        return true;
+                    }
+                }
+            }
+            Region::Synchronized { body, .. } => {
+                if scan_region(body, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug) {
+                    return true;
+                }
+            }
+            _ => {}
+        }
+        false
+    }
+
+    scan_region(body, idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx, ctx, debug)
+}
+
 /// Detect array for-each loop pattern
 /// Pattern: for (int i = 0; i < array.length; i++) { item = array[i]; ... }
 /// Requirements (matching JADX LoopRegionVisitor.checkArrayForEach):
@@ -4160,6 +4371,30 @@ fn detect_array_foreach_pattern(
     // Both AGET and increment must be found
     let (aget_block, aget_idx, item_var, item_type, aget_dest_reg, aget_dest_version) = aget_info?;
     let (incr_block, incr_idx) = incr_info?;
+
+    // P1-FOREACH-INDEX FIX: Check if the index register is used anywhere else in the loop body
+    // If it is (like `i * 2`), we cannot convert to for-each - must keep as indexed for-loop
+    if std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok() {
+        eprintln!("[FOREACH-CHECK] idx_reg={}, cond_block={}, aget_block={}, aget_idx={}, incr_block={}, incr_idx={}",
+            idx_reg, cond_block_id, aget_block, aget_idx, incr_block, incr_idx);
+    }
+    let has_extra_index_use = check_extra_index_uses(
+        body,
+        idx_reg,
+        cond_block_id,
+        aget_block,
+        aget_idx,
+        incr_block,
+        incr_idx,
+        ctx,
+    );
+
+    if has_extra_index_use {
+        if std::env::var("DEXTERITY_DEBUG_FOREACH").is_ok() {
+            eprintln!("[FOREACH] Rejecting for-each: index register {} has extra uses", idx_reg);
+        }
+        return None;
+    }
 
     // P0-LOOP-VAR FIX: Scan for Move and Const instructions that follow AGET in the same block
     // These need to be skipped and their destinations need to use the for-each variable
@@ -8542,11 +8777,11 @@ fn process_region_for_inlining(region: &Region, ctx: &mut BodyGenContext) {
 
 fn process_region_for_inlining_with_depth(region: &Region, ctx: &mut BodyGenContext, depth: usize) {
     // Prevent stack overflow from deeply nested regions
-    const MAX_DEPTH: usize = 100;
-    if depth > MAX_DEPTH {
+    let max_depth = dexterity_limits::regions::visitor_max_depth();
+    if depth > max_depth {
         tracing::error!(
             depth = depth,
-            limit = MAX_DEPTH,
+            limit = max_depth,
             "LIMIT_EXCEEDED: process_region_for_inlining max depth reached"
         );
         return;
@@ -10408,29 +10643,8 @@ fn write_typed_args_with_varargs<W: CodeWriter>(
     ctx: &mut BodyGenContext,
     code: &mut W,
 ) {
-    // DEBUG unconditional
-    static ONCE: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
-    if !ONCE.load(std::sync::atomic::Ordering::Relaxed) {
-        ONCE.store(true, std::sync::atomic::Ordering::Relaxed);
-        eprintln!("[DEBUG] write_typed_args_with_varargs CALLED!");
-    }
-
     let args_to_process: Vec<_> = args.iter().skip(skip_count).collect();
     let arg_count = args_to_process.len();
-
-    // DEBUG: Print ALL variable names to understand the issue
-    static DEBUG_COUNTER: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
-    for a in args_to_process.iter() {
-        if let InsnArg::Register(reg) = a {
-            let var_name = ctx.expr_gen.get_var_name(reg);
-            let var_upper = var_name.to_uppercase();
-            // Print first 100 register args with interesting names
-            let count = DEBUG_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-            if count < 100 && var_upper.len() > 3 {
-                eprintln!("[DEBUG_ARG #{}] r{}v{} name={}", count, reg.reg_num, reg.ssa_version, var_name);
-            }
-        }
-    }
 
     if arg_count == 0 {
         return;
@@ -11445,9 +11659,24 @@ fn generate_insn<W: CodeWriter>(
             let version = dest.ssa_version;
 
             // P1-CONTROL-FLOW FIX: Check if this is a PHI source - if so, use PHI destination's type
+            // P1-PHI-VAR-TYPE FIX: Only redirect if source type is compatible with dest type.
             let (effective_reg, effective_version, is_phi_source) =
                 if let Some(&(dest_reg, dest_version)) = ctx.phi_source_to_dest.get(&(reg, version)) {
-                    (dest_reg, dest_version, true)
+                    // Get source type and dest type
+                    let src_type = ctx.get_inferred_type_versioned(reg, version)
+                        .cloned()
+                        .unwrap_or(ArgType::Unknown);
+                    let dest_type = ctx.get_inferred_type_versioned(dest_reg, dest_version)
+                        .cloned()
+                        .unwrap_or(ArgType::Unknown);
+
+                    // Only redirect if types are compatible
+                    if types_compatible_for_naming(&src_type, &dest_type) {
+                        (dest_reg, dest_version, true)
+                    } else {
+                        // Types incompatible - treat as separate variable (no PHI redirect)
+                        (reg, version, false)
+                    }
                 } else {
                     (reg, version, false)
                 };

@@ -612,6 +612,21 @@ impl TypeInference {
     ///
     /// This is the JADX-equivalent of `TypeUtils.replaceTypeVariablesUsingMap()`.
     fn apply_type_var_mapping(ty: &ArgType, mapping: &HashMap<String, ArgType>) -> ArgType {
+        Self::apply_type_var_mapping_with_depth(ty, mapping, 0)
+    }
+
+    fn apply_type_var_mapping_with_depth(ty: &ArgType, mapping: &HashMap<String, ArgType>, depth: usize) -> ArgType {
+        // Prevent stack overflow on deeply nested types
+        const MAX_MAPPING_DEPTH: usize = 100;
+        if depth > MAX_MAPPING_DEPTH {
+            tracing::error!(
+                depth = depth,
+                limit = MAX_MAPPING_DEPTH,
+                "LIMIT_EXCEEDED: Type variable mapping depth exceeded"
+            );
+            return ty.clone();
+        }
+
         match ty {
             ArgType::TypeVariable { name, .. } => {
                 mapping.get(name).cloned().unwrap_or_else(|| ty.clone())
@@ -619,7 +634,7 @@ impl TypeInference {
             ArgType::Generic { base, params } => {
                 let resolved_params: Vec<ArgType> = params
                     .iter()
-                    .map(|p| Self::apply_type_var_mapping(p, mapping))
+                    .map(|p| Self::apply_type_var_mapping_with_depth(p, mapping, depth + 1))
                     .collect();
                 ArgType::Generic {
                     base: base.clone(),
@@ -627,7 +642,7 @@ impl TypeInference {
                 }
             }
             ArgType::Array(elem) => {
-                ArgType::Array(Box::new(Self::apply_type_var_mapping(elem, mapping)))
+                ArgType::Array(Box::new(Self::apply_type_var_mapping_with_depth(elem, mapping, depth + 1)))
             }
             _ => ty.clone(),
         }
@@ -643,6 +658,21 @@ impl TypeInference {
     /// Uses the class hierarchy to look up the actual type parameter names
     /// from the class definition and build a proper mapping.
     fn resolve_type_variable(&self, return_type: &ArgType, instance_type: &ArgType) -> ArgType {
+        self.resolve_type_variable_with_depth(return_type, instance_type, 0)
+    }
+
+    fn resolve_type_variable_with_depth(&self, return_type: &ArgType, instance_type: &ArgType, depth: usize) -> ArgType {
+        // Prevent stack overflow on deeply nested generic types
+        const MAX_RESOLVE_DEPTH: usize = 100;
+        if depth > MAX_RESOLVE_DEPTH {
+            tracing::error!(
+                depth = depth,
+                limit = MAX_RESOLVE_DEPTH,
+                "LIMIT_EXCEEDED: Type variable resolution depth exceeded"
+            );
+            return return_type.clone();
+        }
+
         // Build the type variable mapping from instance type
         let mapping = self.build_type_var_mapping(instance_type);
 
@@ -664,7 +694,7 @@ impl TypeInference {
                 (ArgType::Generic { base, params: ret_params }, instance_ty) => {
                     let resolved_params: Vec<ArgType> = ret_params
                         .iter()
-                        .map(|p| self.resolve_type_variable(p, instance_ty))
+                        .map(|p| self.resolve_type_variable_with_depth(p, instance_ty, depth + 1))
                         .collect();
                     ArgType::Generic {
                         base: base.clone(),
@@ -672,7 +702,7 @@ impl TypeInference {
                     }
                 }
                 (ArgType::Array(elem), instance_ty) => {
-                    let resolved_elem = self.resolve_type_variable(elem, instance_ty);
+                    let resolved_elem = self.resolve_type_variable_with_depth(elem, instance_ty, depth + 1);
                     ArgType::Array(Box::new(resolved_elem))
                 }
                 _ => return_type.clone(),
@@ -2651,6 +2681,21 @@ impl TypeInference {
     /// NOTE: &self because this only reads hierarchy - enables callers to avoid cloning
     #[allow(dead_code)]
     fn unify_types(&self, t1: &InferredType, t2: &InferredType) -> bool {
+        self.unify_types_with_depth(t1, t2, 0)
+    }
+
+    fn unify_types_with_depth(&self, t1: &InferredType, t2: &InferredType, depth: usize) -> bool {
+        // Prevent stack overflow on deeply nested array types
+        const MAX_UNIFY_DEPTH: usize = 100;
+        if depth > MAX_UNIFY_DEPTH {
+            tracing::error!(
+                depth = depth,
+                limit = MAX_UNIFY_DEPTH,
+                "LIMIT_EXCEEDED: Type unification depth exceeded"
+            );
+            return false;
+        }
+
         match (t1, t2) {
             (InferredType::Concrete(a), InferredType::Concrete(b)) => {
                 // Use hierarchy-aware type comparison
@@ -2680,7 +2725,7 @@ impl TypeInference {
 
                 false
             }
-            (InferredType::Array(e1), InferredType::Array(e2)) => self.unify_types(e1, e2),
+            (InferredType::Array(e1), InferredType::Array(e2)) => self.unify_types_with_depth(e1, e2, depth + 1),
             (InferredType::Unknown, _) | (_, InferredType::Unknown) => true,
             _ => false,
         }

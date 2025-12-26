@@ -678,13 +678,7 @@ impl ExprGen {
     /// Generate expression for an instruction argument
     pub fn gen_arg(&self, arg: &InsnArg) -> String {
         match arg {
-            InsnArg::Register(reg) => {
-                let name = self.get_var_name(reg);
-                if name.to_uppercase().contains("ODEL") || name.to_uppercase().contains("ANUFACTURER") || name.to_uppercase().contains("ARDWARE") {
-                    eprintln!("[DEBUG expr_gen.gen_arg] r{}v{} -> name={}", reg.reg_num, reg.ssa_version, name);
-                }
-                name
-            }
+            InsnArg::Register(reg) => self.get_var_name(reg),
             InsnArg::Literal(lit) => self.gen_literal(lit),
             InsnArg::Type(idx) => self.get_type_value(*idx)
                 .unwrap_or_else(|| format!("Type#{}", idx)),
@@ -715,9 +709,6 @@ impl ExprGen {
         match arg {
             InsnArg::Register(reg) => {
                 let name = self.get_var_name(reg);
-                if name.to_uppercase().contains("ODEL") || name.to_uppercase().contains("ANUFACTURER") || name.to_uppercase().contains("ARDWARE") {
-                    eprintln!("[DEBUG expr_gen.write_arg] r{}v{} -> name={}", reg.reg_num, reg.ssa_version, name);
-                }
                 writer.add(&name);
             }
             InsnArg::Literal(lit) => {
