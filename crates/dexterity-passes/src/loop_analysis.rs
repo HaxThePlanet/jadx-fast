@@ -25,6 +25,10 @@ pub struct ForLoopPattern {
     pub loop_var: (u16, u32), // (reg_num, ssa_version)
     /// Upper bound if detectable
     pub upper_bound: Option<UpperBound>,
+    /// Initial value of loop variable (GAP-FOR-INIT-UPDATE fix)
+    pub init_value: i64,
+    /// Increment step (positive for ++, negative for --, or any value for += N)
+    pub incr_step: i64,
 }
 
 /// Upper bound for a for-loop
@@ -167,18 +171,16 @@ fn detect_indexed_for(
     // Get the initialization instruction
     let init_insn = def_map.get(&(init_source.1.reg_num, init_source.1.ssa_version))?;
 
-    // Init should be a CONST 0 (or other small constant for some loops)
-    let is_zero_init = matches!(&init_insn.insn_type,
-        InsnType::Const { value: LiteralArg::Int(0), .. }
-    );
-
-    if !is_zero_init {
-        return None;
-    }
+    // GAP-FOR-INIT-UPDATE: Extract actual init value (not just 0)
+    // JADX Reference: RegionGen.java supports any constant init value
+    let init_value = match &init_insn.insn_type {
+        InsnType::Const { value: LiteralArg::Int(n), .. } => *n,
+        _ => return None, // Must be a constant
+    };
 
     // Find the increment instruction in the loop body
-    // It should be an ADD with literal 1
-    let incr_insn = find_increment_insn(ssa, loop_info, loop_var)?;
+    // GAP-FOR-INIT-UPDATE: Now supports any constant step value
+    let (incr_insn, incr_step) = find_increment_insn(ssa, loop_info, loop_var)?;
 
     // Get the increment result register
     let incr_result = get_result_reg(incr_insn)?;
@@ -250,6 +252,8 @@ fn detect_indexed_for(
         incr_insn_offset: incr_insn.offset,
         loop_var,
         upper_bound,
+        init_value,
+        incr_step,
     })
 }
 
@@ -307,24 +311,46 @@ fn detect_array_foreach(
 }
 
 /// Find the increment instruction for a loop variable
+/// GAP-FOR-INIT-UPDATE: Returns both the instruction and the increment step
 fn find_increment_insn<'a>(
     ssa: &'a SsaResult,
     loop_info: &LoopInfo,
     loop_var: (u16, u32),
-) -> Option<&'a InsnNode> {
+) -> Option<(&'a InsnNode, i64)> {
     for block_id in &loop_info.blocks {
         if let Some(block) = ssa.blocks.iter().find(|b| b.id == *block_id) {
             for insn in &block.instructions {
-                // Look for ADD instruction: v = loop_var + 1
+                // Look for ADD instruction: v = loop_var + N (positive step)
                 if let InsnType::Binary { dest, op: BinaryOp::Add, left, right, .. } = &insn.insn_type {
                     // Check if result is assigned to the same register (different SSA version)
                     if dest.reg_num == loop_var.0 {
                         // Check if left operand is the loop variable
                         if let InsnArg::Register(left_reg) = left {
                             if (left_reg.reg_num, left_reg.ssa_version) == loop_var {
-                                // Check if right operand is literal 1
-                                if matches!(right, InsnArg::Literal(LiteralArg::Int(1))) {
-                                    return Some(insn);
+                                // GAP-FOR-INIT-UPDATE: Accept any integer literal as step
+                                let step = match right {
+                                    InsnArg::Literal(LiteralArg::Int(n)) => Some(*n),
+                                    _ => None,
+                                };
+                                if let Some(step) = step {
+                                    return Some((insn, step));
+                                }
+                            }
+                        }
+                    }
+                }
+                // Look for SUB instruction: v = loop_var - N (negative step / decrement)
+                if let InsnType::Binary { dest, op: BinaryOp::Sub, left, right, .. } = &insn.insn_type {
+                    if dest.reg_num == loop_var.0 {
+                        if let InsnArg::Register(left_reg) = left {
+                            if (left_reg.reg_num, left_reg.ssa_version) == loop_var {
+                                // Negative step for subtraction
+                                let step = match right {
+                                    InsnArg::Literal(LiteralArg::Int(n)) => Some(-*n),
+                                    _ => None,
+                                };
+                                if let Some(step) = step {
+                                    return Some((insn, step));
                                 }
                             }
                         }

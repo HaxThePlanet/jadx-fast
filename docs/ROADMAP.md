@@ -1,11 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 1 P1 | 1 P1-CG | 5 P2-CG | Dec 26, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 1 P1 | 1 P1-CG | 3 P2-CG | Dec 26, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 0 P0, 1 P1 (try-catch invert), 1 P1-CG, 5 P2-CG codegen gaps |
+| **Open Bugs** | 0 P0, 1 P1 (try-catch invert), 1 P1-CG, 3 P2-CG codegen gaps |
 | **Code Quality** | 0 Easy, 2 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
@@ -879,15 +879,15 @@ Gaps identified by comparing Dexterity codegen vs JADX-fast codegen. See [CODEGE
 | ~~GAP-ENUM-CTOR-FILTER~~ | ~~Enum constructor args not filtered (first 2 implicit)~~ | MethodGen.java:155-163 | ✅ FIXED Dec 26 (method_gen.rs:96-108) |
 | ~~GAP-CATCH-ORDER~~ | ~~Catch-all handler not explicitly ordered last~~ | RegionGen.java:325-336 | ✅ FIXED (block_exception_handler.rs:809-822) |
 
-### P2-CG: Medium Priority Codegen Gaps (5 Open)
+### P2-CG: Medium Priority Codegen Gaps (3 Open, 2 Fixed)
 
-| Gap ID | Description | JADX Reference | Impact |
+| Gap ID | Description | JADX Reference | Status |
 |--------|-------------|----------------|--------|
-| **GAP-FOR-INIT-UPDATE** | For-loop init/update hardcoded `int i=0; i++` | RegionGen.java:188-192 | Can't handle `for(i=10; i<N; i+=2)` |
-| **GAP-ENUM-NESTED** | Enum constants with nested class bodies | ClassGen.java:504-541 | `RED { ... }` as separate class |
-| **GAP-NAMED-ARG-CATCH** | Only Register-based exception variables | RegionGen.java:367-377 | Pre-named params not preserved |
-| **GAP-PKG-INFO** | No package-info.java generation | ClassGen.java:99-155 | Package annotations lost |
-| **GAP-COMMENTS-LEVEL** | No configurable comment verbosity | InsnGen.java:658 | Cannot suppress comments |
+| **GAP-FOR-INIT-UPDATE** | For-loop init/update hardcoded `int i=0; i++` | RegionGen.java:188-192 | ✅ FIXED - Extracts actual init/step values |
+| **GAP-ENUM-NESTED** | Enum constants with nested class bodies | ClassGen.java:504-541 | 🔴 OPEN |
+| **GAP-NAMED-ARG-CATCH** | Only Register-based exception variables | RegionGen.java:367-377 | 🔴 OPEN |
+| **GAP-PKG-INFO** | No package-info.java generation | ClassGen.java:99-155 | 🔴 OPEN |
+| ~~GAP-COMMENTS-LEVEL~~ | ~~No configurable comment verbosity~~ | InsnGen.java:658 | ✅ FIXED (args.rs:214, --comments-level) |
 
 ### P3-CG: Low Priority (Cosmetic/IDE) - 6 Open
 

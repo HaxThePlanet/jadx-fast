@@ -1,6 +1,6 @@
 # Dexterity Passes Parity Status
 
-**Last Updated:** Dec 25, 2025 (verified by source code + output diff analysis)
+**Last Updated:** Dec 26, 2025 (verified by source code + output diff analysis)
 **Status:** PRODUCTION-READY | 0 P0 Bugs | A- Grade (95-96%)
 **Philosophy:** Clone JADX's 10 years of edge-case handling exactly. Don't reinvent - match behavior.
 
@@ -10,16 +10,9 @@
 
 | Metric | JADX | Dexterity | Status |
 |--------|------|-----------|--------|
-| **Total Passes** | 65 | 74 files | ~90% structural |
+| **Total Passes** | 65 | 81 files | ~90% structural |
 | **Output Quality** | Compilable Java | Production-ready | **~95% real parity** |
 | **Critical Bugs** | 0 | 0 | **ALL P0 FIXED** Dec 25: LOOP-VAR, BOOL-CHAIN, WRONG-RETURN |
-
-**Progress (Dec 25, 2025):**
-- **P0-LOOP-VAR FIXED:** For-each loops now use correct iterator variables
-- **P0-BOOL-CHAIN FIXED:** PHI-to-return transformation with polarity inversion
-- **P0-WRONG-RETURN FIXED:** Boolean methods no longer return int variables
-- **P2-TYPE-INFERENCE FIXED:** A+ (100%) - 0 Unknown type warnings
-- **P1-TRY-CATCH-RECON FIXED:** Try-catch blocks inside loop bodies now properly reconstructed
 
 ---
 
@@ -183,7 +176,7 @@ to while loops, matching JADX's conservative approach.
 | ShadowFieldVisitor | 178 | shadow_field.rs | DONE | |
 | DeboxingVisitor | 181 | deboxing.rs | DONE | |
 | AnonymousClassVisitor | 312 | anonymous_class_visitor.rs | DONE | |
-| ModVisitor | 633 | mod_visitor.rs | **BROKEN** | Array init |
+| ModVisitor | 633 | mod_visitor.rs | DONE | Integrated Stage 4.25 |
 | CodeShrinkVisitor | 445 | code_shrink.rs | DONE | |
 | ReplaceNewArray | 234 | replace_new_array.rs | PARTIAL | |
 | SimplifyVisitor | 637 | simplify.rs, simplify_stringbuilder.rs | 75% | StringBuilder chains converting |
@@ -193,8 +186,8 @@ to while loops, matching JADX's conservative approach.
 | JADX Pass | Lines | Dexterity File | Status | Issue |
 |-----------|-------|----------------|--------|-------|
 | RegionMakerVisitor | 890 | region_builder.rs | 90% | Try-catch in loops FIXED Dec 25 |
-| IfRegionVisitor | 356 | if_region_visitor.rs | **BROKEN** | Empty branches |
-| SwitchOverStringVisitor | 267 | switch_over_string.rs | DONE | |
+| IfRegionVisitor | 356 | if_region_visitor.rs | 90% | 734-line impl, not fully integrated |
+| SwitchOverStringVisitor | 267 | body_gen.rs (codegen) | DONE | Integrated in codegen |
 | ReturnVisitor | 169 | return_visitor.rs | PARTIAL | Else-return |
 | CleanRegions | 145 | clean_regions.rs | DONE | |
 | MethodThrowsVisitor | 89 | method_throws_visitor.rs | DONE | |
@@ -211,7 +204,7 @@ to while loops, matching JADX's conservative approach.
 | EnumVisitor | 645 | enum_visitor.rs | DONE | |
 | FixSwitchOverEnum | 234 | fix_switch_over_enum.rs | DONE | |
 | NonFinalResIdsVisitor | 119 | - | MISSING | Gradle |
-| ExtractFieldInit | 280 | extract_field_init.rs | **BROKEN** | Static init |
+| ExtractFieldInit | 280 | extract_field_init.rs | 90% | 1177-line impl, not fully integrated |
 | FixAccessModifiers | 122 | converter.rs | **DONE** (Dec 25) | Inner class visibility |
 | ClassModifier | 389 | class_modifier.rs | DONE | |
 

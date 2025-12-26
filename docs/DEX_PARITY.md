@@ -13,11 +13,11 @@ The `dexterity-dex` crate achieves **100% feature parity** with JADX's `jadx-dex
 |-----------|--------|---------------|----------|
 | Header Parsing | 100% | `header.rs` | `DexHeader.java` |
 | Opcodes (224) | 100% | `opcode.rs` | `DexOpcodes.java` |
-| Instruction Formats (21) | 100% | `format.rs` | `DexInsnFormat.java` |
+| Instruction Formats (26) | 100% | `format.rs` | `DexInsnFormat.java` |
 | Section Parsing (7) | 100% | `reader.rs` | `SectionReader.java` |
 | Debug Info | 100% | `code_item.rs` | `DebugInfoParser.java` (DBG_SET_FILE fixed) |
 | Annotations | 100% | `encoded_annotation.rs` | `AnnotationsParser.java` |
-| Encoded Values (19) | 100% | `encoded_value.rs` | `EncodedValueParser.java` |
+| Encoded Values (18) | 100% | `encoded_value.rs` | `EncodedValueParser.java` |
 | Lambda Support | 100% | `method_handle.rs`, `call_site.rs` | `DexMethodRef.java` |
 
 ---
@@ -302,7 +302,7 @@ All 19 literal operations implemented:
 
 ---
 
-## 4. Instruction Formats - All 21 (100%)
+## 4. Instruction Formats - All 26 (100%)
 
 | Format | Size | Description | Status |
 |--------|------|-------------|--------|
@@ -396,7 +396,7 @@ pub struct LocalVarEntry {
 | RUNTIME | 0x01 | DONE |
 | SYSTEM | 0x02 | DONE |
 
-### Encoded Value Types (19)
+### Encoded Value Types (18)
 | Type Code | Name | Status |
 |-----------|------|--------|
 | 0x00 | VALUE_BYTE | DONE |

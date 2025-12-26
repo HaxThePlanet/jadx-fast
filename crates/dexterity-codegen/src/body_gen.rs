@@ -7624,14 +7624,19 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                             let loop_reg = dexterity_ir::instructions::RegisterArg::with_ssa(for_pattern.loop_var.0, for_pattern.loop_var.1);
                             let var_name = ctx.expr_gen.get_var_name(&loop_reg);
 
-                            // Initialize: "int i = 0"
-                            let init_str = format!("int {} = 0", var_name);
+                            // GAP-FOR-INIT-UPDATE: Use actual init value from pattern
+                            let init_str = format!("int {} = {}", var_name, for_pattern.init_value);
 
                             // Condition: already have it
                             let cond_str = condition_str.clone();
 
-                            // Update: "i++"
-                            let update_str = format!("{}++", var_name);
+                            // GAP-FOR-INIT-UPDATE: Generate appropriate update expression
+                            let update_str = match for_pattern.incr_step {
+                                1 => format!("{}++", var_name),
+                                -1 => format!("{}--", var_name),
+                                step if step > 0 => format!("{} += {}", var_name, step),
+                                step => format!("{} -= {}", var_name, -step), // negative step
+                            };
 
                             // JADX parity: use labeled for header if loop has label
                             if let Some(lbl) = &loop_label {
