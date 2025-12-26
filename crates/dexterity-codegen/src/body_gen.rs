@@ -940,7 +940,13 @@ impl BodyGenContext {
                             // Non-boolean value (2, 3, etc.) - fall through to normal format
                         }
                         // Convert 0 to null for Object/Array types (JADX parity)
+                        // Also try enum constant replacement for Object types
                         ArgType::Object(_) | ArgType::Array(_) | ArgType::UnknownObject => {
+                            // Try enum constant replacement first
+                            if let Some(enum_ref) = self.expr_gen.try_resolve_enum_constant(value, target_type) {
+                                writer.add(&enum_ref);
+                                return;
+                            }
                             if value == 0 {
                                 writer.add("null");
                                 return;
@@ -3152,12 +3158,13 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     fallback: bool,
     res_names: &HashMap<u32, String>,
     replace_consts: bool,
+    enum_constants: &HashMap<String, HashMap<i32, String>>,
     add_debug_lines: bool,
     code: &mut W,
 ) {
     generate_body_with_inner_classes_and_lambdas(
         method, dex_info, imports, inner_classes, None, hierarchy,
-        current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code
+        current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, enum_constants, add_debug_lines, code
     );
 }
 
@@ -3175,6 +3182,7 @@ pub fn generate_body_with_inner_classes_and_lambdas<W: CodeWriter>(
     fallback: bool,
     res_names: &HashMap<u32, String>,
     replace_consts: bool,
+    enum_constants: &HashMap<String, HashMap<i32, String>>,
     add_debug_lines: bool,
     code: &mut W,
 ) {
@@ -3206,6 +3214,7 @@ pub fn generate_body_with_inner_classes_and_lambdas<W: CodeWriter>(
             deobf_max_length,
             res_names,
             replace_consts,
+            enum_constants,
             add_debug_lines,
             code
         )
@@ -3241,6 +3250,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     deobf_max_length: usize,
     res_names: &HashMap<u32, String>,
     replace_consts: bool,
+    enum_constants: &HashMap<String, HashMap<i32, String>>,
     add_debug_lines: bool,
     code: &mut W,
 ) {
@@ -3469,6 +3479,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     let mut ctx = BodyGenContext::from_method_with_lambda_methods(method, dex_info.clone(), inner_classes, lambda_methods);
     ctx.expr_gen.set_deobf_limits(deobf_min_length, deobf_max_length);
     ctx.expr_gen.set_resources(res_names.clone(), replace_consts);
+    ctx.expr_gen.set_enum_constants(enum_constants.clone());
     let max_versions = ssa_result.max_versions.clone();
     // Identify exception handler blocks to skip in phi declaration
     let exception_handler_blocks = collect_exception_handler_blocks(&ssa_result, &method.try_blocks);

@@ -84,6 +84,7 @@ fn is_empty_clinit(method: &MethodData) -> bool {
 /// - Outer class reference (first arg for inner class constructors)
 /// - Anonymous class markers (e.g., Outer$1, Outer$$Lambda$1)
 /// - Synthetic helper classes (empty synthetic classes)
+/// - Enum constructor implicit name/ordinal args (first 2 args)
 ///
 /// Returns true if the argument should be skipped in parameter list.
 fn is_synthetic_constructor_arg(arg_type: &ArgType, arg_index: usize, method: &MethodData, class: &ClassData) -> bool {
@@ -92,7 +93,21 @@ fn is_synthetic_constructor_arg(arg_type: &ArgType, arg_index: usize, method: &M
         return false;
     }
 
-    // Only filter if the method is synthetic
+    // GAP-ENUM-CTOR-FILTER: Filter first 2 args of enum constructors
+    // JADX Reference: MethodGen.java:155-163
+    // Enum constructors have implicit (String name, int ordinal) as first 2 params
+    if class.is_enum() && arg_index < 2 && method.arg_types.len() >= 2 {
+        // Verify it matches the expected enum constructor pattern:
+        // First arg: java/lang/String (name)
+        // Second arg: int (ordinal)
+        let first_is_string = matches!(&method.arg_types[0], ArgType::Object(n) if n == "java/lang/String");
+        let second_is_int = matches!(&method.arg_types[1], ArgType::Int);
+        if first_is_string && second_is_int {
+            return true;
+        }
+    }
+
+    // Only filter remaining patterns if the method is synthetic
     if !crate::access_flags::is_synthetic(method.access_flags) {
         return false;
     }
@@ -812,6 +827,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     deobf_max_length: usize,
     res_names: &std::collections::HashMap<u32, String>,
     replace_consts: bool,
+    enum_constants: &std::collections::HashMap<String, std::collections::HashMap<i32, String>>,
     comments_level: CommentsLevel,
     add_debug_lines: bool,
     code: &mut W,
@@ -968,7 +984,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     } else if method.is_class_init() {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, lambda_methods, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, lambda_methods, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, enum_constants, add_debug_lines, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
@@ -994,7 +1010,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
             // Regular method with body
             code.add(" {").newline();
             code.inc_indent();
-            add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, lambda_methods, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+            add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, lambda_methods, hierarchy, Some(class), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, enum_constants, add_debug_lines, code);
             code.dec_indent();
             code.start_line().add("}").newline();
         }
@@ -1016,12 +1032,13 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     fallback: bool,
     res_names: &std::collections::HashMap<u32, String>,
     replace_consts: bool,
+    enum_constants: &std::collections::HashMap<String, std::collections::HashMap<i32, String>>,
     add_debug_lines: bool,
     code: &mut W,
 ) {
     let current_class_type = current_class.map(|c| c.class_type.as_str());
     // P1-LAMBDA-FIX: Use the _and_lambdas variant to enable synthetic lambda method inlining
-    generate_body_with_inner_classes_and_lambdas(method, dex_info, imports, inner_classes, lambda_methods, hierarchy, current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, add_debug_lines, code);
+    generate_body_with_inner_classes_and_lambdas(method, dex_info, imports, inner_classes, lambda_methods, hierarchy, current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, enum_constants, add_debug_lines, code);
 }
 
 /// Extract throws types from dalvik/annotation/Throws annotation
@@ -2482,5 +2499,56 @@ mod tests {
         let mut writer = SimpleCodeWriter::new();
         generate_type_parameters(&params, None, None, &mut writer);
         assert_eq!(writer.finish(), "<in K, out V>");
+    }
+
+    #[test]
+    fn test_enum_constructor_filters_implicit_args() {
+        // GAP-ENUM-CTOR-FILTER: Enum constructors should hide first 2 args (name, ordinal)
+        // JADX Reference: MethodGen.java:155-163
+
+        // Create an enum class
+        let enum_class = ClassData::new("Lcom/example/Color;".to_string(), ACC_PUBLIC | ACC_ENUM | ACC_FINAL);
+
+        // Create enum constructor: <init>(String name, int ordinal, String code)
+        // The first 2 args are implicit and should be filtered
+        let mut enum_ctor = make_method("<init>", ArgType::Void, ACC_PRIVATE);
+        enum_ctor.arg_types = vec![
+            ArgType::Object("java/lang/String".to_string()),  // implicit name
+            ArgType::Int,                                       // implicit ordinal
+            ArgType::Object("java/lang/String".to_string()),  // user's "code" arg
+        ];
+
+        let mut writer = SimpleCodeWriter::new();
+        generate_method(&enum_ctor, &enum_class, false, &mut writer);
+        let code = writer.finish();
+
+        // Should only have ONE String parameter (code), not three
+        // The constructor should look like: private Color(String str) { }
+        // NOT: private Color(String str, int i, String str2) { }
+        assert!(code.contains("(String"), "Code was: {}", code);
+        assert!(!code.contains("int"), "Code should not have int param: {}", code);
+        // Should have only one String parameter, not two
+        let string_count = code.matches("String ").count();
+        assert_eq!(string_count, 1, "Should have exactly 1 String param (not 2), code: {}", code);
+    }
+
+    #[test]
+    fn test_enum_constructor_no_user_args() {
+        // Enum with only implicit args should have empty parameter list
+        let enum_class = ClassData::new("Lcom/example/Status;".to_string(), ACC_PUBLIC | ACC_ENUM | ACC_FINAL);
+
+        // Create enum constructor: <init>(String name, int ordinal) - no user args
+        let mut enum_ctor = make_method("<init>", ArgType::Void, ACC_PRIVATE);
+        enum_ctor.arg_types = vec![
+            ArgType::Object("java/lang/String".to_string()),  // implicit name
+            ArgType::Int,                                       // implicit ordinal
+        ];
+
+        let mut writer = SimpleCodeWriter::new();
+        generate_method(&enum_ctor, &enum_class, false, &mut writer);
+        let code = writer.finish();
+
+        // Should have empty parameter list: private Status() { }
+        assert!(code.contains("()"), "Enum with no user args should have empty params: {}", code);
     }
 }

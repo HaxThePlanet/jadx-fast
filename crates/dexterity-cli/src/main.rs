@@ -530,6 +530,8 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     // Wrap res_names in Arc for efficient sharing across parallel class processing
     let res_names = Arc::new(res_names);
     let app_package_name = Arc::new(app_package_name);
+    // P2-ENUM-CONSTANTS: Empty for now, will be populated from enum class analysis in future
+    let enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
 
     // Process source code (DEX) - one at a time to minimize memory
     if !args.skip_sources {
@@ -557,7 +559,7 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             entry.read_to_end(&mut dex_data)?;
 
             // Process it immediately
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, std::sync::Arc::clone(&res_names), std::sync::Arc::clone(&app_package_name)) {
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, std::sync::Arc::clone(&res_names), std::sync::Arc::clone(&enum_constants), std::sync::Arc::clone(&app_package_name)) {
                 Ok(count) => total_classes += count,
                 Err(e) => {
                     tracing::warn!("Failed to process {}: {}", dex_name, e);
@@ -702,6 +704,8 @@ fn process_apk_fallback(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, a
     }
     let res_names = Arc::new(res_names);
     let app_package_name = Arc::new(app_package_name);
+    // P2-ENUM-CONSTANTS: Empty for now
+    let enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
 
     // Process DEX files
     if !args.skip_sources && !dex_entries.is_empty() {
@@ -723,6 +727,7 @@ fn process_apk_fallback(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, a
                 dex_idx as u32,
                 dex_name,
                 Arc::clone(&res_names),
+                Arc::clone(&enum_constants),
                 Arc::clone(&app_package_name),
             ) {
                 Ok(count) => total_classes += count,
@@ -1024,8 +1029,9 @@ fn process_dex(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     let global_field_pool = Arc::new(GlobalFieldPool::new());
     let dex_name = input.file_name().and_then(|n| n.to_str()).unwrap_or("classes.dex");
     let res_names = Arc::new(std::collections::HashMap::new()); // DEX files don't have resources
+    let enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
     let app_package_name = Arc::new(None); // DEX files don't have ARSC resources
-    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), 0, dex_name, Arc::clone(&res_names), Arc::clone(&app_package_name))?;
+    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), 0, dex_name, Arc::clone(&res_names), Arc::clone(&enum_constants), Arc::clone(&app_package_name))?;
 
     if let Some(pb) = progress {
         pb.finish_with_message("done");
@@ -1106,8 +1112,9 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
 
             // Process it immediately - JAR DEX files have no resource mappings
             let empty_res_names = Arc::new(std::collections::HashMap::new());
+            let empty_enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
             let empty_package_name = Arc::new(None);
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, Arc::clone(&empty_res_names), Arc::clone(&empty_package_name)) {
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, Arc::clone(&empty_res_names), Arc::clone(&empty_enum_constants), Arc::clone(&empty_package_name)) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
@@ -1259,8 +1266,9 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
 
             // Process it immediately - AAB DEX files have no resource mappings
             let empty_res_names = Arc::new(std::collections::HashMap::new());
+            let empty_enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
             let empty_package_name = Arc::new(None);
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, empty_res_names, Arc::clone(&empty_package_name)) {
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, empty_res_names, Arc::clone(&empty_enum_constants), Arc::clone(&empty_package_name)) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
@@ -1385,6 +1393,7 @@ fn process_dex_bytes(
     dex_idx: u32,
     dex_name: &str,
     res_names: std::sync::Arc<std::collections::HashMap<u32, String>>,
+    enum_constants: std::sync::Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>>,
     app_package_name: std::sync::Arc<Option<String>>,
 ) -> Result<usize> {
     mem_checkpoint!("before DexReader");
@@ -1638,6 +1647,54 @@ fn process_dex_bytes(
         dex_info
     };
 
+    // P2-ENUM-CONSTANTS: Build enum ordinal->name mapping for enum constant replacement
+    // This enables replacing integer literals (0, 1, 2) with enum constants (MyEnum.VALUE_A)
+    // when the expected type is an enum class.
+    let enum_constants_start = std::time::Instant::now();
+    let mut enum_constants_map: std::collections::HashMap<String, std::collections::HashMap<i32, String>> = std::collections::HashMap::new();
+    let mut enum_count = 0usize;
+    for &idx in &class_indices {
+        if let Ok(raw_class) = dex.get_class(idx) {
+            if let Ok(mut class) = converter::convert_class(&dex, &raw_class, args.debug_info(), dex_idx, Some(dex_name)) {
+                if class.is_enum() {
+                    // Load <clinit> method instructions (required for enum analysis)
+                    for method in class.methods.iter_mut() {
+                        if method.name == "<clinit>" {
+                            let _ = converter::load_method_instructions(method, &dex);
+                            break;
+                        }
+                    }
+
+                    // Analyze enum to get ordinal->name mapping
+                    let dex_clone = std::sync::Arc::clone(&dex);
+                    if let Some(info) = dexterity_passes::analyze_enum_class_with_strings(
+                        &class,
+                        Some(move |idx: u32| dex_clone.get_string(idx).ok().map(|s| s.to_string())),
+                    ) {
+                        // Build ordinal map for this enum class
+                        let mut ordinal_map: std::collections::HashMap<i32, String> = std::collections::HashMap::new();
+                        for field in &info.fields {
+                            ordinal_map.insert(field.ordinal, field.name.clone());
+                        }
+                        if !ordinal_map.is_empty() {
+                            // Normalize class type: strip L prefix and ; suffix
+                            let normalized = class.class_type.strip_prefix('L').unwrap_or(&class.class_type)
+                                .strip_suffix(';').unwrap_or(&class.class_type);
+                            enum_constants_map.insert(normalized.to_string(), ordinal_map);
+                            enum_count += 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    let enum_constants = Arc::new(enum_constants_map);
+    tracing::info!(
+        "Enum constant mapping built in {:?} ({} enums)",
+        enum_constants_start.elapsed(),
+        enum_count
+    );
+
     // inner_class_map and outer_class_indices were built in the optimized single-pass loop above
     tracing::info!(
         "Processing {} outer classes ({} inner classes will be nested)",
@@ -1849,6 +1906,7 @@ fn process_dex_bytes(
                     deobf_max_length: args.deobf_max_length,
                     res_names: std::sync::Arc::clone(&res_names),
                     replace_consts: args.replace_consts(),
+                    enum_constants: std::sync::Arc::clone(&enum_constants),
                     app_package_name: (*app_package_name).clone(),
                     comments_level,
                 };

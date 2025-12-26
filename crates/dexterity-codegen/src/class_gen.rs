@@ -733,6 +733,10 @@ pub struct ClassGenConfig {
     pub res_names: std::sync::Arc<std::collections::HashMap<u32, String>>,
     /// Whether to replace resource IDs with R.* field references
     pub replace_consts: bool,
+    /// Enum class -> ordinal -> constant name mapping for enum constant replacement
+    /// Key: normalized class type (e.g., "com/example/MyEnum"), Value: ordinal -> field name
+    /// Wrapped in Arc for efficient sharing across parallel class processing.
+    pub enum_constants: std::sync::Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>>,
     /// App package name for R class imports
     pub app_package_name: Option<String>,
     /// Level of comments to include (ERROR, WARN, INFO, DEBUG)
@@ -754,6 +758,7 @@ impl Default for ClassGenConfig {
             deobf_max_length: 64,
             res_names: std::sync::Arc::new(std::collections::HashMap::new()),
             replace_consts: false,
+            enum_constants: std::sync::Arc::new(std::collections::HashMap::new()),
             app_package_name: None,
             comments_level: CommentsLevel::Info,
         }
@@ -1864,7 +1869,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
         first_method = false;
         // P1-LAMBDA-FIX: Pass lambda_methods for inlining synthetic lambda$ methods
         let lambda_ref = if lambda_methods.is_empty() { None } else { Some(&lambda_methods) };
-        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, lambda_ref, config.hierarchy.as_deref(), config.deobf_min_length, config.deobf_max_length, &*config.res_names, config.replace_consts, config.comments_level, config.add_debug_lines, code);
+        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, lambda_ref, config.hierarchy.as_deref(), config.deobf_min_length, config.deobf_max_length, &*config.res_names, config.replace_consts, &*config.enum_constants, config.comments_level, config.add_debug_lines, code);
     }
 }
 

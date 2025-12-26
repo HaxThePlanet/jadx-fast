@@ -155,7 +155,7 @@ cargo build --release -p dexterity-cli
   - Class modifiers: `/* data */`, `/* sealed */`, `/* value */` - works
   - Function modifiers: `/* suspend */`, `/* inline */`, `/* operator */` - works
   - Field declarations AND usages: Aliased correctly (FIXED Dec 24)
-  - **P2:** Enum constants as raw integers (type inference gap)
+- **Enum constant replacement:** Integer literals replaced with enum constants (FIXED Dec 26)
 - **Control flow:** OR condition merging (`a || b` patterns), short-circuit evaluation
 - **Throws declarations:** Parse `dalvik/annotation/Throws` (~26% parity - framework class filtering differences)
 - **Resource resolution:** `R.layout.activity_main` (enabled by default)

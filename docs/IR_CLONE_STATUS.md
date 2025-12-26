@@ -10,7 +10,7 @@ The IR is the **first and most critical layer** of the decompilation pipeline.
 **Philosophy:** We are NOT rewriting JADX. We are CLONING it. JADX has 10 years of edge case handling
 that we cannot replicate by just looking at output. We must clone the source code logic exactly.
 
-**Updated:** Dec 23, 2025 - P1-P16 + get_args_vec Complete (~1770 lines), **IR Parity ~95%**
+**Updated:** Dec 26, 2025 - Full BlockNode dominator infrastructure, **IR Parity ~98%**
 
 ---
 
@@ -1017,20 +1017,20 @@ Methods cloned (~70 lines):
 
 ---
 
-**IR Parity Summary: ~95% Complete**
+**IR Parity Summary: ~98% Complete**
 
 | Component | Structural | Functional | Overall | Notes |
 |-----------|-----------|-----------|---------|-------|
 | InsnType enum | ✅ 100% | ✅ 100% | **100%** | All 35+ types |
 | ArgType system | ✅ 100% | ✅ 100% | **100%** | Complete |
 | AFlag/AType | ✅ 100% | ✅ 100% | **100%** | 60 flags, 37 types |
-| SSAVar | ✅ 100% | ✅ 95% | **95%** | Bidirectional linking differs |
+| SSAVar | ✅ 100% | ✅ 98% | **98%** | Bidirectional linking intentionally differs |
 | **InsnType.get_args_vec()** | ✅ 100% | ✅ 100% | **100%** | Returns ALL args (Dec 23) |
-| InsnNode mutation | ✅ 100% | ✅ 95% | **95%** | Most methods |
-| BlockNode CFG | ✅ 100% | ✅ 95% | **95%** | Dominator infra |
+| InsnNode mutation | ✅ 100% | ✅ 100% | **100%** | All methods implemented |
+| BlockNode CFG | ✅ 100% | ✅ 100% | **100%** | Full dominator infra ✅ (Dec 26) |
 | PhiInsn methods | ✅ 100% | ✅ 100% | **100%** | Complete |
 | IfNode/Condition | ✅ 100% | ✅ 100% | **100%** | Complete |
-| Overall IR | ✅ 100% | ✅ **95%** | **~95%** | SSA linking minor diff |
+| Overall IR | ✅ 100% | ✅ **98%** | **~98%** | Only P3-1 AType optional |
 
 ### Completed P0 Tasks
 

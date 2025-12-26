@@ -1,11 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 1 P1 | 0 P2 | 7 CQ | Dec 26, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 1 P1 | 4 P1-CG | 5 P2-CG | Dec 26, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 0 P0, 1 P1 (try-catch invert - partial fix Dec 26) |
+| **Open Bugs** | 0 P0, 1 P1 (try-catch invert), 4 P1-CG, 5 P2-CG codegen gaps |
 | **Code Quality** | 0 Easy, 2 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
@@ -18,17 +18,18 @@
 | Category | Grade | Notes |
 |----------|-------|-------|
 | **Codegen** | A-/B+ (85-90%) | Boolean simplification, diamond operator complete |
-| **Type Inference** | A (95%) 🟡 | 5% gaps: PHI conflicts, enum const, generics |
+| **Type Inference** | A (96%) 🟢 | 4% gaps: PHI conflicts, generics |
 | **IR/Control Flow** | A- (90%) | Boolean `\|\|` patterns, ternary, try-catch in loops working |
 | **Variable Naming** | A- (90%) | Static field inlining, scope tracking |
 | **Lambda/Anon Inlining** | B+ (85%) | invoke-custom lambdas inline correctly |
 | **Kotlin Support** | B+ (85%) | Field aliases work in declarations and usages |
 | **Resources** | A+ (100%) | 1:1 JADX parity verified |
 
-## Recently Completed (Dec 24-25, 2025)
+## Recently Completed (Dec 24-26, 2025)
 
 | Feature | Impact | Status |
 |---------|--------|--------|
+| P2-ENUM-CONSTANTS | +1-2% type accuracy | ✅ Integer literals replaced with enum constants |
 | P1-PHI-VAR-TYPE Fix | Compilable code | ✅ Type-check before PHI name unification |
 | P1-FOREACH-INDEX Fix | Compilable code | ✅ Index used in body → reject for-each |
 | Anti-RE ZIP Hardening | +93% bad APK recovery | ✅ 43% → 83% success rate |
@@ -76,36 +77,74 @@
 
 ---
 
-### Stack Overflow Protection (Dec 25, 2025)
+### Stack Overflow Protection (Dec 25-26, 2025)
 
 **Status:** ✅ COMPLETE | **Impact:** Crash prevention for large/obfuscated APKs
 
 **Problem:** Stack overflow crash on large APKs caused by unbounded recursion in visitor traversal functions. Unlike JADX (Java) which can catch `StackOverflowError`, Rust aborts immediately on stack overflow.
 
-**Solution:** Added `MAX_DEPTH = 100` depth checks to all recursive region traversal functions.
+**Solution:** Added depth limits via `dexterity_limits` crate with configurable functions (default: 200).
 
-**Files Modified:**
-| File | Function | Change |
-|------|----------|--------|
-| `dexterity-codegen/src/body_gen.rs:8542` | `process_region_for_inlining_with_depth` | Added MAX_DEPTH = 100 |
-| `dexterity-passes/src/post_process_regions.rs:38` | module constant | Added `const MAX_DEPTH: usize = 100` |
-| `dexterity-passes/src/post_process_regions.rs:157` | `region_always_exits_with_depth` | Added depth check |
-| `dexterity-passes/src/post_process_regions.rs:263` | `region_ends_with_return_or_throw_with_depth` | Added depth check |
+**Files Using Limits:**
+| File | Function | Limit Source |
+|------|----------|--------------|
+| `dexterity-codegen/src/body_gen.rs` | `process_region_for_inlining_with_depth` | `visitor_max_depth()` (200) |
+| `dexterity-passes/src/post_process_regions.rs` | All depth-recursive functions | `visitor_max_depth()` (200) |
+| `dexterity-passes/src/region_builder.rs` | Region stack | `region_stack_limit()` (200) |
+| `dexterity-passes/src/if_region_visitor.rs` | Visitor traversal | `visitor_max_depth()` (200) |
+| `dexterity-passes/src/return_visitor.rs` | Visitor traversal | `visitor_max_depth()` (200) |
+| `dexterity-passes/src/depth_region_traversal.rs` | Traversal | `visitor_max_depth()` (200) |
+| `dexterity-passes/src/dot_graph_visitor.rs` | DOT graph | `visitor_max_depth()` (200) |
+| `dexterity-passes/src/finally_extract.rs` | Finally extraction | Hardcoded MAX_DEPTH = 200 |
 
-**Already Protected (had depth limits):**
-- `depth_region_traversal.rs` - MAX_DEPTH = 100
-- `dot_graph_visitor.rs` - MAX_DEPTH = 100
-- `if_region_visitor.rs` - MAX_DEPTH = 100
-- `return_visitor.rs` - MAX_DEPTH = 100
-- `body_gen.rs:generate_region` - uses ctx.region_depth with MAX_REGION_DEPTH = 20
-
-**Behavior Change:** Deeply nested regions (>100 levels) are now truncated with error logs:
+**Behavior Change:** Deeply nested regions (>200 levels) are now truncated with error logs:
 - `LIMIT_EXCEEDED: Region stack overflow, bailing out`
 - `CODEGEN_LIMIT_EXCEEDED: Region nesting too deep, bailing out`
 
 **Test Results:**
 - Spotify APK (201MB): Completed in 4.34s with graceful depth limit handling
 - Badboy APK (24MB): Completed in 0.26s
+
+---
+
+### P2-ENUM-CONSTANTS: Enum Constant Replacement (Dec 26, 2025)
+
+**Status:** ✅ COMPLETE | **Impact:** +1-2% type accuracy, better code readability
+
+**Problem:** Integer literals (0, 1, 2) were emitted instead of enum constant names (MyEnum.VALUE_A, MyEnum.VALUE_B) when the expected type was an enum class.
+
+**Solution Applied:**
+1. **converter.rs** - Fixed ACC_ENUM flag preservation in `get_effective_access_flags()` for inner classes
+2. **main.rs** - Added `<clinit>` instruction loading in enum prepass before calling `analyze_enum_class_with_strings()`
+3. **body_gen.rs** - Added enum constant lookup in `write_arg_inline_typed()` for Object types via `try_resolve_enum_constant()`
+
+**Implementation Details:**
+- Builds enum ordinal->name mapping during a prepass phase before decompilation
+- `try_resolve_enum_constant()` in `expr_gen.rs` looks up integer values in the enum mapping
+- Works in comparisons, assignments, method arguments, and return statements
+- Handles normalized class types (strips L prefix and ; suffix)
+
+**Test Results:**
+- medium.apk: 111 enums detected (50 + 60 + 1 across 3 DEX files)
+- large.apk: 283 enums detected (105 + 93 + 85 across 3 DEX files)
+
+**Before (integers):**
+```java
+if (format == 0) { ... }
+setLevel(3);
+```
+
+**After (enum constants):**
+```java
+if (format == Format.ALPHA_8) { ... }
+setLevel(Level.INFO);
+```
+
+**Files Changed:**
+- `crates/dexterity-cli/src/converter.rs` - ACC_ENUM flag preservation
+- `crates/dexterity-cli/src/main.rs` - Enum prepass with `<clinit>` loading
+- `crates/dexterity-codegen/src/body_gen.rs` - Enum lookup in type-aware arg emission
+- `crates/dexterity-codegen/src/expr_gen.rs` - `try_resolve_enum_constant()` implementation
 
 ---
 
@@ -374,17 +413,17 @@ while (it.hasNext()) {
 
 ---
 
-## Type Inference - 95% Complete (5% Gaps Remaining)
+## Type Inference - 96% Complete (4% Gaps Remaining)
 
-**Current State:** ~95% accuracy (A grade) | 7 modules (~9,100 lines Rust)
+**Current State:** ~96% accuracy (A grade) | 7 modules (~9,100 lines Rust)
 **JADX Reference:** 26 files (~5,800 lines Java), 10+ years of refinement
 
-### Key Gaps (the ~5%)
+### Key Gaps (the ~4%)
 
 | Gap | Impact | Priority | Status |
 |-----|--------|----------|--------|
 | PHI variable type conflicts | 1-2% | P1 | 🔴 OPEN |
-| Enum constants as integers | 1-2% | P2 | 🔴 OPEN |
+| Enum constants as integers | 1-2% | P2 | 🟢 FIXED (Dec 26, 2025) |
 | Unresolved TypeVariables | 0.5-1% | P2 | 🔴 OPEN |
 | Complex generic inference | 0.5-1% | P2 | 🔴 OPEN |
 | Framework class unavailability | 1-2% | P3 | Design choice |
@@ -564,8 +603,9 @@ while (i < bArr.length) {
 
 **Bug:** Try-catch region reconstruction inverts the body - actual code ends up in catch block instead of try.
 
-**Fix Applied (Dec 26, 2025):**
-Added dominance check to BFS fallback in `collect_handler_blocks_by_dominance()` (line 689):
+**Fixes Applied (Dec 26, 2025):**
+
+**Phase 1 - BFS Dominance Check:** Added dominance check to BFS fallback in `collect_handler_blocks_by_dominance()` (line 689):
 ```rust
 // BEFORE (broken): followed ALL successors
 for &succ in cfg.successors(b) {
@@ -582,9 +622,16 @@ for &succ in cfg.successors(b) {
 }
 ```
 
+**Phase 2 - Exception Edges in Dominance:** Changed `decompiler.rs:111` to use `from_blocks_with_try_catch()`:
+```rust
+// BEFORE: let mut cfg = CFG::from_blocks(blocks);
+// AFTER:  let mut cfg = CFG::from_blocks_with_try_catch(blocks, &method.try_blocks);
+```
+This adds temporary exception edges before computing dominators (JADX parity).
+
 **Results:**
 - ✅ JSONObject constructor FIXED: `putOnce()` now correctly in try block, spurious `return` removed
-- 🔴 JSONArray.getDouble() still broken: `parseDouble()` return ends up after try-catch, not inside
+- 🔴 JSONArray.getDouble() still broken: Different root cause - `parseDouble()` ends up AFTER try-catch, not in catch
 
 **Before/After (JSONObject constructor):**
 ```java
@@ -592,9 +639,11 @@ for &succ in cfg.successors(b) {
 // AFTER:  try { putOnce(); } catch { i++; }          // Logic in try, no spurious return
 ```
 
-**Remaining Issue:** Some patterns still broken when dominance tree itself incorrectly assigns try body blocks as dominated by handler. Need to investigate dominance computation for exception edges.
+**Remaining Issue (JSONArray.getDouble):** The `parseDouble()` call ends up AFTER the try-catch block, not inside it. This is a different pattern from JSONObject - the issue is NOT handler block collection, but try block range detection. The try_blocks set doesn't include the parseDouble block, possibly due to block splitting at handler addresses creating unexpected boundaries.
 
-**Root Cause (original):** BFS fallback followed loop back edges and re-entered try body blocks, causing them to be collected as handler blocks.
+**Root Cause (Phase 1 - FIXED):** BFS fallback followed loop back edges and re-entered try body blocks, causing them to be collected as handler blocks.
+
+**Root Cause (Phase 2 - Remaining):** Block containing `parseDouble()` is not included in try_blocks because its start_offset falls outside the try address range after block splitting. Need to investigate how handler addresses affect block boundaries.
 
 **JADX Reference:** `BlockUtils.collectWhileDominates()` - only follows successors that are dominated by the handler
 
@@ -814,6 +863,54 @@ this.currentSize += getSize(y);
 ```
 
 **Verification:** Decompiled medium APK shows 20+ compound assignments (`+=`, `-=`) and zero verbose patterns.
+
+---
+
+## Codegen Parity Gaps (Dec 26, 2025 Audit)
+
+Gaps identified by comparing Dexterity codegen vs JADX-fast codegen. See [CODEGEN_PARITY_MASTER.md](CODEGEN_PARITY_MASTER.md) for details.
+
+### P1-CG: High Priority Codegen Gaps (4 Open)
+
+| Gap ID | Description | JADX Reference | Impact |
+|--------|-------------|----------------|--------|
+| **GAP-VARARGS-SIG** | Method signatures don't convert `Type[]` to `Type...` | MethodGen.java:240-249 | `String[]` instead of `String...` |
+| **GAP-SKIP-FIRST-ARG** | Missing SKIP_FIRST_ARG for bridge/synthetic methods | MethodGen.java:164-165 | Redundant synthetic params |
+| **GAP-ENUM-CTOR-FILTER** | Enum constructor args not filtered (first 2 implicit) | MethodGen.java:155-163 | Extra name/ordinal params |
+| **GAP-CATCH-ORDER** | Catch-all handler not explicitly ordered last | RegionGen.java:325-336 | Incorrect handler order |
+
+### P2-CG: Medium Priority Codegen Gaps (5 Open)
+
+| Gap ID | Description | JADX Reference | Impact |
+|--------|-------------|----------------|--------|
+| **GAP-FOR-INIT-UPDATE** | For-loop init/update hardcoded `int i=0; i++` | RegionGen.java:188-192 | Can't handle `for(i=10; i<N; i+=2)` |
+| **GAP-ENUM-NESTED** | Enum constants with nested class bodies | ClassGen.java:504-541 | `RED { ... }` as separate class |
+| **GAP-NAMED-ARG-CATCH** | Only Register-based exception variables | RegionGen.java:367-377 | Pre-named params not preserved |
+| **GAP-PKG-INFO** | No package-info.java generation | ClassGen.java:99-155 | Package annotations lost |
+| **GAP-COMMENTS-LEVEL** | No configurable comment verbosity | InsnGen.java:658 | Cannot suppress comments |
+
+### P3-CG: Low Priority (Cosmetic/IDE) - 6 Open
+
+| Gap ID | Description | Impact |
+|--------|-------------|--------|
+| GAP-METADATA | No VarNode/FieldNode/MethodNode for IDE | No IDE cross-reference |
+| GAP-SWITCH-ENUM | Enum vs static field display in switch | Minor display difference |
+| GAP-SWITCH-CONST-CMT | No constant value comments in switch | Lost constant source info |
+| GAP-USAGE-COMMENTS | No method/field usage tracking | No debug comments |
+| GAP-COMMENT-OUT | No COMMENT_OUT flag for `/* */` | Cannot disable control flow |
+| GAP-17 | Comment escape in strings | Cosmetic |
+
+### Dexterity Advantages (Features JADX Lacks)
+
+| Feature | Location | Benefit |
+|---------|----------|---------|
+| Ternary Pattern Detection | body_gen.rs:7497-8616 | Auto `if/else` → ternary |
+| Region Depth Limits | body_gen.rs:7411-7420 | Stack overflow prevention |
+| Unreachable Code Skip | body_gen.rs:7450-7475 | Cleaner output |
+| Two-Switch String Merge | body_gen.rs:4871-4970 | Optimized string switches |
+| Override Heuristic DB | method_gen.rs (235+ methods) | Better @Override |
+| Kotlin Modifiers | method_gen.rs | `suspend`, `inline`, `operator` |
+| Switch Map Detection | class_gen.rs:175-208 | Synthetic class handling |
 
 ---
 

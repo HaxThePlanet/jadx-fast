@@ -105,8 +105,10 @@ pub fn decompile_method(
     // create synthetic duplicates to prevent shared blocks in region tree
     split_return_blocks(&mut blocks);
 
-    // Stage 2: Build CFG
-    let mut cfg = CFG::from_blocks(blocks);
+    // Stage 2: Build CFG with exception edges for correct dominance computation
+    // Uses from_blocks_with_try_catch to add temp exception edges before computing dominators
+    // This matches JADX's approach where exception edges are included in dominance
+    let mut cfg = CFG::from_blocks_with_try_catch(blocks, &method.try_blocks);
 
     // Mark duplicated finally code before region building (JADX compatibility)
     mark_duplicated_finally(&mut cfg, &method.try_blocks);

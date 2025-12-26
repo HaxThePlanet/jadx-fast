@@ -6,6 +6,66 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 
 ## December 2025
 
+### Dec 26 - P2-ENUM-CONSTANTS Complete
+
+**Status:** Complete | **Impact:** +1-2% type accuracy, better code readability
+
+Replaces integer literals (0, 1, 2) with enum constant names (MyEnum.VALUE_A, MyEnum.VALUE_B) when the expected type is an enum class.
+
+| Change | Description |
+|--------|-------------|
+| **converter.rs** | Fixed ACC_ENUM flag preservation for inner classes |
+| **main.rs** | Added `<clinit>` loading in enum prepass |
+| **body_gen.rs** | Enum lookup via `try_resolve_enum_constant()` |
+| **expr_gen.rs** | `try_resolve_enum_constant()` implementation |
+
+**Test Results:**
+- medium.apk: 111 enums detected
+- large.apk: 283 enums detected
+
+**Before:** `if (format == 0) { ... }`
+**After:** `if (format == Format.ALPHA_8) { ... }`
+
+---
+
+### Dec 26 - P1-TRY-CATCH-INVERT Partial Fix
+
+**Status:** Partial Fix | **Impact:** Improved try-catch block reconstruction accuracy
+
+| Fix | Status |
+|-----|--------|
+| JSONObject constructor | ✅ FIXED - `putOnce()` now correctly in try block |
+| JSONArray.getDouble | Still broken - `parseDouble()` return misplaced |
+
+**Root Cause:** BFS fallback in `collect_handler_blocks_by_dominance()` followed loop back edges and re-entered try body blocks, causing them to be collected as handler blocks.
+
+**Solution Applied:**
+- Added dominance check to BFS fallback in `collect_handler_blocks_by_dominance()` at `region_builder.rs:689`
+- Now only follows successors that are dominated by the handler (matches JADX `collectWhileDominates` pattern)
+
+**Code Change:**
+```rust
+// BEFORE: followed ALL successors
+for &succ in cfg.successors(b) {
+    if !visited.contains(&succ) {
+        worklist.push(succ);
+    }
+}
+
+// AFTER: only follow dominated successors
+for &succ in cfg.successors(b) {
+    if !visited.contains(&succ) && cfg.dominates(handler_block, succ) {
+        worklist.push(succ);
+    }
+}
+```
+
+**Remaining Issue:** Some patterns still broken when dominance tree itself incorrectly assigns try body blocks as dominated by handler. Needs investigation of dominance computation for exception edges.
+
+**JADX Reference:** `BlockUtils.collectWhileDominates()`
+
+---
+
 ### Dec 24 - Anti-RE ZIP Hardening
 
 **Security Hardening:** Handles obfuscated/malicious APKs with JADX-compatible protections.
@@ -125,22 +185,20 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 - Fixed missing `attrs` field in `InsnNode::copy()`
 - Fixed `converter.rs` to use `method.method_idx` and `bytecode_ref.method_idx`
 
-**Stack Overflow Fix (Dec 25, 2025):**
+**Stack Overflow Fix (Dec 25-26, 2025):**
 - **Problem:** Stack overflow crash on large APKs caused by unbounded recursion in visitor traversal functions
 - **Root Cause:** Several recursive functions lacked depth limits. Unlike JADX (Java) which can catch StackOverflowError, Rust aborts immediately on stack overflow
-- **Solution:** Added `MAX_DEPTH = 100` depth checks to all recursive region traversal functions
-- **Files Modified:**
-  - `dexterity-codegen/src/body_gen.rs:8542` - Added depth limit to `process_region_for_inlining_with_depth`
-  - `dexterity-passes/src/post_process_regions.rs:38` - Added `const MAX_DEPTH: usize = 100`
-  - `dexterity-passes/src/post_process_regions.rs:157` - Added depth check to `region_always_exits_with_depth`
-  - `dexterity-passes/src/post_process_regions.rs:263` - Added depth check to `region_ends_with_return_or_throw_with_depth`
-- **Already Protected (had depth limits):**
-  - `depth_region_traversal.rs` - MAX_DEPTH = 100
-  - `dot_graph_visitor.rs` - MAX_DEPTH = 100
-  - `if_region_visitor.rs` - MAX_DEPTH = 100
-  - `return_visitor.rs` - MAX_DEPTH = 100
-  - `body_gen.rs:generate_region` - uses ctx.region_depth with MAX_REGION_DEPTH = 20
-- **Behavior Change:** Deeply nested regions (>100 levels) are now truncated with error logs:
+- **Solution:** Added depth limits via `dexterity_limits` crate with configurable `visitor_max_depth()` (default: 200)
+- **Files Using Limits:**
+  - `dexterity-codegen/src/body_gen.rs` - `process_region_for_inlining_with_depth` uses `visitor_max_depth()`
+  - `dexterity-passes/src/post_process_regions.rs` - All depth-recursive functions use `visitor_max_depth()`
+  - `dexterity-passes/src/region_builder.rs` - Uses `region_stack_limit()` (default: 200)
+  - `dexterity-passes/src/if_region_visitor.rs` - Uses `visitor_max_depth()`
+  - `dexterity-passes/src/return_visitor.rs` - Uses `visitor_max_depth()`
+  - `dexterity-passes/src/depth_region_traversal.rs` - Uses `visitor_max_depth()`
+  - `dexterity-passes/src/dot_graph_visitor.rs` - Uses `visitor_max_depth()`
+  - `dexterity-passes/src/finally_extract.rs` - Uses hardcoded MAX_DEPTH = 200
+- **Behavior Change:** Deeply nested regions (>200 levels) are now truncated with error logs:
   - `LIMIT_EXCEEDED: Region stack overflow, bailing out`
   - `CODEGEN_LIMIT_EXCEEDED: Region nesting too deep, bailing out`
 - **Test Results:**

@@ -209,6 +209,12 @@ fn get_effective_access_flags(dex: &DexReader, class_def: &ClassDef<'_>) -> u32 
     // Start with the raw class_def flags
     let raw_flags = class_def.access_flags();
 
+    // Flags that indicate class type (enum, annotation) - these are NOT in InnerClass annotation
+    // and must be preserved from the raw class_def flags
+    const ACC_ENUM: u32 = 0x4000;
+    const ACC_ANNOTATION: u32 = 0x2000;
+    let class_type_flags = raw_flags & (ACC_ENUM | ACC_ANNOTATION);
+
     // Try to get the InnerClass annotation flags
     if let Ok(annots) = class_def.class_annotations() {
         for annot_item in annots {
@@ -220,8 +226,9 @@ fn get_effective_access_flags(dex: &DexReader, class_def: &ClassDef<'_>) -> u32 
                         if let Ok(name) = dex.get_string(elem.name_idx) {
                             if name.as_ref() == "accessFlags" {
                                 if let EncodedValue::Int(flags) = &elem.value {
-                                    // Return the flags from annotation
-                                    return *flags as u32;
+                                    // Merge annotation flags with class type flags (ACC_ENUM, ACC_ANNOTATION)
+                                    // The InnerClass annotation contains access modifiers but not class type
+                                    return (*flags as u32) | class_type_flags;
                                 }
                             }
                         }

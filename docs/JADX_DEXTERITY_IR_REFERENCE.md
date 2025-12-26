@@ -2,7 +2,7 @@
 
 This document provides a comprehensive comparison of JADX's Java-based IR (Intermediate Representation) and Dexterity's Rust-based IR. It documents semantic parity status and identifies gaps that may affect decompilation quality.
 
-**Last Updated:** December 23, 2025
+**Last Updated:** December 26, 2025
 
 ---
 
@@ -45,15 +45,15 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Component | Structural | Functional | Overall | Known Gaps |
 |-----------|-----------|-----------|---------|------------|
 | **Type System** | 100% | 100% | **100%** | None |
-| **SSA Variables** | 100% | 95% | **95%** | Bidirectional linking differs |
+| **SSA Variables** | 100% | 98% | **98%** | Bidirectional linking intentionally differs |
 | **InsnType Enum** | 100% | 100% | **100%** | None - all 35+ types covered |
 | **InsnType.get_args_vec()** | 100% | 100% | **100%** | Returns all args for all types |
 | **Instruction Args** | 100% | 100% | **100%** | None |
-| **Blocks** | 100% | 95% | **95%** | Full dominator infrastructure present |
+| **Blocks** | 100% | 100% | **100%** | Full dominator infrastructure ✅ |
 | **Regions** | 100% | 100% | **100%** | None |
 | **Attributes** | 100% | 100% | **100%** | 60 AFlags + 37 ATypes complete |
 | **PHI Handling** | 100% | 100% | **100%** | Different structure, same semantics |
-| **Overall IR** | 100% | **95%** | **~95%** | SSA bidirectional linking differs |
+| **Overall IR** | 100% | **98%** | **~98%** | Only P3-1 AType remains (optional) |
 
 **Dec 23, 2025 Update:** Implemented `get_args_vec()` which returns all arguments for all instruction types. Use this method for visitor patterns and analysis. The legacy `get_args()` method is kept for backwards compatibility but returns incomplete data for multi-argument instructions.
 
@@ -291,45 +291,44 @@ pub fn add_use(&mut self, insn_idx: u32) {
 
 ## Block Comparison
 
-### Gap 7: BlockNode Missing Dominance Fields
+### ✅ RESOLVED: BlockNode Full Dominator Infrastructure (Dec 2025)
 
-**JADX BlockNode** (lines 43-71):
-```java
-private BitSet doms = EmptyBitSet.EMPTY;        // All dominators
-private BitSet postDoms = EmptyBitSet.EMPTY;    // Post dominators
-private BitSet domFrontier;                      // Dominance frontier
-private BlockNode idom;                          // Immediate dominator
-private BlockNode iPostDom;                      // Immediate post-dominator
-private List<BlockNode> dominatesOn;             // Blocks this dominates
-```
+**Status:** ✅ COMPLETE - All jadx-fast BlockNode fields and methods implemented in Dexterity.
 
-**Dexterity BlockNode** (`nodes.rs` lines 75-88):
-```rust
-pub struct BlockNode {
-    pub id: u32,
-    pub instructions: Vec<InsnId>,
-    pub predecessors: Vec<BlockId>,
-    pub successors: Vec<BlockId>,
-    pub attrs: AttributeStorage,
-    // NO DOMINANCE FIELDS
-}
-```
+**Dexterity BlockNode** (`nodes.rs`, 520 lines) now has 100% parity with jadx-fast:
 
-**Question:** Where is dominance info stored in Dexterity? May be computed transiently in passes.
+| jadx-fast Field | Dexterity Field | Status |
+|-----------------|-----------------|--------|
+| `cid: int` | `cid: u32` | ✅ |
+| `pos: int` | `pos: u32` | ✅ |
+| `startOffset: int` | `start_offset: u32` | ✅ |
+| `instructions: List<InsnNode>` | `instructions: Vec<InsnId>` | ✅ |
+| `predecessors: List<BlockNode>` | `predecessors: Vec<BlockId>` | ✅ |
+| `successors: List<BlockNode>` | `successors: Vec<BlockId>` | ✅ |
+| `cleanSuccessors: List<BlockNode>` | `clean_successors: Option<Vec<BlockId>>` | ✅ |
+| `doms: BitSet` | `doms: Option<FixedBitSet>` | ✅ |
+| `postDoms: BitSet` | `post_doms: Option<FixedBitSet>` | ✅ |
+| `domFrontier: BitSet` | `dom_frontier: Option<FixedBitSet>` | ✅ |
+| `idom: BlockNode` | `idom: Option<BlockId>` | ✅ |
+| `iPostDom: BlockNode` | `ipost_dom: Option<BlockId>` | ✅ |
+| `dominatesOn: List<BlockNode>` | `dominates_on: Vec<BlockId>` | ✅ |
+| N/A | `locked: bool` | ✅ (extra) |
 
-**Impact:** PHI placement requires dominance frontier. If not stored, must recompute.
+**Methods implemented with jadx-fast line references:**
+- `get_cid()`, `get_pos()`, `set_pos()`, `get_start_offset()`
+- `is_dominator()`, `get_doms()`, `set_doms()`
+- `get_post_doms()`, `set_post_doms()`
+- `get_dom_frontier()`, `set_dom_frontier()`
+- `get_idom()`, `set_idom()`, `get_ipost_dom()`, `set_ipost_dom()`
+- `get_dominates_on()`, `add_dominates_on()`
+- `get_clean_successors()`, `set_clean_successors()`, `update_clean_successors()`
+- `is_empty()`, `lock()`, `is_locked()`
+- `is_synthetic()`, `is_return_block()`, `is_mth_exit_block()`
 
-### Gap 8: Missing cleanSuccessors
-
-**JADX** has `cleanSuccessors` (successors excluding exception handlers).
-
-**Impact:** Exception path filtering may need different implementation.
-
-### Gap 9: Missing Block Position
-
-**JADX** uses `pos` (position in block list) for BitSet operations.
-
-**Dexterity** uses arena IDs which serve a similar purpose.
+**Previous Gaps (all resolved):**
+- ~~Gap 7: BlockNode Missing Dominance Fields~~ ✅ All fields now present
+- ~~Gap 8: Missing cleanSuccessors~~ ✅ Implemented with `update_clean_successors()`
+- ~~Gap 9: Missing Block Position~~ ✅ `pos` field with getter/setter
 
 ---
 

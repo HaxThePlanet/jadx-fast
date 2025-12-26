@@ -1,6 +1,6 @@
 # Dexterity Codegen JADX Parity - Master Document
 
-**Last Updated:** 2025-12-25
+**Last Updated:** 2025-12-26
 **Status:** 🟢 PRODUCTION-READY - A-/B+ Grade (85-90%) | 0 P0 Bugs | Ready for decompilation
 **Goal:** Clone JADX codegen exactly - 10 years of edge cases, not improvement
 **Anti-RE:** 83% bad APK success rate (was 43%) - see [ROADMAP.md](ROADMAP.md#anti-re-zip-hardening-dec-24-2025)
@@ -391,7 +391,7 @@ Anonymous class constructor inlining with recursion detection.
 
 ---
 
-## P2-MEDIUM Gaps
+## P2-MEDIUM Gaps (Completed)
 
 | Gap | Description | JADX Reference | Status |
 |-----|-------------|----------------|--------|
@@ -399,7 +399,53 @@ Anonymous class constructor inlining with recursion detection.
 | ~~GAP-12~~ | ~~Varargs array expansion~~ | InsnGen.java:1149-1172 | ✅ DONE |
 | ~~GAP-14~~ | ~~Static same-class method prefix~~ | InsnGen.java | ✅ DONE Dec 22 |
 | ~~GAP-16~~ | ~~Diamond operator inference~~ | ~~ClassGen.java~~ | ✅ DONE Dec 25 |
-| GAP-17 | Comment escape in strings | InsnGen.java | Open (cosmetic) |
+
+---
+
+## Remaining Gaps (Dec 26, 2025 Audit)
+
+### P1-HIGH Priority
+
+| Gap | Description | JADX Reference | Impact |
+|-----|-------------|----------------|--------|
+| **GAP-VARARGS-SIG** | Method signatures don't convert `Type[]` to `Type...` for varargs | MethodGen.java:240-249 | Methods show `String[]` instead of `String...` |
+| **GAP-SKIP-FIRST-ARG** | Missing SKIP_FIRST_ARG attribute for bridge/synthetic methods | MethodGen.java:164-165 | Redundant synthetic params shown |
+| **GAP-ENUM-CTOR-FILTER** | Enum constructor args not filtered (first 2 implicit name/ordinal) | MethodGen.java:155-163 | Extra params in enum constructors |
+| **GAP-CATCH-ORDER** | Catch-all handler not explicitly ordered last | RegionGen.java:325-336 | May generate incorrect handler order |
+
+### P2-MEDIUM Priority
+
+| Gap | Description | JADX Reference | Impact |
+|-----|-------------|----------------|--------|
+| **GAP-FOR-INIT-UPDATE** | For-loop init/update hardcoded to `int i=0; i++` | RegionGen.java:188-192 | Can't handle `for(int i=10; i<N; i+=2)` |
+| **GAP-ENUM-NESTED** | Enum constants with nested class bodies not rendered inline | ClassGen.java:504-541 | `RED { ... }` rendered as separate inner class |
+| **GAP-NAMED-ARG-CATCH** | Only Register-based exception variables, not NamedArg | RegionGen.java:367-377 | Pre-named exception params not preserved |
+| **GAP-PKG-INFO** | No package-info.java generation support | ClassGen.java:99-155 | Package-level annotations lost |
+| **GAP-COMMENTS-LEVEL** | No configurable comment verbosity (OFF/WARN/ERROR/INFO) | InsnGen.java:658 | Cannot suppress generated comments |
+
+### P3-LOW Priority (Cosmetic/IDE)
+
+| Gap | Description | JADX Reference | Impact |
+|-----|-------------|----------------|--------|
+| **GAP-METADATA** | No VarNode/FieldNode/MethodNode attachment for IDE navigation | InsnGen.java:114-115, 206, 251 | No IDE cross-reference support |
+| **GAP-SWITCH-ENUM** | Enum constants not distinguished from static fields in switch | RegionGen.java:290-301 | Minor display difference |
+| **GAP-SWITCH-CONST-CMT** | No inline comments for original constant values in switch | RegionGen.java:304-310 | Lost constant source info |
+| **GAP-USAGE-COMMENTS** | No method/field usage tracking comments | ClassGen.java:818-857 | No "// use in methods - 5" debug comments |
+| **GAP-COMMENT-OUT** | No COMMENT_OUT flag to wrap code in `/* */` | RegionGen.java:109-145 | Cannot render disabled control structures |
+| **GAP-17** | Comment escape in strings | InsnGen.java | Cosmetic string formatting |
+
+### Dexterity Advantages (Features JADX Lacks)
+
+| Feature | Dexterity Implementation | Benefit |
+|---------|-------------------------|---------|
+| **Ternary Pattern Detection** | body_gen.rs:7497-7510, 8339-8616 | Detects `if/else` → ternary patterns automatically |
+| **Region Depth Limits** | body_gen.rs:7411-7420 | Prevents stack overflow on deeply nested regions |
+| **Unreachable Code Skip** | body_gen.rs:7450-7475 (P0-REACH01) | Eliminates unreachable code after exits |
+| **Two-Switch String Merge** | body_gen.rs:4871-4970 | Optimizes hashCode+equals string switch patterns |
+| **Break/Continue Regions** | body_gen.rs:8319-8337 | Explicit labeled break/continue support |
+| **Override Heuristic DB** | method_gen.rs (235+ methods) | Better @Override detection than JADX |
+| **Kotlin Modifiers** | method_gen.rs | `suspend`, `inline`, `operator`, `reified` comments |
+| **Switch Map Detection** | class_gen.rs:175-208 | Dedicated synthetic switch map class handling |
 
 ---
 

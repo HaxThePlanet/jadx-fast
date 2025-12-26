@@ -61,6 +61,9 @@ pub struct ExprGen {
     pub res_names: HashMap<u32, String>,
     /// Whether to replace resource IDs with R.* field references
     pub replace_consts: bool,
+    /// Enum class -> ordinal -> constant name mapping for enum constant replacement
+    /// Key: normalized class type (e.g., "com/example/MyEnum"), Value: ordinal -> field name
+    pub enum_constants: HashMap<String, HashMap<i32, String>>,
     /// First parameter register (for fallback to version 0 name when SSA version not found)
     /// Registers >= this value are parameters (version 0 has the parameter name)
     first_param_reg: Option<u16>,
@@ -328,6 +331,7 @@ impl ExprGen {
             deobf_max_length: 64,
             res_names: HashMap::new(),
             replace_consts: false,
+            enum_constants: HashMap::new(),
             first_param_reg: None,
         }
     }
@@ -347,6 +351,7 @@ impl ExprGen {
             deobf_max_length: 64,
             res_names: HashMap::new(),
             replace_consts: false,
+            enum_constants: HashMap::new(),
             first_param_reg: None,
         }
     }
@@ -371,6 +376,13 @@ impl ExprGen {
     pub fn set_resources(&mut self, res_names: HashMap<u32, String>, replace_consts: bool) {
         self.res_names = res_names;
         self.replace_consts = replace_consts;
+    }
+
+    /// Set enum constant mappings for ordinal-to-name lookup
+    /// Key: normalized class type (e.g., "com/example/MyEnum")
+    /// Value: map of ordinal -> field name
+    pub fn set_enum_constants(&mut self, enum_constants: HashMap<String, HashMap<i32, String>>) {
+        self.enum_constants = enum_constants;
     }
 
     /// Set the first parameter register for fallback name resolution
@@ -747,9 +759,15 @@ impl ExprGen {
 
     /// Write arg directly to CodeWriter with target type awareness
     /// This ensures proper literal formatting: 0 -> false for boolean fields
+    /// Also handles enum constant replacement when target_type is an enum
     pub fn write_arg_with_type<W: crate::writer::CodeWriter>(&self, writer: &mut W, arg: &InsnArg, target_type: &ArgType) {
         match arg {
             InsnArg::Literal(LiteralArg::Int(v)) => {
+                // First try enum constant replacement if target type is an enum
+                if let Some(enum_ref) = self.try_resolve_enum_constant(*v, target_type) {
+                    writer.add(&enum_ref);
+                    return;
+                }
                 // Use type-aware literal formatting (0 -> false, 1 -> true for booleans)
                 writer.add(&literal_to_string(*v, target_type));
             }
@@ -798,6 +816,37 @@ impl ExprGen {
         }
 
         None
+    }
+
+    /// Try to resolve an integer as an enum constant given the expected type
+    /// Returns Some("EnumClass.FIELD_NAME") if the expected type is a known enum
+    /// and the ordinal maps to a valid constant
+    pub fn try_resolve_enum_constant(&self, value: i64, expected_type: &ArgType) -> Option<String> {
+        // Only check non-negative ordinals in i32 range
+        if value < 0 || value > i32::MAX as i64 {
+            return None;
+        }
+
+        // Get class type from expected type
+        let class_type = match expected_type {
+            ArgType::Object(s) => s.as_str(),
+            _ => return None,
+        };
+
+        // Normalize: strip L prefix and ; suffix
+        let normalized = class_type
+            .strip_prefix('L')
+            .unwrap_or(class_type)
+            .strip_suffix(';')
+            .unwrap_or(class_type);
+
+        // Look up enum constants for this class
+        let ordinal_map = self.enum_constants.get(normalized)?;
+        let field_name = ordinal_map.get(&(value as i32))?;
+
+        // Get simple class name for output
+        let simple_name = normalized.rsplit('/').next().unwrap_or(normalized);
+        Some(format!("{}.{}", simple_name, field_name))
     }
 
     /// Generate literal expression
