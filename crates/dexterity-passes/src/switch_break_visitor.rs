@@ -271,7 +271,7 @@ pub fn optimize_switch_breaks(
 ) -> SwitchBreakVisitorResult {
     let mut result = SwitchBreakVisitorResult::default();
 
-    const MAX_ITERATIONS: usize = 100;
+    let max_iterations = dexterity_limits::regions::SWITCH_BREAK_MAX_ITERATIONS;
     let mut iteration = 0;
 
     loop {
@@ -296,11 +296,11 @@ pub fn optimize_switch_breaks(
         iteration += 1;
         result.iterations = iteration;
 
-        if !changed || iteration >= MAX_ITERATIONS {
-            if iteration >= MAX_ITERATIONS {
+        if !changed || iteration >= max_iterations {
+            if iteration >= max_iterations {
                 tracing::error!(
                     iteration = iteration,
-                    limit = MAX_ITERATIONS,
+                    limit = max_iterations,
                     "LIMIT_EXCEEDED: Switch break visitor max iterations reached"
                 );
             }

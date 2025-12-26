@@ -397,7 +397,7 @@ impl ExprGen {
     /// - Multiple huge methods → 100GB+ OOM kill
     ///
     /// THE FIX:
-    /// - Replace HashMap if capacity > 1000 (shrinks to ~0)
+    /// - Replace HashMap if capacity > MAX_POOLED_CAPACITY (shrinks to ~0)
     /// - Keep capacity if small (reuse allocation)
     ///
     /// DO NOT CHANGE THIS without understanding the memory implications!
@@ -405,14 +405,14 @@ impl ExprGen {
         // MAX_POOLED_CAPACITY = threshold for replacing vs clearing
         // Too high: memory explosion from huge methods
         // Too low: unnecessary allocations for normal methods
-        const MAX_POOLED_CAPACITY: usize = 1000;
+        let max_pooled_capacity = dexterity_limits::codegen::MAX_POOLED_CAPACITY;
 
         // Variable names: (register, ssa_version) -> name
         // CRITICAL: Replace if oversized to prevent memory leak
-        if self.var_names.capacity() > MAX_POOLED_CAPACITY {
+        if self.var_names.capacity() > max_pooled_capacity {
             tracing::warn!(
                 capacity = self.var_names.capacity(),
-                limit = MAX_POOLED_CAPACITY,
+                limit = max_pooled_capacity,
                 "LIMIT_EXCEEDED: ExprGen var_names pool capacity exceeded, shrinking"
             );
             self.var_names = HashMap::new();  // SHRINK - drops old allocation
@@ -422,10 +422,10 @@ impl ExprGen {
 
         // Variable types: (register, ssa_version) -> ArgType
         // CRITICAL: Replace if oversized to prevent memory leak
-        if self.var_types.capacity() > MAX_POOLED_CAPACITY {
+        if self.var_types.capacity() > max_pooled_capacity {
             tracing::warn!(
                 capacity = self.var_types.capacity(),
-                limit = MAX_POOLED_CAPACITY,
+                limit = max_pooled_capacity,
                 "LIMIT_EXCEEDED: ExprGen var_types pool capacity exceeded, shrinking"
             );
             self.var_types = HashMap::new();  // SHRINK - drops old allocation
@@ -435,10 +435,10 @@ impl ExprGen {
 
         // String constants: string_idx -> String value
         // CRITICAL: Replace if oversized to prevent memory leak
-        if self.strings.capacity() > MAX_POOLED_CAPACITY {
+        if self.strings.capacity() > max_pooled_capacity {
             tracing::warn!(
                 capacity = self.strings.capacity(),
-                limit = MAX_POOLED_CAPACITY,
+                limit = max_pooled_capacity,
                 "LIMIT_EXCEEDED: ExprGen strings pool capacity exceeded, shrinking"
             );
             self.strings = HashMap::new();  // SHRINK - drops old allocation
@@ -448,10 +448,10 @@ impl ExprGen {
 
         // Type names: type_idx -> type name
         // CRITICAL: Replace if oversized to prevent memory leak
-        if self.type_names.capacity() > MAX_POOLED_CAPACITY {
+        if self.type_names.capacity() > max_pooled_capacity {
             tracing::warn!(
                 capacity = self.type_names.capacity(),
-                limit = MAX_POOLED_CAPACITY,
+                limit = max_pooled_capacity,
                 "LIMIT_EXCEEDED: ExprGen type_names pool capacity exceeded, shrinking"
             );
             self.type_names = HashMap::new();  // SHRINK - drops old allocation
@@ -461,10 +461,10 @@ impl ExprGen {
 
         // Field info cache: field_idx -> FieldInfo
         // CRITICAL: Replace if oversized to prevent memory leak
-        if self.field_info.capacity() > MAX_POOLED_CAPACITY {
+        if self.field_info.capacity() > max_pooled_capacity {
             tracing::warn!(
                 capacity = self.field_info.capacity(),
-                limit = MAX_POOLED_CAPACITY,
+                limit = max_pooled_capacity,
                 "LIMIT_EXCEEDED: ExprGen field_info pool capacity exceeded, shrinking"
             );
             self.field_info = HashMap::new();  // SHRINK - drops old allocation
@@ -474,10 +474,10 @@ impl ExprGen {
 
         // Method info cache: method_idx -> MethodInfo
         // CRITICAL: Replace if oversized to prevent memory leak
-        if self.method_info.capacity() > MAX_POOLED_CAPACITY {
+        if self.method_info.capacity() > max_pooled_capacity {
             tracing::warn!(
                 capacity = self.method_info.capacity(),
-                limit = MAX_POOLED_CAPACITY,
+                limit = max_pooled_capacity,
                 "LIMIT_EXCEEDED: ExprGen method_info pool capacity exceeded, shrinking"
             );
             self.method_info = HashMap::new();  // SHRINK - drops old allocation

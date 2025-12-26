@@ -34,9 +34,6 @@ pub fn post_process_regions(region: &mut Region) -> PostProcessRegionsResult {
     result
 }
 
-/// Maximum recursion depth for region processing
-const MAX_DEPTH: usize = 100;
-
 /// Process a single region
 fn process_region(region: &mut Region, result: &mut PostProcessRegionsResult) {
     process_region_with_depth(region, result, 0);
@@ -44,10 +41,11 @@ fn process_region(region: &mut Region, result: &mut PostProcessRegionsResult) {
 
 fn process_region_with_depth(region: &mut Region, result: &mut PostProcessRegionsResult, depth: usize) {
     // Prevent stack overflow from deeply nested regions
-    if depth > MAX_DEPTH {
+    let max_depth = dexterity_limits::regions::visitor_max_depth();
+    if depth > max_depth {
         tracing::error!(
             depth = depth,
-            limit = MAX_DEPTH,
+            limit = max_depth,
             "LIMIT_EXCEEDED: post_process_regions max depth reached"
         );
         return;
@@ -156,7 +154,8 @@ fn region_always_exits(region: &Region) -> bool {
 
 fn region_always_exits_with_depth(region: &Region, depth: usize) -> bool {
     // Prevent stack overflow from deeply nested regions
-    if depth > MAX_DEPTH {
+    let max_depth = dexterity_limits::regions::visitor_max_depth();
+    if depth > max_depth {
         return false; // Conservatively assume it doesn't exit
     }
 
@@ -262,7 +261,8 @@ pub fn region_ends_with_return_or_throw(region: &Region) -> bool {
 
 fn region_ends_with_return_or_throw_with_depth(region: &Region, depth: usize) -> bool {
     // Prevent stack overflow from deeply nested regions
-    if depth > MAX_DEPTH {
+    let max_depth = dexterity_limits::regions::visitor_max_depth();
+    if depth > max_depth {
         return false; // Conservatively assume it doesn't end with return/throw
     }
 

@@ -16,9 +16,9 @@ pub const DEFAULT_MAIN_STACK_MB: usize = 256;
 
 /// Default worker thread stack size in MB.
 /// Override with DEXTERITY_THREAD_STACK_MB env var.
-/// Note: With depth limits protecting recursive functions, 32MB is sufficient.
-/// Empirical testing showed 8-16MB works; 32MB provides safety margin.
-pub const DEFAULT_THREAD_STACK_MB: usize = 32;
+/// Note: Matching main thread at 256MB to handle deeply nested methods.
+/// Empirical testing showed 128MB is still insufficient for pathological cases.
+pub const DEFAULT_THREAD_STACK_MB: usize = 256;
 
 /// Runtime-configurable main thread stack size in bytes.
 pub static MAIN_STACK_SIZE: LazyLock<usize> = LazyLock::new(|| {

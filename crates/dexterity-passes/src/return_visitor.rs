@@ -71,11 +71,11 @@ fn visit_region(
     depth: usize,
 ) {
     // Prevent stack overflow from deeply nested regions (matching if_region_visitor.rs pattern)
-    const MAX_DEPTH: usize = 100;
-    if depth > MAX_DEPTH {
+    let max_depth = dexterity_limits::regions::visitor_max_depth();
+    if depth > max_depth {
         tracing::error!(
             depth = depth,
-            limit = MAX_DEPTH,
+            limit = max_depth,
             "LIMIT_EXCEEDED: Return visitor max depth reached"
         );
         return;

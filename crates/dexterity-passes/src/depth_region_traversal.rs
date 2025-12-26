@@ -84,11 +84,11 @@ fn traverse_internal<V: RegionVisitor>(region: &Region, visitor: &mut V) {
 
 fn traverse_internal_with_depth<V: RegionVisitor>(region: &Region, visitor: &mut V, depth: usize) {
     // Prevent stack overflow from deeply nested regions
-    const MAX_DEPTH: usize = 100;
-    if depth > MAX_DEPTH {
+    let max_depth = dexterity_limits::regions::visitor_max_depth();
+    if depth > max_depth {
         tracing::error!(
             depth = depth,
-            limit = MAX_DEPTH,
+            limit = max_depth,
             "LIMIT_EXCEEDED: Region traversal (internal) max depth reached"
         );
         return;
@@ -236,11 +236,11 @@ fn traverse_iterative_step_with_depth<V: RegionIterativeVisitor>(
     depth: usize,
 ) -> Result<bool, TraversalError> {
     // Prevent stack overflow from deeply nested regions
-    const MAX_DEPTH: usize = 100;
-    if depth > MAX_DEPTH {
+    let max_depth = dexterity_limits::regions::visitor_max_depth();
+    if depth > max_depth {
         tracing::error!(
             depth = depth,
-            limit = MAX_DEPTH,
+            limit = max_depth,
             "LIMIT_EXCEEDED: Region traversal max depth reached"
         );
         return Ok(false);  // Continue traversal without going deeper

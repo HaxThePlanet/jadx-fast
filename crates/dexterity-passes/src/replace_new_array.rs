@@ -97,7 +97,7 @@ where
 {
     let mut result = ReplaceNewArrayResult::default();
     let mut iteration = 0;
-    const MAX_ITERATIONS: usize = 100;
+    let max_iterations = dexterity_limits::regions::REPLACE_ARRAY_MAX_ITERATIONS;
 
     loop {
         let mut changed = false;
@@ -130,15 +130,15 @@ where
         }
 
         iteration += 1;
-        if iteration > MAX_ITERATIONS {
+        if iteration > max_iterations {
             tracing::error!(
                 iteration = iteration,
-                limit = MAX_ITERATIONS,
+                limit = max_iterations,
                 "LIMIT_EXCEEDED: Replace new array max iterations reached"
             );
             result.warnings.push(format!(
                 "Reached limit for ReplaceNewArray iterations ({})",
-                MAX_ITERATIONS
+                max_iterations
             ));
             break;
         }

@@ -762,15 +762,15 @@ pub fn merge_nested_conditions(
 
     // Try to find nested conditions to merge
     // Limit iterations to prevent infinite loops on cyclic conditions
-    const MAX_MERGES: usize = 100;
+    let max_merges = dexterity_limits::codegen::MAX_CONDITIONAL_MERGES;
     let mut merge_count = 0;
 
     loop {
         // Safety check: avoid infinite loops
-        if merge_count >= MAX_MERGES {
+        if merge_count >= max_merges {
             tracing::error!(
                 merge_count = merge_count,
-                limit = MAX_MERGES,
+                limit = max_merges,
                 "LIMIT_EXCEEDED: Conditional merge limit reached (too many nested/chained conditionals)"
             );
             break;

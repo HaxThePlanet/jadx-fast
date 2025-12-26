@@ -1,11 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P2 | 7 CQ | Dec 25, 2025
+**Status:** 🟡 BETA | A-/B+ Grade (85-90%) | 1 P0 | 3 P1 | 0 P2 | 7 CQ | Dec 25, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 0 P1, 0 P2 - All P1 bugs FIXED including try-catch-recon |
+| **Open Bugs** | 1 P0 (expr_gen stack overflow), 3 P1 (PHI naming, for-each vars, try-catch) |
 | **Code Quality** | 0 Easy, 2 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
@@ -18,7 +18,7 @@
 | Category | Grade | Notes |
 |----------|-------|-------|
 | **Codegen** | A-/B+ (85-90%) | Boolean simplification, diamond operator complete |
-| **Type Inference** | A (95%) | All undefined var issues fixed |
+| **Type Inference** | A (95%) 🟡 | In progress |
 | **IR/Control Flow** | A- (90%) | Boolean `\|\|` patterns, ternary, try-catch in loops working |
 | **Variable Naming** | A- (90%) | Static field inlining, scope tracking |
 | **Lambda/Anon Inlining** | B+ (85%) | invoke-custom lambdas inline correctly |
@@ -372,7 +372,30 @@ while (it.hasNext()) {
 
 ---
 
-## P2 Type Inference - A+ COMPLETE (Dec 25, 2025)
+## Type Inference - 95% Complete (5% Gaps Remaining)
+
+**Current State:** ~95% accuracy (A grade) | 7 modules (~9,100 lines Rust)
+**JADX Reference:** 26 files (~5,800 lines Java), 10+ years of refinement
+
+### Key Gaps (the ~5%)
+
+| Gap | Impact | Priority | Status |
+|-----|--------|----------|--------|
+| PHI variable type conflicts | 1-2% | P1 | 🔴 OPEN |
+| Enum constants as integers | 1-2% | P2 | 🔴 OPEN |
+| Unresolved TypeVariables | 0.5-1% | P2 | 🔴 OPEN |
+| Complex generic inference | 0.5-1% | P2 | 🔴 OPEN |
+| Framework class unavailability | 1-2% | P3 | Design choice |
+
+### Missing JADX Techniques
+
+- **Listener-based propagation** - Instruction-specific handlers for type updates
+- **Rollback/transaction support** - Speculative type updates with undo capability
+- **Dynamic type bounds** - Context-dependent resolution
+- **Interface hierarchy in TypeCompare** - Better subtype checking
+- **Immutable type marking** - Prevent modification once type is set
+
+---
 
 ### P2-TYPE-INFERENCE-APLUS: Push to A+ Grade - ✅ COMPLETED (Dec 25, 2025)
 
@@ -452,7 +475,164 @@ while (it.hasNext()) {
 
 ---
 
-## Open P1 Bugs (Dec 25, 2025) - 0 Remaining (4 FIXED today)
+## Open P1 Bugs (Dec 25, 2025) - 3 OPEN (from JADX comparison audit)
+
+### P1-PHI-VAR-TYPE: PHI Variable Type Mismatch 🔴 OPEN
+
+**Status:** 🔴 OPEN | **Priority:** P1 (Uncompilable code)
+**Location:** `crates/dexterity-codegen/src/body_gen.rs` - PHI variable naming
+**Example File:** `output/dexterity/medium/sources/com/bumptech/glide/util/LruCache.java:49-72`
+
+**Bug:** PHI variable naming assigns wrong types to variables. Two different values (an int calculation and a map reference) get assigned to mismatched variable names.
+
+```java
+// Dexterity (BROKEN):
+public synchronized Y put(T t, Y y) {
+    LinkedHashMap cache2;  // Wrong type
+    int size;
+    if (y != null) {
+        cache2 = this.currentSize + getSize(y);  // BUG: int assigned to LinkedHashMap
+        this.currentSize += size;                 // BUG: 'size' uninitialized
+    }
+}
+
+// JADX (CORRECT):
+public synchronized Y put(T t, Y y) {
+    Y put = this.cache.put(t, y);
+    if (y != null) {
+        this.currentSize += getSize(y);
+    }
+}
+```
+
+**Root Cause:** PHI destinations and sources have mismatched variable names when type conflicts occur.
+
+---
+
+### P1-FOREACH-INDEX: Undefined Variables in For-Each Loop 🟡 IN PROGRESS
+
+**Status:** 🟡 IN PROGRESS | **Priority:** P1 (Uncompilable code)
+**Location:** `crates/dexterity-codegen/src/body_gen.rs` - for-each loop generation
+**Example File:** `output/dexterity/medium/sources/com/bumptech/glide/util/Util.java:59-71`
+
+**Bug:** For-each loop uses undefined variables when an indexed loop is needed.
+
+```java
+// Dexterity (BROKEN):
+private static String bytesToHex(byte[] bArr, char[] cArr) {
+    int i = 0;
+    i = 0;  // Duplicate
+    for (byte b : bArr) {
+        int i5 = i * 2;
+        hEX_CHAR_ARRAY2 = Util.HEX_CHAR_ARRAY;  // BUG: Undefined
+        cArr[i5] = hEX_CHAR_ARRAY2[i3 >>> 4];
+        i2 = i5 + 1;                              // BUG: Undefined
+    }
+}
+
+// JADX (CORRECT):
+private static String bytesToHex(byte[] bArr, char[] cArr) {
+    for (int i = 0; i < bArr.length; i++) {
+        int i2 = bArr[i] & 255;
+        int i3 = i * 2;
+        char[] cArr2 = HEX_CHAR_ARRAY;
+        cArr[i3] = cArr2[i2 >>> 4];
+        cArr[i3 + 1] = cArr2[i2 & 15];
+    }
+}
+```
+
+**Root Cause:** Index variable `i` not incremented, local variable declarations missing, for-each used where indexed for-loop needed.
+
+---
+
+### P1-TRY-CATCH-INVERT: Empty Try Block / Inverted Control Flow 🔴 OPEN
+
+**Status:** 🔴 OPEN | **Priority:** P1 (Wrong semantics)
+**Location:** `crates/dexterity-passes/src/region_builder.rs` - try-catch reconstruction
+**Example File:** `output/dexterity/medium/sources/org/json/JSONObject.java:73-85`
+
+**Bug:** Try-catch region reconstruction inverts the body - actual code ends up in catch block instead of try.
+
+```java
+// Dexterity (BROKEN):
+public JSONObject(JSONObject jSONObject, String... strArr) {
+    while (i < strArr.length) {
+        try {
+        } catch (Exception e) {           // Empty try!
+            putOnce(strArr[i], jSONObject.opt(strArr[i]));  // Logic in catch!
+            i = i + 1;
+            return;
+        }
+    }
+}
+```
+
+**Root Cause:** Try-catch region body blocks are being assigned to the wrong region.
+
+---
+
+### P1-SWITCH-INIT: Switch Static Initializer Broken ✅ FIXED (Dec 25, 2025)
+
+**Status:** ✅ FIXED | **Fixed:** Dec 25, 2025 | **Priority:** P1 (Wrong exception handling)
+**Location:** `crates/dexterity-passes/src/region_builder.rs` - multiple try-catch handling
+
+**Bug (FIXED):** Multiple separate try-catch blocks were being merged into one.
+
+**Root Cause:** `collect_handler_blocks_by_dominance()` collected blocks from OTHER try blocks when they were reachable from the handler. In enum switch init patterns, multiple try blocks share the same handler address, so handler block collection would walk into subsequent try blocks' ranges.
+
+**Solution Applied:**
+1. Pre-collect ALL try block ranges before processing any try block
+2. When collecting handler blocks, pass `other_try_blocks` set (blocks in OTHER try blocks)
+3. Stop handler block collection at boundaries of other try blocks
+
+**Files Changed:** `crates/dexterity-passes/src/region_builder.rs` (+25 lines)
+
+**Result:**
+```java
+// Before fix (BROKEN - all in one try):
+static {
+    try { iArr[ALPHA_8.ordinal()] = 1; }
+    catch (NoSuchFieldError e) { $SwitchMap[ARGB_4444.ordinal()] = 3; return; }
+}
+
+// After fix (CORRECT - separate try-catch per assignment):
+static {
+    try { iArr[ALPHA_8.ordinal()] = 1; } catch (NoSuchFieldError e) { return; }
+    try { $SwitchMap[RGB_565.ordinal()] = 2; } catch (NoSuchFieldError e) { return; }
+    try { $SwitchMap[ARGB_4444.ordinal()] = 3; } catch (NoSuchFieldError e) { return; }
+}
+```
+
+**Note:** Catch blocks contain `return;` instead of being empty - this is a separate handler content issue, not structural.
+
+---
+
+### P0-EXPR-STACK-OVERFLOW: Stack Overflow in expr_gen 🔴 OPEN
+
+**Status:** 🔴 OPEN | **Priority:** P0 (Crash)
+**Location:** `crates/dexterity-codegen/src/expr_gen.rs` - expression generation
+**Example APK:** `apks/large.apk` (54MB) - crashes during decompilation
+
+**Bug:** Infinite recursion in `expr_gen.write_arg` / `expr_gen.gen_arg` causes stack overflow crash.
+
+```
+[DEBUG expr_gen.write_arg] r5v0 -> name=challengeModel
+[DEBUG write_arg_inline] r1v2 -> var_name=challengeModel, has_expr=true
+thread '<unknown>' has overflowed its stack
+fatal runtime error: stack overflow, aborting
+```
+
+**Workarounds Tried:**
+- Increased depth limits from 30 to 50: No effect
+- Increased stack size from 256MB to 512MB: No effect
+- Issue is infinite recursion, not just deep nesting
+
+**Root Cause:** Expression generation creates circular reference chain during inline expression expansion.
+
+---
+
+## Previously Fixed P1 Bugs (Dec 25, 2025)
 
 ### P1-STRING-CONST: String Constant Loss ✅ FIXED (Dec 25, 2025)
 

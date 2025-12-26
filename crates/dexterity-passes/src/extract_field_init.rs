@@ -108,9 +108,9 @@ pub fn extract_field_init(class: &mut ClassData, dex: Option<&DexReader>) {
     // Iteratively extract fields until no more can be extracted
     // This handles dependencies between static field initializations
     // Limit iterations to prevent infinite loops (JADX has similar limits)
-    const MAX_EXTRACT_ITERATIONS: usize = 100;
+    let max_iterations = dexterity_limits::zip::MAX_EXTRACT_ITERATIONS;
 
-    for iteration in 0..MAX_EXTRACT_ITERATIONS {
+    for iteration in 0..max_iterations {
         let method = &class.methods[clinit_idx];
         let inits = collect_field_inits(method, &class.static_fields, &dex_to_array_idx, dex);
 
@@ -129,10 +129,10 @@ pub fn extract_field_init(class: &mut ClassData, dex: Option<&DexReader>) {
         apply_field_inits(class, &filtered, clinit_idx);
 
         // Safety check: if we've been iterating too long, bail out
-        if iteration >= MAX_EXTRACT_ITERATIONS - 1 {
+        if iteration >= max_iterations - 1 {
             tracing::error!(
                 iteration = iteration,
-                limit = MAX_EXTRACT_ITERATIONS,
+                limit = max_iterations,
                 class = %class.class_type,
                 "LIMIT_EXCEEDED: Extract field init max iterations reached"
             );
@@ -471,11 +471,11 @@ fn trace_register_constant_impl(
     dex: Option<&DexReader>,
 ) -> Option<FieldValue> {
     // Prevent infinite recursion (limit depth to 20, matching JADX's conservative approach)
-    const MAX_TRACE_DEPTH: usize = 20;
-    if depth > MAX_TRACE_DEPTH {
+    let max_trace_depth = dexterity_limits::zip::MAX_TRACE_DEPTH;
+    if depth > max_trace_depth {
         tracing::warn!(
             depth = depth,
-            limit = MAX_TRACE_DEPTH,
+            limit = max_trace_depth,
             register = reg_num,
             "LIMIT_EXCEEDED: Field trace depth limit reached"
         );

@@ -389,7 +389,25 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
         }
     }
 
-    for try_block in try_blocks {
+    // P1-SWITCH-INIT FIX: Pre-collect ALL try block ranges first
+    // This is needed so that when collecting handler blocks, we can stop at blocks
+    // that belong to OTHER try blocks (prevents enum switch init handlers from
+    // collecting subsequent try blocks' body code)
+    let all_try_ranges: Vec<BTreeSet<u32>> = try_blocks.iter().map(|try_block| {
+        let mut try_block_ids = BTreeSet::new();
+        for block_id in cfg.block_ids() {
+            if let Some(block) = cfg.get_block(block_id) {
+                let block_start = block.start_offset;
+                let block_end = block.end_offset;
+                if block_start < try_block.end_addr && block_end > try_block.start_addr {
+                    try_block_ids.insert(block_id);
+                }
+            }
+        }
+        try_block_ids
+    }).collect();
+
+    for (try_idx, try_block) in try_blocks.iter().enumerate() {
         // Find blocks covered by this try
         // CRITICAL FIX: Compare block address ranges NOT block_id (sequential index)
         // A block is covered if it OVERLAPS with the try range, not just starts within it.
@@ -456,7 +474,14 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
 
             // Use dominance-based block collection (JADX BlockExceptionHandler.java style)
             // This replaces the old simple forward reachability with a hard 500-block limit
-            let handler_blocks = collect_handler_blocks_by_dominance(cfg, handler_block, &try_block_ids);
+            // P1-SWITCH-INIT FIX: Collect blocks that belong to OTHER try blocks (not this one)
+            // so handler collection stops at their boundaries
+            let other_try_blocks: BTreeSet<u32> = all_try_ranges.iter()
+                .enumerate()
+                .filter(|(idx, _)| *idx != try_idx)
+                .flat_map(|(_, blocks)| blocks.iter().copied())
+                .collect();
+            let handler_blocks = collect_handler_blocks_by_dominance(cfg, handler_block, &try_block_ids, &other_try_blocks);
 
             if std::env::var("DEBUG_TRY_CATCH").is_ok() {
                 eprintln!("[DEBUG_TRY_CATCH] Handler: type={:?}, block=0x{:x}, handler_blocks={:?}",
@@ -609,15 +634,25 @@ fn establish_try_nesting(tries: &mut [TryInfo]) {
 /// handler blocks would be missed, causing handler code to appear in the try body.
 /// The caller (detect_try_catch_regions) removes collected handler blocks from
 /// try_block_ids AFTER this function returns.
+///
+/// P1-SWITCH-INIT: Added `other_try_blocks` parameter - blocks that belong to OTHER
+/// try blocks. Collection stops when it hits these blocks to prevent enum switch init
+/// handlers from collecting subsequent try blocks' body code.
 fn collect_handler_blocks_by_dominance(
     cfg: &CFG,
     handler_block: u32,
     _try_blocks: &BTreeSet<u32>,  // Kept for API compatibility but intentionally unused
+    other_try_blocks: &BTreeSet<u32>,  // P1-SWITCH-INIT: Blocks in OTHER try blocks to stop at
 ) -> BTreeSet<u32> {
     // Try dominance-based collection first
     // Collect ALL blocks dominated by the handler, even if they're in the try address range
+    // P1-SWITCH-INIT: But STOP at blocks that belong to other try blocks
     let mut dominated_blocks = BTreeSet::new();
     for block_id in cfg.block_ids() {
+        // P1-SWITCH-INIT: Skip blocks that belong to other try blocks
+        if other_try_blocks.contains(&block_id) {
+            continue;
+        }
         if cfg.dominates(handler_block, block_id) {
             dominated_blocks.insert(block_id);
         }
@@ -630,6 +665,7 @@ fn collect_handler_blocks_by_dominance(
 
     // Fall back to forward reachability (for synthetic CFGs or edge cases)
     // Don't filter by try_blocks - collect all reachable blocks from handler
+    // P1-SWITCH-INIT: But STOP at blocks that belong to other try blocks
     let mut handler_blocks = BTreeSet::new();
     let mut worklist = vec![handler_block];
     let mut visited = BTreeSet::new();
@@ -639,6 +675,12 @@ fn collect_handler_blocks_by_dominance(
             continue;
         }
         visited.insert(b);
+
+        // P1-SWITCH-INIT: Skip blocks that belong to other try blocks
+        if other_try_blocks.contains(&b) {
+            continue;
+        }
+
         handler_blocks.insert(b);
 
         // Add successors (no hard limit needed with dominance fallback)

@@ -163,11 +163,11 @@ fn process_region_with_depth(
     depth: usize,
 ) {
     // Prevent stack overflow from deeply nested regions
-    const MAX_DEPTH: usize = 100;
-    if depth > MAX_DEPTH {
+    let max_depth = dexterity_limits::regions::visitor_max_depth();
+    if depth > max_depth {
         tracing::error!(
             depth = depth,
-            limit = MAX_DEPTH,
+            limit = max_depth,
             "LIMIT_EXCEEDED: DOT graph visitor max depth reached"
         );
         let indent_str = "  ".repeat(indent);

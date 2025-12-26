@@ -45,11 +45,11 @@ fn process_region_recursive(
     cfg: &CFG,
     depth: usize,
 ) {
-    const MAX_DEPTH: usize = 100;
-    if depth > MAX_DEPTH {
+    let max_depth = dexterity_limits::regions::visitor_max_depth();
+    if depth > max_depth {
         tracing::error!(
             depth = depth,
-            limit = MAX_DEPTH,
+            limit = max_depth,
             "LIMIT_EXCEEDED: If-region visitor max depth reached"
         );
         return;

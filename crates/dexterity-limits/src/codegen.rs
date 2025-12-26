@@ -12,7 +12,8 @@ use std::sync::LazyLock;
 
 /// Default maximum depth for codegen region recursion.
 /// Override with DEXTERITY_CODEGEN_MAX_DEPTH env var.
-pub const DEFAULT_MAX_REGION_DEPTH: usize = 20;
+/// Note: 50 leaves enough stack headroom for safe bailout.
+pub const DEFAULT_MAX_REGION_DEPTH: usize = 50;
 
 /// Runtime-configurable codegen max depth.
 /// Used by: generate_region, generate_else_chain, case_ends_with_exit_depth.
@@ -28,7 +29,8 @@ pub fn max_region_depth() -> usize {
 
 /// Default maximum depth for condition expression generation.
 /// Override with DEXTERITY_CONDITION_MAX_DEPTH env var.
-pub const DEFAULT_MAX_CONDITION_DEPTH: usize = 20;
+/// Note: 50 leaves enough stack headroom for safe bailout.
+pub const DEFAULT_MAX_CONDITION_DEPTH: usize = 50;
 
 /// Runtime-configurable condition max depth.
 pub static MAX_CONDITION_DEPTH: LazyLock<usize> = LazyLock::new(|| {
@@ -58,4 +60,5 @@ pub const MAX_CONDITIONAL_MERGES: usize = 100;
 
 /// Maximum capacity before HashMap pools are dropped and recreated.
 /// Prevents memory explosion from large methods polluting the pool.
-pub const MAX_POOLED_CAPACITY: usize = 1_000;
+/// Note: 10000 allows large methods while still limiting memory growth.
+pub const MAX_POOLED_CAPACITY: usize = 10_000;
