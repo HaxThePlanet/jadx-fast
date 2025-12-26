@@ -1,11 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 1 P1 | 4 P1-CG | 5 P2-CG | Dec 26, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 1 P1 | 1 P1-CG | 5 P2-CG | Dec 26, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 0 P0, 1 P1 (try-catch invert), 4 P1-CG, 5 P2-CG codegen gaps |
+| **Open Bugs** | 0 P0, 1 P1 (try-catch invert), 1 P1-CG, 5 P2-CG codegen gaps |
 | **Code Quality** | 0 Easy, 2 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
@@ -870,14 +870,14 @@ this.currentSize += getSize(y);
 
 Gaps identified by comparing Dexterity codegen vs JADX-fast codegen. See [CODEGEN_PARITY_MASTER.md](CODEGEN_PARITY_MASTER.md) for details.
 
-### P1-CG: High Priority Codegen Gaps (4 Open)
+### P1-CG: High Priority Codegen Gaps (1 Open, 3 Fixed)
 
-| Gap ID | Description | JADX Reference | Impact |
+| Gap ID | Description | JADX Reference | Status |
 |--------|-------------|----------------|--------|
-| **GAP-VARARGS-SIG** | Method signatures don't convert `Type[]` to `Type...` | MethodGen.java:240-249 | `String[]` instead of `String...` |
-| **GAP-SKIP-FIRST-ARG** | Missing SKIP_FIRST_ARG for bridge/synthetic methods | MethodGen.java:164-165 | Redundant synthetic params |
-| **GAP-ENUM-CTOR-FILTER** | Enum constructor args not filtered (first 2 implicit) | MethodGen.java:155-163 | Extra name/ordinal params |
-| **GAP-CATCH-ORDER** | Catch-all handler not explicitly ordered last | RegionGen.java:325-336 | Incorrect handler order |
+| ~~GAP-VARARGS-SIG~~ | ~~Method signatures don't convert `Type[]` to `Type...`~~ | MethodGen.java:240-249 | ✅ FIXED (method_gen.rs:1906-1909) |
+| **GAP-SKIP-FIRST-ARG** | Missing SKIP_FIRST_ARG for bridge/synthetic methods | MethodGen.java:164-165 | 🔴 OPEN |
+| ~~GAP-ENUM-CTOR-FILTER~~ | ~~Enum constructor args not filtered (first 2 implicit)~~ | MethodGen.java:155-163 | ✅ FIXED Dec 26 (method_gen.rs:96-108) |
+| ~~GAP-CATCH-ORDER~~ | ~~Catch-all handler not explicitly ordered last~~ | RegionGen.java:325-336 | ✅ FIXED (block_exception_handler.rs:809-822) |
 
 ### P2-CG: Medium Priority Codegen Gaps (5 Open)
 
