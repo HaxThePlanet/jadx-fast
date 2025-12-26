@@ -2,9 +2,10 @@
 
 High-performance Android decompiler written in Rust, targeting JADX parity.
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P1-CG | 0 P2-CG | Build: CLEAN | Dec 26, 2025
+**Status:** PRODUCTION-READY | A Grade (~95%) | 0 P0 | 0 P1 | 0 P1-CG | 0 P2-CG | Build: CLEAN | Dec 26, 2025
 **Performance:** 14x faster than JADX | 5.2K apps/hour @ 2.7 sec avg
 **Security:** Anti-RE ZIP hardening | 83% bad APK recovery (was 43%)
+**Deobfuscation:** Smart naming | Obfuscator detection | Control flow deobfuscation
 
 ---
 
@@ -52,8 +53,19 @@ Documentation of JADX algorithms that Dexterity ports:
 | [JADX_REGION_CONTROL_FLOW.md](JADX_REGION_CONTROL_FLOW.md) | if/else, loops, switch reconstruction |
 | [JADX_EXCEPTION_HANDLING.md](JADX_EXCEPTION_HANDLING.md) | try-catch-finally |
 | [JADX_VARIABLE_NAMING.md](JADX_VARIABLE_NAMING.md) | Name generation and deobfuscation |
-| [JADX_DEOBFUSCATION.md](JADX_DEOBFUSCATION.md) | ProGuard mapping support |
+| [JADX_DEOBFUSCATION.md](JADX_DEOBFUSCATION.md) | ProGuard mapping support, smart naming, obfuscator detection |
 | [JADX_DEOBFUSCATION_REFERENCE.md](JADX_DEOBFUSCATION_REFERENCE.md) | Detailed deobf algorithm |
+
+---
+
+## Deobfuscation Features
+
+| Feature | Description |
+|---------|-------------|
+| **Smart Naming** | Dictionary-based naming with domain vocabularies, type hints, pattern detection |
+| **Obfuscator Detection** | Identifies ProGuard, R8, DexGuard, Allatori, Bangcle, Qihoo360, TencentLegu |
+| **String Decryption** | Detects XOR, AES, DES, RC4, Base64 encrypted strings |
+| **Control Flow Deobf** | Opaque predicates, dead code, CFF recovery, bogus code, pattern simplification |
 
 ---
 

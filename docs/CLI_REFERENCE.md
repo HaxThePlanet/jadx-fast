@@ -43,8 +43,68 @@ cargo build --release -p dexterity-cli
 | `--deobf-cfg-file` | Path to JOBF aliases file |
 | `--deobf-cfg-file-mode` | File mode: `read`, `save`, `read-or-save` |
 | `--deobf-whitelist` | Package pattern to skip (repeatable) |
+| `--smart-naming` | Enable smart semantic naming (type hints, pattern detection, Android components) |
+| `--detect-obfuscators` | Detect and report obfuscators used (ProGuard, R8, DexGuard, packers, etc.) |
 
 Note: `--deobf-min` and `--deobf-max` apply to all names including local variables.
+
+### Smart Naming
+
+Use `--smart-naming` to enable intelligent name generation that goes beyond simple alias assignment:
+
+```bash
+./target/release/dexterity --deobf --smart-naming -d output/ app.apk
+```
+
+Smart naming features:
+- **Domain Vocabularies:** Uses Android, networking, crypto, database, UI vocabularies
+- **Type Hints:** Names based on type (Map->xxxMap, List->xxxList, Handler->xxxHandler)
+- **Pattern Detection:** Recognizes Singleton, Builder, Factory, Repository patterns
+- **Android Components:** Detects Activity, Fragment, Service, BroadcastReceiver, ViewModel
+- **Method Analysis:** Derives names from getter/setter/callback method signatures
+- **Field Analysis:** Infers names from field access patterns
+
+### Obfuscator Detection
+
+Use `--detect-obfuscators` to analyze an APK and display a detailed obfuscation report:
+
+```bash
+./target/release/dexterity --detect-obfuscators app.apk
+```
+
+Output includes:
+- **Obfuscation Level:** None, Light, Moderate, Heavy, or Extreme (percentage-based)
+- **Detected Obfuscators:** ProGuard, R8, DexGuard, Allatori, Bangcle, Qihoo360, TencentLegu
+- **Statistics:** Short class/method name percentages
+- **String Decryptors:** Detected string encryption methods with type (XOR, AES, DES, RC4, Base64)
+
+Supported obfuscators:
+| Obfuscator | Detection Method |
+|------------|------------------|
+| ProGuard | Naming patterns, class structure |
+| R8 | Kotlin metadata stripping patterns |
+| DexGuard | String encryption, class encryption markers |
+| Allatori | Characteristic class naming schemes |
+| Bangcle | Packer signatures, native library patterns |
+| Qihoo360 | Packer signatures |
+| TencentLegu | Packer signatures |
+
+Example output:
+```
+Obfuscation Level: Moderate (34%)
+
+Detected Obfuscators:
+  None definitively detected (may be custom/ProGuard)
+
+Statistics:
+  Classes: 9400 total, 6632 short names (70.6%)
+  Methods: 58335 total, 27418 short names (47.0%)
+
+String Decryptors:
+  - a$d$a.AFKeystoreWrapper (XOR static key)
+  - ag.valueOf (XOR static key)
+  ...
+```
 
 ## Export
 
@@ -108,6 +168,29 @@ MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d outpu
 | `-q, --quiet` | Quiet mode |
 | `--log-level` | Log level: `quiet`, `progress`, `info`, `debug` |
 
+## Control Flow Deobfuscation
+
+These flags enable passes that reverse common obfuscation techniques.
+
+| Flag | Description |
+|------|-------------|
+| `--deobf-cff` | Enable Control Flow Flattening (CFF) recovery |
+| `--deobf-opaque` | Enable opaque predicate detection and removal |
+| `--deobf-dead-code` | Enable dead code elimination |
+| `--deobf-bogus` | Enable bogus code removal (identity ops, unused stores) |
+| `--deobf-patterns` | Enable pattern simplification (arithmetic encoding, MBA) |
+| `--deobf-aggressive` | Enable all control flow deobfuscation passes |
+
+### Example Usage
+
+```bash
+# Enable all deobfuscation passes
+./target/release/dexterity --deobf-aggressive -d output/ obfuscated.apk
+
+# Enable specific passes
+./target/release/dexterity --deobf-opaque --deobf-dead-code -d output/ obfuscated.apk
+```
+
 ## Advanced Deobfuscation
 
 | Flag | Description |
@@ -164,6 +247,12 @@ MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d outpu
 # Use ProGuard mapping
 ./target/release/dexterity --mappings-path mapping.txt -d output/ app.apk
 
+# Detect obfuscators and string encryption
+./target/release/dexterity --detect-obfuscators app.apk
+
+# Enable smart semantic naming during deobfuscation
+./target/release/dexterity --deobf --smart-naming -d output/ app.apk
+
 # Single-threaded for debugging
 ./target/release/dexterity -j 1 -d output/ app.apk
 
@@ -175,4 +264,10 @@ MALLOC_CONF="metadata_thp:always,thp:always" ./target/release/dexterity -d outpu
 
 # Fallback mode (raw instructions)
 ./target/release/dexterity -f -d output/ app.apk
+
+# Full deobfuscation with smart naming and control flow recovery
+./target/release/dexterity --deobf --smart-naming --deobf-aggressive -d output/ obfuscated.apk
+
+# Just analyze obfuscation (no decompilation)
+./target/release/dexterity --detect-obfuscators malware.apk
 ```

@@ -295,7 +295,7 @@ impl MethodSignatureAnalyzer {
                     Some(simple.rsplit('/').next().unwrap_or(simple).to_string())
                 }
             }
-            ArgType::Array { element, .. } => {
+            ArgType::Array(element) => {
                 Self::extract_type_suffix(element).map(|s| format!("{}Array", s))
             }
             ArgType::Int => Some("Int".to_string()),

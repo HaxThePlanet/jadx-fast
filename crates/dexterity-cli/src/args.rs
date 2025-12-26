@@ -143,9 +143,13 @@ pub struct Args {
     pub respect_bytecode_access: bool,
 
     // === Deobfuscation options ===
-    /// Activate deobfuscation
-    #[arg(long = "deobf")]
+    /// Activate deobfuscation (enabled by default, use --no-deobf to disable)
+    #[arg(long = "deobf", default_value = "true", action = clap::ArgAction::Set)]
     pub deobfuscation: bool,
+
+    /// Disable deobfuscation
+    #[arg(long = "no-deobf")]
+    pub no_deobfuscation: bool,
 
     /// Min length of name, renamed if shorter
     #[arg(long = "deobf-min", default_value = "3")]
@@ -194,6 +198,38 @@ pub struct Args {
     /// User-provided renames file (format: class/field/method original = alias)
     #[arg(long = "user-renames")]
     pub user_renames: Option<PathBuf>,
+
+    /// Enable smart semantic naming (type hints, pattern detection, Android components)
+    #[arg(long = "smart-naming")]
+    pub smart_naming: bool,
+
+    /// Detect and report obfuscators used (ProGuard, R8, DexGuard, packers, etc.)
+    #[arg(long = "detect-obfuscators")]
+    pub detect_obfuscators: bool,
+
+    /// Enable control flow flattening (CFF) recovery
+    #[arg(long = "deobf-cff")]
+    pub deobf_cff: bool,
+
+    /// Enable opaque predicate detection and removal
+    #[arg(long = "deobf-opaque")]
+    pub deobf_opaque: bool,
+
+    /// Enable dead code elimination
+    #[arg(long = "deobf-dead-code")]
+    pub deobf_dead_code: bool,
+
+    /// Enable bogus code removal (identity ops, unused stores)
+    #[arg(long = "deobf-bogus")]
+    pub deobf_bogus: bool,
+
+    /// Enable pattern simplification (arithmetic encoding, MBA)
+    #[arg(long = "deobf-patterns")]
+    pub deobf_patterns: bool,
+
+    /// Enable all control flow deobfuscation passes (cff + opaque + dead-code + bogus + patterns)
+    #[arg(long = "deobf-aggressive")]
+    pub deobf_aggressive: bool,
 
     // === Rename options ===
     /// Rename flags (comma-separated: case, valid, printable, none, all)
@@ -386,6 +422,11 @@ impl Args {
         self.kotlin_metadata && !self.no_kotlin_metadata
     }
 
+    /// Check if deobfuscation is enabled (default: true, disabled with --no-deobf)
+    pub fn deobf_enabled(&self) -> bool {
+        self.deobfuscation && !self.no_deobfuscation
+    }
+
     /// Get effective decompilation mode
     pub fn effective_decompilation_mode(&self) -> DecompilationMode {
         if self.fallback_mode {
@@ -425,6 +466,39 @@ impl Args {
             }
         }
         flags
+    }
+
+    /// Check if any control flow deobfuscation is enabled
+    pub fn has_deobf_passes(&self) -> bool {
+        self.deobf_aggressive ||
+        self.deobf_cff ||
+        self.deobf_opaque ||
+        self.deobf_dead_code ||
+        self.deobf_bogus ||
+        self.deobf_patterns
+    }
+
+    /// Get effective deobfuscation pass configuration
+    pub fn get_deobf_config(&self) -> dexterity_passes::DeobfConfig {
+        if self.deobf_aggressive {
+            dexterity_passes::DeobfConfig {
+                recover_cff: true,
+                detect_opaque_predicates: true,
+                eliminate_dead_code: true,
+                remove_bogus_code: true,
+                simplify_patterns: true,
+                max_iterations: 10,
+            }
+        } else {
+            dexterity_passes::DeobfConfig {
+                recover_cff: self.deobf_cff,
+                detect_opaque_predicates: self.deobf_opaque,
+                eliminate_dead_code: self.deobf_dead_code,
+                remove_bogus_code: self.deobf_bogus,
+                simplify_patterns: self.deobf_patterns,
+                max_iterations: 10,
+            }
+        }
     }
 }
 

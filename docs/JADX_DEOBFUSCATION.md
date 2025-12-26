@@ -554,6 +554,55 @@ impl DeobfPresets {
 | `DeobfPresets.java` | ~200 | Mapping file I/O |
 | `DeobfuscatorVisitor.java` | ~300 | Main deobfuscation |
 | `DeobfAliasProvider.java` | ~250 | Name generation |
-| `RenameVisitor.java` | ~400 | Name validation (✅ cloned as `rename_validator_pass.rs`) |
+| `RenameVisitor.java` | ~400 | Name validation (cloned as `rename_validator_pass.rs`) |
 | `NameMapper.java` | ~150 | Name utilities |
 | `JadxRenameConditions.java` | ~100 | Condition builder |
+
+---
+
+## Dexterity Extensions (Beyond JADX)
+
+Dexterity extends JADX's deobfuscation with additional features:
+
+### Smart Naming System (`dexterity-deobf/src/smart_naming/`)
+
+| File | Purpose |
+|------|---------|
+| `dictionary.rs` | Domain vocabularies (Android, networking, crypto, database, UI) |
+| `type_hints.rs` | Type-based naming (Map->xxxMap, List->xxxList, Handler->xxxHandler) |
+| `patterns.rs` | Pattern detection (Singleton, Builder, Factory, Repository) |
+| `android.rs` | Android component detection (Activity, Fragment, Service, ViewModel) |
+| `method_analysis.rs` | Semantic naming from method signatures |
+| `field_analysis.rs` | Semantic naming from field access patterns |
+| `provider.rs` | SmartAliasProvider implementing AliasProvider trait |
+
+**Usage:** `--smart-naming` CLI flag enables the smart alias provider.
+
+### Obfuscator Detection (`dexterity-deobf/src/`)
+
+| File | Purpose |
+|------|---------|
+| `obfuscator_signatures.rs` | Signature database for ProGuard, R8, DexGuard, Allatori, Bangcle, Qihoo360, TencentLegu |
+| `string_decryption.rs` | XOR, AES, DES, RC4, Base64 string decryption detection |
+| `detection_report.rs` | JSON-exportable obfuscation reports |
+
+**Usage:** `--detect-obfuscators` CLI flag analyzes and reports obfuscation level.
+
+### Control Flow Deobfuscation (`dexterity-passes/src/deobf/`)
+
+| File | Purpose |
+|------|---------|
+| `opaque_predicates.rs` | Detects x^x==0, x==x, constant comparisons |
+| `dead_code.rs` | Removes dead instructions and dummy exception handlers |
+| `cff_detector.rs` | Detects Control Flow Flattening patterns |
+| `bogus_code.rs` | Removes identity ops (x+0, x*1), dead stores |
+| `pattern_simplify.rs` | Simplifies x*2->x<<1, x%2->x&1, MBA patterns |
+| `mod.rs` | Pipeline with DeobfConfig and run_deobf_passes() |
+
+**Usage:**
+- `--deobf-opaque` - Enable opaque predicate detection
+- `--deobf-dead-code` - Enable dead code elimination
+- `--deobf-cff` - Enable CFF recovery
+- `--deobf-bogus` - Enable bogus code removal
+- `--deobf-patterns` - Enable pattern simplification
+- `--deobf-aggressive` - Enable all passes

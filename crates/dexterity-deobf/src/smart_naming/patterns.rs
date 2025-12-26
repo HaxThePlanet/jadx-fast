@@ -7,7 +7,7 @@
 //! - Adapter: wraps another type
 //! - Repository: CRUD-like methods for entity type
 
-use dexterity_ir::{ArgType, ClassData, FieldData, MethodData};
+use dexterity_ir::{ArgType, ClassData};
 
 /// Detected design patterns
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -130,9 +130,9 @@ impl PatternDetector {
     fn is_singleton(cls: &ClassData) -> bool {
         let class_type = &cls.class_type;
 
-        // Check for private constructor
+        // Check for private constructor (0x0002 is private access flag)
         let has_private_constructor = cls.methods.iter().any(|m| {
-            m.name == "<init>" && m.is_private()
+            m.name == "<init>" && (m.access_flags & 0x0002) != 0
         });
 
         // Check for static field of same type
@@ -408,6 +408,7 @@ impl PatternDetector {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use dexterity_ir::{MethodData, FieldData};
 
     fn make_method(name: &str, is_static: bool, return_type: ArgType) -> MethodData {
         let mut m = MethodData::new(name.to_string(), 0, return_type);

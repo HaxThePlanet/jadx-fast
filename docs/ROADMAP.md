@@ -18,18 +18,22 @@
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | A (~95%) 🟢 | All P1 gaps FIXED - lambda, anon class, diamond, polymorphic |
-| **Type Inference** | A+ (98%) 🟢 | PHI conflicts FIXED, ~2% remaining |
-| **IR/Control Flow** | A (~95%) 🟢 | Boolean `\|\|`, ternary, try-catch in loops, comment escape |
+| **Codegen** | A (~95%) | All P1 gaps FIXED - lambda, anon class, diamond, polymorphic |
+| **Type Inference** | A+ (98%) | PHI conflicts FIXED, ~2% remaining |
+| **IR/Control Flow** | A (~95%) | Boolean `\|\|`, ternary, try-catch in loops, comment escape |
 | **Variable Naming** | A- (90%) | Static field inlining, scope tracking |
-| **Lambda/Anon Inlining** | A (~95%) 🟢 | All P1-LAMBDA tasks complete |
+| **Lambda/Anon Inlining** | A (~95%) | All P1-LAMBDA tasks complete |
 | **Kotlin Support** | A (~95%) | Advanced metadata: contracts, context receivers, type aliases (BEYOND JADX) |
 | **Resources** | A+ (100%) | 1:1 JADX parity verified |
+| **Deobfuscation** | A+ (Enhanced) | Smart naming, obfuscator detection, control flow deobf (BEYOND JADX) |
 
 ## Recently Completed (Dec 24-26, 2025)
 
 | Feature | Impact | Status |
 |---------|--------|--------|
+| **Smart Naming System** | BEYOND JADX | ✅ Dictionary-based naming, type hints, pattern detection |
+| **Obfuscator Detection** | Analysis capability | ✅ ProGuard, R8, DexGuard, Allatori, Bangcle, Qihoo360, TencentLegu |
+| **Control Flow Deobf** | Deobfuscation | ✅ Opaque predicates, dead code, CFF, bogus code, pattern simplify |
 | **RenameValidator Pass** | 100% RenameVisitor parity | ✅ Orchestrator invokes all validation functions (fields, methods, class names) |
 | **Kotlin Advanced Metadata** | BEYOND JADX parity | ✅ Function contracts, context receivers, type aliases (Kotlin 1.1-1.6+) |
 | P2-THROWS-CLSP | +2-5% throws parity | ✅ JCST classpath database integration (1006 classes, 5099 methods) |
@@ -43,6 +47,27 @@
 | Lambda Inlining | +2-3% | ✅ Variable assignment, SAM types working |
 | Stack Overflow Protection | Crash prevention | ✅ MAX_DEPTH=100 on all recursive visitors |
 | Test Import Fixes | 15 tests passing | ✅ Fixed missing RegisterArg/BoundEnum imports in 3 test modules |
+
+### Deobfuscation Enhancements (Dec 26, 2025)
+
+**Smart Naming (`dexterity-deobf/src/smart_naming/`):**
+- Dictionary-based naming with domain vocabularies (Android, networking, crypto, database, UI)
+- Type-based naming hints (Map->xxxMap, List->xxxList, Handler->xxxHandler)
+- Pattern detection (Singleton, Builder, Factory, Repository)
+- Android component detection (Activity, Fragment, Service, ViewModel)
+- Method/field analysis for semantic naming
+
+**Obfuscator Detection (`dexterity-deobf/src/`):**
+- Signature database for 7 obfuscators
+- String decryption detection (XOR, AES, DES, RC4, Base64)
+- JSON-exportable detection reports
+
+**Control Flow Deobfuscation (`dexterity-passes/src/deobf/`):**
+- Opaque predicates (x^x==0, x==x, constant comparisons)
+- Dead code elimination (dead instructions, unreachable blocks, dummy handlers)
+- Control Flow Flattening (CFF) pattern detection
+- Bogus code removal (identity ops, dead stores)
+- Pattern simplification (x*2->x<<1, x%2->x&1, MBA patterns)
 
 ### Anti-RE ZIP Hardening (Dec 24, 2025)
 

@@ -580,7 +580,7 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
 
         // PASS 1: If deobfuscation or Kotlin metadata is enabled, precompute aliases
         // across ALL DEX files before processing any of them
-        let needs_deobf_prepass = args.deobfuscation || args.process_kotlin_metadata();
+        let needs_deobf_prepass = args.deobf_enabled() || args.process_kotlin_metadata();
         if needs_deobf_prepass && dex_file_names.len() > 1 {
             tracing::info!("Multi-DEX deobfuscation: collecting classes from {} DEX files", dex_file_names.len());
 
@@ -596,11 +596,17 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
                 let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), &dex_data)?);
                 let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
 
-                if args.deobfuscation {
+                if args.deobf_enabled() {
                     deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
                 }
                 if args.process_kotlin_metadata() {
                     deobf::precompute_kotlin_aliases(&dex, &class_indices, &alias_registry);
+                }
+
+                // Run obfuscator detection on first DEX if requested
+                if args.detect_obfuscators && dex_idx == 0 {
+                    let report = deobf::detect_obfuscators(&dex, &class_indices, dex_name);
+                    deobf::print_detection_report(&report);
                 }
 
                 drop(dex_data);
@@ -832,7 +838,7 @@ fn process_apk_fallback(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, a
         }
 
         // PASS 1: Precompute deobfuscation aliases across all DEX files
-        let needs_deobf_prepass = args.deobfuscation || args.process_kotlin_metadata();
+        let needs_deobf_prepass = args.deobf_enabled() || args.process_kotlin_metadata();
         if needs_deobf_prepass && dex_entries.len() > 1 {
             tracing::info!("Multi-DEX deobfuscation (fallback): collecting classes from {} DEX files", dex_entries.len());
 
@@ -840,7 +846,7 @@ fn process_apk_fallback(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, a
                 let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), dex_data)?);
                 let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
 
-                if args.deobfuscation {
+                if args.deobf_enabled() {
                     deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
                 }
                 if args.process_kotlin_metadata() {
@@ -1252,7 +1258,7 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
         let empty_package_name = Arc::new(None);
 
         // PASS 1: Precompute deobfuscation aliases across all DEX files
-        let needs_deobf_prepass = args.deobfuscation || args.process_kotlin_metadata();
+        let needs_deobf_prepass = args.deobf_enabled() || args.process_kotlin_metadata();
         if needs_deobf_prepass && dex_file_names.len() > 1 {
             tracing::info!("Multi-DEX deobfuscation (JAR): collecting classes from {} DEX files", dex_file_names.len());
 
@@ -1268,7 +1274,7 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
                 let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), &dex_data)?);
                 let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
 
-                if args.deobfuscation {
+                if args.deobf_enabled() {
                     deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
                 }
                 if args.process_kotlin_metadata() {
@@ -1445,7 +1451,7 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         let empty_package_name = Arc::new(None);
 
         // PASS 1: Precompute deobfuscation aliases across all DEX files
-        let needs_deobf_prepass = args.deobfuscation || args.process_kotlin_metadata();
+        let needs_deobf_prepass = args.deobf_enabled() || args.process_kotlin_metadata();
         if needs_deobf_prepass && dex_file_names.len() > 1 {
             tracing::info!("Multi-DEX deobfuscation (AAR): collecting classes from {} DEX files", dex_file_names.len());
 
@@ -1461,7 +1467,7 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
                 let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), &dex_data)?);
                 let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
 
-                if args.deobfuscation {
+                if args.deobf_enabled() {
                     deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
                 }
                 if args.process_kotlin_metadata() {
@@ -1841,7 +1847,7 @@ fn process_dex_bytes(
         }
 
         // Deterministic deobfuscation prepass (populate registry once, then apply per-class)
-        if args.deobfuscation {
+        if args.deobf_enabled() {
             tracing::info!(
                 "Deobfuscation enabled (min={}, max={})",
                 args.deobf_min_length,
@@ -1855,6 +1861,12 @@ fn process_dex_bytes(
         // obfuscated names (by R8/ProGuard) with aliases stored in @kotlin.Metadata
         if args.process_kotlin_metadata() {
             deobf::precompute_kotlin_aliases(&dex, &class_indices, &alias_registry);
+        }
+
+        // Run obfuscator detection if requested
+        if args.detect_obfuscators {
+            let report = deobf::detect_obfuscators(&dex, &class_indices, dex_name);
+            deobf::print_detection_report(&report);
         }
     }
 
@@ -1870,7 +1882,7 @@ fn process_dex_bytes(
 
     // Wrap dex_info with alias-aware version if deobfuscation, mappings, or Kotlin metadata is active
     // Kotlin metadata may register class aliases that need to be resolved during code generation
-    let dex_info: std::sync::Arc<dyn DexInfoProvider> = if args.deobfuscation || args.mappings_path.is_some() || args.process_kotlin_metadata() {
+    let dex_info: std::sync::Arc<dyn DexInfoProvider> = if args.deobf_enabled() || args.mappings_path.is_some() || args.process_kotlin_metadata() {
         std::sync::Arc::new(AliasAwareDexInfo::new(dex_info, alias_registry.clone()))
     } else {
         dex_info
@@ -1970,7 +1982,7 @@ fn process_dex_bytes(
     let inline_anonymous = args.inline_anonymous();
     let add_debug_lines = args.add_debug_lines;
     let inline_methods = args.inline_methods();
-    let deobfuscation = args.deobfuscation;
+    let deobfuscation = args.deobf_enabled();
     let fs_case_sensitive = args.fs_case_sensitive;
 
     // Create shared alias provider for rename validation (thread-safe atomic counters)
@@ -2136,6 +2148,14 @@ fn process_dex_bytes(
                 // Extract instance field initializations from constructors
                 dexterity_passes::extract_instance_field_init(&mut ir_class, Some(&dex));
 
+                // Run deobfuscation passes if enabled
+                if args.has_deobf_passes() {
+                    let deobf_config = args.get_deobf_config();
+                    for method in &mut ir_class.methods {
+                        let _ = dexterity_passes::run_deobf_passes(method, &deobf_config);
+                    }
+                }
+
                 // P3-FIXACCESSMODIFIERS: Fix visibility for inner class access patterns
                 // When inner classes access private members of outer classes, JADX removes
                 // synthetic accessors and inlines the access. For recompilable code, the
@@ -2263,7 +2283,7 @@ fn process_dex_bytes(
     );
 
     // Save JOBF file if deobfuscation is enabled and mode allows saving
-    if args.deobfuscation {
+    if args.deobf_enabled() {
         let should_save = match args.deobf_cfg_file_mode {
             crate::args::DeobfCfgFileMode::ReadOrSave | crate::args::DeobfCfgFileMode::Overwrite => true,
             _ => false,

@@ -425,14 +425,14 @@ Anonymous class constructor inlining with recursion detection.
 
 ### P3-LOW Priority (Cosmetic/IDE)
 
-| Gap | Description | JADX Reference | Impact |
+| Gap | Description | JADX Reference | Status |
 |-----|-------------|----------------|--------|
 | **GAP-METADATA** | No VarNode/FieldNode/MethodNode attachment for IDE navigation | InsnGen.java:114-115, 206, 251 | No IDE cross-reference support |
-| **GAP-SWITCH-ENUM** | Enum constants not distinguished from static fields in switch | RegionGen.java:290-301 | Minor display difference |
+| ~~**GAP-SWITCH-ENUM**~~ | ~~Enum constants not distinguished from static fields in switch~~ | RegionGen.java:290-301 | ✅ FIXED Dec 26, 2025 - Added `/* ordinal */` annotation for enum switches |
 | **GAP-SWITCH-CONST-CMT** | No inline comments for original constant values in switch | RegionGen.java:304-310 | Lost constant source info |
-| **GAP-USAGE-COMMENTS** | No method/field usage tracking comments | ClassGen.java:818-857 | No "// use in methods - 5" debug comments |
+| ~~**GAP-USAGE-COMMENTS**~~ | ~~No method/field usage tracking comments~~ | ClassGen.java:818-857 | ✅ FIXED Dec 26, 2025 - Added usage comment functions in comment_gen.rs |
 | **GAP-COMMENT-OUT** | No COMMENT_OUT flag to wrap code in `/* */` | RegionGen.java:109-145 | Cannot render disabled control structures |
-| **GAP-17** | Comment escape in strings | InsnGen.java | Cosmetic string formatting |
+| ~~**GAP-17**~~ | ~~Comment escape in strings~~ | InsnGen.java | ✅ FIXED Dec 26, 2025 - escape_comment_text() escapes `*/` to `*\/` |
 
 ### Dexterity Advantages (Features JADX Lacks)
 

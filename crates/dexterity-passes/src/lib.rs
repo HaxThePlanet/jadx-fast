@@ -81,6 +81,9 @@ pub mod user_renames;           // NEW: JADX UserRenames clone (P3) - user-provi
 pub mod var_naming;
 pub mod visitor;
 
+// Deobfuscation passes
+pub mod deobf;
+
 // Re-exports
 pub use algorithms::{compute_dominators, DominatorInfo, LiveVarAnalysis, LivenessInfo};
 pub use attach_comments::{attach_comments, AttachCommentsResult};
@@ -316,6 +319,16 @@ pub use rename_visitor::{
 pub use rename_validator_pass::{
     apply_rename_validation, apply_rename_validation_default, validate_class_names,
     RenameValidationResult,
+};
+
+// Deobfuscation pass exports
+pub use deobf::{
+    run_deobf_passes, DeobfConfig, DeobfStats,
+    OpaquePredicate, OpaquePredicateDetector, PredicateType,
+    DeadCodeEliminator, DeadCodeStats,
+    CffDetector, CffPattern, StateVariable,
+    BogusCodeRemover, BogusCodeStats,
+    PatternSimplifier, SimplificationStats,
 };
 
 /// Pass trait for decompilation passes

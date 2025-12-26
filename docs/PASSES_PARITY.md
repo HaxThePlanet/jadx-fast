@@ -256,6 +256,30 @@ to while loops, matching JADX's conservative approach.
 
 ---
 
+## Control Flow Deobfuscation Passes (NEW Dec 26, 2025)
+
+Dexterity includes control flow deobfuscation passes that go beyond JADX's capabilities.
+
+| Pass | File | Description | Status |
+|------|------|-------------|--------|
+| Opaque Predicates | `deobf/opaque_predicates.rs` | Detects x^x==0, x==x, constant comparisons | DONE |
+| Dead Code | `deobf/dead_code.rs` | Removes dead instructions, unreachable blocks, dummy handlers | DONE |
+| CFF Detector | `deobf/cff_detector.rs` | Detects Control Flow Flattening patterns | DONE |
+| Bogus Code | `deobf/bogus_code.rs` | Removes identity ops (x+0, x*1), dead stores | DONE |
+| Pattern Simplify | `deobf/pattern_simplify.rs` | Simplifies x*2->x<<1, x%2->x&1, MBA patterns | DONE |
+
+**CLI Flags:**
+- `--deobf-opaque` - Enable opaque predicate detection
+- `--deobf-dead-code` - Enable dead code elimination
+- `--deobf-cff` - Enable CFF recovery
+- `--deobf-bogus` - Enable bogus code removal
+- `--deobf-patterns` - Enable pattern simplification
+- `--deobf-aggressive` - Enable all passes
+
+**Pipeline:** `run_deobf_passes(method, config)` with `DeobfConfig` for selective enabling.
+
+---
+
 ## Clone Guidelines
 
 When cloning JADX passes:

@@ -22,6 +22,9 @@ Based on objective comparison of `output/dexterity` vs `output/jadx`. All P0 bug
 | Complex Methods | 2000 insn threshold | Same threshold | Tie |
 | Kotlin Support | **>100% (BEYOND JADX)** | Baseline | **Dexterity** |
 | Type Inference | **A+ (100%)** | Baseline | **Tie** |
+| Smart Naming | BEYOND JADX | N/A | **Dexterity** |
+| Obfuscator Detection | 7 obfuscators | N/A | **Dexterity** |
+| Control Flow Deobf | CFF, opaque, dead code | N/A | **Dexterity** |
 
 **Grade: A-** - All P0 bugs FIXED Dec 25 (LOOP-VAR, BOOL-CHAIN, WRONG-RETURN). Type inference at A+ (100%, 0 Unknown warnings). See [ROADMAP.md](ROADMAP.md).
 
@@ -54,10 +57,13 @@ Dexterity is 3.6-81x faster with 14.6x better memory efficiency:
 
 | Criterion | JADX | Dexterity | Winner |
 |-----------|:----:|:---------:|:------:|
-| Valid/Compilable Java | ✅ | ✅ | **TIE** (All P0 bugs FIXED Dec 25, 2025) |
-| Generic Type Parameters | ✅ | ✅ | **TIE** (736 classes now have `<T>`) |
-| Exception Handling | ✅ | ✅ | **TIE** |
-| Semantic Variable Names | ✅ | ✅ | **JADX** (0.93 vs Dexterity 0.70-0.81) |
+| Valid/Compilable Java | | | **TIE** (All P0 bugs FIXED Dec 25, 2025) |
+| Generic Type Parameters | | | **TIE** (736 classes now have `<T>`) |
+| Exception Handling | | | **TIE** |
+| Semantic Variable Names | | | **JADX** (0.93 vs Dexterity 0.70-0.81) |
+| Smart Naming System | | | **Dexterity** (BEYOND JADX - type hints, pattern detection) |
+| Obfuscator Detection | | | **Dexterity** (BEYOND JADX - 7 obfuscators) |
+| Control Flow Deobf | | | **Dexterity** (BEYOND JADX - CFF, opaque predicates) |
 | Control Flow (switch) | ✅ | ✅ | **TIE** |
 | Speed | ❌ | ✅ | **Dexterity** (3.6-81x faster) |
 | Memory Usage | ❌ | ✅ | **Dexterity** |

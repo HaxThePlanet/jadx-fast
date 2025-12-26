@@ -6,7 +6,6 @@
 //! - Generic type parameter extraction for element hints
 
 use dexterity_ir::ArgType;
-use lazy_static::lazy_static;
 use std::collections::HashMap;
 
 /// Generates naming hints based on type information
@@ -187,7 +186,7 @@ impl TypeHintsEngine {
         // Extract the class name from the type
         let class_name = match arg_type {
             ArgType::Object(name) => name.trim_start_matches('L').trim_end_matches(';'),
-            ArgType::Array { element, .. } => {
+            ArgType::Array(element) => {
                 hints.is_collection = true;
                 // Get element type hint
                 hints.element_hint = self.extract_element_name(element);

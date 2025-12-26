@@ -22,7 +22,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 **Goal:** Correct decompilation close to JADX
 **Status:** 🟢 PRODUCTION-READY | 0 P0 Bugs | A-/B+ Grade (85-90%) - see [ROADMAP.md](docs/ROADMAP.md)
 
-> **December 25, 2025 (Christmas Day!):** Production-ready! All P0 bugs fixed. **4-218x faster than JADX** with **10-52x less memory**. Processing **5,200 APKs/hour** at 2.7 sec average. Boolean simplification, lambda suppression (92→55 files), diamond operator (1,254 instances), lambda inlining complete. **TernaryMod region-level pass** now at full JADX parity. Resources at 1:1 JADX parity. **Anti-RE ZIP hardening** recovers 83% of obfuscated APKs.
+> **December 26, 2025:** Production-ready! All P0 bugs fixed. **1.9-55x faster than JADX** with **6-54x less memory**. Processing **5,200 APKs/hour** at 2.7 sec average. Boolean simplification, lambda suppression (92→55 files), diamond operator (1,254 instances), lambda inlining complete. **TernaryMod region-level pass** now at full JADX parity. Resources at 1:1 JADX parity. **Anti-RE ZIP hardening** recovers 83% of obfuscated APKs.
 
 ## Performance
 
@@ -150,7 +150,8 @@ cargo build --release -p dexterity-cli
   - Path traversal protection (JADX JadxZipSecurity.java clone)
   - Compression bomb detection (100x ratio threshold)
   - Fallback ZIP parser recovers corrupted entries
-- **Deobfuscation:** ProGuard mappings, JOBF files
+- **Deobfuscation:** ProGuard mappings, JOBF files, smart semantic naming
+- **Obfuscator Detection:** `--detect-obfuscators` analyzes APK obfuscation level, identifies string encryption patterns (XOR, custom), detects ProGuard/R8/DexGuard signatures
 - **Kotlin support:** ~85-90% parity (B+ Grade)
   - Class modifiers: `/* data */`, `/* sealed */`, `/* value */` - works
   - Function modifiers: `/* suspend */`, `/* inline */`, `/* operator */` - works

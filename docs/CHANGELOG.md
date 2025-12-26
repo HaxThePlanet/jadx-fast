@@ -6,6 +6,69 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 
 ## December 2025
 
+### Dec 26 - Control Flow Deobfuscation Passes
+
+**Status:** Complete | **Impact:** Reverses common obfuscation techniques
+
+Added comprehensive control flow deobfuscation passes in `dexterity-passes/src/deobf/`.
+
+| Flag | Description |
+|------|-------------|
+| `--deobf-cff` | Control Flow Flattening recovery |
+| `--deobf-opaque` | Opaque predicate detection and removal |
+| `--deobf-dead-code` | Dead code elimination |
+| `--deobf-bogus` | Bogus code removal (identity ops, dead stores) |
+| `--deobf-patterns` | Pattern simplification (x*2->x<<1, MBA patterns) |
+| `--deobf-aggressive` | Enable all deobfuscation passes |
+
+**New Modules:**
+- `dexterity-passes/src/deobf/opaque_predicates.rs` - Detects x^x==0, x==x, constant comparisons
+- `dexterity-passes/src/deobf/dead_code.rs` - Removes dead instructions, unreachable blocks
+- `dexterity-passes/src/deobf/cff_detector.rs` - Detects Control Flow Flattening patterns
+- `dexterity-passes/src/deobf/bogus_code.rs` - Removes identity ops (x+0, x*1)
+- `dexterity-passes/src/deobf/pattern_simplify.rs` - Simplifies arithmetic encoding
+
+**Pipeline:** `run_deobf_passes()` with `DeobfConfig` for selective pass enabling.
+
+---
+
+### Dec 26 - Obfuscator Detection & Smart Naming
+
+**Status:** Complete | **Impact:** New analysis capabilities for obfuscated APKs
+
+Added comprehensive obfuscator detection and smart semantic naming features.
+
+| Feature | Description |
+|---------|-------------|
+| `--detect-obfuscators` | Analyze APK and display obfuscation report |
+| `--smart-naming` | Enable type-hint and pattern-based semantic naming |
+| Obfuscation Level | None, Light, Moderate, Heavy, Extreme (percentage-based) |
+| String Decryption Detection | XOR, AES, DES, RC4, Base64 patterns |
+| Obfuscator Signatures | ProGuard, R8, DexGuard, Allatori, Bangcle, Qihoo360, TencentLegu |
+
+**New Modules:**
+- `dexterity-deobf/src/obfuscator_signatures.rs` - Signature database with confidence levels
+- `dexterity-deobf/src/string_decryption.rs` - String encryption pattern analysis
+- `dexterity-deobf/src/detection_report.rs` - Report generation and formatting
+- `dexterity-deobf/src/smart_naming/` - Smart alias provider with:
+  - `dictionary.rs` - Domain vocabulary (Android, networking, crypto, etc.)
+  - `type_hints.rs` - Type-based naming patterns (Map->xxxMap, Handler->xxxHandler)
+  - `patterns.rs` - Pattern detection (Singleton, Builder, Factory, Repository)
+  - `android.rs` - Android component detection (Activity, Fragment, Service, ViewModel)
+  - `method_analysis.rs` - Method signature analysis
+  - `field_analysis.rs` - Field access pattern analysis
+  - `provider.rs` - SmartAliasProvider implementing AliasProvider trait
+
+**Example Output:**
+```
+Obfuscation Level: Moderate (34%)
+Classes: 9400 total, 6632 short names (70.6%)
+Methods: 58335 total, 27418 short names (47.0%)
+String Decryptors: 15 XOR-based, 40+ custom
+```
+
+---
+
 ### Dec 26 - P2-ENUM-CONSTANTS Complete
 
 **Status:** Complete | **Impact:** +1-2% type accuracy, better code readability

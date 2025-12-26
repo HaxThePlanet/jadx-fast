@@ -22,12 +22,12 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 crates/
 ├── dexterity-dex/         # DEX parsing (~4,500 lines)
 ├── dexterity-ir/          # IR types & class hierarchy (~18,500 lines)
-├── dexterity-passes/      # Decompilation passes (~51,800 lines)
+├── dexterity-passes/      # Decompilation passes (~53,000 lines) - includes deobf/ submodule
 ├── dexterity-codegen/     # Java code generation (~25,400 lines)
 ├── dexterity-resources/   # AXML & resources.arsc (~4,300 lines)
-├── dexterity-deobf/       # Deobfuscation (~8,900 lines)
+├── dexterity-deobf/       # Deobfuscation (~15,000 lines) - includes smart_naming/ submodule
 ├── dexterity-kotlin/      # Kotlin metadata parsing (~5,000 lines)
-├── dexterity-cli/         # CLI application (~7,300 lines)
+├── dexterity-cli/         # CLI application (~7,800 lines)
 ├── dexterity-clsp/        # JCST classpath database parsing (~350 lines)
 ├── dexterity-error/       # Unified error types
 ├── dexterity-utils/       # Shared utilities
@@ -36,7 +36,7 @@ crates/
 └── dexterity-llm-postproc/# LLM post-processing utilities
 ```
 
-Total: ~126,000 lines of Rust (core crates)
+Total: ~134,000 lines of Rust (core crates)
 
 ## Crate Details
 
@@ -98,6 +98,16 @@ Transform IR through analysis passes.
 | `fix_access_modifiers.rs` | Inner class visibility fixes (JADX parity, Dec 25) |
 | `rename_validator_pass.rs` | RenameVisitor orchestration (100% parity Dec 26) |
 
+**Control Flow Deobfuscation (`deobf/`):**
+| File | Purpose |
+|------|---------|
+| `opaque_predicates.rs` | Detects x^x==0, x==x, constant comparisons |
+| `dead_code.rs` | Removes dead instructions and dummy exception handlers |
+| `cff_detector.rs` | Detects Control Flow Flattening patterns |
+| `bogus_code.rs` | Removes identity ops (x+0, x*1), dead stores |
+| `pattern_simplify.rs` | Simplifies x*2->x<<1, x%2->x&1, MBA patterns |
+| `mod.rs` | Pipeline with DeobfConfig and run_deobf_passes() |
+
 ### dexterity-codegen (Code Generation)
 
 Emit Java source from IR.
@@ -124,7 +134,7 @@ Android resource file decoding.
 
 ### dexterity-deobf (Deobfuscation)
 
-Name deobfuscation and mapping support.
+Name deobfuscation and mapping support. (~15,000+ lines)
 
 | File | Purpose |
 |------|---------|
@@ -132,6 +142,20 @@ Name deobfuscation and mapping support.
 | `mapping_parser.rs` | ProGuard mapping file parser |
 | `registry.rs` | Thread-safe global alias registry |
 | `rename_validator.rs` | Validation functions (field/method collision, inner class checks) |
+| `obfuscator_signatures.rs` | Signature database for ProGuard, R8, DexGuard, Allatori, Bangcle, Qihoo360, TencentLegu |
+| `string_decryption.rs` | XOR, AES, DES, RC4, Base64 string decryption detection |
+| `detection_report.rs` | JSON-exportable obfuscation detection reports |
+
+**Smart Naming System (`smart_naming/`):**
+| File | Purpose |
+|------|---------|
+| `dictionary.rs` | Domain vocabularies (Android, networking, crypto, database, etc.) |
+| `type_hints.rs` | Type-based naming (Map->xxxMap, List->xxxList, Handler->xxxHandler) |
+| `patterns.rs` | Pattern detection (Singleton, Builder, Factory, Repository) |
+| `android.rs` | Android component detection (Activity, Fragment, Service, ViewModel) |
+| `method_analysis.rs` | Semantic naming from method signatures |
+| `field_analysis.rs` | Semantic naming from field access patterns |
+| `provider.rs` | SmartAliasProvider implementing AliasProvider trait |
 
 **Orchestration pass in dexterity-passes:**
 | `rename_validator_pass.rs` | RenameVisitor orchestrator - invokes all validation functions (100% parity Dec 26) |

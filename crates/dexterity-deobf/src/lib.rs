@@ -31,6 +31,10 @@ pub mod mapping_exporter;
 pub mod dalvik_to_jvm;
 pub mod override_method_visitor;
 pub mod type_compare;
+pub mod smart_naming;
+pub mod obfuscator_signatures;
+pub mod string_decryption;
+pub mod detection_report;
 
 pub use name_mapper::NameMapper;
 pub use conditions::{
@@ -96,3 +100,26 @@ pub use override_method_visitor::{
 };
 // JADX Reference: TypeCompare.java - type comparison for override handling
 pub use type_compare::{TypeCompare, TypeCompareEnum, replace_class_generics};
+// Smart naming system - semantic deobfuscation
+pub use smart_naming::{
+    SmartAliasProvider, Dictionary, DomainVocabulary,
+    TypeHintsEngine, TypeHints, TypePattern,
+    PatternDetector, DetectedPattern,
+    AndroidComponentDetector, AndroidComponent,
+    MethodSignatureAnalyzer, MethodAnalysis, MethodPattern,
+    FieldAccessAnalyzer, FieldAnalysis, FieldPattern,
+};
+// Obfuscator detection
+pub use obfuscator_signatures::{
+    ObfuscatorType, ObfuscatorDetection, ObfuscatorDetector,
+    SignatureDatabase, Confidence, NamingPattern, SIGNATURES,
+};
+// String decryption detection
+pub use string_decryption::{
+    StringDecryptionAnalyzer, EncryptionType, DecryptorMethod,
+    EncryptedString, StringLocation,
+};
+// Detection reporting
+pub use detection_report::{
+    DetectionReport, ObfuscationStats,
+};

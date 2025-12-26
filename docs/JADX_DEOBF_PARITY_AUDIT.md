@@ -207,10 +207,54 @@ None - core deobf is complete
 
 ---
 
+## Dexterity Extensions (Beyond JADX)
+
+Dexterity extends JADX's deobfuscation with capabilities JADX does not have:
+
+### Smart Naming System (`smart_naming/`)
+
+| Component | Purpose |
+|-----------|---------|
+| `dictionary.rs` | Domain vocabularies (Android, networking, crypto, database, UI) |
+| `type_hints.rs` | Type-based naming (Map->xxxMap, Handler->xxxHandler) |
+| `patterns.rs` | Pattern detection (Singleton, Builder, Factory, Repository) |
+| `android.rs` | Android component detection (Activity, Fragment, Service) |
+| `method_analysis.rs` | Semantic naming from method signatures |
+| `field_analysis.rs` | Semantic naming from field access patterns |
+| `provider.rs` | SmartAliasProvider implementing AliasProvider trait |
+
+**Usage:** `--smart-naming` CLI flag
+
+### Obfuscator Detection
+
+| Component | Purpose |
+|-----------|---------|
+| `obfuscator_signatures.rs` | Signature database for 7 obfuscators |
+| `string_decryption.rs` | XOR, AES, DES, RC4, Base64 detection |
+| `detection_report.rs` | JSON-exportable reports |
+
+**Supported Obfuscators:** ProGuard, R8, DexGuard, Allatori, Bangcle, Qihoo360, TencentLegu
+
+**Usage:** `--detect-obfuscators` CLI flag
+
+### Control Flow Deobfuscation (`dexterity-passes/src/deobf/`)
+
+| Pass | Description |
+|------|-------------|
+| Opaque Predicates | Detects x^x==0, x==x, constant comparisons |
+| Dead Code | Removes dead instructions, unreachable blocks |
+| CFF Detector | Detects Control Flow Flattening patterns |
+| Bogus Code | Removes identity ops (x+0, x*1), dead stores |
+| Pattern Simplify | Simplifies x*2->x<<1, x%2->x&1, MBA patterns |
+
+**Usage:** `--deobf-aggressive` enables all passes
+
+---
+
 ## Conclusion
 
-The `dexterity-deobf` crate has achieved **excellent JADX parity** for all core deobfuscation functionality. The remaining gaps are minor edge cases or features that belong in other modules (resources).
+The `dexterity-deobf` crate has achieved **excellent JADX parity** for all core deobfuscation functionality, plus significant extensions that go beyond JADX's capabilities. The remaining gaps are minor edge cases or features that belong in other modules (resources).
 
 The codebase quality is high with thorough documentation and JADX reference comments that will make future maintenance and parity verification straightforward.
 
-**Rating: Production-Ready for Deobfuscation**
+**Rating: Production-Ready for Deobfuscation (Enhanced)**

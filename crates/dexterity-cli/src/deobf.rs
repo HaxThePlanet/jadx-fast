@@ -22,11 +22,30 @@ use std::path::PathBuf;
 use anyhow::Result;
 use tracing::{info, warn};
 
-use dexterity_deobf::{AliasProvider, AliasRegistry, DeobfAliasProvider, method_proto_to_descriptor, get_better_class_name, NameMapper, UserRenames};
+use dexterity_deobf::{AliasProvider, AliasRegistry, DeobfAliasProvider, SmartAliasProvider, method_proto_to_descriptor, get_better_class_name, NameMapper, UserRenames};
 use dexterity_dex::DexReader;
 use dexterity_ir::{ArgType, ClassData, FieldData, MethodData};
 
 use crate::args::{DeobfCfgFileMode, UseSourceNameAlias};
+
+/// Combined trait for alias providers that support index initialization.
+/// Both DeobfAliasProvider and SmartAliasProvider implement this.
+trait AliasProviderWithIndexes: AliasProvider {
+    fn init_indexes(&self, pkg: u32, cls: u32, fld: u32, mth: u32);
+}
+
+impl AliasProviderWithIndexes for DeobfAliasProvider {
+    fn init_indexes(&self, pkg: u32, cls: u32, fld: u32, mth: u32) {
+        DeobfAliasProvider::init_indexes(self, pkg, cls, fld, mth);
+    }
+}
+
+impl AliasProviderWithIndexes for SmartAliasProvider {
+    fn init_indexes(&self, pkg: u32, cls: u32, fld: u32, mth: u32) {
+        SmartAliasProvider::init_indexes(self, pkg, cls, fld, mth);
+    }
+}
+
 use crate::Args;
 
 /// Well-known short package names that should NOT be treated as obfuscated.
@@ -82,7 +101,7 @@ pub fn precompute_deobf_aliases(
     args: &Args,
     registry: &AliasRegistry,
 ) {
-    if !args.deobfuscation {
+    if !args.deobf_enabled() {
         return;
     }
 
@@ -136,8 +155,16 @@ pub fn precompute_deobf_aliases(
 
     // Create provider and initialize indexes from loaded mapping counts
     // JADX Reference: DeobfPresets.initIndexes(IAliasProvider) - ensures new aliases don't collide
-    let provider = DeobfAliasProvider::new(args.deobf_max_length);
-    provider.init_indexes(loaded_pkg_count, loaded_cls_count, loaded_fld_count, loaded_mth_count);
+    // Use SmartAliasProvider when --smart-naming is enabled for semantic naming
+    let provider: Box<dyn AliasProviderWithIndexes> = if args.smart_naming {
+        let p = SmartAliasProvider::new(args.deobf_max_length);
+        p.init_indexes(loaded_pkg_count, loaded_cls_count, loaded_fld_count, loaded_mth_count);
+        Box::new(p)
+    } else {
+        let p = DeobfAliasProvider::new(args.deobf_max_length);
+        p.init_indexes(loaded_pkg_count, loaded_cls_count, loaded_fld_count, loaded_mth_count);
+        Box::new(p)
+    };
 
     // Android R-class detection (precomputed, linear scan).
     // The previous per-class scan was O(n^2) on real apps and can explode memory.
@@ -343,17 +370,15 @@ fn apply_source_file_renames_prepass(
     registry: &AliasRegistry,
 ) {
     // Check if source name aliases are enabled
+    // Default: ENABLED (if-better) when --deobf is active - use source file names for better readability
     let use_source_name = match args.use_source_name_as_alias {
         Some(UseSourceNameAlias::Always) => true,
         Some(UseSourceNameAlias::IfBetter) => true,
         Some(UseSourceNameAlias::Never) => return,
         None => {
-            // Check deprecated flag for backwards compatibility
-            if args.deobf_use_sourcename {
-                true
-            } else {
-                return; // Default: disabled
-            }
+            // Default to enabled - source names produce much better output
+            // User can disable with --use-source-name-as-class-name-alias=never
+            true
         }
     };
 
@@ -1348,4 +1373,185 @@ pub fn load_user_renames(path: &PathBuf, registry: &AliasRegistry) -> Result<()>
         info!("Loaded {} user renames from: {}", count, path.display());
     }
     Ok(())
+}
+
+// ============================================================================
+// Obfuscator Detection
+// ============================================================================
+
+use dexterity_deobf::{
+    ObfuscatorDetector, DetectionReport, StringDecryptionAnalyzer,
+};
+
+/// Run obfuscator detection on a DEX file and print report.
+///
+/// This analyzes the DEX file for:
+/// - Known obfuscator signatures (ProGuard, R8, DexGuard, packers, etc.)
+/// - String decryption methods
+/// - Obfuscation statistics (short names, native libs, etc.)
+///
+/// Returns the detection report for further processing.
+pub fn detect_obfuscators(
+    dex: &DexReader,
+    class_indices: &[u32],
+    file_name: &str,
+) -> DetectionReport {
+    let mut report = DetectionReport::new(file_name.to_string());
+    let mut detector = ObfuscatorDetector::new();
+    let mut string_analyzer = StringDecryptionAnalyzer::new();
+
+    // Collect all class and package names for pattern analysis
+    let mut class_names: Vec<String> = Vec::new();
+    let mut package_names: HashSet<String> = HashSet::new();
+
+    // Collect statistics and analyze classes
+    for &idx in class_indices {
+        let class = match dex.get_class(idx) {
+            Ok(c) => c,
+            Err(_) => continue,
+        };
+
+        let class_type = match class.class_type() {
+            Ok(t) => t,
+            Err(_) => continue,
+        };
+
+        // Count classes
+        report.stats.total_classes += 1;
+
+        // Check for short names (obfuscation indicator)
+        let internal = class_type
+            .strip_prefix('L')
+            .unwrap_or(&class_type)
+            .strip_suffix(';')
+            .unwrap_or(&class_type);
+        let simple_name = internal.rsplit('/').next().unwrap_or(internal);
+
+        if simple_name.len() <= 3 {
+            report.stats.short_name_classes += 1;
+        }
+        if simple_name.len() == 1 {
+            report.stats.single_char_classes += 1;
+        }
+
+        // Collect for obfuscator detection
+        class_names.push(class_type.clone());
+        if let Some((pkg, _)) = internal.rsplit_once('/') {
+            package_names.insert(pkg.to_string());
+        }
+
+        // Check for marker classes (DexGuard, Bangcle, etc.)
+        detector.check_class(&class_type);
+
+        // Analyze methods
+        if let Ok(Some(data)) = class.class_data() {
+            for method in data.direct_methods().chain(data.virtual_methods()) {
+                report.stats.total_methods += 1;
+
+                let method_id = match dex.get_method(method.method_idx) {
+                    Ok(m) => m,
+                    Err(_) => continue,
+                };
+                let method_name = match method_id.name() {
+                    Ok(n) => n,
+                    Err(_) => continue,
+                };
+
+                if method_name.len() <= 2 && method_name != "<init>" && method_name != "<clinit>" {
+                    report.stats.short_name_methods += 1;
+                }
+
+                // Analyze potential string decryptors
+                // Create a stub MethodData for signature analysis
+                let proto = match method_id.proto() {
+                    Ok(p) => p,
+                    Err(_) => continue,
+                };
+                let return_type = match proto.return_type() {
+                    Ok(t) => parse_return_type(&t),
+                    Err(_) => continue,
+                };
+
+                let mut mth_stub = dexterity_ir::MethodData::new(
+                    method_name.to_string(),
+                    method.access_flags,
+                    return_type,
+                );
+
+                // Parse parameter types
+                if let Ok(params) = proto.parameters() {
+                    for param in params {
+                        mth_stub.arg_types.push(parse_return_type(&param));
+                    }
+                }
+
+                string_analyzer.analyze_potential_decryptor(&mth_stub, &class_type);
+            }
+
+            // Analyze fields
+            for field in data.static_fields().chain(data.instance_fields()) {
+                report.stats.total_fields += 1;
+
+                let field_id = match dex.get_field(field.field_idx) {
+                    Ok(f) => f,
+                    Err(_) => continue,
+                };
+                let field_name = match field_id.name() {
+                    Ok(n) => n,
+                    Err(_) => continue,
+                };
+
+                if field_name.len() <= 2 {
+                    report.stats.short_name_fields += 1;
+                }
+            }
+        }
+    }
+
+    // Analyze class/package naming patterns for ProGuard/R8 detection
+    let class_refs: Vec<&str> = class_names.iter().map(|s| s.as_str()).collect();
+    let pkg_refs: Vec<&str> = package_names.iter().map(|s| s.as_str()).collect();
+    detector.analyze_classes(&class_refs, &pkg_refs);
+
+    // Add detected obfuscators to report
+    for detection in detector.get_detections() {
+        report.add_obfuscator(detection.clone());
+    }
+
+    // Add string decryptors to report
+    for decryptor in &string_analyzer.decryptors {
+        report.add_decryptor(decryptor.clone());
+    }
+    report.stats.encrypted_strings = string_analyzer.encrypted_strings.len();
+
+    // Generate recommendations
+    report.generate_recommendations();
+
+    report
+}
+
+/// Parse a type descriptor string into ArgType.
+fn parse_return_type(desc: &str) -> dexterity_ir::ArgType {
+    match desc {
+        "V" => dexterity_ir::ArgType::Void,
+        "Z" => dexterity_ir::ArgType::Boolean,
+        "B" => dexterity_ir::ArgType::Byte,
+        "C" => dexterity_ir::ArgType::Char,
+        "S" => dexterity_ir::ArgType::Short,
+        "I" => dexterity_ir::ArgType::Int,
+        "J" => dexterity_ir::ArgType::Long,
+        "F" => dexterity_ir::ArgType::Float,
+        "D" => dexterity_ir::ArgType::Double,
+        s if s.starts_with('L') => dexterity_ir::ArgType::Object(s.to_string()),
+        s if s.starts_with('[') => {
+            let elem = parse_return_type(&s[1..]);
+            dexterity_ir::ArgType::Array(Box::new(elem))
+        }
+        _ => dexterity_ir::ArgType::Unknown,
+    }
+}
+
+/// Print obfuscator detection report to stdout.
+pub fn print_detection_report(report: &DetectionReport) {
+    println!("{}", report.to_text());
 }

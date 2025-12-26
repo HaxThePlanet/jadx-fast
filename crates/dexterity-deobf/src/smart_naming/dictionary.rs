@@ -38,7 +38,7 @@ impl Dictionary {
     /// Get a random noun from the dictionary (for fallback naming)
     pub fn get_noun_by_index(&self, index: usize) -> &'static str {
         let nouns: Vec<_> = self.nouns.iter().collect();
-        nouns.get(index % nouns.len()).copied().unwrap_or("data")
+        nouns.get(index % nouns.len()).copied().copied().unwrap_or("data")
     }
 }
 

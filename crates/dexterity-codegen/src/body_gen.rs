@@ -8011,6 +8011,13 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                 }
             };
 
+            // GAP-SWITCH-ENUM: Detect enum switch pattern
+            // If switch value ends with .ordinal() or accesses a $SwitchMap$ array,
+            // this is likely an enum switch and we should annotate the cases
+            let is_enum_switch = switch_value.contains(".ordinal()")
+                || switch_value.contains("$SwitchMap$")
+                || switch_value.contains("[") && switch_value.contains(".ordinal()");
+
             code.start_line()
                 .add("switch (")
                 .add(&switch_value)
@@ -8047,13 +8054,18 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                         }
                     }
                 } else {
-                    // Normal integer switch
+                    // Normal integer switch (or enum switch with integer keys)
                     for key in &case.keys {
                         code.start_line()
                             .add("case ")
-                            .add(&key.to_string())
-                            .add(":")
-                            .newline();
+                            .add(&key.to_string());
+                        // GAP-SWITCH-ENUM: Add comment for enum ordinal switches
+                        if is_enum_switch {
+                            code.add(": /* ordinal */");
+                        } else {
+                            code.add(":");
+                        }
+                        code.newline();
                     }
                 }
                 code.inc_indent();
