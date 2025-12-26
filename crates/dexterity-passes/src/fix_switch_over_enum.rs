@@ -180,7 +180,7 @@ impl EnumMapAttr {
 /// Note: Full implementation requires instruction wrapping support to track
 /// the chain of SGET -> ordinal() -> APUT. For now, we detect simpler patterns.
 pub fn init_class_enum_map(class: &ClassData) -> EnumMapAttr {
-    let mut map_attr = EnumMapAttr::default();
+    let map_attr = EnumMapAttr::default();
 
     // Find <clinit> method
     let clinit = class.methods.iter().find(|m| {

@@ -454,7 +454,7 @@ pub fn check_class_name(
         }
     };
 
-    let (mut new_name, reason_opt) = fixed;
+    let (new_name, reason_opt) = fixed;
 
     // Check for collision with parent class names
     if rename_valid {

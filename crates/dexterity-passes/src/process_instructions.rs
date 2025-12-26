@@ -7,7 +7,7 @@
 //! This fixes the undefined variable bug (P1-S10) caused by the fragile
 //! state machine in type_inference.rs and body_gen.rs.
 
-use dexterity_ir::instructions::{InsnNode, InsnType, RegisterArg};
+use dexterity_ir::instructions::{InsnNode, InsnType};
 
 /// Process instructions before block splitting (JADX pattern)
 ///
@@ -145,7 +145,7 @@ pub fn process_instructions_with_stats(instructions: &mut Vec<InsnNode>) -> Proc
 #[cfg(test)]
 mod tests {
     use super::*;
-    use dexterity_ir::instructions::{InsnArg, InvokeKind};
+    use dexterity_ir::instructions::{InsnArg, InvokeKind, RegisterArg};
     use smallvec::smallvec;
 
     #[test]

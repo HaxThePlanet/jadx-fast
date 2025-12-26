@@ -1,0 +1,12 @@
+[package]
+name = "dexterity-clsp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "JADX classpath database parser for throws declarations"
+
+[dependencies]
+lazy_static = { workspace = true }
+log = { workspace = true }
+
+[dev-dependencies]

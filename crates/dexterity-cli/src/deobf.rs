@@ -65,24 +65,9 @@ static COMMON_PACKAGE_NAMES: LazyLock<HashSet<&'static str>> = LazyLock::new(|| 
         "app", "api", "lib", "dev", "pro", "biz",
         // RxJava/reactive
         "rx",
-        // Common 2-letter abbreviations used in packages
-        "ws",  // websocket
-        "db",  // database
-        "ui",  // user interface
-        "os",  // operating system
-        "io",  // already covered above but for clarity
-        "js",  // javascript
-        "bg",  // background
-        "ad",  // advertising/ads
-        "ua",  // user agent
-        "ux",  // user experience
-        "ml",  // machine learning
-        "ec",  // error correction
-        "fs",  // filesystem
-        "gc",  // garbage collection
-        "gp",  // google play
-        "vr",  // virtual reality
-        "ar",  // augmented reality
+        // Note: JADX does NOT exclude short package names like "ui", "db", etc.
+        // from renaming. It renames them to p000ui, p001db, etc.
+        // We only exclude truly reserved/TLD names here to match JADX behavior
     ]
     .into_iter()
     .collect()
@@ -686,6 +671,7 @@ fn extract_class_alias(original_desc: &str, kotlin_name: &str) -> Option<String>
 /// Register aliases extracted from a class (e.g., from Kotlin metadata) to the global registry.
 /// This enables cross-class type reference resolution when class A references type B that has
 /// an alias extracted from its Kotlin metadata.
+#[allow(dead_code)]
 pub fn register_class_aliases_to_registry(class: &ClassData, registry: &AliasRegistry) {
     let class_desc = normalize_class_descriptor(&class.class_type);
 
@@ -830,12 +816,14 @@ fn should_rename_simple_name(name: &str, args: &Args) -> bool {
 /// This differs from `should_rename_simple_name` by also checking against
 /// the whitelist of common short package names (io, org, com, net, etc.)
 /// that should never be treated as obfuscated despite their short length.
+///
+/// JADX Reference: `DeobfLengthCondition.checkName()` uses `len < minLength || len > maxLength`
 fn should_rename_package_segment(name: &str, args: &Args) -> bool {
-    // Never rename well-known short package names
+    // Never rename well-known short package names (TLDs, country codes, etc.)
     if COMMON_PACKAGE_NAMES.contains(name) {
         return false;
     }
-    // Otherwise, apply standard length-based check
+    // Apply same length-based check as JADX: rename if too short or too long
     should_rename_simple_name(name, args)
 }
 

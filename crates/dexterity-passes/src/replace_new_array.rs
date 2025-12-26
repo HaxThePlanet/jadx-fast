@@ -192,7 +192,7 @@ where
 
     // Step 5: Collect puts sorted by index
     // JADX Reference: ReplaceNewArray.java:109-135
-    let mut arr_puts: BTreeMap<i64, ArrayPutInfo> = BTreeMap::new();
+    let arr_puts: BTreeMap<i64, ArrayPutInfo> = BTreeMap::new();
 
     // This is a simplified placeholder - full implementation would:
     // 1. Get result register from NEW_ARRAY instruction

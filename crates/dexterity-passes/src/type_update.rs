@@ -27,11 +27,10 @@
 //!
 //! This transactional approach prevents partial updates on failure.
 
-use std::collections::HashSet;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 
-use dexterity_ir::instructions::{InsnArg, InsnType, InvokeKind, RegisterArg};
+use dexterity_ir::instructions::{InsnArg, InsnType, InvokeKind};
 use dexterity_ir::types::{ArgType, TypeCompare, compare_types};
 use dexterity_ir::ClassHierarchy;
 
@@ -563,6 +562,62 @@ impl TypeUpdateEngine {
     pub fn compare_types(&self, first: &ArgType, second: &ArgType) -> TypeCompare {
         compare_types(first, second, self.hierarchy.as_ref())
     }
+
+    /// Validate a PHI type against all source types
+    ///
+    /// This implements JADX's allSameListener pattern for PHI nodes:
+    /// checks that the candidate type is compatible with all source types.
+    ///
+    /// Returns true if all source types are compatible with the candidate.
+    /// Returns false if any source type conflicts with the candidate.
+    ///
+    /// ## JADX Reference
+    /// TypeUpdate.java:482-500 - allSameListener validates all PHI args match
+    pub fn validate_phi_type(
+        &self,
+        source_types: &[ArgType],
+        candidate_type: &ArgType,
+    ) -> bool {
+        for source_type in source_types {
+            // Skip null types - they're compatible with any object type
+            if matches!(source_type, ArgType::Object(name) if name == "null") {
+                continue;
+            }
+
+            // Skip unknown types - can't validate
+            if matches!(source_type, ArgType::Unknown) {
+                continue;
+            }
+
+            // Compare source type with candidate
+            let cmp = self.compare_types(source_type, candidate_type);
+
+            // Check for conflicts
+            if cmp.is_conflict() {
+                return false;
+            }
+
+            // For PHI, source must be assignable to candidate (same or narrower)
+            // Candidate is the LCA, so sources should be subtypes or equal
+            match cmp {
+                TypeCompare::Equal | TypeCompare::Narrow | TypeCompare::NarrowByGeneric => {
+                    // OK - source is same or more specific than candidate
+                }
+                TypeCompare::Wider | TypeCompare::WiderByGeneric => {
+                    // Source is more general than candidate - this is a conflict
+                    // The LCA should be at least as general as all sources
+                    return false;
+                }
+                TypeCompare::Unknown => {
+                    // Can't determine - allow
+                }
+                TypeCompare::Conflict | TypeCompare::ConflictByGeneric => {
+                    return false;
+                }
+            }
+        }
+        true
+    }
 }
 
 // ============================================================================
@@ -867,11 +922,11 @@ impl TypeUpdateEngine {
         candidate_type: &ArgType,
     ) -> TypeUpdateResult {
         // Try to propagate but don't fail on reject
-        let mut any_changed = false;
+        let any_changed = false;
 
         // This is a simplified version - full implementation would iterate args
         match insn {
-            InsnType::Binary { dest, left, right, .. } => {
+            InsnType::Binary { dest,   .. } => {
                 let dest_var = self.var_for_reg(dest.reg_num, dest.ssa_version);
 
                 if dest_var.map_or(false, |dv| dv != var) {
@@ -1068,6 +1123,7 @@ impl TypeUpdateEngine {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use dexterity_ir::instructions::RegisterArg;
 
     #[test]
     fn test_type_update_result() {

@@ -21,13 +21,14 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 ```
 crates/
 ├── dexterity-dex/         # DEX parsing (~4,500 lines)
-├── dexterity-ir/          # IR types & class hierarchy (~10,744 lines)
-├── dexterity-passes/      # Decompilation passes (~34,200 lines)
-├── dexterity-codegen/     # Java code generation (~18,860 lines)
+├── dexterity-ir/          # IR types & class hierarchy (~18,500 lines)
+├── dexterity-passes/      # Decompilation passes (~51,800 lines)
+├── dexterity-codegen/     # Java code generation (~25,400 lines)
 ├── dexterity-resources/   # AXML & resources.arsc (~4,300 lines)
-├── dexterity-deobf/       # Deobfuscation (~1,850 lines)
-├── dexterity-kotlin/      # Kotlin metadata parsing (~2,100 lines)
-├── dexterity-cli/         # CLI application (~6,100 lines)
+├── dexterity-deobf/       # Deobfuscation (~8,900 lines)
+├── dexterity-kotlin/      # Kotlin metadata parsing (~5,000 lines)
+├── dexterity-cli/         # CLI application (~7,300 lines)
+├── dexterity-clsp/        # JCST classpath database parsing (~350 lines)
 ├── dexterity-error/       # Unified error types
 ├── dexterity-utils/       # Shared utilities
 ├── dexterity-limits/      # Resource limits & safety guards (stack overflow prevention)
@@ -35,7 +36,7 @@ crates/
 └── dexterity-llm-postproc/# LLM post-processing utilities
 ```
 
-Total: ~86,000 lines of Rust (core crates)
+Total: ~126,000 lines of Rust (core crates)
 
 ## Crate Details
 
@@ -95,6 +96,7 @@ Transform IR through analysis passes.
 | `attach_comments.rs` | Diagnostic comment counting/attachment (JADX parity, Dec 25) |
 | `debug_info.rs` | Debug info attach + apply (Stage 0.5/5.1, Dec 25) |
 | `fix_access_modifiers.rs` | Inner class visibility fixes (JADX parity, Dec 25) |
+| `rename_validator_pass.rs` | RenameVisitor orchestration (100% parity Dec 26) |
 
 ### dexterity-codegen (Code Generation)
 
@@ -104,7 +106,7 @@ Emit Java source from IR.
 |------|---------|
 | `class_gen.rs` | Class/interface/enum/annotation generation |
 | `method_gen.rs` | Method signatures and bodies |
-| `body_gen.rs` | Statement and expression generation (~9,710 lines) |
+| `body_gen.rs` | Statement and expression generation (~14,020 lines) |
 | `type_gen.rs` | Type name generation with import handling |
 | `writer.rs` | Java source code writer with formatting |
 | `stdlib_signatures.rs` | Pre-computed library method signatures (~150 methods) |
@@ -129,18 +131,28 @@ Name deobfuscation and mapping support.
 | `alias_provider.rs` | Auto-generates C0001, m0002 style names |
 | `mapping_parser.rs` | ProGuard mapping file parser |
 | `registry.rs` | Thread-safe global alias registry |
+| `rename_validator.rs` | Validation functions (field/method collision, inner class checks) |
+
+**Orchestration pass in dexterity-passes:**
+| `rename_validator_pass.rs` | RenameVisitor orchestrator - invokes all validation functions (100% parity Dec 26) |
 
 ### dexterity-kotlin (Kotlin Support)
 
-Complete Kotlin metadata parsing with BitEncoding decoder ported from Java.
+Complete Kotlin metadata parsing with BitEncoding decoder ported from Java. **BEYOND JADX** - supports advanced Kotlin features that JADX does not.
 
 | File | Purpose |
 |------|---------|
 | `parser.rs` | @Metadata annotation parsing, BitEncoding decoder (UTF-8 + 8-to-7 modes) |
 | `extractor.rs` | Name extraction, modifier application to IR |
+| `types.rs` | Kotlin types: contracts, context receivers, type aliases |
 | `tostring_parser.rs` | toString() bytecode analysis for field names |
 | `proto/jvm_metadata.proto` | StringTableTypes message for d2 string resolution |
 | `proto/metadata.proto` | Full Kotlin metadata protobuf schema |
+
+**Advanced Features (BEYOND JADX):**
+- Function contracts (Kotlin 1.3+) - `@contract callsInPlace(block, EXACTLY_ONCE)`
+- Context receivers (Kotlin 1.6+) - `/* context(Type1, Type2) */`
+- Type aliases (Kotlin 1.1+) - `/* typealias Name = Type */`
 
 ### dexterity-cli (CLI Application)
 
@@ -186,8 +198,8 @@ Command-line interface and decompilation orchestration.
 | dexterity-passes | **90%** | 8 new passes added Dec 22 |
 | dexterity-codegen | **85-90%** | Java source gen - production-ready |
 | dexterity-resources | **100%** | AXML + resources.arsc |
-| dexterity-deobf | **90%** | ProGuard mapping support |
-| dexterity-kotlin | **100%** | Full metadata parsing |
+| dexterity-deobf | **98%** | ProGuard mapping, RenameValidator pass (100% parity Dec 26) |
+| dexterity-kotlin | **>100%** | BEYOND JADX: contracts, context receivers, type aliases |
 | dexterity-cli | **95%** | JADX CLI compatibility |
 
 *Feature completeness vs JADX. See [ROADMAP.md](ROADMAP.md) for grades and status.*
@@ -203,6 +215,8 @@ Command-line interface and decompilation orchestration.
 | **1 Million APKs** | 8 days (current) -> ~5 days (6780E) |
 
 ## Build Commands
+
+**Build Status:** Release build succeeds. Dead code warnings are suppressed with `#[allow(dead_code)]` for intentionally kept APIs (future use or testing).
 
 ```bash
 cd crates

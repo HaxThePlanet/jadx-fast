@@ -120,6 +120,7 @@ fn is_compression_bomb(compressed: u64, uncompressed: u64) -> bool {
 
 /// Read from a ZIP entry with size limit to prevent memory exhaustion.
 /// Default limit: 100MB per entry.
+#[allow(dead_code)]
 fn read_entry_limited<R: std::io::Read>(
     entry: &mut R,
     max_bytes: usize,
@@ -545,10 +546,82 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         let global_field_pool = Arc::new(GlobalFieldPool::new());
         tracing::debug!("Created global field pool for {} DEX files", dex_file_names.len());
 
+        // P1-DEOBF-MULTI-DEX: Create shared alias registry BEFORE processing any DEX files
+        // This ensures consistent package/class/method aliases across all DEX files,
+        // matching JADX's behavior of merging all classes into a single RootNode
+        let alias_registry = std::sync::Arc::new(AliasRegistry::new());
+
+        // Load ProGuard mapping once for all DEX files
+        if let Some(ref mapping_path) = args.mappings_path {
+            if args.mappings_mode != crate::args::MappingsMode::Ignore {
+                match std::fs::read_to_string(mapping_path) {
+                    Ok(content) => {
+                        match parse_proguard_mapping(&content, &alias_registry) {
+                            Ok(()) => {
+                                tracing::info!(
+                                    "Loaded {} class, {} field, {} method mappings from {}",
+                                    alias_registry.class_count(),
+                                    alias_registry.field_count(),
+                                    alias_registry.method_count(),
+                                    mapping_path.display()
+                                );
+                            }
+                            Err(e) => {
+                                tracing::warn!("Failed to parse mapping file {}: {}", mapping_path.display(), e);
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        tracing::warn!("Failed to read mapping file {}: {}", mapping_path.display(), e);
+                    }
+                }
+            }
+        }
+
+        // PASS 1: If deobfuscation or Kotlin metadata is enabled, precompute aliases
+        // across ALL DEX files before processing any of them
+        let needs_deobf_prepass = args.deobfuscation || args.process_kotlin_metadata();
+        if needs_deobf_prepass && dex_file_names.len() > 1 {
+            tracing::info!("Multi-DEX deobfuscation: collecting classes from {} DEX files", dex_file_names.len());
+
+            // Open archive for deobf prepass
+            let file = std::fs::File::open(input)?;
+            let mut archive = zip::ZipArchive::new(file)?;
+
+            for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
+                let mut dex_data = Vec::new();
+                let mut entry = archive.by_name(dex_name)?;
+                entry.read_to_end(&mut dex_data)?;
+
+                let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), &dex_data)?);
+                let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
+
+                if args.deobfuscation {
+                    deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
+                }
+                if args.process_kotlin_metadata() {
+                    deobf::precompute_kotlin_aliases(&dex, &class_indices, &alias_registry);
+                }
+
+                drop(dex_data);
+            }
+
+            tracing::info!(
+                "Multi-DEX deobfuscation complete: {} classes, {} methods, {} fields aliased",
+                alias_registry.class_count(),
+                alias_registry.method_count(),
+                alias_registry.field_count()
+            );
+        }
+
+        // PASS 2: Process each DEX file with the shared alias registry
         // Re-open archive to process DEX files one at a time
-        drop(archive);
         let file = std::fs::File::open(input)?;
         let mut archive = zip::ZipArchive::new(file)?;
+
+        // For multi-DEX with deobf enabled, aliases are already computed
+        // For single-DEX or no deobf, let process_dex_bytes handle it
+        let deobf_already_run = needs_deobf_prepass && dex_file_names.len() > 1;
 
         for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
             tracing::debug!("Processing DEX {}: {}", dex_idx, dex_name);
@@ -558,8 +631,21 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             let mut entry = archive.by_name(dex_name)?;
             entry.read_to_end(&mut dex_data)?;
 
-            // Process it immediately
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, std::sync::Arc::clone(&res_names), std::sync::Arc::clone(&enum_constants), std::sync::Arc::clone(&app_package_name)) {
+            // Process it immediately with the shared alias registry
+            match process_dex_bytes(
+                &dex_data,
+                out_src,
+                args,
+                progress.as_ref(),
+                Arc::clone(&global_field_pool),
+                dex_idx as u32,
+                dex_name,
+                std::sync::Arc::clone(&res_names),
+                std::sync::Arc::clone(&enum_constants),
+                std::sync::Arc::clone(&app_package_name),
+                std::sync::Arc::clone(&alias_registry),
+                deobf_already_run,
+            ) {
                 Ok(count) => total_classes += count,
                 Err(e) => {
                     tracing::warn!("Failed to process {}: {}", dex_name, e);
@@ -715,6 +801,64 @@ fn process_apk_fallback(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, a
 
         let global_field_pool = Arc::new(GlobalFieldPool::new());
 
+        // P1-DEOBF-MULTI-DEX: Create shared alias registry for all DEX files
+        let alias_registry = std::sync::Arc::new(AliasRegistry::new());
+
+        // Load ProGuard mapping once for all DEX files
+        if let Some(ref mapping_path) = args.mappings_path {
+            if args.mappings_mode != crate::args::MappingsMode::Ignore {
+                match std::fs::read_to_string(mapping_path) {
+                    Ok(content) => {
+                        match parse_proguard_mapping(&content, &alias_registry) {
+                            Ok(()) => {
+                                tracing::info!(
+                                    "Loaded {} class, {} field, {} method mappings from {}",
+                                    alias_registry.class_count(),
+                                    alias_registry.field_count(),
+                                    alias_registry.method_count(),
+                                    mapping_path.display()
+                                );
+                            }
+                            Err(e) => {
+                                tracing::warn!("Failed to parse mapping file {}: {}", mapping_path.display(), e);
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        tracing::warn!("Failed to read mapping file {}: {}", mapping_path.display(), e);
+                    }
+                }
+            }
+        }
+
+        // PASS 1: Precompute deobfuscation aliases across all DEX files
+        let needs_deobf_prepass = args.deobfuscation || args.process_kotlin_metadata();
+        if needs_deobf_prepass && dex_entries.len() > 1 {
+            tracing::info!("Multi-DEX deobfuscation (fallback): collecting classes from {} DEX files", dex_entries.len());
+
+            for (dex_idx, (dex_name, dex_data)) in dex_entries.iter().enumerate() {
+                let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), dex_data)?);
+                let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
+
+                if args.deobfuscation {
+                    deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
+                }
+                if args.process_kotlin_metadata() {
+                    deobf::precompute_kotlin_aliases(&dex, &class_indices, &alias_registry);
+                }
+            }
+
+            tracing::info!(
+                "Multi-DEX deobfuscation complete: {} classes, {} methods, {} fields aliased",
+                alias_registry.class_count(),
+                alias_registry.method_count(),
+                alias_registry.field_count()
+            );
+        }
+
+        // PASS 2: Process each DEX file with shared alias registry
+        let deobf_already_run = needs_deobf_prepass && dex_entries.len() > 1;
+
         for (dex_idx, (dex_name, dex_data)) in dex_entries.iter().enumerate() {
             tracing::debug!("Processing DEX {}: {}", dex_idx, dex_name);
 
@@ -729,6 +873,8 @@ fn process_apk_fallback(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, a
                 Arc::clone(&res_names),
                 Arc::clone(&enum_constants),
                 Arc::clone(&app_package_name),
+                Arc::clone(&alias_registry),
+                deobf_already_run,
             ) {
                 Ok(count) => total_classes += count,
                 Err(e) => {
@@ -755,6 +901,7 @@ fn process_apk_fallback(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, a
     Ok(())
 }
 
+#[allow(dead_code)]
 fn process_resources_streaming(
     out_res: &PathBuf,
     manifest_data: Option<Vec<u8>>,
@@ -1031,7 +1178,8 @@ fn process_dex(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     let res_names = Arc::new(std::collections::HashMap::new()); // DEX files don't have resources
     let enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
     let app_package_name = Arc::new(None); // DEX files don't have ARSC resources
-    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), 0, dex_name, Arc::clone(&res_names), Arc::clone(&enum_constants), Arc::clone(&app_package_name))?;
+    let alias_registry = std::sync::Arc::new(AliasRegistry::new()); // Single DEX file, let process_dex_bytes handle deobf
+    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), 0, dex_name, Arc::clone(&res_names), Arc::clone(&enum_constants), Arc::clone(&app_package_name), alias_registry, false)?;
 
     if let Some(pb) = progress {
         pb.finish_with_message("done");
@@ -1097,8 +1245,50 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
         let mut total_classes = 0;
         let global_field_pool = Arc::new(GlobalFieldPool::new());
 
-        // Re-open archive to process DEX files one at a time
-        drop(archive);
+        // P1-DEOBF-MULTI-DEX: Create shared alias registry for all DEX files in JAR
+        let alias_registry = std::sync::Arc::new(AliasRegistry::new());
+        let empty_res_names = Arc::new(std::collections::HashMap::new());
+        let empty_enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
+        let empty_package_name = Arc::new(None);
+
+        // PASS 1: Precompute deobfuscation aliases across all DEX files
+        let needs_deobf_prepass = args.deobfuscation || args.process_kotlin_metadata();
+        if needs_deobf_prepass && dex_file_names.len() > 1 {
+            tracing::info!("Multi-DEX deobfuscation (JAR): collecting classes from {} DEX files", dex_file_names.len());
+
+            drop(archive);
+            let file = std::fs::File::open(input)?;
+            let mut archive = zip::ZipArchive::new(file)?;
+
+            for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
+                let mut dex_data = Vec::new();
+                let mut entry = archive.by_name(dex_name)?;
+                entry.read_to_end(&mut dex_data)?;
+
+                let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), &dex_data)?);
+                let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
+
+                if args.deobfuscation {
+                    deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
+                }
+                if args.process_kotlin_metadata() {
+                    deobf::precompute_kotlin_aliases(&dex, &class_indices, &alias_registry);
+                }
+
+                drop(dex_data);
+            }
+
+            tracing::info!(
+                "Multi-DEX deobfuscation complete: {} classes, {} methods, {} fields aliased",
+                alias_registry.class_count(),
+                alias_registry.method_count(),
+                alias_registry.field_count()
+            );
+        }
+
+        // PASS 2: Process each DEX file with shared alias registry
+        let deobf_already_run = needs_deobf_prepass && dex_file_names.len() > 1;
+
         let file = std::fs::File::open(input)?;
         let mut archive = zip::ZipArchive::new(file)?;
 
@@ -1111,10 +1301,7 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
             entry.read_to_end(&mut dex_data)?;
 
             // Process it immediately - JAR DEX files have no resource mappings
-            let empty_res_names = Arc::new(std::collections::HashMap::new());
-            let empty_enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
-            let empty_package_name = Arc::new(None);
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, Arc::clone(&empty_res_names), Arc::clone(&empty_enum_constants), Arc::clone(&empty_package_name)) {
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, Arc::clone(&empty_res_names), Arc::clone(&empty_enum_constants), Arc::clone(&empty_package_name), Arc::clone(&alias_registry), deobf_already_run) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
@@ -1251,8 +1438,50 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         let mut total_classes = 0;
         let global_field_pool = Arc::new(GlobalFieldPool::new());
 
-        // Re-open archive to process DEX files one at a time
-        drop(archive);
+        // P1-DEOBF-MULTI-DEX: Create shared alias registry for all DEX files in AAR
+        let alias_registry = std::sync::Arc::new(AliasRegistry::new());
+        let empty_res_names = Arc::new(std::collections::HashMap::new());
+        let empty_enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
+        let empty_package_name = Arc::new(None);
+
+        // PASS 1: Precompute deobfuscation aliases across all DEX files
+        let needs_deobf_prepass = args.deobfuscation || args.process_kotlin_metadata();
+        if needs_deobf_prepass && dex_file_names.len() > 1 {
+            tracing::info!("Multi-DEX deobfuscation (AAR): collecting classes from {} DEX files", dex_file_names.len());
+
+            drop(archive);
+            let file = std::fs::File::open(input)?;
+            let mut archive = zip::ZipArchive::new(file)?;
+
+            for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
+                let mut dex_data = Vec::new();
+                let mut entry = archive.by_name(dex_name)?;
+                entry.read_to_end(&mut dex_data)?;
+
+                let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), &dex_data)?);
+                let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
+
+                if args.deobfuscation {
+                    deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
+                }
+                if args.process_kotlin_metadata() {
+                    deobf::precompute_kotlin_aliases(&dex, &class_indices, &alias_registry);
+                }
+
+                drop(dex_data);
+            }
+
+            tracing::info!(
+                "Multi-DEX deobfuscation complete: {} classes, {} methods, {} fields aliased",
+                alias_registry.class_count(),
+                alias_registry.method_count(),
+                alias_registry.field_count()
+            );
+        }
+
+        // PASS 2: Process each DEX file with shared alias registry
+        let deobf_already_run = needs_deobf_prepass && dex_file_names.len() > 1;
+
         let file = std::fs::File::open(input)?;
         let mut archive = zip::ZipArchive::new(file)?;
 
@@ -1264,11 +1493,8 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             let mut entry = archive.by_name(dex_name)?;
             entry.read_to_end(&mut dex_data)?;
 
-            // Process it immediately - AAB DEX files have no resource mappings
-            let empty_res_names = Arc::new(std::collections::HashMap::new());
-            let empty_enum_constants: Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>> = Arc::new(std::collections::HashMap::new());
-            let empty_package_name = Arc::new(None);
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, empty_res_names, Arc::clone(&empty_enum_constants), Arc::clone(&empty_package_name)) {
+            // Process it immediately - AAR DEX files have no resource mappings
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, Arc::clone(&empty_res_names), Arc::clone(&empty_enum_constants), Arc::clone(&empty_package_name), Arc::clone(&alias_registry), deobf_already_run) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
@@ -1395,6 +1621,8 @@ fn process_dex_bytes(
     res_names: std::sync::Arc<std::collections::HashMap<u32, String>>,
     enum_constants: std::sync::Arc<std::collections::HashMap<String, std::collections::HashMap<i32, String>>>,
     app_package_name: std::sync::Arc<Option<String>>,
+    alias_registry: std::sync::Arc<AliasRegistry>,
+    deobf_already_run: bool,
 ) -> Result<usize> {
     mem_checkpoint!("before DexReader");
 
@@ -1582,51 +1810,52 @@ fn process_dex_bytes(
     // Wrap LazyDexInfo in Arc for sharing across threads
     let dex_info: std::sync::Arc<dyn DexInfoProvider> = std::sync::Arc::new(dex_info);
 
-    // Create global alias registry for deobfuscation (used for cross-reference resolution)
-    let alias_registry = std::sync::Arc::new(AliasRegistry::new());
+    // Note: alias_registry is now passed in from caller to enable multi-DEX sharing
 
-    // Load ProGuard mapping file if provided
-    if let Some(ref mapping_path) = args.mappings_path {
-        if args.mappings_mode != crate::args::MappingsMode::Ignore {
-            match std::fs::read_to_string(mapping_path) {
-                Ok(content) => {
-                    match parse_proguard_mapping(&content, &alias_registry) {
-                        Ok(()) => {
-                            tracing::info!(
-                                "Loaded {} class, {} field, {} method mappings from {}",
-                                alias_registry.class_count(),
-                                alias_registry.field_count(),
-                                alias_registry.method_count(),
-                                mapping_path.display()
-                            );
-                        }
-                        Err(e) => {
-                            tracing::warn!("Failed to parse mapping file {}: {}", mapping_path.display(), e);
+    // Load ProGuard mapping file if provided (only if not already loaded at APK level)
+    if !deobf_already_run {
+        if let Some(ref mapping_path) = args.mappings_path {
+            if args.mappings_mode != crate::args::MappingsMode::Ignore {
+                match std::fs::read_to_string(mapping_path) {
+                    Ok(content) => {
+                        match parse_proguard_mapping(&content, &alias_registry) {
+                            Ok(()) => {
+                                tracing::info!(
+                                    "Loaded {} class, {} field, {} method mappings from {}",
+                                    alias_registry.class_count(),
+                                    alias_registry.field_count(),
+                                    alias_registry.method_count(),
+                                    mapping_path.display()
+                                );
+                            }
+                            Err(e) => {
+                                tracing::warn!("Failed to parse mapping file {}: {}", mapping_path.display(), e);
+                            }
                         }
                     }
-                }
-                Err(e) => {
-                    tracing::warn!("Failed to read mapping file {}: {}", mapping_path.display(), e);
+                    Err(e) => {
+                        tracing::warn!("Failed to read mapping file {}: {}", mapping_path.display(), e);
+                    }
                 }
             }
         }
-    }
 
-    // Deterministic deobfuscation prepass (populate registry once, then apply per-class)
-    if args.deobfuscation {
-        tracing::info!(
-            "Deobfuscation enabled (min={}, max={})",
-            args.deobf_min_length,
-            args.deobf_max_length
-        );
-        deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
-    }
+        // Deterministic deobfuscation prepass (populate registry once, then apply per-class)
+        if args.deobfuscation {
+            tracing::info!(
+                "Deobfuscation enabled (min={}, max={})",
+                args.deobf_min_length,
+                args.deobf_max_length
+            );
+            deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
+        }
 
-    // Kotlin metadata prepass: extract class aliases for cross-reference resolution
-    // This runs even when deobfuscation is disabled, as Kotlin classes may have
-    // obfuscated names (by R8/ProGuard) with aliases stored in @kotlin.Metadata
-    if args.process_kotlin_metadata() {
-        deobf::precompute_kotlin_aliases(&dex, &class_indices, &alias_registry);
+        // Kotlin metadata prepass: extract class aliases for cross-reference resolution
+        // This runs even when deobfuscation is disabled, as Kotlin classes may have
+        // obfuscated names (by R8/ProGuard) with aliases stored in @kotlin.Metadata
+        if args.process_kotlin_metadata() {
+            deobf::precompute_kotlin_aliases(&dex, &class_indices, &alias_registry);
+        }
     }
 
     // Build class hierarchy for type inference (enables LCA, subtype checking)
@@ -1741,6 +1970,14 @@ fn process_dex_bytes(
     let inline_anonymous = args.inline_anonymous();
     let add_debug_lines = args.add_debug_lines;
     let inline_methods = args.inline_methods();
+    let deobfuscation = args.deobfuscation;
+    let fs_case_sensitive = args.fs_case_sensitive;
+
+    // Create shared alias provider for rename validation (thread-safe atomic counters)
+    // JADX Reference: RenameVisitor uses IAliasProvider for collision renaming
+    let rename_alias_provider = std::sync::Arc::new(
+        dexterity_deobf::DeobfAliasProvider::new(args.deobf_max_length)
+    );
 
     // Prepare progress bar for parallel use
     let progress_ref = progress.as_ref();
@@ -1774,8 +2011,7 @@ fn process_dex_bytes(
         if pc % 1000 == 0 { // Reduced frequency for better parallel scaling
             let mem = get_mem_mb();
             eprintln!("MEM[class {}]: {} MB", pc, mem);
-            // Memory limit check disabled - memory growth investigation in progress
-            // See: https://github.com/dexterity-decompiler/dexterity/issues/XXX
+            // Memory limit check disabled - memory growth investigation complete
         }
 
         let out_path = {
@@ -1802,6 +2038,19 @@ fn process_dex_bytes(
 
                             // Apply aliases from deterministic prepass (if any)
                             deobf::apply_aliases_from_registry(&mut class_data, &alias_registry);
+
+                            // P1-RENAME-VALIDATION: Apply per-class rename validation
+                            // JADX Reference: RenameVisitor.checkFields() and checkMethods()
+                            // This validates and fixes field/method names within the class
+                            if deobfuscation {
+                                dexterity_passes::validate_class_names(
+                                    &mut class_data,
+                                    rename_alias_provider.as_ref(),
+                                    true,  // rename_valid: check for valid Java identifiers
+                                    true,  // rename_printable: check for printable characters
+                                );
+                            }
+
                             class_data
                         })
                         .map_err(|e| format!("Failed to convert: {}", e))
@@ -1829,6 +2078,17 @@ fn process_dex_bytes(
                                         }
                                         // Apply aliases
                                         deobf::apply_aliases_from_registry(&mut inner_data, &alias_registry);
+
+                                        // P1-RENAME-VALIDATION: Apply per-class rename validation for inner classes
+                                        if deobfuscation {
+                                            dexterity_passes::validate_class_names(
+                                                &mut inner_data,
+                                                rename_alias_provider.as_ref(),
+                                                true,
+                                                true,
+                                            );
+                                        }
+
                                         // Load instructions
                                         for method in &mut inner_data.methods {
                                             let _ = converter::load_method_instructions(method, &dex);

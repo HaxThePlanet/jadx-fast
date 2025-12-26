@@ -55,7 +55,7 @@
 //! ```
 
 use dexterity_ir::instructions::{InsnNode, InsnType};
-use dexterity_ir::regions::{Region, CaseInfo};
+use dexterity_ir::regions::Region;
 
 /// Result of the switch break visitor pass
 #[derive(Debug, Default)]

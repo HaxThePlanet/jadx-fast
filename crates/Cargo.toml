@@ -20,6 +20,7 @@ members = [
     "dexterity-py",            # Python bindings via PyO3
     "dexterity-limits",        # Centralized limits and safety guards
     "dexterity-error",         # Error types
+    "dexterity-clsp",          # JADX classpath database for throws declarations
 ]
 
 [workspace.package]
@@ -65,6 +66,7 @@ anyhow = "1.0"
 # Logging
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+log = "0.4"
 
 # Fast formatting
 itoa = "1.0"
@@ -97,6 +99,7 @@ dexterity-kotlin = { path = "dexterity-kotlin" }
 dexterity-llm-postproc = { path = "dexterity-llm-postproc" }
 dexterity-limits = { path = "dexterity-limits" }
 dexterity-error = { path = "dexterity-error" }
+dexterity-clsp = { path = "dexterity-clsp" }
 
 # Fast release builds (default: cargo build --release)
 [profile.release]

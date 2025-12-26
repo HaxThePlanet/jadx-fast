@@ -59,6 +59,7 @@ pub mod process_try_catch_regions; // NEW: JADX ProcessTryCatchRegions clone
 pub mod process_variables;
 pub mod region_builder;
 pub mod rename_visitor;     // NEW: JADX RenameVisitor + NameMapper clone (deobfuscation)
+pub mod rename_validator_pass;  // NEW: JADX RenameVisitor orchestrator (100% parity)
 pub mod replace_new_array;  // NEW: JADX ReplaceNewArray clone
 pub mod return_visitor;
 pub mod shadow_field;
@@ -128,7 +129,8 @@ pub use ternary_mod::{
     TernaryModVisitorFull, SingleBranchTernaryResult, ElseValue,
 };
 pub use enum_visitor::{
-    analyze_enum_class, analyze_enum_class_with_strings, is_enum_synthetic_method, is_values_field,
+    analyze_enum_class, analyze_enum_class_with_strings, analyze_enum_class_with_strings_and_methods,
+    is_enum_synthetic_method, is_values_field,
     EnumArg, EnumClassInfo, EnumFieldInfo, EnumVisitorResult,
 };
 pub use prepare_for_codegen::{prepare_for_codegen, PrepareForCodeGenResult};
@@ -310,6 +312,10 @@ pub use rename_visitor::{
     AliasProvider, RenameReason, RenameReasonType, RenameResult,
     // Constants
     ANONYMOUS_CLASS_PREFIX, DEFAULT_PACKAGE_NAME,
+};
+pub use rename_validator_pass::{
+    apply_rename_validation, apply_rename_validation_default, validate_class_names,
+    RenameValidationResult,
 };
 
 /// Pass trait for decompilation passes

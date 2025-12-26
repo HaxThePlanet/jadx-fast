@@ -10,7 +10,7 @@
 use std::collections::{HashMap, HashSet, VecDeque};
 
 use dexterity_ir::info::DebugInfo;
-use dexterity_ir::ssa::{SSAContext, SSAVarRef, CodeVarId};
+use dexterity_ir::ssa::{SSAContext, SSAVarRef};
 use dexterity_ir::types::ArgType;
 
 use crate::ssa::SsaResult;
@@ -602,7 +602,7 @@ fn build_code_vars(ssa: &SsaResult, type_info: &TypeInferenceResult, method_name
     let debug_ssa = should_debug_ssa(method_name);
 
     // Helper to add bidirectional connection if types AND semantic origins are compatible
-    let mut add_connection = |v1: (u16, u32), v2: (u16, u32), connections: &mut HashMap<(u16, u32), HashSet<(u16, u32)>>, debug: bool| {
+    let add_connection = |v1: (u16, u32), v2: (u16, u32), connections: &mut HashMap<(u16, u32), HashSet<(u16, u32)>>, debug: bool| {
         // Check semantic origins first (P1-S07 fix)
         let o1 = semantic_origins.get(&v1).copied().unwrap_or(SemanticOrigin::Other);
         let o2 = semantic_origins.get(&v2).copied().unwrap_or(SemanticOrigin::Other);

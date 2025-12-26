@@ -67,6 +67,7 @@ impl LocalFileHeader {
 
 /// Recovered ZIP entry with decompressed data
 #[derive(Debug)]
+#[allow(dead_code)]
 pub struct RecoveredEntry {
     /// Entry filename
     pub name: String,
@@ -256,6 +257,7 @@ pub fn decompress_entry(data: &[u8], header: &LocalFileHeader) -> Result<Vec<u8>
 
 /// Process all recovered entries and return those matching the given filter.
 /// Useful for extracting only DEX files, manifest, etc.
+#[allow(dead_code)]
 pub fn recover_entries<F>(data: &[u8], filter: F) -> Vec<RecoveredEntry>
 where
     F: Fn(&str) -> bool,

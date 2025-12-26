@@ -14,7 +14,7 @@
 //! - Method argument preservation: keep existing valid names
 
 use std::collections::HashMap;
-use dexterity_ir::instructions::{InsnNode, InsnType, InvokeKind};
+use dexterity_ir::instructions::{InsnNode, InsnType};
 use dexterity_ir::types::ArgType;
 use crate::ssa::SsaResult;
 
@@ -205,13 +205,13 @@ fn guess_name(
 /// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ApplyVariableNames.java:124-159
 fn make_name_from_insn(insn: &InsnNode, obj_alias: &HashMap<&str, &str>) -> Option<String> {
     match &insn.insn_type {
-        InsnType::Invoke { method_idx, kind, .. } => {
+        InsnType::Invoke {   .. } => {
             // Would need method info to get method name
             // For now, return None and fall back to type-based naming
             None
         }
 
-        InsnType::NewInstance { type_idx, .. } => {
+        InsnType::NewInstance {  .. } => {
             // Constructor - use class name
             // Would need type info to get class name
             None

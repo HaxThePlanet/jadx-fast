@@ -9,8 +9,7 @@
 //! Based on JADX's UsageInfoVisitor.java and UsageInfo.java.
 
 use std::collections::{HashMap, HashSet};
-use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType};
-use dexterity_ir::types::ArgType;
+use dexterity_ir::instructions::{InsnNode, InsnType};
 
 /// Usage information for a DEX file
 ///

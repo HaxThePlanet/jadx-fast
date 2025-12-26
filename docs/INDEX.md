@@ -2,7 +2,7 @@
 
 High-performance Android decompiler written in Rust, targeting JADX parity.
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 Bugs | Dec 26, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P1-CG | 0 P2-CG | Build: CLEAN | Dec 26, 2025
 **Performance:** 14x faster than JADX | 5.2K apps/hour @ 2.7 sec avg
 **Security:** Anti-RE ZIP hardening | 83% bad APK recovery (was 43%)
 
@@ -32,7 +32,7 @@ High-performance Android decompiler written in Rust, targeting JADX parity.
 
 | Document | Description |
 |----------|-------------|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Crate structure (86K lines), pipeline overview |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Crate structure (~126K lines), pipeline overview |
 | [DESIGN_DECISIONS.md](DESIGN_DECISIONS.md) | Framework filtering, Compose detection, design rationale |
 | [CODE_NAVIGATION.md](CODE_NAVIGATION.md) | Finding your way around the codebase |
 | [OPTIMIZATION_PLAN.md](OPTIMIZATION_PLAN.md) | Performance optimization roadmap |
@@ -80,8 +80,8 @@ Status of Dexterity vs JADX feature parity:
 | [IR_CLONE_STATUS.md](IR_CLONE_STATUS.md) | B (85%) | JADX IR clone status |
 | [IR_REMAINING_TASKS.md](IR_REMAINING_TASKS.md) | - | Open IR work |
 | [PASSES_PARITY.md](PASSES_PARITY.md) | B- (80%) | 86/105 JADX passes |
-| [KOTLIN_PARITY.md](KOTLIN_PARITY.md) | B+ (85%) | Field aliases working |
-| [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) | A- (90%) | ProGuard/JOBF support |
+| [KOTLIN_PARITY.md](KOTLIN_PARITY.md) | A (~95%) | BEYOND JADX: contracts, context receivers, type aliases |
+| [JADX_DEOBF_PARITY_AUDIT.md](JADX_DEOBF_PARITY_AUDIT.md) | A (~98%) | ProGuard/JOBF/RenameValidator (100% parity Dec 26) |
 | [CLONE_TASKS.md](CLONE_TASKS.md) | - | Remaining JADX features to port |
 
 ---

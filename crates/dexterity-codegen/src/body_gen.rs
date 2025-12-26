@@ -8194,9 +8194,22 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
             for (i, handler) in handlers.iter().enumerate() {
                 // Generate catch clause - support multi-catch syntax
                 // Track both the exception variable name and its type for proper declaration tracking
+
+                // GAP-NAMED-ARG-CATCH fix: Check for move-exception FIRST to determine if exception is used
+                // If no move-exception instruction exists, the exception is unused and should be named "unused"
+                // This matches JADX behavior (RegionGen.java:367-377, BlockExceptionHandler.java:507)
+                let entry_block = get_handler_entry_block(&handler.region);
+                let has_move_exception = entry_block
+                    .map(|eb| find_move_exception_dest(eb, ctx).is_some())
+                    .unwrap_or(false);
+
                 let (exc_var, exc_type) = if handler.catch_all {
                     // Catch-all handler
-                    let exc_var = generate_exception_var_name("Throwable", i);
+                    let exc_var = if has_move_exception {
+                        generate_exception_var_name("Throwable", i)
+                    } else {
+                        "unused".to_string()
+                    };
                     code.start_line()
                         .add("} catch (Throwable ")
                         .add(&exc_var)
@@ -8213,7 +8226,11 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                     let first_type = exc_types.first()
                         .map(|s| s.as_str())
                         .unwrap_or("Exception");
-                    let exc_var = generate_exception_var_name(first_type, i);
+                    let exc_var = if has_move_exception {
+                        generate_exception_var_name(first_type, i)
+                    } else {
+                        "unused".to_string()
+                    };
                     // Use first exception type for tracking (they're all compatible via multi-catch)
                     let first_internal = handler.exception_types.first()
                         .cloned()
@@ -8232,7 +8249,11 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                     let exc_type_internal = handler.exception_type()
                         .unwrap_or("java/lang/Exception");
                     let exc_type = object_to_java_name(exc_type_internal);
-                    let exc_var = generate_exception_var_name(&exc_type, i);
+                    let exc_var = if has_move_exception {
+                        generate_exception_var_name(&exc_type, i)
+                    } else {
+                        "unused".to_string()
+                    };
                     code.start_line()
                         .add("} catch (")
                         .add(&exc_type)
@@ -8248,13 +8269,14 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
 
                 // Enter exception handler context for proper variable handling
                 // Also link the exception variable name to the MoveException register
-                if let Some(entry_block) = get_handler_entry_block(&handler.region) {
-                    ctx.enter_exception_handler(entry_block);
+                // Note: entry_block was already computed above for has_move_exception check
+                if let Some(eb) = entry_block {
+                    ctx.enter_exception_handler(eb);
 
-                    // FIX: Link the generated exception variable name to the actual exception register
+                    // Link the generated exception variable name to the actual exception register
                     // This ensures that references to the exception inside the catch block use the correct name
                     // Without this, the exception register might use a different/generated name
-                    if let Some((reg, version)) = find_move_exception_dest(entry_block, ctx) {
+                    if let Some((reg, version)) = find_move_exception_dest(eb, ctx) {
                         ctx.expr_gen.set_var_name(reg, version, exc_var.clone());
                         ctx.expr_gen.set_var_type(reg, version, exc_type.clone());
                     }
@@ -12697,42 +12719,54 @@ fn generate_insn<W: CodeWriter>(
             ///
             /// This pattern applies when:
             /// 1. The class is an inner class (name contains '$')
-            /// 2. First argument is the outer class instance (not 'this')
-            /// 3. The first argument's type matches the outer class
+            /// 2. First constructor parameter type matches the outer class
+            /// 3. First argument is NOT 'this' (if 'this', skip first arg but no prefix)
             let (type_name, outer_prefix, skip_first_arg) = if full_type_name.contains('$') {
-                // Inner class - check if first arg is outer instance
-                if let Some(first_arg) = args.first() {
-                    let first_arg_str = ctx.gen_arg_inline(first_arg);
-                    // Skip if first arg is 'this' - no prefix needed
-                    if first_arg_str != "this" {
-                        // Extract outer class name and inner class short name
-                        // e.g., "Outer$Inner" -> outer="Outer", inner="Inner"
-                        if let Some(dollar_pos) = full_type_name.rfind('$') {
-                            let _outer_class = &full_type_name[..dollar_pos]; // Used for type matching in JADX
-                            let inner_short = &full_type_name[dollar_pos + 1..];
+                // Inner class - check if first param type matches outer class
+                if let Some(dollar_pos) = full_type_name.rfind('$') {
+                    let outer_class = &full_type_name[..dollar_pos];
+                    let inner_short = &full_type_name[dollar_pos + 1..];
 
-                            // Check if first arg type matches outer class
-                            // This is a heuristic - we check if the arg could be the outer instance
-                            // In JADX, they check if arg.getType().equals(ctrCls.getDeclaringClass().getType())
-                            // We'll use a simpler heuristic based on naming
-                            let use_prefix = !first_arg_str.starts_with("new ");
+                    // Get constructor method info to check first parameter type
+                    // JADX checks: arg.getType().equals(ctrCls.getDeclaringClass().getType())
+                    let method_info = ctx.expr_gen.get_method_value(*method_idx);
+                    let first_param_matches_outer = method_info.as_ref()
+                        .and_then(|info| info.param_types.first())
+                        .map(|first_param| {
+                            // Check if first param type matches outer class
+                            // first_param could be: ArgType::Object("com/example/Outer") or
+                            // ArgType::Object("Lcom/example/Outer;")
+                            match first_param {
+                                ArgType::Object(type_str) => {
+                                    // Normalize: strip L prefix and ; suffix if present
+                                    let normalized = type_str.trim_start_matches('L').trim_end_matches(';');
+                                    // Also convert slashes to match full_type_name format
+                                    let normalized = normalized.replace('/', ".");
+                                    let outer_normalized = outer_class.replace('/', ".");
+                                    normalized == outer_normalized || normalized == outer_class
+                                }
+                                _ => false,
+                            }
+                        })
+                        .unwrap_or(false);
 
-                            if use_prefix {
-                                (inner_short.to_string(), Some(format!("{}.", first_arg_str)), true)
+                    if first_param_matches_outer {
+                        // First param type matches outer class - check if we need prefix
+                        if let Some(first_arg) = args.first() {
+                            let first_arg_str = ctx.gen_arg_inline(first_arg);
+                            if first_arg_str == "this" {
+                                // First arg is 'this' - skip first arg, no prefix needed
+                                (inner_short.to_string(), None, true)
                             } else {
-                                (full_type_name.clone(), None, false)
+                                // First arg is outer instance - use outer.new Inner() syntax
+                                (inner_short.to_string(), Some(format!("{}.", first_arg_str)), true)
                             }
                         } else {
                             (full_type_name.clone(), None, false)
                         }
                     } else {
-                        // First arg is 'this' - use short name but no prefix
-                        if let Some(dollar_pos) = full_type_name.rfind('$') {
-                            let inner_short = &full_type_name[dollar_pos + 1..];
-                            (inner_short.to_string(), None, true)
-                        } else {
-                            (full_type_name.clone(), None, false)
-                        }
+                        // First param doesn't match outer class - use full name
+                        (full_type_name.clone(), None, false)
                     }
                 } else {
                     (full_type_name.clone(), None, false)

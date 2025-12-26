@@ -98,7 +98,7 @@ pub fn simplify_stringbuilder_chains(
             }
 
             // Look for Invoke instructions
-            if let InsnType::Invoke { method_idx, args, dest, kind, .. } = &insn.insn_type {
+            if let InsnType::Invoke { method_idx, args, dest,  .. } = &insn.insn_type {
                 // Resolve method to check if it's StringBuilder.toString()
                 if let Some(method_info) = method_resolver(*method_idx) {
                     // Debug: log StringBuilder-related calls
@@ -218,7 +218,7 @@ fn collect_use_chain(
 
     // Collect the chain: definition + all uses
     // All instructions must be in the same block (JADX requirement)
-    let mut chain_block = *def_block;
+    let chain_block = *def_block;
     let mut chain: Vec<(usize, &InsnNode)> = Vec::new();
 
     // Add definition

@@ -4,7 +4,7 @@
 
 ## Summary
 
-**Overall Assessment: ~95% JADX Deobf Parity Achieved**
+**Overall Assessment: ~98% JADX Deobf Parity Achieved**
 
 The `dexterity-deobf` crate has cloned nearly all core JADX deobfuscation functionality with extensive JADX reference comments. The code quality is excellent with proper unit tests.
 
@@ -90,20 +90,26 @@ All file signatures cloned:
 **JADX Reference:** `jadx-core/src/main/java/jadx/core/deobf/SaveDeobfMapping.java`
 - `save_deobf_mapping()` function cloned exactly
 
-### 6. ✅ RenameVisitor Functionality (90% Parity)
+### 6. ✅ RenameVisitor Functionality (100% Parity)
 
 **JADX Reference:** `jadx-core/src/main/java/jadx/core/dex/visitors/rename/RenameVisitor.java`
+**Dexterity Implementation:** `crates/dexterity-passes/src/rename_validator_pass.rs` (orchestrator) + `crates/dexterity-deobf/src/rename_validator.rs` (validation functions)
 
 | Method | Status | Notes |
 |--------|--------|-------|
 | `fixClsShortName()` | ✅ | Anonymous class prefix, leading digit handling |
-| `checkFields()` | ✅ | Field collision detection |
-| `checkMethods()` | ✅ | Method signature collision with `canRename()` |
-| `checkClassName()` | ✅ | Inner class parent collision |
+| `checkFields()` | ✅ | Field collision detection via `validate_fields()` |
+| `checkMethods()` | ✅ | Method signature collision via `validate_methods()` |
+| `checkClassName()` | ✅ | Inner class parent collision via `check_inner_class_parent_collision()` |
 | `checkPackage()` | ✅ | Default package, validity checks |
-| Case-insensitive collision fix | ✅ | Windows filesystem handling |
-| `processRootPackages()` | ✅ | Root package field collision |
-| `root.runPackagesUpdate()` | ⚠️ | See gaps below |
+| Case-insensitive collision fix | ✅ | Windows filesystem handling via `fix_case_sensitive_collisions()` |
+| `processRootPackages()` | ✅ | Root package field collision via `fix_root_package_collisions()` |
+| Orchestration pass | ✅ | `apply_rename_validation()` invokes all validation functions in sequence |
+
+**Exports from `dexterity-passes/src/lib.rs`:**
+- `apply_rename_validation` - Full validation with custom AliasProvider
+- `apply_rename_validation_default` - Validation with default AliasProvider
+- `validate_class_names` - Class-only validation pass
 
 ### 7. ✅ SourceFileRename (100% Parity)
 

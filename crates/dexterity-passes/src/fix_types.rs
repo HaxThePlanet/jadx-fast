@@ -16,13 +16,11 @@
 //!
 //! Based on JADX's FixTypesVisitor.java (844 lines)
 
-use std::collections::HashMap;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 
-use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
 use dexterity_ir::types::ArgType;
-use dexterity_ir::{ClassHierarchy, TypeCompare};
+use dexterity_ir::ClassHierarchy;
 
 use crate::ssa::SsaResult;
 use crate::type_bound::{BoundEnum, TypeInfo};

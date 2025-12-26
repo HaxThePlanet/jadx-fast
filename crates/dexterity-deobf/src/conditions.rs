@@ -86,6 +86,7 @@ pub enum Action {
 }
 
 // Backwards compatibility aliases
+#[allow(non_upper_case_globals)]
 impl Action {
     /// Alias for ForbidRename (legacy name)
     pub const DontRename: Action = Action::ForbidRename;

@@ -174,7 +174,7 @@ where
             // JADX Reference: ProcessTryCatchRegions.java:73-76
             return wrap_blocks(body, tb, has_path_through, is_handler_path);
         }
-        Region::If { then_region, else_region, .. } => {
+        Region::If {   .. } => {
             // For branch regions, wrap in parent
             // JADX Reference: ProcessTryCatchRegions.java:77-79
             // Would need parent reference to properly handle this

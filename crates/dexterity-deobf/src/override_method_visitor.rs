@@ -640,7 +640,7 @@ pub fn fix_method_arg_types(
     let mut new_arg_types = Vec::with_capacity(method.arg_types.len());
 
     // JADX: for (int argNum = 0; argNum < argCount; argNum++)
-    for (i, (mth_arg, base_arg)) in method.arg_types.iter().zip(base_method.arg_types.iter()).enumerate() {
+    for (_i, (mth_arg, base_arg)) in method.arg_types.iter().zip(base_method.arg_types.iter()).enumerate() {
         if let Some(new_type) = update_arg_type(mth_arg, base_arg, base_class_type, super_data) {
             changed = true;
             new_arg_types.push(new_type);

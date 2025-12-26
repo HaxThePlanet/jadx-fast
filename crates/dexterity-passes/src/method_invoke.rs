@@ -184,7 +184,7 @@ pub fn find_required_casts(
     overloaded_methods: &[MethodDetails],
 ) -> Vec<Option<ArgType>> {
     let arg_count = invoke_args.len();
-    let mut casts = vec![None; arg_count];
+    let casts = vec![None; arg_count];
 
     // If no overloads, no casts needed
     if overloaded_methods.is_empty() {

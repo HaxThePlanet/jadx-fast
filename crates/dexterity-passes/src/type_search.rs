@@ -25,7 +25,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use dexterity_ir::types::{compare_types, ArgType, TypeCompare};
 use dexterity_ir::ClassHierarchy;
 
-use crate::type_bound::{BoundEnum, TypeInfo};
+use crate::type_bound::TypeInfo;
 use crate::type_inference::TypeVar;
 
 /// Limits for search to prevent infinite loops
@@ -599,6 +599,7 @@ pub fn collect_constraints(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::type_bound::BoundEnum;
 
     fn make_test_type_info() -> FxHashMap<TypeVar, TypeInfo> {
         let mut info_map = FxHashMap::default();

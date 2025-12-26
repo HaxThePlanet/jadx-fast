@@ -173,9 +173,21 @@ impl Annotation {
         }
     }
 
-    /// Get the simple name of this annotation (e.g., "Override" from "java/lang/Override")
-    pub fn simple_name(&self) -> &str {
-        self.annotation_type.rsplit('/').next().unwrap_or(&self.annotation_type)
+    /// Get the simple name of this annotation (e.g., "Override" from "Ljava/lang/Override;")
+    /// Handles inner classes: "Lorg/jetbrains/ApiStatus$Internal;" -> "ApiStatus.Internal"
+    pub fn simple_name(&self) -> String {
+        // Strip L prefix and ; suffix if present
+        let normalized = self.annotation_type
+            .strip_prefix('L')
+            .unwrap_or(&self.annotation_type)
+            .strip_suffix(';')
+            .unwrap_or(&self.annotation_type);
+
+        // Get the part after the last /
+        let after_slash = normalized.rsplit('/').next().unwrap_or(normalized);
+
+        // Replace $ with . for inner classes (ApiStatus$Internal -> ApiStatus.Internal)
+        after_slash.replace('$', ".")
     }
 
     /// Check if this is a standard annotation that should be emitted
@@ -343,6 +355,13 @@ pub struct MethodData {
     pub is_tailrec: bool,
     /// Kotlin extension function receiver type (e.g., "String" for String.myFunc())
     pub receiver_type: Option<ArgType>,
+    /// Kotlin context receivers for this function (Kotlin 1.6+)
+    /// List of type strings representing context receiver types
+    /// Example: ["LoggingContext", "TransactionContext"]
+    pub context_receivers: Vec<String>,
+    /// Kotlin function contract as a formatted string (Kotlin 1.3+)
+    /// Example: "callsInPlace(block, EXACTLY_ONCE); returns(true) -> (value != null)"
+    pub contract: Option<String>,
 
     // === JADX Parity: Method Analysis Fields ===
     /// 'this' argument register for instance methods (like JADX's MethodNode.thisArg)
@@ -404,6 +423,8 @@ impl MethodData {
             is_operator: false,
             is_tailrec: false,
             receiver_type: None,
+            context_receivers: Vec::new(),
+            contract: None,
             // JADX parity fields
             this_arg: None,
             args_list: Vec::new(),
@@ -456,6 +477,8 @@ impl MethodData {
             is_operator: false,
             is_tailrec: false,
             receiver_type: None,
+            context_receivers: Vec::new(),
+            contract: None,
             // JADX parity fields
             this_arg: None,
             args_list: Vec::new(),
@@ -1017,6 +1040,14 @@ pub struct KotlinClassInfo {
     pub companion_name: Option<String>,
     /// Sealed class subclass FQ names
     pub sealed_subclasses: Vec<String>,
+    /// Type aliases defined in this class/package (Kotlin 1.1+)
+    /// Format: (alias_name, expanded_type_string)
+    /// Example: ("StringList", "kotlin.collections.List<kotlin.String>")
+    pub type_aliases: Vec<(String, String)>,
+    /// Context receivers for this class (Kotlin 1.6+)
+    /// List of type strings representing context receiver types
+    /// Example: ["LoggingContext", "TransactionContext"]
+    pub context_receivers: Vec<String>,
 }
 
 /// Class information

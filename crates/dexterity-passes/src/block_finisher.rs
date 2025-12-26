@@ -42,7 +42,7 @@ pub fn finish_blocks(blocks: &BlockSplitResult) -> BlockFinishResult {
     // so we just validate the structure and return success.
 
     // Validate basic block structure
-    let mut valid = true;
+    let valid = true;
     for block in &blocks.blocks {
         // Each block should have a valid ID
         if block.instructions.is_empty() && block.predecessors.is_empty() && block.successors.is_empty() {

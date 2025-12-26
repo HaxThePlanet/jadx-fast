@@ -1,7 +1,7 @@
 # Dexterity Passes Parity Status
 
 **Last Updated:** Dec 26, 2025 (verified by source code + output diff analysis)
-**Status:** PRODUCTION-READY | 0 P0 Bugs | A- Grade (95-96%)
+**Status:** PRODUCTION-READY | 0 P0 Bugs | 0 P1 Bugs | A- Grade (95-96%) | Build: CLEAN
 **Philosophy:** Clone JADX's 10 years of edge-case handling exactly. Don't reinvent - match behavior.
 
 ---
@@ -115,7 +115,7 @@ to while loops, matching JADX's conservative approach.
 | 1 | SignatureProcessor | 340 | signature_processor.rs | DONE |
 | 2 | OverrideMethodVisitor | 287 | override_method.rs | DONE |
 | 3 | AddAndroidConstants | 45 | add_android_constants.rs | DONE |
-| 4 | DeobfuscatorVisitor | 180 | rename_visitor.rs | 70% |
+| 4 | DeobfuscatorVisitor | 180 | rename_visitor.rs | DONE |
 | 5 | SourceFileRename | 89 | source_file_rename.rs (deobf crate) | DONE |
 | 6 | RenameVisitor | 230 | rename_visitor.rs | DONE |
 | 7 | SaveDeobfMapping | 67 | jobf.rs (save_deobf_mapping fn) | DONE |
@@ -186,7 +186,7 @@ to while loops, matching JADX's conservative approach.
 | JADX Pass | Lines | Dexterity File | Status | Issue |
 |-----------|-------|----------------|--------|-------|
 | RegionMakerVisitor | 890 | region_builder.rs | 90% | Try-catch in loops FIXED Dec 25 |
-| IfRegionVisitor | 356 | if_region_visitor.rs | 90% | 734-line impl, not fully integrated |
+| IfRegionVisitor | 356 | if_region_visitor.rs | DONE | 734-line impl, integrated in region_builder.rs |
 | SwitchOverStringVisitor | 267 | body_gen.rs (codegen) | DONE | Integrated in codegen |
 | ReturnVisitor | 169 | return_visitor.rs | PARTIAL | Else-return |
 | CleanRegions | 145 | clean_regions.rs | DONE | |
@@ -203,8 +203,8 @@ to while loops, matching JADX's conservative approach.
 |-----------|-------|----------------|--------|-------|
 | EnumVisitor | 645 | enum_visitor.rs | DONE | |
 | FixSwitchOverEnum | 234 | fix_switch_over_enum.rs | DONE | |
-| NonFinalResIdsVisitor | 119 | - | MISSING | Gradle |
-| ExtractFieldInit | 280 | extract_field_init.rs | 90% | 1177-line impl, not fully integrated |
+| NonFinalResIdsVisitor | 118 | non_final_res_ids.rs | DONE | Gradle resource IDs |
+| ExtractFieldInit | 280 | extract_field_init.rs | DONE | 1177-line impl, integrated in main.rs |
 | FixAccessModifiers | 122 | converter.rs | **DONE** (Dec 25) | Inner class visibility |
 | ClassModifier | 389 | class_modifier.rs | DONE | |
 

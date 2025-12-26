@@ -43,7 +43,144 @@ use dexterity_ir::types::ArgType;
 use dexterity_ir::{ClassHierarchy, TypeCompare, compare_types};
 
 use crate::ssa::SsaResult;
-use crate::type_bound::{BoundEnum, TypeBoundConst, TypeBoundInvokeAssign, TypeInfo};
+use crate::type_bound::{BoundEnum, TypeBoundInvokeAssign, TypeInfo};
+use crate::type_update::TypeUpdateEngine;
+
+/// Framework class type parameter fallbacks for when hierarchy is unavailable.
+///
+/// This handles common generic classes from the Android/Java framework.
+/// Maps base class name -> list of (type_param_name, position) pairs.
+///
+/// ## JADX Reference
+/// This is equivalent to JADX's built-in knowledge of common generic classes
+/// used in TypeUtils.getTypeVariablesMapping() when class hierarchy lookup fails.
+fn get_framework_type_params(base_class: &str) -> Option<&'static [(&'static str, usize)]> {
+    // Normalize class name (handle both . and / separators)
+    let normalized = base_class.replace('.', "/");
+    let key = normalized.as_str();
+
+    match key {
+        // Collections
+        "java/util/List" | "java/util/ArrayList" | "java/util/LinkedList" |
+        "java/util/AbstractList" | "java/util/Vector" | "java/util/Stack" => {
+            Some(&[("E", 0)])
+        }
+        "java/util/Set" | "java/util/HashSet" | "java/util/LinkedHashSet" |
+        "java/util/TreeSet" | "java/util/SortedSet" | "java/util/NavigableSet" => {
+            Some(&[("E", 0)])
+        }
+        "java/util/Collection" | "java/util/AbstractCollection" | "java/util/Deque" |
+        "java/util/Queue" | "java/util/ArrayDeque" | "java/util/PriorityQueue" => {
+            Some(&[("E", 0)])
+        }
+        "java/util/Map" | "java/util/HashMap" | "java/util/LinkedHashMap" |
+        "java/util/TreeMap" | "java/util/Hashtable" | "java/util/WeakHashMap" |
+        "java/util/IdentityHashMap" | "java/util/ConcurrentHashMap" |
+        "java/util/SortedMap" | "java/util/NavigableMap" | "java/util/AbstractMap" => {
+            Some(&[("K", 0), ("V", 1)])
+        }
+        "java/util/Map$Entry" => {
+            Some(&[("K", 0), ("V", 1)])
+        }
+
+        // Iterators
+        "java/util/Iterator" | "java/util/ListIterator" => {
+            Some(&[("E", 0)])
+        }
+        "java/lang/Iterable" => {
+            Some(&[("T", 0)])
+        }
+
+        // Optional and functional interfaces
+        "java/util/Optional" => {
+            Some(&[("T", 0)])
+        }
+        "java/util/function/Function" | "java/util/function/BiFunction" => {
+            Some(&[("T", 0), ("R", 1)])
+        }
+        "java/util/function/Supplier" | "java/util/function/Consumer" |
+        "java/util/function/Predicate" | "java/util/function/UnaryOperator" => {
+            Some(&[("T", 0)])
+        }
+        "java/util/function/BiConsumer" | "java/util/function/BiPredicate" |
+        "java/util/function/BinaryOperator" => {
+            Some(&[("T", 0), ("U", 1)])
+        }
+
+        // Streams
+        "java/util/stream/Stream" | "java/util/stream/BaseStream" => {
+            Some(&[("T", 0)])
+        }
+
+        // Concurrent
+        "java/util/concurrent/Future" | "java/util/concurrent/CompletableFuture" |
+        "java/util/concurrent/Callable" | "java/util/concurrent/FutureTask" => {
+            Some(&[("V", 0)])
+        }
+        "java/util/concurrent/ConcurrentMap" => {
+            Some(&[("K", 0), ("V", 1)])
+        }
+        "java/util/concurrent/BlockingQueue" | "java/util/concurrent/BlockingDeque" |
+        "java/util/concurrent/ConcurrentLinkedQueue" => {
+            Some(&[("E", 0)])
+        }
+
+        // Reference types
+        "java/lang/ref/Reference" | "java/lang/ref/WeakReference" |
+        "java/lang/ref/SoftReference" | "java/lang/ref/PhantomReference" => {
+            Some(&[("T", 0)])
+        }
+
+        // Misc
+        "java/lang/Class" => {
+            Some(&[("T", 0)])
+        }
+        "java/lang/Comparable" => {
+            Some(&[("T", 0)])
+        }
+        "java/lang/ThreadLocal" => {
+            Some(&[("T", 0)])
+        }
+
+        // Android specific
+        "android/util/SparseArray" | "android/util/LongSparseArray" => {
+            Some(&[("E", 0)])
+        }
+        "android/util/Pair" => {
+            Some(&[("F", 0), ("S", 1)])
+        }
+        "android/os/AsyncTask" => {
+            Some(&[("Params", 0), ("Progress", 1), ("Result", 2)])
+        }
+        "android/arch/lifecycle/LiveData" | "android/arch/lifecycle/MutableLiveData" |
+        "androidx/lifecycle/LiveData" | "androidx/lifecycle/MutableLiveData" => {
+            Some(&[("T", 0)])
+        }
+
+        // Kotlin specific
+        "kotlin/Pair" => {
+            Some(&[("A", 0), ("B", 1)])
+        }
+        "kotlin/Triple" => {
+            Some(&[("A", 0), ("B", 1), ("C", 2)])
+        }
+        "kotlin/Lazy" => {
+            Some(&[("T", 0)])
+        }
+        "kotlin/sequences/Sequence" => {
+            Some(&[("T", 0)])
+        }
+        "kotlinx/coroutines/Deferred" => {
+            Some(&[("T", 0)])
+        }
+        "kotlinx/coroutines/flow/Flow" | "kotlinx/coroutines/flow/StateFlow" |
+        "kotlinx/coroutines/flow/SharedFlow" => {
+            Some(&[("T", 0)])
+        }
+
+        _ => None,
+    }
+}
 
 /// Type variable identifier
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -258,6 +395,9 @@ pub struct TypeInference {
     /// Method's own return type (for Return instruction constraint propagation)
     /// P1-S02 enhancement: propagate boolean constraint to returned values
     method_return_type: Option<ArgType>,
+    /// Type update engine for listener-based validation (JADX parity)
+    /// Used for PHI validation and rollback support
+    update_engine: Option<TypeUpdateEngine>,
 }
 
 impl Default for TypeInference {
@@ -289,6 +429,7 @@ impl TypeInference {
             boolean_literal_candidates: FxHashMap::default(),
             field_access_types: FxHashMap::default(),
             method_return_type: None,
+            update_engine: None,
         }
     }
 
@@ -300,6 +441,8 @@ impl TypeInference {
 
     /// Set class hierarchy for advanced type inference
     pub fn with_hierarchy(mut self, hierarchy: ClassHierarchy) -> Self {
+        // Initialize update engine with hierarchy for listener-based validation
+        self.update_engine = Some(TypeUpdateEngine::new(Some(hierarchy.clone())));
         self.hierarchy = Some(hierarchy);
         self
     }
@@ -592,12 +735,25 @@ impl TypeInference {
         let mut mapping = HashMap::new();
 
         if let ArgType::Generic { base, params } = instance_type {
-            // Get the class's type parameter names from hierarchy
+            // First try: Get type parameter names from class hierarchy
             if let Some(ref hierarchy) = self.hierarchy {
                 let type_param_names = hierarchy.get_type_params(base);
-                for (i, param_name) in type_param_names.iter().enumerate() {
-                    if i < params.len() {
-                        mapping.insert(param_name.to_string(), params[i].clone());
+                if !type_param_names.is_empty() {
+                    for (i, param_name) in type_param_names.iter().enumerate() {
+                        if i < params.len() {
+                            mapping.insert(param_name.to_string(), params[i].clone());
+                        }
+                    }
+                    return mapping;
+                }
+            }
+
+            // Fallback: Use framework class type parameter table
+            // This handles common generic classes when hierarchy lookup fails
+            if let Some(fallback_params) = get_framework_type_params(base) {
+                for (param_name, idx) in fallback_params {
+                    if *idx < params.len() {
+                        mapping.insert((*param_name).to_string(), params[*idx].clone());
                     }
                 }
             }
@@ -2426,12 +2582,36 @@ impl TypeInference {
                 if !all_same {
                     // Compute common supertype for all phi sources
                     let lca = hierarchy.common_supertype(&object_types);
+                    let lca_type = ArgType::Object(lca.clone());
 
-                    // Update dest to LCA type
-                    self.resolved.insert(
-                        *dest_var,
-                        InferredType::Concrete(ArgType::Object(lca)),
-                    );
+                    // Phase 2: Validate LCA against all source types using update engine
+                    // This implements JADX's allSameListener pattern for PHI validation
+                    let is_valid = if let Some(ref engine) = self.update_engine {
+                        // Collect source types for validation
+                        let source_types: Vec<ArgType> = source_vars
+                            .iter()
+                            .filter_map(|sv| {
+                                self.resolved.get(sv).and_then(|t| t.to_arg_type())
+                            })
+                            .collect();
+                        engine.validate_phi_type(&source_types, &lca_type)
+                    } else {
+                        true // No engine - skip validation
+                    };
+
+                    if is_valid {
+                        // Update dest to LCA type
+                        self.resolved.insert(
+                            *dest_var,
+                            InferredType::Concrete(lca_type),
+                        );
+                    } else {
+                        // Phase 3: Rollback - use conservative Object type
+                        self.resolved.insert(
+                            *dest_var,
+                            InferredType::Concrete(ArgType::Object("java/lang/Object".to_string())),
+                        );
+                    }
                 }
                 continue;
             }

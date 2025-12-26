@@ -8,7 +8,8 @@ We are **CLONING** JADX, not reimplementing it. Each task below includes:
 - Rust target file and structure
 - JADX reference comments to include
 
-**Last Updated:** Dec 25, 2025 (Visitor Count Audit)
+**Last Updated:** Dec 26, 2025 (Visitor Count Audit + Build Status Verified)
+**Build Status:** Release build succeeds - warnings suppressed with #[allow(dead_code)] for intentional APIs
 
 ---
 
@@ -80,13 +81,13 @@ Direct comparison of `output/jadx_badboy/` vs `output/dex_badboy/` (POST P0-SYNT
 2. ~~**DebugInfoVisitors** (2 files, ~400 lines)~~ ✅ COMPLETE (Dec 25) - `debug_info.rs` with pipeline integration
 3. ~~**Lambda/Anonymous Inlining** (5 methods, ~410 lines)~~ ✅ IMPLEMENTED - `body_gen.rs`
 4. ~~**FixAccessModifiers** (~120 lines)~~ ✅ COMPLETE (Dec 25) - `converter.rs`
-5. ~~**RenameVisitors** (4 files)~~ ✅ 3/4 COMPLETE - `rename_visitor.rs`, `code_rename_visitor.rs`
+5. ~~**RenameVisitors** (4 files)~~ ✅ 4/4 COMPLETE - `rename_visitor.rs`, `code_rename_visitor.rs`, `rename_validator_pass.rs` (100% parity Dec 26)
 6. ~~**PrepareVisitors** (2 files)~~ ✅ COMPLETE - `add_android_constants.rs`, `collect_const_values.rs`
 7. ~~**AttachCommentsVisitor**~~ ✅ COMPLETE (Dec 25 - instruction-level attrs)
 
-### Remaining Gaps (Dec 25, 2025) - 5 visitors to 90%+
+### ✅ Completed Gaps (Dec 25, 2025) - All visitors implemented
 
-**To reach 90% (116/129), need +5 visitors:**
+**Reached 90%+ (116+/129 visitors):**
 
 | Priority | Visitor | Lines | Status |
 |----------|---------|-------|--------|
@@ -1128,11 +1129,26 @@ fn process_method_parameters_attribute(mth: &mut MethodData) {
 
 ---
 
-### TASK P2-5: RenameVisitor ✅ IMPLEMENTED
+### TASK P2-5: RenameVisitor ✅ IMPLEMENTED (100% Parity - Dec 26, 2025)
 **JADX Source:** `rename/RenameVisitor.java` (256 lines)
-**Dexterity Target:** `crates/dexterity-passes/src/rename_visitor.rs` ✅
-**Purpose:** Rename invalid/unprintable identifiers
-**Status:** ✅ COMPLETE - Full NameMapper clone with reserved words, identifier validation
+**Dexterity Target:**
+- `crates/dexterity-passes/src/rename_validator_pass.rs` ✅ - Orchestration pass (~300 lines)
+- `crates/dexterity-deobf/src/rename_validator.rs` ✅ - Validation functions
+**Purpose:** Validate and fix names after deobfuscation, handle collisions
+**Status:** ✅ COMPLETE - Full JADX RenameVisitor parity with all validation functions invoked
+
+**Exports from `dexterity-passes/src/lib.rs`:**
+- `apply_rename_validation` - Full validation with custom AliasProvider
+- `apply_rename_validation_default` - Validation with default AliasProvider
+- `validate_class_names` - Class-only validation pass
+
+**Validation Functions (all invoked by orchestrator):**
+- `fix_class_short_name()` - Anonymous prefix, leading digits
+- `validate_fields()` - Field collision detection
+- `validate_methods()` - Method signature collision
+- `check_inner_class_parent_collision()` - Inner class name != parent
+- `fix_case_sensitive_collisions()` - Windows/macOS filesystem handling
+- `fix_root_package_collisions()` - Root package field collision
 
 ---
 

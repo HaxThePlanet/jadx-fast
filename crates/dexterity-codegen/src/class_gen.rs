@@ -207,6 +207,77 @@ pub fn is_switch_map_class(class: &ClassData) -> bool {
     false
 }
 
+/// Check if a class is a package-info class
+///
+/// Package-info classes are synthetic interface classes that hold package-level annotations.
+/// They have a special name pattern ending in `/package-info;` or `/package-info`.
+/// JADX Reference: ClassGen.java:100-102, AFlag.PACKAGE_INFO
+///
+/// Example: `Lcom/example/package-info;` -> generates `package-info.java` with:
+/// ```java
+/// @Deprecated
+/// package com.example;
+/// ```
+pub fn is_package_info_class(class_type: &str) -> bool {
+    // Strip L prefix and ; suffix if present
+    let normalized = class_type
+        .strip_prefix('L')
+        .unwrap_or(class_type)
+        .strip_suffix(';')
+        .unwrap_or(class_type);
+
+    // Check if the simple class name is "package-info"
+    normalized.ends_with("/package-info") || normalized == "package-info"
+}
+
+/// Generate package-info.java content
+///
+/// JADX Reference: ClassGen.java:146-155 (makePackageInfo)
+/// Format:
+/// ```java
+/// @SomeAnnotation
+/// package com.example.foo;
+///
+/// import some.other.Type;
+/// ```
+fn generate_package_info<W: CodeWriter>(class: &ClassData, config: &ClassGenConfig, code: &mut W) {
+    // Collect imports from annotations (needed for short type names)
+    let imports = if config.use_imports {
+        let mut collector = ImportCollector::new(&class.class_type);
+        collector.collect_from_class(class);
+        Some(collector.get_non_conflicting_imports())
+    } else {
+        None
+    };
+
+    // 1. Emit annotations first (this is the key difference from regular classes)
+    for annotation in &class.annotations {
+        if should_emit_annotation(annotation) {
+            generate_annotation(annotation, code);
+            code.newline();
+        }
+    }
+
+    // 2. Package declaration
+    // Extract package from class_type: "Lcom/example/package-info;" -> "com.example"
+    let pkg = class.pkg_alias.clone()
+        .or_else(|| get_package(&class.class_type));
+    if let Some(ref pkg) = pkg {
+        code.add("package ").add(pkg).add(";").newline();
+    }
+
+    // 3. Imports (if any annotations use types that need importing)
+    if let Some(ref imp) = imports {
+        if !imp.is_empty() {
+            code.newline();
+            for name in imp {
+                let import_name = replace_inner_class_separator(&name.replace('/', "."));
+                code.add("import ").add(&import_name).add(";").newline();
+            }
+        }
+    }
+}
+
 /// Group classes by outer class for nested generation
 pub fn group_by_outer_class<'a>(
     classes: impl Iterator<Item = &'a ClassData>,
@@ -849,6 +920,13 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
     nested_inner_classes: Option<&[ClassData]>,
     code: &mut W,
 ) {
+    // JADX Clone: ClassGen.java:100-102 - Special handling for package-info classes
+    // Package-info classes generate a special format: annotations + package declaration
+    if is_package_info_class(&class.class_type) {
+        generate_package_info(class, config, code);
+        return;
+    }
+
     let is_nested = is_inner_class(&class.class_type);
 
     // Package declaration (only for top-level classes)
@@ -911,11 +989,16 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
     code.inc_indent();
 
     // Fields (use simple names when imports available, pass dex_info for enum string lookup)
-    add_fields(class, imports.as_ref(), current_package.as_deref(), config.escape_unicode, dex_info.as_ref(), config.comments_level, code);
+    // GAP-ENUM-NESTED: Returns set of inner class types that were inlined as enum constant bodies
+    let inlined_enum_classes = add_fields(
+        class, imports.as_ref(), current_package.as_deref(), config.escape_unicode,
+        dex_info.as_ref(), config.comments_level, nested_inner_classes, config, inner_classes, code
+    );
 
     // Nested inner classes (generated after fields, before methods for Java convention)
+    // Filter out classes that were already inlined as enum constant bodies
     if let Some(nested) = nested_inner_classes {
-        add_nested_inner_classes(nested, config, imports.as_ref(), dex_info.clone(), inner_classes, code);
+        add_nested_inner_classes(nested, config, imports.as_ref(), dex_info.clone(), inner_classes, Some(&inlined_enum_classes), code);
     }
 
     // Methods (pass DEX info for name resolution in method bodies)
@@ -933,6 +1016,7 @@ fn add_nested_inner_classes<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
+    inlined_enum_classes: Option<&HashSet<String>>,
     code: &mut W,
 ) {
     for inner_class in nested_classes {
@@ -945,6 +1029,14 @@ fn add_nested_inner_classes<W: CodeWriter>(
         {
             continue;
         }
+
+        // GAP-ENUM-NESTED: Skip if this class was already inlined as an enum constant body
+        if let Some(inlined) = inlined_enum_classes {
+            if inlined.iter().any(|t| type_matches_class_type(&inner_class.class_type, t)) {
+                continue;
+            }
+        }
+
         code.newline();
         // Generate the inner class declaration (recursively handles its own inner classes)
         add_inner_class_declaration(inner_class, config, imports, dex_info.clone(), inner_classes, code);
@@ -1038,7 +1130,9 @@ fn add_inner_class_declaration<W: CodeWriter>(
     code.inc_indent();
 
     // Fields (pass dex_info for enum string lookup)
-    add_fields(class, imports, pkg.as_deref(), config.escape_unicode, dex_info.as_ref(), config.comments_level, code);
+    // Note: Inner classes with enum nested bodies will use None for nested_classes
+    // TODO: Support enum nested bodies in inner classes if needed
+    let _ = add_fields(class, imports, pkg.as_deref(), config.escape_unicode, dex_info.as_ref(), config.comments_level, None, config, inner_classes, code);
 
     // Methods
     add_methods_with_inner_classes(class, config, imports, dex_info, inner_classes, code);
@@ -1148,6 +1242,20 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
             .newline();
     }
 
+    // Emit Kotlin type aliases as comments (Kotlin 1.1+)
+    // Output format: /* typealias Handler = (Event) -> Unit */
+    if let Some(ref kotlin_info) = class.kotlin_class_info {
+        for (alias_name, expanded_type) in &kotlin_info.type_aliases {
+            code.start_line()
+                .add("/* typealias ")
+                .add(alias_name)
+                .add(" = ")
+                .add(expanded_type)
+                .add(" */")
+                .newline();
+        }
+    }
+
     // Add rename comment if class was renamed during deobfuscation (INFO level)
     // JADX Clone: Include rename reasons from Kotlin metadata, SMAP, etc.
     if let Some(ref alias) = class.alias {
@@ -1171,6 +1279,14 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
     let mods = access_flags::access_flags_to_string(flags, AccessContext::Class);
     if !mods.is_empty() {
         code.add(&mods);
+    }
+
+    // Kotlin context receivers for class (Kotlin 1.6+)
+    // Output format: /* context(LoggingContext, TransactionContext) */
+    if let Some(ref kotlin_info) = class.kotlin_class_info {
+        if !kotlin_info.context_receivers.is_empty() {
+            code.add("/* context(").add(&kotlin_info.context_receivers.join(", ")).add(") */ ");
+        }
     }
 
     // Kotlin class modifiers (emitted as comments for Java output)
@@ -1263,6 +1379,7 @@ fn compute_field_collision_renames(fields: &[&FieldData]) -> Vec<(String, String
 }
 
 /// Add field declarations
+/// Returns a set of inner class types that were inlined (for enum nested class bodies)
 fn add_fields<W: CodeWriter>(
     class: &ClassData,
     imports: Option<&BTreeSet<String>>,
@@ -1270,25 +1387,32 @@ fn add_fields<W: CodeWriter>(
     escape_unicode: bool,
     dex_info: Option<&std::sync::Arc<dyn DexInfoProvider>>,
     comments_level: CommentsLevel,
+    nested_classes: Option<&[ClassData]>,
+    config: &ClassGenConfig,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
     code: &mut W,
-) {
+) -> HashSet<String> {
     let is_enum = class.is_enum();
+    let mut inlined_classes = HashSet::new();
 
     // For enum classes, generate proper enum constant declarations
     if is_enum {
-        // Analyze the enum to extract constant info with string lookup
+        // Analyze the enum to extract constant info with string and method lookups
+        // GAP-ENUM-NESTED: method_lookup enables detection of nested class bodies
         let enum_info = if let Some(dex) = dex_info {
             let dex_clone = dex.clone();
-            dexterity_passes::analyze_enum_class_with_strings(
+            let dex_clone2 = dex.clone();
+            dexterity_passes::analyze_enum_class_with_strings_and_methods(
                 class,
                 Some(move |idx: u32| dex_clone.get_string(idx)),
+                Some(move |idx: u32| dex_clone2.get_method(idx).map(|m| m.class_type.to_string())),
             )
         } else {
             dexterity_passes::analyze_enum_class(class)
         };
 
         if let Some(info) = enum_info {
-            add_enum_constants(class, &info, code);
+            inlined_classes = add_enum_constants(class, &info, nested_classes, config, imports, dex_info.cloned(), inner_classes, code);
         } else {
             // Fallback: generate enum constants without arguments
             add_enum_constants_fallback(class, code);
@@ -1311,7 +1435,7 @@ fn add_fields<W: CodeWriter>(
                 add_field(field, imports, current_package, escape_unicode, comments_level, name_override, reason_str, code);
             }
         }
-        return;
+        return inlined_classes;
     }
 
     // Non-enum class: regular field generation
@@ -1350,17 +1474,27 @@ fn add_fields<W: CodeWriter>(
         let reason_str = reason.as_ref().map(|s| s.as_str());
         add_field(field, imports, current_package, escape_unicode, comments_level, name_override, reason_str, code);
     }
+
+    inlined_classes
 }
 
 /// Generate enum constant declarations in proper Java syntax
 /// e.g., VERBOSE(2), DEBUG(3), INFO(4);
+/// Returns a set of inner class types that were inlined as enum constant bodies (GAP-ENUM-NESTED)
 fn add_enum_constants<W: CodeWriter>(
-    _class: &ClassData,
+    class: &ClassData,
     enum_info: &dexterity_passes::EnumClassInfo,
+    nested_classes: Option<&[ClassData]>,
+    config: &ClassGenConfig,
+    imports: Option<&BTreeSet<String>>,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
     code: &mut W,
-) {
+) -> HashSet<String> {
+    let mut inlined_types = HashSet::new();
+
     if enum_info.fields.is_empty() {
-        return;
+        return inlined_types;
     }
 
     code.newline();
@@ -1381,6 +1515,17 @@ fn add_enum_constants<W: CodeWriter>(
             code.add(")");
         }
 
+        // GAP-ENUM-NESTED: Render inline class body if this enum constant has one
+        if let Some(nested_type) = &field_info.nested_class_type {
+            if let Some(nested) = nested_classes
+                .and_then(|nc| nc.iter().find(|c| type_matches_class_type(&c.class_type, nested_type)))
+            {
+                code.add(" ");
+                add_enum_constant_class_body(nested, class, config, imports, dex_info.clone(), inner_classes, code);
+                inlined_types.insert(nested_type.clone());
+            }
+        }
+
         // Add comma or semicolon
         if i < enum_info.fields.len() - 1 {
             code.add(",");
@@ -1389,6 +1534,8 @@ fn add_enum_constants<W: CodeWriter>(
         }
         code.newline();
     }
+
+    inlined_types
 }
 
 /// Fallback enum constant generation when analysis fails
@@ -1454,6 +1601,66 @@ fn enum_arg_to_string(arg: &dexterity_passes::EnumArg) -> String {
         EnumArg::EnumRef(name) => name.clone(),
         EnumArg::Other => "/* unknown */".to_string(),
     }
+}
+
+/// Check if two class type strings match (handles L prefix and ; suffix normalization)
+fn type_matches_class_type(type_a: &str, type_b: &str) -> bool {
+    fn normalize(s: &str) -> &str {
+        let s = s.strip_prefix('L').unwrap_or(s);
+        s.strip_suffix(';').unwrap_or(s)
+    }
+    normalize(type_a) == normalize(type_b)
+}
+
+/// Render the body of an enum constant's anonymous class inline
+/// Similar to JADX's ClassGen.addClassBody(code, true)
+/// GAP-ENUM-NESTED implementation
+fn add_enum_constant_class_body<W: CodeWriter>(
+    nested_class: &ClassData,
+    _parent_enum: &ClassData,
+    config: &ClassGenConfig,
+    imports: Option<&BTreeSet<String>>,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
+    code: &mut W,
+) {
+    use crate::method_gen::generate_method_with_inner_classes;
+
+    code.add("{").newline();
+    code.inc_indent();
+
+    // Filter out constructors and synthetic methods - they're not rendered for enum anonymous class bodies
+    // (JADX: processEnumCls marks constructors with DONT_GENERATE)
+    let methods_to_render: Vec<_> = nested_class.methods.iter()
+        .filter(|m| !m.is_constructor() && !m.dont_generate)
+        .collect();
+
+    for (i, method) in methods_to_render.iter().enumerate() {
+        if i > 0 {
+            code.newline();
+        }
+        generate_method_with_inner_classes(
+            method,
+            nested_class,
+            config.fallback,
+            imports,
+            dex_info.clone(),
+            inner_classes,
+            None, // nested_classes for the inner class body
+            config.hierarchy.as_deref(),
+            config.deobf_min_length,
+            config.deobf_max_length,
+            &*config.res_names,
+            config.replace_consts,
+            &*config.enum_constants,
+            config.comments_level,
+            config.add_debug_lines,
+            code,
+        );
+    }
+
+    code.dec_indent();
+    code.start_line().add("}");
 }
 
 /// Add a single field declaration
@@ -2259,5 +2466,85 @@ mod tests {
             Some("Lcom/example/Outer;".to_string())
         );
         assert_eq!(get_outer_class("Lcom/example/Outer;"), None);
+    }
+
+    #[test]
+    fn test_is_package_info_class() {
+        // Should match package-info classes
+        assert!(is_package_info_class("Lcom/example/package-info;"));
+        assert!(is_package_info_class("Lspecial/pkg1/package-info;"));
+        assert!(is_package_info_class("com/example/package-info"));
+        assert!(is_package_info_class("package-info"));
+
+        // Should NOT match regular classes
+        assert!(!is_package_info_class("Lcom/example/MyClass;"));
+        assert!(!is_package_info_class("Lcom/example/package_info;")); // underscore not hyphen
+        assert!(!is_package_info_class("Lcom/example/PackageInfo;"));
+    }
+
+    #[test]
+    fn test_generate_package_info_simple() {
+        use dexterity_ir::Annotation;
+
+        // Create a package-info class with @Deprecated annotation
+        let mut class = make_class("special/pkg1/package-info", 0x1601); // interface abstract synthetic
+        class.annotations.push(Annotation {
+            annotation_type: "Ljava/lang/Deprecated;".to_string(),
+            visibility: dexterity_ir::AnnotationVisibility::Runtime,
+            elements: vec![],
+        });
+
+        let config = ClassGenConfig::default();
+        let output = generate_class(&class, &config);
+
+        // Should have annotation before package declaration
+        assert!(output.contains("@Deprecated"));
+        assert!(output.contains("package special.pkg1;"));
+
+        // Annotation should come BEFORE package (JADX format)
+        let deprecated_pos = output.find("@Deprecated").unwrap();
+        let package_pos = output.find("package special.pkg1;").unwrap();
+        assert!(deprecated_pos < package_pos, "Annotation should come before package declaration");
+    }
+
+    #[test]
+    fn test_generate_package_info_with_import() {
+        use dexterity_ir::Annotation;
+
+        // Create a package-info class with an annotation that needs importing
+        let mut class = make_class("special/pkg2/package-info", 0x1601);
+        class.annotations.push(Annotation {
+            annotation_type: "Lorg/jetbrains/annotations/ApiStatus$Internal;".to_string(),
+            visibility: dexterity_ir::AnnotationVisibility::Runtime,
+            elements: vec![],
+        });
+
+        let config = ClassGenConfig::default();
+        let output = generate_class(&class, &config);
+
+        // Should have the annotation and package
+        // Note: annotation may be fully qualified or use short name depending on import logic
+        assert!(
+            output.contains("@ApiStatus.Internal")
+            || output.contains("@Internal")
+            || output.contains("@org.jetbrains.annotations.ApiStatus.Internal"),
+            "Expected annotation in output:\n{}", output
+        );
+        assert!(output.contains("package special.pkg2;"));
+    }
+
+    #[test]
+    fn test_generate_package_info_no_annotations() {
+        // Package-info with no annotations
+        let class = make_class("special/pkg3/package-info", 0x1601);
+
+        let config = ClassGenConfig::default();
+        let output = generate_class(&class, &config);
+
+        // Should just have the package declaration
+        assert!(output.contains("package special.pkg3;"));
+        // Should NOT have class declaration
+        assert!(!output.contains("interface"));
+        assert!(!output.contains("class"));
     }
 }

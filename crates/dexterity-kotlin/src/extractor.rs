@@ -39,6 +39,12 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
         is_companion: metadata.flags.is_fun_interface, // Note: companion objects are detected differently
         companion_name: metadata.companion_object.clone(),
         sealed_subclasses: metadata.sealed_subclasses.clone(),
+        // Type aliases defined in this class/package (Kotlin 1.1+)
+        type_aliases: metadata.type_aliases.iter()
+            .map(|ta| (ta.name.clone(), ta.expanded_type.clone()))
+            .collect(),
+        // Context receivers for this class (Kotlin 1.6+)
+        context_receivers: metadata.context_receivers.clone(),
     };
     cls.set_kotlin_class_info(kotlin_info);
 
@@ -148,6 +154,22 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
                 method.receiver_type = Some(arg_type);
                 tracing::debug!("Applied receiver type {} to: {}", receiver, kotlin_func.name);
             }
+
+            // Apply context receivers (Kotlin 1.6+)
+            if !kotlin_func.context_receivers.is_empty() {
+                method.context_receivers = kotlin_func.context_receivers.clone();
+                tracing::debug!("Applied {} context receivers to: {}", kotlin_func.context_receivers.len(), kotlin_func.name);
+            }
+
+            // Apply function contract (Kotlin 1.3+)
+            if let Some(ref contract) = kotlin_func.contract {
+                let param_names: Vec<String> = kotlin_func.parameters.iter()
+                    .map(|p| p.name.clone())
+                    .collect();
+                let formatted = contract.format(&param_names);
+                method.contract = Some(formatted);
+                tracing::debug!("Applied contract to: {}", kotlin_func.name);
+            }
         }
     }
 
@@ -207,6 +229,12 @@ pub fn apply_kotlin_names_with_options(
             is_companion: metadata.flags.is_fun_interface,
             companion_name: metadata.companion_object.clone(),
             sealed_subclasses: metadata.sealed_subclasses.clone(),
+            // Type aliases defined in this class/package (Kotlin 1.1+)
+            type_aliases: metadata.type_aliases.iter()
+                .map(|ta| (ta.name.clone(), ta.expanded_type.clone()))
+                .collect(),
+            // Context receivers for this class (Kotlin 1.6+)
+            context_receivers: metadata.context_receivers.clone(),
         };
         cls.set_kotlin_class_info(kotlin_info);
     }
@@ -291,6 +319,20 @@ pub fn apply_kotlin_names_with_options(
                         ArgType::Object(receiver.clone().into())
                     };
                     method.receiver_type = Some(arg_type);
+                }
+
+                // Apply context receivers (Kotlin 1.6+)
+                if !kotlin_func.context_receivers.is_empty() {
+                    method.context_receivers = kotlin_func.context_receivers.clone();
+                }
+
+                // Apply function contract (Kotlin 1.3+)
+                if let Some(ref contract) = kotlin_func.contract {
+                    let param_names: Vec<String> = kotlin_func.parameters.iter()
+                        .map(|p| p.name.clone())
+                        .collect();
+                    let formatted = contract.format(&param_names);
+                    method.contract = Some(formatted);
                 }
             }
         }

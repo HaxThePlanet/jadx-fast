@@ -35,6 +35,10 @@ pub struct EnumFieldInfo {
     pub field_idx: usize,
     /// Constructor arguments (beyond name and ordinal)
     pub extra_args: Vec<EnumArg>,
+    /// Optional nested class type for enum constants with method overrides
+    /// When Some, contains the class type like "LTestCls$Operation$1;" that has
+    /// the overriding methods for this enum constant (for GAP-ENUM-NESTED)
+    pub nested_class_type: Option<String>,
 }
 
 /// An argument to an enum constructor
@@ -80,6 +84,23 @@ pub fn analyze_enum_class_with_strings<F>(class: &ClassData, string_lookup: Opti
 where
     F: Fn(u32) -> Option<String>,
 {
+    analyze_enum_class_with_strings_and_methods(class, string_lookup, None::<fn(u32) -> Option<String>>)
+}
+
+/// Analyze a class for enum patterns with optional string and method lookups
+///
+/// The `string_lookup` function resolves string_idx values to actual strings from the DEX pool.
+/// The `method_lookup` function resolves method_idx values to the declaring class type.
+/// This enables detection of enum constants with nested class bodies (GAP-ENUM-NESTED).
+pub fn analyze_enum_class_with_strings_and_methods<F, M>(
+    class: &ClassData,
+    string_lookup: Option<F>,
+    method_lookup: Option<M>,
+) -> Option<EnumClassInfo>
+where
+    F: Fn(u32) -> Option<String>,
+    M: Fn(u32) -> Option<String>,
+{
     // Must be an enum class
     if !class.is_enum() {
         return None;
@@ -108,7 +129,7 @@ where
 
     // Analyze the static initializer to extract enum fields
     let clinit = &class.methods[clinit_idx];
-    let fields = extract_enum_fields_with_strings(class, clinit, &string_lookup)?;
+    let fields = extract_enum_fields_with_strings_and_methods(class, clinit, &string_lookup, &method_lookup)?;
     info.fields = fields;
 
     Some(info)
@@ -128,6 +149,17 @@ fn type_matches_class(field_type: &ArgType, class_type: &str) -> bool {
         ArgType::Object(s) => s == class_type_normalized || s == class_type,
         _ => false,
     }
+}
+
+/// Check if two class type strings match
+/// Handles both normalized (without L/;) and non-normalized class names
+fn type_matches_class_str(type_a: &str, type_b: &str) -> bool {
+    // Normalize both by stripping L prefix and ; suffix if present
+    fn normalize(s: &str) -> &str {
+        let s = s.strip_prefix('L').unwrap_or(s);
+        s.strip_suffix(';').unwrap_or(s)
+    }
+    normalize(type_a) == normalize(type_b)
 }
 
 /// Check if a type is an array of the class type
@@ -180,6 +212,20 @@ fn extract_enum_fields_with_strings<F>(
 where
     F: Fn(u32) -> Option<String>,
 {
+    extract_enum_fields_with_strings_and_methods(class, clinit, string_lookup, &None::<fn(u32) -> Option<String>>)
+}
+
+/// Extract enum fields from the static initializer with optional string and method lookups
+fn extract_enum_fields_with_strings_and_methods<F, M>(
+    class: &ClassData,
+    clinit: &MethodData,
+    string_lookup: &Option<F>,
+    method_lookup: &Option<M>,
+) -> Option<Vec<EnumFieldInfo>>
+where
+    F: Fn(u32) -> Option<String>,
+    M: Fn(u32) -> Option<String>,
+{
     let insns = clinit.get_instructions();
     if insns.is_empty() {
         return None;
@@ -191,7 +237,7 @@ where
 
     // Pass 1: Find constructor calls and store in vec with instruction index
     for (insn_idx, insn) in insns.iter().enumerate() {
-        if let InsnType::Invoke { kind: InvokeKind::Direct, args, .. } = &insn.insn_type {
+        if let InsnType::Invoke { kind: InvokeKind::Direct, args, method_idx, .. } = &insn.insn_type {
             // Check if this is a constructor call for our enum type
             // Constructor calls have the instance as first argument
             if args.is_empty() {
@@ -214,11 +260,18 @@ where
                             .map(|a| convert_to_enum_arg_before_idx(a, insns, insn_idx, string_lookup))
                             .collect();
 
+                        // GAP-ENUM-NESTED: Detect when constructor creates a subclass (anonymous inner class)
+                        // If the constructor's declaring class differs from the enum class, it's a nested class body
+                        let nested_class_type = method_lookup.as_ref()
+                            .and_then(|lookup| lookup(*method_idx))
+                            .filter(|ctr_class| !type_matches_class_str(ctr_class, &class.class_type));
+
                         // Store with instruction index to track which constructor call this is
                         pending_constructs.push((reg.reg_num, insn_idx, PendingConstruct {
                             name,
                             ordinal: ordinal as i32,
                             extra_args,
+                            nested_class_type,
                         }));
                     }
                 }
@@ -265,6 +318,7 @@ where
                                 ordinal: construct.ordinal,
                                 field_idx,
                                 extra_args: construct.extra_args.clone(),
+                                nested_class_type: construct.nested_class_type.clone(),
                             });
                             // Found the SPUT for this field, no need to continue searching
                             break;
@@ -295,6 +349,7 @@ where
                     ordinal: construct.ordinal,
                     field_idx,
                     extra_args: construct.extra_args.clone(),
+                    nested_class_type: construct.nested_class_type.clone(),
                 });
             } else {
                 // Create field with unknown ordinal
@@ -304,6 +359,7 @@ where
                     ordinal,
                     field_idx,
                     extra_args: Vec::new(),
+                    nested_class_type: None,
                 });
             }
         }
@@ -324,6 +380,8 @@ struct PendingConstruct {
     name: String,
     ordinal: i32,
     extra_args: Vec<EnumArg>,
+    /// Class type of the constructor (for detecting enum nested classes)
+    nested_class_type: Option<String>,
 }
 
 /// Extract a string argument from an instruction argument (without string lookup)

@@ -205,7 +205,7 @@ impl TypeCompare {
     /// Compare array with non-array type
     ///
     /// JADX Reference: TypeCompare.compareArrayWithOtherType() lines 115-132
-    fn compare_array_with_other(array: &ArgType, other: &ArgType) -> TypeCompareEnum {
+    fn compare_array_with_other(_array: &ArgType, other: &ArgType) -> TypeCompareEnum {
         if !Self::is_type_known(other) {
             return TypeCompareEnum::Conflict;
         }
@@ -469,6 +469,7 @@ pub fn replace_class_generics(super_type: &ArgType, target_type: &ArgType) -> Op
 }
 
 /// Helper trait for checking if ArgType contains type variables
+#[allow(dead_code)]
 trait ContainsTypeVariable {
     fn contains_type_variable(&self) -> bool;
 }

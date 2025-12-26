@@ -7,7 +7,6 @@
 //!
 //! Based on JADX's DeboxingVisitor.java
 
-use rustc_hash::{FxHashMap, FxHashSet};
 
 use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
 use dexterity_ir::types::ArgType;

@@ -6,6 +6,8 @@ use prost::Message;
 use crate::types::{
     KotlinClassMetadata, KotlinKind, KotlinFunction, KotlinParameter, KotlinProperty,
     KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags, KotlinTypeParameter, KotlinVariance,
+    KotlinTypeAlias, KotlinContract, KotlinEffect, ContractEffectType, InvocationKind,
+    ConstantValue, ContractExpression,
 };
 use crate::proto;
 use crate::jvm_proto;
@@ -548,6 +550,18 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
         .map(|tp| parse_type_parameter(tp, &strings))
         .collect::<Result<Vec<_>>>()?;
 
+    // Extract type aliases (Kotlin 1.1+)
+    // Proto reference: metadata.proto:244
+    let type_aliases = proto_class
+        .type_alias
+        .iter()
+        .filter_map(|ta| parse_type_alias(ta, &strings).ok())
+        .collect();
+
+    // Extract context receivers (Kotlin 1.6+)
+    // Proto reference: metadata.proto:238-239
+    let context_receivers = parse_context_receivers(&proto_class.context_receiver_type, &strings);
+
     Ok(KotlinClassMetadata {
         kind: KotlinKind::Class,
         class_name,
@@ -558,6 +572,8 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
         flags,
         sealed_subclasses,
         type_parameters,
+        type_aliases,
+        context_receivers,
     })
 }
 
@@ -594,6 +610,14 @@ fn parse_package_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Res
         .map(|(idx, p)| parse_property(p, &strings, idx as u32))
         .collect::<Result<Vec<_>>>()?;
 
+    // Extract type aliases (Kotlin 1.1+)
+    // Proto reference: metadata.proto:271
+    let type_aliases = proto_pkg
+        .type_alias
+        .iter()
+        .filter_map(|ta| parse_type_alias(ta, &strings).ok())
+        .collect();
+
     Ok(KotlinClassMetadata {
         kind: KotlinKind::FileFacade,
         class_name: annot.package_name.clone().unwrap_or_default(),
@@ -604,6 +628,8 @@ fn parse_package_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Res
         flags: crate::types::KotlinClassFlags::default(),
         sealed_subclasses: vec![],
         type_parameters: vec![], // Package facades don't have type parameters
+        type_aliases,
+        context_receivers: Vec::new(), // Package doesn't have context receivers
     })
 }
 
@@ -621,6 +647,8 @@ fn parse_synthetic_class_metadata(_bytes: &[u8], _annot: &KotlinMetadataAnnotati
         flags: crate::types::KotlinClassFlags::default(),
         sealed_subclasses: vec![],
         type_parameters: vec![], // Synthetic classes don't have type parameters
+        type_aliases: Vec::new(),
+        context_receivers: Vec::new(),
     })
 }
 
@@ -666,6 +694,8 @@ fn parse_multifile_class_facade(bytes: &[u8], annot: &KotlinMetadataAnnotation) 
         flags: crate::types::KotlinClassFlags::default(),
         sealed_subclasses: strings, // Store part class names in sealed_subclasses field (repurposed)
         type_parameters: vec![],
+        type_aliases: Vec::new(),
+        context_receivers: Vec::new(),
     })
 }
 
@@ -731,6 +761,8 @@ fn parse_multifile_class_part(bytes: &[u8], annot: &KotlinMetadataAnnotation) ->
         flags: crate::types::KotlinClassFlags::default(),
         sealed_subclasses: vec![],
         type_parameters: vec![],
+        type_aliases: Vec::new(),
+        context_receivers: Vec::new(),
     })
 }
 
@@ -953,12 +985,22 @@ fn parse_function(func: &proto::Function, strings: &[String], _idx: u32) -> Resu
             format!("{}()", name)
         });
 
+    // Extract context receivers (Kotlin 1.6+)
+    // Proto reference: metadata.proto:340-341
+    let context_receivers = parse_context_receivers(&func.context_receiver_type, strings);
+
+    // Extract contract (Kotlin 1.3+)
+    // Proto reference: metadata.proto:352
+    let contract = func.contract.as_ref().map(|c| parse_contract(c, strings));
+
     Ok(KotlinFunction {
         name,
         jvm_signature,
         parameters,
         flags,
         receiver_type: None,
+        context_receivers,
+        contract,
     })
 }
 
@@ -1017,12 +1059,17 @@ fn parse_property(prop: &proto::Property, strings: &[String], _idx: u32) -> Resu
             (field_sig, getter_sig, setter_sig)
         });
 
+    // Extract context receivers (Kotlin 1.6+)
+    // Proto reference: metadata.proto:394-395
+    let context_receivers = parse_context_receivers(&prop.context_receiver_type, strings);
+
     Ok(KotlinProperty {
         name: name.clone(),
         jvm_field_signature,
         getter_signature,
         setter_signature,
         flags,
+        context_receivers,
     })
 }
 
@@ -1048,4 +1095,237 @@ pub fn parse_d2_fallback(annot: &KotlinMetadataAnnotation, _cls: &mut dexterity_
     // Full d2 parsing would require analyzing toString() output format
     tracing::debug!("Using d2 fallback with {} entries", annot.data2.len());
     Ok(())
+}
+
+// ============================================================================
+// Type Alias Parsing (Kotlin 1.1+)
+// Proto reference: metadata.proto:461-485
+// ============================================================================
+
+/// Parse a type alias from proto
+fn parse_type_alias(type_alias: &proto::TypeAlias, strings: &[String]) -> Result<KotlinTypeAlias> {
+    let name = strings
+        .get(type_alias.name as usize)
+        .ok_or_else(|| anyhow!("Invalid type alias name index"))?
+        .clone();
+
+    // Parse type parameters
+    let type_parameters = type_alias
+        .type_parameter
+        .iter()
+        .map(|tp| parse_type_parameter(tp, strings))
+        .collect::<Result<Vec<_>>>()?;
+
+    // Parse underlying type (immediate alias target)
+    let underlying_type = type_alias
+        .underlying_type
+        .as_ref()
+        .map(|t| type_to_string(t, strings))
+        .unwrap_or_else(|| "Unknown".to_string());
+
+    // Parse expanded type (fully resolved)
+    let expanded_type = type_alias
+        .expanded_type
+        .as_ref()
+        .map(|t| type_to_string(t, strings))
+        .unwrap_or_else(|| underlying_type.clone());
+
+    Ok(KotlinTypeAlias {
+        name,
+        type_parameters,
+        underlying_type,
+        expanded_type,
+    })
+}
+
+// ============================================================================
+// Context Receiver Parsing (Kotlin 1.6+)
+// Proto reference: Class:238-239, Function:340-341, Property:394-395
+// ============================================================================
+
+/// Parse context receiver types from proto Type list
+fn parse_context_receivers(types: &[proto::Type], strings: &[String]) -> Vec<String> {
+    types
+        .iter()
+        .map(|t| type_to_string(t, strings))
+        .collect()
+}
+
+// ============================================================================
+// Contract Parsing (Kotlin 1.3+)
+// Proto reference: metadata.proto:586-668
+// ============================================================================
+
+/// Parse a function contract from proto
+fn parse_contract(contract: &proto::Contract, strings: &[String]) -> KotlinContract {
+    let effects = contract
+        .effect
+        .iter()
+        .filter_map(|e| parse_effect(e, strings))
+        .collect();
+
+    KotlinContract { effects }
+}
+
+/// Parse a contract effect from proto
+fn parse_effect(effect: &proto::Effect, strings: &[String]) -> Option<KotlinEffect> {
+    use proto::effect::EffectType as ProtoEffectType;
+
+    let effect_type = match effect.effect_type() {
+        ProtoEffectType::ReturnsConstant => {
+            // Check if there's a constant value in the constructor arguments
+            let value = effect
+                .effect_constructor_argument
+                .first()
+                .and_then(|arg| arg.constant_value)
+                .and_then(|cv| ConstantValue::from_proto(cv as i32));
+            ContractEffectType::ReturnsConstant { value }
+        }
+        ProtoEffectType::Calls => {
+            // CallsInPlace effect - get the parameter index from constructor args
+            let param_index = effect
+                .effect_constructor_argument
+                .first()
+                .and_then(|arg| arg.value_parameter_reference)
+                .map(|idx| idx as usize)
+                .unwrap_or(0);
+            ContractEffectType::CallsInPlace { param_index }
+        }
+        ProtoEffectType::ReturnsNotNull => ContractEffectType::ReturnsNotNull,
+    };
+
+    // Parse invocation kind for CallsInPlace effects
+    let invocation_kind = effect.kind.and_then(|k| {
+        use proto::effect::InvocationKind as ProtoInvocationKind;
+        match proto::effect::InvocationKind::try_from(k) {
+            Ok(ProtoInvocationKind::AtMostOnce) => Some(InvocationKind::AtMostOnce),
+            Ok(ProtoInvocationKind::ExactlyOnce) => Some(InvocationKind::ExactlyOnce),
+            Ok(ProtoInvocationKind::AtLeastOnce) => Some(InvocationKind::AtLeastOnce),
+            Err(_) => None,
+        }
+    });
+
+    // Parse condition for conditional effects (Effect -> Expression)
+    let condition = effect
+        .conclusion_of_conditional_effect
+        .as_ref()
+        .map(|expr| parse_expression(expr, strings));
+
+    Some(KotlinEffect {
+        effect_type,
+        invocation_kind,
+        condition,
+    })
+}
+
+/// Parse a contract expression from proto
+fn parse_expression(expr: &proto::Expression, strings: &[String]) -> ContractExpression {
+    // Extract flags
+    let flags = expr.flags.unwrap_or(0);
+    let is_negated = (flags & 0x01) != 0;
+    let is_null_predicate = (flags & 0x02) != 0;
+
+    // Parse parameter reference (1-indexed, 0 = extension receiver)
+    let param_reference = expr.value_parameter_reference.map(|v| v as usize);
+
+    // Parse constant value
+    let constant_value = expr.constant_value.and_then(|cv| ConstantValue::from_proto(cv as i32));
+
+    // Parse is-instance type
+    let is_instance_type = expr
+        .is_instance_type
+        .as_ref()
+        .map(|t| type_to_string(t, strings));
+
+    // Parse AND expressions recursively
+    let and_expressions = expr
+        .and_argument
+        .iter()
+        .map(|e| parse_expression(e, strings))
+        .collect();
+
+    // Parse OR expressions recursively
+    let or_expressions = expr
+        .or_argument
+        .iter()
+        .map(|e| parse_expression(e, strings))
+        .collect();
+
+    ContractExpression {
+        is_negated,
+        is_null_predicate,
+        param_reference,
+        constant_value,
+        is_instance_type,
+        and_expressions,
+        or_expressions,
+    }
+}
+
+// ============================================================================
+// Type to String Conversion
+// Converts proto Type message to human-readable type string
+// ============================================================================
+
+/// Convert a proto Type to a human-readable string
+fn type_to_string(typ: &proto::Type, strings: &[String]) -> String {
+    let mut result = String::new();
+
+    // Get base type name
+    if let Some(class_name_idx) = typ.class_name {
+        if let Some(class_name) = strings.get(class_name_idx as usize) {
+            // Convert internal name to readable format: kotlin/String -> kotlin.String
+            result = class_name.replace('/', ".");
+        }
+    } else if let Some(type_param_idx) = typ.type_parameter {
+        // Type parameter reference - try to look up name
+        result = format!("T{}", type_param_idx);
+    } else if let Some(type_param_name_idx) = typ.type_parameter_name {
+        if let Some(name) = strings.get(type_param_name_idx as usize) {
+            result = name.clone();
+        }
+    } else if let Some(type_alias_name_idx) = typ.type_alias_name {
+        if let Some(name) = strings.get(type_alias_name_idx as usize) {
+            result = name.replace('/', ".");
+        }
+    }
+
+    // Handle type arguments
+    if !typ.argument.is_empty() {
+        let args: Vec<String> = typ
+            .argument
+            .iter()
+            .map(|arg| {
+                use proto::r#type::argument::Projection;
+                let projection = arg.projection();
+                let type_str = arg
+                    .r#type
+                    .as_ref()
+                    .map(|t| type_to_string(t, strings))
+                    .unwrap_or_else(|| "*".to_string());
+
+                match projection {
+                    Projection::In => format!("in {}", type_str),
+                    Projection::Out => format!("out {}", type_str),
+                    Projection::Star => "*".to_string(),
+                    Projection::Inv => type_str,
+                }
+            })
+            .collect();
+
+        if !args.is_empty() {
+            result = format!("{}<{}>", result, args.join(", "));
+        }
+    }
+
+    // Handle nullability
+    if typ.nullable.unwrap_or(false) {
+        result.push('?');
+    }
+
+    if result.is_empty() {
+        "Unknown".to_string()
+    } else {
+        result
+    }
 }

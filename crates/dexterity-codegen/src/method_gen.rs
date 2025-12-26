@@ -107,6 +107,32 @@ fn is_synthetic_constructor_arg(arg_type: &ArgType, arg_index: usize, method: &M
         }
     }
 
+    // GAP-SKIP-FIRST-ARG: Filter first arg of inner class constructors
+    // JADX Reference: ClassModifier.java:117-138, MethodGen.java:164-165
+    // Inner class constructors have implicit outer class reference as first arg
+    // This check does NOT require the method to be synthetic - inner class constructors
+    // are normal constructors with a synthetic first parameter.
+    if arg_index == 0 {
+        if let ArgType::Object(type_desc) = arg_type {
+            let class_name = &class.class_type;
+            if class_name.contains('$') {
+                // Extract potential outer class: Lcom/example/Outer$Inner; -> Lcom/example/Outer;
+                if let Some(dollar_pos) = class_name.rfind('$') {
+                    let outer_prefix = &class_name[..dollar_pos];
+                    let outer_type = format!("{};", outer_prefix);
+                    if type_desc == &outer_type {
+                        return true;
+                    }
+                    // Also check without L prefix and ; suffix for consistency
+                    let outer_internal = outer_prefix.trim_start_matches('L');
+                    if type_desc == outer_internal {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
     // Only filter remaining patterns if the method is synthetic
     if !crate::access_flags::is_synthetic(method.access_flags) {
         return false;
@@ -117,23 +143,6 @@ fn is_synthetic_constructor_arg(arg_type: &ArgType, arg_index: usize, method: &M
         ArgType::Object(desc) => desc,
         _ => return false,
     };
-
-    // Pattern 1: First arg is the outer class reference
-    // For inner class constructors, the first arg is typically the outer class
-    if arg_index == 0 {
-        // Check if class is an inner class and arg type is the parent
-        let class_name = &class.class_type;
-        if class_name.contains('$') {
-            // Extract potential outer class: Lcom/example/Outer$Inner; -> Lcom/example/Outer;
-            if let Some(dollar_pos) = class_name.rfind('$') {
-                let outer_prefix = &class_name[..dollar_pos];
-                let outer_type = format!("{};", outer_prefix);
-                if type_desc == &outer_type {
-                    return true;
-                }
-            }
-        }
-    }
 
     // Pattern 2: Anonymous class markers (Outer$1, Outer$2, $$Lambda$, etc.)
     // These are compiler-generated classes used as constructor markers
@@ -489,7 +498,7 @@ fn should_add_override_heuristic(method: &MethodData, class: &ClassData) -> Opti
 /// Generate annotation code for an annotation
 pub fn generate_annotation<W: CodeWriter>(annotation: &Annotation, code: &mut W) {
     code.add("@");
-    code.add(annotation.simple_name());
+    code.add(&annotation.simple_name());
 
     // Add annotation elements if present
     if !annotation.elements.is_empty() {
@@ -555,7 +564,7 @@ fn annotation_value_to_string(value: &AnnotationValue) -> String {
         AnnotationValue::Annotation(nested) => {
             // Nested annotation - recursively render elements
             let mut s = String::from("@");
-            s.push_str(nested.simple_name());
+            s.push_str(&nested.simple_name());
             if !nested.elements.is_empty() {
                 s.push('(');
                 for (i, elem) in nested.elements.iter().enumerate() {
@@ -657,6 +666,12 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     let current_package = get_package(&class.class_type);
     let pkg = current_package.as_deref();
 
+    // Emit Kotlin function contract as JavaDoc (Kotlin 1.3+)
+    // Output format: /** @contract callsInPlace(block, EXACTLY_ONCE) */
+    if let Some(ref contract) = method.contract {
+        code.start_line().add("/** @contract ").add(contract).add(" */").newline();
+    }
+
     // Emit method annotations from DEX
     for annotation in &method.annotations {
         if should_emit_annotation(annotation) {
@@ -681,6 +696,12 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     }
 
     code.start_line();
+
+    // Kotlin context receivers (Kotlin 1.6+)
+    // Output format: /* context(LoggingContext, TransactionContext) */
+    if !method.context_receivers.is_empty() {
+        code.add("/* context(").add(&method.context_receivers.join(", ")).add(") */ ");
+    }
 
     // Kotlin function modifiers (emitted as comments for Java output)
     // These appear before Java modifiers to mirror Kotlin syntax order
@@ -842,6 +863,12 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     let current_package = get_package(&class.class_type);
     let pkg = current_package.as_deref();
 
+    // Emit Kotlin function contract as JavaDoc (Kotlin 1.3+)
+    // Output format: /** @contract callsInPlace(block, EXACTLY_ONCE) */
+    if let Some(ref contract) = method.contract {
+        code.start_line().add("/** @contract ").add(contract).add(" */").newline();
+    }
+
     // Emit method annotations from DEX
     for annotation in &method.annotations {
         if should_emit_annotation(annotation) {
@@ -868,6 +895,12 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     }
 
     code.start_line();
+
+    // Kotlin context receivers (Kotlin 1.6+)
+    // Output format: /* context(LoggingContext, TransactionContext) */
+    if !method.context_receivers.is_empty() {
+        code.add("/* context(").add(&method.context_receivers.join(", ")).add(") */ ");
+    }
 
     // Kotlin function modifiers (emitted as comments for Java output)
     // These appear before Java modifiers to mirror Kotlin syntax order
@@ -1787,8 +1820,17 @@ fn collect_throws_from_instructions(
                     let class = &*method_info.class_type;
                     let name = &*method_info.method_name;
 
-                    // Check if this method throws checked exceptions from our static mapping
-                    if let Some(exceptions) = get_library_method_throws(class, name) {
+                    // First try classpath database (6200+ classes with throws info)
+                    if let Some(db_exceptions) = dexterity_clsp::get_method_throws(class, name) {
+                        for exc in db_exceptions {
+                            // Skip if this exception is caught
+                            if !caught_types.contains(&exc) && is_checked_exception(&exc) {
+                                throws.insert(exc);
+                            }
+                        }
+                    }
+                    // Fallback to hard-coded static mapping for edge cases
+                    else if let Some(exceptions) = get_library_method_throws(class, name) {
                         for exc in exceptions {
                             // Skip if this exception is caught
                             if !caught_types.contains(*exc) && is_checked_exception(exc) {
@@ -2550,5 +2592,47 @@ mod tests {
 
         // Should have empty parameter list: private Status() { }
         assert!(code.contains("()"), "Enum with no user args should have empty params: {}", code);
+    }
+
+    #[test]
+    fn test_inner_class_constructor_filters_outer_ref() {
+        // GAP-SKIP-FIRST-ARG: Inner class constructor should filter first arg (outer class reference)
+        // JADX Reference: ClassModifier.java:117-138, MethodGen.java:164-165
+        let inner_class = ClassData::new("Lcom/example/Outer$Inner;".to_string(), ACC_PUBLIC);
+
+        // Create inner class constructor: <init>(Outer outer, String name)
+        // First arg is the synthetic outer class reference
+        let mut inner_ctor = make_method("<init>", ArgType::Void, ACC_PUBLIC);
+        inner_ctor.arg_types = vec![
+            ArgType::Object("com/example/Outer".to_string()),  // outer class ref - should be filtered
+            ArgType::Object("java/lang/String".to_string()),   // user arg - should appear
+        ];
+
+        let mut writer = SimpleCodeWriter::new();
+        generate_method(&inner_ctor, &inner_class, false, &mut writer);
+        let code = writer.finish();
+
+        // Should only have String param, not Outer
+        assert!(code.contains("String "), "Should have String param: {}", code);
+        assert!(!code.contains("Outer "), "Should NOT have Outer param (synthetic): {}", code);
+    }
+
+    #[test]
+    fn test_inner_class_constructor_no_user_args() {
+        // Inner class with only outer reference should have empty param list
+        let inner_class = ClassData::new("Lcom/example/Outer$Inner;".to_string(), ACC_PUBLIC);
+
+        // Create inner class constructor: <init>(Outer outer) - no user args
+        let mut inner_ctor = make_method("<init>", ArgType::Void, ACC_PUBLIC);
+        inner_ctor.arg_types = vec![
+            ArgType::Object("com/example/Outer".to_string()),  // outer class ref only
+        ];
+
+        let mut writer = SimpleCodeWriter::new();
+        generate_method(&inner_ctor, &inner_class, false, &mut writer);
+        let code = writer.finish();
+
+        // Should have empty parameter list
+        assert!(code.contains("()"), "Inner class with no user args should have empty params: {}", code);
     }
 }

@@ -466,10 +466,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "dexterity-clsp"
+version = "1.0.0"
+dependencies = [
+ "lazy_static",
+ "log",
+]
+
+[[package]]
 name = "dexterity-codegen"
 version = "1.0.0"
 dependencies = [
  "dashmap",
+ "dexterity-clsp",
  "dexterity-deobf",
  "dexterity-dex",
  "dexterity-ir",
@@ -579,6 +588,7 @@ dependencies = [
 name = "dexterity-passes"
 version = "1.0.0"
 dependencies = [
+ "dexterity-deobf",
  "dexterity-dex",
  "dexterity-error",
  "dexterity-ir",

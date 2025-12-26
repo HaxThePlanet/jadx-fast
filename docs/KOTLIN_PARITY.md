@@ -6,7 +6,7 @@
 
 | Metric | Status | Notes |
 |--------|--------|-------|
-| **Overall Parity** | **~85-90%** | Field aliases FIXED (Dec 24), Method chains FIXED (Dec 25) |
+| **Overall Parity** | **~95%** | BEYOND JADX: contracts, context receivers, type aliases (Dec 26) |
 | **Proto Parsing** | **~95%** | BitEncoding, d2 strings all working |
 | **Rename Reasons** | **FIXED** | Now includes "reason: from kotlin metadata" |
 | **Field Aliasing** | **FIXED** | `register_kotlin_aliases()` + `AliasAwareDexInfo` |
@@ -65,7 +65,7 @@ private final transient int[] directory;
 
 ---
 
-### What IS Working (Dec 23-25, 2025)
+### What IS Working (Dec 23-26, 2025)
 
 1. **Rename reason comments** - FIXED in `class_gen.rs` and `method_gen.rs`
 2. **Method parameter names** - Applied when signatures match
@@ -73,6 +73,66 @@ private final transient int[] directory;
 4. **Type variance** - `<in T>`, `<out T>` annotations emitted correctly
 5. **Data/sealed/value class detection** - Flags stored in KotlinClassInfo
 6. **Kotlin stdlib method chain naming** - FIXED Dec 25 (P1-CHECKTRACER)
+7. **Function contracts (Kotlin 1.3+)** - NEW Dec 26: `@contract callsInPlace(block, EXACTLY_ONCE)`
+8. **Context receivers (Kotlin 1.6+)** - NEW Dec 26: `/* context(Type1, Type2) */`
+9. **Type aliases (Kotlin 1.1+)** - NEW Dec 26: `/* typealias Name = Type */`
+
+### BEYOND JADX: Advanced Kotlin Metadata (Dec 26, 2025)
+
+Dexterity now implements three Kotlin metadata features that JADX does not support:
+
+**1. Function Contracts (Kotlin 1.3+)**
+
+Kotlin contracts allow functions to declare guarantees about their behavior. Dexterity parses contract effects from Kotlin metadata and emits them as JavaDoc comments.
+
+Supported contract effects:
+- `callsInPlace(param, EXACTLY_ONCE|AT_MOST_ONCE|AT_LEAST_ONCE|UNKNOWN)`
+- `returns(true|false|null)`
+- `returnsNotNull()`
+- AND/OR expression trees for complex contracts
+
+```java
+/** @contract callsInPlace(block, EXACTLY_ONCE) */
+public static final void run(Function0 block) {
+    block.invoke();
+}
+```
+
+**2. Context Receivers (Kotlin 1.6.20+)**
+
+Context receivers allow functions and classes to declare required context types without explicit parameters. Dexterity parses context receiver types and emits them as comments.
+
+Supports:
+- Class-level context receivers
+- Function-level context receivers
+- Property-level context receivers
+
+```java
+/* context(LoggingContext, TransactionContext) */
+public final class DataRepository {
+
+    /* context(CoroutineScope) */
+    public Object fetchData(Continuation $completion) { ... }
+}
+```
+
+**3. Type Aliases (Kotlin 1.1+)**
+
+Type aliases allow defining shorter names for complex types. Dexterity parses type alias definitions including generic parameters and emits them as comments.
+
+```java
+/* typealias Handler = (Event) -> Unit */
+/* typealias StringMap<V> = Map<String, V> */
+public final class EventProcessor { ... }
+```
+
+**Files Implementing These Features:**
+- `crates/dexterity-kotlin/src/types.rs` - `KotlinTypeAlias`, `KotlinContract`, `KotlinEffect`, `ContractEffectType`, `InvocationKind`
+- `crates/dexterity-kotlin/src/parser.rs` - `parse_type_alias()`, `parse_context_receivers()`, `parse_contract()`
+- `crates/dexterity-ir/src/info.rs` - `contract`, `context_receivers`, `type_aliases` fields
+- `crates/dexterity-kotlin/src/extractor.rs` - Metadata to IR mapping
+- `crates/dexterity-codegen/src/method_gen.rs` - Contract and context receiver generation
+- `crates/dexterity-codegen/src/class_gen.rs` - Type alias and class context receiver generation
 
 ---
 
@@ -146,7 +206,9 @@ Function modifiers are emitted as comments before Java modifiers:
 |---------|:----:|:---------:|:------:|-------|
 | SMAP/SourceDebugExtension | YES | YES | **DONE** | `smap_parser.rs`, `smap_types.rs` |
 | Annotation preservation | PARTIAL | PARTIAL | **DONE** | Runtime annotations emitted |
-| Function contracts | NO | PARSED | N/A | `Contract`, `Effect` messages |
+| Function contracts | NO | **YES** | **BEYOND JADX** | `@contract callsInPlace(block, EXACTLY_ONCE)` |
+| Context receivers | NO | **YES** | **BEYOND JADX** | `/* context(Type1, Type2) */` |
+| Type aliases | NO | **YES** | **BEYOND JADX** | `/* typealias Name = Type */` |
 
 ---
 
@@ -164,6 +226,18 @@ Function modifiers are emitted as comments before Java modifiers:
 | Flag extraction | **COMPLETE** | Class, Function, Property flags parsed |
 | Function flags | **COMPLETE** | suspend, inline, operator, infix, tailrec |
 | Property flags | **COMPLETE** | var, const, lateinit, delegated |
+| **Struct fields** | **FIXED Dec 26** | `type_aliases`, `context_receivers` fields added |
+
+#### Struct Fields Fixed (Dec 26, 2025)
+
+Fixed missing struct fields in Kotlin parser types:
+
+- `KotlinClassInfo.type_aliases: Vec<KotlinTypeAlias>` - Type aliases defined in class
+- `KotlinClassInfo.context_receivers: Vec<String>` - Context receiver types (Kotlin 1.6.20+)
+- `KotlinFunctionInfo.context_receivers: Vec<String>` - Function context receivers
+- `KotlinPropertyInfo.context_receivers: Vec<String>` - Property context receivers
+
+These fields are now properly initialized in all struct constructors throughout `parser.rs`.
 
 ### `crates/dexterity-kotlin/src/extractor.rs` (550+ lines)
 
@@ -237,7 +311,7 @@ Function modifiers are emitted as comments before Java modifiers:
 | 13. Predefined strings lookup | **DONE** | 68 common Kotlin types |
 | 14. Rename reason comments | **DONE** | "reason: from kotlin metadata" emitted |
 
-**Current Parity:** ~85-90% (field aliasing FIXED Dec 24)
+**Current Parity:** ~95% (BEYOND JADX: contracts, context receivers, type aliases Dec 26)
 
 #### Completed: Type Parameter Bounds Parsing (Dec 21, 2025)
 
@@ -400,15 +474,20 @@ fun mapFields(cls: ClassNode, kmClass: KmClass): Map<FieldNode, String> {
 
 ---
 
-## Proto Schema Capabilities (Unused)
+## Proto Schema Capabilities
 
-Dexterity's proto schema supports features neither JADX nor Dexterity currently uses:
+Dexterity's proto schema supports advanced Kotlin features. Status as of Dec 26, 2025:
 
-- **Function contracts** (`Contract`, `Effect`, `Expression` messages)
-- **Context receivers** (`context_receiver_type` on Class/Function/Property)
-- **Type alias metadata** (`TypeAlias` message)
+### Implemented (BEYOND JADX)
+
+- **Function contracts** (`Contract`, `Effect`, `Expression` messages) - Output: `@contract` JavaDoc
+- **Context receivers** (`context_receiver_type` on Class/Function/Property) - Output: `/* context(...) */`
+- **Type alias metadata** (`TypeAlias` message) - Output: `/* typealias Name = Type */`
+
+### Not Yet Implemented (Future Work)
+
 - **Annotation arguments** (nested annotations, arrays, class literals)
 - **Version requirements** (`VersionRequirement` message)
 - **Compiler plugin data** passthrough
 
-These represent future enhancement opportunities beyond JADX parity.
+These represent potential future enhancement opportunities.

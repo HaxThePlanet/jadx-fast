@@ -19,7 +19,7 @@ The deobfuscation system consists of two main phases:
 
 | Component | Purpose |
 |-----------|---------|
-| `RenameVisitor` | Validates and fixes names after deobfuscation |
+| `RenameVisitor` | Validates and fixes names after deobfuscation (✅ cloned as `rename_validator_pass.rs`) |
 | `CodeRenameVisitor` | Renames variables in method code |
 | `SourceFileRename` | Uses source file names for better naming |
 | `SaveDeobfMapping` | Persists final mappings |
@@ -42,7 +42,7 @@ The deobfuscation system consists of two main phases:
 
 | File | Purpose |
 |------|---------|
-| `dex/visitors/rename/RenameVisitor.java` | Validation phase |
+| `dex/visitors/rename/RenameVisitor.java` | Validation phase (✅ `rename_validator_pass.rs`) |
 | `dex/visitors/rename/CodeRenameVisitor.java` | Code-level renames |
 | `dex/visitors/rename/UserRenames.java` | User-provided renames |
 | `dex/visitors/rename/SourceFileRename.java` | Source file heuristics |
@@ -193,17 +193,22 @@ Method:  [mo/m][index][originalName_part]
 - Runs deobfuscation logic with combined conditions
 - **RUNS EARLY** - before code generation
 
-### RenameVisitor (init phase)
+### RenameVisitor (init phase) - ✅ CLONED (Dec 26, 2025)
+
+**Dexterity Implementation:** `crates/dexterity-passes/src/rename_validator_pass.rs`
 
 Validates all names after deobfuscation. Checks for:
-- Invalid Java identifiers (starting with $, digits)
+- Invalid Java identifiers (starting with $, digits) - via `fix_class_short_name()`
 - Non-printable characters
 - Anonymous class patterns (pure digits)
-- Name collisions (fields, methods, packages)
-- Case-sensitivity issues on case-insensitive filesystems
+- Name collisions (fields, methods, packages) - via `validate_fields()`, `validate_methods()`
+- Case-sensitivity issues on case-insensitive filesystems - via `fix_case_sensitive_collisions()`
+- Inner class parent collision - via `check_inner_class_parent_collision()`
 
 Falls back to DeobfAliasProvider.forX() if validation fails.
 Validates method name collisions via signature (includeRetType=false).
+
+**Exports:** `apply_rename_validation`, `apply_rename_validation_default`, `validate_class_names`
 
 ### SourceFileRename (init phase)
 
@@ -549,6 +554,6 @@ impl DeobfPresets {
 | `DeobfPresets.java` | ~200 | Mapping file I/O |
 | `DeobfuscatorVisitor.java` | ~300 | Main deobfuscation |
 | `DeobfAliasProvider.java` | ~250 | Name generation |
-| `RenameVisitor.java` | ~400 | Name validation |
+| `RenameVisitor.java` | ~400 | Name validation (✅ cloned as `rename_validator_pass.rs`) |
 | `NameMapper.java` | ~150 | Name utilities |
 | `JadxRenameConditions.java` | ~100 | Condition builder |

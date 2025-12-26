@@ -110,7 +110,7 @@ pub fn dalvik_reg_to_lv_index(reg_num: u16, method: &MethodData) -> usize {
     let this_offset = if is_static { 0 } else { 1 };
 
     // Calculate total slots for arguments
-    let arg_slots: usize = method.arg_types.iter()
+    let _arg_slots: usize = method.arg_types.iter()
         .map(get_type_slot_count)
         .sum();
 

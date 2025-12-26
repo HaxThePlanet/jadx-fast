@@ -77,7 +77,7 @@ Dexterity uses a **single deterministic prepass** before code generation:
 | PRE-DECOMPILE | apply_aliases_from_registry | Apply to IR | ✅ Implemented |
 | CODE GEN | class_output_rel_path | Use aliased paths | ✅ Implemented |
 | POST-GEN | save_jobf_file | Persist mappings | ✅ Implemented |
-| - | RenameVisitor equivalent | Collision detection | ❌ Not implemented |
+| - | RenameVisitor equivalent | Collision detection | ✅ `rename_validator_pass.rs` |
 | - | Variable naming deobf | Local var renaming | ❌ Not implemented |
 
 ---
@@ -347,9 +347,9 @@ m com/example/MainActivity.onCreate(Landroid/os/Bundle;)V = mo0onCreate
 | Java identifier validation | ✅ | ✅ | Reserved keywords |
 | Class-package collision | ✅ | ✅ | Force rename on collision |
 | Method overload handling | ✅ | ✅ | Proto descriptor in key |
-| Inner class collision | ✅ | ❌ | RenameVisitor needed |
-| Case collision detection | ✅ | ❌ | For case-insensitive FS |
-| Second-pass validation | ✅ | ❌ | RenameVisitor needed |
+| Inner class collision | ✅ | ✅ | `check_inner_class_parent_collision()` |
+| Case collision detection | ✅ | ✅ | `fix_case_sensitive_collisions()` |
+| Second-pass validation | ✅ | ✅ | `apply_rename_validation()` |
 
 ### Source Name Features
 
@@ -367,15 +367,15 @@ m com/example/MainActivity.onCreate(Landroid/os/Bundle;)V = mo0onCreate
 
 | Gap | Impact | Effort |
 |-----|--------|--------|
-| **RenameVisitor second-pass** | Collision bugs possible | Medium |
+| ~~**RenameVisitor second-pass**~~ | ✅ FIXED via `rename_validator_pass.rs` | - |
 | **Local variable deobfuscation** | Variable names not renamed | High |
-| **Case collision detection** | Windows FS issues | Low |
+| ~~**Case collision detection**~~ | ✅ FIXED via `fix_case_sensitive_collisions()` | - |
 
 ### Medium Priority (P2)
 
 | Gap | Impact | Effort |
 |-----|--------|--------|
-| Inner class collision handling | Edge case bugs | Medium |
+| ~~Inner class collision handling~~ | ✅ FIXED via `check_inner_class_parent_collision()` | - |
 | Source file name extraction | Missing rename hints | Medium |
 | ProGuard mapping write | Can't export mappings | Low |
 
@@ -414,7 +414,7 @@ m com/example/MainActivity.onCreate(Landroid/os/Bundle;)V = mo0onCreate
 | `DeobfCondition.java` | Condition interface |
 | `DeobfAliasProvider.java` | Name generation |
 | `NameMapper.java` | Name validation |
-| `RenameVisitor.java` | Second-pass validation |
+| `RenameVisitor.java` | Second-pass validation (cloned as `rename_validator_pass.rs`) |
 
 ---
 
