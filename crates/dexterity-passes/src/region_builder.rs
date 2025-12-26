@@ -3343,16 +3343,20 @@ mod tests {
         let mut blocks = BTreeMap::new();
 
         // Try block (id == address for this synthetic test)
+        // IMPORTANT: end_offset must be > start_offset for overlap check to work
         let mut b0 = BasicBlock::new(0, 0);
+        b0.end_offset = 1; // Try range is 0-1, so block ends at 1
         b0.instructions.push(InsnNode::new(InsnType::Nop, 0));
         blocks.insert(0, b0);
 
         // Catch-all (finally) handler: 10 -> 11 -> 12 (throw)
         let mut b10 = BasicBlock::new(10, 10);
+        b10.end_offset = 11;
         b10.successors = vec![11];
         blocks.insert(10, b10);
 
         let mut b11 = BasicBlock::new(11, 11);
+        b11.end_offset = 13;
         b11.instructions.push(InsnNode::new(InsnType::Nop, 11));
         b11.instructions.push(InsnNode::new(InsnType::Nop, 12));
         b11.predecessors = vec![10];
@@ -3360,6 +3364,7 @@ mod tests {
         blocks.insert(11, b11);
 
         let mut b12 = BasicBlock::new(12, 13);
+        b12.end_offset = 14;
         b12.instructions.push(InsnNode::new(
             InsnType::Throw {
                 exception: InsnArg::reg(0),
@@ -3371,23 +3376,18 @@ mod tests {
 
         // A catch handler with a duplicated copy of the finally code: 20 -> 21
         let mut b20 = BasicBlock::new(20, 20);
+        b20.end_offset = 21;
         b20.successors = vec![21];
         blocks.insert(20, b20);
 
         let mut b21 = BasicBlock::new(21, 21);
+        b21.end_offset = 23;
         b21.instructions.push(InsnNode::new(InsnType::Nop, 21));
         b21.instructions.push(InsnNode::new(InsnType::Nop, 22));
         b21.predecessors = vec![20];
         blocks.insert(21, b21);
 
-        // Convert BTreeMap to Vec for BlockSplitResult
-        let blocks_vec: Vec<BasicBlock> = blocks.into_values().collect();
-        let mut cfg = CFG::from_blocks(BlockSplitResult {
-            blocks: blocks_vec,
-            entry_block: 0,
-            exit_blocks: vec![12],
-        });
-
+        // Define try blocks first (needed for CFG construction with exception edges)
         let try_blocks = [TryBlock {
             start_addr: 0,
             end_addr: 1,
@@ -3402,6 +3402,18 @@ mod tests {
                 },
             ],
         }];
+
+        // Convert BTreeMap to Vec for BlockSplitResult
+        let blocks_vec: Vec<BasicBlock> = blocks.into_values().collect();
+        // Use from_blocks_with_try_catch to add exception edges for proper dominance computation
+        let mut cfg = CFG::from_blocks_with_try_catch(
+            BlockSplitResult {
+                blocks: blocks_vec,
+                entry_block: 0,
+                exit_blocks: vec![12],
+            },
+            &try_blocks,
+        );
 
         mark_duplicated_finally(&mut cfg, &try_blocks);
 
