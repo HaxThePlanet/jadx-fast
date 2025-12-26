@@ -365,6 +365,17 @@ pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[dexterity_ir::TryBlo
     }
 }
 
+/// Find block ID for an address, using fuzzy matching if exact match fails.
+/// This handles sparse DEX bytecode where handler addresses may not match exact instruction offsets.
+/// Mirrors the binary search rounding logic in block_split.rs:225-238.
+fn find_block_for_addr(addr: u32, sorted_blocks: &[(u32, u32)]) -> Option<u32> {
+    match sorted_blocks.binary_search_by_key(&addr, |(off, _)| *off) {
+        Ok(pos) => Some(sorted_blocks[pos].1),           // Exact match
+        Err(pos) if pos < sorted_blocks.len() => Some(sorted_blocks[pos].1), // Next block (fuzzy)
+        Err(_) => None,
+    }
+}
+
 /// Detect try-catch regions from IR TryBlock information
 fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) -> Vec<TryInfo> {
     let mut tries = Vec::with_capacity(try_blocks.len());
@@ -388,6 +399,14 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
             addr_to_block.insert(block.start_offset, block_id);
         }
     }
+
+    // P1-TRY-CATCH-INVERT FIX: Build sorted vec for fuzzy address matching.
+    // Handler addresses from DEX may not exactly match instruction offsets due to
+    // sparse bytecode. Block splitting rounds to the next instruction (block_split.rs:225),
+    // so we need fuzzy lookup to find the correct block when exact match fails.
+    let sorted_blocks: Vec<(u32, u32)> = addr_to_block.iter()
+        .map(|(&off, &id)| (off, id)).collect();
+    // Note: BTreeMap iterates in sorted order, so sorted_blocks is already sorted
 
     // P1-SWITCH-INIT FIX: Pre-collect ALL try block ranges first
     // This is needed so that when collecting handler blocks, we can stop at blocks
@@ -452,8 +471,8 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
         // This matches JADX's prepareTryBlocks() which removes handler blocks from try blocks.
         let mut try_block_ids = try_block_ids;
         for h in &try_block.handlers {
-            // Convert handler address to block ID using the addr_to_block map
-            if let Some(&handler_block_id) = addr_to_block.get(&h.handler_addr) {
+            // Convert handler address to block ID using fuzzy matching (P1-TRY-CATCH-INVERT)
+            if let Some(handler_block_id) = find_block_for_addr(h.handler_addr, &sorted_blocks) {
                 try_block_ids.remove(&handler_block_id);
             }
         }
@@ -461,9 +480,9 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
         // Convert exception handlers, filtering out monitor-exit-only handlers
         // These are synthetic handlers for synchronized blocks that should not generate code
         let handlers: Vec<HandlerInfo> = try_block.handlers.iter().filter_map(|h| {
-            // Convert handler address to block ID
-            let handler_block = match addr_to_block.get(&h.handler_addr) {
-                Some(&block_id) => block_id,
+            // Convert handler address to block ID using fuzzy matching (P1-TRY-CATCH-INVERT)
+            let handler_block = match find_block_for_addr(h.handler_addr, &sorted_blocks) {
+                Some(block_id) => block_id,
                 None => {
                     if std::env::var("DEBUG_TRY_CATCH").is_ok() {
                         eprintln!("[DEBUG_TRY_CATCH] No block found for handler addr 0x{:x}", h.handler_addr);

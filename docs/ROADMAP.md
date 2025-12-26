@@ -1,11 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 1 P1 | 1 P1-CG | 3 P2-CG | Dec 26, 2025
+**Status:** 🟢 PRODUCTION-READY | A-/B+ Grade (85-90%) | 0 P0 | 0 P1 | 0 P1-CG | 3 P2-CG | Dec 26, 2025
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 0 P0, 1 P1 (try-catch invert), 1 P1-CG, 3 P2-CG codegen gaps |
+| **Open Bugs** | 0 P0, 0 P1, 0 P1-CG, 3 P2-CG codegen gaps |
 | **Code Quality** | 0 Easy, 2 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Throws declarations (~75-80% parity - 529 methods, 38 unchecked types) |
 | **Kotlin Parity** | ~85% - Field aliases work in declarations and usages |
@@ -516,7 +516,7 @@ while (it.hasNext()) {
 
 ---
 
-## Open P1 Bugs (Dec 25, 2025) - 1 OPEN, 2 FIXED (from JADX comparison audit)
+## P1 Bugs - ALL FIXED (Dec 26, 2025)
 
 ### P1-PHI-VAR-TYPE: PHI Variable Type Mismatch ✅ FIXED (Dec 25, 2025)
 
@@ -595,9 +595,9 @@ while (i < bArr.length) {
 
 ---
 
-### P1-TRY-CATCH-INVERT: Empty Try Block / Inverted Control Flow 🟡 PARTIAL FIX (Dec 26, 2025)
+### P1-TRY-CATCH-INVERT: Empty Try Block / Inverted Control Flow ✅ FIXED (Dec 26, 2025)
 
-**Status:** 🟡 PARTIAL FIX | **Priority:** P1 (Wrong semantics)
+**Status:** ✅ FIXED | **Priority:** P1 (Wrong semantics)
 **Location:** `crates/dexterity-passes/src/region_builder.rs` - try-catch reconstruction
 **Example File:** `output/dexterity/medium/sources/org/json/JSONObject.java:73-85`
 
@@ -629,9 +629,22 @@ for &succ in cfg.successors(b) {
 ```
 This adds temporary exception edges before computing dominators (JADX parity).
 
+**Phase 3 - Fuzzy Handler Address Matching (Dec 26, 2025):** Added `find_block_for_addr()` helper function that uses binary search to find blocks even when handler addresses don't exactly match block start offsets. This mirrors the rounding logic in `block_split.rs:225-238`.
+
+```rust
+// NEW: Fuzzy matching for sparse DEX bytecode
+fn find_block_for_addr(addr: u32, sorted_blocks: &[(u32, u32)]) -> Option<u32> {
+    match sorted_blocks.binary_search_by_key(&addr, |(off, _)| *off) {
+        Ok(pos) => Some(sorted_blocks[pos].1),           // Exact match
+        Err(pos) if pos < sorted_blocks.len() => Some(sorted_blocks[pos].1), // Next block
+        Err(_) => None,
+    }
+}
+```
+
 **Results:**
 - ✅ JSONObject constructor FIXED: `putOnce()` now correctly in try block, spurious `return` removed
-- 🔴 JSONArray.getDouble() still broken: Different root cause - `parseDouble()` ends up AFTER try-catch, not in catch
+- ✅ JSONArray.getDouble() FIXED: `parseDouble()` now correctly inside try block
 
 **Before/After (JSONObject constructor):**
 ```java
@@ -639,11 +652,16 @@ This adds temporary exception edges before computing dominators (JADX parity).
 // AFTER:  try { putOnce(); } catch { i++; }          // Logic in try, no spurious return
 ```
 
-**Remaining Issue (JSONArray.getDouble):** The `parseDouble()` call ends up AFTER the try-catch block, not inside it. This is a different pattern from JSONObject - the issue is NOT handler block collection, but try block range detection. The try_blocks set doesn't include the parseDouble block, possibly due to block splitting at handler addresses creating unexpected boundaries.
+**Before/After (JSONArray.getDouble):**
+```java
+// BEFORE: try { } catch {...} return parseDouble(...);  // parseDouble AFTER try-catch
+// AFTER:  try { return parseDouble(...); } catch {...}  // parseDouble INSIDE try-catch (JADX parity)
+```
 
-**Root Cause (Phase 1 - FIXED):** BFS fallback followed loop back edges and re-entered try body blocks, causing them to be collected as handler blocks.
-
-**Root Cause (Phase 2 - Remaining):** Block containing `parseDouble()` is not included in try_blocks because its start_offset falls outside the try address range after block splitting. Need to investigate how handler addresses affect block boundaries.
+**Root Cause Analysis:**
+1. **Phase 1**: BFS fallback followed loop back edges and re-entered try body blocks
+2. **Phase 2**: Missing exception edges caused incorrect dominance computation
+3. **Phase 3**: Handler addresses in sparse DEX bytecode were rounded up during block splitting, but handler lookup used exact matching, causing misses
 
 **JADX Reference:** `BlockUtils.collectWhileDominates()` - only follows successors that are dominated by the handler
 
@@ -870,12 +888,12 @@ this.currentSize += getSize(y);
 
 Gaps identified by comparing Dexterity codegen vs JADX-fast codegen. See [CODEGEN_PARITY_MASTER.md](CODEGEN_PARITY_MASTER.md) for details.
 
-### P1-CG: High Priority Codegen Gaps (1 Open, 3 Fixed)
+### P1-CG: High Priority Codegen Gaps (0 Open, 4 Fixed)
 
 | Gap ID | Description | JADX Reference | Status |
 |--------|-------------|----------------|--------|
 | ~~GAP-VARARGS-SIG~~ | ~~Method signatures don't convert `Type[]` to `Type...`~~ | MethodGen.java:240-249 | ✅ FIXED (method_gen.rs:1906-1909) |
-| **GAP-SKIP-FIRST-ARG** | Missing SKIP_FIRST_ARG for bridge/synthetic methods | MethodGen.java:164-165 | 🔴 OPEN |
+| **GAP-SKIP-FIRST-ARG** | Inner class ctor first arg filtering | MethodGen.java:164-165 | ✅ FIXED - Filters outer class ref Dec 26 |
 | ~~GAP-ENUM-CTOR-FILTER~~ | ~~Enum constructor args not filtered (first 2 implicit)~~ | MethodGen.java:155-163 | ✅ FIXED Dec 26 (method_gen.rs:96-108) |
 | ~~GAP-CATCH-ORDER~~ | ~~Catch-all handler not explicitly ordered last~~ | RegionGen.java:325-336 | ✅ FIXED (block_exception_handler.rs:809-822) |
 
@@ -886,7 +904,7 @@ Gaps identified by comparing Dexterity codegen vs JADX-fast codegen. See [CODEGE
 | **GAP-FOR-INIT-UPDATE** | For-loop init/update hardcoded `int i=0; i++` | RegionGen.java:188-192 | ✅ FIXED - Extracts actual init/step values |
 | **GAP-ENUM-NESTED** | Enum constants with nested class bodies | ClassGen.java:504-541 | 🔴 OPEN |
 | **GAP-NAMED-ARG-CATCH** | Only Register-based exception variables | RegionGen.java:367-377 | 🔴 OPEN |
-| **GAP-PKG-INFO** | No package-info.java generation | ClassGen.java:99-155 | 🔴 OPEN |
+| ~~GAP-PKG-INFO~~ | ~~No package-info.java generation~~ | ClassGen.java:99-155 | ✅ FIXED (class_gen.rs:221-278) |
 | ~~GAP-COMMENTS-LEVEL~~ | ~~No configurable comment verbosity~~ | InsnGen.java:658 | ✅ FIXED (args.rs:214, --comments-level) |
 
 ### P3-CG: Low Priority (Cosmetic/IDE) - 6 Open
