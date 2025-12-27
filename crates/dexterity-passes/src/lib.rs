@@ -87,6 +87,10 @@ pub mod deobf;
 
 // Re-exports
 pub use algorithms::{compute_dominators, DominatorInfo, LiveVarAnalysis, LivenessInfo};
+pub use apply_variable_names::{
+    apply_variable_names, apply_variable_names_with_lookups,
+    ApplyVariableNamesResult, MethodNameInfo as ApplyVarMethodNameInfo,
+};
 pub use attach_comments::{attach_comments, AttachCommentsResult};
 pub use block_finisher::{finish_blocks, BlockFinishResult};
 pub use block_split::{split_blocks, split_blocks_with_handlers, split_return_blocks, BasicBlock, BlockSplitResult};
@@ -99,7 +103,7 @@ pub use conditionals::{
 pub use extract_field_init::{extract_field_init, extract_instance_field_init};
 pub use fallback_mode::{can_throw_exception, needs_fallback_processing, process_fallback_mode, FallbackModeResult};
 pub use finally_extract::{apply_finally_marking, extract_finally, FinallyExtractInfo, InsnsSlice};
-pub use kotlin_intrinsics::{process_kotlin_intrinsics, process_kotlin_intrinsics_with_context, IntrinsicsContext};
+pub use kotlin_intrinsics::{process_kotlin_intrinsics, process_kotlin_intrinsics_with_context, process_kotlin_intrinsics_with_options, IntrinsicsContext, KotlinIntrinsicsOptions};
 pub use loops::{detect_loops, LoopInfo};
 pub use loop_analysis::{analyze_loop_patterns, ArrayForEachPattern, ForLoopPattern, LoopPatternResult, UpperBound};
 pub use method_inline::{
@@ -176,7 +180,7 @@ pub use dot_graph_visitor::{
 pub use if_region_visitor::{process_if_regions, IfRegionVisitorResult};
 pub use init_code_vars::{init_code_variables, rerun_code_variables};
 pub use split_code_vars::{split_incompatible_code_vars, SplitCodeVarsResult};
-pub use process_variables::{process_variables, get_code_var_name, merge_code_var_type, ProcessVariablesResult};
+pub use process_variables::{process_variables, remove_unused_results, get_code_var_name, merge_code_var_type, ProcessVariablesResult, RemoveUnusedResult};
 pub use shadow_field::{
     apply_shadow_field_fixes, get_field_fix, is_instance_field_access, search_shadowed_fields,
     FieldFixInfo, FieldFixType, ShadowFieldResult,

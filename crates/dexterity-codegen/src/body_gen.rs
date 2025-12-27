@@ -42,7 +42,7 @@ use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_dup
 use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 use dexterity_passes::var_naming::types_compatible_for_naming;
-use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen, process_instructions, simplify_stringbuilder_chains, StringBuilderMethodInfo, init_code_variables, process_variables, split_incompatible_code_vars};
+use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen, process_instructions, simplify_stringbuilder_chains, StringBuilderMethodInfo, init_code_variables, process_variables, split_incompatible_code_vars, remove_unused_results};
 
 use crate::class_gen::{get_inner_class_simple_name, is_anonymous_class};
 use crate::dex_info::DexInfoProvider;
@@ -592,16 +592,26 @@ impl BodyGenContext {
             let expr_info = self.peek_inline_expr(reg.reg_num, reg.ssa_version)
                 .map(|e| {
                     let is_field_access = e.contains('.') && !e.contains('(');
-                    (e.clone(), is_field_access)
+                    // JADX PARITY: Check if this is a pure literal (always safe to inline)
+                    // Literals like "0", "15", "-546", "0L", "1.0f" are immutable and cheap
+                    let is_pure_literal = is_pure_literal_expr(&e);
+                    (e.clone(), is_field_access, is_pure_literal)
                 });
 
             // Debug: trace inline lookups
             if std::env::var("DEXTERITY_DEBUG_BLOCKS").is_ok() {
                 eprintln!("[INLINE_DEBUG] gen_arg_inline looking for r{}v{}, found={:?}",
-                    reg.reg_num, reg.ssa_version, expr_info.as_ref().map(|(e, _)| e.chars().take(50).collect::<String>()));
+                    reg.reg_num, reg.ssa_version, expr_info.as_ref().map(|(e, _, _)| e.chars().take(50).collect::<String>()));
             }
 
-            if let Some((expr, _)) = expr_info {
+            if let Some((expr, _, is_pure_literal)) = expr_info {
+                // JADX PARITY: Pure literals are ALWAYS inlined regardless of use count
+                // This matches JADX behavior where 0, 15, -546, etc. are never stored in variables
+                if is_pure_literal {
+                    // Don't consume - literals can be used multiple times
+                    return expr;
+                }
+
                 // P0-UNDEF-VAR FIX: Check must_inline() first (force-inline OR static field)
                 // Static fields use definitive flag instead of heuristic (contains('.'))
                 // Clone of JADX AFlag.FORCE_ASSIGN_INLINE and InsnGen.java:491-492
@@ -724,6 +734,11 @@ impl BodyGenContext {
     /// JADX always generates `object.field` inline, never as intermediate variables.
     pub fn gen_arg_with_inline_peek(&self, arg: &InsnArg) -> String {
         if let InsnArg::Register(reg) = arg {
+            // DEBUG: Trace every call to this function
+            if std::env::var("DEBUG_INLINE").is_ok() {
+                let has_expr = self.peek_inline_expr(reg.reg_num, reg.ssa_version).is_some();
+                eprintln!("[PEEK_ENTRY] r{}v{} has_inline_expr={}", reg.reg_num, reg.ssa_version, has_expr);
+            }
             // CG-002 FIX: Check for inline expression with SSA version fallback.
             // Clone of JADX NameGen behavior: field access is always inlined.
             //
@@ -761,22 +776,35 @@ impl BodyGenContext {
                 // Detect field access by checking if expression contains "." and
                 // doesn't look like a method call (no parentheses).
                 let is_field_access = expr.contains('.') && !expr.contains('(');
+                // JADX PARITY: Pure literals (0, 15, -546, 0L, etc.) are ALWAYS inlined
+                // regardless of use count. This matches JADX behavior where constants
+                // are never stored in intermediate variables.
+                let is_pure_literal = is_pure_literal_expr(&expr);
 
                 // For field access: always inline (JADX parity)
+                // For pure literals: always inline (JADX parity - constants never use vars)
                 // For single-use variables: inline (optimization)
-                // For multi-use non-field: use variable name (was already declared)
-                if is_field_access || self.should_inline(reg.reg_num, reg.ssa_version) {
+                // For multi-use non-field non-literal: use variable name (was already declared)
+                if is_field_access || is_pure_literal || self.should_inline(reg.reg_num, reg.ssa_version) {
                     // P1-HOTRELOAD DEBUG: Trace inline decisions
                     if std::env::var("DEBUG_INLINE").is_ok() {
                         let use_count = self.insn_use_counts.get(&(reg.reg_num, reg.ssa_version)).copied().unwrap_or(0);
-                        eprintln!("[GEN_ARG_INLINE_PEEK] r{}v{}: INLINE field_access={} use_count={} expr={}",
-                            reg.reg_num, reg.ssa_version, is_field_access, use_count, expr);
+                        eprintln!("[GEN_ARG_INLINE_PEEK] r{}v{}: INLINE field_access={} pure_literal={} use_count={} expr={}",
+                            reg.reg_num, reg.ssa_version, is_field_access, is_pure_literal, use_count, expr);
                     }
                     return expr.clone();
                 }
             }
         }
         // Fall back to normal expression generation (returns variable name)
+        if std::env::var("DEBUG_INLINE").is_ok() {
+            if let InsnArg::Register(reg) = arg {
+                let var_name = self.expr_gen.gen_arg(arg);
+                eprintln!("[GEN_ARG_INLINE_PEEK] r{}v{}: FALLBACK to var_name={}",
+                    reg.reg_num, reg.ssa_version, var_name);
+                return var_name;
+            }
+        }
         self.expr_gen.gen_arg(arg)
     }
 
@@ -794,6 +822,10 @@ impl BodyGenContext {
         _proto_idx: u32,
     ) -> Option<String> {
         let info = self.expr_gen.get_method_value(method_idx)?;
+        // DEBUG: Trace invoke expression generation
+        if std::env::var("DEBUG_INLINE").is_ok() {
+            eprintln!("[GEN_INVOKE_EXPR] method={}.{} arg_count={}", info.class_name, info.method_name, args.len());
+        }
         let mut expr = String::new();
         let skip_count = if matches!(kind, InvokeKind::Static) { 0 } else { 1 };
 
@@ -1978,8 +2010,10 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
     for (reg, version) in phi_vars {
         // DEAD VARIABLE ELIMINATION: Skip variables that are never used
         // This matches JADX's behavior of not declaring unused variables
-        let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
-        if use_count == 0 {
+        // Check insn_use_counts (instruction reads only) not use_counts (includes PHI sources)
+        // This catches PHI destinations that are never actually read, only propagated through PHIs
+        let insn_use_count = ctx.insn_use_counts.get(&(reg, version)).copied().unwrap_or(0);
+        if insn_use_count == 0 {
             continue;
         }
 
@@ -2929,6 +2963,10 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     // Process variables - mark instructions with DECLARE_VAR flag (JADX parity)
     let _process_vars_result = process_variables(&mut ssa_result);
 
+    // Remove unused results - mark unused definitions with REMOVE or DONT_GENERATE flags
+    // This prevents garbage variables like `int i96 = 0;` from appearing in output
+    let _remove_unused_result = remove_unused_results(&mut ssa_result);
+
     // Post-type-inference optimizations
     let type_map: std::collections::HashMap<(u16, u32), _> = type_result.types.iter()
         .map(|(k, v)| (*k, v.clone()))
@@ -3126,6 +3164,11 @@ fn generate_body_impl<W: CodeWriter>(
     // Process variables - mark instructions with DECLARE_VAR flag (JADX parity)
     // This must run after type inference so we have type info, before codegen
     let _process_vars_result = process_variables(&mut ssa_result);
+
+    // Remove unused results - mark unused definitions with REMOVE or DONT_GENERATE flags
+    // This prevents garbage variables like `int i96 = 0;` from appearing in output
+    // JADX parity: ProcessVariables.removeUnusedResults()
+    let _remove_unused_result = remove_unused_results(&mut ssa_result);
 
     // Post-type-inference optimizations
     let type_map: std::collections::HashMap<(u16, u32), _> = type_result.types.iter()
@@ -3511,6 +3554,10 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     // Process variables - mark instructions with DECLARE_VAR flag (JADX parity)
     // Must run after type inference but before codegen
     let _process_vars_result = process_variables(&mut ssa_result);
+
+    // Remove unused results - mark unused definitions with REMOVE or DONT_GENERATE flags
+    // This prevents garbage variables like `int i96 = 0;` from appearing in output
+    let _remove_unused_result = remove_unused_results(&mut ssa_result);
 
     // Stage 3: Post-type-inference optimizations
     // Convert types to HashMap for simplify pass
@@ -8119,8 +8166,8 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                     if matches!(insn.insn_type, InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. }) {
                         continue;
                     }
-                    // Skip instructions marked with DONT_GENERATE
-                    if insn.has_flag(AFlag::DontGenerate) {
+                    // Skip instructions marked with DONT_GENERATE or REMOVE
+                    if insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove) {
                         continue;
                     }
                     // Skip control flow instructions
@@ -8494,8 +8541,8 @@ fn generate_region_impl<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext
                     if matches!(insn.insn_type, InsnType::MonitorEnter { .. } | InsnType::MonitorExit { .. }) {
                         continue;
                     }
-                    // Skip instructions marked with DONT_GENERATE
-                    if insn.has_flag(AFlag::DontGenerate) {
+                    // Skip instructions marked with DONT_GENERATE or REMOVE
+                    if insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove) {
                         continue;
                     }
                     // Skip control flow instructions
@@ -8908,8 +8955,10 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
             }
         }
 
-        // Skip instructions marked with DONT_GENERATE (duplicated finally code)
-        if insn.has_flag(AFlag::DontGenerate) {
+        // Skip instructions marked with DONT_GENERATE or REMOVE
+        // DONT_GENERATE: duplicated finally code, instructions with side effects but unused result
+        // REMOVE: pure definitions with no side effects (const, move, cast) that are never used
+        if insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove) {
             continue;
         }
 
@@ -9189,10 +9238,10 @@ fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut 
                 continue;
             }
 
-            // Skip instructions marked with DONT_GENERATE
-            if insn.has_flag(AFlag::DontGenerate) {
+            // Skip instructions marked with DONT_GENERATE or REMOVE
+            if insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove) {
                 if debug_prelude {
-                    eprintln!("[PRELUDE]   [{i}] SKIPPED (DONT_GEN): {:?}", insn.insn_type);
+                    eprintln!("[PRELUDE]   [{i}] SKIPPED (DONT_GEN/REMOVE): {:?}", insn.insn_type);
                 }
                 continue;
             }
@@ -9239,7 +9288,7 @@ fn process_block_prelude_for_inlining(block_id: u32, final_insn_idx: Option<usiz
         }
 
         // Skip control flow and marked instructions
-        if is_control_flow(&insn.insn_type) || insn.has_flag(AFlag::DontGenerate) {
+        if is_control_flow(&insn.insn_type) || insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove) {
             continue;
         }
 
@@ -10432,6 +10481,58 @@ fn generate_anonymous_class_inline<W: CodeWriter>(
 // =============================================================================
 // Field Replace Support (JADX parity: FieldReplaceAttr)
 // =============================================================================
+
+/// Check if an expression is a pure literal (always safe to inline regardless of use count)
+/// Matches: integer literals (0, 15, -546), long literals (0L), float (1.0f), double (1.0),
+/// boolean (true, false), null, and String literals ("...")
+fn is_pure_literal_expr(expr: &str) -> bool {
+    let trimmed = expr.trim();
+
+    // Boolean literals
+    if trimmed == "true" || trimmed == "false" {
+        return true;
+    }
+
+    // Null literal
+    if trimmed == "null" {
+        return true;
+    }
+
+    // String literal (starts and ends with quotes)
+    if trimmed.starts_with('"') && trimmed.ends_with('"') {
+        return true;
+    }
+
+    // Numeric literals: try to parse as number
+    // Handle optional sign prefix and suffixes (L, f, F, d, D)
+    let num_part = trimmed.trim_start_matches('-');
+
+    // Long suffix
+    if num_part.ends_with('L') || num_part.ends_with('l') {
+        let base = &num_part[..num_part.len()-1];
+        return base.parse::<i64>().is_ok();
+    }
+
+    // Float suffix
+    if num_part.ends_with('f') || num_part.ends_with('F') {
+        let base = &num_part[..num_part.len()-1];
+        return base.parse::<f64>().is_ok();
+    }
+
+    // Double suffix or plain float
+    if num_part.ends_with('d') || num_part.ends_with('D') {
+        let base = &num_part[..num_part.len()-1];
+        return base.parse::<f64>().is_ok();
+    }
+
+    // Plain integer or float (with decimal point)
+    if num_part.contains('.') {
+        return num_part.parse::<f64>().is_ok();
+    }
+
+    // Plain integer
+    trimmed.parse::<i64>().is_ok()
+}
 
 /// Check if a field name is a synthetic outer class reference (this$0, this$1, etc.)
 /// JADX parity: These fields should be replaced with OuterClass.this
@@ -12007,15 +12108,39 @@ fn generate_insn<W: CodeWriter>(
                 LiteralArg::Null => None, // null can be any object type
             });
 
-            // P1-CFG07 FIX: Check should_inline for ALL const values, not just 0/1
-            // This ensures constants like 7, 12000 are inlined when single-use,
-            // producing `e(a, b) / 7` instead of `int l3 = 7; l2 = l6 / l3;`
-            // Skip inlining for PHI sources - they must assign to the PHI variable
-            if !is_phi_source && ctx.should_inline(reg, version) {
-                // DEBUG: Trace generate_insn const processing
-                if std::env::var("DEBUG_INLINE").is_ok() {
-                    eprintln!("[GEN-CONST] r{}v{} value={:?} should_inline=true",
-                        reg, version, value);
+            // JADX PARITY FIX: Check if the inline expression will actually be consumed.
+            // JADX's InsnGen.makeInsn() checks getUseCount() at emission time (line 298).
+            // For Dexterity, we check if all uses are themselves inlinable (transitive).
+            // If a const's uses are all inlined into expressions that are also inlined,
+            // the const itself becomes unreachable and shouldn't be emitted.
+            //
+            // For PHI sources: must emit assignment to the PHI variable (if the PHI dest is used)
+            if is_phi_source {
+                // Check if the PHI destination is actually used (in instructions OR as PHI source)
+                let phi_dest_insn_use_count = ctx.insn_use_counts.get(&(effective_reg, effective_version)).copied().unwrap_or(0);
+                let phi_dest_total_use_count = ctx.use_counts.get(&(effective_reg, effective_version)).copied().unwrap_or(0);
+
+                // Skip if never used in instructions AND not used as PHI source (total use == 0)
+                if phi_dest_insn_use_count == 0 && phi_dest_total_use_count == 0 {
+                    return true;
+                }
+
+                // Skip if PHI dest would be inlined (single-use) - no separate variable needed
+                // The PHI dest's value will be inlined at its use site
+                if ctx.should_inline(effective_reg, effective_version) {
+                    // Store the literal for potential inline at PHI dest's use site
+                    let val_str = if let (Some(ref ty), LiteralArg::Int(v)) = (&type_hint, value) {
+                        literal_to_string(*v, ty)
+                    } else {
+                        ctx.expr_gen.gen_literal(value)
+                    };
+                    ctx.store_inline_expr(effective_reg, effective_version, val_str);
+                    return true;
+                }
+
+                // Also skip if the only use is as a PHI source to another unused PHI
+                if phi_dest_insn_use_count == 0 && phi_dest_total_use_count <= 1 {
+                    return true;
                 }
                 // Generate literal using type-aware function for proper boolean/char handling
                 let val_str = if let (Some(ref ty), LiteralArg::Int(v)) = (&type_hint, value) {
@@ -12023,23 +12148,29 @@ fn generate_insn<W: CodeWriter>(
                 } else {
                     ctx.expr_gen.gen_literal(value)
                 };
-                ctx.store_inline_expr(reg, version, val_str);
+                emit_assignment_with_hint(dest, &val_str, type_hint.as_ref(), ctx, code);
                 return true;
             }
 
-            // Multi-use constant - emit normal assignment
+            // JADX PARITY: ALWAYS inline literal constants (except PHI sources handled above)
+            // JADX inlines 0, 15, -546, etc. directly in method calls instead of creating
+            // intermediate variables. This is safe because literals are immutable and cheap.
             // Generate literal using type-aware function for proper boolean/char handling
             let val_str = if let (Some(ref ty), LiteralArg::Int(v)) = (&type_hint, value) {
                 literal_to_string(*v, ty)
             } else {
                 ctx.expr_gen.gen_literal(value)
             };
-
-            emit_assignment_with_hint(dest, &val_str, type_hint.as_ref(), ctx, code);
+            ctx.store_inline_expr(reg, version, val_str);
             true
         }
 
         InsnType::ConstString { dest, .. } => {
+            // GARBAGE VAR FIX: Skip if never actually used
+            let insn_use_count = ctx.insn_use_counts.get(&(dest.reg_num, dest.ssa_version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
             // OPTIMIZED: Direct write with String type hint
             let string_type = ArgType::Object("java/lang/String".to_string());
             emit_assignment_insn(dest, insn, Some(&string_type), ctx, code);
@@ -12059,6 +12190,12 @@ fn generate_insn<W: CodeWriter>(
             // Check if this variable is used only once - if so, inline it
             let reg = dest.reg_num;
             let version = dest.ssa_version;
+
+            // GARBAGE VAR FIX: Skip if never actually used
+            let insn_use_count = ctx.insn_use_counts.get(&(reg, version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
 
             if ctx.should_inline(reg, version) {
                 // Get the source expression (which might itself be inlined)
@@ -12596,31 +12733,86 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::Unary { dest, .. } => {
-            // OPTIMIZED: Direct write
+            // GARBAGE VAR FIX: Skip if never actually used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(dest.reg_num, dest.ssa_version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
+            // JADX PARITY: Check should_inline like Const - if single-use, store for inline
+            if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                let expr = ctx.expr_gen.gen_insn(&insn.insn_type).unwrap_or_default();
+                ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                return true;
+            }
+            // Multi-use: emit assignment
             emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
         InsnType::Binary { dest, .. } => {
-            // OPTIMIZED: Direct write
+            // GARBAGE VAR FIX: Skip if never actually used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(dest.reg_num, dest.ssa_version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
+            // JADX PARITY: Check should_inline like Const - if single-use, store for inline
+            if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                let expr = ctx.expr_gen.gen_insn(&insn.insn_type).unwrap_or_default();
+                ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                return true;
+            }
+            // Multi-use: emit assignment
             emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
         InsnType::Cast { dest, .. } => {
-            // OPTIMIZED: Direct write
+            // GARBAGE VAR FIX: Skip if never actually used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(dest.reg_num, dest.ssa_version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
+            // JADX PARITY: Check should_inline like Const - if single-use, store for inline
+            if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                let expr = ctx.expr_gen.gen_insn(&insn.insn_type).unwrap_or_default();
+                ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                return true;
+            }
+            // Multi-use: emit assignment
             emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
         InsnType::Compare { dest, .. } => {
-            // OPTIMIZED: Direct write
+            // GARBAGE VAR FIX: Skip if never actually used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(dest.reg_num, dest.ssa_version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
+            // JADX PARITY: Check should_inline like Const - if single-use, store for inline
+            if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                let expr = ctx.expr_gen.gen_insn(&insn.insn_type).unwrap_or_default();
+                ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                return true;
+            }
+            // Multi-use: emit assignment
             emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
         InsnType::InstanceOf { dest, .. } => {
-            // OPTIMIZED: Direct write
+            // GARBAGE VAR FIX: Skip if never actually used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(dest.reg_num, dest.ssa_version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
+            // JADX PARITY: Check should_inline like Const - if single-use, store for inline
+            if ctx.should_inline(dest.reg_num, dest.ssa_version) {
+                let expr = ctx.expr_gen.gen_insn(&insn.insn_type).unwrap_or_default();
+                ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
+                return true;
+            }
+            // Multi-use: emit assignment
             emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }

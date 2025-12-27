@@ -186,6 +186,7 @@ pub fn process_kotlin_intrinsics_with_options(
         return;
     }
 
+
     // First pass: collect information (immutable borrow)
     // JADX Reference: ProcessKotlinInternals.java:107-133
     let intrinsics_calls: Vec<(usize, usize, String)> = {
@@ -203,17 +204,22 @@ pub fn process_kotlin_intrinsics_with_options(
         let is_static = method.is_static();
 
         let mut calls = Vec::new();
+        let mut invoke_count = 0;
+        let mut intrinsics_match_count = 0;
         for (insn_idx, insn) in instructions.iter().enumerate() {
             if let InsnType::Invoke { method_idx, args, .. } = &insn.insn_type {
+                invoke_count += 1;
                 // Check if this is a Kotlin Intrinsics call
                 if let Some((class, name, _proto)) = ctx.method_signatures.get(method_idx) {
+                    intrinsics_match_count += 1;
+                    tracing::trace!("Found Intrinsics call: {}.{} with {} args", class, name, args.len());
                     if class == INTRINSICS_CLASS && is_intrinsics_check_method(name) {
                         // Try to extract parameter name
                         if args.len() >= 2 {
                             if let Some(param_name) = get_string_from_context_static(&args[1], insn_idx, instructions.as_slice(), ctx) {
                                 if let InsnArg::Register(reg) = &args[0] {
-                                    if let Some(param_idx) = compute_param_idx(reg.reg_num, first_param_reg, is_static) {
-                                        calls.push((insn_idx, param_idx, param_name));
+                                    if let Some(idx) = compute_param_idx(reg.reg_num, first_param_reg, is_static) {
+                                        calls.push((insn_idx, idx, param_name));
                                     }
                                 }
                             }
@@ -221,6 +227,12 @@ pub fn process_kotlin_intrinsics_with_options(
                     }
                 }
             }
+        }
+        if intrinsics_match_count > 0 {
+            tracing::debug!(
+                "Method {} had {} invoke insns, {} matched Intrinsics, {} param names extracted",
+                method.name, invoke_count, intrinsics_match_count, calls.len()
+            );
         }
         calls
     };
@@ -230,6 +242,10 @@ pub fn process_kotlin_intrinsics_with_options(
     for (insn_idx, param_idx, param_name) in intrinsics_calls {
         let renamed = if param_idx < method.arg_names.len() && method.arg_names[param_idx].is_none() {
             if let Some(cleaned_name) = clean_kotlin_param_name(&param_name) {
+                tracing::debug!(
+                    "Kotlin Intrinsics: Extracted param[{}] name '{}' in method {}",
+                    param_idx, cleaned_name, method.name
+                );
                 method.arg_names[param_idx] = Some(cleaned_name);
                 true
             } else {
@@ -284,6 +300,7 @@ fn get_string_from_context_static(
     match arg {
         InsnArg::String(idx) => ctx.string_pool.get(&(*idx as u32)).cloned(),
         InsnArg::Register(reg) => {
+            // Search backwards for const-string instruction that loads the parameter name
             for i in (0..insn_idx).rev() {
                 // Pattern 1: const-string
                 if let InsnType::ConstString { dest, string_idx } = &instructions[i].insn_type {

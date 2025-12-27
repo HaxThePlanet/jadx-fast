@@ -169,7 +169,7 @@ to while loops, matching JADX's conservative approach.
 
 | JADX Pass | Lines | Dexterity File | Status | Issue |
 |-----------|-------|----------------|--------|-------|
-| ProcessKotlinInternals | 289 | kotlin_intrinsics.rs | DONE | |
+| ProcessKotlinInternals | 289 | kotlin_intrinsics.rs | **DONE** | WIRED UP Dec 27 - `build_intrinsics_context()` + both outer/inner classes |
 | CodeRenameVisitor | 126 | code_rename_visitor.rs | DONE | |
 | InlineMethods | 345 | inline_methods.rs | DONE | |
 | GenericTypesVisitor | 234 | generic_types.rs | DONE | |

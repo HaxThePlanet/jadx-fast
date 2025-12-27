@@ -168,6 +168,11 @@ pub fn decompile_method(
     // This must run before codegen so body_gen.rs can check the flag
     let _process_vars_result = process_variables(&mut ssa);
 
+    // Stage 5.07: Remove unused results (JADX parity: ProcessVariables.removeUnusedResults)
+    // Marks instructions with unused results with REMOVE or DONT_GENERATE flags
+    // This prevents garbage variables like `int i96 = 0;` from appearing in output
+    let _remove_unused_result = dexterity_passes::remove_unused_results(&mut ssa);
+
     // Stage 5.1: Apply debug info to SSA variables (JADX DebugInfoApplyVisitor)
     // Applies variable names and types from debug info to SSA variables
     if let Some(ref debug_info) = method.debug_info {

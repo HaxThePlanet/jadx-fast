@@ -77,7 +77,7 @@ Transform IR through analysis passes.
 - `loops.rs` - ForEach detection from iterator patterns
 - `extract_field_init.rs` - Static initializer extraction (`<clinit>` to field decls)
 - `method_inline.rs` - Synthetic bridge method inlining (`access$XXX`)
-- `kotlin_intrinsics.rs` - Kotlin intrinsics handling
+- `kotlin_intrinsics.rs` - Kotlin intrinsics handling (WIRED UP: extracts param names from `Intrinsics.checkNotNullParameter()` via `build_intrinsics_context()`)
 - `var_naming.rs` - JADX-style variable naming (98% parity)
 - `finally_extract.rs` - Finally block handling
 - `code_shrink.rs` - Single-use variable inlining with InvokeCustom (lambda) detection

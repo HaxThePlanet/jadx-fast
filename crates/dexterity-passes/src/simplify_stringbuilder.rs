@@ -117,12 +117,11 @@ pub fn simplify_stringbuilder_chains(
                             if debug_sb {
                                 eprintln!("[SB DEBUG] Receiver reg: r{}v{}", recv_reg.reg_num, recv_reg.ssa_version);
                             }
-                            // Try to collect the use chain (JADX algorithm)
-                            if let Some((concat_args, dead_insns)) = collect_use_chain(
+                            // Try to collect the chain by tracing backwards through SSA defs
+                            if let Some((concat_args, dead_insns)) = collect_chain_backwards(
                                 ssa,
                                 recv_reg,
                                 &def_map,
-                                &use_map,
                                 method_resolver,
                             ) {
                                 if debug_sb {
@@ -184,150 +183,219 @@ fn is_stringbuilder_class(class_name: &str) -> bool {
         || class_name.ends_with("/StringBuffer")
 }
 
-/// Clone of JADX SimplifyVisitor.collectUseChain()
-/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java:325-367
+/// Collect StringBuilder chain by tracing BACKWARDS through SSA definitions
 ///
-/// JADX Algorithm:
-/// 1. Get the SSA variable of the StringBuilder receiver
-/// 2. Find ALL uses of that variable (append calls)
-/// 3. Verify all are in same block and sequential
-/// 4. Collect args from constructor + all append calls
+/// This is the correct algorithm for Kotlin-compiled code where each append()
+/// creates a NEW SSA version:
+///   r0_v1 = new StringBuilder()
+///   r0_v2 = r0_v1.<init>("SMS Count: ")
+///   r0_v3 = r0_v2.append(count)
+///   r0_v4 = r0_v3.toString()
+///
+/// We start at the toString() receiver (r0_v3) and trace backwards:
+///   r0_v3 -> defined by append(r0_v2, count) -> collect 'count'
+///   r0_v2 -> defined by <init>(r0_v1, "SMS Count: ") -> collect "SMS Count: "
+///   r0_v1 -> defined by NewInstance -> end of chain
 ///
 /// Returns (concat_args, instructions_to_remove) or None if not a valid chain
+#[allow(dead_code)]
 fn collect_use_chain(
+    _ssa: &SsaResult,
+    _receiver_reg: &RegisterArg,
+    _def_map: &HashMap<(u16, u32), (usize, usize)>,
+    _use_map: &HashMap<(u16, u32), Vec<(usize, usize)>>,
+    _method_resolver: MethodResolver,
+) -> Option<(Vec<InsnArg>, HashSet<(usize, usize)>)> {
+    // Old forward-tracing algorithm - replaced by collect_chain_backwards
+    None
+}
+
+/// Collect StringBuilder chain by tracing BACKWARDS through SSA definitions
+fn collect_chain_backwards(
     ssa: &SsaResult,
     receiver_reg: &RegisterArg,
     def_map: &HashMap<(u16, u32), (usize, usize)>,
-    use_map: &HashMap<(u16, u32), Vec<(usize, usize)>>,
     method_resolver: MethodResolver,
 ) -> Option<(Vec<InsnArg>, HashSet<(usize, usize)>)> {
     let debug_sb = std::env::var("DEXTERITY_DEBUG_SB").is_ok();
-    let key = (receiver_reg.reg_num, receiver_reg.ssa_version);
 
-    // Find uses of this SSA variable
-    let uses = use_map.get(&key)?;
-    if debug_sb {
-        eprintln!("[SB CHAIN] Receiver r{}v{} has {} uses", receiver_reg.reg_num, receiver_reg.ssa_version, uses.len());
-    }
-
-    // Find the defining instruction (should be new-instance or constructor)
-    let (def_block, def_idx) = def_map.get(&key)?;
-    if debug_sb {
-        eprintln!("[SB CHAIN] Definition at block {} insn {}", def_block, def_idx);
-    }
-
-    // Collect the chain: definition + all uses
-    // All instructions must be in the same block (JADX requirement)
-    let chain_block = *def_block;
-    let mut chain: Vec<(usize, &InsnNode)> = Vec::new();
-
-    // Add definition
-    let def_insn = &ssa.blocks[*def_block].instructions[*def_idx];
-    chain.push((*def_idx, def_insn));
-
-    // Add all uses (including toString() at the end)
-    for (use_block, use_idx) in uses {
-        if *use_block != chain_block {
-            if debug_sb {
-                eprintln!("[SB CHAIN] Use at different block: {} vs {}", use_block, chain_block);
-            }
-            return None; // All must be in same block
-        }
-        let use_insn = &ssa.blocks[*use_block].instructions[*use_idx];
-        chain.push((*use_idx, use_insn));
-    }
-
-    // Sort by instruction index for sequential order
-    chain.sort_by_key(|(idx, _)| *idx);
-
-    if debug_sb {
-        eprintln!("[SB CHAIN] Chain has {} instructions", chain.len());
-    }
-
-    // Verify sequential (optional - JADX checks this but we can be lenient)
-    // Extract arguments from the chain
     let mut concat_args: Vec<InsnArg> = Vec::new();
     let mut dead_insns: HashSet<(usize, usize)> = HashSet::new();
+    let mut current_reg = receiver_reg.clone();
+    let mut chain_block: Option<usize> = None;
+    let mut iteration = 0;
+    const MAX_ITERATIONS: usize = 100; // Prevent infinite loops
 
-    for (idx, insn) in &chain {
+    if debug_sb {
+        eprintln!("[SB BACK] Starting backwards trace from r{}v{}",
+            receiver_reg.reg_num, receiver_reg.ssa_version);
+    }
+
+    // Trace backwards from toString() receiver
+    loop {
+        iteration += 1;
+        if iteration > MAX_ITERATIONS {
+            if debug_sb {
+                eprintln!("[SB BACK] Max iterations exceeded");
+            }
+            return None;
+        }
+
+        let key = (current_reg.reg_num, current_reg.ssa_version);
+        let (def_block, def_idx) = match def_map.get(&key) {
+            Some(loc) => loc,
+            None => {
+                if debug_sb {
+                    eprintln!("[SB BACK] No definition found for r{}v{}",
+                        current_reg.reg_num, current_reg.ssa_version);
+                }
+                return None;
+            }
+        };
+
+        // All must be in same block
+        if let Some(expected_block) = chain_block {
+            if *def_block != expected_block {
+                if debug_sb {
+                    eprintln!("[SB BACK] Cross-block chain: {} vs {}", def_block, expected_block);
+                }
+                return None;
+            }
+        }
+        chain_block = Some(*def_block);
+
+        let insn = &ssa.blocks[*def_block].instructions[*def_idx];
+
+        if debug_sb {
+            eprintln!("[SB BACK] Iteration {}: r{}v{} defined at block {} insn {} -> {:?}",
+                iteration, current_reg.reg_num, current_reg.ssa_version,
+                def_block, def_idx, std::mem::discriminant(&insn.insn_type));
+        }
+
         match &insn.insn_type {
-            // Constructor - may have initial string arg
-            InsnType::Invoke { method_idx, args, kind, .. } if !matches!(kind, InvokeKind::Static) => {
-                if let Some(method_info) = method_resolver(*method_idx) {
-                    if is_stringbuilder_class(&method_info.class_name) {
-                        if method_info.method_name == "<init>" {
-                            // Constructor - extract initial arg if present
-                            if args.len() >= 2 {
-                                concat_args.push(args[1].clone());
-                            }
-                            dead_insns.insert((chain_block, *idx));
+            InsnType::Invoke { method_idx, args, .. } => {
+                let method_info = match method_resolver(*method_idx) {
+                    Some(info) => info,
+                    None => {
+                        if debug_sb {
+                            eprintln!("[SB BACK] Could not resolve method {}", method_idx);
+                        }
+                        return None;
+                    }
+                };
+
+                if !is_stringbuilder_class(&method_info.class_name) {
+                    if debug_sb {
+                        eprintln!("[SB BACK] Not StringBuilder class: {}", method_info.class_name);
+                    }
+                    return None;
+                }
+
+                match method_info.method_name.as_str() {
+                    "append" => {
+                        // Extract appended arg (args[1]), continue with receiver (args[0])
+                        if args.len() >= 2 {
+                            concat_args.push(args[1].clone());
+                            dead_insns.insert((*def_block, *def_idx));
                             if debug_sb {
-                                eprintln!("[SB CHAIN] Found <init> with {} args", args.len());
+                                eprintln!("[SB BACK] Found append, collected arg");
                             }
-                        } else if method_info.method_name == "append" {
-                            // Append call - extract argument
-                            if args.len() >= 2 {
-                                concat_args.push(args[1].clone());
-                                dead_insns.insert((chain_block, *idx));
-                                if debug_sb {
-                                    eprintln!("[SB CHAIN] Found append");
-                                }
+                            // Follow the receiver backwards
+                            if let InsnArg::Register(recv) = &args[0] {
+                                current_reg = recv.clone();
                             } else {
+                                if debug_sb {
+                                    eprintln!("[SB BACK] append receiver not a register");
+                                }
                                 return None;
                             }
-                        } else if method_info.method_name == "toString" {
-                            // toString() - this is the end, don't add to dead_insns (we replace it)
-                            if debug_sb {
-                                eprintln!("[SB CHAIN] Found toString at end");
-                            }
                         } else {
-                            // Other method - invalidates chain
                             if debug_sb {
-                                eprintln!("[SB CHAIN] Invalid method: {}", method_info.method_name);
+                                eprintln!("[SB BACK] append has < 2 args");
                             }
                             return None;
                         }
                     }
+                    "<init>" => {
+                        // Constructor - may have initial string arg
+                        if args.len() >= 2 {
+                            concat_args.push(args[1].clone());
+                            if debug_sb {
+                                eprintln!("[SB BACK] Found <init> with initial arg");
+                            }
+                        } else if debug_sb {
+                            eprintln!("[SB BACK] Found <init> without initial arg");
+                        }
+                        dead_insns.insert((*def_block, *def_idx));
+                        // Find the NewInstance that created this
+                        if let Some(InsnArg::Register(recv)) = args.first() {
+                            current_reg = recv.clone();
+                            // Continue to find NewInstance
+                        } else {
+                            // End of chain (no receiver means standalone constructor?)
+                            break;
+                        }
+                    }
+                    _ => {
+                        // Other method (e.g., delete, reverse) - invalidates chain
+                        if debug_sb {
+                            eprintln!("[SB BACK] Invalid method: {}", method_info.method_name);
+                        }
+                        return None;
+                    }
                 }
             }
 
-            // NewInstance - mark for removal
             InsnType::NewInstance { .. } => {
-                dead_insns.insert((chain_block, *idx));
+                // Found the start - we're done
+                dead_insns.insert((*def_block, *def_idx));
                 if debug_sb {
-                    eprintln!("[SB CHAIN] Found NewInstance");
+                    eprintln!("[SB BACK] Found NewInstance - chain complete!");
                 }
+                break;
             }
 
-            // Constructor instruction type
             InsnType::Constructor { args, .. } => {
+                // Alternative constructor representation
                 if args.len() >= 2 {
                     concat_args.push(args[1].clone());
                 }
-                dead_insns.insert((chain_block, *idx));
+                dead_insns.insert((*def_block, *def_idx));
                 if debug_sb {
-                    eprintln!("[SB CHAIN] Found Constructor");
+                    eprintln!("[SB BACK] Found Constructor insn");
+                }
+                // Find the NewInstance
+                if let Some(InsnArg::Register(recv)) = args.first() {
+                    current_reg = recv.clone();
+                } else {
+                    break;
                 }
             }
 
             _ => {
-                // Unknown instruction in chain
+                // Unknown instruction breaks chain
                 if debug_sb {
-                    eprintln!("[SB CHAIN] Unknown insn type in chain");
+                    eprintln!("[SB BACK] Unknown insn type in chain: {:?}",
+                        std::mem::discriminant(&insn.insn_type));
                 }
+                return None;
             }
         }
     }
 
+    // Reverse args since we collected backwards (from toString back to constructor)
+    concat_args.reverse();
+
     if concat_args.is_empty() {
         if debug_sb {
-            eprintln!("[SB CHAIN] No args collected");
+            eprintln!("[SB BACK] No args collected");
         }
         return None;
     }
 
     if debug_sb {
-        eprintln!("[SB CHAIN] Success! {} args, {} dead insns", concat_args.len(), dead_insns.len());
+        eprintln!("[SB BACK] Success! {} args, {} dead insns (reversed)",
+            concat_args.len(), dead_insns.len());
     }
 
     Some((concat_args, dead_insns))

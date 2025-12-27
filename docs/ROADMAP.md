@@ -20,6 +20,7 @@
 |----------|-------|-------|
 | **Codegen** | B (~80%) | Basic Java OK, Kotlin lambdas broken |
 | **Type Inference** | D (~55%) | **BROKEN**: Branch type merge fails, int→String[] errors |
+| **PHI System** | B (~85%) | Core 100% parity, **7 gaps** in type-fixing (see [PHI Gap Analysis](#phi-system-gap-analysis-vs-jadx-dec-27-2025)) |
 | **IR/Control Flow** | B (~85%) | Ternary recovery failing for Kotlin patterns |
 | **Variable Naming** | D (~50%) | **BROKEN**: `i110`, `str7`, register fallbacks everywhere |
 | **Lambda/Anon Inlining** | C (~70%) | Inlining works but body codegen broken |
@@ -31,6 +32,7 @@
 
 | Feature | Impact | Status |
 |---------|--------|--------|
+| **PHI System Gap Analysis** | Documentation | ✅ Deep comparison: 7 gaps identified, 3 areas where Dexterity is BETTER (Dec 27) |
 | **ProcessVariables Pass** | JADX parity | ✅ DeclareVar flag marks instruction declaration points (Dec 27) |
 | **P0-KOTLIN-UNDEF-VAR** | Compilable code | ✅ PHI-connected vars merged to same CodeVar, Object↔subtype compat |
 | **P0-KOTLIN-PRECEDENCE** | Compilable code | ✅ Bitwise operators in comparisons now parenthesized: `($dirty & 48) == 0` |
@@ -743,6 +745,347 @@ if (ContextCompat.checkSelfPermission($context, str2) == 0) { ... }
 **Edge Cases Remaining:** 10/2 warnings are degenerate ternaries (cond ? 1 : 1) - cosmetic, not correctness issues
 
 ---
+
+---
+
+## PHI System Gap Analysis vs JADX (Dec 27, 2025)
+
+Deep comparison of JADX's PHI-based SSA system vs Dexterity reveals **7 critical gaps** and **3 partial implementations**. Dexterity has solid foundations but is missing key type-fixing algorithms that JADX uses to handle PHI type conflicts.
+
+### Architecture Comparison
+
+| Component | JADX | Dexterity | Parity |
+|-----------|------|-----------|--------|
+| PHI Node Representation | `PhiInsn` with `blockBinds` | `PhiNode` with `sources: Vec<(u32, SSAVarRef)>` | 100% ✅ |
+| SSA Variable | `SSAVar` with `usedInPhi` tracking | `SSAVar` with `used_in_phi: Vec<u32>` | 100% ✅ |
+| CodeVar (source-level vars) | `CodeVar` holds multiple SSAVars | `CodeVar` with `ssa_vars: Vec<SSAVarRef>` | 100% ✅ |
+| PHI-based CodeVar merging | `collectConnectedVars()` transitive closure | `collect_phi_connected_vars()` | 100% ✅ |
+| Type Update Engine | `TypeUpdate` with listeners | `TypeUpdateEngine` with listeners | 100% ✅ |
+| PHI Type Listener | `allSameListener()` | `all_same_listener()` | 100% ✅ |
+| SSA Transform | `SSATransform.placePhi()` | `transform_to_ssa()` | 100% ✅ |
+| Type Inference | `TypeInference` | `TypeInference` | ~95% |
+
+### CRITICAL GAPS (P0-PHI)
+
+#### GAP-1: `insertMovesForPhi()` - NOT IMPLEMENTED 🔴
+
+**JADX Algorithm** (`FixTypesVisitor.java:593-638`):
+```java
+private int insertMovesForPhi(MethodNode mth, PhiInsn phiInsn, boolean apply) {
+    for (int argIndex = 0; argIndex < argsCount; argIndex++) {
+        RegisterArg reg = phiInsn.getArg(argIndex);
+        BlockNode startBlock = phiInsn.getBlockByArgIndex(argIndex);
+        BlockNode blockNode = checkBlockForInsnInsert(startBlock);  // Validate block
+        if (blockNode == null) return 0;  // Single failure aborts all
+
+        // Skip if: CONST instruction OR single-use MOVE
+        InsnType assignType = reg.getSVar().getAssign().getAssignInsn().getType();
+        if (assignType == InsnType.CONST ||
+            (assignType == InsnType.MOVE && var.getUseCount() == 1)) {
+            continue;  // No move needed
+        }
+
+        if (apply) {
+            insertMove(mth, blockNode, phiInsn, reg);  // Create new SSAVar
+        }
+    }
+}
+```
+
+**Post-insertion flow:**
+```java
+InitCodeVariables.rerun(mth);        // Reset all CodeVars
+typeInference.initTypeBounds(mth);   // Rebuild type bounds
+typeInference.runTypePropagation(mth); // Re-run inference
+```
+
+**Dexterity:** `fix_types.rs:427-434` - **COMPLETELY STUBBED**
+```rust
+fn try_insert_additional_move(&mut self, _ssa: &SsaResult) -> bool {
+    false  // Returns false - NEVER FIXES ANYTHING
+}
+```
+
+**Missing Prerequisites:**
+1. `check_block_for_insn_insert()` - Block validation helper (GAP-6)
+2. `get_common_type_for_phi_args()` - PHI arg type checker (GAP-5)
+3. Mutable `SsaResult` for instruction insertion
+4. `rerun()` pattern for type re-initialization (GAP-10)
+
+**Impact:** When PHI arguments have incompatible types (e.g., `String` vs `Integer`), Dexterity can't insert MOVEs to decouple them → type inference failures.
+
+---
+
+#### GAP-2: `splitByPhi()` for CONST Instructions - NOT IMPLEMENTED 🔴
+
+**Problem Pattern:**
+```
+const/4 v0 = 0        // Single CONST with two PHI uses
+phi v2 = [v0, ...]    // PHI 1: interprets as INT (array index)
+phi v3 = [v0, ...]    // PHI 2: interprets as BOOLEAN (condition)
+// TYPE CONFLICT: v0 cannot be both INT and BOOLEAN
+```
+
+**JADX Algorithm** (`FixTypesVisitor.java:508-535`):
+```java
+private static boolean splitByPhi(MethodNode mth, SSAVar var) {
+    if (var.getUsedInPhi().size() < 2) return false;  // Must have 2+ PHI uses
+    InsnNode constInsn = var.getAssign().getAssignInsn();
+    if (constInsn.getType() != InsnType.CONST) return false;
+
+    boolean first = true;
+    for (PhiInsn phiInsn : var.getUsedInPhi()) {
+        if (first) { first = false; continue; }  // Keep original for first PHI
+
+        // DUPLICATE CONST with new SSAVar
+        InsnNode copyInsn = constInsn.copyWithNewSsaVar(mth);
+        copyInsn.add(AFlag.SYNTHETIC);
+        BlockUtils.insertAfterInsn(blockNode, constInsn, copyInsn);
+
+        // Replace PHI arg with new copy
+        phiInsn.replaceArg(phiArg, copyInsn.getResult().duplicate());
+    }
+    return true;
+}
+```
+
+**After split:**
+```
+const/4 v0 = 0        // SSAVar_1 (for first PHI) → INT
+const/4 v0_new = 0    // SSAVar_6 (synthetic copy) → BOOLEAN
+phi v2 = [v0, ...]    // Uses INT version
+phi v3 = [v0_new, ...]// Uses BOOLEAN version
+```
+
+**Dexterity:** `fix_types.rs:335-361` - **PARTIAL (type resolution only)**
+- Only finds common type from multiple uses
+- Does NOT actually duplicate instructions
+
+**Missing:**
+1. Instruction duplication capability
+2. `create_new_ssa_var()` method
+3. PHI argument replacement API
+4. Block instruction insertion
+
+**Impact:** Type conflicts for constants used in multiple PHIs with different type requirements.
+
+---
+
+#### GAP-3: Variable Declaration Scoping - PARTIAL 🟡
+
+**JADX:** `ProcessVariables.java:189-210`
+- Can declare variables at various scopes: method start, loop start, if-block, region
+- Uses `CollectUsageRegionVisitor` to track all uses
+
+**Dexterity:** `process_variables.rs:77-79`
+```rust
+// TODO: Implement proper DeclareVariablesAttr at region start
+to_mark.push(first_assign);
+result.declare_at_method_start.push(cv.id);
+```
+
+**Impact:** Variables that should be declared inside loops or if-blocks get declared at method start, leading to unnecessarily wide scope.
+
+---
+
+#### GAP-4: `tryWiderObjects()` with Full Hierarchy Walk - PARTIAL 🟡
+
+**JADX:** `FixTypesVisitor.java:657-679`
+- Walks entire class hierarchy trying ancestor types
+- Uses `ClspGraph.getSuperTypes()` to get all ancestors
+
+**Dexterity:** `fix_types.rs:572-599`
+- Only tries immediate superclass, not full hierarchy chain
+- Missing the iterative widening loop
+
+---
+
+#### GAP-5: `getCommonTypeForPhiArgs()` Compatibility Check - MISSING 🔴
+
+**JADX:** `FixTypesVisitor.java:579-591`
+```java
+private ArgType getCommonTypeForPhiArgs(PhiInsn phiInsn) {
+    ArgType phiArgType = null;
+    for (InsnArg arg : phiInsn.getArguments()) {
+        if (phiArgType == null) {
+            phiArgType = arg.getType();
+        } else if (!phiArgType.equals(type)) {
+            return null;  // Incompatible types
+        }
+    }
+    return phiArgType;
+}
+```
+
+**Dexterity:** No equivalent function to check if all PHI args have exactly the same type before deciding to insert moves.
+
+---
+
+#### GAP-6: `checkBlockForInsnInsert()` - MISSING 🔴
+
+**JADX:** `FixTypesVisitor.java:640-655`
+- Validates that a block can accept new instructions
+- Handles synthetic blocks and "separate" instructions (goto, return)
+- Walks back to predecessor if needed
+
+**Dexterity:** Missing entirely - would be needed if `insertMovesForPhi` were implemented.
+
+---
+
+#### GAP-7: `tryToFixIncompatiblePrimitives()` with Instruction Splitting - PARTIAL 🟡
+
+**JADX:** `FixTypesVisitor.java:681-698`
+- Calls `processIncompatiblePrimitives()` which can split instructions
+- Re-runs `InitCodeVariables.rerun()` after splitting
+- Re-initializes type bounds
+
+**Dexterity:** `fix_types.rs:366-399`
+- Only updates resolved types in-place
+- Doesn't split instructions or re-run CodeVar initialization
+
+---
+
+### MINOR GAPS
+
+| Gap | Description | Status |
+|-----|-------------|--------|
+| GAP-8 | Loop Variable Scope Optimization | 🟡 Partial |
+| GAP-9 | Catch Block Variable Merging (sophisticated) | 🟡 Basic |
+| GAP-10 | `InitCodeVariables.rerun()` Pattern | 🔴 Missing |
+
+#### GAP-10: `InitCodeVariables.rerun()` Pattern - FOUNDATION FOR GAP-1,2
+
+**JADX's rerun() Flow** (`InitCodeVariables.java:32-37`):
+```java
+public static void rerun(MethodNode mth) {
+    for (SSAVar sVar : mth.getSVars()) {
+        sVar.resetTypeAndCodeVar();  // Full reset
+    }
+    initCodeVars(mth);  // Reinitialize
+}
+
+// SSAVar.resetTypeAndCodeVar():
+public void resetTypeAndCodeVar() {
+    if (!isTypeImmutable()) {
+        updateType(ArgType.UNKNOWN);  // Reset type (preserve immutables)
+    }
+    this.typeInfo.getBounds().clear();  // Clear all bounds
+    this.codeVar = null;  // Reset CodeVar mapping
+}
+```
+
+**When Called:**
+1. After `splitByPhi()` duplicates CONST instructions
+2. After `insertMovesForPhi()` adds MOVE instructions
+3. After `tryToFixIncompatiblePrimitives()` modifies instructions
+4. Any time SSA structure changes require fresh type inference
+
+**Dexterity:** No equivalent - type inference runs once, modifications don't trigger re-inference.
+
+**Impact:** GAP-1 and GAP-2 implementations require this pattern to work correctly.
+
+---
+
+### What Dexterity Does BETTER Than JADX
+
+1. **Proactive Type Splitting** (`split_code_vars.rs`)
+   - Post-inference splitting prevents type conflicts
+   - JADX only warns, Dexterity fixes
+
+2. **Fine-Grained Unknown Types**
+   - 6 Unknown variants vs JADX's single Unknown
+   - Better inference for edge cases
+
+3. **Explicit Loop Pattern Detection** (`loop_analysis.rs`)
+   - 3 specific patterns: indexed, array-foreach, iterator-foreach
+   - JADX does this implicitly
+
+---
+
+### Implementation Priority
+
+| Gap | Priority | Effort | Impact | Dependency |
+|-----|----------|--------|--------|------------|
+| GAP-10 rerun pattern | P0 | Medium | Enables GAP-1,2 | None |
+| GAP-6 blockForInsert | P0 | Low | Needed by GAP-1 | None |
+| GAP-5 getCommonType | P0 | Low | Needed by GAP-1 | None |
+| GAP-1 insertMovesForPhi | P0 | High | Type inference failures | GAP-5,6,10 |
+| GAP-2 splitByPhi | P0 | Medium | Constant type conflicts | GAP-10 |
+| GAP-4 Wider objects | P1 | Low | Edge case types | None |
+| GAP-3 Variable scoping | P2 | Medium | Code readability | None |
+| GAP-7 Primitive split | P2 | Medium | Boolean/int conflicts | GAP-10 |
+
+**Recommended Implementation Order:**
+1. **GAP-10** (rerun pattern) → Foundation for all instruction modifications
+2. **GAP-5 + GAP-6** (helpers) → Prerequisites for GAP-1
+3. **GAP-1** (insertMovesForPhi) → Biggest impact fix
+4. **GAP-2** (splitByPhi) → Second biggest impact
+5. **GAP-4** (wider objects) → Quick win for hierarchy walking
+
+### Dexterity fix_types.rs Strategy Status
+
+| Strategy | Status | Notes |
+|----------|--------|-------|
+| RestoreTypeVarCasts | ✅ 100% | Generic bounds restoration |
+| InsertCasts | ✅ 100% | Object type binding |
+| DeduceTypes | ✅ 100% | Multi-fallback chain |
+| SplitConstInsns | 🟡 Partial | Type resolution only, no instruction duplication |
+| FixIncompatiblePrimitives | ✅ 100% | Boolean/int conflict resolution |
+| ForceImmutableTypes | ✅ 100% | Parameter/literal enforcement |
+| **InsertAdditionalMove** | 🔴 STUBBED | Returns `false` - this is GAP-1 |
+| RemoveGenerics | ✅ 100% | Fallback generic stripping |
+
+---
+
+### Key Files Reference
+
+**JADX (jadx-fast) - Exact Line Numbers:**
+
+| File | Function | Lines |
+|------|----------|-------|
+| `FixTypesVisitor.java` | `insertMovesForPhi()` | 593-638 |
+| `FixTypesVisitor.java` | `insertMove()` | 624-638 |
+| `FixTypesVisitor.java` | `splitByPhi()` | 505-535 |
+| `FixTypesVisitor.java` | `tryWiderObjects()` | 657-679 |
+| `FixTypesVisitor.java` | `tryToFixIncompatiblePrimitives()` | 681-808 |
+| `FixTypesVisitor.java` | `checkBlockForInsnInsert()` | 640-655 |
+| `FixTypesVisitor.java` | `getCommonTypeForPhiArgs()` | 579-591 |
+| `InitCodeVariables.java` | `rerun()` | 32-37 |
+| `TypeUpdate.java` | `allSameListener()` | 479-500 |
+| `SSATransform.java` | `placePhi()` | 66-94 |
+| `PhiInsn.java` | `replaceArg()` | 105-120 |
+
+**Dexterity - Key Gap Locations:**
+
+| File | Function | Status |
+|------|----------|--------|
+| `fix_types.rs:427-434` | `try_insert_additional_move()` | 🔴 STUBBED |
+| `fix_types.rs:335-361` | `try_split_const_insns()` | 🟡 Partial |
+| `fix_types.rs:572-607` | `try_wider_objects()` | 🟡 Immediate only |
+| `process_variables.rs:77-79` | Variable scoping | 🟡 TODO comment |
+
+**Full Dexterity Files:**
+- `crates/dexterity-passes/src/ssa.rs` - SSA transform
+- `crates/dexterity-passes/src/fix_types.rs` - Type fixes (**GAPS HERE**)
+- `crates/dexterity-passes/src/type_update.rs` - Type propagation (complete)
+- `crates/dexterity-passes/src/init_code_vars.rs` - CodeVar init (complete)
+- `crates/dexterity-passes/src/process_variables.rs` - Declaration (partial)
+- `crates/dexterity-ir/src/ssa.rs` - SSAVar, CodeVar, PhiNode structs
+
+---
+
+### Next Steps to Fix Gaps
+
+**GAP-1 (insertMovesForPhi) requires:**
+1. Implement `check_block_for_insn_insert()` first
+2. Implement `get_common_type_for_phi_args()`
+3. Add instruction insertion API to SsaResult
+4. Re-run type inference after modification
+
+**GAP-2 (splitByPhi) requires:**
+1. Track CONST instructions that feed multiple PHIs
+2. Implement instruction duplication with new SSA versions
+3. Update PHI arguments to use new versions
 
 ---
 

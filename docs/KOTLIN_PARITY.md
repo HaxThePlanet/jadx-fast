@@ -277,10 +277,18 @@ These fields are now properly initialized in all struct constructors throughout 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | `process_kotlin_intrinsics()` | **WORKING** | Pattern-based extraction |
-| `process_kotlin_intrinsics_with_context()` | **NEW** | Full DEX context support |
-| `IntrinsicsContext` | **NEW** | Method signatures + string pool |
+| `process_kotlin_intrinsics_with_options()` | **WIRED UP** | Full DEX context support, called in main.rs |
+| `IntrinsicsContext` | **WIRED UP** | Method signatures + string pool |
+| `build_intrinsics_context()` | **NEW** | Built in main.rs from DexReader |
 | Intrinsics method detection | **WORKING** | checkNotNullParameter, etc. |
 | Parameter name cleaning | **WORKING** | $this$, $receiver removal |
+
+**Integration (Dec 27, 2025):**
+- `build_intrinsics_context()` in `main.rs` populates `IntrinsicsContext` from DEX file
+- Extracts Kotlin intrinsics method signatures (`Lkotlin/jvm/internal/Intrinsics;`)
+- Builds string pool for parameter name lookup
+- `process_kotlin_intrinsics_with_options()` called for both outer classes AND inner classes
+- Parameter names extracted from `Intrinsics.checkNotNullParameter()` calls
 
 ---
 

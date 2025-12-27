@@ -27,6 +27,16 @@ pub struct ProcessVariablesResult {
     pub warnings: Vec<String>,
 }
 
+/// Result of removing unused results
+/// JADX Reference: ProcessVariables.removeUnusedResults()
+#[derive(Debug, Default)]
+pub struct RemoveUnusedResult {
+    /// Number of instructions marked with REMOVE flag (pure definitions)
+    pub removed_count: usize,
+    /// Number of instructions marked with DONT_GENERATE flag (side effects kept)
+    pub dont_generate_count: usize,
+}
+
 /// Process variables in the SSA result - marks instructions with DECLARE_VAR flag
 ///
 /// This is the main entry point matching JADX ProcessVariables.process()
@@ -83,6 +93,212 @@ pub fn process_variables(ssa_result: &mut SsaResult) -> ProcessVariablesResult {
     }
 
     result
+}
+
+/// Remove unused results from instructions (JADX parity: ProcessVariables.removeUnusedResults)
+///
+/// Marks instructions whose results are never used:
+/// - CONST, CONST_STRING, CONST_CLASS, CAST: marked with REMOVE flag (can be deleted)
+/// - Other instructions: marked with DONT_GENERATE flag (keep for side effects but hide result)
+///
+/// This prevents garbage variables like `int i96 = 0;` from appearing in output.
+///
+/// JADX Reference: ProcessVariables.java:72-89
+pub fn remove_unused_results(ssa_result: &mut SsaResult) -> RemoveUnusedResult {
+    let mut result = RemoveUnusedResult::default();
+    let debug = std::env::var("DEBUG_UNUSED").is_ok();
+
+    // Phase 1: Count uses for each (reg, version) pair
+    let use_counts = count_instruction_uses(ssa_result);
+
+    if debug {
+        eprintln!("[DEBUG_UNUSED] Starting remove_unused_results with {} blocks, {} use_counts", ssa_result.blocks.len(), use_counts.len());
+    }
+
+    // Phase 2: Mark unused definitions
+    for block in &mut ssa_result.blocks {
+        for insn in &mut block.instructions {
+            // Skip already marked instructions
+            if insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove) {
+                continue;
+            }
+
+            // Get destination register if this instruction defines one
+            if let Some(dest) = get_insn_dest(&insn.insn_type) {
+                let key = (dest.reg_num, dest.ssa_version);
+                let use_count = use_counts.get(&key).copied().unwrap_or(0);
+
+                if use_count == 0 {
+                    // Unused result - mark appropriately based on instruction type
+                    match &insn.insn_type {
+                        // Pure definitions with no side effects - can be removed entirely
+                        // JADX: type == CONST || type == CAST || type == CHECK_CAST -> REMOVE
+                        InsnType::Const { dest, .. }
+                        | InsnType::ConstString { dest, .. }
+                        | InsnType::ConstClass { dest, .. }
+                        | InsnType::Cast { dest, .. }
+                        | InsnType::Move { dest, .. } => {
+                            if debug {
+                                eprintln!("[DEBUG_UNUSED] REMOVE: r{}v{} {:?}", dest.reg_num, dest.ssa_version, &insn.insn_type);
+                            }
+                            insn.add_flag(AFlag::Remove);
+                            result.removed_count += 1;
+                        }
+                        // Instructions with potential side effects - keep but don't generate result
+                        // JADX: else -> DONT_GENERATE
+                        _ => {
+                            insn.add_flag(AFlag::DontGenerate);
+                            result.dont_generate_count += 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    result
+}
+
+/// Count uses for each SSA variable across all instructions and PHI nodes
+fn count_instruction_uses(ssa_result: &SsaResult) -> FxHashMap<(u16, u32), usize> {
+    use dexterity_ir::instructions::InsnArg;
+
+    let mut use_counts: FxHashMap<(u16, u32), usize> = FxHashMap::default();
+
+    // Helper to count a single InsnArg
+    fn count_arg(arg: &InsnArg, use_counts: &mut FxHashMap<(u16, u32), usize>) {
+        if let InsnArg::Register(r) = arg {
+            *use_counts.entry((r.reg_num, r.ssa_version)).or_insert(0) += 1;
+        }
+    }
+
+    for block in &ssa_result.blocks {
+        // Count uses in PHI nodes (sources are uses)
+        for phi in &block.phi_nodes {
+            for (_, src) in &phi.sources {
+                *use_counts.entry((src.reg_num, src.ssa_version)).or_insert(0) += 1;
+            }
+        }
+
+        // Count uses in regular instructions
+        for insn in &block.instructions {
+            match &insn.insn_type {
+                InsnType::Move { src, .. } => count_arg(src, &mut use_counts),
+                InsnType::Unary { arg, .. } => count_arg(arg, &mut use_counts),
+                InsnType::Binary { left, right, .. } => {
+                    count_arg(left, &mut use_counts);
+                    count_arg(right, &mut use_counts);
+                }
+                InsnType::Compare { left, right, .. } => {
+                    count_arg(left, &mut use_counts);
+                    count_arg(right, &mut use_counts);
+                }
+                InsnType::ArrayLength { array, .. } => count_arg(array, &mut use_counts),
+                InsnType::ArrayGet { array, index, .. } => {
+                    count_arg(array, &mut use_counts);
+                    count_arg(index, &mut use_counts);
+                }
+                InsnType::ArrayPut { array, index, value, .. } => {
+                    count_arg(array, &mut use_counts);
+                    count_arg(index, &mut use_counts);
+                    count_arg(value, &mut use_counts);
+                }
+                InsnType::InstanceGet { object, .. } => count_arg(object, &mut use_counts),
+                InsnType::InstancePut { object, value, .. } => {
+                    count_arg(object, &mut use_counts);
+                    count_arg(value, &mut use_counts);
+                }
+                InsnType::StaticPut { value, .. } => count_arg(value, &mut use_counts),
+                InsnType::Cast { arg, .. } => count_arg(arg, &mut use_counts),
+                InsnType::InstanceOf { object, .. } => count_arg(object, &mut use_counts),
+                InsnType::NewArray { size, .. } => count_arg(size, &mut use_counts),
+                InsnType::FilledNewArray { args, .. } => {
+                    for arg in args.iter() {
+                        count_arg(arg, &mut use_counts);
+                    }
+                }
+                InsnType::Invoke { args, .. } => {
+                    for arg in args.iter() {
+                        count_arg(arg, &mut use_counts);
+                    }
+                }
+                InsnType::Constructor { args, .. } => {
+                    for arg in args {
+                        count_arg(arg, &mut use_counts);
+                    }
+                }
+                InsnType::Return { value: Some(v) } => count_arg(v, &mut use_counts),
+                InsnType::Throw { exception } => count_arg(exception, &mut use_counts),
+                InsnType::If { left, right, .. } => {
+                    count_arg(left, &mut use_counts);
+                    if let Some(r) = right {
+                        count_arg(r, &mut use_counts);
+                    }
+                }
+                InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } => {
+                    count_arg(value, &mut use_counts);
+                }
+                InsnType::MonitorEnter { object } | InsnType::MonitorExit { object } => {
+                    count_arg(object, &mut use_counts);
+                }
+                InsnType::CheckCast { object, .. } => count_arg(object, &mut use_counts),
+                InsnType::Ternary { left, right, then_value, else_value, .. } => {
+                    count_arg(left, &mut use_counts);
+                    if let Some(r) = right {
+                        count_arg(r, &mut use_counts);
+                    }
+                    count_arg(then_value, &mut use_counts);
+                    count_arg(else_value, &mut use_counts);
+                }
+                InsnType::StrConcat { args, .. } => {
+                    for arg in args {
+                        count_arg(arg, &mut use_counts);
+                    }
+                }
+                InsnType::FillArrayData { array, .. } => count_arg(array, &mut use_counts),
+                InsnType::OneArg { arg } => count_arg(arg, &mut use_counts),
+                InsnType::RegionArg { args } => {
+                    for arg in args {
+                        count_arg(arg, &mut use_counts);
+                    }
+                }
+                InsnType::MoveMulti { moves } => {
+                    for (_, src) in moves {
+                        count_arg(src, &mut use_counts);
+                    }
+                }
+                InsnType::Phi { sources, .. } => {
+                    for (_, src) in sources {
+                        if let InsnArg::Register(r) = src {
+                            *use_counts.entry((r.reg_num, r.ssa_version)).or_insert(0) += 1;
+                        }
+                    }
+                }
+                InsnType::InvokeCustom { args, .. } => {
+                    for arg in args.iter() {
+                        count_arg(arg, &mut use_counts);
+                    }
+                }
+                // Instructions with no source operands
+                InsnType::Const { .. }
+                | InsnType::ConstString { .. }
+                | InsnType::ConstClass { .. }
+                | InsnType::NewInstance { .. }
+                | InsnType::StaticGet { .. }
+                | InsnType::MoveResult { .. }
+                | InsnType::MoveException { .. }
+                | InsnType::Nop
+                | InsnType::Goto { .. }
+                | InsnType::Return { value: None }
+                | InsnType::JavaJsr { .. }
+                | InsnType::JavaRet { .. }
+                | InsnType::Break { .. }
+                | InsnType::Continue { .. } => {}
+            }
+        }
+    }
+
+    use_counts
 }
 
 /// Assignment location info

@@ -18,6 +18,13 @@ use dexterity_ir::instructions::{InsnNode, InsnType};
 use dexterity_ir::types::ArgType;
 use crate::ssa::SsaResult;
 
+/// Method info for invoke-based variable naming
+#[derive(Debug, Clone)]
+pub struct MethodNameInfo {
+    pub method_name: String,
+    pub class_name: String,
+}
+
 /// JADX Reference: ApplyVariableNames.java:39-55
 /// Common type → variable name mappings
 fn get_object_alias() -> HashMap<&'static str, &'static str> {
@@ -85,6 +92,23 @@ pub fn apply_variable_names(
     existing_names: &mut HashMap<(u16, u32), String>,
     types: &HashMap<(u16, u32), ArgType>,
 ) -> ApplyVariableNamesResult {
+    apply_variable_names_with_lookups(ssa, existing_names, types, None, None)
+}
+
+/// Apply variable names with optional method/type lookups for better naming
+///
+/// This enhanced version can extract meaningful names from:
+/// - Invoke instructions (getString() → "string", getInstance() → className)
+/// - NewInstance instructions (new HashMap() → "hashMap")
+///
+/// JADX Reference: ApplyVariableNames.java:70-78
+pub fn apply_variable_names_with_lookups<'a>(
+    ssa: &SsaResult,
+    existing_names: &mut HashMap<(u16, u32), String>,
+    types: &HashMap<(u16, u32), ArgType>,
+    method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
+    type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+) -> ApplyVariableNamesResult {
     let mut result = ApplyVariableNamesResult::default();
     let obj_alias = get_object_alias();
 
@@ -108,7 +132,7 @@ pub fn apply_variable_names(
         }
 
         // Try to guess name from usage
-        if let Some(new_name) = guess_name(key, var_type, &definitions, &obj_alias) {
+        if let Some(new_name) = guess_name_with_lookups(key, var_type, &definitions, &obj_alias, method_lookup, type_lookup) {
             existing_names.insert(key, new_name.clone());
             result.renamed_count += 1;
 
@@ -178,19 +202,31 @@ fn is_valid_name(name: &str) -> bool {
     true
 }
 
-/// Guess variable name from type and usage
-///
-/// JADX Reference: ApplyVariableNames.guessName()
-/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ApplyVariableNames.java:80-107
+/// Guess variable name from type and usage (without lookups)
 fn guess_name(
     key: (u16, u32),
     var_type: &ArgType,
     definitions: &HashMap<(u16, u32), &InsnNode>,
     obj_alias: &HashMap<&str, &str>,
 ) -> Option<String> {
+    guess_name_with_lookups(key, var_type, definitions, obj_alias, None, None)
+}
+
+/// Guess variable name from type and usage with optional lookups
+///
+/// JADX Reference: ApplyVariableNames.guessName()
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ApplyVariableNames.java:80-107
+fn guess_name_with_lookups<'a>(
+    key: (u16, u32),
+    var_type: &ArgType,
+    definitions: &HashMap<(u16, u32), &InsnNode>,
+    obj_alias: &HashMap<&str, &str>,
+    method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
+    type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+) -> Option<String> {
     // Try to get name from defining instruction
     if let Some(insn) = definitions.get(&key) {
-        if let Some(name) = make_name_from_insn(insn, obj_alias) {
+        if let Some(name) = make_name_from_insn_with_lookups(insn, obj_alias, method_lookup, type_lookup) {
             return Some(name);
         }
     }
@@ -199,30 +235,127 @@ fn guess_name(
     make_name_for_type(var_type, obj_alias)
 }
 
-/// Make name from instruction
+/// Make name from instruction without lookups (backward compatible)
+fn make_name_from_insn(insn: &InsnNode, obj_alias: &HashMap<&str, &str>) -> Option<String> {
+    make_name_from_insn_with_lookups(insn, obj_alias, None, None)
+}
+
+/// Make name from instruction with optional lookups
 ///
 /// JADX Reference: ApplyVariableNames.makeNameFromInsn()
 /// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ApplyVariableNames.java:124-159
-fn make_name_from_insn(insn: &InsnNode, obj_alias: &HashMap<&str, &str>) -> Option<String> {
+fn make_name_from_insn_with_lookups<'a>(
+    insn: &InsnNode,
+    _obj_alias: &HashMap<&str, &str>,
+    method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
+    type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+) -> Option<String> {
     match &insn.insn_type {
-        InsnType::Invoke {   .. } => {
-            // Would need method info to get method name
-            // For now, return None and fall back to type-based naming
+        // Invoke - extract name from method name
+        // getString() -> "string", getInstance() -> className, iterator() -> "it"
+        InsnType::Invoke { method_idx, .. } => {
+            if let Some(lookup) = method_lookup {
+                if let Some(info) = lookup(*method_idx) {
+                    // Special methods first
+                    if let Some(special) = extract_special_method_name(&info.method_name, &info.class_name) {
+                        return Some(special);
+                    }
+                    // Then try prefix stripping (getUser -> user)
+                    if let Some(base) = cut_invoke_prefix(&info.method_name) {
+                        return Some(base);
+                    }
+                    // Fall back to method name if reasonable length
+                    if info.method_name.len() <= 12 && !info.method_name.starts_with('<') {
+                        return Some(info.method_name.clone());
+                    }
+                }
+            }
             None
         }
 
-        InsnType::NewInstance {  .. } => {
-            // Constructor - use class name
-            // Would need type info to get class name
+        // NewInstance - use class name for variable name
+        // new HashMap() -> "hashMap", new File() -> "file"
+        InsnType::NewInstance { type_idx, .. } => {
+            if let Some(lookup) = type_lookup {
+                if let Some(type_name) = lookup(*type_idx) {
+                    let simple_name = extract_simple_class_name(&type_name);
+                    return Some(make_name_from_class_name(&simple_name));
+                }
+            }
             None
         }
 
-        InsnType::ArrayLength { .. } => {
-            Some("length".to_string())
+        // NewArray - try to use element type for naming
+        InsnType::NewArray { type_idx, .. } => {
+            if let Some(lookup) = type_lookup {
+                if let Some(type_name) = lookup(*type_idx) {
+                    // For array types, extract element type and add "Arr" suffix
+                    let base = extract_simple_class_name(&type_name);
+                    let base_lower = make_name_from_class_name(&base);
+                    return Some(format!("{}Arr", base_lower));
+                }
+            }
+            Some("arr".to_string())
         }
+
+        // CheckCast - use target type
+        InsnType::CheckCast { type_idx, .. } => {
+            if let Some(lookup) = type_lookup {
+                if let Some(type_name) = lookup(*type_idx) {
+                    let simple_name = extract_simple_class_name(&type_name);
+                    return Some(make_name_from_class_name(&simple_name));
+                }
+            }
+            None
+        }
+
+        // ArrayLength always returns "length"
+        InsnType::ArrayLength { .. } => Some("length".to_string()),
+
+        // ConstString -> "str"
+        InsnType::ConstString { .. } => Some("str".to_string()),
+
+        // InstanceOf -> boolean result
+        InsnType::InstanceOf { .. } => Some("z".to_string()),
+
+        // Compare -> comparison result
+        InsnType::Compare { .. } => Some("cmp".to_string()),
 
         _ => None,
     }
+}
+
+/// Extract special method name patterns
+/// JADX: ApplyVariableNames special method cases
+fn extract_special_method_name(method_name: &str, class_name: &str) -> Option<String> {
+    // getInstance() -> className (lowercase first letter)
+    if method_name == "getInstance" || method_name == "newInstance" {
+        let simple = extract_simple_class_name(class_name);
+        return Some(make_name_from_class_name(&simple));
+    }
+
+    // iterator() -> "it"
+    if method_name == "iterator" {
+        return Some("it".to_string());
+    }
+
+    // next() for iterators -> "next"
+    if method_name == "next" && class_name.contains("Iterator") {
+        return Some("next".to_string());
+    }
+
+    // valueOf() -> type-based name
+    if method_name == "valueOf" {
+        let simple = extract_simple_class_name(class_name);
+        return Some(make_name_from_class_name(&simple));
+    }
+
+    // size() -> "size", length() -> "length"
+    if method_name == "size" || method_name == "length" || method_name == "count" {
+        return Some(method_name.to_string());
+    }
+
+    None
 }
 
 /// Make name for type

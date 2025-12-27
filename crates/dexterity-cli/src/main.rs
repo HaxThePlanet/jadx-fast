@@ -75,6 +75,56 @@ fn get_mem_mb() -> usize {
         .unwrap_or(0)
 }
 
+/// Build Kotlin intrinsics context from DEX for variable name extraction.
+/// JADX Reference: ProcessKotlinInternals.java - extracts names from Intrinsics calls
+/// This provides method signatures and string pool for looking up intrinsics calls.
+fn build_intrinsics_context(dex: &DexReader) -> dexterity_passes::IntrinsicsContext {
+    let mut ctx = dexterity_passes::IntrinsicsContext::new();
+
+    // Build method signatures map: method_idx -> (class, name, proto)
+    // We only need to populate entries for methods that might be Kotlin intrinsics
+    let method_count = dex.header.method_ids_size;
+    for idx in 0..method_count {
+        if let Ok(method_id) = dex.get_method(idx) {
+            if let (Ok(class), Ok(name)) = (method_id.class_type(), method_id.name()) {
+                // Only store Kotlin intrinsics class methods to save memory
+                if class == "Lkotlin/jvm/internal/Intrinsics;" {
+                    // Build proto string: (params)return_type
+                    let proto_str = method_id.proto()
+                        .ok()
+                        .map(|proto| {
+                            let params = proto.parameters().unwrap_or_default().join("");
+                            let ret = proto.return_type().unwrap_or_else(|_| "V".to_string());
+                            format!("({}){}", params, ret)
+                        })
+                        .unwrap_or_default();
+                    ctx.method_signatures.insert(idx, (class, name, proto_str));
+                }
+            }
+        }
+    }
+
+    // Build string pool map: string_idx -> string value
+    // Only load strings on demand when processing intrinsics calls
+    let string_count = dex.header.string_ids_size;
+    for idx in 0..string_count {
+        if let Ok(s) = dex.get_string(idx) {
+            ctx.string_pool.insert(idx, s.to_string());
+        }
+    }
+
+    // field_constants left empty for now - requires class analysis
+    // P1.3 FIX would need constant field resolution here
+
+    tracing::debug!(
+        "Built intrinsics context: {} method sigs, {} strings",
+        ctx.method_signatures.len(),
+        ctx.string_pool.len()
+    );
+
+    ctx
+}
+
 macro_rules! mem_checkpoint {
     ($msg:expr) => {
         eprintln!("MEM[{}]: {} MB", $msg, get_mem_mb());
@@ -496,7 +546,12 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         }
 
         if name.ends_with(".dex") {
-            dex_file_names.push(name);
+            // DEX header is 112 bytes minimum - skip fake/placeholder DEX files
+            if entry.size() >= 112 {
+                dex_file_names.push(name);
+            } else {
+                tracing::debug!("Skipping invalid DEX file {} ({} bytes < 112 byte header)", name, entry.size());
+            }
         } else if name == "AndroidManifest.xml" {
             // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Use safe read
             if let Some(data) = zip_fallback::safe_read_entry(&mut entry, &name) {
@@ -802,7 +857,12 @@ fn process_apk_fallback(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, a
 
         // Categorize entry
         if name.ends_with(".dex") {
-            dex_entries.push((name, entry_data));
+            // DEX header is 112 bytes minimum - skip fake/placeholder DEX files
+            if entry_data.len() >= 112 {
+                dex_entries.push((name, entry_data));
+            } else {
+                tracing::debug!("Skipping invalid DEX file {} ({} bytes < 112 byte header)", name, entry_data.len());
+            }
         } else if name == "AndroidManifest.xml" {
             manifest_data = Some(entry_data);
         } else if name == "resources.arsc" {
@@ -1298,8 +1358,12 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
         }
 
         if name.ends_with(".dex") {
-            // Found DEX file - just store the name
-            dex_file_names.push(name);
+            // DEX header is 112 bytes minimum - skip fake/placeholder DEX files
+            if entry.size() >= 112 {
+                dex_file_names.push(name);
+            } else {
+                tracing::debug!("Skipping invalid DEX file {} ({} bytes < 112 byte header)", name, entry.size());
+            }
         } else if name.ends_with(".class") && !name.contains("module-info") {
             // Track .class files
             class_files.push(name);
@@ -1489,8 +1553,12 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         }
 
         if name.ends_with(".dex") {
-            // Only store the name, we'll process it later
-            dex_file_names.push(name);
+            // DEX header is 112 bytes minimum - skip fake/placeholder DEX files
+            if entry.size() >= 112 {
+                dex_file_names.push(name);
+            } else {
+                tracing::debug!("Skipping invalid DEX file {} ({} bytes < 112 byte header)", name, entry.size());
+            }
         } else if name.ends_with(".jar") {
             // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Use safe read
             if let Some(data) = zip_fallback::safe_read_entry(&mut entry, &name) {
@@ -2104,6 +2172,20 @@ fn process_dex_bytes(
     let inline_methods = args.inline_methods();
     let deobfuscation = args.deobf_enabled();
     let fs_case_sensitive = args.fs_case_sensitive;
+    let use_kotlin_var_names = args.use_kotlin_methods_for_var_names();
+
+    // Build Kotlin intrinsics context for variable name extraction
+    // JADX Reference: ProcessKotlinInternals.java - extracts names from Intrinsics calls
+    // Only build if not disabled - this scans all method IDs in the DEX
+    let intrinsics_ctx = if use_kotlin_var_names != KotlinVarNamesMode::Disable {
+        tracing::debug!("Building Kotlin intrinsics context (mode: {:?})", use_kotlin_var_names);
+        let ctx = build_intrinsics_context(&dex);
+        tracing::debug!("Intrinsics context: {} method signatures, {} strings",
+            ctx.method_signatures.len(), ctx.string_pool.len());
+        Some(Arc::new(ctx))
+    } else {
+        None
+    };
 
     // Create shared alias provider for rename validation (thread-safe atomic counters)
     // JADX Reference: RenameVisitor uses IAliasProvider for collision renaming
@@ -2225,6 +2307,17 @@ fn process_dex_bytes(
                                         for method in &mut inner_data.methods {
                                             let _ = converter::load_method_instructions(method, &dex);
                                         }
+
+                                        // Kotlin Intrinsics name extraction for inner classes
+                                        if let Some(ref ctx) = intrinsics_ctx {
+                                            let options = dexterity_passes::kotlin_intrinsics::KotlinIntrinsicsOptions {
+                                                hide_intrinsics: use_kotlin_var_names == KotlinVarNamesMode::ApplyAndHide,
+                                            };
+                                            for method in &mut inner_data.methods {
+                                                dexterity_passes::process_kotlin_intrinsics_with_options(method, ctx, &options);
+                                            }
+                                        }
+
                                         // Extract field initializations
                                         dexterity_passes::extract_field_init(&mut inner_data, Some(&dex));
                                         dexterity_passes::extract_instance_field_init(&mut inner_data, Some(&dex));
@@ -2257,6 +2350,18 @@ fn process_dex_bytes(
                 // Load instructions before codegen
                 for method in &mut ir_class.methods {
                     let _ = converter::load_method_instructions(method, &dex);
+                }
+
+                // Stage: Kotlin Intrinsics name extraction (JADX ProcessKotlinInternals)
+                // Extracts parameter names from Intrinsics.checkNotNullParameter() calls
+                // JADX Reference: ProcessKotlinInternals.java:107-137
+                if let Some(ref ctx) = intrinsics_ctx {
+                    let options = dexterity_passes::kotlin_intrinsics::KotlinIntrinsicsOptions {
+                        hide_intrinsics: use_kotlin_var_names == KotlinVarNamesMode::ApplyAndHide,
+                    };
+                    for method in &mut ir_class.methods {
+                        dexterity_passes::process_kotlin_intrinsics_with_options(method, ctx, &options);
+                    }
                 }
 
                 // P1-LAMBDA: Mark synthetic lambda methods for non-generation

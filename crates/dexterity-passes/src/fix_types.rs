@@ -19,12 +19,25 @@
 
 use rustc_hash::{FxHashMap, FxHashSet};
 
+use dexterity_ir::instructions::InsnType;
 use dexterity_ir::types::ArgType;
 use dexterity_ir::ClassHierarchy;
 
 use crate::ssa::SsaResult;
 use crate::type_bound::{BoundEnum, TypeInfo};
 use crate::type_inference::{TypeInferenceResult, TypeVar};
+
+/// Check if an instruction type is a block separator (ends control flow)
+///
+/// JADX Reference: BlockSplitter.isSeparate()
+fn is_block_separator(insn_type: &InsnType) -> bool {
+    matches!(
+        insn_type,
+        InsnType::Goto { .. } | InsnType::If { .. } |
+        InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. } |
+        InsnType::Return { .. } | InsnType::Throw { .. }
+    )
+}
 
 /// Result of the fix types pass
 #[derive(Debug, Default)]
@@ -329,14 +342,69 @@ impl FixTypes {
         changed
     }
 
-    /// Strategy 4: Split constant instructions
+    /// Strategy 4: Split constant instructions (splitByPhi)
     ///
-    /// When a constant is used with different types, split into separate constants
+    /// When a constant is used in multiple PHIs with different type requirements,
+    /// conceptually split into separate constants so each PHI can have its own type.
+    ///
+    /// JADX Reference: FixTypesVisitor.trySplitConstInsns() and splitByPhi() lines 464-535
+    ///
+    /// The actual instruction duplication requires mutable SSA access.
+    /// Here we detect which constants would benefit from splitting and try to
+    /// resolve their types based on PHI usage context.
     fn try_split_const_insns(&mut self, ssa: &SsaResult) -> bool {
-        // This strategy requires modifying instructions
-        // For now, we just try to resolve based on usage context
         let mut changed = false;
 
+        // Find constants used in multiple PHIs
+        let mut const_to_phis: FxHashMap<(u16, u32), Vec<(u32, &crate::ssa::PhiNode)>> = FxHashMap::default();
+
+        for block in &ssa.blocks {
+            for phi in &block.phi_nodes {
+                for (_, src_reg) in &phi.sources {
+                    // Check if this source is a constant
+                    if self.is_const_assignment(ssa, src_reg) {
+                        let key = (src_reg.reg_num, src_reg.ssa_version);
+                        const_to_phis.entry(key)
+                            .or_default()
+                            .push((block.id, phi));
+                    }
+                }
+            }
+        }
+
+        // For constants used in 2+ PHIs, try to resolve based on each PHI's context
+        for ((reg_num, ssa_version), phi_refs) in const_to_phis {
+            if phi_refs.len() < 2 {
+                continue; // splitByPhi only helps with 2+ PHIs
+            }
+
+            let var = TypeVar::new(ssa_version);
+
+            // Collect type hints from each PHI's destination
+            let mut type_hints: Vec<&ArgType> = Vec::new();
+            for (_, phi) in &phi_refs {
+                let dest_var = TypeVar::new(phi.dest.ssa_version);
+                if let Some(ty) = self.resolved_types.get(&dest_var) {
+                    if !matches!(ty, ArgType::Unknown) {
+                        type_hints.push(ty);
+                    }
+                }
+            }
+
+            // If we have type hints, try to find common type
+            if !type_hints.is_empty() {
+                if let Some(common) = self.find_common_type(&type_hints) {
+                    self.resolved_types.insert(var, common);
+                    changed = true;
+                    tracing::debug!(
+                        "splitByPhi: Resolved r{}#{} used in {} PHIs to {:?}",
+                        reg_num, ssa_version, phi_refs.len(), self.resolved_types.get(&var)
+                    );
+                }
+            }
+        }
+
+        // Also handle single-PHI constants with multiple use types
         for var in self.get_unresolved_vars() {
             if let Some(info) = self.type_info.get(&var) {
                 // Check if this looks like a constant with multiple use types
@@ -358,6 +426,28 @@ impl FixTypes {
         }
 
         changed
+    }
+
+    /// Check if a register is assigned by a CONST instruction
+    fn is_const_assignment(&self, ssa: &SsaResult, reg: &dexterity_ir::instructions::RegisterArg) -> bool {
+        for block in &ssa.blocks {
+            for insn in &block.instructions {
+                // Check if this instruction assigns to the target register
+                let dest_reg = match &insn.insn_type {
+                    InsnType::Const { dest, .. } => Some(dest),
+                    InsnType::ConstString { dest, .. } => Some(dest),
+                    InsnType::ConstClass { dest, .. } => Some(dest),
+                    _ => None,
+                };
+
+                if let Some(dest) = dest_reg {
+                    if dest.reg_num == reg.reg_num && dest.ssa_version == reg.ssa_version {
+                        return true; // It's a const instruction
+                    }
+                }
+            }
+        }
+        false
     }
 
     /// Strategy 5: Fix incompatible primitives
@@ -426,11 +516,202 @@ impl FixTypes {
 
     /// Strategy 7: Insert additional move instructions
     ///
-    /// Add MOVE before PHI to create soft type links
-    fn try_insert_additional_move(&mut self, _ssa: &SsaResult) -> bool {
-        // This strategy requires instruction modification
-        // For now, we try to resolve PHI types based on inputs
+    /// Add MOVE before PHI to create soft type links.
+    /// This allows using different types in blocks merged by PHI.
+    ///
+    /// JADX Reference: FixTypesVisitor.tryInsertAdditionalMove() lines 537-559
+    fn try_insert_additional_move(&mut self, ssa: &SsaResult) -> bool {
+        // Count how many moves we would insert
+        let mut total_moves = 0;
+
+        for block in &ssa.blocks {
+            for phi in &block.phi_nodes {
+                // Check if all args have the same known type
+                if self.phi_has_common_known_type(phi) {
+                    continue;
+                }
+
+                // Count moves needed for this PHI
+                let moves_needed = self.count_moves_for_phi(ssa, phi);
+                total_moves += moves_needed;
+            }
+        }
+
+        if total_moves == 0 {
+            return false;
+        }
+
+        tracing::debug!("PHI type fix would insert {} moves", total_moves);
+
+        // For now, we note that moves are needed but don't modify SSA
+        // The actual instruction insertion requires mutable SSA access
+        // which should be done at a higher level
+        //
+        // Instead, we try to fix types by using wider bounds
+        self.try_fix_phi_types_via_bounds(ssa)
+    }
+
+    /// Check if a PHI has a common known type for all arguments
+    ///
+    /// JADX Reference: FixTypesVisitor.getCommonTypeForPhiArgs() lines 579-591
+    fn phi_has_common_known_type(&self, phi: &crate::ssa::PhiNode) -> bool {
+        if phi.sources.is_empty() {
+            return true;
+        }
+
+        let mut common_type: Option<&ArgType> = None;
+
+        for (_, src_reg) in &phi.sources {
+            let var = TypeVar::new(src_reg.ssa_version);
+            let ty = match self.resolved_types.get(&var) {
+                Some(t) => t,
+                None => return false, // Unknown type
+            };
+
+            if matches!(ty, ArgType::Unknown) {
+                return false;
+            }
+
+            match common_type {
+                None => common_type = Some(ty),
+                Some(prev) => {
+                    if prev != ty {
+                        return false; // Different types
+                    }
+                }
+            }
+        }
+
+        true
+    }
+
+    /// Count how many MOVE instructions would need to be inserted for a PHI
+    ///
+    /// JADX Reference: FixTypesVisitor.insertMovesForPhi() lines 593-622
+    fn count_moves_for_phi(&self, ssa: &SsaResult, phi: &crate::ssa::PhiNode) -> usize {
+        let mut count = 0;
+
+        for (pred_block_id, src_reg) in &phi.sources {
+            // Find the predecessor block
+            let pred_block = match ssa.blocks.iter().find(|b| b.id == *pred_block_id) {
+                Some(b) => b,
+                None => continue,
+            };
+
+            // Check if we can insert in this block
+            if !self.can_insert_in_block(pred_block) {
+                continue;
+            }
+
+            // Skip if assigned by CONST (optimization)
+            // Skip if assigned by MOVE with single use (optimization)
+            if self.should_skip_move_for_var(ssa, src_reg) {
+                continue;
+            }
+
+            count += 1;
+        }
+
+        count
+    }
+
+    /// Check if we can insert instructions in a block
+    ///
+    /// JADX Reference: FixTypesVisitor.checkBlockForInsnInsert() lines 641-655
+    fn can_insert_in_block(&self, block: &crate::ssa::SsaBlock) -> bool {
+        // Check last instruction - can't insert after "separate" instructions
+        // (GOTO, IF, SWITCH, RETURN, THROW)
+        if let Some(last_insn) = block.instructions.last() {
+            if is_block_separator(&last_insn.insn_type) {
+                // Block ends with branch - try predecessors
+                if block.predecessors.len() == 1 {
+                    // Could recursively check, but for simplicity return false
+                    return false;
+                }
+                return false;
+            }
+        }
+
+        true
+    }
+
+    /// Check if we should skip inserting a MOVE for this variable
+    ///
+    /// Skip if:
+    /// - Assigned by CONST instruction (type flexibility handled by splitByPhi)
+    /// - Assigned by MOVE with only 1 use (redundant)
+    fn should_skip_move_for_var(&self, ssa: &SsaResult, reg: &dexterity_ir::instructions::RegisterArg) -> bool {
+        // Find the instruction that assigns this register
+        for block in &ssa.blocks {
+            for insn in &block.instructions {
+                // Check if this instruction assigns to our target register
+                let (is_const, is_move, dest) = match &insn.insn_type {
+                    InsnType::Const { dest, .. } => (true, false, Some(dest)),
+                    InsnType::ConstString { dest, .. } => (true, false, Some(dest)),
+                    InsnType::ConstClass { dest, .. } => (true, false, Some(dest)),
+                    InsnType::Move { dest, .. } => (false, true, Some(dest)),
+                    // Other instructions that produce results
+                    InsnType::Unary { dest, .. }
+                    | InsnType::Binary { dest, .. }
+                    | InsnType::InstanceOf { dest, .. }
+                    | InsnType::ArrayLength { dest, .. }
+                    | InsnType::NewInstance { dest, .. }
+                    | InsnType::NewArray { dest, .. }
+                    | InsnType::ArrayGet { dest, .. }
+                    | InsnType::InstanceGet { dest, .. }
+                    | InsnType::StaticGet { dest, .. }
+                    | InsnType::Cast { dest, .. }
+                    | InsnType::MoveResult { dest, .. }
+                    | InsnType::MoveException { dest, .. }
+                    | InsnType::Compare { dest, .. } => (false, false, Some(dest)),
+                    _ => (false, false, None),
+                };
+
+                if let Some(dest) = dest {
+                    if dest.reg_num == reg.reg_num && dest.ssa_version == reg.ssa_version {
+                        // Found the assignment
+                        if is_const {
+                            return true; // Skip for CONST
+                        }
+                        if is_move {
+                            // Check use count - would need SSA context for this
+                            // For now, don't skip MOVE
+                            return false;
+                        }
+                        return false;
+                    }
+                }
+            }
+        }
+
         false
+    }
+
+    /// Try to fix PHI types by widening bounds
+    ///
+    /// Since we can't easily modify SSA here, we try alternative fixes
+    fn try_fix_phi_types_via_bounds(&mut self, _ssa: &SsaResult) -> bool {
+        let mut changed = false;
+
+        for var in self.get_unresolved_vars() {
+            if let Some(info) = self.type_info.get(&var) {
+                // Try to find a common type from all bounds
+                let types: Vec<_> = info.bounds()
+                    .iter()
+                    .filter_map(|b| b.get_type())
+                    .filter(|t| !matches!(t, ArgType::Unknown))
+                    .collect();
+
+                if !types.is_empty() {
+                    if let Some(common) = self.find_common_type(&types) {
+                        self.resolved_types.insert(var, common);
+                        changed = true;
+                    }
+                }
+            }
+        }
+
+        changed
     }
 
     /// Strategy 8: Remove generics and try raw types

@@ -422,6 +422,12 @@ impl Args {
         self.kotlin_metadata && !self.no_kotlin_metadata
     }
 
+    /// Get the effective Kotlin variable names mode (defaults to Apply)
+    /// JADX Reference: UseKotlinMethodsForVarNames enum in JadxArgs.java
+    pub fn use_kotlin_methods_for_var_names(&self) -> KotlinVarNamesMode {
+        self.use_kotlin_methods_for_var_names.unwrap_or(KotlinVarNamesMode::Apply)
+    }
+
     /// Check if deobfuscation is enabled (default: false, enable with --deobf)
     pub fn deobf_enabled(&self) -> bool {
         self.deobfuscation && !self.no_deobfuscation
