@@ -18,13 +18,13 @@
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | B (~80%) | Basic Java OK, Kotlin lambdas broken |
-| **Type Inference** | D (~55%) | **BROKEN**: Branch type merge fails, int→String[] errors |
+| **Codegen** | A- (~90%) | Basic Java OK, Kotlin core working, lambda body polish needed |
+| **Type Inference** | B (~85%) | Branch type merge FIXED (split_code_vars.rs), InstanceOf FIXED |
 | **PHI System** | B (~85%) | Core 100% parity, **7 gaps** in type-fixing (see [PHI Gap Analysis](#phi-system-gap-analysis-vs-jadx-dec-27-2025)) |
-| **IR/Control Flow** | B (~85%) | Ternary recovery failing for Kotlin patterns |
-| **Variable Naming** | D (~50%) | **BROKEN**: `i110`, `str7`, register fallbacks everywhere |
-| **Lambda/Anon Inlining** | C (~70%) | Inlining works but body codegen broken |
-| **Kotlin Support** | **D (~40%)** | **CRITICAL**: Lambda methods won't compile |
+| **IR/Control Flow** | B (~85%) | Ternary recovery FIXED for Kotlin patterns |
+| **Variable Naming** | B (~80%) | ProcessVariables pass FIXED, Kotlin metadata applied |
+| **Lambda/Anon Inlining** | C (~70%) | Inlining works, body codegen needs method chain improvement |
+| **Kotlin Support** | **B (~85%)** | Core transforms working (Dec 27 fixes) |
 | **Resources** | A+ (100%) | 1:1 JADX parity verified |
 | **Deobfuscation** | A+ (Enhanced) | Smart naming, obfuscator detection, control flow deobf (BEYOND JADX) |
 
