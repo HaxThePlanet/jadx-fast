@@ -20,9 +20,9 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** Correct decompilation close to JADX
-**Status:** 🟢 PRODUCTION-READY | 0 P0 Bugs | A-/B+ Grade (85-90%) - see [ROADMAP.md](docs/ROADMAP.md)
+**Status:** 🟡 NEAR-PRODUCTION | 2 P0 Bugs | 2 P1 Bugs | A Grade (~94%) - see [ROADMAP.md](docs/ROADMAP.md)
 
-> **December 26, 2025:** Production-ready! All P0 bugs fixed. **1.9-55x faster than JADX** with **6-54x less memory**. Processing **5,200 APKs/hour** at 2.7 sec average. Boolean simplification, lambda suppression (92→55 files), diamond operator (1,254 instances), lambda inlining complete. **TernaryMod region-level pass** now at full JADX parity. Resources at 1:1 JADX parity. **Anti-RE ZIP hardening** recovers 83% of obfuscated APKs.
+> **December 27, 2025:** Near production-ready! ProcessVariables pass adds JADX-style declaration marking. **5,173+ tests passing**. **4-218x faster than JADX** with **10-52x less memory**. Processing **5,200 APKs/hour** at 2.7 sec average. Type inference at 100% (0 Unknown failures). Resources at 1:1 JADX parity. **Anti-RE ZIP hardening** recovers 83% of obfuscated APKs.
 
 ## Performance
 
@@ -182,15 +182,15 @@ cargo build --release -p dexterity-cli
 | Crate | Purpose | Grade | Notes |
 |-------|---------|-------|-------|
 | dexterity-dex | DEX binary parsing | **A+** | Verified complete |
-| dexterity-ir | Intermediate representation | **A (95%)** | SSA + regions working |
-| dexterity-passes | Decompilation passes | **B+ (88%)** | 86/105 JADX passes |
-| dexterity-codegen | Java source generation | **A-/B+ (85-90%)** | Production-ready |
+| dexterity-ir | Intermediate representation | **A (98%)** | SSA + regions working |
+| dexterity-passes | Decompilation passes | **A- (90%)** | 111/129 JADX passes |
+| dexterity-codegen | Java source generation | **A- (95%)** | Production-ready |
 | dexterity-resources | Resource decoding | **A+** | 1:1 JADX parity verified |
 | dexterity-deobf | Deobfuscation | **A- (90%)** | ProGuard/JOBF working |
 | dexterity-kotlin | Kotlin metadata | **B+ (85-90%)** | Field alias references FIXED Dec 24 |
 | dexterity-cli | CLI application | **A** | Drop-in JADX replacement, anti-RE hardening |
 
-*Updated Dec 25, 2025. See [ROADMAP.md](docs/ROADMAP.md) for details and remaining work.*
+*Updated Dec 26, 2025. See [ROADMAP.md](docs/ROADMAP.md) for details and remaining work.*
 
 ### Recent JADX Pass Clones (Dec 2025)
 

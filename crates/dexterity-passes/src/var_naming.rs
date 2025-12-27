@@ -378,12 +378,30 @@ pub fn types_compatible_for_naming(t1: &ArgType, t2: &ArgType) -> bool {
          ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short |
          ArgType::Int | ArgType::Long | ArgType::Float | ArgType::Double | ArgType::Void) => false,
 
-        // FIX (NEW-004): Object types are only compatible if they're the SAME class.
-        // Different object types (e.g., String vs AccessibilityNodeInfo) must have separate
+        // FIX (NEW-004): Object types are only compatible if they're the SAME class,
+        // OR if one is java/lang/Object (which is compatible with all object types).
+        // This is needed for PHI nodes in patterns like Compose remember where:
+        //   source1: rememberedValue() returns Object
+        //   source2: new Lambda() is a specific type
+        //   phi: should share the same variable name
+        //
+        // Different concrete object types (e.g., String vs AccessibilityNodeInfo) must have separate
         // variable names, even if they're connected through PHI nodes. Otherwise we get:
         //   String source = "BadAccessibility";
         //   source = obj.getSource();  // ERROR: AccessibilityNodeInfo cannot be assigned to String
-        (ArgType::Object(name1), ArgType::Object(name2)) => name1 == name2,
+        (ArgType::Object(name1), ArgType::Object(name2)) => {
+            // Same class - compatible
+            if name1 == name2 {
+                return true;
+            }
+            // P0-KOTLIN-UNDEF-VAR FIX: java/lang/Object is compatible with any object type
+            // This allows phi-connected variables with Object sources to share names
+            // with more specific typed destinations (common in Compose remember pattern)
+            if name1 == "java/lang/Object" || name2 == "java/lang/Object" {
+                return true;
+            }
+            false
+        }
 
         // Arrays are compatible if element types are compatible
         (ArgType::Array(e1), ArgType::Array(e2)) => types_compatible_for_naming(e1, e2),

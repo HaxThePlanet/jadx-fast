@@ -68,7 +68,7 @@ docker run --rm \
   --input /workspace/apks/app.apk \
   --output /output \
   --threads 8 \
-  --deobfuscate
+  --deobf
 ```
 
 ### Batch Processing (Parallel Workers)
@@ -265,7 +265,7 @@ Common options:
 - `--input <PATH>`: Input APK or directory
 - `--output <PATH>`: Output directory
 - `--threads <N>`: Number of threads
-- `--deobfuscate`: Enable deobfuscation
+- `--deobf`: Enable deobfuscation (off by default)
 - `--export-gradle`: Export Gradle project
 - `--resources`: Export resources
 

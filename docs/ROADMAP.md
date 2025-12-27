@@ -1,15 +1,15 @@
 # Dexterity Roadmap
 
-**Status:** 🟢 PRODUCTION-READY | A Grade (~95%) | 0 P0 | 0 P1 | 0 P1-CG | 0 P2-CG | Dec 26, 2025 | Build: CLEAN
+**Status:** 🔴 KOTLIN BROKEN | D Grade (~60%) | 4 P0 | 6 P1 | 0 P1-CG | 0 P2-CG | Dec 27, 2025 | Build: CLEAN
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 0 P0, 0 P1, 0 P1-CG, 0 P2-CG - All deobfuscation bugs FIXED |
+| **Open Bugs** | 4 P0, 6 P1 - **CRITICAL: Kotlin lambdas produce non-compilable code** |
 | **Build Status** | Release build succeeds (warnings suppressed with #[allow(dead_code)] for intentional APIs) |
 | **Code Quality** | 0 Easy, 0 Medium, 6 Hard issues (see Code Quality Backlog) |
-| **Remaining Work** | Throws declarations ✅ COMPLETE - JCST classpath database integrated (1006 classes, 5099 methods) |
-| **Kotlin Parity** | ~95% - Advanced metadata: contracts, context receivers, type aliases (BEYOND JADX) |
+| **Remaining Work** | **FIX KOTLIN DECOMPILATION** - Lambda methods have type errors, missing string concat |
+| **Kotlin Parity** | **~40% - BROKEN** - Lambda methods won't compile, type errors, missing transforms |
 | **Deobf Parity** | ~98% - RenameVisitor 100%, all validation functions invoked |
 | **Visitors** | 100% (120/120 Relevant) - See [CLONE_TASKS.md](CLONE_TASKS.md) for details |
 | **Resources** | 100% (1:1 JADX parity - 103 dirs, 152 files) |
@@ -18,19 +18,23 @@
 
 | Category | Grade | Notes |
 |----------|-------|-------|
-| **Codegen** | A (~95%) | All P1 gaps FIXED - lambda, anon class, diamond, polymorphic |
-| **Type Inference** | A+ (98%) | PHI conflicts FIXED, ~2% remaining |
-| **IR/Control Flow** | A (~95%) | Boolean `\|\|`, ternary, try-catch in loops, comment escape |
-| **Variable Naming** | A- (90%) | Static field inlining, scope tracking |
-| **Lambda/Anon Inlining** | A (~95%) | All P1-LAMBDA tasks complete |
-| **Kotlin Support** | A (~95%) | Advanced metadata: contracts, context receivers, type aliases (BEYOND JADX) |
+| **Codegen** | B (~80%) | Basic Java OK, Kotlin lambdas broken |
+| **Type Inference** | D (~55%) | **BROKEN**: Branch type merge fails, int→String[] errors |
+| **IR/Control Flow** | B (~85%) | Ternary recovery failing for Kotlin patterns |
+| **Variable Naming** | D (~50%) | **BROKEN**: `i110`, `str7`, register fallbacks everywhere |
+| **Lambda/Anon Inlining** | C (~70%) | Inlining works but body codegen broken |
+| **Kotlin Support** | **D (~40%)** | **CRITICAL**: Lambda methods won't compile |
 | **Resources** | A+ (100%) | 1:1 JADX parity verified |
 | **Deobfuscation** | A+ (Enhanced) | Smart naming, obfuscator detection, control flow deobf (BEYOND JADX) |
 
-## Recently Completed (Dec 24-26, 2025)
+## Recently Completed (Dec 24-27, 2025)
 
 | Feature | Impact | Status |
 |---------|--------|--------|
+| **ProcessVariables Pass** | JADX parity | ✅ DeclareVar flag marks instruction declaration points (Dec 27) |
+| **P0-KOTLIN-UNDEF-VAR** | Compilable code | ✅ PHI-connected vars merged to same CodeVar, Object↔subtype compat |
+| **P0-KOTLIN-PRECEDENCE** | Compilable code | ✅ Bitwise operators in comparisons now parenthesized: `($dirty & 48) == 0` |
+| **P0-KOTLIN-TYPE-CONFUSION** | Compilable code | ✅ Object refs use null comparison: `Companion != null` instead of `!= 0` |
 | **Smart Naming System** | BEYOND JADX | ✅ Dictionary-based naming, type hints, pattern detection |
 | **Obfuscator Detection** | Analysis capability | ✅ ProGuard, R8, DexGuard, Allatori, Bangcle, Qihoo360, TencentLegu |
 | **Control Flow Deobf** | Deobfuscation | ✅ Opaque predicates, dead code, CFF, bogus code, pattern simplify |
@@ -41,6 +45,7 @@
 | P1-PHI-VAR-TYPE Fix | Compilable code | ✅ Type-check before PHI name unification |
 | P1-FOREACH-INDEX Fix | Compilable code | ✅ Index used in body → reject for-each |
 | Anti-RE ZIP Hardening | +93% bad APK recovery | ✅ 43% → 83% success rate |
+| P2-ZIP-ENCRYPTED/COMPRESSION | Anti-RE APK handling | ✅ Skip encrypted/unsupported entries instead of failing |
 | Boolean Simplification | +5-10% | ✅ `? true : false` -> `c`, De Morgan's law |
 | Lambda Class Suppression | +3-5% | ✅ 92 -> 55 files (37 lambda classes filtered) |
 | Diamond Operator | +2-3% | ✅ 1,254 instances emit `<>` (76% of JADX) |
@@ -266,9 +271,336 @@ java/lang/Thread.sleep() throws ["java/lang/InterruptedException"]
 
 ---
 
-## P0 Critical Bugs - ✅ ALL FIXED (Dec 25, 2025)
+## Newly Discovered Issues (Dec 26, 2025 Audit)
 
-All P0 critical bugs have been resolved. For detailed information about fixes, see the "Completed" section below.
+Found during manual comparison of Dexterity output vs JADX reference:
+
+### P0 Critical Bugs (Code Won't Compile)
+
+| Bug ID | Summary | File Example | Status |
+|--------|---------|--------------|--------|
+| P0-UNDECLARED-LOOP-VAR | Variables used in loops without declaration | `Util.java:76` `hEX_CHAR_ARRAY2`, `i2` | 🟢 IMPROVED (ProcessVariables) |
+| P0-EXCEPTION-SCOPE | Exception variable `th` used outside catch block in synchronized | `Util.java:63-66` | 🔴 OPEN |
+| P0-KOTLIN-INSTANCEOF | `z` variable undeclared in Kotlin instanceof patterns | `MaliciousPatterns.java:58,70,95` | 🟢 IMPROVED (ProcessVariables) |
+| **P0-KOTLIN-BRANCH-TYPE-MERGE** | Variables from different branches merged with incompatible types | `MainActivityKt.java` `strArr2 = count` (int→String[]) | 🔴 OPEN |
+| **P0-KOTLIN-STRING-CONCAT** | Missing StringBuilder/string concat recovery | `MainActivityKt.java` `"SMS Count: " + count` missing | 🔴 OPEN |
+
+### P1 Major Bugs (Incorrect Code)
+
+| Bug ID | Summary | File Example | Status |
+|--------|---------|--------------|--------|
+| P1-TYPE-PARAM-REASSIGN | Parameter reassigned to incompatible type | `Util.java:100` Bitmap→String | 🟡 OPEN |
+| P1-DUPLICATE-INIT | Redundant variable initialization | `Util.java:71-72` `int i = 0; i = 0;` | 🟡 OPEN |
+| **P1-KOTLIN-TERNARY** | No ternary recovery for null-safe patterns | `MainActivityKt.java` `cursor != null ? cursor.getCount() : 0` becomes if-else | 🔴 OPEN |
+| **P1-KOTLIN-DEAD-CODE** | Unused arrays and redundant assignments not eliminated | `MainActivityKt.java` `String[] strArr2 = new String[4];` (never used) | 🔴 OPEN |
+| **P1-KOTLIN-VAR-NAMING** | Register fallback names everywhere instead of meaningful names | `MainActivityKt.java` `i110`, `i180`, `str7`, `str` (as int!) | 🔴 OPEN |
+| **P1-KOTLIN-VAR-REUSE** | Same variable reused for incompatible types across branches | `MainActivityKt.java` `query` used as both Cursor and String | 🔴 OPEN |
+
+### Example Code Issues
+
+**P0-UNDECLARED-LOOP-VAR** (`output/dexterity/medium/.../Util.java:76-79`):
+```java
+// hEX_CHAR_ARRAY2 and i2 never declared
+hEX_CHAR_ARRAY2 = Util.HEX_CHAR_ARRAY;    // ERROR: not declared
+cArr[i5] = hEX_CHAR_ARRAY2[i3 >>> 4];
+i2 = i5 + 1;                               // ERROR: not declared
+cArr[i2] = hEX_CHAR_ARRAY2[i3 & 15];
+```
+
+**P0-EXCEPTION-SCOPE** (`output/dexterity/medium/.../Util.java:63-66`):
+```java
+synchronized (sHA_256_CHARS2) {
+    try {
+        return Util.bytesToHex(bArr, sHA_256_CHARS2);
+    } catch (Throwable th) {
+    }
+    /* Dexterity WARN: Type inference failed for thrown value */
+    throw (Throwable) th;  // ERROR: th out of scope
+}
+```
+
+**P0-KOTLIN-INSTANCEOF** (`crates/badboy-jadx/.../MaliciousPatterns.java:58`):
+```java
+z = inputStreamReader instanceof BufferedReader;  // ERROR: z never declared
+BufferedReader r3 = inputStreamReader instanceof BufferedReader ? ...;
+```
+
+**P0-KOTLIN-BRANCH-TYPE-MERGE** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):
+```java
+// Dexterity output (BROKEN):
+int count = 0;
+if (query != null) { count = query.getCount(); }
+strArr3 = count;  // TYPE ERROR: assigning int to String[]
+MainActivityKt.Greeting$lambda$7($displayText$delegate, strArr3);
+
+// Another branch:
+query = "Requesting SMS permission...";  // TYPE ERROR: String -> Cursor
+MainActivityKt.Greeting$lambda$7($displayText$delegate, query);
+```
+**Root Cause:** PHI node merging assigns same CodeVar to variables from different branches despite incompatible types.
+**JADX Reference:** `InitCodeVariables.java:collectConnectedVars()` does proper type-aware merging.
+
+**P0-KOTLIN-STRING-CONCAT** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):
+```java
+// Dexterity output (BROKEN):
+strArr3 = count;  // Should be: "SMS Count: " + count
+
+// JADX output (CORRECT):
+$displayText$delegate.setValue("SMS Count: " + count);
+```
+**Root Cause:** StringBuilder pattern not recognized. JADX has dedicated StringBuilder → concat recovery.
+**JADX Reference:** `jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java` (StringBuilder simplification)
+
+**P1-KOTLIN-TERNARY** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):
+```java
+// Dexterity output (VERBOSE):
+int count = 0;
+if (query != null) {
+    count = query.getCount();
+}
+
+// JADX output (CLEAN):
+int count = cursor != null ? cursor.getCount() : 0;
+```
+**Root Cause:** Ternary recovery pass not handling Kotlin null-safe patterns.
+**JADX Reference:** `jadx-core/src/main/java/jadx/core/dex/visitors/regions/TernaryMod.java`
+
+**P1-KOTLIN-DEAD-CODE** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):
+```java
+// Dexterity output (DEAD CODE NOT ELIMINATED):
+String[] strArr2 = new String[4];  // Never used
+String str4 = null;  // Could be inlined
+count = 0;  // First assignment
+count = 0;  // Redundant second assignment
+```
+**Root Cause:** Dead code elimination pass not running or not effective on Kotlin output.
+**JADX Reference:** `jadx-core/src/main/java/jadx/core/dex/visitors/DeadCodeEliminator.java`
+
+**P1-KOTLIN-VAR-NAMING** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):
+```java
+// Dexterity output (HORRIBLE NAMES):
+int i66 = 0;
+int i125 = 1;
+int i107 = 0;
+int i39 = 0;
+int i13 = 16;
+int i37 = 256;
+int i32 = 432;
+int str2 = 1;  // WTF: "str" prefix for an int!!!
+
+// JADX output (MEANINGFUL NAMES):
+int $changed = 0;
+int $default = 1;
+int $dirty = 0;
+```
+**Root Cause:**
+1. Kotlin metadata `@Metadata(d2=["$changed", "$dirty", ...])` not being used for variable naming
+2. Fallback to register-based names `iNN` instead of inferring names from usage
+3. Type-prefix naming broken (`str` assigned to int)
+**JADX Reference:** `jadx-core/src/main/java/jadx/core/dex/visitors/PrepareForCodeGen.java` (uses Kotlin metadata for names)
+
+**P1-KOTLIN-VAR-REUSE** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):
+```java
+// Dexterity output (VAR REUSED FOR INCOMPATIBLE TYPES):
+Cursor query = $context.getContentResolver().query(...);
+// ... later in else branch ...
+query = "Requesting SMS permission...";  // Now it's a String!
+
+// JADX output (SEPARATE VARIABLES):
+Cursor cursor = $context.getContentResolver().query(...);
+// ... in else branch ...
+$displayText$delegate.setValue("Requesting SMS permission...");
+```
+**Root Cause:** Same register mapped to single CodeVar across branches despite incompatible types.
+**JADX Reference:** `InitCodeVariables.java` uses type compatibility checks before merging.
+
+---
+
+## Previously Fixed P0 Bugs (Dec 27, 2025)
+
+| Bug ID | Summary | Difficulty | Status |
+|--------|---------|------------|--------|
+| P0-KOTLIN-PRECEDENCE | Operator precedence in expressions | MEDIUM | ✅ FIXED Dec 27 |
+| P0-KOTLIN-TYPE-CONFUSION | Object-to-int comparison in conditions | MEDIUM | ✅ FIXED Dec 27 |
+| P0-KOTLIN-UNDEF-VAR | Undefined variables in Compose methods | HARD | ✅ FIXED Dec 27 |
+
+**Reference Materials:**
+- **Original Kotlin Source:** `apks/badboy/app/src/main/java/com/prototype/badboy/MainActivity.kt` (545 lines)
+- **JADX Java Source:** `jadx-fast/jadx-core/src/main/java/jadx/core/codegen/` (InsnGen.java, ConditionGen.java)
+- **Test APK:** `apks/badboy-x86.apk`
+
+---
+
+### P0-KOTLIN-PRECEDENCE: Operator Precedence Bug in Expression Generation
+
+**Status:** ✅ FIXED Dec 27, 2025 | **Priority:** P0 (CRITICAL - Code won't compile)
+**Difficulty:** MEDIUM (~2-4 hours) | **Agent Assignment:** Completed
+**Location:** `crates/dexterity-codegen/src/body_gen.rs`
+**JADX Reference:** `jadx-core/src/main/java/jadx/core/codegen/InsnGen.java:129-136`
+
+**Bug:** Expressions like `if ($dirty & 48 == 0)` parsed incorrectly due to missing operator precedence handling.
+
+**Fix Applied:**
+The `wrap_for_comparison()` function already existed but wasn't being called in all comparison contexts.
+Added calls to `wrap_for_comparison()` in `generate_condition_with_depth()` for:
+- `== 0` comparisons (line 5651)
+- `!= 0` comparisons (line 5661)
+- Other relational comparisons with 0 (line 5668)
+- `== null` / `!= null` comparisons (lines 5645, 5656)
+
+**Before (WRONG):**
+```java
+if ($dirty & 48 == 0)  // Java parses as $dirty & (48 == 0)
+```
+
+**After (CORRECT):**
+```java
+if (($dirty & 48) == 0)  // Parentheses ensure correct precedence
+```
+
+**Verification:** Decompiled `badboy-x86.apk`, confirmed all bitwise+comparison patterns are now correctly parenthesized.
+
+---
+
+### P0-KOTLIN-UNDEF-VAR: Undefined Variables in Complex Compose Methods
+
+**Status:** ✅ FIXED Dec 27, 2025 | **Priority:** P0 (CRITICAL - Code won't compile)
+**Difficulty:** HARD (~4-8 hours) | **Agent Assignment:** Completed
+**Location:** `crates/dexterity-passes/src/init_code_vars.rs`, `crates/dexterity-passes/src/var_naming.rs`
+**JADX Reference:** `jadx-core/src/main/java/jadx/core/dex/visitors/InitCodeVariables.java`
+
+**Bug:** Dexterity output variables that were never defined in complex Jetpack Compose methods.
+
+**Fix Applied:**
+1. **`init_code_vars.rs` (lines 99-169):** Fixed CodeVar merging logic for phi-connected variables
+   - Previously: Skipped variables that already had a different CodeVar
+   - Now: Merges ALL phi-connected variables to the same CodeVar
+   - Matches JADX's `InitCodeVariables.collectConnectedVars()` behavior
+
+2. **`var_naming.rs` (lines 392-404):** Made `java/lang/Object` compatible with any object subtype
+   - Allows phi sources typed as Object (from `rememberedValue()`) to share names with phi destinations typed as specific lambda types
+
+**Before (BROKEN):**
+```java
+MainActivityKt$ExternalSyntheticLambda2 it32;  // declared, never assigned
+Object invalid32 = r2.rememberedValue();       // separate variable
+ButtonKt.Button((Function0)it32, ...);         // ERROR: it32 undefined
+```
+
+**After (FIXED):**
+```java
+MainActivityKt$ExternalSyntheticLambda2 invalid32;  // declared at top
+invalid32 = r2.rememberedValue();                    // assignment (no redeclaration)
+ButtonKt.Button((Function0)invalid32, ...);          // uses same variable
+```
+
+**Verification:** All 410 dexterity-passes tests pass. Compose `remember` pattern now works correctly.
+
+---
+
+### P0-KOTLIN-TYPE-CONFUSION: Object-to-Primitive Comparison in Conditions
+
+**Status:** ✅ FIXED Dec 27, 2025 | **Priority:** P0 (CRITICAL - Code won't compile)
+**Difficulty:** MEDIUM (~2-4 hours) | **Agent Assignment:** Completed
+**Location:** `crates/dexterity-codegen/src/body_gen.rs`
+**JADX Reference:** `jadx-core/src/main/java/jadx/core/codegen/ConditionGen.java`
+
+**Bug:** Dexterity compared Object types to integer 0, producing invalid Java.
+
+**Fix Applied:**
+Added `expr_suggests_object_type()` helper function (lines 5438-5475) that detects:
+- `.Companion` suffix (Kotlin companion objects)
+- `.INSTANCE` suffix (Kotlin object singletons)
+- Fully qualified class references like `androidx.compose.ui.Modifier.Companion`
+
+Updated `is_object` detection (lines 5607-5610) to use this helper as a fallback when type inference is ambiguous.
+
+**Before (WRONG):**
+```java
+if (androidx.compose.p000ui.Modifier.Companion != 0)  // INVALID: comparing Object to int
+```
+
+**After (CORRECT):**
+```java
+if (Modifier.Companion != null)  // Correct null comparison for objects
+```
+
+**Verification:** Decompiled `badboy-x86.apk`:
+- `Companion != 0` patterns: 0 (fixed)
+- `Companion != null` patterns: 2 (correct)
+
+---
+
+### ProcessVariables Pass: JADX-Style Variable Declaration Marking
+
+**Status:** ✅ COMPLETE Dec 27, 2025 | **Priority:** P0-P1 (Multiple undeclared variable bugs)
+**Difficulty:** HARD (~4-6 hours) | **Impact:** JADX parity for variable declarations
+**Location:** `crates/dexterity-passes/src/process_variables.rs`, `crates/dexterity-codegen/src/body_gen.rs`
+**JADX Reference:** `jadx-core/src/main/java/jadx/core/dex/visitors/ProcessVariables.java`, `InsnGen.java:149-156`
+
+**Problem:** Dexterity used runtime tracking (`declared_vars: HashSet`) to determine where to emit variable declarations. This failed for:
+- Complex control flow (exception handlers, PHI nodes)
+- Variables used before their declaration in codegen order
+- Instanceof + ternary patterns in Kotlin code
+
+**Root Cause:** JADX uses a two-phase approach:
+1. **Phase 1 (ProcessVariables.java):** Pre-analyze code and mark specific instructions with `AFlag.DECLARE_VAR`
+2. **Phase 2 (InsnGen.java):** Check `insn.contains(AFlag.DECLARE_VAR)` to decide if declaration needed
+
+Dexterity was missing Phase 1 entirely.
+
+**Fix Applied:**
+
+1. **`process_variables.rs`** - New pass that marks instructions with `DeclareVar` flag:
+   - Collects all assignment locations for each SSA variable
+   - Links SSA vars to CodeVars via `init_code_variables`
+   - Finds first assignment for each CodeVar
+   - Marks instruction with `AFlag::DeclareVar` if valid declaration point
+   - Handles PHI-connected variables and method-start declarations
+
+2. **`body_gen.rs`** - Updated `emit_assignment_insn()` to check flag:
+   ```rust
+   let needs_decl = if insn.has_flag(AFlag::DeclareVar) {
+       !ctx.is_declared(effective_reg, effective_version) && !ctx.is_parameter(...)
+   } else {
+       // Fallback to runtime tracking for unmarked instructions
+   };
+   ```
+
+3. **Integrated into all 3 SSA transform locations:**
+   - `generate_body_impl` (line ~2849)
+   - Second SSA transform (line ~3013)
+   - `generate_body_with_inner_classes_and_lambdas` (line ~3376)
+
+**Before (BROKEN):**
+```java
+str2 = "android.permission.READ_CONTACTS";  // ERROR: str2 never declared
+if (ContextCompat.checkSelfPermission($context, str2) == 0) { ... }
+```
+
+**After (FIXED):**
+```java
+String str2 = "android.permission.READ_CONTACTS";  // Properly declared
+if (ContextCompat.checkSelfPermission($context, str2) == 0) { ... }
+```
+
+**Files Changed:**
+- `crates/dexterity-passes/src/process_variables.rs` - Enhanced with `find_var_offset_in_blocks()`, marks all first assignments
+- `crates/dexterity-codegen/src/body_gen.rs` - Added `init_code_variables` and `process_variables` calls to all SSA paths
+- `crates/dexterity-ir/src/attributes.rs` - `DeclareVar` flag already existed
+
+**Remaining Edge Cases:**
+- Some code paths still use `emit_assignment()` which lacks `InsnNode` access for flag checking
+- Exception variable scoping in synchronized blocks (separate P0-EXCEPTION-SCOPE bug)
+
+**Verification:** Decompiled `badboy-x86.apk`:
+- `String str2 = ...` declarations: properly emitted
+- `String str6 = ...` declarations: properly emitted
+- Overall undeclared variable errors significantly reduced
+
+---
+
+## Previously Fixed P0 Bugs (Dec 25, 2025)
 
 **Summary of Fixed P0 Issues:**
 - ✅ P0-UNDEF-VAR - Static field inlining with force_inline flags
@@ -478,43 +810,32 @@ com/prototype/badboy/p000ui/theme/ColorKt.java
 All fixed P1 bugs are documented in the "Completed" section below.
 
 
-## P2 Bugs - 2 OPEN (Dec 26, 2025)
+## P2 Bugs - 0 OPEN (Dec 26, 2025)
 
-### P2-ZIP-ENCRYPTED: Encrypted ZIP Entries Not Handled 🔴 OPEN
+### P2-ZIP-ENCRYPTED: Encrypted ZIP Entries Not Handled ✅ FIXED
 
-**Status:** 🔴 OPEN | **Priority:** P2 (Anti-RE APKs fail)
-**Location:** `crates/dexterity-cli/src/main.rs` - ZIP handling
+**Status:** ✅ FIXED (Dec 26, 2025) | **Priority:** P2 (Anti-RE APKs fail)
+**Location:** `crates/dexterity-cli/src/main.rs`, `crates/dexterity-cli/src/zip_fallback.rs`
 
 **Bug:** Dexterity fails with "Password required to decrypt file" on APKs with encrypted ZIP entries. JADX handles these gracefully by skipping encrypted entries and processing unencrypted ones.
 
-**Example:**
-```
-# Dexterity:
-Error: unsupported Zip archive: Password required to decrypt file
-
-# JADX: Processes 152 classes successfully
-```
-
-**Fix Required:** Skip encrypted entries instead of failing the entire APK.
+**Fix Applied:**
+- Added `is_skippable_entry_error()` in `zip_fallback.rs` to detect encrypted/unsupported entries
+- Added `is_skippable_io_error()` for read-time errors
+- Added `safe_read_entry()` and `safe_copy_entry()` helper functions
+- Modified `archive.by_index()` calls in APK, JAR, and AAR processing to skip instead of fail
+- Logs warning when entries are skipped: "Skipped N encrypted/unsupported entries"
 
 ---
 
-### P2-ZIP-COMPRESSION: Unsupported Compression Methods 🔴 OPEN
+### P2-ZIP-COMPRESSION: Unsupported Compression Methods ✅ FIXED
 
-**Status:** 🔴 OPEN | **Priority:** P2 (Anti-RE APKs fail)
-**Location:** `crates/dexterity-cli/src/main.rs` - ZIP handling
+**Status:** ✅ FIXED (Dec 26, 2025) | **Priority:** P2 (Anti-RE APKs fail)
+**Location:** `crates/dexterity-cli/src/main.rs`, `crates/dexterity-cli/src/zip_fallback.rs`
 
 **Bug:** Dexterity fails with "Compression method not supported" on APKs using exotic compression (e.g., LZMA, Bzip2). JADX handles these via its Java ZIP library.
 
-**Example:**
-```
-# Dexterity:
-Error: unsupported Zip archive: Compression method not supported
-
-# JADX: Processes 878 classes successfully
-```
-
-**Fix Required:** Either add support for additional compression methods or use fallback parsing.
+**Fix Applied:** Same as P2-ZIP-ENCRYPTED - entries with unsupported compression are now skipped gracefully instead of failing the entire archive. Both `by_index()` errors and read-time errors are handled.
 
 ---
 

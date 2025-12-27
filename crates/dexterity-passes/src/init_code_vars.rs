@@ -10,7 +10,7 @@
 
 use rustc_hash::FxHashSet;
 use crate::ssa::{SsaResult, SsaBlock};
-use dexterity_ir::ssa::{SSAContext, SSAVarRef, SSA_FLAG_METHOD_ARG, SSA_FLAG_THIS_ARG};
+use dexterity_ir::ssa::{SSAContext, SSAVarRef, CodeVarId, SSA_FLAG_METHOD_ARG, SSA_FLAG_THIS_ARG};
 
 /// Initialize code variables from SSA result
 ///
@@ -104,9 +104,6 @@ fn init_code_var(ctx: &mut SSAContext, var_ref: SSAVarRef, blocks: &[SsaBlock]) 
         }
     }
 
-    // Create new code var
-    let code_var_id = ctx.new_code_var();
-
     // Check if this variable is used in any PHI
     let is_phi_connected = if let Some(var) = ctx.get_var(var_ref) {
         var.is_used_in_phi() || var.is_assigned_in_phi()
@@ -118,7 +115,9 @@ fn init_code_var(ctx: &mut SSAContext, var_ref: SSAVarRef, blocks: &[SsaBlock]) 
         // Collect all phi-connected variables and assign same CodeVar
         let connected = collect_phi_connected_vars(var_ref, blocks, ctx);
 
-        // Check for existing code vars to merge flags from
+        // CRITICAL FIX: Collect ALL existing code vars from connected variables
+        // and merge them into a single code var (JADX parity: InitCodeVariables.collectConnectedVars)
+        let mut existing_code_vars: Vec<CodeVarId> = Vec::new();
         let mut is_param = false;
         let mut is_this = false;
         let mut name: Option<String> = None;
@@ -126,6 +125,9 @@ fn init_code_var(ctx: &mut SSAContext, var_ref: SSAVarRef, blocks: &[SsaBlock]) 
         for &vr in &connected {
             if let Some(var) = ctx.get_var(vr) {
                 if let Some(cv_id) = var.code_var {
+                    if !existing_code_vars.contains(&cv_id) {
+                        existing_code_vars.push(cv_id);
+                    }
                     if let Some(cv) = ctx.get_code_var(cv_id) {
                         is_param |= cv.is_param;
                         is_this |= cv.is_this;
@@ -137,8 +139,15 @@ fn init_code_var(ctx: &mut SSAContext, var_ref: SSAVarRef, blocks: &[SsaBlock]) 
             }
         }
 
-        // Update code var with merged flags
-        if let Some(cv) = ctx.get_code_var_mut(code_var_id) {
+        // Choose which code var to use: prefer existing with name, or create new
+        let target_code_var = if let Some(&cv_id) = existing_code_vars.first() {
+            cv_id
+        } else {
+            ctx.new_code_var()
+        };
+
+        // Update target code var with merged flags
+        if let Some(cv) = ctx.get_code_var_mut(target_code_var) {
             cv.is_param = is_param;
             cv.is_this = is_this;
             if let Some(n) = name {
@@ -146,18 +155,15 @@ fn init_code_var(ctx: &mut SSAContext, var_ref: SSAVarRef, blocks: &[SsaBlock]) 
             }
         }
 
-        // Link all connected vars to this code var
+        // CRITICAL FIX: Re-link ALL connected vars to the SAME code var
+        // This is the key fix - we must NOT skip vars with different code_vars,
+        // we must merge them all to the same code_var
         for vr in connected {
-            // Skip if already linked to a different code var
-            if let Some(var) = ctx.get_var(vr) {
-                if var.code_var.is_some() && var.code_var != Some(code_var_id) {
-                    continue;
-                }
-            }
-            ctx.link_to_code_var(vr, code_var_id);
+            ctx.link_to_code_var(vr, target_code_var);
         }
     } else {
         // Simple case - just link this var
+        let code_var_id = ctx.new_code_var();
         ctx.link_to_code_var(var_ref, code_var_id);
     }
 }

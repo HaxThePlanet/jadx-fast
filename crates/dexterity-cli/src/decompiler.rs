@@ -14,7 +14,7 @@ use dexterity_passes::{
     assign_var_names, split_blocks_with_handlers, split_return_blocks, transform_to_ssa_owned, infer_types, simplify_instructions,
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, process_instructions, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
-    init_code_variables, process_ternary_transformations_full,
+    init_code_variables, process_ternary_transformations_full, process_variables,
     // Debug info visitors (JADX DebugInfoAttachVisitor + DebugInfoApplyVisitor)
     attach_debug_info, apply_debug_info, DebugInfoAttachResult, DebugInfoApplyResult, SSAVarDebugInfo,
 };
@@ -156,6 +156,11 @@ pub fn decompile_method(
     } else {
         infer_types(&ssa)
     };
+
+    // Stage 5.05: Process variables - mark instructions with DECLARE_VAR flag
+    // JADX parity: ProcessVariables.java marks where variable declarations should appear
+    // This must run before codegen so body_gen.rs can check the flag
+    let _process_vars_result = process_variables(&mut ssa);
 
     // Stage 5.1: Apply debug info to SSA variables (JADX DebugInfoApplyVisitor)
     // Applies variable names and types from debug info to SSA variables

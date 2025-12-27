@@ -6,6 +6,34 @@ See [ROADMAP.md](ROADMAP.md) for current status, detailed bug fixes, and known i
 
 ## December 2025
 
+### Dec 27 - ProcessVariables Pass (JADX Parity)
+
+**Status:** Complete | **Impact:** Fixes undeclared variable bugs in complex control flow
+
+Implemented JADX-style two-phase variable declaration system:
+1. **Phase 1:** `process_variables.rs` pre-analyzes code and marks instructions with `DeclareVar` flag
+2. **Phase 2:** `emit_assignment_insn()` checks flag to determine if declaration needed
+
+| Change | Description |
+|--------|-------------|
+| **process_variables.rs** | New pass marks first assignment with `AFlag::DeclareVar` |
+| **body_gen.rs** | All 3 SSA transform locations now call `init_code_variables` + `process_variables` |
+| **emit_assignment_insn()** | Checks `insn.has_flag(AFlag::DeclareVar)` before emitting type declaration |
+
+**Before (broken):**
+```java
+str2 = "android.permission.READ_CONTACTS";  // ERROR: str2 never declared
+```
+
+**After (fixed):**
+```java
+String str2 = "android.permission.READ_CONTACTS";  // Properly declared
+```
+
+**JADX Reference:** `ProcessVariables.java`, `InsnGen.java:149-156`
+
+---
+
 ### Dec 26 - Control Flow Deobfuscation Passes
 
 **Status:** Complete | **Impact:** Reverses common obfuscation techniques

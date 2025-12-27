@@ -304,6 +304,75 @@ pub fn is_recoverable_zip_error(err: &zip::result::ZipError) -> bool {
     msg.contains("bad magic number")
 }
 
+/// Check if an error from zip-rs indicates an entry that should be skipped.
+/// This includes encrypted entries and unsupported compression methods.
+/// Returns true if the entry should be skipped (not a fatal error).
+pub fn is_skippable_entry_error(err: &zip::result::ZipError) -> bool {
+    let msg = format!("{}", err);
+    // P2-ZIP-ENCRYPTED: Skip encrypted entries instead of failing
+    msg.contains("Password required") ||
+    msg.contains("password required") ||
+    msg.contains("encrypted") ||
+    // P2-ZIP-COMPRESSION: Skip unsupported compression methods
+    msg.contains("Compression method") ||
+    msg.contains("compression method") ||
+    msg.contains("not supported")
+}
+
+/// Check if an IO error is due to encryption or unsupported compression.
+/// These should be skipped rather than causing the entire APK to fail.
+pub fn is_skippable_io_error(err: &std::io::Error) -> bool {
+    let msg = format!("{}", err);
+    // P2-ZIP-ENCRYPTED: Skip encrypted entries
+    msg.contains("Password required") ||
+    msg.contains("password required") ||
+    msg.contains("encrypted") ||
+    msg.contains("decrypt") ||
+    // P2-ZIP-COMPRESSION: Skip unsupported compression methods
+    msg.contains("Compression method") ||
+    msg.contains("compression method") ||
+    msg.contains("not supported") ||
+    msg.contains("unsupported")
+}
+
+/// Safely read all bytes from a zip entry, returning None if the entry
+/// is encrypted or uses an unsupported compression method.
+/// This implements P2-ZIP-ENCRYPTED and P2-ZIP-COMPRESSION fixes.
+pub fn safe_read_entry<R: std::io::Read>(entry: &mut R, name: &str) -> Option<Vec<u8>> {
+    let mut data = Vec::new();
+    match entry.read_to_end(&mut data) {
+        Ok(_) => Some(data),
+        Err(e) if is_skippable_io_error(&e) => {
+            tracing::debug!("Skipping unreadable entry {}: {}", name, e);
+            None
+        }
+        Err(e) => {
+            tracing::warn!("Failed to read entry {}: {}", name, e);
+            None
+        }
+    }
+}
+
+/// Safely copy a zip entry to a writer, returning false if the entry
+/// is encrypted or uses an unsupported compression method.
+pub fn safe_copy_entry<R: std::io::Read, W: std::io::Write>(
+    entry: &mut R,
+    writer: &mut W,
+    name: &str,
+) -> bool {
+    match std::io::copy(entry, writer) {
+        Ok(_) => true,
+        Err(e) if is_skippable_io_error(&e) => {
+            tracing::debug!("Skipping unreadable entry {}: {}", name, e);
+            false
+        }
+        Err(e) => {
+            tracing::warn!("Failed to copy entry {}: {}", name, e);
+            false
+        }
+    }
+}
+
 /// Summary statistics from fallback parsing
 #[derive(Debug, Default)]
 pub struct FallbackStats {
@@ -377,5 +446,20 @@ mod tests {
 
         let cd_err = zip::result::ZipError::InvalidArchive("bad central directory");
         assert!(is_recoverable_zip_error(&cd_err));
+    }
+
+    #[test]
+    fn test_is_skippable_entry_error() {
+        // P2-ZIP-ENCRYPTED: Encrypted entries should be skippable
+        let encrypted_err = zip::result::ZipError::UnsupportedArchive("Password required to decrypt file");
+        assert!(is_skippable_entry_error(&encrypted_err));
+
+        // P2-ZIP-COMPRESSION: Unsupported compression should be skippable
+        let compression_err = zip::result::ZipError::UnsupportedArchive("Compression method not supported");
+        assert!(is_skippable_entry_error(&compression_err));
+
+        // Regular errors should NOT be skippable
+        let io_err = zip::result::ZipError::InvalidArchive("bad magic number");
+        assert!(!is_skippable_entry_error(&io_err));
     }
 }

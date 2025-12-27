@@ -213,7 +213,7 @@ to while loops, matching JADX's conservative approach.
 | JADX Pass | Lines | Dexterity File | Status |
 |-----------|-------|----------------|--------|
 | SwitchBreakVisitor | 178 | switch_break_visitor.rs | DONE |
-| ProcessVariables | 312 | process_variables.rs | PARTIAL |
+| ProcessVariables | 312 | process_variables.rs | DONE (Dec 27) |
 | ApplyVariableNames | 300 | apply_variable_names.rs | PARTIAL |
 | PrepareForCodeGen | 234 | prepare_for_codegen.rs | DONE |
 

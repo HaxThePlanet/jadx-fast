@@ -143,11 +143,11 @@ pub struct Args {
     pub respect_bytecode_access: bool,
 
     // === Deobfuscation options ===
-    /// Activate deobfuscation (enabled by default, use --no-deobf to disable)
-    #[arg(long = "deobf", default_value = "true", action = clap::ArgAction::Set)]
+    /// Activate deobfuscation (off by default, matching JADX)
+    #[arg(long = "deobf")]
     pub deobfuscation: bool,
 
-    /// Disable deobfuscation
+    /// Disable deobfuscation (explicit flag, deobf is off by default)
     #[arg(long = "no-deobf")]
     pub no_deobfuscation: bool,
 
@@ -422,7 +422,7 @@ impl Args {
         self.kotlin_metadata && !self.no_kotlin_metadata
     }
 
-    /// Check if deobfuscation is enabled (default: true, disabled with --no-deobf)
+    /// Check if deobfuscation is enabled (default: false, enable with --deobf)
     pub fn deobf_enabled(&self) -> bool {
         self.deobfuscation && !self.no_deobfuscation
     }

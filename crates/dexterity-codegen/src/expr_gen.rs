@@ -632,10 +632,18 @@ impl ExprGen {
             }
         }
 
-        // No name from var_naming - use JADX-style fallback
-        // Clone JADX's NameGen.getFallbackName(): "r" + regNum
-        // This produces r0, r1, r2, etc. for unnamed variables
-        format!("r{}", reg.reg_num)
+        // No name from var_naming - use SSA-aware fallback
+        // Include SSA version to prevent different variables from sharing names
+        // when they reuse the same register (critical for type safety)
+        // P0-KOTLIN-UNDEF-VAR FIX: Without version suffix, different SSA versions
+        // of the same register get the same name, causing type confusion like:
+        //   int r2 = (dirty & 48) == 0 ? 1 : 0;
+        //   r2 = composer18;  // ERROR: Composer assigned to int variable
+        if reg.ssa_version == 0 {
+            format!("r{}", reg.reg_num)
+        } else {
+            format!("r{}_v{}", reg.reg_num, reg.ssa_version)
+        }
     }
 
     /// Get variable name by register number and SSA version
@@ -659,8 +667,12 @@ impl ExprGen {
             }
         }
 
-        // Clone JADX's NameGen.getFallbackName(): "r" + regNum
-        format!("r{}", reg_num)
+        // SSA-aware fallback (matches get_var_name behavior)
+        if ssa_version == 0 {
+            format!("r{}", reg_num)
+        } else {
+            format!("r{}_v{}", reg_num, ssa_version)
+        }
     }
 
     /// Get string by index (local cache first, then DEX provider)

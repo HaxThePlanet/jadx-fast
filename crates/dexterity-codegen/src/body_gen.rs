@@ -42,7 +42,7 @@ use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_dup
 use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 use dexterity_passes::var_naming::types_compatible_for_naming;
-use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen, process_instructions, simplify_stringbuilder_chains, StringBuilderMethodInfo};
+use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen, process_instructions, simplify_stringbuilder_chains, StringBuilderMethodInfo, init_code_variables, process_variables};
 
 use crate::class_gen::{get_inner_class_simple_name, is_anonymous_class};
 use crate::dex_info::DexInfoProvider;
@@ -2142,12 +2142,15 @@ fn emit_assignment_with_hint<W: CodeWriter>(
         .newline();
 }
 
-/// OPTIMIZED: Emit assignment with direct write from InsnType - avoids String allocation
+/// OPTIMIZED: Emit assignment with direct write from InsnNode - avoids String allocation
 /// For most cases, writes expression directly to CodeWriter. Only falls back to String
 /// allocation for the rare inlining case (variable used exactly once).
+///
+/// JADX parity: Checks insn.has_flag(AFlag::DeclareVar) to determine if declaration needed.
+/// This flag is set by process_variables pass, matching JADX's ProcessVariables.java behavior.
 fn emit_assignment_insn<W: CodeWriter>(
     dest: &RegisterArg,
-    insn: &InsnType,
+    insn: &InsnNode,
     type_hint: Option<&ArgType>,
     ctx: &mut BodyGenContext,
     code: &mut W,
@@ -2204,7 +2207,7 @@ fn emit_assignment_insn<W: CodeWriter>(
         //
         // BUG-002 FIX: Use gen_insn_inline to properly substitute inlined sub-expressions.
         // This prevents self-referencing expressions like `int obj1 = (int)obj1`.
-        if let Some(expr_str) = ctx.gen_insn_inline(insn) {
+        if let Some(expr_str) = ctx.gen_insn_inline(&insn.insn_type) {
             ctx.store_inline_expr(reg, version, expr_str);
             return true;
         }
@@ -2219,7 +2222,7 @@ fn emit_assignment_insn<W: CodeWriter>(
     // This must be checked before the variable is declared as new
     // Skip for PHI sources - they need to assign to PHI destination
     if !is_phi_source {
-        if let Some(incr_decr) = detect_increment_decrement(dest, insn, ctx) {
+        if let Some(incr_decr) = detect_increment_decrement(dest, &insn.insn_type, ctx) {
             code.start_line().add(&incr_decr).add(";").newline();
             return true;
         }
@@ -2247,11 +2250,20 @@ fn emit_assignment_insn<W: CodeWriter>(
         })
         .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
 
-    // Check if we need to declare this variable
-    // P1-CONTROL-FLOW FIX: PHI sources never need declaration - their PHI destination
-    // is already declared via emit_phi_declarations()
-    let needs_decl = if is_phi_source {
-        false  // PHI destination already declared
+    // JADX parity: Check DECLARE_VAR flag first - set by process_variables pass
+    // This matches JADX's InsnGen.assignVar() which checks insn.contains(AFlag.DECLARE_VAR)
+    let needs_decl = if insn.has_flag(AFlag::DeclareVar) {
+        // Flag says declare - but still check if already declared (defensive)
+        !ctx.is_declared(effective_reg, effective_version) && !ctx.is_parameter(effective_reg, effective_version)
+    } else if is_phi_source {
+        // PHI sources may still need declaration if the PHI dest wasn't declared
+        if ctx.is_declared(effective_reg, effective_version) || ctx.is_parameter(effective_reg, effective_version) {
+            false
+        } else if ctx.get_declared_name_type(&var_name).is_some() {
+            false  // Name already declared
+        } else {
+            true  // PHI dest not declared, declare on first PHI source assignment
+        }
     } else if ctx.is_declared(effective_reg, effective_version) || ctx.is_parameter(effective_reg, effective_version) {
         false
     } else if let Some(existing_type) = ctx.get_declared_name_type(&var_name) {
@@ -2265,7 +2277,7 @@ fn emit_assignment_insn<W: CodeWriter>(
             false  // Compatible, reuse existing
         }
     } else {
-        true  // Name not declared yet
+        true  // Name not declared yet - fallback for unmarked instructions
     };
 
     code.start_line();
@@ -2288,7 +2300,7 @@ fn emit_assignment_insn<W: CodeWriter>(
     // This ensures operands (like Invoke results and Constants) are properly inlined.
     // Previous code used ctx.expr_gen.write_insn() which doesn't support inlining,
     // causing undefined variables like `l = l5 / l2` instead of `l = e(...) / 7`.
-    if let Some(mut expr_str) = ctx.gen_insn_inline(insn) {
+    if let Some(mut expr_str) = ctx.gen_insn_inline(&insn.insn_type) {
         // P1-CONTROL-FLOW FIX: For PHI sources with boolean destination, format 0/1 as false/true
         if is_phi_source {
             if let Some(dest_type) = ctx.get_inferred_type_versioned(effective_reg, effective_version) {
@@ -2304,7 +2316,7 @@ fn emit_assignment_insn<W: CodeWriter>(
         code.add(&expr_str);
         code.add(";").newline();
         true
-    } else if ctx.expr_gen.write_insn(code, insn) {
+    } else if ctx.expr_gen.write_insn(code, &insn.insn_type) {
         // Fallback to non-inlining write for instruction types not handled by gen_insn_inline
         code.add(";").newline();
         true
@@ -2836,11 +2848,25 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     let mut ssa_result = transform_to_ssa_owned(block_result);
 
+    // Initialize code variables (JADX parity: InitCodeVariables.java)
+    let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
+    let is_static = (method.access_flags & 0x0008) != 0;
+    let this_reg = if is_static { None } else { Some(first_param_reg) };
+    let param_regs: Vec<u16> = if is_static {
+        (first_param_reg..method.regs_count).collect()
+    } else {
+        ((first_param_reg + 1)..method.regs_count).take(method.arg_types.len()).collect()
+    };
+    init_code_variables(&mut ssa_result, this_reg, &param_regs);
+
     // Apply optimization passes (matching decompiler.rs pipeline)
     let _ = run_mod_visitor(&mut ssa_result);
     let _ = inline_constants(&mut ssa_result);
 
     let type_result = infer_types(&ssa_result);
+
+    // Process variables - mark instructions with DECLARE_VAR flag (JADX parity)
+    let _process_vars_result = process_variables(&mut ssa_result);
 
     // Post-type-inference optimizations
     let type_map: std::collections::HashMap<(u16, u32), _> = type_result.types.iter()
@@ -3000,6 +3026,18 @@ fn generate_body_impl<W: CodeWriter>(
 
     let mut ssa_result = transform_to_ssa_owned(block_result);
 
+    // Initialize code variables (JADX parity: InitCodeVariables.java)
+    // This links SSA vars to CodeVars for proper variable tracking
+    let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
+    let is_static = (method.access_flags & 0x0008) != 0;
+    let this_reg = if is_static { None } else { Some(first_param_reg) };
+    let param_regs: Vec<u16> = if is_static {
+        (first_param_reg..method.regs_count).collect()
+    } else {
+        ((first_param_reg + 1)..method.regs_count).take(method.arg_types.len()).collect()
+    };
+    init_code_variables(&mut ssa_result, this_reg, &param_regs);
+
     // Apply optimization passes (matching decompiler.rs pipeline)
     let _ = run_mod_visitor(&mut ssa_result);
     let _ = inline_constants(&mut ssa_result);
@@ -3019,6 +3057,10 @@ fn generate_body_impl<W: CodeWriter>(
     } else {
         infer_types(&ssa_result)
     };
+
+    // Process variables - mark instructions with DECLARE_VAR flag (JADX parity)
+    // This must run after type inference so we have type info, before codegen
+    let _process_vars_result = process_variables(&mut ssa_result);
 
     // Post-type-inference optimizations
     let type_map: std::collections::HashMap<(u16, u32), _> = type_result.types.iter()
@@ -3333,6 +3375,18 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
 
     let mut ssa_result = transform_to_ssa_owned(block_result);
 
+    // Initialize code variables (JADX parity: InitCodeVariables.java)
+    // Must run before type inference to properly link SSA vars to CodeVars
+    let first_param_reg_init = method.regs_count.saturating_sub(method.ins_count);
+    let is_static_init = (method.access_flags & 0x0008) != 0;
+    let this_reg_init = if is_static_init { None } else { Some(first_param_reg_init) };
+    let param_regs_init: Vec<u16> = if is_static_init {
+        (first_param_reg_init..method.regs_count).collect()
+    } else {
+        ((first_param_reg_init + 1)..method.regs_count).take(method.arg_types.len()).collect()
+    };
+    init_code_variables(&mut ssa_result, this_reg_init, &param_regs_init);
+
     // Apply optimization passes (matching decompiler.rs pipeline)
     // Stage 1: ModVisitor - array initialization fusion, dead code removal
     let _ = run_mod_visitor(&mut ssa_result);
@@ -3384,6 +3438,10 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
             infer_types(&ssa_result)
         }
     };
+
+    // Process variables - mark instructions with DECLARE_VAR flag (JADX parity)
+    // Must run after type inference but before codegen
+    let _process_vars_result = process_variables(&mut ssa_result);
 
     // Stage 3: Post-type-inference optimizations
     // Convert types to HashMap for simplify pass
@@ -5435,6 +5493,45 @@ fn name_suggests_boolean_method(name: &str) -> bool {
     false
 }
 
+/// Check if an expression string suggests an object type based on patterns.
+/// This is used to detect static field references and fully qualified class names
+/// that the type inference might miss, avoiding incorrect "!= 0" comparisons.
+/// FIX: P0-KOTLIN-TYPE-CONFUSION - Detect Kotlin companion objects, singletons, and class refs.
+fn expr_suggests_object_type(expr: &str) -> bool {
+    // Kotlin companion objects - always reference types
+    if expr.ends_with(".Companion") || expr.contains(".Companion.") {
+        return true;
+    }
+    // Kotlin object singletons
+    if expr.ends_with(".INSTANCE") || expr.contains(".INSTANCE.") {
+        return true;
+    }
+    // Fully qualified static field/class references (e.g., "androidx.compose.ui.Modifier.Companion")
+    // Pattern: contains dots and ends with capitalized identifier (class/field name)
+    if expr.contains('.') && !expr.starts_with('"') && !expr.contains(' ') {
+        let parts: Vec<&str> = expr.split('.').collect();
+        if parts.len() >= 3 {
+            // Has at least package.Class.field pattern
+            // Check if any part looks like a class name (starts with uppercase)
+            // and the expression looks like a static reference
+            if let Some(last) = parts.last() {
+                // Last part is capitalized (like "Companion", "INSTANCE", or a field name)
+                if last.chars().next().map(|c| c.is_uppercase()).unwrap_or(false) {
+                    // Check if second-to-last is also capitalized (class name)
+                    if parts.len() >= 2 {
+                        if let Some(second_last) = parts.get(parts.len() - 2) {
+                            if second_last.chars().next().map(|c| c.is_uppercase()).unwrap_or(false) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    false
+}
+
 /// P1-CHECKTRACER: Invert a condition string by wrapping with negation or simplifying
 /// E.g., "x == null" -> "x != null", "a && b" -> "!(a && b)"
 fn invert_condition_string(condition: &str) -> String {
@@ -5565,8 +5662,10 @@ fn generate_condition_with_depth(condition: &Condition, ctx: &BodyGenContext, de
                         // Check if expression is an instanceof check - these always return boolean
                         // Must detect this to avoid generating "x instanceof Y == null" (invalid Java)
                         let is_instanceof = expr_for_name_check.contains(" instanceof ");
+                        // FIX: P0-KOTLIN-TYPE-CONFUSION - Also check expr_suggests_object_type for static refs like "Modifier.Companion"
                         let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)) | Some(ArgType::Generic { .. }))
-                            || (type_is_ambiguous && name_suggests_object_type(&expr_for_name_check) && !name_looks_boolean && !is_instanceof);
+                            || (type_is_ambiguous && name_suggests_object_type(&expr_for_name_check) && !name_looks_boolean && !is_instanceof)
+                            || (type_is_ambiguous && expr_suggests_object_type(&left_str) && !is_instanceof);
                         let is_boolean = matches!(left_type, Some(ArgType::Boolean))
                             || (type_is_ambiguous && name_looks_boolean)
                             || is_instanceof;
@@ -5642,26 +5741,30 @@ fn generate_condition_with_depth(condition: &Condition, ctx: &BodyGenContext, de
                             match effective_op {
                                 IfCondition::Eq => {
                                     if is_object {
-                                        return format!("{} == null", left_str);
+                                        return format!("{} == null", wrap_for_comparison(&left_str));
                                     } else if is_boolean {
                                         return format!("!{}", wrap_if_complex(&left_str));
                                     } else {
-                                        return format!("{} == 0", left_str);
+                                        // P0-KOTLIN-PRECEDENCE: Wrap for correct operator precedence
+                                        // e.g., ($dirty & 48) == 0, not $dirty & 48 == 0
+                                        return format!("{} == 0", wrap_for_comparison(&left_str));
                                     }
                                 }
                                 IfCondition::Ne => {
                                     if is_object {
-                                        return format!("{} != null", left_str);
+                                        return format!("{} != null", wrap_for_comparison(&left_str));
                                     } else if is_boolean {
                                         return left_str;
                                     } else {
-                                        return format!("{} != 0", left_str);
+                                        // P0-KOTLIN-PRECEDENCE: Wrap for correct operator precedence
+                                        return format!("{} != 0", wrap_for_comparison(&left_str));
                                     }
                                 }
                                 _ => {
                                     // For other ops (lt, gt, etc.), keep explicit comparison
+                                    // P0-KOTLIN-PRECEDENCE: Wrap for correct operator precedence
                                     let op_str = if_condition_to_string(op, *negated);
-                                    return format!("{} {} 0", left_str, op_str);
+                                    return format!("{} {} 0", wrap_for_comparison(&left_str), op_str);
                                 }
                             }
                         }
@@ -11870,7 +11973,7 @@ fn generate_insn<W: CodeWriter>(
         InsnType::ConstString { dest, .. } => {
             // OPTIMIZED: Direct write with String type hint
             let string_type = ArgType::Object("java/lang/String".to_string());
-            emit_assignment_insn(dest, &insn.insn_type, Some(&string_type), ctx, code);
+            emit_assignment_insn(dest, insn, Some(&string_type), ctx, code);
             true
         }
 
@@ -11895,7 +11998,7 @@ fn generate_insn<W: CodeWriter>(
                 true // Don't emit anything, will be inlined at use site
             } else {
                 // Multi-use variable - emit normal assignment
-                emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+                emit_assignment_insn(dest, insn, None, ctx, code);
                 true
             }
         }
@@ -12041,7 +12144,7 @@ fn generate_insn<W: CodeWriter>(
             }
 
             // OPTIMIZED: Direct write with int type hint
-            emit_assignment_insn(dest, &insn.insn_type, Some(&ArgType::Int), ctx, code);
+            emit_assignment_insn(dest, insn, Some(&ArgType::Int), ctx, code);
             true
         }
 
@@ -12265,7 +12368,7 @@ fn generate_insn<W: CodeWriter>(
             } else {
                 // Multi-use - emit variable declaration like JADX does
                 // e.g., "String MODEL = Build.MODEL;"
-                emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+                emit_assignment_insn(dest, insn, None, ctx, code);
                 true
             }
         }
@@ -12425,31 +12528,31 @@ fn generate_insn<W: CodeWriter>(
 
         InsnType::Unary { dest, .. } => {
             // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
         InsnType::Binary { dest, .. } => {
             // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
         InsnType::Cast { dest, .. } => {
             // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
         InsnType::Compare { dest, .. } => {
             // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
         InsnType::InstanceOf { dest, .. } => {
             // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
@@ -12492,7 +12595,7 @@ fn generate_insn<W: CodeWriter>(
 
         InsnType::ConstClass { dest, .. } => {
             // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 

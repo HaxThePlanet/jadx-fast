@@ -75,7 +75,7 @@ Transform IR through analysis passes.
 | `cfg.rs` | CFG construction with dominance (Cooper-Harvey-Kennedy) |
 | `ssa.rs` | SSA transformation with phi nodes |
 | `init_code_vars.rs` | Initialize CodeVars from SSAVars (JADX parity) |
-| `process_variables.rs` | Remove unused vars, finalize CodeVars (JADX parity) |
+| `process_variables.rs` | Mark instructions with DeclareVar flag for variable declarations (JADX ProcessVariables parity) |
 | `type_inference.rs` | Constraint-based type inference |
 | `finish_type_inference.rs` | Type validation, unknown type warnings (JADX FinishTypeInference parity) |
 | `region_builder.rs` | CFG to structured regions |

@@ -459,8 +459,20 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
 
     // First pass: Extract all data in single ZIP traversal
     let max_entry_size = get_max_entry_size();
+    let mut skipped_entries = 0usize;
     for i in 0..archive.len() {
-        let mut entry = archive.by_index(i)?;
+        // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Skip encrypted or unsupported entries
+        let mut entry = match archive.by_index(i) {
+            Ok(e) => e,
+            Err(e) => {
+                if zip_fallback::is_skippable_entry_error(&e) {
+                    skipped_entries += 1;
+                    tracing::debug!("Skipping entry {}: {}", i, e);
+                    continue;
+                }
+                return Err(e.into());
+            }
+        };
         let name = entry.name().to_string();
 
         // Skip directories
@@ -486,22 +498,30 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         if name.ends_with(".dex") {
             dex_file_names.push(name);
         } else if name == "AndroidManifest.xml" {
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            manifest_data = Some(data);
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Use safe read
+            if let Some(data) = zip_fallback::safe_read_entry(&mut entry, &name) {
+                manifest_data = Some(data);
+            } else {
+                skipped_entries += 1;
+            }
         } else if name == "resources.arsc" {
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            arsc_data = Some(data);
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Use safe read
+            if let Some(data) = zip_fallback::safe_read_entry(&mut entry, &name) {
+                arsc_data = Some(data);
+            } else {
+                skipped_entries += 1;
+            }
         } else if name.starts_with("res/") && name.ends_with(".xml") {
             // Skip qualified resources (drawable-hdpi, values-en, etc.) unless --include-framework
             if !args.include_framework && is_qualified_resource_path(&name) {
                 continue;
             }
-            // Extract XML data for parallel processing later
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            xml_resources.push((name, data));
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Use safe read
+            if let Some(data) = zip_fallback::safe_read_entry(&mut entry, &name) {
+                xml_resources.push((name, data));
+            } else {
+                skipped_entries += 1;
+            }
         } else if !args.skip_resources && should_extract_raw_file(&name) {
             // Skip qualified resources (res/drawable-hdpi/*, etc.) unless --include-framework
             if !args.include_framework && is_qualified_resource_path(&name) {
@@ -514,11 +534,20 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
                 std::fs::create_dir_all(parent)?;
             }
             let mut out_file = std::fs::File::create(&out_path)?;
-            std::io::copy(&mut entry, &mut out_file)?;
-            raw_file_count += 1;
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Use safe copy
+            if zip_fallback::safe_copy_entry(&mut entry, &mut out_file, &name) {
+                raw_file_count += 1;
+            } else {
+                skipped_entries += 1;
+                // Clean up empty file on failure
+                let _ = std::fs::remove_file(&out_path);
+            }
         }
     }
 
+    if skipped_entries > 0 {
+        tracing::warn!("Skipped {} encrypted/unsupported entries", skipped_entries);
+    }
     tracing::info!("Found {} DEX file(s), {} resource XMLs", dex_file_names.len(), xml_resources.len());
 
     // Process resources (ARSC + AXML) with parallel XML processing
@@ -589,9 +618,21 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             let mut archive = zip::ZipArchive::new(file)?;
 
             for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
-                let mut dex_data = Vec::new();
-                let mut entry = archive.by_name(dex_name)?;
-                entry.read_to_end(&mut dex_data)?;
+                // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Handle unreadable DEX files
+                let mut entry = match archive.by_name(dex_name) {
+                    Ok(e) => e,
+                    Err(e) => {
+                        tracing::warn!("Skipping DEX {} (prepass): {}", dex_name, e);
+                        continue;
+                    }
+                };
+                let dex_data = match zip_fallback::safe_read_entry(&mut entry, dex_name) {
+                    Some(data) => data,
+                    None => {
+                        tracing::warn!("Skipping unreadable DEX: {}", dex_name);
+                        continue;
+                    }
+                };
 
                 let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), &dex_data)?);
                 let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
@@ -632,10 +673,23 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
             tracing::debug!("Processing DEX {}: {}", dex_idx, dex_name);
 
-            // Extract this DEX file
-            let mut dex_data = Vec::new();
-            let mut entry = archive.by_name(dex_name)?;
-            entry.read_to_end(&mut dex_data)?;
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Handle unreadable DEX files
+            let mut entry = match archive.by_name(dex_name) {
+                Ok(e) => e,
+                Err(e) => {
+                    tracing::warn!("Skipping DEX {}: {}", dex_name, e);
+                    total_errors += 1;
+                    continue;
+                }
+            };
+            let dex_data = match zip_fallback::safe_read_entry(&mut entry, dex_name) {
+                Some(data) => data,
+                None => {
+                    tracing::warn!("Skipping unreadable DEX: {}", dex_name);
+                    total_errors += 1;
+                    continue;
+                }
+            };
 
             // Process it immediately with the shared alias registry
             match process_dex_bytes(
@@ -995,40 +1049,43 @@ fn process_resources_streaming(
         let mut archive = zip::ZipArchive::new(file)?;
 
         for xml_name in xml_resource_names {
-            // Extract this XML file
-            let mut xml_data = Vec::new();
-            match archive.by_name(xml_name) {
+            // Extract this XML file - P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION safe read
+            let xml_data = match archive.by_name(xml_name) {
                 Ok(mut entry) => {
-                    entry.read_to_end(&mut xml_data)?;
-
-                    // Parse it immediately
-                    let mut axml_parser = AxmlParser::new();
-                    axml_parser.set_res_names(res_names.clone());
-                    axml_parser.set_pretty_print(pretty_print);
-
-                    match axml_parser.parse(&xml_data) {
-                        Ok(xml) => {
-                            // Normalize config qualifiers (remove redundant -v21 for anydpi, etc.)
-                            let normalized_name = normalize_config_qualifier(xml_name);
-                            // Apply resource name mapping if available (JADX compatibility)
-                            let final_name = apply_resource_path_mapping(&normalized_name, &path_mappings);
-                            let out_path = out_res.join(&final_name);
-                            if let Some(parent) = out_path.parent() {
-                                std::fs::create_dir_all(parent)?;
-                            }
-                            std::fs::write(&out_path, &xml)?;
-                        }
-                        Err(e) => {
-                            tracing::debug!("Failed to parse {}: {}", xml_name, e);
+                    match zip_fallback::safe_read_entry(&mut entry, xml_name) {
+                        Some(data) => data,
+                        None => {
                             xml_errors += 1;
+                            continue;
                         }
                     }
-
-                    // Drop the XML data before moving to next file
-                    drop(xml_data);
                 }
                 Err(e) => {
                     tracing::warn!("Failed to extract {}: {}", xml_name, e);
+                    xml_errors += 1;
+                    continue;
+                }
+            };
+
+            // Parse it immediately
+            let mut axml_parser = AxmlParser::new();
+            axml_parser.set_res_names(res_names.clone());
+            axml_parser.set_pretty_print(pretty_print);
+
+            match axml_parser.parse(&xml_data) {
+                Ok(xml) => {
+                    // Normalize config qualifiers (remove redundant -v21 for anydpi, etc.)
+                    let normalized_name = normalize_config_qualifier(xml_name);
+                    // Apply resource name mapping if available (JADX compatibility)
+                    let final_name = apply_resource_path_mapping(&normalized_name, &path_mappings);
+                    let out_path = out_res.join(&final_name);
+                    if let Some(parent) = out_path.parent() {
+                        std::fs::create_dir_all(parent)?;
+                    }
+                    std::fs::write(&out_path, &xml)?;
+                }
+                Err(e) => {
+                    tracing::debug!("Failed to parse {}: {}", xml_name, e);
                     xml_errors += 1;
                 }
             }
@@ -1223,7 +1280,17 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
 
     // Scan JAR contents
     for i in 0..archive.len() {
-        let entry = archive.by_index(i)?;
+        // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Skip encrypted or unsupported entries
+        let entry = match archive.by_index(i) {
+            Ok(e) => e,
+            Err(e) => {
+                if zip_fallback::is_skippable_entry_error(&e) {
+                    tracing::debug!("Skipping JAR entry {}: {}", i, e);
+                    continue;
+                }
+                return Err(e.into());
+            }
+        };
         let name = entry.name().to_string();
 
         if name.ends_with('/') {
@@ -1267,9 +1334,21 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
             let mut archive = zip::ZipArchive::new(file)?;
 
             for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
-                let mut dex_data = Vec::new();
-                let mut entry = archive.by_name(dex_name)?;
-                entry.read_to_end(&mut dex_data)?;
+                // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Handle unreadable DEX files
+                let mut entry = match archive.by_name(dex_name) {
+                    Ok(e) => e,
+                    Err(e) => {
+                        tracing::warn!("Skipping DEX {} (prepass): {}", dex_name, e);
+                        continue;
+                    }
+                };
+                let dex_data = match zip_fallback::safe_read_entry(&mut entry, dex_name) {
+                    Some(data) => data,
+                    None => {
+                        tracing::warn!("Skipping unreadable DEX: {}", dex_name);
+                        continue;
+                    }
+                };
 
                 let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), &dex_data)?);
                 let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
@@ -1301,19 +1380,27 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
         for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
             tracing::debug!("Processing DEX {}: {}", dex_idx, dex_name);
 
-            // Extract this DEX file
-            let mut dex_data = Vec::new();
-            let mut entry = archive.by_name(dex_name)?;
-            entry.read_to_end(&mut dex_data)?;
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Handle unreadable DEX files
+            let mut entry = match archive.by_name(dex_name) {
+                Ok(e) => e,
+                Err(e) => {
+                    tracing::warn!("Skipping DEX {}: {}", dex_name, e);
+                    continue;
+                }
+            };
+            let dex_data = match zip_fallback::safe_read_entry(&mut entry, dex_name) {
+                Some(data) => data,
+                None => {
+                    tracing::warn!("Skipping unreadable DEX: {}", dex_name);
+                    continue;
+                }
+            };
 
             // Process it immediately - JAR DEX files have no resource mappings
             match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, Arc::clone(&empty_res_names), Arc::clone(&empty_enum_constants), Arc::clone(&empty_package_name), Arc::clone(&alias_registry), deobf_already_run) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
-
-            // Drop the DEX data before moving to next file
-            drop(dex_data);
         }
 
         if let Some(pb) = progress {
@@ -1384,7 +1471,17 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
 
     // Extract AAR contents
     for i in 0..archive.len() {
-        let mut entry = archive.by_index(i)?;
+        // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Skip encrypted or unsupported entries
+        let mut entry = match archive.by_index(i) {
+            Ok(e) => e,
+            Err(e) => {
+                if zip_fallback::is_skippable_entry_error(&e) {
+                    tracing::debug!("Skipping AAR entry {}: {}", i, e);
+                    continue;
+                }
+                return Err(e.into());
+            }
+        };
         let name = entry.name().to_string();
 
         if name.ends_with('/') {
@@ -1395,17 +1492,20 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             // Only store the name, we'll process it later
             dex_file_names.push(name);
         } else if name.ends_with(".jar") {
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            jar_files.push((name, data));
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Use safe read
+            if let Some(data) = zip_fallback::safe_read_entry(&mut entry, &name) {
+                jar_files.push((name, data));
+            }
         } else if name == "AndroidManifest.xml" {
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            manifest_data = Some(data);
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Use safe read
+            if let Some(data) = zip_fallback::safe_read_entry(&mut entry, &name) {
+                manifest_data = Some(data);
+            }
         } else if name.starts_with("res/") {
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            resource_files.push((name, data));
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Use safe read
+            if let Some(data) = zip_fallback::safe_read_entry(&mut entry, &name) {
+                resource_files.push((name, data));
+            }
         }
     }
 
@@ -1460,9 +1560,21 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             let mut archive = zip::ZipArchive::new(file)?;
 
             for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
-                let mut dex_data = Vec::new();
-                let mut entry = archive.by_name(dex_name)?;
-                entry.read_to_end(&mut dex_data)?;
+                // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Handle unreadable DEX files
+                let mut entry = match archive.by_name(dex_name) {
+                    Ok(e) => e,
+                    Err(e) => {
+                        tracing::warn!("Skipping DEX {} (prepass): {}", dex_name, e);
+                        continue;
+                    }
+                };
+                let dex_data = match zip_fallback::safe_read_entry(&mut entry, dex_name) {
+                    Some(data) => data,
+                    None => {
+                        tracing::warn!("Skipping unreadable DEX: {}", dex_name);
+                        continue;
+                    }
+                };
 
                 let dex = std::sync::Arc::new(DexReader::from_slice(dex_idx as u32, dex_name.clone(), &dex_data)?);
                 let class_indices: Vec<u32> = (0..dex.header.class_defs_size).collect();
@@ -1494,19 +1606,27 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         for (dex_idx, dex_name) in dex_file_names.iter().enumerate() {
             tracing::debug!("Processing DEX {}: {}", dex_idx, dex_name);
 
-            // Extract this DEX file
-            let mut dex_data = Vec::new();
-            let mut entry = archive.by_name(dex_name)?;
-            entry.read_to_end(&mut dex_data)?;
+            // P2-ZIP-ENCRYPTED/P2-ZIP-COMPRESSION: Handle unreadable DEX files
+            let mut entry = match archive.by_name(dex_name) {
+                Ok(e) => e,
+                Err(e) => {
+                    tracing::warn!("Skipping DEX {}: {}", dex_name, e);
+                    continue;
+                }
+            };
+            let dex_data = match zip_fallback::safe_read_entry(&mut entry, dex_name) {
+                Some(data) => data,
+                None => {
+                    tracing::warn!("Skipping unreadable DEX: {}", dex_name);
+                    continue;
+                }
+            };
 
             // Process it immediately - AAR DEX files have no resource mappings
             match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, Arc::clone(&empty_res_names), Arc::clone(&empty_enum_constants), Arc::clone(&empty_package_name), Arc::clone(&alias_registry), deobf_already_run) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
-
-            // Drop the DEX data before moving to next file
-            drop(dex_data);
         }
 
         if let Some(pb) = progress {
