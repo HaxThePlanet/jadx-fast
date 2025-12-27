@@ -20,7 +20,7 @@
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
 **Goal:** Correct decompilation close to JADX
-**Status:** 🟡 NEAR-PRODUCTION | 2 P0 Bugs | 2 P1 Bugs | A Grade (~94%) - see [ROADMAP.md](docs/ROADMAP.md)
+**Status:** 🟡 NEAR-PRODUCTION | 0 P0 Bugs | 3 P1 Bugs | B Grade (~80%) - see [ROADMAP.md](docs/ROADMAP.md)
 
 > **December 27, 2025:** Near production-ready! ProcessVariables pass adds JADX-style declaration marking. **5,173+ tests passing**. **4-218x faster than JADX** with **10-52x less memory**. Processing **5,200 APKs/hour** at 2.7 sec average. Type inference at 100% (0 Unknown failures). Resources at 1:1 JADX parity. **Anti-RE ZIP hardening** recovers 83% of obfuscated APKs.
 

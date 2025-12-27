@@ -1,6 +1,6 @@
 # Dexterity Roadmap
 
-**Status:** 🟡 NEAR-PRODUCTION | B Grade (~80%) | 0 P0 | 3 P1 | 0 P1-CG | 0 P2-CG | Dec 27, 2025 | Build: CLEAN
+**Status:** 🟡 NEAR-PRODUCTION | B Grade (~80%) | 0 P0 | 2 P1 | 0 P1-CG | 0 P2-CG | Dec 27, 2025 | Build: CLEAN
 
 | Metric | Value |
 |--------|-------|
@@ -37,6 +37,7 @@
 | **P0-KOTLIN-UNDEF-VAR** | Compilable code | ✅ PHI-connected vars merged to same CodeVar, Object↔subtype compat |
 | **P0-EXCEPTION-SCOPE** | Compilable code | ✅ Synthetic exception handlers in synchronized blocks now filtered (Dec 27) |
 | **P0-KOTLIN-INSTANCEOF** | Compilable code | ✅ InstanceOf now passes Boolean type hint ensuring proper variable declaration (Dec 27) |
+| **P0-KOTLIN-STRING-CONCAT** | Compilable code | ✅ StringBuilder forward trace fallback for catch blocks (Dec 27) |
 | **P1-DUPLICATE-INIT** | Cleaner code | ✅ Skip const when PHI already declared with same value `int i = 0;` not `int i = 0; i = 0;` (Dec 27) |
 | **P0-KOTLIN-PRECEDENCE** | Compilable code | ✅ Bitwise operators in comparisons now parenthesized: `($dirty & 48) == 0` |
 | **P0-KOTLIN-TYPE-CONFUSION** | Compilable code | ✅ Object refs use null comparison: `Companion != null` instead of `!= 0` |
