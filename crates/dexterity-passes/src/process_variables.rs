@@ -307,7 +307,7 @@ mod tests {
         assert!(get_insn_dest(&const_insn).is_some());
 
         // Return has no dest
-        let ret_insn = InsnType::ReturnVoid;
+        let ret_insn = InsnType::Return { value: None };
         assert!(get_insn_dest(&ret_insn).is_none());
     }
 }

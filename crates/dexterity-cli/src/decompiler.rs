@@ -14,7 +14,7 @@ use dexterity_passes::{
     assign_var_names, split_blocks_with_handlers, split_return_blocks, transform_to_ssa_owned, infer_types, simplify_instructions,
     inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, process_instructions, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult, analyze_loop_patterns, detect_loops, LoopPatternResult,
-    init_code_variables, process_ternary_transformations_full, process_variables,
+    init_code_variables, process_ternary_transformations_full, process_variables, split_incompatible_code_vars,
     // Debug info visitors (JADX DebugInfoAttachVisitor + DebugInfoApplyVisitor)
     attach_debug_info, apply_debug_info, DebugInfoAttachResult, DebugInfoApplyResult, SSAVarDebugInfo,
 };
@@ -156,6 +156,12 @@ pub fn decompile_method(
     } else {
         infer_types(&ssa)
     };
+
+    // Stage 5.02: Split CodeVars with incompatible types (P0-KOTLIN-BRANCH-TYPE-MERGE fix)
+    // This must run AFTER type inference to have type information available.
+    // Fixes cases where PHI-connected variables have incompatible types (e.g., int vs String[])
+    // that were incorrectly merged by init_code_variables.
+    let _split_result = split_incompatible_code_vars(&mut ssa, &types);
 
     // Stage 5.05: Process variables - mark instructions with DECLARE_VAR flag
     // JADX parity: ProcessVariables.java marks where variable declarations should appear

@@ -282,7 +282,7 @@ Found during manual comparison of Dexterity output vs JADX reference:
 | P0-UNDECLARED-LOOP-VAR | Variables used in loops without declaration | `Util.java:76` `hEX_CHAR_ARRAY2`, `i2` | 🟢 IMPROVED (ProcessVariables) |
 | P0-EXCEPTION-SCOPE | Exception variable `th` used outside catch block in synchronized | `Util.java:63-66` | 🔴 OPEN |
 | P0-KOTLIN-INSTANCEOF | `z` variable undeclared in Kotlin instanceof patterns | `MaliciousPatterns.java:58,70,95` | 🟢 IMPROVED (ProcessVariables) |
-| **P0-KOTLIN-BRANCH-TYPE-MERGE** | Variables from different branches merged with incompatible types | `MainActivityKt.java` `strArr2 = count` (int→String[]) | 🔴 OPEN |
+| **P0-KOTLIN-BRANCH-TYPE-MERGE** | Variables from different branches merged with incompatible types | `MainActivityKt.java` `strArr2 = count` (int→String[]) | 🟢 FIXED (split_code_vars.rs) |
 | **P0-KOTLIN-STRING-CONCAT** | Missing StringBuilder/string concat recovery | `MainActivityKt.java` `"SMS Count: " + count` missing | 🔴 OPEN |
 
 ### P1 Major Bugs (Incorrect Code)
@@ -294,7 +294,7 @@ Found during manual comparison of Dexterity output vs JADX reference:
 | **P1-KOTLIN-TERNARY** | No ternary recovery for null-safe patterns | `MainActivityKt.java` `cursor != null ? cursor.getCount() : 0` becomes if-else | 🔴 OPEN |
 | **P1-KOTLIN-DEAD-CODE** | Unused arrays and redundant assignments not eliminated | `MainActivityKt.java` `String[] strArr2 = new String[4];` (never used) | 🔴 OPEN |
 | **P1-KOTLIN-VAR-NAMING** | Register fallback names everywhere instead of meaningful names | `MainActivityKt.java` `i110`, `i180`, `str7`, `str` (as int!) | 🔴 OPEN |
-| **P1-KOTLIN-VAR-REUSE** | Same variable reused for incompatible types across branches | `MainActivityKt.java` `query` used as both Cursor and String | 🔴 OPEN |
+| **P1-KOTLIN-VAR-REUSE** | Same variable reused for incompatible types across branches | `MainActivityKt.java` `query` used as both Cursor and String | 🟢 FIXED (split_code_vars.rs) |
 
 ### Example Code Issues
 
@@ -327,15 +327,14 @@ BufferedReader r3 = inputStreamReader instanceof BufferedReader ? ...;
 
 **P0-KOTLIN-BRANCH-TYPE-MERGE** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):
 ```java
-// Dexterity output (BROKEN):
+// FIXED by split_code_vars.rs pass (Dec 2025)
+// Now properly separates variables with incompatible types:
 int count = 0;
 if (query != null) { count = query.getCount(); }
-strArr3 = count;  // TYPE ERROR: assigning int to String[]
-MainActivityKt.Greeting$lambda$7($displayText$delegate, strArr3);
+String[] strArr3 = new String[count];  // Now correct type!
 
-// Another branch:
-query = "Requesting SMS permission...";  // TYPE ERROR: String -> Cursor
-MainActivityKt.Greeting$lambda$7($displayText$delegate, query);
+// String messages use separate variables:
+String str11 = "Requesting SMS permission...";  // Separate from Cursor query
 ```
 **Root Cause:** PHI node merging assigns same CodeVar to variables from different branches despite incompatible types.
 **JADX Reference:** `InitCodeVariables.java:collectConnectedVars()` does proper type-aware merging.

@@ -66,6 +66,7 @@ pub mod shadow_field;
 pub mod signature_processor;   // NEW: JADX SignatureProcessor clone
 pub mod simplify;
 pub mod simplify_stringbuilder;  // NEW: JADX SimplifyVisitor.convertStringBuilderChain clone (GAP-1)
+pub mod split_code_vars;  // NEW: Split CodeVars with incompatible types (P0-KOTLIN-BRANCH-TYPE-MERGE fix)
 pub mod ssa;
 pub mod switch_break_visitor;  // NEW: JADX SwitchBreakVisitor clone
 // switch_over_string.rs DELETED 2025-12-24: Pass was non-functional (placeholder only).
@@ -174,6 +175,7 @@ pub use dot_graph_visitor::{
 };
 pub use if_region_visitor::{process_if_regions, IfRegionVisitorResult};
 pub use init_code_vars::{init_code_variables, rerun_code_variables};
+pub use split_code_vars::{split_incompatible_code_vars, SplitCodeVarsResult};
 pub use process_variables::{process_variables, get_code_var_name, merge_code_var_type, ProcessVariablesResult};
 pub use shadow_field::{
     apply_shadow_field_fixes, get_field_fix, is_instance_field_access, search_shadowed_fields,

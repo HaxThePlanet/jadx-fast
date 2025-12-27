@@ -42,7 +42,7 @@ use dexterity_passes::region_builder::{build_regions_with_method_flags, mark_dup
 use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 use dexterity_passes::var_naming::types_compatible_for_naming;
-use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen, process_instructions, simplify_stringbuilder_chains, StringBuilderMethodInfo, init_code_variables, process_variables};
+use dexterity_passes::{inline_constants, shrink_code, run_mod_visitor, simplify_instructions, prepare_for_codegen, process_instructions, simplify_stringbuilder_chains, StringBuilderMethodInfo, init_code_variables, process_variables, split_incompatible_code_vars};
 
 use crate::class_gen::{get_inner_class_simple_name, is_anonymous_class};
 use crate::dex_info::DexInfoProvider;
@@ -1909,6 +1909,57 @@ fn format_literal_for_init(lit: &LiteralArg) -> String {
     }
 }
 
+/// Check if a variable name is a garbage/fallback name that shouldn't be declared
+/// at method start. These are register-based names that indicate failed variable naming.
+///
+/// Garbage patterns:
+/// - `i96`, `i132` - register number fallbacks (type prefix + number)
+/// - `r0`, `r15` - raw register names
+/// - `invalid442` - error marker names
+/// - `$i$f$...` standalone - Kotlin synthetic that should be inlined
+fn is_garbage_var_name(name: &str) -> bool {
+    // Pattern 1: Type prefix + large number (register fallback)
+    // Valid: i, i2, str, str2 (common loop counters)
+    // Garbage: i96, i132, str47, obj88 (register-based)
+    let type_prefixes = ["i", "l", "f", "d", "z", "b", "c", "s", "str", "obj", "arr"];
+    for prefix in type_prefixes {
+        if name.starts_with(prefix) {
+            let suffix = &name[prefix.len()..];
+            // Allow empty suffix or small numbers (i, i2, str, str2)
+            if suffix.is_empty() {
+                return false;
+            }
+            if let Ok(n) = suffix.parse::<u32>() {
+                // Small numbers like i2, str3 are ok (common naming)
+                // Large numbers like i96, str47 are register fallbacks
+                if n > 20 {
+                    return true;
+                }
+            }
+        }
+    }
+
+    // Pattern 2: Raw register names (r0, r15, etc.)
+    if name.starts_with('r') && name.len() > 1 {
+        if name[1..].chars().all(|c| c.is_ascii_digit()) {
+            return true;
+        }
+    }
+
+    // Pattern 3: "invalid" prefix (error markers)
+    if name.starts_with("invalid") {
+        return true;
+    }
+
+    // Pattern 4: Kotlin synthetic names that shouldn't be standalone variables
+    // These should be inlined, not declared separately
+    if name.starts_with("$i$f$") || name.starts_with("$i$a$") {
+        return true;
+    }
+
+    false
+}
+
 /// Emit declarations for phi variables at method start
 /// Like Java JADX's DeclareVariablesAttr, this ensures variables used before
 /// their first "real" assignment are declared
@@ -1935,6 +1986,12 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
         // Get variable name using a temp RegisterArg
         let temp_reg = RegisterArg { reg_num: reg, ssa_version: version };
         let var_name = ctx.expr_gen.get_var_name(&temp_reg);
+
+        // Skip garbage variable names (register fallbacks, error markers)
+        // These indicate failed variable naming and shouldn't be declared
+        if is_garbage_var_name(&var_name) {
+            continue;
+        }
 
         // Skip if already declared (e.g., parameter)
         if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
@@ -2865,6 +2922,10 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     let type_result = infer_types(&ssa_result);
 
+    // Split CodeVars with incompatible types (P0-KOTLIN-BRANCH-TYPE-MERGE fix)
+    // Must run AFTER type inference to have type information available
+    let _split_result = split_incompatible_code_vars(&mut ssa_result, &type_result);
+
     // Process variables - mark instructions with DECLARE_VAR flag (JADX parity)
     let _process_vars_result = process_variables(&mut ssa_result);
 
@@ -3057,6 +3118,10 @@ fn generate_body_impl<W: CodeWriter>(
     } else {
         infer_types(&ssa_result)
     };
+
+    // Split CodeVars with incompatible types (P0-KOTLIN-BRANCH-TYPE-MERGE fix)
+    // Must run AFTER type inference to have type information available
+    let _split_result = split_incompatible_code_vars(&mut ssa_result, &type_result);
 
     // Process variables - mark instructions with DECLARE_VAR flag (JADX parity)
     // This must run after type inference so we have type info, before codegen
@@ -3438,6 +3503,10 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
             infer_types(&ssa_result)
         }
     };
+
+    // Split CodeVars with incompatible types (P0-KOTLIN-BRANCH-TYPE-MERGE fix)
+    // Must run AFTER type inference to have type information available
+    let _split_result = split_incompatible_code_vars(&mut ssa_result, &type_result);
 
     // Process variables - mark instructions with DECLARE_VAR flag (JADX parity)
     // Must run after type inference but before codegen
