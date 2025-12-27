@@ -1,0 +1,40 @@
+package app.dogo.com.dogo_android.h;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.VideoView;
+import androidx.databinding.ViewDataBinding;
+import androidx.databinding.f;
+import app.dogo.com.dogo_android.p.b.d;
+
+/* compiled from: DialogTiktokInviteBinding.java */
+/* loaded from: classes.dex */
+public abstract class u9 extends ViewDataBinding {
+
+    public final FrameLayout O;
+    public final FrameLayout P;
+    public final VideoView Q;
+    protected d R;
+    protected u9(Object object, View view, int i, FrameLayout frameLayout, FrameLayout frameLayout2, TextView textView, ImageView imageView, VideoView videoView) {
+        super(object, view, i);
+        this.O = frameLayout;
+        this.P = frameLayout2;
+        this.Q = videoView;
+    }
+
+    public static u9 T(LayoutInflater layoutInflater, ViewGroup viewGroup, boolean z) {
+        return u9.U(layoutInflater, viewGroup, z, f.e());
+    }
+
+    @Deprecated
+    public static u9 U(LayoutInflater layoutInflater, ViewGroup viewGroup, boolean z, Object object) {
+        return (u9)ViewDataBinding.z(layoutInflater, 2131558613, viewGroup, z, object);
+    }
+
+    @Override // androidx.databinding.ViewDataBinding
+    public abstract void V(d dVar);
+}

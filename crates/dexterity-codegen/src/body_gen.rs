@@ -8959,6 +8959,10 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
         // DONT_GENERATE: duplicated finally code, instructions with side effects but unused result
         // REMOVE: pure definitions with no side effects (const, move, cast) that are never used
         if insn.has_flag(AFlag::DontGenerate) || insn.has_flag(AFlag::Remove) {
+            if std::env::var("DEXTERITY_DEBUG_SB").is_ok() {
+                eprintln!("[CODEGEN] Skipping DontGenerate/Remove insn in block {} insn {}: {:?}",
+                    block.id, i, std::mem::discriminant(&insn.insn_type));
+            }
             continue;
         }
 
@@ -10884,6 +10888,8 @@ fn escape_string_content(s: &str) -> String {
 
 /// Try to expand a pending vararg array from NewArray + ArrayPut pattern.
 /// Returns the expanded argument string or None if not expandable.
+///
+/// P1-KOTLIN-DEAD-CODE: Also consumes the deferred NewArray inline expression.
 fn try_expand_pending_vararg_array(arg: &InsnArg, ctx: &mut BodyGenContext) -> Option<String> {
     if let InsnArg::Register(reg) = arg {
         let key = (reg.reg_num, reg.ssa_version);
@@ -10895,6 +10901,10 @@ fn try_expand_pending_vararg_array(arg: &InsnArg, ctx: &mut BodyGenContext) -> O
 
         if should_expand {
             if let Some(pending) = ctx.pending_vararg_arrays.remove(&key) {
+                // P1-KOTLIN-DEAD-CODE FIX: Also consume the deferred NewArray inline expression
+                // This prevents the original "new Type[size]" from being emitted
+                ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
+
                 // All elements filled - expand as varargs
                 let elements: Vec<String> = pending.elements
                     .into_iter()
@@ -10914,6 +10924,10 @@ fn try_expand_pending_vararg_array(arg: &InsnArg, ctx: &mut BodyGenContext) -> O
 /// expansion, but the method is NOT varargs (e.g., Runtime.exec(String[])), we need
 /// to emit the array as `new Type[] { elem0, elem1, ... }` instead of just the variable name.
 ///
+/// P1-KOTLIN-DEAD-CODE: Also consumes the deferred NewArray inline expression.
+/// Since NewArray is now stored as inline and deferred, we must consume it here
+/// to prevent the original "new Type[size]" from being emitted elsewhere.
+///
 /// Returns Some(literal) if this is a complete pending array, None otherwise.
 fn try_emit_pending_array_literal(arg: &InsnArg, ctx: &mut BodyGenContext) -> Option<String> {
     if let InsnArg::Register(reg) = arg {
@@ -10927,6 +10941,10 @@ fn try_emit_pending_array_literal(arg: &InsnArg, ctx: &mut BodyGenContext) -> Op
         if let Some((type_idx, elements)) = array_info {
             // Remove from pending since we're using it
             ctx.pending_vararg_arrays.remove(&key);
+
+            // P1-KOTLIN-DEAD-CODE FIX: Also consume the deferred NewArray inline expression
+            // This prevents the original "new Type[size]" from being emitted
+            ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
 
             // Get element type from type_idx
             let elem_type = ctx.expr_gen.get_type_value(type_idx)
@@ -12148,6 +12166,18 @@ fn generate_insn<W: CodeWriter>(
                 } else {
                     ctx.expr_gen.gen_literal(value)
                 };
+
+                // P1-DUPLICATE-INIT FIX: Skip if PHI destination was already declared with this exact value
+                // JADX Reference: PrepareForCodeGen.java removeInstructions() - removes redundant moves
+                // When emit_phi_declarations() declared `int i = 0;` using phi_constant_inits,
+                // we should NOT emit another `i = 0;` here - that would be redundant.
+                if let Some(phi_init_value) = ctx.phi_constant_inits.get(&(effective_reg, effective_version)) {
+                    if phi_init_value == &val_str {
+                        // Skip - this const was already used as the PHI declaration initializer
+                        return true;
+                    }
+                }
+
                 emit_assignment_with_hint(dest, &val_str, type_hint.as_ref(), ctx, code);
                 return true;
             }
@@ -12254,6 +12284,14 @@ fn generate_insn<W: CodeWriter>(
             let reg = dest.reg_num;
             let version = dest.ssa_version;
 
+            // DEAD VARIABLE ELIMINATION (P1-KOTLIN-DEAD-CODE): Skip if never used in instructions
+            // Clone of JADX PrepareForCodeGen.java:115-122 - check getUseCount() before emission
+            // Must use insn_use_counts (not use_counts) for consistency with other instruction handlers
+            let insn_use_count = ctx.insn_use_counts.get(&(reg, version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;  // Skip unused array allocation
+            }
+
             // Track for potential vararg expansion if:
             // 1. Size is a constant (literal or inlined constant in register)
             // 2. Size is reasonable (1-64 elements)
@@ -12268,6 +12306,23 @@ fn generate_insn<W: CodeWriter>(
                 _ => None,
             };
 
+            // Get element type name (needed for both statement and inline paths)
+            let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                .unwrap_or_else(|| format!("Type#{}", type_idx));
+            let elem_name = if type_name.ends_with("[]") {
+                type_name.trim_end_matches("[]").to_string()
+            } else {
+                type_name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';').to_string()
+            };
+
+            // Get size with inlining support
+            let size_str = ctx.gen_arg_inline(size);
+            let new_array_expr = format!("new {}[{}]", elem_name, size_str);
+
+            // P1-KOTLIN-DEAD-CODE FIX: Track for vararg expansion AND defer statement emission
+            // Clone of JADX ReplaceNewArray.java behavior - NewArray is only emitted if NOT
+            // fully absorbed into filled-new-array. By storing as inline and deferring emission,
+            // we allow try_emit_pending_array_literal to replace with filled array at use site.
             if let Some(size_val) = const_size {
                 if size_val > 0 && size_val <= 64 {
                     let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
@@ -12283,23 +12338,16 @@ fn generate_insn<W: CodeWriter>(
                                 invalidated: false,
                             },
                         );
+                        // Store as inline expression and defer statement emission
+                        // If absorbed -> try_emit_pending_array_literal replaces with filled array
+                        // If invalidated -> inline expr is consumed as-is (new Type[size])
+                        ctx.store_inline_expr(reg, version, new_array_expr.clone());
+                        return true; // Skip statement emission - handled by inline or pending literal
                     }
                 }
             }
 
-            // Get element type name
-            let type_name = ctx.expr_gen.get_type_value(*type_idx)
-                .unwrap_or_else(|| format!("Type#{}", type_idx));
-            let elem_name = if type_name.ends_with("[]") {
-                type_name.trim_end_matches("[]").to_string()
-            } else {
-                type_name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';').to_string()
-            };
-
-            // Get size with inlining support
-            let size_str = ctx.gen_arg_inline(size);
-            let new_array_expr = format!("new {}[{}]", elem_name, size_str);
-
+            // Not a pending vararg - continue with normal handling
             // Check if result should be inlined
             if ctx.should_inline(reg, version) {
                 ctx.store_inline_expr(reg, version, new_array_expr);
@@ -12309,12 +12357,6 @@ fn generate_insn<W: CodeWriter>(
             // Emit the assignment
             let var_name = ctx.expr_gen.get_var_name(dest);
             code.start_line();
-
-            // DEAD VARIABLE ELIMINATION: Skip variables that are never used
-            let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
-            if use_count == 0 {
-                return true;  // Skip unused array allocation
-            }
 
             let needs_decl = !ctx.is_declared(reg, version)
                 && !ctx.is_parameter(reg, version)
@@ -12340,6 +12382,12 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::ArrayLength { dest, array } => {
+            // DEAD VARIABLE ELIMINATION (P1-KOTLIN-DEAD-CODE): Skip if never used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(dest.reg_num, dest.ssa_version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
+
             // Invalidate pending vararg array - it's being used in non-vararg context
             if let InsnArg::Register(arr_reg) = array {
                 if let Some(pending) = ctx.pending_vararg_arrays.get_mut(
@@ -12355,6 +12403,12 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::ArrayGet { dest, array, index, .. } => {
+            // DEAD VARIABLE ELIMINATION (P1-KOTLIN-DEAD-CODE): Skip if never used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(dest.reg_num, dest.ssa_version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
+
             // Invalidate pending vararg array - it's being read, not just built
             if let InsnArg::Register(arr_reg) = array {
                 if let Some(pending) = ctx.pending_vararg_arrays.get_mut(
@@ -12476,6 +12530,13 @@ fn generate_insn<W: CodeWriter>(
         InsnType::InstanceGet { dest, object, field_idx } => {
             let reg = dest.reg_num;
             let version = dest.ssa_version;
+
+            // DEAD VARIABLE ELIMINATION (P1-KOTLIN-DEAD-CODE): Skip if never used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(reg, version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
+
             // Always store inline expression - field access is always inlineable
             let obj_str = ctx.gen_arg_inline(object);
 
@@ -12550,6 +12611,12 @@ fn generate_insn<W: CodeWriter>(
         InsnType::StaticGet { dest, field_idx } => {
             let reg = dest.reg_num;
             let version = dest.ssa_version;
+
+            // DEAD VARIABLE ELIMINATION (P1-KOTLIN-DEAD-CODE): Skip if never used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(reg, version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
 
             // Check use count - only inline if used exactly once
             if ctx.should_inline(reg, version) {
@@ -12812,8 +12879,10 @@ fn generate_insn<W: CodeWriter>(
                 ctx.store_inline_expr(dest.reg_num, dest.ssa_version, expr);
                 return true;
             }
-            // Multi-use: emit assignment
-            emit_assignment_insn(dest, insn, None, ctx, code);
+            // P0-KOTLIN-INSTANCEOF FIX: Pass Boolean type hint to ensure proper declaration
+            // InstanceOf always returns boolean, so we provide this as hint in case type
+            // inference failed to propagate the type. JADX Reference: InsnGen.java:404-415
+            emit_assignment_insn(dest, insn, Some(&ArgType::Boolean), ctx, code);
             true
         }
 
@@ -12855,12 +12924,25 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::ConstClass { dest, .. } => {
+            // DEAD VARIABLE ELIMINATION (P1-KOTLIN-DEAD-CODE): Skip if never used in instructions
+            let insn_use_count = ctx.insn_use_counts.get(&(dest.reg_num, dest.ssa_version)).copied().unwrap_or(0);
+            if insn_use_count == 0 {
+                return true;
+            }
             // OPTIMIZED: Direct write
             emit_assignment_insn(dest, insn, None, ctx, code);
             true
         }
 
         InsnType::FilledNewArray { dest, type_idx, args } => {
+            // DEAD VARIABLE ELIMINATION (P1-KOTLIN-DEAD-CODE): Skip if never used in instructions
+            if let Some(d) = dest {
+                let insn_use_count = ctx.insn_use_counts.get(&(d.reg_num, d.ssa_version)).copied().unwrap_or(0);
+                if insn_use_count == 0 {
+                    return true;
+                }
+            }
+
             // OPTIMIZED: Direct write avoiding Vec<String> allocation
             let type_name = ctx.expr_gen.get_type_value(*type_idx)
                 .unwrap_or_else(|| format!("Type#{}", type_idx));

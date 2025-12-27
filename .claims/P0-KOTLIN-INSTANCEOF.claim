@@ -1,0 +1,45 @@
+# P0-KOTLIN-INSTANCEOF: Undeclared Variable in instanceof Patterns
+**Status:** COMPLETED
+**Agent:** Claude Opus 4.5
+**Date:** Dec 27, 2025
+
+## Issue
+Variable `z` used in Kotlin instanceof patterns is never declared, causing compile error.
+
+**Example from MaliciousPatterns.java:58 (BEFORE):**
+```java
+z = inputStreamReader instanceof BufferedReader;  // ERROR: z never declared
+BufferedReader r3 = inputStreamReader instanceof BufferedReader ? (BufferedReader)inputStreamReader : new BufferedReader(inputStreamReader, 8192);
+```
+
+## Root Cause
+When Kotlin compiles an `is` check (instanceof pattern), the bytecode uses a local boolean register
+to store the instanceof result before a ternary/conditional. `emit_assignment_insn` was called with
+`None` for the type_hint, and type inference may not have propagated the Boolean type, causing
+the variable to not be properly declared.
+
+## Fix Applied
+**File:** `crates/dexterity-codegen/src/body_gen.rs` (line 12882-12885)
+
+**Change:** Pass `Some(&ArgType::Boolean)` as type_hint to `emit_assignment_insn` for InstanceOf
+instructions, since InstanceOf always returns boolean. This ensures proper variable declaration.
+
+```rust
+// P0-KOTLIN-INSTANCEOF FIX: Pass Boolean type hint to ensure proper declaration
+// InstanceOf always returns boolean, so we provide this as hint in case type
+// inference failed to propagate the type. JADX Reference: InsnGen.java:404-415
+emit_assignment_insn(dest, insn, Some(&ArgType::Boolean), ctx, code);
+```
+
+## JADX Reference
+- `jadx-core/src/main/java/jadx/core/codegen/InsnGen.java` lines 404-415 (instanceof handling)
+
+## Verification
+- Build: ✅ Successful
+- Test: ✅ 28 unit tests pass
+- Manual: ✅ MaliciousPatterns.java no longer has undeclared `z` variable, instanceof properly inlined
+
+**Output (AFTER):**
+```java
+BufferedReader r3 = inputStreamReader instanceof BufferedReader ? (BufferedReader)inputStreamReader : new BufferedReader(inputStreamReader, 8192);
+```

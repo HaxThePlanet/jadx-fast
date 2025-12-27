@@ -118,12 +118,28 @@ pub fn simplify_stringbuilder_chains(
                                 eprintln!("[SB DEBUG] Receiver reg: r{}v{}", recv_reg.reg_num, recv_reg.ssa_version);
                             }
                             // Try to collect the chain by tracing backwards through SSA defs
-                            if let Some((concat_args, dead_insns)) = collect_chain_backwards(
+                            // Clone of JADX SimplifyVisitor - try backward first, then forward
+                            let chain_result = collect_chain_backwards(
                                 ssa,
                                 recv_reg,
                                 &def_map,
                                 method_resolver,
-                            ) {
+                            ).or_else(|| {
+                                // Fallback: Forward tracing (JADX collectUseChain)
+                                // This handles catch blocks where SSA versions may be incorrect
+                                if debug_sb {
+                                    eprintln!("[SB DEBUG] Backward trace failed, trying forward trace");
+                                }
+                                collect_chain_forwards(
+                                    ssa,
+                                    block_idx,
+                                    insn_idx,
+                                    &use_map,
+                                    method_resolver,
+                                )
+                            });
+
+                            if let Some((concat_args, dead_insns)) = chain_result {
                                 if debug_sb {
                                     eprintln!("[SB DEBUG] Chain found with {} args, {} dead insns", concat_args.len(), dead_insns.len());
                                 }
@@ -159,12 +175,25 @@ pub fn simplify_stringbuilder_chains(
         result.chains_converted += 1;
 
         // Mark chain instructions as dead
-        for (dead_block, dead_idx) in dead_insns {
-            if dead_block < ssa.blocks.len() && dead_idx < ssa.blocks[dead_block].instructions.len() {
-                ssa.blocks[dead_block].instructions[dead_idx].add_flag(AFlag::DontGenerate);
+        for (dead_block, dead_idx) in &dead_insns {
+            if *dead_block < ssa.blocks.len() && *dead_idx < ssa.blocks[*dead_block].instructions.len() {
+                ssa.blocks[*dead_block].instructions[*dead_idx].add_flag(AFlag::DontGenerate);
                 result.insns_removed += 1;
+                if debug_sb {
+                    let block_id = ssa.blocks[*dead_block].id;
+                    let has_flag = ssa.blocks[*dead_block].instructions[*dead_idx].has_flag(AFlag::DontGenerate);
+                    eprintln!("[SB DEBUG] Marked dead: block_idx={} block_id={} insn_idx={} -> {:?} (has_flag={})",
+                        dead_block, block_id, dead_idx,
+                        std::mem::discriminant(&ssa.blocks[*dead_block].instructions[*dead_idx].insn_type),
+                        has_flag);
+                }
             }
         }
+    }
+
+    if debug_sb && (result.chains_converted > 0 || result.insns_removed > 0) {
+        eprintln!("[SB DEBUG] RESULT: {} chains converted, {} insns marked dead",
+            result.chains_converted, result.insns_removed);
     }
 
     result
@@ -399,6 +428,194 @@ fn collect_chain_backwards(
     }
 
     Some((concat_args, dead_insns))
+}
+
+/// Collect StringBuilder chain by tracing FORWARDS through the block
+///
+/// Clone of JADX SimplifyVisitor.collectUseChain()
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java:325-367
+///
+/// This is a fallback when backward tracing fails due to SSA issues in catch blocks.
+/// It scans the block for NewInstance(StringBuilder) and traces forward to find the chain.
+///
+/// Algorithm:
+/// 1. Scan backwards from toString() to find NewInstance(StringBuilder) in same block
+/// 2. Trace forward collecting append() args until we hit toString()
+/// 3. All instructions must be sequential in the same block
+fn collect_chain_forwards(
+    ssa: &SsaResult,
+    tostring_block: usize,
+    tostring_idx: usize,
+    _use_map: &HashMap<(u16, u32), Vec<(usize, usize)>>,
+    method_resolver: MethodResolver,
+) -> Option<(Vec<InsnArg>, HashSet<(usize, usize)>)> {
+    let debug_sb = std::env::var("DEXTERITY_DEBUG_SB").is_ok();
+
+    if debug_sb {
+        eprintln!("[SB FWD] Starting forward trace from block {} insn {}", tostring_block, tostring_idx);
+    }
+
+    let block = &ssa.blocks[tostring_block];
+
+    // Find NewInstance(StringBuilder) in this block, before the toString
+    // Clone of JADX: look for CONSTRUCTOR as first instruction in chain
+    let mut new_instance_idx: Option<usize> = None;
+
+    for i in (0..tostring_idx).rev() {
+        let insn = &block.instructions[i];
+        if let InsnType::NewInstance { type_idx, .. } = &insn.insn_type {
+            // Check if it's a StringBuilder
+            // We don't have type resolution here, so check by type_idx pattern
+            // In practice, we'll validate by checking the subsequent <init> call
+            new_instance_idx = Some(i);
+            if debug_sb {
+                eprintln!("[SB FWD] Found NewInstance at idx {} (type_idx={})", i, type_idx);
+            }
+            break;
+        }
+    }
+
+    let start_idx = match new_instance_idx {
+        Some(idx) => idx,
+        None => {
+            if debug_sb {
+                eprintln!("[SB FWD] No NewInstance found before toString");
+            }
+            return None;
+        }
+    };
+
+    // Now trace forward from NewInstance to toString, collecting append args
+    // Clone of JADX convertStringBuilderChain logic
+    let mut concat_args: Vec<InsnArg> = Vec::new();
+    let mut dead_insns: HashSet<(usize, usize)> = HashSet::new();
+    let mut in_chain = false;
+    let mut chain_reg: Option<u16> = None; // Track the StringBuilder register
+
+    for i in start_idx..=tostring_idx {
+        let insn = &block.instructions[i];
+
+        match &insn.insn_type {
+            InsnType::NewInstance { dest, .. } => {
+                if i == start_idx {
+                    // This is our starting NewInstance
+                    dead_insns.insert((tostring_block, i));
+                    chain_reg = Some(dest.reg_num);
+                    in_chain = true;
+                    if debug_sb {
+                        eprintln!("[SB FWD] Starting chain with NewInstance, reg r{}", dest.reg_num);
+                    }
+                }
+            }
+
+            InsnType::Invoke { method_idx, args, dest, .. } if in_chain => {
+                // Resolve method
+                let method_info = match method_resolver(*method_idx) {
+                    Some(info) => info,
+                    None => continue, // Skip unresolvable methods
+                };
+
+                if !is_stringbuilder_class(&method_info.class_name) {
+                    // Not a StringBuilder method - check if it uses our chain reg
+                    // If so, the chain is broken
+                    if let Some(reg) = chain_reg {
+                        for arg in args.iter() {
+                            if let InsnArg::Register(r) = arg {
+                                if r.reg_num == reg {
+                                    if debug_sb {
+                                        eprintln!("[SB FWD] Chain broken by non-StringBuilder call");
+                                    }
+                                    return None;
+                                }
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                match method_info.method_name.as_str() {
+                    "<init>" => {
+                        // Constructor - may have initial string arg
+                        // JADX: if (firstInsn.getArgsCount() > 1) args.add(firstInsn.getArg(1))
+                        dead_insns.insert((tostring_block, i));
+                        if args.len() >= 2 {
+                            concat_args.push(args[1].clone());
+                            if debug_sb {
+                                eprintln!("[SB FWD] <init> with initial arg");
+                            }
+                        }
+                        // Update chain reg if dest is set
+                        if let Some(d) = dest {
+                            chain_reg = Some(d.reg_num);
+                        }
+                    }
+
+                    "append" => {
+                        // Collect appended arg (args[1])
+                        // JADX: args.add(getArgFromAppend(chainInsn))
+                        dead_insns.insert((tostring_block, i));
+                        if args.len() >= 2 {
+                            concat_args.push(args[1].clone());
+                            if debug_sb {
+                                eprintln!("[SB FWD] append, collected arg");
+                            }
+                        }
+                        // Update chain reg if dest is set
+                        if let Some(d) = dest {
+                            chain_reg = Some(d.reg_num);
+                        }
+                    }
+
+                    "toString" => {
+                        // End of chain
+                        if i == tostring_idx {
+                            if debug_sb {
+                                eprintln!("[SB FWD] Reached toString at expected position");
+                            }
+                            // Success! We found a complete chain
+                            if concat_args.is_empty() {
+                                if debug_sb {
+                                    eprintln!("[SB FWD] No args collected");
+                                }
+                                return None;
+                            }
+                            if debug_sb {
+                                eprintln!("[SB FWD] Success! {} args, {} dead insns",
+                                    concat_args.len(), dead_insns.len());
+                            }
+                            return Some((concat_args, dead_insns));
+                        } else {
+                            // toString at wrong position - chain broken
+                            if debug_sb {
+                                eprintln!("[SB FWD] toString at wrong position {} vs expected {}",
+                                    i, tostring_idx);
+                            }
+                            return None;
+                        }
+                    }
+
+                    _ => {
+                        // Other StringBuilder methods (delete, reverse, etc.) break the chain
+                        if debug_sb {
+                            eprintln!("[SB FWD] Chain broken by method: {}", method_info.method_name);
+                        }
+                        return None;
+                    }
+                }
+            }
+
+            _ => {
+                // Other instructions - OK as long as they don't use our chain reg
+                // This allows intervening instructions like loads
+            }
+        }
+    }
+
+    // If we get here without hitting toString, the chain is incomplete
+    if debug_sb {
+        eprintln!("[SB FWD] Chain incomplete - didn't reach toString");
+    }
+    None
 }
 
 #[cfg(test)]

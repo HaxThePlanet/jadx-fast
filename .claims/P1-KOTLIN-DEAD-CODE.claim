@@ -1,0 +1,35 @@
+# P1-KOTLIN-DEAD-CODE: Dead Code Elimination
+**Status:** IN PROGRESS
+**Agent:** Claude Opus 4.5
+**Date:** Dec 27, 2025
+
+## Issue
+Unused arrays and redundant assignments not eliminated.
+
+**Example from MainActivityKt.java:**
+```java
+// Dexterity output (DEAD CODE NOT ELIMINATED):
+String[] strArr2 = new String[4];  // Never used
+String str4 = null;  // Could be inlined
+count = 0;  // First assignment
+count = 0;  // Redundant second assignment
+```
+
+**JADX Output (clean):**
+```java
+// JADX eliminates unused variables and redundant assignments
+```
+
+## Root Cause
+Dead code elimination pass not running or not effective on Kotlin output.
+
+## JADX Reference
+- `jadx-core/src/main/java/jadx/core/dex/visitors/DeadCodeEliminator.java`
+
+## Files to Modify
+- TBD after studying JADX source
+
+## Scope
+- Eliminate unused variable declarations
+- Remove redundant assignments where variable is reassigned before use
+- Remove unused array allocations

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="challenge.participate.again.after.hours">
+        <item quantity="android:attr/0x01000006">0x00000ff9</item>
+        <item quantity="android:attr/0x01000004">0x00000ffa</item>
+    </plurals>
+    <plurals name="comments.title">
+        <item quantity="android:attr/0x01000006">0x00000a3f</item>
+        <item quantity="android:attr/0x01000004">0x00000a40</item>
+    </plurals>
+    <plurals name="day.generic.sing.plural">
+        <item quantity="android:attr/0x01000006">0x00001046</item>
+        <item quantity="android:attr/0x01000004">0x00001047</item>
+    </plurals>
+    <plurals name="days.without.accident">
+        <item quantity="android:attr/0x01000006">0x00000aa3</item>
+        <item quantity="android:attr/0x01000004">0x00000aa4</item>
+    </plurals>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="android:attr/0x01000006">0x00000c24</item>
+        <item quantity="android:attr/0x01000004">0x00000c25</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="android:attr/0x01000006">0x00000e27</item>
+        <item quantity="android:attr/0x01000004">0x00000e28</item>
+    </plurals>
+    <plurals name="generic.duration.month">
+        <item quantity="android:attr/0x01000006">0x00001062</item>
+        <item quantity="android:attr/0x01000004">0x00001064</item>
+    </plurals>
+    <plurals name="knowledge.xp.number.of.points">
+        <item quantity="android:attr/0x01000006">0x00000a4e</item>
+        <item quantity="android:attr/0x01000004">0x00000a4f</item>
+    </plurals>
+    <plurals name="knowledge.xp.number.of.points.90">
+        <item quantity="android:attr/0x01000006">0x00000a4e</item>
+        <item quantity="android:attr/0x01000004">0x00000a4f</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="android:attr/0x01000006">0x00000a4a</item>
+        <item quantity="android:attr/0x01000004">0x00000a4b</item>
+    </plurals>
+    <plurals name="streak.day">
+        <item quantity="android:attr/0x01000006">0x00000a41</item>
+        <item quantity="android:attr/0x01000004">0x00000a42</item>
+    </plurals>
+    <plurals name="streak.longest.reached">
+        <item quantity="android:attr/0x01000006">0x0000100d</item>
+        <item quantity="android:attr/0x01000004">0x0000100e</item>
+    </plurals>
+    <plurals name="streak.longest.record">
+        <item quantity="android:attr/0x01000006">0x00001023</item>
+        <item quantity="android:attr/0x01000004">0x00001024</item>
+    </plurals>
+    <plurals name="subscription.trial.footer.generic">
+        <item quantity="android:attr/0x01000006">0x00000a32</item>
+        <item quantity="android:attr/0x01000004">0x00000a33</item>
+    </plurals>
+    <plurals name="subscription.trial.footer.generic.v2">
+        <item quantity="android:attr/0x01000006">0x00000a24</item>
+        <item quantity="android:attr/0x01000004">0x00000c36</item>
+    </plurals>
+    <plurals name="subscription.try.ndays.for.free">
+        <item quantity="android:attr/0x01000006">0x00000f3d</item>
+        <item quantity="android:attr/0x01000004">0x00000f3e</item>
+    </plurals>
+    <plurals name="time.placeholder.hour">
+        <item quantity="android:attr/0x01000006">0x00000a45</item>
+        <item quantity="android:attr/0x01000004">0x00000a46</item>
+    </plurals>
+    <plurals name="time.placeholder.min">
+        <item quantity="android:attr/0x01000006">0x00000a47</item>
+        <item quantity="android:attr/0x01000004">0x00000a48</item>
+    </plurals>
+    <plurals name="time.streak.current.steak.in.days">
+        <item quantity="android:attr/0x01000006">0x00000a41</item>
+        <item quantity="android:attr/0x01000004">0x00000a42</item>
+    </plurals>
+    <plurals name="x.new.exams.card">
+        <item quantity="android:attr/0x01000006">0x00000a49</item>
+        <item quantity="android:attr/0x01000004">0x00000a49</item>
+    </plurals>
+</resources>

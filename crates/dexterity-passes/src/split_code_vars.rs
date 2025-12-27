@@ -46,10 +46,11 @@ pub fn split_incompatible_code_vars(
     let ctx = &mut ssa_result.ssa_context;
 
     // Phase 1: Collect CodeVars that need processing
-    // We only process CodeVars with >1 SSA var that are not params/this
+    // We process CodeVars with >1 SSA var (including params with incompatible reassignments)
+    // P1-TYPE-PARAM-REASSIGN: Parameters CAN be split if reassigned to incompatible types
     let code_vars_to_process: Vec<CodeVarId> = ctx.code_vars
         .iter()
-        .filter(|cv| cv.ssa_vars.len() > 1 && !cv.is_param && !cv.is_this)
+        .filter(|cv| cv.ssa_vars.len() > 1 && !cv.is_this)
         .map(|cv| cv.id)
         .collect();
 
@@ -109,9 +110,14 @@ fn needs_split(
 /// Split a CodeVar into multiple CodeVars grouped by type compatibility
 ///
 /// Uses a simple grouping algorithm:
-/// 1. For each SSA var, try to find a compatible group
-/// 2. If found, add to that group
-/// 3. If not, create a new group
+/// 1. For parameters, version 0 MUST be in the first group (to preserve is_param flag)
+/// 2. For each SSA var, try to find a compatible group
+/// 3. If found, add to that group
+/// 4. If not, create a new group
+///
+/// JADX Reference: When FixTypesVisitor.insertMovesForPhi() creates new SSA vars,
+/// it keeps the original parameter type immutable. We mimic this by ensuring version 0
+/// stays with the original CodeVar (which preserves is_param and the parameter name).
 ///
 /// Returns the number of new CodeVars created (0 if no split needed)
 fn split_code_var_by_type(
@@ -119,9 +125,9 @@ fn split_code_var_by_type(
     cv_id: CodeVarId,
     types: &TypeInferenceResult,
 ) -> usize {
-    // Collect SSA vars with their types (clone to avoid borrow issues)
-    let ssa_vars: Vec<SSAVarRef> = match ctx.get_code_var(cv_id) {
-        Some(cv) => cv.ssa_vars.clone(),
+    // Collect CodeVar metadata and SSA vars (clone to avoid borrow issues)
+    let (ssa_vars, is_param): (Vec<SSAVarRef>, bool) = match ctx.get_code_var(cv_id) {
+        Some(cv) => (cv.ssa_vars.clone(), cv.is_param),
         None => return 0,
     };
 
@@ -129,10 +135,21 @@ fn split_code_var_by_type(
         return 0;
     }
 
+    // For parameters, find version 0 and ensure it's processed first
+    // This keeps version 0 in the first group, preserving is_param on the original CodeVar
+    let sorted_vars: Vec<SSAVarRef> = if is_param {
+        let mut vars = ssa_vars.clone();
+        // Sort so version 0 comes first
+        vars.sort_by_key(|v| v.version);
+        vars
+    } else {
+        ssa_vars.clone()
+    };
+
     // Group variables by type compatibility
     let mut groups: Vec<Vec<SSAVarRef>> = Vec::new();
 
-    for var_ref in &ssa_vars {
+    for var_ref in &sorted_vars {
         let var_type = types.types.get(&(var_ref.reg_num, var_ref.version));
 
         // Try to find a compatible group
@@ -316,13 +333,14 @@ mod tests {
     }
 
     #[test]
-    fn test_params_not_split() {
+    fn test_params_split_when_incompatible() {
+        // P1-TYPE-PARAM-REASSIGN: Parameters SHOULD be split when reassigned to incompatible types
         let mut ssa = make_empty_ssa_result();
         let ctx = &mut ssa.ssa_context;
 
-        // Parameter CodeVar should NOT be split even with incompatible types
-        let v1 = ctx.new_var_with_version(1, 0);
-        let v2 = ctx.new_var_with_version(1, 1);
+        // Parameter (v1) is reassigned to incompatible type (v2)
+        let v1 = ctx.new_var_with_version(1, 0); // Original param (int)
+        let v2 = ctx.new_var_with_version(1, 1); // Reassigned (String)
 
         let cv_id = ctx.new_code_var();
         if let Some(cv) = ctx.get_code_var_mut(cv_id) {
@@ -331,7 +349,7 @@ mod tests {
         ctx.link_to_code_var(v1, cv_id);
         ctx.link_to_code_var(v2, cv_id);
 
-        // Even though types are incompatible...
+        // int vs String - incompatible!
         let types = make_type_result(vec![
             ((1, 0), ArgType::Int),
             ((1, 1), ArgType::Object("java/lang/String".to_string())),
@@ -339,13 +357,19 @@ mod tests {
 
         let result = split_incompatible_code_vars(&mut ssa, &types);
 
-        // Params should NOT be split
-        assert_eq!(result.split_count, 0);
+        // Params SHOULD be split when types are incompatible
+        assert_eq!(result.split_count, 1);
+        assert_eq!(result.new_code_vars, 1);
 
-        // Should still share the same CodeVar
+        // Version 0 (original param) stays with original CodeVar
+        // Version 1 (reassigned) gets new CodeVar
         let cv1 = ssa.ssa_context.get_var(v1).unwrap().code_var;
         let cv2 = ssa.ssa_context.get_var(v2).unwrap().code_var;
-        assert_eq!(cv1, cv2);
+        assert_ne!(cv1, cv2, "Parameter reassigned to incompatible type should get separate CodeVar");
+
+        // Original CodeVar (cv_id) should still have is_param=true
+        let original_cv = ssa.ssa_context.get_code_var(cv_id).unwrap();
+        assert!(original_cv.is_param, "Original CodeVar should preserve is_param flag");
     }
 
     #[test]

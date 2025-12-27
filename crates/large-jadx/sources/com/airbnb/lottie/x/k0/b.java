@@ -1,0 +1,11 @@
+package com.airbnb.lottie.x.k0;
+
+import java.io.IOException;
+
+/* compiled from: JsonEncodingException.java */
+/* loaded from: classes.dex */
+final class b extends IOException {
+    b(String str) {
+        super(str);
+    }
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:drawable="@drawable/_zui_avd_typing_indicator__0_res_0x7f08000f">
+    <target
+        android:name="path"
+        android:animation="@drawable/_zui_avd_typing_indicator__1_res_0x7f080010"/>
+    <target
+        android:name="path_1"
+        android:animation="@drawable/_zui_avd_typing_indicator__2_res_0x7f080011"/>
+    <target
+        android:name="path_2"
+        android:animation="@drawable/_zui_avd_typing_indicator__3_res_0x7f080012"/>
+</animated-vector>

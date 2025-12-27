@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/cell_workout_trick_card_0"
+    android:background="@drawable/ripple_effect_transparent_rectangle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/trick_image"
+        android:tag="binding_1"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <TextView
+        android:ellipsize="end"
+        android:id="@+id/trick_name"
+        android:tag="binding_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="3"
+        android:lines="3"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/trick_image"
+        app:layout_constraintStart_toStartOf="@+id/trick_image"
+        app:layout_constraintTop_toBottomOf="@+id/trick_image"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

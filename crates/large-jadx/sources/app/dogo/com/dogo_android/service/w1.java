@@ -1,0 +1,18 @@
+package app.dogo.com.dogo_android.service;
+
+import i.b.l0.n;
+
+/* compiled from: lambda */
+/* loaded from: classes.dex */
+public final class w1 implements n {
+
+    public static final /* synthetic */ w1 a = new w1();
+
+    private /* synthetic */ w1() {
+        super();
+    }
+
+    public final Object apply(Object object) {
+        return UserLocalCacheService.v(object);
+    }
+}

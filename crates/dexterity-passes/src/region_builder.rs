@@ -508,13 +508,13 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
                     handler_blocks.iter().map(|b| format!("0x{:x}", b)).collect::<Vec<_>>());
             }
 
-            // Filter out monitor-exit-only handlers (synchronized block cleanup)
-            // These handlers only contain: MOVE_EXCEPTION, MONITOR_EXIT, THROW
-            // JADX's removeMonitorExitFromExcHandler() removes these at the instruction level
-            // We filter them at the region level to avoid generating try/catch for synchronized blocks
-            if h.exception_type.is_none() && is_monitor_only_handler(cfg, &handler_blocks) {
+            // Filter out synthetic rethrow-only handlers (synchronized block cleanup)
+            // These handlers only contain: MOVE_EXCEPTION + THROW (or MONITOR_EXIT + THROW)
+            // JADX removes these to avoid generating try/catch for synchronized blocks.
+            // After monitor-exit removal, only move-exception + throw remains.
+            if h.exception_type.is_none() && is_synthetic_rethrow_handler(cfg, &handler_blocks) {
                 if std::env::var("DEBUG_TRY_CATCH").is_ok() {
-                    eprintln!("[DEBUG_TRY_CATCH] FILTERED: monitor-only handler at 0x{:x}", handler_block);
+                    eprintln!("[DEBUG_TRY_CATCH] FILTERED: synthetic rethrow handler at 0x{:x}", handler_block);
                 }
                 return None;
             }
@@ -844,28 +844,36 @@ fn merge_multi_catch_handlers(handlers: Vec<HandlerInfo>) -> Vec<HandlerInfo> {
     merged
 }
 
-/// Detect monitor-exit-only handlers that are used for synchronized blocks
+/// Detect synthetic rethrow-only handlers that should be filtered out
 ///
-/// Compilers generate synthetic catch-all handlers that only release
-/// the monitor lock when an exception occurs inside a synchronized block.
-/// They should not generate try-catch code since the synchronized syntax
-/// already implies the lock release.
+/// Compilers generate synthetic catch-all handlers for synchronized blocks
+/// that only release the monitor lock and rethrow the exception. These should
+/// not generate try-catch code since the synchronized syntax already implies
+/// the lock release.
 ///
-/// Pattern detected:
+/// After monitor-exit removal (done earlier in processing), these handlers
+/// become simple rethrow-only handlers that should also be filtered.
+///
+/// Patterns detected:
 /// ```text
-/// :catchall
+/// :catchall (with monitor-exit, before removal)
 ///   move-exception v0
 ///   monitor-exit v1
 ///   throw v0
+///
+/// :catchall (after monitor-exit removal, or other synthetic rethrow)
+///   move-exception v0
+///   throw v0
 /// ```
-fn is_monitor_only_handler(cfg: &CFG, handler_blocks: &BTreeSet<u32>) -> bool {
+fn is_synthetic_rethrow_handler(cfg: &CFG, handler_blocks: &BTreeSet<u32>) -> bool {
+    let debug = std::env::var("DEBUG_TRY_CATCH").is_ok();
+
     // Handler should have few blocks (typically 1)
     if handler_blocks.len() > 3 {
         return false;
     }
 
     // Collect all instructions from handler blocks
-    let mut has_monitor_exit = false;
     let mut has_throw = false;
     let mut other_insn_count = 0;
 
@@ -873,19 +881,67 @@ fn is_monitor_only_handler(cfg: &CFG, handler_blocks: &BTreeSet<u32>) -> bool {
         if let Some(block) = cfg.get_block(block_id) {
             for insn in &block.instructions {
                 match &insn.insn_type {
-                    InsnType::MoveException { .. } => {} // MoveException is allowed but not required
-                    InsnType::MonitorExit { .. } => has_monitor_exit = true,
-                    InsnType::Throw { .. } => has_throw = true,
-                    InsnType::Nop => {} // NOPs are ignored
+                    InsnType::MoveException { .. } => {
+                        if debug {
+                            eprintln!("[DEBUG_TRY_CATCH]   insn: MoveException");
+                        }
+                    }
+                    InsnType::MonitorExit { .. } => {
+                        if debug {
+                            eprintln!("[DEBUG_TRY_CATCH]   insn: MonitorExit");
+                        }
+                    }
+                    InsnType::Throw { .. } => {
+                        has_throw = true;
+                        if debug {
+                            eprintln!("[DEBUG_TRY_CATCH]   insn: Throw");
+                        }
+                    }
+                    // P0-EXCEPTION-SCOPE: Nops indicate actual code exists between move-exception
+                    // and throw. A truly synthetic rethrow handler has nothing between them.
+                    // Count Nops as "other" instructions to avoid filtering real finally handlers.
+                    InsnType::Nop => {
+                        other_insn_count += 1;
+                        if debug {
+                            eprintln!("[DEBUG_TRY_CATCH]   insn: Nop (counts as other)");
+                        }
+                    }
                     InsnType::Goto { .. } => {} // GOTOs between handler blocks are ok
-                    _ => other_insn_count += 1,
+                    _ => {
+                        other_insn_count += 1;
+                        if debug {
+                            eprintln!("[DEBUG_TRY_CATCH]   insn: {:?} (counts as other)", insn.insn_type);
+                        }
+                    }
                 }
             }
         }
     }
 
-    // A monitor-only handler has MONITOR_EXIT and THROW, with no other meaningful instructions
-    has_monitor_exit && has_throw && other_insn_count == 0
+    if debug {
+        eprintln!("[DEBUG_TRY_CATCH] is_synthetic_rethrow: has_throw={}, other_insn_count={}", has_throw, other_insn_count);
+    }
+
+    // P0-EXCEPTION-SCOPE FIX: A synthetic handler should be filtered if:
+    // 1. It has throw and no other meaningful code (original check)
+    // 2. OR it ONLY has move-exception (empty handler) - the throw may be in a
+    //    non-dominated successor block, but an empty catch-all is useless
+    //    and generates scoping errors (exception variable used outside catch block)
+    //
+    // Case 2 handles synchronized blocks where:
+    //   - Handler block has: move-exception
+    //   - Successor block (not dominated) has: throw
+    //   - The throw ends up outside the catch block in generated code
+    if other_insn_count == 0 {
+        // No meaningful code in handler - either has_throw or empty handler
+        // Both cases should be filtered as synthetic
+        if debug && !has_throw {
+            eprintln!("[DEBUG_TRY_CATCH] FILTERING: empty catch-all handler (only move-exception, throw in successor)");
+        }
+        return true;
+    }
+
+    false
 }
 
 /// Region stack - tracks exits and nested regions (matching Java's RegionStack)

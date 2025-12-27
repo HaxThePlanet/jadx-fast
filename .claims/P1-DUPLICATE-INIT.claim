@@ -1,0 +1,10 @@
+{
+  "bug_id": "P1-DUPLICATE-INIT",
+  "claimed_by": "Claude Opus 4.5",
+  "claimed_at": "2025-12-27T22:55:00Z",
+  "completed_at": "2025-12-27T23:00:00Z",
+  "status": "completed",
+  "description": "Redundant variable initialization - `int i = 0; i = 0;` pattern",
+  "jadx_reference": "jadx-core/src/main/java/jadx/core/dex/visitors/PrepareForCodeGen.java:115-122",
+  "fix_summary": "When emit_phi_declarations() declares a variable with constant init (e.g., `int i = 0;`), the later Const instruction for the PHI source was emitting another `i = 0;`. Fix checks if the PHI destination was already declared with the exact same constant value in phi_constant_inits, and skips the redundant assignment."
+}

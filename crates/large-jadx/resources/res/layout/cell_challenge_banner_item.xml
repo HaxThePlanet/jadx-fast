@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sponsor_container"
+    android:tag="layout/cell_challenge_banner_item_0"
+    android:paddingBottom="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <include
+        android:id="@+id/friendly_collar_banner"
+        layout="@layout/layout_sponsor_friendly_collar_feed_banner"/>
+    <include
+        android:id="@+id/barkbox_banner"
+        layout="@layout/layout_sponsor_barkbox_feed_banner"/>
+    <include
+        android:id="@+id/universal_banner"
+        layout="@layout/layout_sponsor_universal_feed_header"/>
+</FrameLayout>

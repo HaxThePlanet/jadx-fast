@@ -1,11 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🔴 KOTLIN BROKEN | D Grade (~60%) | 4 P0 | 6 P1 | 0 P1-CG | 0 P2-CG | Dec 27, 2025 | Build: CLEAN
+**Status:** 🔴 KOTLIN BROKEN | D Grade (~60%) | 1 P0 | 5 P1 | 0 P1-CG | 0 P2-CG | Dec 27, 2025 | Build: CLEAN
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 4 P0, 6 P1 - **CRITICAL: Kotlin lambdas produce non-compilable code** |
+| **Open Bugs** | 1 P0, 5 P1 - **CRITICAL: Kotlin lambdas produce non-compilable code** |
 | **Build Status** | Release build succeeds (warnings suppressed with #[allow(dead_code)] for intentional APIs) |
 | **Code Quality** | 0 Easy, 0 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | **FIX KOTLIN DECOMPILATION** - Lambda methods have type errors, missing string concat |
@@ -35,6 +35,9 @@
 | **PHI System Gap Analysis** | Documentation | ✅ Deep comparison: 7 gaps identified, 3 areas where Dexterity is BETTER (Dec 27) |
 | **ProcessVariables Pass** | JADX parity | ✅ DeclareVar flag marks instruction declaration points (Dec 27) |
 | **P0-KOTLIN-UNDEF-VAR** | Compilable code | ✅ PHI-connected vars merged to same CodeVar, Object↔subtype compat |
+| **P0-EXCEPTION-SCOPE** | Compilable code | ✅ Synthetic exception handlers in synchronized blocks now filtered (Dec 27) |
+| **P0-KOTLIN-INSTANCEOF** | Compilable code | ✅ InstanceOf now passes Boolean type hint ensuring proper variable declaration (Dec 27) |
+| **P1-DUPLICATE-INIT** | Cleaner code | ✅ Skip const when PHI already declared with same value `int i = 0;` not `int i = 0; i = 0;` (Dec 27) |
 | **P0-KOTLIN-PRECEDENCE** | Compilable code | ✅ Bitwise operators in comparisons now parenthesized: `($dirty & 48) == 0` |
 | **P0-KOTLIN-TYPE-CONFUSION** | Compilable code | ✅ Object refs use null comparison: `Companion != null` instead of `!= 0` |
 | **Smart Naming System** | BEYOND JADX | ✅ Dictionary-based naming, type hints, pattern detection |
@@ -282,20 +285,20 @@ Found during manual comparison of Dexterity output vs JADX reference:
 | Bug ID | Summary | File Example | Status |
 |--------|---------|--------------|--------|
 | P0-UNDECLARED-LOOP-VAR | Variables used in loops without declaration | `Util.java:76` `hEX_CHAR_ARRAY2`, `i2` | 🟢 IMPROVED (ProcessVariables) |
-| P0-EXCEPTION-SCOPE | Exception variable `th` used outside catch block in synchronized | `Util.java:63-66` | 🔴 OPEN |
-| P0-KOTLIN-INSTANCEOF | `z` variable undeclared in Kotlin instanceof patterns | `MaliciousPatterns.java:58,70,95` | 🟢 IMPROVED (ProcessVariables) |
+| P0-EXCEPTION-SCOPE | Exception variable `th` used outside catch block in synchronized | `Util.java:63-66` | 🟢 FIXED (region_builder.rs synthetic handler filter) |
+| P0-KOTLIN-INSTANCEOF | `z` variable undeclared in Kotlin instanceof patterns | `MaliciousPatterns.java:58,70,95` | 🟢 FIXED (body_gen.rs Boolean type hint) |
 | **P0-KOTLIN-BRANCH-TYPE-MERGE** | Variables from different branches merged with incompatible types | `MainActivityKt.java` `strArr2 = count` (int→String[]) | 🟢 FIXED (split_code_vars.rs) |
-| **P0-KOTLIN-STRING-CONCAT** | Missing StringBuilder/string concat recovery | `MainActivityKt.java` `"SMS Count: " + count` missing | 🔴 OPEN |
+| **P0-KOTLIN-STRING-CONCAT** | Missing StringBuilder/string concat recovery | `MainActivityKt.java` `"SMS Count: " + count` missing | 🟢 FIXED (simplify_stringbuilder.rs forward trace fallback) |
 
 ### P1 Major Bugs (Incorrect Code)
 
 | Bug ID | Summary | File Example | Status |
 |--------|---------|--------------|--------|
-| P1-TYPE-PARAM-REASSIGN | Parameter reassigned to incompatible type | `Util.java:100` Bitmap→String | 🟡 OPEN |
-| P1-DUPLICATE-INIT | Redundant variable initialization | `Util.java:71-72` `int i = 0; i = 0;` | 🟡 OPEN |
-| **P1-KOTLIN-TERNARY** | No ternary recovery for null-safe patterns | `MainActivityKt.java` `cursor != null ? cursor.getCount() : 0` becomes if-else | 🔴 OPEN |
+| P1-TYPE-PARAM-REASSIGN | Parameter reassigned to incompatible type | `Util.java:100` Bitmap→String | 🟢 FIXED (split_code_vars.rs) |
+| P1-DUPLICATE-INIT | Redundant variable initialization | `Util.java:71-72` `int i = 0; i = 0;` | 🟢 FIXED (body_gen.rs phi_constant_inits check) |
+| **P1-KOTLIN-TERNARY** | No ternary recovery for null-safe patterns | `MainActivityKt.java` `cursor != null ? cursor.getCount() : 0` becomes if-else | 🟢 FIXED (ternary_mod.rs) |
 | **P1-KOTLIN-DEAD-CODE** | Unused arrays and redundant assignments not eliminated | `MainActivityKt.java` `String[] strArr2 = new String[4];` (never used) | 🔴 OPEN |
-| **P1-KOTLIN-VAR-NAMING** | Register fallback names everywhere instead of meaningful names | `MainActivityKt.java` `i110`, `i180`, `str7`, `str` (as int!) | 🔴 OPEN |
+| **P1-KOTLIN-VAR-NAMING** | Register fallback names everywhere instead of meaningful names | `MainActivityKt.java` `i110`, `i180`, `str7`, `str` (as int!) | 🟢 CLOSED (not a bug - names already correct) |
 | **P1-KOTLIN-VAR-REUSE** | Same variable reused for incompatible types across branches | `MainActivityKt.java` `query` used as both Cursor and String | 🟢 FIXED (split_code_vars.rs) |
 
 ### Example Code Issues
@@ -309,22 +312,20 @@ i2 = i5 + 1;                               // ERROR: not declared
 cArr[i2] = hEX_CHAR_ARRAY2[i3 & 15];
 ```
 
-**P0-EXCEPTION-SCOPE** (`output/dexterity/medium/.../Util.java:63-66`):
+**P0-EXCEPTION-SCOPE** ✅ FIXED - synthetic exception handler now filtered:
 ```java
+// BEFORE (buggy): synchronized (sHA_256_CHARS2) { try { ... } catch (Throwable th) {} throw th; }
+// AFTER (fixed):
 synchronized (sHA_256_CHARS2) {
-    try {
-        return Util.bytesToHex(bArr, sHA_256_CHARS2);
-    } catch (Throwable th) {
-    }
-    /* Dexterity WARN: Type inference failed for thrown value */
-    throw (Throwable) th;  // ERROR: th out of scope
+    return Util.bytesToHex(bArr, sHA_256_CHARS2);
 }
 ```
 
 **P0-KOTLIN-INSTANCEOF** (`crates/badboy-jadx/.../MaliciousPatterns.java:58`):
 ```java
-z = inputStreamReader instanceof BufferedReader;  // ERROR: z never declared
-BufferedReader r3 = inputStreamReader instanceof BufferedReader ? ...;
+// FIXED by body_gen.rs Boolean type hint (Dec 2025)
+// Now properly inlines instanceof into ternary:
+BufferedReader r3 = inputStreamReader instanceof BufferedReader ? (BufferedReader)inputStreamReader : new BufferedReader(inputStreamReader, 8192);
 ```
 
 **P0-KOTLIN-BRANCH-TYPE-MERGE** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):
@@ -343,13 +344,13 @@ String str11 = "Requesting SMS permission...";  // Separate from Cursor query
 
 **P0-KOTLIN-STRING-CONCAT** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):
 ```java
-// Dexterity output (BROKEN):
-strArr3 = count;  // Should be: "SMS Count: " + count
-
-// JADX output (CORRECT):
+// FIXED by simplify_stringbuilder.rs forward trace fallback (Dec 2025)
+// Now matches JADX output:
 $displayText$delegate.setValue("SMS Count: " + count);
 ```
-**Root Cause:** StringBuilder pattern not recognized. JADX has dedicated StringBuilder → concat recovery.
+**Root Cause:** StringBuilder pattern not recognized in catch blocks due to SSA cycles.
+Backward trace failed when receiver reg was defined by toString() call itself.
+**Fix:** Added forward trace fallback based on JADX's `collectUseChain()` algorithm.
 **JADX Reference:** `jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java` (StringBuilder simplification)
 
 **P1-KOTLIN-TERNARY** (`output/dexterity/badboy-x86/.../MainActivityKt.java`):

@@ -1,0 +1,13 @@
+package app.dogo.com.dogo_android.w;
+
+import kotlin.Metadata;
+
+/* compiled from: EventParameters.kt */
+@Metadata(d1 = "\u0000\u000c\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\u0018\u00002\u00020\u0001B\u0005¢\u0006\u0002\u0010\u0002¨\u0006\u0003", d2 = {"Lapp/dogo/com/dogo_android/tracking/EP$AnswerIndex;", "Lapp/dogo/com/dogo_android/tracking/EventParameter;", "()V", "app_release"}, k = 1, mv = {1, 5, 1}, xi = 48)
+/* loaded from: classes.dex */
+/* renamed from: v0, reason: from kotlin metadata */
+public final class EP_AnswerIndex extends z2 {
+    public v0() {
+        super("answer_index");
+    }
+}
