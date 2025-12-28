@@ -1127,7 +1127,13 @@ impl FixTypes {
         false
     }
 
-    /// Try wider object types (superclasses)
+    /// Try wider object types (superclasses and interfaces)
+    ///
+    /// JADX Reference: FixTypesVisitor.tryWiderObjects() lines 657-679
+    ///
+    /// This walks the entire class hierarchy trying ancestor types,
+    /// not just the immediate superclass. This matches JADX's behavior
+    /// which uses ClspGraph.getSuperTypes() to get all ancestors.
     fn try_wider_objects(&mut self, var: &TypeVar) -> bool {
         let hierarchy = match &self.hierarchy {
             Some(h) => h,
@@ -1139,30 +1145,91 @@ impl FixTypes {
             None => return false,
         };
 
-        // Collect object types from bounds
+        // Collect known object types from bounds (matching JADX: boundType.isTypeKnown() && boundType.isObject())
         let obj_types: Vec<_> = info
             .bounds()
             .iter()
             .filter_map(|b| b.get_type())
             .filter_map(|ty| {
                 if let ArgType::Object(name) = ty {
-                    Some(name.to_string())
+                    // Only include known types (not Unknown variants)
+                    if ty.is_type_known() {
+                        Some(name.to_string())
+                    } else {
+                        None
+                    }
                 } else {
                     None
                 }
             })
             .collect();
 
-        // Try superclasses
+        if obj_types.is_empty() {
+            return false;
+        }
+
+        // Try ALL ancestors in the hierarchy (not just immediate superclass)
+        // This matches JADX: for (String ancestor : clsp.getSuperTypes(objType.getObject()))
         for obj_type in &obj_types {
-            if let Some(superclass) = hierarchy.get_superclass(obj_type) {
-                let super_type = ArgType::Object(superclass.into());
-                self.resolved_types.insert(*var, super_type);
-                return true;
+            // Get all ancestors (superclasses + interfaces) for this type
+            let ancestors = hierarchy.collect_ancestors(obj_type);
+
+            // Skip the type itself in ancestors
+            for ancestor in &ancestors {
+                if ancestor == obj_type {
+                    continue;
+                }
+
+                let ancestor_type = ArgType::Object(ancestor.clone().into());
+
+                // Check if this ancestor type is compatible with all bounds
+                // This is a simplified version of JADX's typeUpdate.applyWithWiderAllow()
+                if self.is_type_compatible_with_bounds(var, &ancestor_type) {
+                    self.resolved_types.insert(*var, ancestor_type);
+                    tracing::debug!(
+                        "try_wider_objects: resolved {:?} to ancestor type {}",
+                        var,
+                        ancestor
+                    );
+                    return true;
+                }
             }
         }
 
         false
+    }
+
+    /// Check if a type is compatible with all bounds for a variable
+    ///
+    /// This is a simplified compatibility check that verifies the candidate
+    /// type can satisfy all type bounds.
+    fn is_type_compatible_with_bounds(&self, var: &TypeVar, candidate: &ArgType) -> bool {
+        let info = match self.type_info.get(var) {
+            Some(i) => i,
+            None => return true, // No bounds = compatible
+        };
+
+        let hierarchy = match &self.hierarchy {
+            Some(h) => h,
+            None => return true, // No hierarchy = assume compatible
+        };
+
+        for bound in info.bounds() {
+            if let Some(bound_type) = bound.get_type() {
+                // For object types, check subtype relationship
+                if let (ArgType::Object(candidate_name), ArgType::Object(bound_name)) =
+                    (candidate, bound_type)
+                {
+                    // Candidate should be a supertype of bound (widening)
+                    // or the same type
+                    if !hierarchy.is_subtype_of(bound_name, candidate_name) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        true
     }
 
     /// Find a common type for multiple types

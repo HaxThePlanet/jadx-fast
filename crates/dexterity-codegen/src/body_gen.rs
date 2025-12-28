@@ -716,6 +716,36 @@ impl BodyGenContext {
                 }
                 // Multi-use non-field: fall through to type_gen
             }
+
+            // GAP-7 FIX: Convert boolean to numeric when target type is numeric
+            // JADX Reference: FixTypesVisitor.fixBooleanUsage() inserts TernaryInsn
+            // If a boolean variable is used where a numeric type is expected,
+            // emit `(boolVar) ? 1 : 0` to properly convert it.
+            if target_type.is_numeric() {
+                if let Some(var_type) = self.get_inferred_type_versioned(reg.reg_num, reg.ssa_version) {
+                    if matches!(var_type, ArgType::Boolean) {
+                        // Clone the inlined expression first to avoid borrow issues
+                        let inlined_expr = self.peek_inline_expr(reg.reg_num, reg.ssa_version).cloned();
+                        let expr = if let Some(inlined) = inlined_expr {
+                            // Consume the inlined expression
+                            self.take_inline_expr(reg.reg_num, reg.ssa_version);
+                            inlined
+                        } else {
+                            // Fall back to generating the variable name via expr_gen
+                            self.expr_gen.gen_arg(arg)
+                        };
+                        // Handle boolean literals directly: true -> 1, false -> 0
+                        let expr_trimmed = expr.trim();
+                        if expr_trimmed == "true" {
+                            return "1".to_string();
+                        } else if expr_trimmed == "false" {
+                            return "0".to_string();
+                        }
+                        // For variable references/expressions, wrap with ternary conversion
+                        return format!("({}) ? 1 : 0", expr);
+                    }
+                }
+            }
         }
         // Fall back to type-aware generation
         crate::type_gen::literal_to_string_with_arg(arg, target_type)
@@ -1008,6 +1038,40 @@ impl BodyGenContext {
                         return;
                     } else if const_val == "1" {
                         writer.add("true");
+                        return;
+                    }
+                }
+            }
+
+            // GAP-7 FIX: Convert boolean to numeric when target type is numeric
+            // JADX Reference: FixTypesVisitor.fixBooleanUsage() inserts TernaryInsn
+            // Instead of IR modification, we handle this at codegen time:
+            // If a boolean variable is used where a numeric type is expected,
+            // emit `(boolVar) ? 1 : 0` to properly convert it.
+            if target_type.is_numeric() {
+                if let Some(var_type) = self.get_inferred_type_versioned(reg.reg_num, reg.ssa_version) {
+                    if matches!(var_type, ArgType::Boolean) {
+                        // Clone the inlined expression first to avoid borrow issues
+                        let inlined_expr = self.peek_inline_expr(reg.reg_num, reg.ssa_version).cloned();
+                        let expr = if let Some(inlined) = inlined_expr {
+                            // Consume the inlined expression
+                            self.take_inline_expr(reg.reg_num, reg.ssa_version);
+                            inlined
+                        } else {
+                            // Fall back to generating the variable name via expr_gen
+                            self.expr_gen.gen_arg(arg)
+                        };
+                        // Handle boolean literals directly: true -> 1, false -> 0
+                        let expr_trimmed = expr.trim();
+                        if expr_trimmed == "true" {
+                            writer.add("1");
+                            return;
+                        } else if expr_trimmed == "false" {
+                            writer.add("0");
+                            return;
+                        }
+                        // For variable references/expressions, wrap with ternary conversion
+                        writer.add(&format!("({}) ? 1 : 0", expr));
                         return;
                     }
                 }
@@ -1992,16 +2056,76 @@ fn is_garbage_var_name(name: &str) -> bool {
     false
 }
 
+/// Collect variable names that will be declared by DECLARE_VAR flagged instructions
+/// GAP-3 FIX: Variables with DECLARE_VAR on a real instruction shouldn't be declared
+/// at method start. This function pre-collects those names so we can skip them.
+/// JADX Reference: ProcessVariables.java - checkDeclareAtAssign() marks instructions,
+/// then declareVar() only falls back to method start if no instruction is marked.
+fn collect_declare_var_names(ctx: &BodyGenContext) -> HashSet<String> {
+    use dexterity_ir::attributes::AFlag;
+
+    let mut names = HashSet::new();
+    for block in ctx.blocks.values() {
+        for insn in &block.instructions {
+            if insn.has_flag(AFlag::DeclareVar) {
+                // Get the destination register from this instruction
+                if let Some(dest) = get_insn_dest_for_declare(&insn.insn_type) {
+                    let temp_reg = RegisterArg { reg_num: dest.reg_num, ssa_version: dest.ssa_version };
+                    let var_name = ctx.expr_gen.get_var_name(&temp_reg);
+                    names.insert(var_name);
+                }
+            }
+        }
+    }
+    names
+}
+
+/// Helper to get destination register from instruction type (for DECLARE_VAR check)
+fn get_insn_dest_for_declare(insn_type: &InsnType) -> Option<&RegisterArg> {
+    match insn_type {
+        InsnType::Const { dest, .. }
+        | InsnType::ConstString { dest, .. }
+        | InsnType::ConstClass { dest, .. }
+        | InsnType::Move { dest, .. }
+        | InsnType::MoveResult { dest }
+        | InsnType::MoveException { dest }
+        | InsnType::NewInstance { dest, .. }
+        | InsnType::NewArray { dest, .. }
+        | InsnType::ArrayLength { dest, .. }
+        | InsnType::Unary { dest, .. }
+        | InsnType::Binary { dest, .. }
+        | InsnType::InstanceGet { dest, .. }
+        | InsnType::StaticGet { dest, .. }
+        | InsnType::ArrayGet { dest, .. }
+        | InsnType::InstanceOf { dest, .. }
+        | InsnType::Cast { dest, .. }
+        | InsnType::Compare { dest, .. }
+        | InsnType::FilledNewArray { dest: Some(dest), .. }
+        | InsnType::Invoke { dest: Some(dest), .. }
+        | InsnType::Constructor { dest, .. }
+        | InsnType::Ternary { dest, .. } => Some(dest),
+        _ => None,
+    }
+}
+
 /// Emit declarations for phi variables at method start
 /// Like Java JADX's DeclareVariablesAttr, this ensures variables used before
 /// their first "real" assignment are declared
 ///
 /// IMPORTANT: Only declares variables that are actually used (dead variable elimination)
 /// This prevents "unused variable" declarations like JADX avoids.
+///
+/// GAP-3 FIX: Now skips variables whose name will be declared by a DECLARE_VAR flagged
+/// instruction later. This moves declarations to their narrowest scope (first assignment)
+/// instead of always at method start.
 fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) {
     if ctx.phi_declarations.is_empty() {
         return;
     }
+
+    // GAP-3 FIX: Pre-collect names that will be declared by DECLARE_VAR instructions
+    // These shouldn't be declared at method start - they'll be declared at first use
+    let declared_by_insn = collect_declare_var_names(ctx);
 
     // Sort for deterministic output
     let mut phi_vars: Vec<_> = ctx.phi_declarations.iter().copied().collect();
@@ -2024,6 +2148,15 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
         // Skip garbage variable names (register fallbacks, error markers)
         // These indicate failed variable naming and shouldn't be declared
         if is_garbage_var_name(&var_name) {
+            continue;
+        }
+
+        // GAP-3 FIX: Skip if this variable name will be declared by a DECLARE_VAR instruction
+        // This moves variable declarations to their first assignment (narrower scope)
+        // instead of always declaring at method start.
+        // JADX Parity: ProcessVariables.java marks first assignments with DECLARE_VAR flag,
+        // and only falls back to method-start declaration when no such instruction exists.
+        if declared_by_insn.contains(&var_name) {
             continue;
         }
 

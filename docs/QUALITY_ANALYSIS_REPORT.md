@@ -1,5 +1,5 @@
 # Comprehensive Quality Comparison Report: JADX vs Dexterity
-## December 17-27, 2025 - NEAR-PRODUCTION (0 P0 | 3 P1 Bugs | Build: CLEAN)
+## December 17-27, 2025 - NEAR-PRODUCTION (0 P0 | 2 P1 Bugs | Build: CLEAN)
 
 ---
 

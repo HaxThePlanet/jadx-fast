@@ -991,7 +991,10 @@ impl ClassHierarchy {
     }
 
     /// Collect all ancestors (superclasses and interfaces) of a class
-    fn collect_ancestors(&self, class_name: &str) -> HashSet<String> {
+    ///
+    /// This is similar to JADX's ClspGraph.getSuperTypes() which returns
+    /// all ancestor types in the class hierarchy.
+    pub fn collect_ancestors(&self, class_name: &str) -> HashSet<String> {
         let mut ancestors = HashSet::new();
         let mut queue = vec![class_name.to_string()];
 

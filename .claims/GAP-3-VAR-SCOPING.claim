@@ -1,0 +1,64 @@
+# GAP-3: Variable Declaration Scoping
+**Status:** COMPLETE
+**Agent:** Claude Opus 4.5
+**Date:** Dec 28, 2025
+
+## Issue
+Variables that should be declared inside loops or if-blocks get declared at method start, leading to unnecessarily wide scope.
+
+**Previous Behavior (Dexterity):**
+```java
+// All PHI variables declared at method start
+String str = null;  // Declared too early
+int count = 0;      // Declared too early
+for (...) {
+    str = getStr();  // First actual use
+}
+if (cursor != null) {
+    count = cursor.getCount();  // First actual use
+}
+```
+
+**After Fix (JADX Parity):**
+```java
+for (...) {
+    String str = getStr();  // Declared at first use with DECLARE_VAR flag
+}
+if (cursor != null) {
+    int count = cursor.getCount();  // Declared at first use
+}
+```
+
+## Root Cause
+`emit_phi_declarations()` in body_gen.rs was declaring ALL PHI destinations at method start, ignoring the `DeclareVar` flag that `process_variables.rs` sets on first assignments.
+
+The `process_variables.rs` pass correctly:
+1. Finds the first non-PHI assignment for each CodeVar
+2. Marks that instruction with `AFlag::DeclareVar`
+3. Only adds to `declare_at_method_start` list when no valid first assignment exists
+
+But `body_gen.rs` was ignoring this and declaring all PHI destinations anyway.
+
+## Fix Implemented
+Added variable name deduplication in `emit_phi_declarations()`:
+
+1. Added `collect_declare_var_names()` function that scans all blocks for instructions with `AFlag::DeclareVar` and collects their variable names.
+
+2. Modified `emit_phi_declarations()` to skip PHI destinations whose variable name will be declared by a DECLARE_VAR instruction.
+
+This achieves JADX parity: variables are declared at their first assignment when possible, only falling back to method-start declaration when necessary (e.g., for PHI-only variables with no real assignment).
+
+## JADX Reference
+- `jadx-core/src/main/java/jadx/core/dex/visitors/ProcessVariables.java:189-210`
+- `checkDeclareAtAssign()` marks instructions, `declareVar()` only falls back to method start if no instruction is marked
+
+## Files Modified
+- `crates/dexterity-codegen/src/body_gen.rs`:
+  - Added `collect_declare_var_names()` (lines 2059-2081)
+  - Added `get_insn_dest_for_declare()` helper (lines 2083-2109)
+  - Modified `emit_phi_declarations()` to skip pre-declared names (lines 2154-2161)
+
+## Testing
+- All existing tests pass
+- Verified output on badboy-x86.apk shows variables declared at first use
+- Variable `count` now declared inside if-blocks instead of at method start

@@ -296,6 +296,23 @@ impl ArgType {
         )
     }
 
+    /// Check if this is a numeric type (NOT including boolean)
+    /// JADX Reference: ArgType.canBeAnyNumber() for USE bounds in FixTypesVisitor
+    /// This is used for boolean->numeric conversion: when a boolean is used as
+    /// a numeric type, it needs to be converted with `(boolVar) ? 1 : 0`
+    pub fn is_numeric(&self) -> bool {
+        matches!(
+            self,
+            ArgType::Byte
+                | ArgType::Char
+                | ArgType::Short
+                | ArgType::Int
+                | ArgType::Long
+                | ArgType::Float
+                | ArgType::Double
+        )
+    }
+
     /// Check if this is a floating point type
     pub fn is_float(&self) -> bool {
         matches!(self, ArgType::Float | ArgType::Double)

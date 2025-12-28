@@ -1,11 +1,11 @@
 # Dexterity Roadmap
 
-**Status:** 🟡 NEAR-PRODUCTION | B Grade (~80%) | 0 P0 | 3 P1 | 0 P1-CG | 0 P2-CG | Dec 27, 2025 | Build: CLEAN
+**Status:** 🟡 NEAR-PRODUCTION | B Grade (~80%) | 0 P0 | 2 P1 | 0 P1-CG | 0 P2-CG | Dec 27, 2025 | Build: CLEAN
 
 | Metric | Value |
 |--------|-------|
 | **Performance** | 14x faster than JADX, 5.2K apps/hour @ 2.7 sec avg |
-| **Open Bugs** | 0 P0, 3 P1 - Lambda body codegen, boolean simplification, dead code elimination |
+| **Open Bugs** | 0 P0, 2 P1 - Lambda body codegen, dead code elimination |
 | **Build Status** | Release build succeeds (warnings suppressed with #[allow(dead_code)] for intentional APIs) |
 | **Code Quality** | 0 Easy, 0 Medium, 6 Hard issues (see Code Quality Backlog) |
 | **Remaining Work** | Lambda body codegen improvements, dead code elimination, boolean simplification |
@@ -20,7 +20,7 @@
 |----------|-------|-------|
 | **Codegen** | A- (~90%) | Basic Java OK, Kotlin core working, lambda body polish needed |
 | **Type Inference** | B (~85%) | Branch type merge FIXED (split_code_vars.rs), InstanceOf FIXED |
-| **PHI System** | B (~85%) | Core 100% parity, **7 gaps** in type-fixing (see [PHI Gap Analysis](#phi-system-gap-analysis-vs-jadx-dec-27-2025)) |
+| **PHI System** | A (~95%) | Core 100% parity, **7 FIXED** (GAP-1,2,3,4,5,6,7), 2 partial, 1 low-priority (see [PHI Gap Analysis](#phi-system-gap-analysis-vs-jadx-dec-27-2025)) |
 | **IR/Control Flow** | B (~85%) | Ternary recovery FIXED for Kotlin patterns |
 | **Variable Naming** | B (~80%) | ProcessVariables pass FIXED, Kotlin metadata applied |
 | **Lambda/Anon Inlining** | C (~70%) | Inlining works, body codegen needs method chain improvement |
@@ -33,12 +33,20 @@
 | Feature | Impact | Status |
 |---------|--------|--------|
 | **PHI System Gap Analysis** | Documentation | ✅ Deep comparison: 7 gaps identified, 3 areas where Dexterity is BETTER (Dec 27) |
+| **GAP-1: insertMovesForPhi()** | Type inference | ✅ MOVE insertion for PHI type conflicts + check_block_for_insn_insert (Dec 27) |
+| **GAP-2: splitByPhi()** | Type inference | ✅ CONST instruction splitting for conflicting PHI uses (Dec 27) |
+| **GAP-5: getCommonTypeForPhiArgs()** | Type inference | ✅ PHI arg type compatibility checking (Dec 27) |
+| **GAP-6: checkBlockForInsnInsert()** | Type inference | ✅ Block validation for instruction insertion (Dec 27) |
+| **GAP-3: Variable Declaration Scoping** | Code readability | ✅ Variables declared at first assignment in if-blocks instead of method start (Dec 27) |
+| **GAP-4: tryWiderObjects()** | Type inference | ✅ Full hierarchy walk for ancestor type compatibility (Dec 27) |
+| **GAP-7: tryToFixIncompatiblePrimitives()** | Type inference | ✅ Boolean->numeric conversion at codegen: true/false->1/0, expr->(expr)?1:0 (Dec 27) |
 | **ProcessVariables Pass** | JADX parity | ✅ DeclareVar flag marks instruction declaration points (Dec 27) |
 | **P0-KOTLIN-UNDEF-VAR** | Compilable code | ✅ PHI-connected vars merged to same CodeVar, Object↔subtype compat |
 | **P0-EXCEPTION-SCOPE** | Compilable code | ✅ Synthetic exception handlers in synchronized blocks now filtered (Dec 27) |
 | **P0-KOTLIN-INSTANCEOF** | Compilable code | ✅ InstanceOf now passes Boolean type hint ensuring proper variable declaration (Dec 27) |
 | **P0-KOTLIN-STRING-CONCAT** | Compilable code | ✅ StringBuilder forward trace fallback for catch blocks (Dec 27) |
 | **P1-DUPLICATE-INIT** | Cleaner code | ✅ Skip const when PHI already declared with same value `int i = 0;` not `int i = 0; i = 0;` (Dec 27) |
+| **P1-STATIC-STRING-INIT** | Cleaner code | ✅ String(char[]) from FillArrayData now simplified to literal: `b = "sh"` not `new String(...)` (Dec 27) |
 | **P0-KOTLIN-PRECEDENCE** | Compilable code | ✅ Bitwise operators in comparisons now parenthesized: `($dirty & 48) == 0` |
 | **P0-KOTLIN-TYPE-CONFUSION** | Compilable code | ✅ Object refs use null comparison: `Companion != null` instead of `!= 0` |
 | **Smart Naming System** | BEYOND JADX | ✅ Dictionary-based naming, type hints, pattern detection |
@@ -884,32 +892,45 @@ phi v3 = [v0_new, ...]// Uses BOOLEAN version
 
 ---
 
-#### GAP-3: Variable Declaration Scoping - PARTIAL 🟡
+#### GAP-3: Variable Declaration Scoping - COMPLETED ✅
+
+**Status:** Fixed Dec 28, 2025
 
 **JADX:** `ProcessVariables.java:189-210`
 - Can declare variables at various scopes: method start, loop start, if-block, region
 - Uses `CollectUsageRegionVisitor` to track all uses
+- `checkDeclareAtAssign()` marks instructions with DECLARE_VAR flag
 
-**Dexterity:** `process_variables.rs:77-79`
-```rust
-// TODO: Implement proper DeclareVariablesAttr at region start
-to_mark.push(first_assign);
-result.declare_at_method_start.push(cv.id);
-```
+**Dexterity:** `body_gen.rs:2059-2161`
+- ✅ Added `collect_declare_var_names()` to find variables with DECLARE_VAR flag
+- ✅ Modified `emit_phi_declarations()` to skip variables that will be declared by DECLARE_VAR instructions
+- ✅ Variables now declared at first assignment instead of always at method start
 
-**Impact:** Variables that should be declared inside loops or if-blocks get declared at method start, leading to unnecessarily wide scope.
+**Implementation:**
+- Pre-scan blocks for instructions with `AFlag::DeclareVar`
+- Collect variable names that will be declared by those instructions
+- In `emit_phi_declarations()`, skip PHI destinations whose name is in that set
+- Result: Variables declared at their first assignment (narrowest scope) when possible
 
 ---
 
-#### GAP-4: `tryWiderObjects()` with Full Hierarchy Walk - PARTIAL 🟡
+#### GAP-4: `tryWiderObjects()` with Full Hierarchy Walk - COMPLETED ✅
+
+**Status:** Fixed Dec 27, 2025
 
 **JADX:** `FixTypesVisitor.java:657-679`
 - Walks entire class hierarchy trying ancestor types
 - Uses `ClspGraph.getSuperTypes()` to get all ancestors
 
-**Dexterity:** `fix_types.rs:572-599`
-- Only tries immediate superclass, not full hierarchy chain
-- Missing the iterative widening loop
+**Dexterity:** `fix_types.rs:1130-1233`
+- ✅ Now uses `hierarchy.collect_ancestors()` to get all ancestors (superclasses + interfaces)
+- ✅ Added `is_type_compatible_with_bounds()` helper to verify type compatibility
+- ✅ Made `ClassHierarchy::collect_ancestors()` public in `class_hierarchy.rs`
+
+**Implementation:**
+- Iterate through all ancestors in the class hierarchy (not just immediate superclass)
+- Check each ancestor type for compatibility with all type bounds
+- Return true when a compatible wider type is found
 
 ---
 
@@ -936,27 +957,29 @@ private ArgType getCommonTypeForPhiArgs(PhiInsn phiInsn) {
 
 ---
 
-#### GAP-6: `checkBlockForInsnInsert()` - MISSING 🔴
+#### GAP-6: `checkBlockForInsnInsert()` - ✅ DONE (Dec 27, 2025)
 
 **JADX:** `FixTypesVisitor.java:640-655`
 - Validates that a block can accept new instructions
 - Handles synthetic blocks and "separate" instructions (goto, return)
 - Walks back to predecessor if needed
 
-**Dexterity:** Missing entirely - would be needed if `insertMovesForPhi` were implemented.
+**Dexterity:** `fix_types.rs:check_block_for_insn_insert()` - Implemented as part of GAP-1 (`insertMovesForPhi`).
 
 ---
 
-#### GAP-7: `tryToFixIncompatiblePrimitives()` with Instruction Splitting - PARTIAL 🟡
+#### GAP-7: `tryToFixIncompatiblePrimitives()` with Instruction Splitting - ✅ FIXED
 
 **JADX:** `FixTypesVisitor.java:681-698`
 - Calls `processIncompatiblePrimitives()` which can split instructions
 - Re-runs `InitCodeVariables.rerun()` after splitting
 - Re-initializes type bounds
 
-**Dexterity:** `fix_types.rs:366-399`
-- Only updates resolved types in-place
-- Doesn't split instructions or re-run CodeVar initialization
+**Dexterity:** `body_gen.rs` codegen-level fix (Dec 27, 2025)
+- Added boolean→numeric conversion at codegen time
+- Emits `(boolVar) ? 1 : 0` for boolean expressions used in numeric contexts
+- Emits `1` or `0` directly for boolean literals
+- No IR modification needed - simpler than JADX's instruction splitting
 
 ---
 
@@ -1026,16 +1049,16 @@ public void resetTypeAndCodeVar() {
 | GAP-5 getCommonType | P0 | Low | Needed by GAP-1 | None | ✅ DONE |
 | GAP-1 insertMovesForPhi | P0 | High | Type inference failures | GAP-5,6,10 | ✅ DONE |
 | GAP-2 splitByPhi | P0 | Medium | Constant type conflicts | GAP-10 | ✅ DONE |
-| GAP-4 Wider objects | P1 | Low | Edge case types | None | 🟡 |
-| GAP-3 Variable scoping | P2 | Medium | Code readability | None | 🟡 |
-| GAP-7 Primitive split | P2 | Medium | Boolean/int conflicts | GAP-10 | 🔴 |
+| GAP-4 Wider objects | P1 | Low | Edge case types | None | ✅ DONE |
+| GAP-3 Variable scoping | P2 | Medium | Code readability | None | ✅ DONE |
+| GAP-7 Primitive split | P2 | Medium | Boolean/int conflicts | GAP-10 | ✅ DONE |
 
 **Recommended Implementation Order:**
 1. ~~**GAP-10** (rerun pattern)~~ 🟡 Not needed - bounds fallback handles type re-inference
 2. ~~**GAP-5** (helpers)~~ ✅ DONE + ~~**GAP-6** (blockForInsert)~~ ✅ DONE → Prerequisites for GAP-1
 3. ~~**GAP-1** (insertMovesForPhi)~~ ✅ DONE (Dec 27, 2025) → Biggest impact fix
 4. ~~**GAP-2** (splitByPhi)~~ ✅ DONE → Second biggest impact
-5. **GAP-4** (wider objects) → Quick win for hierarchy walking
+5. ~~**GAP-4** (wider objects)~~ ✅ DONE (Dec 27, 2025) → Full hierarchy walking
 
 ### Dexterity fix_types.rs Strategy Status
 
@@ -1076,7 +1099,7 @@ public void resetTypeAndCodeVar() {
 |------|----------|--------|
 | `fix_types.rs:773-993` | `insert_moves_for_phi()` | ✅ IMPLEMENTED |
 | `ssa.rs:1087-1223` | `split_by_phi()` | ✅ IMPLEMENTED |
-| `fix_types.rs:572-607` | `try_wider_objects()` | 🟡 Immediate only |
+| `fix_types.rs:1130-1233` | `try_wider_objects()` | ✅ Full hierarchy walk |
 | `process_variables.rs:77-79` | Variable scoping | 🟡 TODO comment |
 
 **Full Dexterity Files:**

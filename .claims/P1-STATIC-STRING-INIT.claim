@@ -1,0 +1,43 @@
+# P1-STATIC-STRING-INIT: Static String Field Initialized as new String() Instead of Literal
+**Status:** COMPLETE
+**Agent:** Claude Opus 4.5
+**Date:** Dec 27, 2025
+
+## Issue
+Static final String fields are being initialized with `new String()` instead of the actual string literal value from the DEX file.
+
+**Current Dexterity Output (WRONG):**
+```java
+private static final String b = new String();  // Should be "sh"
+```
+
+**Expected JADX Output (CORRECT):**
+```java
+private static final String b = "sh";
+```
+
+## Found In
+- `com/prototype/badboy/MaliciousPatterns.java` - field `b` should be `"sh"` not `new String()`
+- Decompiled from badboy.apk
+
+## Root Cause
+The bytecode pattern uses `new-array` + `fill-array-data` to create a char array, then calls `String.<init>(char[])`.
+Dexterity's `find_filled_array_string()` only looked for `FilledNewArray` instruction, but not `FillArrayData`.
+
+## Solution Implemented
+Modified `extract_field_init.rs`:
+1. Added `extract_string_from_constructor()` - finds String.<init>(char[]) calls and extracts char array
+2. Updated `find_filled_array_string()` - now handles both:
+   - `FilledNewArray` - creates and fills array in one instruction
+   - `FillArrayData` - fills existing array (new-array + fill-array-data pattern)
+3. Added `is_valid_no_arg_constructor()` - blocks bogus `new String()` output
+
+## JADX Reference
+- `jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java:175-216` - simplifyStringConstructor()
+
+## Files Modified
+- `crates/dexterity-passes/src/extract_field_init.rs` - Added FillArrayData handling in find_filled_array_string()
+
+## Testing
+- Verified `MaliciousPatterns.java` field `b` now shows `"sh"` instead of `new String()`
+- All 680+ integration tests pass

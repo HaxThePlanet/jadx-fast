@@ -4,7 +4,7 @@ Maps issue categories to relevant source files and provides context for code exp
 
 See `LLM_AGENT_GUIDE.md` for workflow and `ROADMAP.md` for open work.
 
-**Status:** NEAR-PRODUCTION | 0 P0 Bugs | 3 P1 Bugs | B Grade (~80%) | Dec 27, 2025
+**Status:** NEAR-PRODUCTION | 0 P0 Bugs | 2 P1 Bugs | B Grade (~80%) | Dec 27, 2025
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
 ---
@@ -608,7 +608,7 @@ grep -n "AFlag\|AType\|contains\|get(" jadx-fast/jadx-core/src/main/java/jadx/co
 
 ---
 
-**Last Updated: 2025-12-25**
+**Last Updated: 2025-12-27**
 **For algorithm context, see: `ALGORITHM_REFERENCES.md`**
 **For codegen parity, see: `CODEGEN_PARITY_MASTER.md`**
 **For open work, see: `ROADMAP.md`**

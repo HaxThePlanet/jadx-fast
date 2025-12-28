@@ -573,10 +573,34 @@ fn trace_register_constant_impl(
                 // Clone of JADX ExtractFieldInit constructor extraction
                 // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/ExtractFieldInit.java:387-396
                 if let Some(dex) = dex {
+                    // Special handling for String constructor with char[] or byte[] - convert to literal
+                    // Clone of JADX SimplifyVisitor.simplifyStringConstructor()
+                    // Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java:175-216
+                    if let Ok(type_desc) = dex.get_type(*type_idx) {
+                        if type_desc == "Ljava/lang/String;" {
+                            // Try to extract string from String(char[]) or String(byte[]) pattern
+                            if let Some(s) = extract_string_from_constructor(reg_num, idx, up_to_idx, instructions, dex) {
+                                return Some(FieldValue::String(s));
+                            }
+                        }
+                    }
+
                     // Get constructor arguments (also validates constructor is called)
                     if let Some(ctor_args) = get_constructor_args(reg_num, idx, up_to_idx, instructions, Some(dex)) {
                         // Resolve the class name from type_idx
                         if let Ok(type_desc) = dex.get_type(*type_idx) {
+                            // P1-STATIC-STRING-INIT fix: Simplify new String("literal") to just "literal"
+                            if type_desc == "Ljava/lang/String;" && ctor_args.len() == 1 {
+                                if let FieldValue::String(s) = &ctor_args[0] {
+                                    // new String("literal") -> "literal"
+                                    return Some(FieldValue::String(s.clone()));
+                                }
+                            }
+                            // For empty ctor_args, still generate NewInstance but only if valid
+                            // Don't generate "new String()" for failed arg extraction - return None instead
+                            if ctor_args.is_empty() && !is_valid_no_arg_constructor(&type_desc) {
+                                return None;
+                            }
                             return Some(FieldValue::NewInstance(type_desc.to_string(), ctor_args));
                         }
                     }
@@ -626,6 +650,137 @@ fn insn_writes_to_register(insn: &InsnType, reg_num: usize) -> bool {
         | InsnType::Compare { dest, .. } => dest.reg_num == reg_num as u16,
         _ => false,
     }
+}
+
+/// Extract string from String(char[]) or String(byte[]) constructor pattern.
+/// Clone of JADX SimplifyVisitor.simplifyStringConstructor()
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java:175-216
+fn extract_string_from_constructor(
+    string_reg: usize,
+    new_instance_idx: usize,
+    sput_idx: usize,
+    instructions: &[dexterity_ir::instructions::InsnNode],
+    dex: &DexReader,
+) -> Option<String> {
+    use dexterity_ir::instructions::InvokeKind;
+
+    // Find the invoke-direct String.<init> call
+    for insn in instructions.iter().skip(new_instance_idx + 1).take(sput_idx - new_instance_idx - 1) {
+        if let InsnType::Invoke { kind: InvokeKind::Direct, args, method_idx, .. } = &insn.insn_type {
+            // Check if this is calling String.<init>
+            if let Ok(method_info) = dex.get_method(*method_idx) {
+                let class_name = method_info.class_type().ok()?;
+                let method_name = method_info.name().ok()?;
+                if class_name == "Ljava/lang/String;" && method_name == "<init>" {
+                    // Check first arg is our String instance
+                    if let Some(InsnArg::Register(first_reg)) = args.first() {
+                        if first_reg.reg_num as usize == string_reg {
+                            // Get the second argument (the char[] or byte[])
+                            if let Some(InsnArg::Register(arr_reg)) = args.get(1) {
+                                // Look for FilledNewArray that produced this array
+                                return find_filled_array_string(arr_reg.reg_num as usize, new_instance_idx, instructions);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Find a FilledNewArray or FillArrayData instruction that wrote to the given register and extract as string.
+/// Clone of JADX SimplifyVisitor.simplifyStringConstructor() array extraction logic.
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java:180-196
+fn find_filled_array_string(
+    arr_reg: usize,
+    up_to_idx: usize,
+    instructions: &[dexterity_ir::instructions::InsnNode],
+) -> Option<String> {
+    // Scan backwards to find FilledNewArray or FillArrayData that wrote to arr_reg
+    for insn in instructions.iter().take(up_to_idx).rev() {
+        // Pattern 1: FilledNewArray - creates and fills array in one instruction
+        if let InsnType::FilledNewArray { dest: Some(dest), args, .. } = &insn.insn_type {
+            if dest.reg_num as usize == arr_reg {
+                // Found the FilledNewArray - extract literal values as chars
+                let mut chars = Vec::with_capacity(args.len());
+                for arg in args {
+                    if let InsnArg::Literal(dexterity_ir::instructions::LiteralArg::Int(v)) = arg {
+                        // Check if it's a printable ASCII char (or common Unicode)
+                        if *v >= 0 && *v <= 0xFFFF {
+                            chars.push(*v as u16);
+                        } else {
+                            return None; // Non-char value
+                        }
+                    } else {
+                        return None; // Non-literal arg
+                    }
+                }
+                // Convert to string
+                return String::from_utf16(&chars).ok();
+            }
+        }
+        // Pattern 2: FillArrayData - fills existing array (new-array + fill-array-data pattern)
+        // This is the more common pattern for String(char[]) in Kotlin-compiled code
+        if let InsnType::FillArrayData { array, data, element_width, .. } = &insn.insn_type {
+            if let InsnArg::Register(arr) = array {
+                if arr.reg_num as usize == arr_reg && *element_width == 2 {
+                    // element_width == 2 means char (16-bit)
+                    // Extract data as chars
+                    let mut chars = Vec::with_capacity(data.len());
+                    for &v in data {
+                        // Check if it's a valid Unicode code point
+                        if v >= 0 && v <= 0xFFFF {
+                            chars.push(v as u16);
+                        } else {
+                            return None; // Non-char value
+                        }
+                    }
+                    // Convert to string
+                    return String::from_utf16(&chars).ok();
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Check if a class type is valid for no-arg constructor extraction.
+/// P1-STATIC-STRING-INIT fix: Don't generate "new String()" when we failed to extract args.
+/// Clone of JADX SimplifyVisitor behavior - String constructors should have proper args.
+/// Reference: jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/SimplifyVisitor.java:175-216
+fn is_valid_no_arg_constructor(type_desc: &str) -> bool {
+    // Classes where empty constructor is intentional and valid
+    // (e.g., ArrayList, HashMap, StringBuilder use no-arg constructors legitimately)
+    const VALID_NO_ARG_TYPES: &[&str] = &[
+        "Ljava/util/ArrayList;",
+        "Ljava/util/HashMap;",
+        "Ljava/util/HashSet;",
+        "Ljava/util/LinkedList;",
+        "Ljava/util/LinkedHashMap;",
+        "Ljava/util/LinkedHashSet;",
+        "Ljava/util/TreeMap;",
+        "Ljava/util/TreeSet;",
+        "Ljava/lang/StringBuilder;",
+        "Ljava/lang/StringBuffer;",
+        "Ljava/io/ByteArrayOutputStream;",
+        "Ljava/io/StringWriter;",
+        "Ljava/lang/Object;",
+    ];
+
+    // String with no args is invalid - it must have had args we failed to extract
+    if type_desc == "Ljava/lang/String;" {
+        return false;
+    }
+
+    // Known collection types are valid with no-arg constructor
+    if VALID_NO_ARG_TYPES.contains(&type_desc) {
+        return true;
+    }
+
+    // For unknown types, be conservative and allow no-arg if we detected constructor
+    // This handles custom types where no-arg constructor is intended
+    true
 }
 
 /// Check if there's a constructor call (invoke-direct on <init>) between new_instance_idx and sput_idx

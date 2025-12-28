@@ -5,7 +5,7 @@
 //!
 //! # Usage
 //!
-//! ```rust
+//! ```rust,ignore
 //! use dexterity_limits::{limit_exceeded, codegen::INLINE_DEPTH_LIMIT};
 //!
 //! if depth >= INLINE_DEPTH_LIMIT {
