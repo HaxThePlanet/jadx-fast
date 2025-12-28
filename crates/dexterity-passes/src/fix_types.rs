@@ -19,13 +19,32 @@
 
 use rustc_hash::{FxHashMap, FxHashSet};
 
-use dexterity_ir::instructions::InsnType;
+use dexterity_ir::attributes::AFlag;
+use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
+use dexterity_ir::ssa::SSAVarRef;
 use dexterity_ir::types::ArgType;
 use dexterity_ir::ClassHierarchy;
 
 use crate::ssa::SsaResult;
 use crate::type_bound::{BoundEnum, TypeInfo};
 use crate::type_inference::{TypeInferenceResult, TypeVar};
+
+/// Information about a move to be inserted for PHI
+#[derive(Debug)]
+struct PhiMoveInfo {
+    /// Block index containing the PHI
+    phi_block_idx: usize,
+    /// PHI index within the block
+    phi_idx: usize,
+    /// Source index within the PHI
+    src_idx: usize,
+    /// Block index where the move should be inserted
+    insert_block_idx: usize,
+    /// Register number
+    reg_num: u16,
+    /// Original SSA version
+    old_version: u32,
+}
 
 /// Check if an instruction type is a block separator (ends control flow)
 ///
@@ -345,17 +364,19 @@ impl FixTypes {
     /// Strategy 4: Split constant instructions (splitByPhi)
     ///
     /// When a constant is used in multiple PHIs with different type requirements,
-    /// conceptually split into separate constants so each PHI can have its own type.
+    /// each PHI can have its own type after the CONST instruction is duplicated.
     ///
     /// JADX Reference: FixTypesVisitor.trySplitConstInsns() and splitByPhi() lines 464-535
     ///
-    /// The actual instruction duplication requires mutable SSA access.
-    /// Here we detect which constants would benefit from splitting and try to
-    /// resolve their types based on PHI usage context.
+    /// NOTE: The actual instruction duplication is done by `crate::ssa::split_by_phi()`.
+    /// This strategy handles the fallback type resolution when SSA cannot be modified,
+    /// or resolves types for constants with multiple use types in a single PHI context.
     fn try_split_const_insns(&mut self, ssa: &SsaResult) -> bool {
         let mut changed = false;
 
-        // Find constants used in multiple PHIs
+        // Find constants used in multiple PHIs and try to resolve their types
+        // based on PHI destination types. The actual instruction splitting is
+        // done by crate::ssa::split_by_phi() which must be called with mutable SSA.
         let mut const_to_phis: FxHashMap<(u16, u32), Vec<(u32, &crate::ssa::PhiNode)>> = FxHashMap::default();
 
         for block in &ssa.blocks {
@@ -372,13 +393,16 @@ impl FixTypes {
             }
         }
 
-        // For constants used in 2+ PHIs, try to resolve based on each PHI's context
+        // For constants used in PHIs, try to resolve based on PHI context
         for ((reg_num, ssa_version), phi_refs) in const_to_phis {
-            if phi_refs.len() < 2 {
-                continue; // splitByPhi only helps with 2+ PHIs
-            }
-
             let var = TypeVar::new(ssa_version);
+
+            // Skip if already resolved
+            if let Some(ty) = self.resolved_types.get(&var) {
+                if !matches!(ty, ArgType::Unknown) {
+                    continue;
+                }
+            }
 
             // Collect type hints from each PHI's destination
             let mut type_hints: Vec<&ArgType> = Vec::new();
@@ -553,36 +577,48 @@ impl FixTypes {
 
     /// Check if a PHI has a common known type for all arguments
     ///
-    /// JADX Reference: FixTypesVisitor.getCommonTypeForPhiArgs() lines 579-591
+    /// Returns true if all PHI args have the same known type.
+    /// This matches the JADX logic: `phiType != null && phiType.isTypeKnown()`
+    ///
+    /// JADX Reference: FixTypesVisitor.tryInsertAdditionalInsn() lines 566-569
     fn phi_has_common_known_type(&self, phi: &crate::ssa::PhiNode) -> bool {
+        match self.get_common_type_for_phi_args(phi) {
+            Some(ty) => ty.is_type_known(),
+            None => false,
+        }
+    }
+
+    /// Get the common type if all PHI arguments have the same type
+    ///
+    /// Returns Some(type) if all args have the same known type, None otherwise.
+    /// This is the exact match for JADX's getCommonTypeForPhiArgs() behavior.
+    ///
+    /// JADX Reference: FixTypesVisitor.getCommonTypeForPhiArgs() lines 579-591
+    fn get_common_type_for_phi_args(&self, phi: &crate::ssa::PhiNode) -> Option<ArgType> {
         if phi.sources.is_empty() {
-            return true;
+            return None;
         }
 
-        let mut common_type: Option<&ArgType> = None;
+        let mut phi_arg_type: Option<ArgType> = None;
 
         for (_, src_reg) in &phi.sources {
             let var = TypeVar::new(src_reg.ssa_version);
             let ty = match self.resolved_types.get(&var) {
-                Some(t) => t,
-                None => return false, // Unknown type
+                Some(t) => t.clone(),
+                None => return None, // Unknown type
             };
 
-            if matches!(ty, ArgType::Unknown) {
-                return false;
-            }
-
-            match common_type {
-                None => common_type = Some(ty),
+            match &phi_arg_type {
+                None => phi_arg_type = Some(ty),
                 Some(prev) => {
-                    if prev != ty {
-                        return false; // Different types
+                    if prev != &ty {
+                        return None; // Different types
                     }
                 }
             }
         }
 
-        true
+        phi_arg_type
     }
 
     /// Count how many MOVE instructions would need to be inserted for a PHI
@@ -615,23 +651,43 @@ impl FixTypes {
         count
     }
 
-    /// Check if we can insert instructions in a block
+    /// Check if we can insert instructions in a block, returning the block index to use
     ///
     /// JADX Reference: FixTypesVisitor.checkBlockForInsnInsert() lines 641-655
-    fn can_insert_in_block(&self, block: &crate::ssa::SsaBlock) -> bool {
+    ///
+    /// If the block ends with a separator instruction (goto, return, etc.),
+    /// we try walking back to a predecessor block. Returns None if no suitable
+    /// block can be found.
+    fn check_block_for_insn_insert(&self, ssa: &SsaResult, block_idx: usize) -> Option<usize> {
+        let block = &ssa.blocks[block_idx];
+
         // Check last instruction - can't insert after "separate" instructions
         // (GOTO, IF, SWITCH, RETURN, THROW)
         if let Some(last_insn) = block.instructions.last() {
             if is_block_separator(&last_insn.insn_type) {
-                // Block ends with branch - try predecessors
+                // Block ends with branch - try previous block by simple path
+                // JADX: "try previous block by simple path" - only if exactly 1 predecessor
                 if block.predecessors.len() == 1 {
-                    // Could recursively check, but for simplicity return false
-                    return false;
+                    let pred_id = block.predecessors[0];
+                    // Find predecessor block index
+                    if let Some(pred_idx) = ssa.blocks.iter().position(|b| b.id == pred_id) {
+                        return self.check_block_for_insn_insert(ssa, pred_idx);
+                    }
                 }
-                return false;
+                return None;
             }
         }
 
+        Some(block_idx)
+    }
+
+    /// Legacy method for simple block check (used by count_moves_for_phi)
+    fn can_insert_in_block(&self, block: &crate::ssa::SsaBlock) -> bool {
+        if let Some(last_insn) = block.instructions.last() {
+            if is_block_separator(&last_insn.insn_type) {
+                return false;
+            }
+        }
         true
     }
 
@@ -712,6 +768,228 @@ impl FixTypes {
         }
 
         changed
+    }
+
+    /// Insert MOVE instructions for PHI nodes with incompatible types
+    ///
+    /// This is the main GAP-1 implementation - adds MOVE before PHI to create
+    /// 'soft' type links, allowing different types in blocks merged by PHI.
+    ///
+    /// JADX Reference: FixTypesVisitor.insertMovesForPhi() lines 593-638
+    ///
+    /// Algorithm (matching JADX exactly):
+    /// 1. For each PHI with incompatible argument types (different known types)
+    /// 2. For each source argument:
+    ///    - Find valid insertion block via checkBlockForInsnInsert()
+    ///    - If ANY block is invalid, abort ALL moves for this PHI (return 0)
+    ///    - Skip if assigned by CONST (handled by splitByPhi)
+    ///    - Skip if assigned by MOVE with use_count == 1 (redundant)
+    /// 3. Insert MOVE instruction at end of block:
+    ///    - Create new SSA version: `new_var = old_var`
+    ///    - Mark instruction as SYNTHETIC
+    /// 4. Update PHI source to use new variable
+    ///
+    /// Returns the total number of moves inserted across all PHIs.
+    pub fn insert_moves_for_phi(&mut self, ssa: &mut SsaResult) -> usize {
+        let mut total_inserted = 0;
+
+        // Collect all PHIs that need moves
+        // We do this in two phases to avoid borrowing issues
+        let phi_info: Vec<(usize, usize)> = ssa.blocks.iter().enumerate()
+            .flat_map(|(block_idx, block)| {
+                block.phi_nodes.iter().enumerate()
+                    .filter(|(_, phi)| !self.phi_has_common_known_type(phi))
+                    .map(move |(phi_idx, _)| (block_idx, phi_idx))
+            })
+            .collect();
+
+        for (phi_block_idx, phi_idx) in phi_info {
+            let inserted = self.insert_moves_for_single_phi(ssa, phi_block_idx, phi_idx);
+            total_inserted += inserted;
+        }
+
+        if total_inserted > 0 {
+            tracing::info!(
+                "insertMovesForPhi: Inserted {} MOVE instructions for PHI type fixes",
+                total_inserted
+            );
+        }
+
+        total_inserted
+    }
+
+    /// Insert moves for a single PHI node
+    ///
+    /// JADX Reference: FixTypesVisitor.insertMovesForPhi() lines 593-622
+    ///
+    /// Returns the number of moves inserted (0 if any insertion would fail).
+    fn insert_moves_for_single_phi(
+        &mut self,
+        ssa: &mut SsaResult,
+        phi_block_idx: usize,
+        phi_idx: usize,
+    ) -> usize {
+        // Phase 1: Check if all insertions are possible (JADX: apply=false)
+        // JADX aborts ALL moves for a PHI if ANY single insertion fails
+        let mut moves_to_insert: Vec<PhiMoveInfo> = Vec::new();
+
+        {
+            let phi = &ssa.blocks[phi_block_idx].phi_nodes[phi_idx];
+
+            for (src_idx, (pred_block_id, src_reg)) in phi.sources.iter().enumerate() {
+                // Find predecessor block index
+                let pred_block_idx = match ssa.blocks.iter().position(|b| b.id == *pred_block_id) {
+                    Some(idx) => idx,
+                    None => continue,
+                };
+
+                // JADX: checkBlockForInsnInsert(startBlock)
+                // If null, abort ALL moves for this PHI
+                let insert_block_idx = match self.check_block_for_insn_insert(ssa, pred_block_idx) {
+                    Some(idx) => idx,
+                    None => {
+                        tracing::debug!(
+                            "insertMovesForPhi: Cannot insert in block {} for PHI, aborting all moves",
+                            ssa.blocks[pred_block_idx].id
+                        );
+                        return 0; // Abort ALL moves for this PHI (JADX behavior)
+                    }
+                };
+
+                // Check if we should skip this argument
+                // JADX: Skip CONST and single-use MOVE
+                let should_add = self.should_insert_move_for_phi_arg(ssa, src_reg);
+
+                if should_add {
+                    moves_to_insert.push(PhiMoveInfo {
+                        phi_block_idx,
+                        phi_idx,
+                        src_idx,
+                        insert_block_idx,
+                        reg_num: src_reg.reg_num,
+                        old_version: src_reg.ssa_version,
+                    });
+                }
+            }
+        }
+
+        if moves_to_insert.is_empty() {
+            return 0;
+        }
+
+        let count = moves_to_insert.len();
+
+        // Phase 2: Apply the moves (JADX: apply=true)
+        for info in moves_to_insert {
+            self.insert_single_move(ssa, &info);
+        }
+
+        count
+    }
+
+    /// Check if we should insert a MOVE for this PHI argument
+    ///
+    /// JADX Reference: FixTypesVisitor.insertMovesForPhi() lines 604-613
+    ///
+    /// Returns false (skip) if:
+    /// - Assigned by CONST instruction (type flexibility handled by splitByPhi)
+    /// - Assigned by MOVE with use_count == 1 (redundant)
+    fn should_insert_move_for_phi_arg(&self, ssa: &SsaResult, reg: &RegisterArg) -> bool {
+        // Find the instruction that assigns this register
+        for block in &ssa.blocks {
+            for insn in &block.instructions {
+                let (is_const, is_move, dest) = match &insn.insn_type {
+                    InsnType::Const { dest, .. } => (true, false, Some(dest)),
+                    InsnType::ConstString { dest, .. } => (true, false, Some(dest)),
+                    InsnType::ConstClass { dest, .. } => (true, false, Some(dest)),
+                    InsnType::Move { dest, .. } => (false, true, Some(dest)),
+                    _ => (false, false, None),
+                };
+
+                if let Some(dest) = dest {
+                    if dest.reg_num == reg.reg_num && dest.ssa_version == reg.ssa_version {
+                        // Found the assignment instruction
+                        if is_const {
+                            // JADX: Skip CONST (handled by splitByPhi)
+                            return false;
+                        }
+                        if is_move {
+                            // JADX: Skip MOVE with use_count == 1
+                            // Check use count in SSA context
+                            let var_ref = SSAVarRef::new(reg.reg_num, reg.ssa_version);
+                            if let Some(var) = ssa.ssa_context.get_var(var_ref) {
+                                if var.use_count() == 1 {
+                                    return false;
+                                }
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // If we can't find the assignment, default to inserting
+        true
+    }
+
+    /// Insert a single MOVE instruction for a PHI argument
+    ///
+    /// JADX Reference: FixTypesVisitor.insertMove() lines 624-638
+    fn insert_single_move(&mut self, ssa: &mut SsaResult, info: &PhiMoveInfo) {
+        // Create new SSA version
+        let new_version = {
+            let max_ver = ssa.max_versions.entry(info.reg_num).or_insert(0);
+            *max_ver += 1;
+            *max_ver
+        };
+
+        // Create MOVE instruction: new_version = old_version
+        // JADX: InsnNode moveInsn = new InsnNode(InsnType.MOVE, 1);
+        //       moveInsn.setResult(resultArg);
+        //       moveInsn.addArg(arg);
+        //       moveInsn.add(AFlag.SYNTHETIC);
+        let mut move_insn = InsnNode::new(
+            InsnType::Move {
+                dest: RegisterArg::with_ssa(info.reg_num, new_version),
+                src: InsnArg::Register(RegisterArg::with_ssa(info.reg_num, info.old_version)),
+            },
+            0, // offset - synthetic instruction
+        );
+        move_insn.add_flag(AFlag::Synthetic);
+
+        // JADX: blockNode.getInstructions().add(moveInsn);
+        // Add at END of block (JADX behavior)
+        ssa.blocks[info.insert_block_idx].instructions.push(move_insn);
+
+        // JADX: phiInsn.replaceArg(reg, reg.duplicate(regNum, newSsaVar));
+        // Update PHI source to use new version
+        if let Some(phi) = ssa.blocks[info.phi_block_idx].phi_nodes.get_mut(info.phi_idx) {
+            if let Some((_, ref mut src_reg)) = phi.sources.get_mut(info.src_idx) {
+                src_reg.ssa_version = new_version;
+            }
+        }
+
+        // Register the new SSA variable in context
+        ssa.ssa_context.new_var_with_version(info.reg_num, new_version);
+
+        // Update variable metadata
+        let new_var_ref = SSAVarRef::new(info.reg_num, new_version);
+        if let Some(var) = ssa.ssa_context.get_var_mut(new_var_ref) {
+            // Track assignment instruction (approximate index)
+            let insn_count = ssa.blocks[info.insert_block_idx].instructions.len();
+            var.assign_insn_idx = Some((insn_count - 1) as u32);
+        }
+
+        tracing::debug!(
+            "insertMove: r{}#{} -> r{}#{} in block {} for PHI in block {}",
+            info.reg_num,
+            info.old_version,
+            info.reg_num,
+            new_version,
+            ssa.blocks[info.insert_block_idx].id,
+            ssa.blocks[info.phi_block_idx].id
+        );
     }
 
     /// Strategy 8: Remove generics and try raw types

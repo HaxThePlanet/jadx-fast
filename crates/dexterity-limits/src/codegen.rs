@@ -12,7 +12,7 @@ use std::sync::LazyLock;
 
 /// Default maximum depth for codegen region recursion.
 /// Override with DEXTERITY_CODEGEN_MAX_DEPTH env var.
-/// Very conservative depth limit to prevent stack overflow.
+/// 200 is conservative; some obfuscated code needs 1000+ but risks stack overflow.
 pub const DEFAULT_MAX_REGION_DEPTH: usize = 200;
 
 /// Runtime-configurable codegen max depth.

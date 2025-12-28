@@ -43,7 +43,7 @@ Updated `is_synthetic_rethrow_handler()` in `region_builder.rs`:
 3. Count Nop instructions as "other" to avoid filtering real finally handlers
 
 ## Files Changed
-- `crates/dexterity-passes/src/region_builder.rs`: Lines 897-936
+- `crates/dexterity-passes/src/region_builder.rs`: Lines 868-945 (`is_synthetic_rethrow_handler` function)
 
 ## Verification
 - 414 tests pass

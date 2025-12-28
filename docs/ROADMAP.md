@@ -1,6 +1,6 @@
 # Dexterity Roadmap
 
-**Status:** 🟡 NEAR-PRODUCTION | B Grade (~80%) | 0 P0 | 2 P1 | 0 P1-CG | 0 P2-CG | Dec 27, 2025 | Build: CLEAN
+**Status:** 🟡 NEAR-PRODUCTION | B Grade (~80%) | 0 P0 | 3 P1 | 0 P1-CG | 0 P2-CG | Dec 27, 2025 | Build: CLEAN
 
 | Metric | Value |
 |--------|-------|
@@ -769,9 +769,18 @@ Deep comparison of JADX's PHI-based SSA system vs Dexterity reveals **7 critical
 
 ### CRITICAL GAPS (P0-PHI)
 
-#### GAP-1: `insertMovesForPhi()` - NOT IMPLEMENTED 🔴
+#### GAP-1: `insertMovesForPhi()` - ✅ FIXED (Dec 27, 2025)
 
-**JADX Algorithm** (`FixTypesVisitor.java:593-638`):
+**Status:** Fully implemented in `crates/dexterity-passes/src/fix_types.rs:773-993`
+
+**Implementation Details:**
+- `insert_moves_for_phi()` public method inserts MOVE instructions before PHIs with incompatible types
+- `insert_moves_for_single_phi()` handles individual PHI nodes with two-phase check/apply pattern
+- `check_block_for_insn_insert()` validates and walks to predecessor blocks as needed
+- `should_insert_move_for_phi_arg()` skips CONST (handled by splitByPhi) and single-use MOVE
+- `insert_single_move()` creates MOVE instruction with SYNTHETIC flag, updates PHI and SSA context
+
+**JADX Algorithm** (`FixTypesVisitor.java:593-638`) - **MATCHED**:
 ```java
 private int insertMovesForPhi(MethodNode mth, PhiInsn phiInsn, boolean apply) {
     for (int argIndex = 0; argIndex < argsCount; argIndex++) {
@@ -794,33 +803,41 @@ private int insertMovesForPhi(MethodNode mth, PhiInsn phiInsn, boolean apply) {
 }
 ```
 
-**Post-insertion flow:**
-```java
-InitCodeVariables.rerun(mth);        // Reset all CodeVars
-typeInference.initTypeBounds(mth);   // Rebuild type bounds
-typeInference.runTypePropagation(mth); // Re-run inference
-```
-
-**Dexterity:** `fix_types.rs:427-434` - **COMPLETELY STUBBED**
+**Dexterity Implementation:** `fix_types.rs:773-993` - **FULLY IMPLEMENTED**
 ```rust
-fn try_insert_additional_move(&mut self, _ssa: &SsaResult) -> bool {
-    false  // Returns false - NEVER FIXES ANYTHING
+pub fn insert_moves_for_phi(&mut self, ssa: &mut SsaResult) -> usize {
+    // Phase 1: Collect PHIs needing moves (all args not same known type)
+    // Phase 2: For each PHI, verify ALL insertions possible (JADX abort-all behavior)
+    // Phase 3: Insert MOVE at end of valid block, update PHI source
+    // Returns total moves inserted
 }
 ```
 
-**Missing Prerequisites:**
-1. `check_block_for_insn_insert()` - Block validation helper (GAP-6)
-2. `get_common_type_for_phi_args()` - PHI arg type checker (GAP-5)
-3. Mutable `SsaResult` for instruction insertion
-4. `rerun()` pattern for type re-initialization (GAP-10)
+**What the implementation does:**
+1. Finds PHIs where `get_common_type_for_phi_args()` returns None (different types)
+2. For each source, validates block via `check_block_for_insn_insert()` (walks predecessors)
+3. Skips CONST assignments (handled by `split_by_phi()`) and single-use MOVE (redundant)
+4. Creates new SSA version and MOVE instruction marked SYNTHETIC
+5. Updates PHI to use new version, registers variable in SSA context
 
-**Impact:** When PHI arguments have incompatible types (e.g., `String` vs `Integer`), Dexterity can't insert MOVEs to decouple them → type inference failures.
+**All prerequisites now complete:**
+- ✅ `check_block_for_insn_insert()` - Recursive predecessor walking (GAP-6 FIXED)
+- ✅ `get_common_type_for_phi_args()` - PHI arg type checker (GAP-5 FIXED)
+- ✅ Mutable `SsaResult` for instruction insertion
+- 🟡 `rerun()` pattern - Not yet needed (type inference handled via bounds fallback)
 
 ---
 
-#### GAP-2: `splitByPhi()` for CONST Instructions - NOT IMPLEMENTED 🔴
+#### GAP-2: `splitByPhi()` for CONST Instructions - IMPLEMENTED ✅
 
-**Problem Pattern:**
+**Status:** Fully implemented in `crates/dexterity-passes/src/ssa.rs:1087-1223`
+
+**Implementation Details:**
+- `split_by_phi()` function duplicates CONST instructions for PHI type disambiguation
+- Helper methods on `SsaResult`: `next_version()`, `find_const_block()`, `clone_const_with_new_version()`
+- Unit tests: `test_split_by_phi`, `test_split_by_phi_no_action_single_phi`
+
+**Problem Pattern (now fixed):**
 ```
 const/4 v0 = 0        // Single CONST with two PHI uses
 phi v2 = [v0, ...]    // PHI 1: interprets as INT (array index)
@@ -859,17 +876,11 @@ phi v2 = [v0, ...]    // Uses INT version
 phi v3 = [v0_new, ...]// Uses BOOLEAN version
 ```
 
-**Dexterity:** `fix_types.rs:335-361` - **PARTIAL (type resolution only)**
-- Only finds common type from multiple uses
-- Does NOT actually duplicate instructions
-
-**Missing:**
-1. Instruction duplication capability
-2. `create_new_ssa_var()` method
-3. PHI argument replacement API
-4. Block instruction insertion
-
-**Impact:** Type conflicts for constants used in multiple PHIs with different type requirements.
+**Dexterity Implementation:** `ssa.rs:split_by_phi()` - **FULLY IMPLEMENTED ✅**
+- Tracks CONST instructions that feed multiple PHIs
+- Duplicates instructions with new SSA versions via `next_version()`
+- Updates PHI arguments to use new versions
+- Inserts duplicated CONSTs after original in block
 
 ---
 
@@ -902,7 +913,7 @@ result.declare_at_method_start.push(cv.id);
 
 ---
 
-#### GAP-5: `getCommonTypeForPhiArgs()` Compatibility Check - MISSING 🔴
+#### GAP-5: `getCommonTypeForPhiArgs()` Compatibility Check - COMPLETED ✅
 
 **JADX:** `FixTypesVisitor.java:579-591`
 ```java
@@ -919,7 +930,9 @@ private ArgType getCommonTypeForPhiArgs(PhiInsn phiInsn) {
 }
 ```
 
-**Dexterity:** No equivalent function to check if all PHI args have exactly the same type before deciding to insert moves.
+**Dexterity:** `fix_types.rs:591-623`
+- `get_common_type_for_phi_args()` - Returns `Option<ArgType>` matching JADX semantics exactly
+- `phi_has_common_known_type()` - Wrapper that matches JADX's `phiType != null && phiType.isTypeKnown()` check
 
 ---
 
@@ -1006,22 +1019,22 @@ public void resetTypeAndCodeVar() {
 
 ### Implementation Priority
 
-| Gap | Priority | Effort | Impact | Dependency |
-|-----|----------|--------|--------|------------|
-| GAP-10 rerun pattern | P0 | Medium | Enables GAP-1,2 | None |
-| GAP-6 blockForInsert | P0 | Low | Needed by GAP-1 | None |
-| GAP-5 getCommonType | P0 | Low | Needed by GAP-1 | None |
-| GAP-1 insertMovesForPhi | P0 | High | Type inference failures | GAP-5,6,10 |
-| GAP-2 splitByPhi | P0 | Medium | Constant type conflicts | GAP-10 |
-| GAP-4 Wider objects | P1 | Low | Edge case types | None |
-| GAP-3 Variable scoping | P2 | Medium | Code readability | None |
-| GAP-7 Primitive split | P2 | Medium | Boolean/int conflicts | GAP-10 |
+| Gap | Priority | Effort | Impact | Dependency | Status |
+|-----|----------|--------|--------|------------|--------|
+| GAP-10 rerun pattern | P0 | Medium | Enables GAP-1,2 | None | 🟡 (not needed yet) |
+| GAP-6 blockForInsert | P0 | Low | Needed by GAP-1 | None | ✅ DONE |
+| GAP-5 getCommonType | P0 | Low | Needed by GAP-1 | None | ✅ DONE |
+| GAP-1 insertMovesForPhi | P0 | High | Type inference failures | GAP-5,6,10 | ✅ DONE |
+| GAP-2 splitByPhi | P0 | Medium | Constant type conflicts | GAP-10 | ✅ DONE |
+| GAP-4 Wider objects | P1 | Low | Edge case types | None | 🟡 |
+| GAP-3 Variable scoping | P2 | Medium | Code readability | None | 🟡 |
+| GAP-7 Primitive split | P2 | Medium | Boolean/int conflicts | GAP-10 | 🔴 |
 
 **Recommended Implementation Order:**
-1. **GAP-10** (rerun pattern) → Foundation for all instruction modifications
-2. **GAP-5 + GAP-6** (helpers) → Prerequisites for GAP-1
-3. **GAP-1** (insertMovesForPhi) → Biggest impact fix
-4. **GAP-2** (splitByPhi) → Second biggest impact
+1. ~~**GAP-10** (rerun pattern)~~ 🟡 Not needed - bounds fallback handles type re-inference
+2. ~~**GAP-5** (helpers)~~ ✅ DONE + ~~**GAP-6** (blockForInsert)~~ ✅ DONE → Prerequisites for GAP-1
+3. ~~**GAP-1** (insertMovesForPhi)~~ ✅ DONE (Dec 27, 2025) → Biggest impact fix
+4. ~~**GAP-2** (splitByPhi)~~ ✅ DONE → Second biggest impact
 5. **GAP-4** (wider objects) → Quick win for hierarchy walking
 
 ### Dexterity fix_types.rs Strategy Status
@@ -1031,10 +1044,10 @@ public void resetTypeAndCodeVar() {
 | RestoreTypeVarCasts | ✅ 100% | Generic bounds restoration |
 | InsertCasts | ✅ 100% | Object type binding |
 | DeduceTypes | ✅ 100% | Multi-fallback chain |
-| SplitConstInsns | 🟡 Partial | Type resolution only, no instruction duplication |
+| SplitConstInsns | ✅ 100% | `split_by_phi()` in ssa.rs duplicates CONSTs |
 | FixIncompatiblePrimitives | ✅ 100% | Boolean/int conflict resolution |
 | ForceImmutableTypes | ✅ 100% | Parameter/literal enforcement |
-| **InsertAdditionalMove** | 🔴 STUBBED | Returns `false` - this is GAP-1 |
+| **InsertAdditionalMove** | ✅ 100% | `insert_moves_for_phi()` - GAP-1 FIXED |
 | RemoveGenerics | ✅ 100% | Fallback generic stripping |
 
 ---
@@ -1061,8 +1074,8 @@ public void resetTypeAndCodeVar() {
 
 | File | Function | Status |
 |------|----------|--------|
-| `fix_types.rs:427-434` | `try_insert_additional_move()` | 🔴 STUBBED |
-| `fix_types.rs:335-361` | `try_split_const_insns()` | 🟡 Partial |
+| `fix_types.rs:773-993` | `insert_moves_for_phi()` | ✅ IMPLEMENTED |
+| `ssa.rs:1087-1223` | `split_by_phi()` | ✅ IMPLEMENTED |
 | `fix_types.rs:572-607` | `try_wider_objects()` | 🟡 Immediate only |
 | `process_variables.rs:77-79` | Variable scoping | 🟡 TODO comment |
 
@@ -1078,16 +1091,18 @@ public void resetTypeAndCodeVar() {
 
 ### Next Steps to Fix Gaps
 
-**GAP-1 (insertMovesForPhi) requires:**
-1. Implement `check_block_for_insn_insert()` first
-2. Implement `get_common_type_for_phi_args()`
-3. Add instruction insertion API to SsaResult
-4. Re-run type inference after modification
+**GAP-1 (insertMovesForPhi) - ✅ COMPLETED (Dec 27, 2025):**
+- ✅ Implement `check_block_for_insn_insert()` - recursive predecessor walking
+- ✅ Implement `get_common_type_for_phi_args()` - PHI arg type checker
+- ✅ Add instruction insertion API to SsaResult - `insert_moves_for_phi(&mut SsaResult)`
+- 🟡 Re-run type inference after modification - handled via bounds fallback
 
-**GAP-2 (splitByPhi) requires:**
-1. Track CONST instructions that feed multiple PHIs
-2. Implement instruction duplication with new SSA versions
-3. Update PHI arguments to use new versions
+**GAP-2 (splitByPhi) - ✅ COMPLETED:**
+- ✅ Track CONST instructions that feed multiple PHIs
+- ✅ Implement instruction duplication with new SSA versions (`next_version()`)
+- ✅ Update PHI arguments to use new versions
+- ✅ Insert duplicated CONSTs after original in block
+- Implementation: `crates/dexterity-passes/src/ssa.rs:split_by_phi()`
 
 ---
 

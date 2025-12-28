@@ -1,7 +1,7 @@
 # LLM Agent Guide: Autonomous Development Toward JADX Parity
 
-**Status:** PRODUCTION-READY | 0 P0 Bugs | A- Grade (95-96%) | 64% File Coverage | Dec 25, 2025 - See ROADMAP.md
-**Recent Fixes:** P0-LOOP-VAR, P0-BOOL-CHAIN, P0-WRONG-RETURN all FIXED Dec 25; Type inference A+ (100%)
+**Status:** NEAR-PRODUCTION | 0 P0 Bugs | 3 P1 Bugs | B Grade (~80%) | Dec 27, 2025 - See ROADMAP.md
+**Recent Fixes:** P0-KOTLIN-INSTANCEOF, P0-EXCEPTION-SCOPE, P0-KOTLIN-STRING-CONCAT all FIXED Dec 27; Type inference FIXED
 **Benchmark:** Dexterity 14.58s/574MB vs JADX 21.74s/8.4GB (3.6-81x faster, 14.6x memory efficiency)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**

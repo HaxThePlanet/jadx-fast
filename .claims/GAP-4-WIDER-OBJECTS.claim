@@ -1,0 +1,29 @@
+# GAP-4: `tryWiderObjects()` with Full Hierarchy Walk
+**Status:** IN PROGRESS
+**Agent:** Claude Opus 4.5
+**Date:** Dec 27, 2025
+
+## Issue
+Dexterity's `try_wider_objects()` only tries immediate superclass, not full class hierarchy chain like JADX.
+
+**Current Behavior (Dexterity):**
+- Only checks immediate superclass
+- Misses type matches when common ancestor is 2+ levels up
+
+**Expected (JADX):**
+- Walks entire class hierarchy using `ClspGraph.getSuperTypes()`
+- Tries all ancestor types iteratively
+
+## JADX Reference
+- `jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/FixTypesVisitor.java:657-679`
+
+## Dexterity Location
+- `crates/dexterity-passes/src/fix_types.rs:572-607` - `try_wider_objects()`
+
+## Scope
+- Implement iterative hierarchy walking
+- Use existing classpath/superclass lookup mechanisms
+- Match JADX's algorithm exactly
+
+## Files to Modify
+- `crates/dexterity-passes/src/fix_types.rs`

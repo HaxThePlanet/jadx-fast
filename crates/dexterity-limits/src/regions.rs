@@ -12,7 +12,7 @@ use std::sync::LazyLock;
 
 /// Default maximum depth for all visitor traversals.
 /// Override with DEXTERITY_VISITOR_MAX_DEPTH env var.
-/// Very conservative depth limit to prevent stack overflow.
+/// 200 is conservative; some obfuscated code needs 1000+ but risks stack overflow.
 pub const DEFAULT_VISITOR_MAX_DEPTH: usize = 200;
 
 /// Runtime-configurable visitor max depth.
@@ -35,7 +35,7 @@ pub fn visitor_max_depth() -> usize {
 /// Maximum region stack size.
 /// Prevents unbounded growth of region nesting stack.
 /// Override with DEXTERITY_REGION_STACK_LIMIT env var.
-/// Very conservative limit to prevent stack overflow.
+/// 200 is conservative; some obfuscated code needs 1000+ but risks stack overflow.
 pub const DEFAULT_REGION_STACK_LIMIT: usize = 200;
 
 pub static REGION_STACK_LIMIT: LazyLock<usize> = LazyLock::new(|| {

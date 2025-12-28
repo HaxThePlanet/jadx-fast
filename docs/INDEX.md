@@ -2,7 +2,7 @@
 
 High-performance Android decompiler written in Rust, targeting JADX parity.
 
-**Status:** PRODUCTION-READY | A Grade (~95%) | 0 P0 | 0 P1 | 0 P1-CG | 0 P2-CG | Build: CLEAN | Dec 26, 2025
+**Status:** NEAR-PRODUCTION | B Grade (~80%) | 0 P0 | 3 P1 | 0 P1-CG | 0 P2-CG | Build: CLEAN | Dec 27, 2025
 **Performance:** 14x faster than JADX | 5.2K apps/hour @ 2.7 sec avg
 **Security:** Anti-RE ZIP hardening | 83% bad APK recovery (was 43%)
 **Deobfuscation:** Smart naming | Obfuscator detection | Control flow deobfuscation

@@ -994,6 +994,235 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
 }
 
 // ============================================================================
+// SSA Modification Helpers for Type Fixing (JADX parity)
+// ============================================================================
+//
+// These functions enable SSA modifications after the initial transform:
+// - splitByPhi: Duplicate CONST instructions for PHI type conflicts
+// - insertMove: Add MOVE instructions before PHI
+// - getNextVersion: Allocate new SSA versions for duplicated instructions
+//
+// Reference: jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/FixTypesVisitor.java
+// Lines 464-535
+
+impl SsaResult {
+    /// Get the next available SSA version for a register
+    pub fn next_version(&mut self, reg_num: u16) -> u32 {
+        let version = self.max_versions.entry(reg_num).or_insert(0);
+        *version += 1;
+        *version
+    }
+
+    /// Find the block containing an instruction that assigns to a specific SSA variable
+    pub fn find_const_block(&self, reg_num: u16, ssa_version: u32) -> Option<u32> {
+        for block in &self.blocks {
+            for insn in &block.instructions {
+                let dest = match &insn.insn_type {
+                    InsnType::Const { dest, .. } |
+                    InsnType::ConstString { dest, .. } |
+                    InsnType::ConstClass { dest, .. } => Some(dest),
+                    _ => None,
+                };
+                if let Some(d) = dest {
+                    if d.reg_num == reg_num && d.ssa_version == ssa_version {
+                        return Some(block.id);
+                    }
+                }
+            }
+        }
+        None
+    }
+
+    /// Find the instruction index of a CONST instruction in a block
+    fn find_const_insn_idx(&self, block_id: u32, reg_num: u16, ssa_version: u32) -> Option<usize> {
+        let block = self.blocks.iter().find(|b| b.id == block_id)?;
+        for (idx, insn) in block.instructions.iter().enumerate() {
+            let dest = match &insn.insn_type {
+                InsnType::Const { dest, .. } |
+                InsnType::ConstString { dest, .. } |
+                InsnType::ConstClass { dest, .. } => Some(dest),
+                _ => None,
+            };
+            if let Some(d) = dest {
+                if d.reg_num == reg_num && d.ssa_version == ssa_version {
+                    return Some(idx);
+                }
+            }
+        }
+        None
+    }
+
+    /// Clone a CONST instruction with a new SSA version
+    ///
+    /// JADX Reference: InsnNode.copyWithNewSsaVar()
+    fn clone_const_with_new_version(&self, block_id: u32, reg_num: u16, ssa_version: u32, new_version: u32) -> Option<InsnNode> {
+        let block = self.blocks.iter().find(|b| b.id == block_id)?;
+        for insn in &block.instructions {
+            let matches = match &insn.insn_type {
+                InsnType::Const { dest, .. } |
+                InsnType::ConstString { dest, .. } |
+                InsnType::ConstClass { dest, .. } => {
+                    dest.reg_num == reg_num && dest.ssa_version == ssa_version
+                }
+                _ => false,
+            };
+            if matches {
+                let mut new_insn = insn.clone();
+                // Update the destination SSA version
+                match &mut new_insn.insn_type {
+                    InsnType::Const { dest, .. } |
+                    InsnType::ConstString { dest, .. } |
+                    InsnType::ConstClass { dest, .. } => {
+                        dest.ssa_version = new_version;
+                    }
+                    _ => {}
+                }
+                return Some(new_insn);
+            }
+        }
+        None
+    }
+}
+
+/// Split CONST instructions used in multiple PHI nodes
+///
+/// JADX Reference: FixTypesVisitor.splitByPhi() lines 508-535
+///
+/// When a single CONST instruction is used as an argument to multiple PHI nodes,
+/// this creates type inference conflicts because each PHI may expect a different type.
+///
+/// Example problem:
+/// ```text
+/// const/4 v0 = 0        // Single CONST with two PHI uses
+/// phi v2 = [v0, ...]    // PHI 1: interprets as INT (array index)
+/// phi v3 = [v0, ...]    // PHI 2: interprets as BOOLEAN (condition)
+/// // TYPE CONFLICT: v0 cannot be both INT and BOOLEAN
+/// ```
+///
+/// Solution: Duplicate the CONST instruction so each PHI has its own copy:
+/// ```text
+/// const/4 v0#1 = 0      // Original CONST for PHI 1
+/// const/4 v0#2 = 0      // Copy for PHI 2
+/// phi v2 = [v0#1, ...]  // Uses first version
+/// phi v3 = [v0#2, ...]  // Uses second version
+/// ```
+///
+/// Returns the number of instructions duplicated.
+pub fn split_by_phi(ssa: &mut SsaResult) -> usize {
+    // Step 1: Find all CONST SSA variables and their PHI uses
+    // Maps (reg_num, ssa_version) -> Vec<(block_id, phi_index, source_index)>
+    let mut const_phi_uses: FxHashMap<(u16, u32), Vec<(u32, usize, usize)>> = FxHashMap::default();
+
+    // Collect all CONST definitions
+    let mut const_vars: FxHashSet<(u16, u32)> = FxHashSet::default();
+    for block in &ssa.blocks {
+        for insn in &block.instructions {
+            let dest = match &insn.insn_type {
+                InsnType::Const { dest, .. } |
+                InsnType::ConstString { dest, .. } |
+                InsnType::ConstClass { dest, .. } => Some(dest),
+                _ => None,
+            };
+            if let Some(d) = dest {
+                const_vars.insert((d.reg_num, d.ssa_version));
+            }
+        }
+    }
+
+    // Find PHI uses of CONST variables
+    for block in &ssa.blocks {
+        for (phi_idx, phi) in block.phi_nodes.iter().enumerate() {
+            for (src_idx, (_, src_reg)) in phi.sources.iter().enumerate() {
+                let key = (src_reg.reg_num, src_reg.ssa_version);
+                if const_vars.contains(&key) {
+                    const_phi_uses.entry(key)
+                        .or_default()
+                        .push((block.id, phi_idx, src_idx));
+                }
+            }
+        }
+    }
+
+    // Step 2: For CONST vars with 2+ PHI uses, duplicate for all but the first
+    let mut duplicated_count = 0;
+    let mut modifications: Vec<(u16, u32, Vec<(u32, usize, usize, u32)>)> = Vec::new();
+
+    for ((reg_num, ssa_version), phi_uses) in const_phi_uses {
+        if phi_uses.len() < 2 {
+            continue; // Need at least 2 PHI uses to benefit from splitting
+        }
+
+        // Find the block containing the CONST instruction
+        let const_block_id = match ssa.find_const_block(reg_num, ssa_version) {
+            Some(id) => id,
+            None => continue,
+        };
+
+        // Prepare modifications for PHIs after the first
+        let mut phi_updates: Vec<(u32, usize, usize, u32)> = Vec::new();
+
+        for (phi_block_id, phi_idx, src_idx) in phi_uses.into_iter().skip(1) {
+            // Allocate a new SSA version
+            let new_version = ssa.next_version(reg_num);
+            phi_updates.push((phi_block_id, phi_idx, src_idx, new_version));
+            duplicated_count += 1;
+
+            tracing::debug!(
+                "splitByPhi: Duplicating r{}#{} -> r{}#{} for PHI in block {}",
+                reg_num, ssa_version, reg_num, new_version, phi_block_id
+            );
+        }
+
+        if !phi_updates.is_empty() {
+            modifications.push((reg_num, ssa_version, phi_updates));
+        }
+    }
+
+    // Step 3: Apply modifications
+    for (reg_num, ssa_version, phi_updates) in modifications {
+        // Find the const block and instruction index
+        let const_block_id = match ssa.find_const_block(reg_num, ssa_version) {
+            Some(id) => id,
+            None => continue,
+        };
+        let const_insn_idx = match ssa.find_const_insn_idx(const_block_id, reg_num, ssa_version) {
+            Some(idx) => idx,
+            None => continue,
+        };
+
+        // For each PHI that needs updating (all but the first)
+        for (phi_block_id, phi_idx, src_idx, new_version) in phi_updates {
+            // Clone the CONST instruction with new SSA version
+            let new_insn = match ssa.clone_const_with_new_version(const_block_id, reg_num, ssa_version, new_version) {
+                Some(insn) => insn,
+                None => continue,
+            };
+
+            // Insert the cloned instruction after the original
+            if let Some(block) = ssa.blocks.iter_mut().find(|b| b.id == const_block_id) {
+                // Insert after the original CONST
+                block.instructions.insert(const_insn_idx + 1, new_insn);
+            }
+
+            // Update the PHI source to use the new SSA version
+            if let Some(phi_block) = ssa.blocks.iter_mut().find(|b| b.id == phi_block_id) {
+                if let Some(phi) = phi_block.phi_nodes.get_mut(phi_idx) {
+                    if let Some((_, ref mut src_reg)) = phi.sources.get_mut(src_idx) {
+                        src_reg.ssa_version = new_version;
+                    }
+                }
+            }
+        }
+    }
+
+    if duplicated_count > 0 {
+        tracing::info!("splitByPhi: Duplicated {} CONST instructions for PHI type disambiguation", duplicated_count);
+    }
+
+    duplicated_count
+}
+
+// ============================================================================
 // SSA Cleanup and Optimization Passes (JADX parity functions)
 // ============================================================================
 //
@@ -1362,5 +1591,162 @@ mod tests {
 
         // All phi nodes should be removed as they're trivial
         assert_eq!(result.blocks[0].phi_nodes.len(), 0, "Trivial phi nodes should be removed");
+    }
+
+    #[test]
+    fn test_split_by_phi() {
+        // Create a scenario where a single CONST is used by two PHIs
+        // Block 0: const v0 = 0
+        // Block 1: (empty, just jumps to 3)
+        // Block 2: (empty, just jumps to 4)
+        // Block 3: phi v1 = [v0 from 0, v1 from 1]  <- uses const v0
+        // Block 4: phi v2 = [v0 from 0, v2 from 2]  <- uses const v0
+        //
+        // After splitByPhi:
+        // Block 0: const v0#1 = 0, const v0#2 = 0
+        // Block 3: phi v1 = [v0#1 from 0, ...]
+        // Block 4: phi v2 = [v0#2 from 0, ...]
+        let mut ssa = SsaResult {
+            blocks: vec![
+                SsaBlock {
+                    id: 0,
+                    phi_nodes: vec![],
+                    instructions: vec![
+                        InsnNode::new(
+                            InsnType::Const {
+                                dest: RegisterArg::with_ssa(0, 1),
+                                value: dexterity_ir::instructions::LiteralArg::Int(0),
+                            },
+                            0,
+                        ),
+                    ],
+                    successors: vec![3, 4],
+                    predecessors: vec![],
+                },
+                SsaBlock {
+                    id: 3,
+                    phi_nodes: vec![
+                        PhiNode {
+                            dest: RegisterArg::with_ssa(1, 1),
+                            sources: vec![
+                                (0, RegisterArg::with_ssa(0, 1)), // Uses const v0#1
+                                (1, RegisterArg::with_ssa(1, 2)),
+                            ],
+                        },
+                    ],
+                    instructions: vec![],
+                    successors: vec![],
+                    predecessors: vec![0, 1],
+                },
+                SsaBlock {
+                    id: 4,
+                    phi_nodes: vec![
+                        PhiNode {
+                            dest: RegisterArg::with_ssa(2, 1),
+                            sources: vec![
+                                (0, RegisterArg::with_ssa(0, 1)), // Uses const v0#1 (same!)
+                                (2, RegisterArg::with_ssa(2, 2)),
+                            ],
+                        },
+                    ],
+                    instructions: vec![],
+                    successors: vec![],
+                    predecessors: vec![0, 2],
+                },
+            ],
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: {
+                let mut m = FxHashMap::default();
+                m.insert(0, 1);
+                m.insert(1, 2);
+                m.insert(2, 2);
+                m
+            },
+            ssa_context: SSAContext::new(),
+        };
+
+        // Before: both PHIs reference v0#1
+        let phi3 = &ssa.blocks[1].phi_nodes[0];
+        let phi4 = &ssa.blocks[2].phi_nodes[0];
+        assert_eq!(phi3.sources[0].1.ssa_version, 1);
+        assert_eq!(phi4.sources[0].1.ssa_version, 1);
+
+        // Count instructions in block 0 before
+        let insn_count_before = ssa.blocks[0].instructions.len();
+        assert_eq!(insn_count_before, 1);
+
+        // Run splitByPhi
+        let duplicated = split_by_phi(&mut ssa);
+
+        // Should have duplicated 1 instruction (for the second PHI)
+        assert_eq!(duplicated, 1, "Should duplicate 1 CONST for second PHI");
+
+        // Block 0 should now have 2 instructions
+        assert_eq!(ssa.blocks[0].instructions.len(), 2, "Block 0 should have 2 CONST instructions");
+
+        // The second PHI (block 4) should now reference a different SSA version
+        let phi3_after = &ssa.blocks[1].phi_nodes[0];
+        let phi4_after = &ssa.blocks[2].phi_nodes[0];
+
+        // First PHI keeps original version
+        assert_eq!(phi3_after.sources[0].1.ssa_version, 1, "First PHI should keep original version");
+
+        // Second PHI gets new version
+        assert_eq!(phi4_after.sources[0].1.ssa_version, 2, "Second PHI should get new version");
+    }
+
+    #[test]
+    fn test_split_by_phi_no_action_single_phi() {
+        // A CONST used by only one PHI should not be split
+        let mut ssa = SsaResult {
+            blocks: vec![
+                SsaBlock {
+                    id: 0,
+                    phi_nodes: vec![],
+                    instructions: vec![
+                        InsnNode::new(
+                            InsnType::Const {
+                                dest: RegisterArg::with_ssa(0, 1),
+                                value: dexterity_ir::instructions::LiteralArg::Int(0),
+                            },
+                            0,
+                        ),
+                    ],
+                    successors: vec![1],
+                    predecessors: vec![],
+                },
+                SsaBlock {
+                    id: 1,
+                    phi_nodes: vec![
+                        PhiNode {
+                            dest: RegisterArg::with_ssa(1, 1),
+                            sources: vec![
+                                (0, RegisterArg::with_ssa(0, 1)), // Uses const v0#1
+                            ],
+                        },
+                    ],
+                    instructions: vec![],
+                    successors: vec![],
+                    predecessors: vec![0],
+                },
+            ],
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: {
+                let mut m = FxHashMap::default();
+                m.insert(0, 1);
+                m.insert(1, 1);
+                m
+            },
+            ssa_context: SSAContext::new(),
+        };
+
+        // Run splitByPhi
+        let duplicated = split_by_phi(&mut ssa);
+
+        // Should not duplicate anything (only 1 PHI uses this CONST)
+        assert_eq!(duplicated, 0, "Should not duplicate for single PHI use");
+        assert_eq!(ssa.blocks[0].instructions.len(), 1, "Block 0 should still have 1 instruction");
     }
 }
